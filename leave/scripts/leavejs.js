@@ -2680,14 +2680,25 @@ var UILeaveApply = new Class({
                     'class': 'tooltip-view active col-id-employee indicate ui-has-tooltip', 'html': '<span class="button more w-icon"><span class="icon-info"></span><span>More</span></span>'
                 }).addEvent(Affinity.events.click, function (e) {
                     var storyHtml = this.generateEalTableHtml(this.ealInfo);
+                    var totalStory = this.ealInfo.PpeTotalsStory;
+                    if (this.isManager && Affinity.leave.manager) {
+                        totalStory = this.ealInfo.PpeTotalsStoryManagerView;
+                    }
+
+                    var hiddenInfo = "<div class='eal-ppeTotalStory'><div class='eal-ppeTotalStoryTitle'><b>Totals at last pay period</b></div> <div>" + totalStory + "</div></div>";
                     uialert({
                         message: storyHtml,
                         okText: "Close",
                         okIcon: ' ',
                         cssSelector: "tlbPrompt",
                         showButtons: true,
-                        noClose: false
+                        noClose: false,
+                        showHiddenInfo: true,
+                        hiddenInfoMessage: hiddenInfo,
+                        hiddenInfoButtonText: 'Totals at last pay period',
                     });
+
+
                 }.bind(this)),
                 new Element('div', { 'id': 'inlineEalStory', 'style': 'max-height: 0px; opacity: 0;', 'html': '' })
             ).inject(this.type);
@@ -2723,7 +2734,8 @@ var UILeaveApply = new Class({
         var unitLabel = leaveInfo.UnitType == "H" ? "Hours" : "Days";
         var balDate = this.parseISOLocal(leaveInfo.BalanceDate);
         var formattedBalDate = balDate.getDate() + "/" + (balDate.getMonth() + 1) + "/" + balDate.getFullYear();
-        var storyHtml = "<div class='leftText ealTableTitle'>How " + userPronoun +" Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
+
+        var storyHtml = "<div class='ealStory'><div class='leftText ealTableTitle'>How " + userPronoun +" Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
             "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.Entitlement) + "'>" + leaveInfo.Entitlement + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual) + "'>+" + +(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2) + "</td></tr>";
         var totalAmount = leaveInfo.UnitType == "H" ? leaveInfo.TotalHours : leaveInfo.TotalDays;
         if (leaveInfo.LeaveItems != null) {
@@ -2738,7 +2750,10 @@ var UILeaveApply = new Class({
             }
         }
         storyHtml += "<tfoot><tr><th>Total estimated leave available on " + formattedBalDate + "</th><th class='centerText " + this.evaluateCssClassByValue(totalAmount) + "'>" + totalAmount + "</th></tr> </tfoot>";
-        storyHtml += "</table><br />";
+
+
+        storyHtml += "</table><br /></div>";
+
         return storyHtml;
     },
     initiateReasonSelector: function() {
@@ -8038,7 +8053,7 @@ var UIEmployeeLeaveBalances = new Class({
             if (this.multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) == -1) { // multi position
                 var parentPanel = this.infoTileBoxes[index].closest(".leave-info-panel");
                 var ppeButton = new Element('div', {
-                    'class': 'tooltip-view ui-has-tooltip more-button tile-more-button', 'style': 'text-align: center;', 'html': '<br /><span class="button more w-icon"><span class="icon-info"></span><span class="btn-tag tile-more">Totals at Last Pay Period</span></span>'
+                    'class': 'tooltip-view ui-has-tooltip more-button tile-more-button', 'style': 'text-align: center;', 'html': '<br /><span class="button more w-icon"><span class="icon-info"></span><span class="btn-tag tile-more">Totals at last pay period</span></span>'
                 }).inject(parentPanel.getElementsByClassName("detailsWrapper")[0]);
 
                 var closePpeButton = new Element('div', {
