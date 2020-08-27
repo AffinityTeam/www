@@ -7,7 +7,7 @@
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 * text=auto
-
+#########
 # Resharper team-shared configuration
 *.DotSettings eol=lf
 
