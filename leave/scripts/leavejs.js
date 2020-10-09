@@ -3222,14 +3222,6 @@ var UILeaveApply = new Class({
                                     days.store('old', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
                                     this.setUnitInputEvents(days, hours, day, pUnit, 'D');
                                 }
-
-                                if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
-                                    hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    if (unitType === 'D') {
-                                        days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    }
-                                    this.unitsGrid.getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                }
                             }
                         }.bind(this));
 
@@ -3271,8 +3263,6 @@ var UILeaveApply = new Class({
         } else {
             this.unitScrollerBox.setStyle('overflow-x', 'hidden');
         }
-
-        Affinity.tooltips.processNew();
     },
 
     injectEdit: function () {
