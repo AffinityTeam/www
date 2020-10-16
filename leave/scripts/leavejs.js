@@ -1242,11 +1242,54 @@ var UILeaveHistory = new Class({
         window.addEvent('DeleteLeaveSuccess', this.refreshHistory);
 
         /**/
-
+       
 
         this.getHistory();
 
         this.show();
+    },
+    setLeaveFiltersFromExternalSessionRequest: function () {
+        var api = Affinity.GetCacheSafePath(Affinity.apiroot + 'Home' + '/GetFiltersFromExternalSessionRequest');
+        var request = new Request.JSON({
+            url: api,
+            onSuccess: function (responseData) {
+
+                if (responseData.LFilterEmployeeNumber.toString() !== null &&
+                    responseData.LFilterEmployeeNumber.toString() !== '0') {
+                    for (var i = 0; i < this.employeeFilter.length; i++) {
+                        var empfilter = this.employeeFilter[i];
+                        if (empfilter.id &&
+                            empfilter.id === responseData.LFilterEmployeeNumber.toString()) {
+                            this.employeeFilter.selectedIndex = i;
+                            break;
+                        }
+                    }
+
+                    for (var i = 0; i < this.leaveTypeFilter.length; i++) {
+                        var leaveTypeFilter = this.leaveTypeFilter[i];
+                        if (leaveTypeFilter.id &&
+                            leaveTypeFilter.id === responseData.LFilterLeaveCode.toString()) {
+                            this.leaveTypeFilter.selectedIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (responseData.DateFrom) {
+                        this.dateFromFilter.getWidget().setDate(Date.parse(responseData.DateFrom));
+                    }
+
+                    if (responseData.DateTo) {
+                        this.dateToFilter.getWidget().setDate(Date.parse(responseData.DateTo));
+                    }
+
+                    this.leaveStatusFilter.selectedIndex = 0;
+                }
+
+                
+
+                
+            }.bind(this)
+        }).get();
     },
 
     getHistory: function () {
@@ -1478,6 +1521,9 @@ var UILeaveHistory = new Class({
             this.getHistory();
 
         }.bind(this));
+
+
+        this.setLeaveFiltersFromExternalSessionRequest();
 
     },
 
