@@ -3046,6 +3046,16 @@ var UILeaveApply = new Class({
             Affinity.modal.position();
 
             this.modalData = new Element('div', { 'class': 'modal-data', 'style': 'min-height: 120px; width: 240px' });
+            this.reasonLabelbox = new Element('div').inject(this.modalData)
+            this.reasonLabel = new Element('span', {
+                'style': 'font-weight: bold',
+                'html': 'Leave Type'
+            }).inject(this.reasonLabelbox)
+            this.reasonLabel = new Element('span', {
+                'style': 'margin-left: 10px;',
+                'html': this.leaveCode.Description
+            }).inject(this.reasonLabelbox)
+
             this.unitForm = new Element('div', { 'class': 'form-row' }).inject(this.modalData);
             this.unitsBox = new Element('div', { 'class': 'apply-positions-box' }).inject(this.unitForm);
             this.units = new Element('div', { 'class': 'details-positions' }).inject(this.unitsBox, 'bottom');
@@ -3053,7 +3063,20 @@ var UILeaveApply = new Class({
             this.unitScrollerBox = new Element('div', { 'class': 'unit-scroller-box' }).inject(this.units);
             this.scroller = new Element('div', { 'class': 'details-units-scroller' }).inject(this.unitScrollerBox);
 
-            this.updateButton = new Element('button', { 'class': 'grey', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
+            this.updateButton = new Element('span', {
+                'class': 'button orange',
+                'style': 'float:right;',
+            }).adopt(
+                new Element('span', {
+                    'class': 'icon-save',
+                    'style': 'margin-right: 10px;',
+                }),
+                new Element('span', {
+                    'html': 'Update'
+                })
+            ).inject(this.unitForm);
+
+            // this.updateButton = new Element('button', { 'class': 'orange', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
             this.updateButton.addEvent(Affinity.events.click, function () { this.updatePosUnit() }.bind(this));
 
             //This modal thing is buggy
