@@ -3224,7 +3224,10 @@ var UILeaveApply = new Class({
                                 }
 
                                 if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
-                                    hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    if (unitType === 'H') {
+                                        hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    }
+                                    
                                     if (unitType === 'D') {
                                         days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
                                     }
