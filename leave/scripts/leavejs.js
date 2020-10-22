@@ -1040,6 +1040,9 @@ var UILeaveHistory = new Class({
         //        this.historyTableBox = new Element('div', { 'class': 'team-leave-history-table', 'style': 'display: block;' })
         this.filterBox = new Element('div', { 'class': 'history-filter-box form-row' }).inject(this.leaveHistoryBox);
 
+        if (this.isManager) {
+            this.filterBox.addClass('history-filter-box-manager')
+        }
         this.noHistoryMessage = new Element('div', { 'class': 'hidden', 'style': 'padding: 10px;', 'html': 'There are no leave applications to show.' });
 
         this.leaveHistoryTable = new Element('table', { 'class': 'leave hide-submitted-date' }).adopt(
@@ -1084,7 +1087,8 @@ var UILeaveHistory = new Class({
         if (this.isManager)
             this.panelSubmittedDate = new Element('div', { 'class': 'filter-item' }).inject(this.groupSubmittedDate);
         this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrderButtons);
-        this.panelButtons = new Element('div', { 'class': 'filter-item filter-buttons-box' }).inject(this.groupOrderButtons);
+        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupOrderButtons);
+        this.panelButtonWrapper = new Element('div', {class: 'filter-buttons-box'}).inject(this.panelButtons);
 
         new Element('span', { 'class': 'filter-label', 'html': 'Status' }).inject(this.panelStatus);
         this.leaveStatusFilter = new Element('select', { 'class': 'history-filter-select status-filter inline' }).adopt(
@@ -1099,19 +1103,23 @@ var UILeaveHistory = new Class({
             new Element('span', { 'class': 'filter-label', 'html': 'Employee' }).inject(this.panelEmployee);
             this.employeeFilter = new Element('select', { 'class': 'history-filter-select data-hj-whitelist leave-employee-filter' }).inject(this.panelEmployee);
             new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Include Indirect' }).inject(this.panelIndirect);
-            new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
-            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.panelIndirect);
+            new Element('span', { 'class': 'filter-label leave-action-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
+
+            this.includeIndirectWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelIndirect);
+            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.includeIndirectWrapper);
             this.includeIndirect.addEvent('change', function (e) {
                 if (this.employeeFilter) {
                     this.updateEmployeeFilter(this.includeIndirect.checked, this.employeeFilter[this.employeeFilter.selectedIndex].get('id'));
                 }   
             }.bind(this));
 
-            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'filter-label', 'value': 'excludeNonApprovers' }).inject(this.panelShares);
+            this.excludeNonApproversWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelShares);
+            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'leave-action-filter-checkbox', 'value': 'excludeNonApprovers' }).inject(this.excludeNonApproversWrapper);
             
             if (this.isManager) {
                 new Element('span', { 'class': 'filter-label show-submitted-date', 'html': 'Show Submitted Date' }).inject(this.panelSubmittedDate);
-                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.panelSubmittedDate);
+                this.includeSubmittedDateWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelSubmittedDate);
+                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.includeSubmittedDateWrapper);
             }
             this.includeSubmittedDateValue = false;
             this.includeSubmittedDate.addEvent('change', function (e) {
@@ -1171,11 +1179,11 @@ var UILeaveHistory = new Class({
 
         this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
             new Element('span', { 'html': 'Filter' })
-        ).inject(this.panelButtons);
+        ).inject(this.panelButtonWrapper);
 
         this.clearFilter = new Element('span', { 'class': 'history-filter-clear button grey' }).adopt(
             new Element('span', { 'html': 'Clear' })
-        ).inject(this.panelButtons);
+        ).inject(this.panelButtonWrapper);
 
         //Push it to DOM
         this.section.inject(this.target);
@@ -1242,11 +1250,54 @@ var UILeaveHistory = new Class({
         window.addEvent('DeleteLeaveSuccess', this.refreshHistory);
 
         /**/
-
+       
 
         this.getHistory();
 
         this.show();
+    },
+    setLeaveFiltersFromExternalSessionRequest: function () {
+        var api = Affinity.GetCacheSafePath(Affinity.apiroot + 'Home' + '/GetFiltersFromExternalSessionRequest');
+        var request = new Request.JSON({
+            url: api,
+            onSuccess: function (responseData) {
+
+                if (responseData.LFilterEmployeeNumber.toString() !== null &&
+                    responseData.LFilterEmployeeNumber.toString() !== '0') {
+                    for (var i = 0; i < this.employeeFilter.length; i++) {
+                        var empfilter = this.employeeFilter[i];
+                        if (empfilter.id &&
+                            empfilter.id === responseData.LFilterEmployeeNumber.toString()) {
+                            this.employeeFilter.selectedIndex = i;
+                            break;
+                        }
+                    }
+
+                    for (var i = 0; i < this.leaveTypeFilter.length; i++) {
+                        var leaveTypeFilter = this.leaveTypeFilter[i];
+                        if (leaveTypeFilter.id &&
+                            leaveTypeFilter.id === responseData.LFilterLeaveCode.toString()) {
+                            this.leaveTypeFilter.selectedIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (responseData.DateFrom) {
+                        this.dateFromFilter.getWidget().setDate(Date.parse(responseData.DateFrom));
+                    }
+
+                    if (responseData.DateTo) {
+                        this.dateToFilter.getWidget().setDate(Date.parse(responseData.DateTo));
+                    }
+
+                    this.leaveStatusFilter.selectedIndex = 0;
+                }
+
+                
+
+                
+            }.bind(this)
+        }).get();
     },
 
     getHistory: function () {
@@ -1478,6 +1529,9 @@ var UILeaveHistory = new Class({
             this.getHistory();
 
         }.bind(this));
+
+
+        this.setLeaveFiltersFromExternalSessionRequest();
 
     },
 
@@ -2806,20 +2860,19 @@ var UILeaveApply = new Class({
                 }.bind(this));
             }
 
-            if ( !this.isManager ) {
-                if (this.requiredReason) {
-                    this.requiredReason.destroy();
-                }
-                if (this.requiredAttachment) {
-                    this.requiredAttachment.destroy();
-                }
-                if (leaveCode.MandatoryReason) {
-                    this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
-                }
-                if (leaveCode.MandatoryAttachment) {
-                    this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
-                }
+            if (this.requiredReason) {
+                this.requiredReason.destroy();
             }
+            if (this.requiredAttachment) {
+                this.requiredAttachment.destroy();
+            }
+            if (leaveCode.MandatoryReason) {
+                this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
+            }
+            if (leaveCode.MandatoryAttachment) {
+                this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
+            }
+            
         } else {
             if (inlineProjectionInfo) {
                 inlineProjectionInfo.style.display = "none";
@@ -3005,6 +3058,16 @@ var UILeaveApply = new Class({
             Affinity.modal.position();
 
             this.modalData = new Element('div', { 'class': 'modal-data', 'style': 'min-height: 120px; width: 700px;' });
+            this.reasonLabelbox = new Element('div').inject(this.modalData)
+            this.reasonLabel = new Element('span', {
+                'style': 'font-weight: bold',
+                'html': 'Leave Type'
+            }).inject(this.reasonLabelbox)
+            this.reasonLabel = new Element('span', {
+                'style': 'margin-left: 10px;',
+                'html': this.leaveCode.Description
+            }).inject(this.reasonLabelbox)
+
             this.unitForm = new Element('div', { 'class': 'form-row' }).inject(this.modalData);
             this.unitsBox = new Element('div', { 'class': 'details-positions-box' }).inject(this.unitForm);
             this.units = new Element('div', { 'class': 'details-positions' }).inject(this.unitsBox, 'bottom');
@@ -3012,7 +3075,20 @@ var UILeaveApply = new Class({
             this.unitScrollerBox = new Element('div', { 'class': 'unit-scroller-box' }).inject(this.units);
             this.scroller = new Element('div', { 'class': 'details-units-scroller' }).inject(this.unitScrollerBox);
 
-            this.updateButton = new Element('button', { 'class': 'grey', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
+            this.updateButton = new Element('span', {
+                'class': 'button orange',
+                'style': 'float:right;',
+            }).adopt(
+                new Element('span', {
+                    'class': 'icon-save',
+                    'style': 'margin-right: 10px;',
+                }),
+                new Element('span', {
+                    'html': 'Update'
+                })
+            ).inject(this.unitForm);
+
+            // this.updateButton = new Element('button', { 'class': 'orange', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
             this.updateButton.addEvent(Affinity.events.click, function () { this.updatePosUnit() }.bind(this));
 
             //This modal thing is buggy
@@ -3224,7 +3300,10 @@ var UILeaveApply = new Class({
                                 }
 
                                 if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
-                                    hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    if (unitType === 'H') {
+                                        hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    }
+                                    
                                     if (unitType === 'D') {
                                         days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
                                     }
