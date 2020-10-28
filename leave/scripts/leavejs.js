@@ -1040,9 +1040,6 @@ var UILeaveHistory = new Class({
         //        this.historyTableBox = new Element('div', { 'class': 'team-leave-history-table', 'style': 'display: block;' })
         this.filterBox = new Element('div', { 'class': 'history-filter-box form-row' }).inject(this.leaveHistoryBox);
 
-        if (this.isManager) {
-            this.filterBox.addClass('history-filter-box-manager')
-        }
         this.noHistoryMessage = new Element('div', { 'class': 'hidden', 'style': 'padding: 10px;', 'html': 'There are no leave applications to show.' });
 
         this.leaveHistoryTable = new Element('table', { 'class': 'leave hide-submitted-date' }).adopt(
@@ -1087,8 +1084,7 @@ var UILeaveHistory = new Class({
         if (this.isManager)
             this.panelSubmittedDate = new Element('div', { 'class': 'filter-item' }).inject(this.groupSubmittedDate);
         this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrderButtons);
-        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupOrderButtons);
-        this.panelButtonWrapper = new Element('div', {class: 'filter-buttons-box'}).inject(this.panelButtons);
+        this.panelButtons = new Element('div', { 'class': 'filter-item filter-buttons-box' }).inject(this.groupOrderButtons);
 
         new Element('span', { 'class': 'filter-label', 'html': 'Status' }).inject(this.panelStatus);
         this.leaveStatusFilter = new Element('select', { 'class': 'history-filter-select status-filter inline' }).adopt(
@@ -1103,23 +1099,19 @@ var UILeaveHistory = new Class({
             new Element('span', { 'class': 'filter-label', 'html': 'Employee' }).inject(this.panelEmployee);
             this.employeeFilter = new Element('select', { 'class': 'history-filter-select data-hj-whitelist leave-employee-filter' }).inject(this.panelEmployee);
             new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Include Indirect' }).inject(this.panelIndirect);
-            new Element('span', { 'class': 'filter-label leave-action-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
-
-            this.includeIndirectWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelIndirect);
-            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.includeIndirectWrapper);
+            new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
+            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.panelIndirect);
             this.includeIndirect.addEvent('change', function (e) {
                 if (this.employeeFilter) {
                     this.updateEmployeeFilter(this.includeIndirect.checked, this.employeeFilter[this.employeeFilter.selectedIndex].get('id'));
                 }   
             }.bind(this));
 
-            this.excludeNonApproversWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelShares);
-            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'leave-action-filter-checkbox', 'value': 'excludeNonApprovers' }).inject(this.excludeNonApproversWrapper);
+            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'filter-label', 'value': 'excludeNonApprovers' }).inject(this.panelShares);
             
             if (this.isManager) {
                 new Element('span', { 'class': 'filter-label show-submitted-date', 'html': 'Show Submitted Date' }).inject(this.panelSubmittedDate);
-                this.includeSubmittedDateWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelSubmittedDate);
-                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.includeSubmittedDateWrapper);
+                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.panelSubmittedDate);
             }
             this.includeSubmittedDateValue = false;
             this.includeSubmittedDate.addEvent('change', function (e) {
@@ -1179,11 +1171,11 @@ var UILeaveHistory = new Class({
 
         this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
             new Element('span', { 'html': 'Filter' })
-        ).inject(this.panelButtonWrapper);
+        ).inject(this.panelButtons);
 
         this.clearFilter = new Element('span', { 'class': 'history-filter-clear button grey' }).adopt(
             new Element('span', { 'html': 'Clear' })
-        ).inject(this.panelButtonWrapper);
+        ).inject(this.panelButtons);
 
         //Push it to DOM
         this.section.inject(this.target);
@@ -1250,54 +1242,11 @@ var UILeaveHistory = new Class({
         window.addEvent('DeleteLeaveSuccess', this.refreshHistory);
 
         /**/
-       
+
 
         this.getHistory();
 
         this.show();
-    },
-    setLeaveFiltersFromExternalSessionRequest: function () {
-        var api = Affinity.GetCacheSafePath(Affinity.apiroot + 'Home' + '/GetFiltersFromExternalSessionRequest');
-        var request = new Request.JSON({
-            url: api,
-            onSuccess: function (responseData) {
-
-                if (responseData.LFilterEmployeeNumber.toString() !== null &&
-                    responseData.LFilterEmployeeNumber.toString() !== '0') {
-                    for (var i = 0; i < this.employeeFilter.length; i++) {
-                        var empfilter = this.employeeFilter[i];
-                        if (empfilter.id &&
-                            empfilter.id === responseData.LFilterEmployeeNumber.toString()) {
-                            this.employeeFilter.selectedIndex = i;
-                            break;
-                        }
-                    }
-
-                    for (var i = 0; i < this.leaveTypeFilter.length; i++) {
-                        var leaveTypeFilter = this.leaveTypeFilter[i];
-                        if (leaveTypeFilter.id &&
-                            leaveTypeFilter.id === responseData.LFilterLeaveCode.toString()) {
-                            this.leaveTypeFilter.selectedIndex = i;
-                            break;
-                        }
-                    }
-
-                    if (responseData.DateFrom) {
-                        this.dateFromFilter.getWidget().setDate(Date.parse(responseData.DateFrom));
-                    }
-
-                    if (responseData.DateTo) {
-                        this.dateToFilter.getWidget().setDate(Date.parse(responseData.DateTo));
-                    }
-
-                    this.leaveStatusFilter.selectedIndex = 0;
-                }
-
-                
-
-                
-            }.bind(this)
-        }).get();
     },
 
     getHistory: function () {
@@ -1529,9 +1478,6 @@ var UILeaveHistory = new Class({
             this.getHistory();
 
         }.bind(this));
-
-
-        this.setLeaveFiltersFromExternalSessionRequest();
 
     },
 
@@ -2250,7 +2196,8 @@ var UILeaveApply = new Class({
                             var unitType = this.leaveCode.UnitType;
                             var days = response.Data.Days;
                             Array.each(this.data, function (unit, index) {
-                                if (unitType === 'H' && unit.Hours) {
+                                if (unitType === 'H' &&
+                                    unit.Hours) {
                                     total += parseFloat(unit.Hours);
                                    // var day = days.filter(x => x.Date == unit.Date);
                                     var day = days.filter(function (day) {
@@ -2272,7 +2219,8 @@ var UILeaveApply = new Class({
                                     }
                                     
 
-                                } else if (unitType === 'D' && unit.Days) {
+                                } else if (unitType === 'D' &&
+                                    unit.Days) {
                                     total += parseFloat(unit.Days);
                                     //SSL-1702 - Re-calculate the hours if it's in Days 
                                     unit.Hours = unit.Hours * unit.Days;
@@ -2858,19 +2806,20 @@ var UILeaveApply = new Class({
                 }.bind(this));
             }
 
-            if (this.requiredReason) {
-                this.requiredReason.destroy();
+            if ( !this.isManager ) {
+                if (this.requiredReason) {
+                    this.requiredReason.destroy();
+                }
+                if (this.requiredAttachment) {
+                    this.requiredAttachment.destroy();
+                }
+                if (leaveCode.MandatoryReason) {
+                    this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
+                }
+                if (leaveCode.MandatoryAttachment) {
+                    this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
+                }
             }
-            if (this.requiredAttachment) {
-                this.requiredAttachment.destroy();
-            }
-            if (leaveCode.MandatoryReason) {
-                this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
-            }
-            if (leaveCode.MandatoryAttachment) {
-                this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
-            }
-            
         } else {
             if (inlineProjectionInfo) {
                 inlineProjectionInfo.style.display = "none";
@@ -3043,6 +2992,9 @@ var UILeaveApply = new Class({
                 }
 
             });
+
+
+            
         }
        
     },
@@ -3052,38 +3004,15 @@ var UILeaveApply = new Class({
             Affinity.modal.clear();
             Affinity.modal.position();
 
-            this.modalData = new Element('div', { 'class': 'modal-data', 'style': 'min-height: 120px; width: 240px' });
-            this.reasonLabelbox = new Element('div').inject(this.modalData)
-            this.reasonLabel = new Element('span', {
-                'style': 'font-weight: bold',
-                'html': 'Leave Type'
-            }).inject(this.reasonLabelbox)
-            this.reasonLabel = new Element('span', {
-                'style': 'margin-left: 10px;',
-                'html': this.leaveCode.Description
-            }).inject(this.reasonLabelbox)
-
+            this.modalData = new Element('div', { 'class': 'modal-data', 'style': 'min-height: 120px; width: 700px;' });
             this.unitForm = new Element('div', { 'class': 'form-row' }).inject(this.modalData);
-            this.unitsBox = new Element('div', { 'class': 'apply-positions-box' }).inject(this.unitForm);
+            this.unitsBox = new Element('div', { 'class': 'details-positions-box' }).inject(this.unitForm);
             this.units = new Element('div', { 'class': 'details-positions' }).inject(this.unitsBox, 'bottom');
             this.positionsLabels = new Element('div', { 'class': 'position-labels' }).inject(this.units);
             this.unitScrollerBox = new Element('div', { 'class': 'unit-scroller-box' }).inject(this.units);
             this.scroller = new Element('div', { 'class': 'details-units-scroller' }).inject(this.unitScrollerBox);
 
-            this.updateButton = new Element('span', {
-                'class': 'button orange',
-                'style': 'float:right;',
-            }).adopt(
-                new Element('span', {
-                    'class': 'icon-save',
-                    'style': 'margin-right: 10px;',
-                }),
-                new Element('span', {
-                    'html': 'Update'
-                })
-            ).inject(this.unitForm);
-
-            // this.updateButton = new Element('button', { 'class': 'orange', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
+            this.updateButton = new Element('button', { 'class': 'grey', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
             this.updateButton.addEvent(Affinity.events.click, function () { this.updatePosUnit() }.bind(this));
 
             //This modal thing is buggy
@@ -3137,95 +3066,74 @@ var UILeaveApply = new Class({
         //    this.unitInput.set('html', '');
     },
 
-    setUnitInputEvents: function (inputElements, hoursInput, day, daysInput, unit, unitType) {
-        Array.each(inputElements, function(input) {
-            input.addEvent(Affinity.events.start, function (e) {
-                e.target.store('initial-value', e.target.value);
-            });
-            input.addEvent('blur', function (e) {
-                e.target.value = parseFloat(typeOf(parseFloat(e.target.value)) !== 'null' ? e.target.value : e.target.retrieve('initial-value')).toFixed(2);
-                e.target.removeClass('error-border');
-    
-                var validation = input.retrieve('validation');
-                if (validation) {
-                    validation.destroy();
-                    input.eliminate('validation');
-                }
-    
-                var enableUpdateButton = true;
-                var units = document.querySelectorAll('.edit-position-hours, .edit-position-days');
-                Array.each(units, function (u) {
-                    if (u.retrieve('validation')) {
-                        enableUpdateButton = false;
-                        return;
-                    }
-                }.bind(this));
-    
-                if (enableUpdateButton) {
-                    this.updateButton.set('disabled', null);
-                    this.updateButton.removeClass('disabled');
-                }
-    
-                var maxUnit = 24;
-                var unitLabel = '';
-                var totalHours = inputElements.map(function(element) {
-                    return Number(element.value);
-                }).reduce(function (a, b) {
-                    return a + b;
-                })
-                if (unitType === 'H') {
-                    maxUnit = unit.MaxHours;
-                    unitLabel = ' hours';
-                    daysInput.set('value', input.value && unit.HoursStandard ? (totalHours / unit.HoursStandard ).toFixed(2) : 0)
-    
-                } else if (unitType === 'D') {
-                    maxUnit = 1;
-                    unitLabel = ' day';
-                    hoursInput.set('value', input.value ? (unit.HoursStandard * input.value).toFixed(2) : 0)
-                } else if (unitType === 'SD') {
-                    maxUnit = 1;
-                    unitLabel = ' day'
-                    hoursInput.set('value', input.value ? (unit.HoursStandard * input.value).toFixed(2) : 0)
-                } else if (unitType === 'HD') {
-                    maxUnit = unit.MaxHours;
-                    unitLabel = ' hours';
-                    daysInput.set('value', input.value && unit.HoursStandard ? (input.value / unit.HoursStandard ).toFixed(2) : 0)
-    
-                }
-                
-    
-                if (e.target.value > maxUnit) {
-                    e.target.addClass('error-border');
-    
-                    this.updateButton.set('disabled', 'disabled');
-                    this.updateButton.addClass('disabled');
-    
-                    var validation = new Element('div', { 'class': 'form-row unit-validation' }).adopt(
-                        new Element('span', { 'class': 'icon-warning' }),
-                        new Element('span', {
-                            'html': 'You\' have entered invalid units.'
-                            // 'Please enter a value up to ' + maxUnit + unitLabel + ' on ' + Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y') + ' for ' + unit.PositionTitle + '.'
-                        }));
-                    this.unitsBox.adopt(validation);
-                    input.store('validation', validation);
-                } else {
-                    if (hoursInput) {
-                        var schedHours = unit.HoursWorkScheduled;
-    
-                        if (!schedHours || schedHours <= 0)
-                            schedHours = unit.HoursStandard;
-    
-                        if (schedHours > 0) {
-                            hoursInput.set('value', (e.target.value * schedHours).toFixed(2));
-                        }
-                    }
+    setUnitInputEvents: function (input, hoursInput, day, unit, unitType) {
+        input.addEvent(Affinity.events.start, function (e) {
+            e.target.store('initial-value', e.target.value);
+        });
+        input.addEvent('blur', function (e) {
+            e.target.value = parseFloat(typeOf(parseFloat(e.target.value)) !== 'null' ? e.target.value : e.target.retrieve('initial-value')).toFixed(2);
+            e.target.removeClass('error-border');
+
+            var validation = input.retrieve('validation');
+            if (validation) {
+                validation.destroy();
+                input.eliminate('validation');
+            }
+
+            var enableUpdateButton = true;
+            var units = document.querySelectorAll('.edit-position-hours, .edit-position-days');
+            Array.each(units, function (u) {
+                if (u.retrieve('validation')) {
+                    enableUpdateButton = false;
+                    return;
                 }
             }.bind(this));
+
+            if (enableUpdateButton) {
+                this.updateButton.set('disabled', null);
+                this.updateButton.removeClass('disabled');
+            }
+
+            var maxUnit = 24;
+            var unitLabel = '';
+            if (unitType === 'H') {
+                maxUnit = unit.MaxHours;
+                unitLabel = ' hours';
+            } else if (unitType === 'D') {
+                maxUnit = 1;
+                unitLabel = ' day';
+            }
+
+            if (e.target.value > maxUnit) {
+                e.target.addClass('error-border');
+
+                this.updateButton.set('disabled', 'disabled');
+                this.updateButton.addClass('disabled');
+
+                var validation = new Element('div', { 'class': 'form-row unit-validation' }).adopt(
+                    new Element('span', { 'class': 'icon-warning' }),
+                    new Element('span', {
+                        'html': 'Please enter a value up to ' + maxUnit + unitLabel + ' on ' + Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y') + ' for ' + unit.PositionTitle + '.'
+                    }));
+                this.modalData.adopt(validation);
+                input.store('validation', validation);
+            } else {
+                if (hoursInput) {
+                    var schedHours = unit.HoursWorkScheduled;
+
+                    if (!schedHours || schedHours <= 0)
+                        schedHours = unit.HoursStandard;
+
+                    if (schedHours > 0) {
+                        hoursInput.set('value', (e.target.value * schedHours).toFixed(2));
+                    }
+                }
+            }
         }.bind(this));
-        
     },
 
     populateEditable: function (response, dataDateRange) {
+        var scrollerWidth = 0;
         this.unitsGrid = new Element('div', { 'class': 'unit-grid' }).inject(this.scroller);
         this.gridHeader = new Element('div', { 'class': 'unit-gridheader' }).inject(this.unitsGrid);
         this.gridBody = new Element('div', { 'class': 'unit-gridbody' }).inject(this.unitsGrid);
@@ -3241,7 +3149,10 @@ var UILeaveApply = new Class({
                 new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
                 new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
             );
+            scrollerWidth += 79;
         }.bind(this));
+        this.scroller.setStyle('width', scrollerWidth);
+        this.scroller.store('scrollerWidth', scrollerWidth);
 
         if (typeOf(response.Data) === 'null') {
             var messages = [];
@@ -3274,163 +3185,94 @@ var UILeaveApply = new Class({
             }.bind(this));
         }.bind(this));
 
-        var fBuildUnits = function (positions, dates, unitType) {
-            var _positions = [];
+        var fBuildUnits = function (position, dates, unitType) {
+            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
+            var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
+            new Element('label', { 'html': position.get('html') }).inject(posTitle);
 
-            _positions = _.filter(positions, function (pos) {
-                return pos.get('id') != -01 // pass first empty option
-            })
+            var posDaysRow;
+            var posHoursRow;
 
-            var dayorHourUnitlabel = 'Hour Unit';
-            if (unitType === 'D') {
-                dayorHourUnitlabel = 'Day Unit'
+            if (unitType === 'H') {
+                posHoursRow = new Element('div', { 'class': 'positions-hours', 'id': position.get('id') }).inject(this.gridBody);
+            } else if (unitType === 'D') {
+                posDaysRow = new Element('div', { 'class': 'positions-days', 'id': position.get('id') }).inject(this.gridBody);
+                var unitLabels = new Element('div', { 'class': 'position-unit-label' }).inject(pos);
+                new Element('label', { 'html': '(Days)', 'class': 'position-unit-days' }).inject(unitLabels);
+                //new Element('label', { 'html': '(Hours)', 'class': 'position-unit-hours' }).inject(unitLabels);
             }
-            Array.each(_positions, function(position) {
-                var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
-                var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
 
-                var unitLabel = new Element('div', { 'class': 'unit-label', 'html': dayorHourUnitlabel }).inject(pos);
-
-                new Element('label', { 'html': position.get('html') }).inject(posTitle);
-            }.bind(this))
-          
-            // scroller space 
-            if (this.days.length >= 8) {
-                new Element('div', {'class': 'position-label-space'}).inject(this.positionsLabels);
-            }
-            
-
-            var commonDays = _.filter(this.days, function(day) {
-                return _.some(dates, function(dayEl) {
+            var hours;
+            var days;
+            Array.each(dates, function (dayEl, index) {
+                Array.each(this.days, function (day, index) {
                     var posDate = Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y');
                     var date = Affinity.leave.cleanBadDate(dayEl.get('id')).format('%d/%b/%y');
-                    return posDate === date;
-                })
-            })
-            
-            var positionID = _positions[0].get('id');
-            _.forEach(commonDays, function (day, index) {
-                var date = Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y');
-                var pUnit = _.find(day.PositionUnits, function(p) {return p.PositionCode === _positions[0].get('id')})
+                    if (date === posDate) {
+                        Array.each(day.PositionUnits, function (pUnit, Index) {
+                            if (pUnit.PositionCode === position.get('id')) {
+                                if (unitType === 'H') {
+                                    hours = new Element('input', { 'class': 'edit-position-hours data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(posHoursRow);
+                                    hours.set('value', (pUnit.HoursAppliedFor || 0).toFixed(2));
+                                    hours.store('old', (pUnit.HoursAppliedFor || 0).toFixed(2));
+                                    this.setUnitInputEvents(hours, null, day, pUnit, 'H');
+                                } else if (unitType === 'D') {
+                                    days = new Element('input', { 'class': 'edit-position-days data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(posDaysRow);
+                                    days.set('value', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
+                                    days.store('old', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
+                                    this.setUnitInputEvents(days, hours, day, pUnit, 'D');
+                                }
 
+                                if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
+                                    if (unitType === 'H') {
+                                        hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    }
+                                    
+                                    if (unitType === 'D') {
+                                        days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    }
+                                    this.unitsGrid.getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                }
+                            }
+                        }.bind(this));
 
-                var posDaysRow;
-                var posHoursRow;
-    
-                var dayRow;
-                var hourRow;
-
-                var thisdayRow = new Element('div', { 'class': 'day-row', "id": positionID }).inject(this.gridBody);
-    
-                if (unitType === 'H') {
-                    dayRow = new Element('div', { 'class': 'positions-days', "id": positionID }).inject(thisdayRow);
-                    posHoursRow = new Element('div', { 'class': 'positions-hours', 'style': 'width: ' + (80 * _positions.length) + 'px;', "id": positionID }).inject(thisdayRow);
-                } else if (unitType === 'D') {
-                    hourRow = new Element('div', { 'class': 'positions-hours', "id": positionID }).inject(thisdayRow);
-                    posDaysRow = new Element('div', { 'class': 'positions-days', "id": positionID }).inject(thisdayRow);
-                }
-    
-                var hours;
-                var days;
-
-                if (pUnit.PositionCode) {
-                    if (unitType === 'H') {
-
-                        // setup day
-                        days = new Element('input', { 'class': 'edit-position-days data-hj-whitelist',
-                                           'id': date,
-                                           'value': '0',
-                                           'readonly': _positions.length > 1,
-                                           'type': 'text' }).inject(dayRow);
-                        days.set('value', (pUnit.HoursAppliedFor ? 1 : 0).toFixed(2));
-                        days.store('old', (pUnit.HoursAppliedFor ? 1 : 0).toFixed(2));
-
-                        var hoursElements = [];
-                        // setup hours
-                        Array.each(_positions, function(position, index) {
-                            var pUnit = _.find(day.PositionUnits, function(p) {return p.PositionCode === _positions[index].get('id')})
-                            hours = new Element('input', { 'class': 'edit-position-hours data-hj-whitelist',
-                                        'id': date,
-                                        'value': '0',
-                                        'type': 'text',
-                                       
-                                    }).inject(posHoursRow);
-                            hours.set('value', (pUnit.HoursAppliedFor || 0).toFixed(2));
-                            hours.store('old', (pUnit.HoursAppliedFor || 0).toFixed(2));    
-                            hoursElements.push(hours)
-                        }.bind(this))
-                        this.setUnitInputEvents(hoursElements, null, day, days, pUnit, 'H');
-
-                        // only add caculation event when 1 position is selected / avaliable.
-                        if (_positions.length === 1) {
-                            this.setUnitInputEvents([days], hours, day, days, pUnit, 'SD');    
-                        }
- 
-                        console.log('date', day)
-
-                    } else if (unitType === 'D') {
-                        // setup hours
-                        hours = new Element('input', { 'class': 'edit-position-hours data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(hourRow);
-                        hours.set('value', (pUnit.HoursAppliedFor || 0).toFixed(2));
-                        hours.store('old', (pUnit.HoursAppliedFor || 0).toFixed(2));
-
-                        days = new Element('input', { 'class': 'edit-position-days data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(posDaysRow);
-                        days.set('value', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
-                        days.store('old', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
-                        this.setUnitInputEvents([days], hours, day, days, pUnit, 'D');
-                        this.setUnitInputEvents([hours], null, day, days, pUnit, 'HD');
+                        if (posHoursRow && !hours)
+                            new Element('div', { 'class': 'edit-position-hours', 'id': date }).inject(posHoursRow);
+                        if (posDaysRow && !days)
+                            new Element('div', { 'class': 'edit-days-hours', 'id': date }).inject(posDaysRow);
                     }
-
-                    if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
-                        if (unitType === 'H') {
-                            hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                        }
-                        if (unitType === 'D') {
-                            days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                        }
-                        this.unitsGrid.getElement('.day-class.d-' + date.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                    }
-                }
-                if (posHoursRow && !hours) {
-                    new Element('div', { 'class': 'edit-position-hours', 'id': date }).inject(posHoursRow);
-                    new Element('div', { 'class': 'edit-days-hours', 'id': date }).inject(dayRow);
-                }
-                    
-
-
-                if (posDaysRow && !days) {
-                    new Element('div', { 'class': 'edit-days-hours', 'id': date }).inject(posDaysRow);
-                    new Element('div', { 'class': 'edit-position-hours', 'id': date }).inject(hourRow);
-                }
-                    
-            }.bind(this) )
+                }.bind(this));
+            }.bind(this));
         }.bind(this);
         
         if (this.leaveCode) {
             var unitType = this.leaveCode.UnitType;
             var dates = this.gridHeader.getElements('.day-class');
-            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
-            var unitLabel = new Element('div', { 'class': 'unit-label', 'html': 'Day' }).inject(pos);
-            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
-            var dayorHourUnitlabel = 'Day Unit';
-            if (unitType === 'D') {
-                dayorHourUnitlabel = 'Hour Unit'
-            }
-            var unitLabel = new Element('div', { 'class': 'unit-label', 'html': dayorHourUnitlabel }).inject(pos);
-
             if (this.positionSelector) {
                 this.posies = this.positionSelector.getElements('option');
                 this.selectedPos = this.positionSelector[this.positionSelector.selectedIndex];
 
                 if (this.selectedPos.get('id') && this.selectedPos.get('id').toString() === '-01') {
-                    fBuildUnits( this.posies, dates, unitType);
+                    Array.each(this.posies, function (pos, index) {
+                        if (pos.get('id') != -01) {
+                            fBuildUnits(pos, dates, unitType);
+                        }
+                    }.bind(this));
                 } else {
-                    fBuildUnits([this.selectedPos], dates, unitType);
+                    fBuildUnits(this.selectedPos, dates, unitType);
                 }
             } else {
                 this.pos = this.position.getElement('.position');
-                fBuildUnits([this.pos], dates, unitType);
+                fBuildUnits(this.pos, dates, unitType);
             }
+        }
+
+        var containerSize = this.unitScrollerBox.measure(function () { return this.getSize().x; });
+        var scrollerSize = this.scroller.measure(function () { return this.getScrollSize().x; });
+        if (scrollerSize > containerSize) {
+            this.unitScrollerBox.setStyle('overflow-x', 'scroll');
+        } else {
+            this.unitScrollerBox.setStyle('overflow-x', 'hidden');
         }
 
         Affinity.tooltips.processNew();
