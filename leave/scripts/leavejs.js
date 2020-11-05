@@ -7252,7 +7252,8 @@ var UILeaveDetail = new Class({
 
                     }
                 } else {
-                    doOnError(fieldName, oldValue, newValue);
+                    //doOnError(fieldName, oldValue, newValue);
+                    this.errorChecking(response);
                 }
 
                 this.errorChecking(response);
