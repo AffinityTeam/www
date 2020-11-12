@@ -2806,20 +2806,19 @@ var UILeaveApply = new Class({
                 }.bind(this));
             }
 
-            if ( !this.isManager ) {
-                if (this.requiredReason) {
-                    this.requiredReason.destroy();
-                }
-                if (this.requiredAttachment) {
-                    this.requiredAttachment.destroy();
-                }
-                if (leaveCode.MandatoryReason) {
-                    this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
-                }
-                if (leaveCode.MandatoryAttachment) {
-                    this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
-                }
+            if (this.requiredReason) {
+                this.requiredReason.destroy();
             }
+            if (this.requiredAttachment) {
+                this.requiredAttachment.destroy();
+            }
+            if (leaveCode.MandatoryReason) {
+                this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
+            }
+            if (leaveCode.MandatoryAttachment) {
+                this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
+            }
+            
         } else {
             if (inlineProjectionInfo) {
                 inlineProjectionInfo.style.display = "none";
@@ -7094,7 +7093,8 @@ var UILeaveDetail = new Class({
 
                     }
                 } else {
-                    doOnError(fieldName, oldValue, newValue);
+                    //doOnError(fieldName, oldValue, newValue);
+                    this.errorChecking(response);
                 }
 
                 this.errorChecking(response);
