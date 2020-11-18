@@ -1040,6 +1040,9 @@ var UILeaveHistory = new Class({
         //        this.historyTableBox = new Element('div', { 'class': 'team-leave-history-table', 'style': 'display: block;' })
         this.filterBox = new Element('div', { 'class': 'history-filter-box form-row' }).inject(this.leaveHistoryBox);
 
+        if (this.isManager) {
+            this.filterBox.addClass('history-filter-box-manager')
+        }
         this.noHistoryMessage = new Element('div', { 'class': 'hidden', 'style': 'padding: 10px;', 'html': 'There are no leave applications to show.' });
 
         this.leaveHistoryTable = new Element('table', { 'class': 'leave hide-submitted-date' }).adopt(
@@ -1079,12 +1082,16 @@ var UILeaveHistory = new Class({
         this.panelDateTo = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
         this.panelDateFrom = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
         this.panelEmployee = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-        this.panelIndirect = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-        this.panelShares = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-        if (this.isManager)
+       
+        if (this.isManager) {
+            this.panelIndirect = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
+            this.panelShares = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
             this.panelSubmittedDate = new Element('div', { 'class': 'filter-item' }).inject(this.groupSubmittedDate);
+        }
+            
         this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrderButtons);
-        this.panelButtons = new Element('div', { 'class': 'filter-item filter-buttons-box' }).inject(this.groupOrderButtons);
+        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupOrderButtons);
+        this.panelButtonWrapper = new Element('div', {class: 'filter-buttons-box'}).inject(this.panelButtons);
 
         new Element('span', { 'class': 'filter-label', 'html': 'Status' }).inject(this.panelStatus);
         this.leaveStatusFilter = new Element('select', { 'class': 'history-filter-select status-filter inline' }).adopt(
@@ -1099,19 +1106,23 @@ var UILeaveHistory = new Class({
             new Element('span', { 'class': 'filter-label', 'html': 'Employee' }).inject(this.panelEmployee);
             this.employeeFilter = new Element('select', { 'class': 'history-filter-select data-hj-whitelist leave-employee-filter' }).inject(this.panelEmployee);
             new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Include Indirect' }).inject(this.panelIndirect);
-            new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
-            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.panelIndirect);
+            new Element('span', { 'class': 'filter-label leave-action-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
+
+            this.includeIndirectWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelIndirect);
+            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.includeIndirectWrapper);
             this.includeIndirect.addEvent('change', function (e) {
                 if (this.employeeFilter) {
                     this.updateEmployeeFilter(this.includeIndirect.checked, this.employeeFilter[this.employeeFilter.selectedIndex].get('id'));
                 }   
             }.bind(this));
 
-            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'filter-label', 'value': 'excludeNonApprovers' }).inject(this.panelShares);
+            this.excludeNonApproversWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelShares);
+            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'leave-action-filter-checkbox', 'value': 'excludeNonApprovers' }).inject(this.excludeNonApproversWrapper);
             
             if (this.isManager) {
                 new Element('span', { 'class': 'filter-label show-submitted-date', 'html': 'Show Submitted Date' }).inject(this.panelSubmittedDate);
-                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.panelSubmittedDate);
+                this.includeSubmittedDateWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelSubmittedDate);
+                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.includeSubmittedDateWrapper);
             }
             this.includeSubmittedDateValue = false;
             this.includeSubmittedDate.addEvent('change', function (e) {
@@ -1171,11 +1182,11 @@ var UILeaveHistory = new Class({
 
         this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
             new Element('span', { 'html': 'Filter' })
-        ).inject(this.panelButtons);
+        ).inject(this.panelButtonWrapper);
 
-        this.clearFilter = new Element('span', { 'class': 'history-filter-clear button grey' }).adopt(
+        this.clearFilter = new Element('span', { 'class': 'history-filter-clear button grey ml-4' }).adopt(
             new Element('span', { 'html': 'Clear' })
-        ).inject(this.panelButtons);
+        ).inject(this.panelButtonWrapper);
 
         //Push it to DOM
         this.section.inject(this.target);
