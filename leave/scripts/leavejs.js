@@ -25,6 +25,7 @@ var Leave = new Class({
         /**/
         'logout',
         'loggedin', 'loggedout',
+        'doPositionUpdateOrValidation',
         /**/
         //'populateForwardHistory', //moved to detail
         //'leaveDetailData',
@@ -674,6 +675,41 @@ var Leave = new Class({
             this.config = false;
         }
         this.forceunlockui();
+    },
+    doPositionUpdateOrValidation: function (tsGroupId, methodToExecuteIfPassed, param) {
+        this._methodName = 'ui.leave.js -> doPositionUpdateOrValidation ()';
+        this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DoPositionUpdateOrValidation/' + tsGroupId);
+        new Request.JSON({
+            url: this._api,
+            onRequest: function () {
+                Affinity.leave.lockui('leave-doPositionUpdateOrValidation');
+                if (!this._noAlerts) {
+                    uialert({
+                        message: ' ',
+                        showLoader: true,
+                        showButtons: false,
+                        noClose: true
+                    });
+                }
+            }.bind(this),
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('leave-doPositionUpdateOrValidation');
+                prompts.hide();
+                if (response) {
+                    if (methodToExecuteIfPassed && typeof (methodToExecuteIfPassed) === 'function') {
+                        methodToExecuteIfPassed(param);
+                    }
+                } else {
+                    uialert({
+                        'message': 'Your position has changed since you applied for this leave, so you can’t make changes. Please cancel this leave and re-apply.',
+                        showButtons: true,
+                        noClose: false
+                    });
+                }
+               
+
+            }.bind(this)
+        }).post();
     },
 
     /**/
@@ -4985,23 +5021,30 @@ var UILeaveDetail = new Class({
 
 
     editDetail: function () {
-        if (this.isManager) {
-            if (Affinity.leave.manager) {
-                Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
-                    if (employee) {
-                        this.doEditDetail(employee);
-                    }
-                    else {
-                        this.doEditDetail(Affinity.leave.manager.config);
-                    }
-                }.bind(this));
+
+            if (this.isManager) {
+                if (Affinity.leave.manager) {
+                    Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
+                        if (employee) {
+                           // this.doEditDetail(employee);
+                            Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, this.doEditDetail, employee);
+                        }
+                        else {
+                            //this.doEditDetail(Affinity.leave.manager.config); 
+
+                            Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, this.doEditDetail, Affinity.leave.manager.config);
+                        }
+                    }.bind(this));
+                }
             }
-        }
-        else {
-            if (Affinity.leave.employee.config) {
-                this.doEditDetail(Affinity.leave.employee.config);
+            else {
+                if (Affinity.leave.employee.config) {
+                    //this.doEditDetail(Affinity.leave.employee.config);
+
+                    Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, this.doEditDetail, Affinity.leave.employee.config);
+                }
             }
-        }
+       
     },
 
     createForwardingFeature: function (form) {
@@ -5063,6 +5106,8 @@ var UILeaveDetail = new Class({
 
         var leaveHeader = this.data.LeaveHeader;
         var components = this.data.Components;
+
+     
 
         Affinity.modal.show();
         Affinity.modal.clear();
@@ -6197,6 +6242,23 @@ var UILeaveDetail = new Class({
 
         //var posUnits = [];
         var daysRow, hoursRow, posName, posDate, hours, days, date, component;
+
+        var isEmployeeMultiPositions = true;
+        var componentPositions = new Array();
+        component = null;
+        Array.each(components, function (comp, Index) {
+            if (componentPositions.length === 0) {
+                componentPositions.push(comp.positionCode);
+            } else if (componentPositions.length > 0 &&
+                componentPositions.indexOf(comp.positionCode) < 0) {
+                componentPositions.push(comp.positionCode);
+            }
+        });
+
+        if (componentPositions.length === 1 && positions.length == 1) {
+            isEmployeeMultiPositions = false;
+        }
+
         Array.each(positions, function (position, index) {
             var pos = new Element('div', { 'class': 'position-label' }).inject(this.positionsLabels);
             var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
@@ -6221,7 +6283,8 @@ var UILeaveDetail = new Class({
 
             component = null;
             Array.each(components, function (comp, Index) {
-                if (comp.PositionCode === position.PositionCode) {
+                if ((comp.PositionCode === position.PositionCode && isEmployeeMultiPositions) ||
+                    !isEmployeeMultiPositions) {
                     component = comp;
                 }
             });
@@ -6810,6 +6873,22 @@ var UILeaveDetail = new Class({
         //    'class': 'detail-approver-box'
         //}).inject(this.unitsBox);
 
+        var isEmployeeMultiPositions = true;
+        var componentPositions = new Array();
+        component = null;
+        Array.each(components, function (comp, Index) {
+            if (componentPositions.length === 0) {
+                componentPositions.push(comp.positionCode);
+            } else if (componentPositions.length > 0 &&
+                componentPositions.indexOf(comp.positionCode) < 0) {
+                componentPositions.push(comp.positionCode);
+            }
+        });
+
+        if (componentPositions.length === 1 && positions.length == 1) {
+            isEmployeeMultiPositions = false;
+        }
+
         if (this.approverBox)
             this.approverBox.empty();
 
@@ -6837,11 +6916,15 @@ var UILeaveDetail = new Class({
                 }).inject(posBox);
                 approverSelector.addEvent('change', this.updateAuthoriser);
 
+
+                
+
                 if (componant.Authorisation && componant.Authorisation.AuthorisationId) {
                     approverSelector.store('authId', componant.Authorisation.AuthorisationId);
                     //var positions = Affinity.leave.employee.config.Positions;
                     Array.each(positions, function (position) {
-                        if (componant.PositionCode == position.PositionCode) {
+                        if ((componant.PositionCode == position.PositionCode && isEmployeeMultiPositions) ||
+                            !isEmployeeMultiPositions) {
                             Array.each(position.SubmittedTos, function (approver, index) {
                                 var option = new Element('option', {
                                     'value': index + 1
