@@ -3622,7 +3622,7 @@ var UILeaveApply = new Class({
         }
         //Project leave at this point if it is projectable
         if (this.checkLeaveIsConfigured(leaveObj.LeaveCode, leaveObj.Description)) {
-            this.leaveProjectionRequest(employeeNum, leaveObj.LeaveCode, startDate);
+            this.leaveProjectionRequest(employeeNum, leaveObj.LeaveCode, endDate);
         }
     },
 
