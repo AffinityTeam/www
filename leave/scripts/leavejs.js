@@ -2420,6 +2420,7 @@ var UILeaveApply = new Class({
     
 
     generatePositions: function (positions) {
+        var hasMultiPosition = positions.length > 1;
         if (positions.length === 1) {
             this.positionDescription = new Element('span', { 'class': 'position', 'html': positions[0].PositionTitle, 'id': positions[0].PositionCode }).inject(this.position);
         } else {
@@ -2441,7 +2442,14 @@ var UILeaveApply = new Class({
 
         Array.each(positions, function (position, index) {
             this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
-            this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+
+            if (hasMultiPosition) {
+                this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+            } else {
+                this.label = new Element('label', { 'html': 'Approver'}).inject(this.approverBox);
+            }
+            
+
             this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
 
             if (position !== undefined &&
@@ -2467,12 +2475,17 @@ var UILeaveApply = new Class({
 
     refreshApprovers: function (data, index) {
         this.approvers.set('html', '');
-
+        var hasMultiPosition = data.length > 1;
         if ( data && typeOf(data) === 'array' ) {
             Array.each(data, function (position, i) {
                 if (index < 0 || index == i) {
                     this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
-                    this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+                    if (hasMultiPosition) {
+                        this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+                    } else {
+                        this.label = new Element('label', { 'html': 'Approver'}).inject(this.approverBox);
+                    }
+
                     this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
                     this.approverSelector.selectedIndex = 0;
                     this.approverBox.set('id', position.PositionCode);
@@ -6150,11 +6163,16 @@ var UILeaveDetail = new Class({
     buildUnitsTotals: function (components) {
         if (this.totalUnitsSection)
             this.totalUnitsSection.empty();
-
+        var isMultiPosition = components.length > 1;
+        var positionBoxStyle = 'display:none';
+        if (isMultiPosition) {
+            positionBoxStyle = 'display:block';
+        }
         var total = 0;
         Array.each(components, function (position, index) {
             var positionbox = new Element('div', {
-                'class': 'position-units-box'
+                'class': 'position-units-box',
+                'style': positionBoxStyle
             }).inject(this.totalUnitsSection);
             var positionName = new Element('span', {
                 'class': 'position-name ui-has-tooltip',
