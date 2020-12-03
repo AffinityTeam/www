@@ -2384,6 +2384,7 @@ var UILeaveApply = new Class({
     
 
     generatePositions: function (positions) {
+        var hasMultiPosition = positions.length > 1;
         if (positions.length === 1) {
             this.positionDescription = new Element('span', { 'class': 'position', 'html': positions[0].PositionTitle, 'id': positions[0].PositionCode }).inject(this.position);
         } else {
@@ -2405,7 +2406,14 @@ var UILeaveApply = new Class({
 
         Array.each(positions, function (position, index) {
             this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
-            this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+
+            if (hasMultiPosition) {
+                this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+            } else {
+                this.label = new Element('label', { 'html': 'Approver'}).inject(this.approverBox);
+            }
+            
+
             this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
 
             if (position !== undefined &&
@@ -2431,12 +2439,17 @@ var UILeaveApply = new Class({
 
     refreshApprovers: function (data, index) {
         this.approvers.set('html', '');
-
+        var hasMultiPosition = data.length > 1;
         if ( data && typeOf(data) === 'array' ) {
             Array.each(data, function (position, i) {
                 if (index < 0 || index == i) {
                     this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
-                    this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+                    if (hasMultiPosition) {
+                        this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+                    } else {
+                        this.label = new Element('label', { 'html': 'Approver'}).inject(this.approverBox);
+                    }
+
                     this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
                     this.approverSelector.selectedIndex = 0;
                     this.approverBox.set('id', position.PositionCode);
@@ -3586,7 +3599,7 @@ var UILeaveApply = new Class({
         }
         //Project leave at this point if it is projectable
         if (this.checkLeaveIsConfigured(leaveObj.LeaveCode, leaveObj.Description)) {
-            this.leaveProjectionRequest(employeeNum, leaveObj.LeaveCode, startDate);
+            this.leaveProjectionRequest(employeeNum, leaveObj.LeaveCode, endDate);
         }
     },
 
@@ -4896,10 +4909,17 @@ var UILeaveDetail = new Class({
             });
         }
 
-        //Only managers sees the forward box.
-        if (Affinity.login.profile.employeeNumber !== leaveHeader.EmployeeNo) {
-            this.populateForwardHistory(this.data.Forwards, form);
+        if (leaveHeader.StatusCode === 7) {
+            this.createForwardingFeature(form);
+        } else {
+            //Only managers sees the forward box.
+            if (Affinity.login.profile.employeeNumber !== leaveHeader.EmployeeNo) {
+                this.populateForwardHistory(this.data.Forwards, form);
+            }
         }
+        
+
+        
 
         this.createButtons(form, false);
 
@@ -4993,6 +5013,60 @@ var UILeaveDetail = new Class({
         else {
             if (Affinity.leave.employee.config) {
                 this.doEditDetail(Affinity.leave.employee.config);
+            }
+        }
+    },
+
+    createForwardingFeature: function (form) {
+        /*      Forwarding      */
+        if (this.isManager) {
+            this.populateForwardHistory(this.data.Forwards, form);
+
+            if (this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
+                this.forwardSelector = new Element('div',
+                    {
+                        'class': 'forward-to-selector form-row'
+                    }).inject(form);
+                this.forwardsToLabel = new Element('label',
+                    {
+                        'class': 'details-label',
+                        'html': 'Forward To'
+                    }).inject(this.forwardSelector);
+                this.forwardTo = new Element('select',
+                    {
+                        'class': 'details-forward-to ui-autocomplete'
+                    }).inject(this.forwardSelector);
+
+                new Element('option', { 'html': '', 'id': null, 'value': '' }).inject(this.forwardTo);
+                if (Affinity.leave.manager.config &&
+                    typeOf(Affinity.leave.manager.config.ForwardToManagers) === 'array' &&
+                    Affinity.leave.manager.config.ForwardToManagers.length > 0
+                ) {
+                    Array.each(Affinity.leave.manager.config.ForwardToManagers,
+                        function (manager, index) {
+                            new Element('option',
+                                {
+                                    'html': manager.EmployeeName + ' (' + manager.EmployeeNo + ')',
+                                    'id': manager.EmployeeNo,
+                                    'value': manager.EmployeeNo
+                                }).inject(this.forwardTo);
+                        }.bind(this));
+                }
+
+                this.forwardReason = new Element('div',
+                    {
+                        'class': 'forward-to-reason form-row hidden'
+                    }).inject(form);
+                this.forwardReasonLabel = new Element('label',
+                    {
+                        'class': 'details-label',
+                        'html': 'Forward Reason:'
+                    }).inject(this.forwardReason);
+                this.forwardReasonText = new Element('textarea',
+                    {
+                        'class': 'forward-reason-text data-hj-whitelist',
+                        'rows': '3'
+                    }).inject(this.forwardReason);
             }
         }
     },
@@ -5521,57 +5595,7 @@ var UILeaveDetail = new Class({
             delete Affinity.modal.beforeClose;
         }.bind(this);
 
-        /*      Forwarding      */
-        if (this.isManager) {
-            this.populateForwardHistory(this.data.Forwards, this.form);
-
-            if (this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
-                this.forwardSelector = new Element('div',
-                    {
-                        'class': 'forward-to-selector form-row'
-                    }).inject(this.form);
-                this.forwardsToLabel = new Element('label',
-                    {
-                        'class': 'details-label',
-                        'html': 'Forward To'
-                    }).inject(this.forwardSelector);
-                this.forwardTo = new Element('select',
-                    {
-                        'class': 'details-forward-to ui-autocomplete'
-                    }).inject(this.forwardSelector);
-
-                new Element('option', { 'html': '', 'id': null, 'value': '' }).inject(this.forwardTo);
-                if (Affinity.leave.manager.config &&
-                    typeOf(Affinity.leave.manager.config.ForwardToManagers) === 'array' &&
-                    Affinity.leave.manager.config.ForwardToManagers.length > 0
-                ) {
-                    Array.each(Affinity.leave.manager.config.ForwardToManagers,
-                        function (manager, index) {
-                            new Element('option',
-                                {
-                                    'html': manager.EmployeeName + ' (' + manager.EmployeeNo + ')',
-                                    'id': manager.EmployeeNo,
-                                    'value': manager.EmployeeNo
-                                }).inject(this.forwardTo);
-                        }.bind(this));
-                }
-
-                this.forwardReason = new Element('div',
-                    {
-                        'class': 'forward-to-reason form-row hidden'
-                    }).inject(this.form);
-                this.forwardReasonLabel = new Element('label',
-                    {
-                        'class': 'details-label',
-                        'html': 'Forward Reason:'
-                    }).inject(this.forwardReason);
-                this.forwardReasonText = new Element('textarea',
-                    {
-                        'class': 'forward-reason-text data-hj-whitelist',
-                        'rows': '3'
-                    }).inject(this.forwardReason);
-            }
-        }
+        this.createForwardingFeature(this.form);
 
         /*      Buttons     */
         this.createButtons(this.form, true);
@@ -5663,7 +5687,7 @@ var UILeaveDetail = new Class({
 
         if (!this.data.LeaveHeader.isExternal) {
             if (this.isManager) {
-                if (isEdit && this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
+                if ((isEdit || this.data.LeaveHeader.StatusCode === 7) && this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
                     this.forward = new Element('span',
                         {
                             'class': 'button blue hidden w-icon-only'
@@ -6094,11 +6118,16 @@ var UILeaveDetail = new Class({
     buildUnitsTotals: function (components) {
         if (this.totalUnitsSection)
             this.totalUnitsSection.empty();
-
+        var isMultiPosition = components.length > 1;
+        var positionBoxStyle = 'display:none';
+        if (isMultiPosition) {
+            positionBoxStyle = 'display:block';
+        }
         var total = 0;
         Array.each(components, function (position, index) {
             var positionbox = new Element('div', {
-                'class': 'position-units-box'
+                'class': 'position-units-box',
+                'style': positionBoxStyle
             }).inject(this.totalUnitsSection);
             var positionName = new Element('span', {
                 'class': 'position-name ui-has-tooltip',
