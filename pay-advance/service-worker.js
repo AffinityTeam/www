@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.d7f5fcd0197fe231a84ae579d221098f.js"
+  "/precache-manifest.e98bd1cd090cee44e6bef55677be5b8a.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "pay-advance"});

@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/css/about.css"
   },
   {
-    "revision": "6c688750533c9c5f8a0a",
+    "revision": "66d3a4d575041df8e05d",
     "url": "/css/app.css"
   },
   {
-    "revision": "295ff16fc1dee871226c",
+    "revision": "58d13d01815444578e62",
     "url": "/css/chunk-vendors.css"
   },
   {
@@ -68,7 +68,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/tick-card.svg"
   },
   {
-    "revision": "297eccd71c63583a0a6de0ecee79067b",
+    "revision": "56402832647132bda432713c23f88f99",
     "url": "/index.html"
   },
   {
@@ -76,11 +76,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/about.js"
   },
   {
-    "revision": "6c688750533c9c5f8a0a",
+    "revision": "66d3a4d575041df8e05d",
     "url": "/js/app.js"
   },
   {
-    "revision": "295ff16fc1dee871226c",
+    "revision": "58d13d01815444578e62",
     "url": "/js/chunk-vendors.js"
   },
   {
