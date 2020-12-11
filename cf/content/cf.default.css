@@ -1,0 +1,286 @@
+
+.newui .section-list,
+.newui .section-list ul,
+newui .section-list li,
+.newui .grid-list,
+.newui .grid-list ul,
+newui .grid-list li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+
+.newui .draggable-list .section-title {
+    margin: 0 0 20px 0;
+}
+
+
+.newui .draggables-list {
+}
+
+    .newui .draggables-list ul {
+        display: block;
+        min-width: 300px;
+        max-width: 600px;
+        min-height: 30px;
+        padding: 5px;
+        border: 2px dashed #dedede;
+        background: #eaeaea;
+    }
+
+.newui .col1 .draggables-list ul {
+    border: 2px dashed transparent;
+    background: transparent;
+}
+
+.newui .draggables-list ul.godrop {
+    border: 2px dashed #afd6af;
+    background: #e3e7e3;
+}
+
+.newui label.inline {
+    display: inline !important;
+    width: auto !important;
+}
+
+/** INBOX **/
+
+.newui .ui-inbox .ui-inbox-boxes .ui-inbox-actions {
+    width: 110px;
+}
+
+/** INDEX **/
+
+.newui th.cf-index-description, .newui col.cf-index-description {
+    width: auto;
+}
+
+.newui th.cf-index-workflow, .newui col.cf-index-workflow {
+    min-width: 300px;
+}
+
+.newui th.cf-index-link, .newui col.cf-index-link {
+    width: 150px;
+}
+
+.newui th.cf-index-link, .newui col.cf-index-user-instructions {
+    width: auto;
+}
+
+
+.newui th.cf-index-type, .newui col.cf-index-type {
+    width: 150px;
+}
+
+.newui th.cf-index-buttons, .newui col.cf-index-buttons {
+    width: 250px;
+    text-align: right;
+}
+
+.newui th.cf-admin-buttons,
+.newui col.cf-admin-buttons,
+.newui .section table tr td.cf-admin-buttons {
+    width: 180px;
+    text-align: right;
+}
+
+.newui .button-cols {
+    min-width: 300px;
+    max-width: 300px;
+    width: 300px;
+    overflow: hidden;
+}
+
+.newui .button-col-a {
+    display: inline;
+}
+
+.newui .button-col-b {
+    display: inline;
+}
+
+.newui .button-col-b.no-dup span.button.disabled {
+  touch-action: manipulation !important;
+  pointer-events: all !important;
+}
+
+.newui .button-col-b.no-dup span.button.green.disabled:hover {
+	background-color: #7abd2d !important;
+}
+.newui .button-col-b.no-dup span.button.blue.disabled:hover {
+	background-color: #44b5ec !important;
+}
+.newui .button-col-b.no-dup span.button.blue.red:hover {
+	background-color: red !important;
+}
+
+@media only screen and (max-width : 1100px) and (min-width : 801px) {
+
+    .newui .size-hide-me-medium {
+        display: none !important;
+    }
+}
+
+@media only screen and (max-width : 800px) and (min-width : 1px) {
+
+    .newui th.cf-index-buttons, .newui col.cf-index-buttons {
+        width: 130px;
+    }
+
+    .newui .button-cols {
+        min-width: 130px;
+        max-width: 130px;
+        width: 130px;
+        overflow: hidden;
+    }
+
+    .newui .button-col-a {
+        display: inline-block;
+        width: 90px;
+    }
+
+    .newui .button-col-b {
+        float: right;
+        display: inline-block;
+        width: 31px;
+        text-align: right;
+        margin-right: 4px;
+    }
+
+    .newui .section table tr td .button-col-a .button:first-child,
+    .newui .section table tr td .button-col-b .button:first-child {
+        margin-bottom: 2px;
+    }
+
+    .newui .size-hide-me-medium,
+    .newui .size-hide-me-small {
+        display: none !important;
+    }
+}
+
+
+
+
+
+/*
+@media only screen and (max-width : 700px) and (min-width : 1px) {
+
+    .newui th.cf-index-buttons, .newui col.cf-index-buttons {
+        width: 70px;
+    }
+    .newui .button-col-a {
+        display: inline-block;
+        width: 31px;
+        text-align: left;
+    }
+    .newui .button-col-b {
+        float: right;
+        display: inline-block;
+        width: 31px;
+        text-align: right;
+        margin-right: 4px;
+    }
+
+        .newui .section table tr td .button-col-a .button:first-child,
+        .newui .section table tr td .button-col-b .button:first-child {
+            margin-bottom: 2px;
+        }
+
+    .newui .size-hide-me, 
+    .newui .size-hide-me-tiny {
+        display: none !important;
+    }
+}
+    */
+
+/* FROMS */
+.newui .formloader {
+    height: 24px;
+}
+
+    .newui .formloader div {
+        display: block;
+        margin: 3px 0 0 4px;
+        float: left;
+    }
+
+    .newui .formloader span {
+        display: block;
+        margin: 5px 0 0 0;
+        float: left;
+    }
+
+.newui .cf-contents-table {
+    overflow: auto;
+    margin: 0 0 20px 0;
+}
+
+    .newui .cf-contents-table ul {
+        display: block;
+        margin: 0 0 0 20px;
+        padding: 0;
+        list-style: none;
+    }
+
+        .newui .cf-contents-table ul li {
+            display: block;
+            margin: 0 0 5px 0;
+            padding: 0;
+            width: auto;
+            float: left;
+            clear: left;
+        }
+
+.newui .section .default-form .form-row.cf-contents-table a {
+    list-style: none;
+    font-size: 12px;
+    font-weight: normal;
+    color: #44b5ec;
+    text-decoration: none;
+}
+
+.newui .anchor {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #44b5ec;
+    text-decoration: none;
+}
+
+.newui .form-row .anchor {
+}
+
+.newui .dashboard .dash-nav-item-inner span.icon {
+    padding: 0;
+}
+
+.newui .dashboard div.section-body div.error-info ul{
+    list-style: initial;
+    margin-left: 40px !important;
+}
+
+.newui .dashboard div.section-body div.error-info li {
+    list-style: initial;
+}
+
+.newui .errorpage .section .section-body {
+    max-width: 850px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+    .newui .errorpage .section .section-body .section-row {
+        width: 400px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .newui .errorpage .section .section-body .error-info {
+        text-align: left;
+        width: 400px;
+        display: inline-block;
+        vertical-align: top;
+    }
