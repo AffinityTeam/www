@@ -23012,6 +23012,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       'N': 'NZ'
     };
 
+    this.DisableDepnedancy = false;
   }
 
   constructor(config)
@@ -23027,7 +23028,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       '_getFormRowHtml',
       '_gotNewUserProfile',
 
-      '_setupEvents', '_setupCountry', '_countrySet', '_setFromTax'
+      '_setupEvents', '_setupCountry', '_countrySet', 
+
+      '_setFromTax', '_autocompleteWorkerDone'
 
     ].bindEach(this);
 
@@ -23145,6 +23148,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
 
   SetFromValue (value)
   {
+    this.DisableDepnedancy = true;
     var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
     var inputWidget = inputNode.widgets.TaxNumber;
     if (!this.IsReadOnly && inputWidget)
@@ -23155,6 +23159,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       }
       else inputWidget.Set(value);
     }
+    setTimeout(function () { this.DisableDepnedancy = false; }.bind(this), 250);
   }
 
   /**/
@@ -23219,7 +23224,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
         this.TaxCodeInputNode = this.SectionNode.querySelector('select[data-api*="propertyName=TAX_CODE"]');
         this.TaxCodeWidget = this.TaxCodeInputNode.widgets.Autocomplete;
         if (this.TaxCodeWidget === undefined) this.TaxCodeInputNode.addEventListener('ready', this._setupCountry);
-        else this._setupCountry();
+        else this.TaxCodeWidget = false;
+      }
+      else
+      {
+        this.TaxCodeInputNode = false;
+        this._setupCountry();
       }
     }
   }
@@ -23227,65 +23237,58 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
   _setupCountry()
   {
     this.TaxOptions = this.TaxCodeInputNode.querySelectorAll('option');
-    this.TaxCodeWidget = this.TaxCodeInputNode.widgets.Autocomplete;
-    this.TaxCodeInputNode.removeEventListener('complete', this._setupCountry);
-
-    //this._countrySet({ detail: { Country: this.FormRowNode.querySelector('input.ui-taxnumber').widgets.TaxNumber.GetData()[1] } });
-
     this.TaxNumberInputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
-
     this.TaxNumberInputNode.addEventListener('countryChanged', this._countrySet);
-    this.TaxCodeInputNode.addEventListener('change', this._setFromTax);
-
+    if (this.TaxCodeInputNode && this.TaxCodeInputNode.widgets.Autocomplete)
+    {
+      this.TaxCodeWidget = this.TaxCodeInputNode.widgets.Autocomplete;
+      this.TaxCodeInputNode.removeEventListener('complete', this._setupCountry);
+      this.TaxCodeInputNode.addEventListener('change', this._setFromTax);
+    }
+    else
+    {
+      this.TaxCodeWidget = false;
+    }
   }
 
   _countrySet(ev)
   {
     if (ev && 'detail' in ev && 'Country' in ev.detail)
     {
-      var check = '- ' + ev.detail.Country.toUpperCase() + ' (';
-      var select = 'null', o, text;
-
-      /*
-      for (o = 0; o < this.TaxOptions.length; o++)
+      clearTimeout(this.filterTimeout);
+      var check = '- ' + ev.detail.Country.toUpperCase() + ' ';
+      if (this.TaxCodeWidget)
       {
-        text = this.TaxOptions[o].innerText;
-        if (text.startsWith(check))
+        this.SetMatch = check.contains('NZ') ? '- NZ ' : check.contains('AU') ? '- AU ' : null;
+        var filterMatch = check.contains('NZ') ? '- AU ' : check.contains('AU') ? '- NZ ' : null;
+        if (!this.DisableDepnedancy)
         {
-          select = this.TaxOptions[o].value;
-          break;
+          this.DisableDepnedancy = true;
+          this.TaxCodeInputNode.addEventListener('workerComplete', this._autocompleteWorkerDone);
+          this.TaxCodeWidget.filterList(filterMatch);
         }
       }
-      */
-
-      this.TaxCodeInputNode.value = select;
-      this.TaxCodeWidget.setValue(select, false);
     }
+  }
+  _autocompleteWorkerDone()
+  {
+    this.TaxCodeInputNode.removeEventListener('workerComplete', this._autocompleteWorkerDone);
+    var selected  = this.TaxCodeWidget.setFirst(this.SetMatch, false);
+    this.DisableDepnedancy = false;
   }
 
   _setFromTax (ev)
   {
-    var select = 'null', o, text = '';
-
-    for (o = 0; o < this.TaxOptions.length; o++)
-    {
-      if (this.TaxOptions[o].innerText.trim() === this.TaxCodeWidget.getDisplayValue().trim())
-      {
-        text = this.TaxOptions[o].innerText.trim();
-        break;
-      }
-    }
-
-    var country = '';
+    if (this.DisableDepnedancy) return;
+    var value = this.TaxCodeWidget.getDisplayValue(), o = 0, country;
     for (o = 0; o < this.CountryCodes.length; o++)
     {
-      if (text.toUpperCase().contains('- ' + this.CountryCodes[o]))
+      if (value.toUpperCase().contains('- ' + this.CountryCodes[o].toUpperCase()))
       {
         country = this.CountryCodes[o];
         break;
       }
     }
-
     if (country !== '')
     {
       this.TaxNumberInputNode.removeEventListener('countryChanged', this._countrySet);
@@ -24775,13 +24778,15 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.selectmax = 2000;
 
+    this.filter = null;
+
     this.keeplist = true;
     this.elementChangedOnly = false;
     this.stopInitialChange = false;
 
     this.fuzzyRunning = false;
+    this.workerComplete = true;
     this.status = 'closed';
-
   }
 
   constructor (targetNode)
@@ -24792,7 +24797,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       '_init',
 
-      'getValue', 'getDisplayValue', 'setValue',
+      'getValue', 'getDisplayValue', 'setValue', 'setFirst', 'filterList',
       'obscure', 'reveal',
       'show', 'hide',
       'forceDefaultSelection', 'isDefaultSelected', 'defaultSelected',
@@ -24972,7 +24977,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
-  getValue ()
+  getValue()
   {
     return this.targetNode.value;
   }
@@ -25005,11 +25010,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
             if (this.listNode.querySelector('li[data-value="' + value + '"]'))
             {
               this._itemClicked({ target: this.listNode.querySelector('li[data-value="' + value + '"]'), fireEvents: fireEvents });
-              return;
+              return this.listNode.querySelector('li[data-value="' + value + '"]').dataset.value;
             }
             this._itemClicked({ target: this.listNode.querySelector('li'), fireEvents: fireEvents })
           }
-          return;
+          return this.listNode.querySelector('li').dataset.value;
         }
         var node = false;
         // TODO: Web Worker here ?
@@ -25021,15 +25026,46 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
             break;
           }
         }
-        if (node) this._itemClicked({ target: node, fireEvents: fireEvents });
-        else this._itemClicked({ target: this.listNode.querySelector('li'), fireEvents: fireEvents });
+        if (node)
+        {
+          this._itemClicked({ target: node, fireEvents: fireEvents });
+          return node.dataset.value;
+        }
+        else
+        {
+          this._itemClicked({ target: this.listNode.querySelector('li'), fireEvents: fireEvents });
+          return this.listNode.querySelector('li').dataset.value;
+        }
       }
     }
+  }
+
+  setFirst (match, fireEvents)
+  {
+    var matches = this.listNode.querySelectorAll('li[data-display*="' + match + '"]');
+    if (matches.length > 0) return this.setValue(matches[0].dataset.value, fireEvents);
+    matches = this.listNode.querySelectorAll('li[data-value*="' + match + '"]');
+    if (matches.length > 0) return this.setValue(matches[0].dataset.value, fireEvents);
+    return null;
   }
 
   getDisplayValue ()
   {
     return this._cleanDisplay(this.displayNode.value);
+  }
+
+  filterList(match, defaultValue)
+  {
+    if (defaultValue === undefined) defaultValue = this.targetNode.dataset.defaultValue || this.targetNode.value;
+    this.filter = match;
+    this.workerComplete = false;
+    this.fuzzyWorker.postMessage({
+      job: 'getList',
+      html: this.targetNode.innerHTML,
+      defaultValue: defaultValue,
+      filter: this.filter,
+      uuid: this.uuid
+    });
   }
 
   obscure ()
@@ -25134,6 +25170,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         {
           // TODO: Support search mode
         }
+        this.workerComplete = true;
 
       break;
 
@@ -25168,8 +25205,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
             }
           }
 
-          this._continueProcessOptions(defaultSelected);
+          this._continueProcessOptions(defaultSelected, true);
         }
+        else this.workerComplete = true;
 
         break;
 
@@ -25186,7 +25224,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this._setListEvents();
 
         this._position(0, 'worker getSelectedList');
-
+        
+        this.workerComplete = true;
         break;
 
       case 'resetList':
@@ -25224,7 +25263,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         eventsSet = this._setListEvents();
 
         this._fireWindowChangeEvent('autocomplete _fuzzyWorkerComplete resetList');
-
+        
+        this.workerComplete = true;
         break;
 
       case 'doSearch':
@@ -25247,7 +25287,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
         this.items = this.listNode.querySelectorAll('li');
         eventsSet = this._setListEvents();
-
+        
+        this.workerComplete = true;
         break;
 
       case 'terminate':
@@ -25255,6 +25296,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this.fuzzyWorker.onmessage = null;
         this.fuzzyWorker.terminate();
         this.fuzzyWorker = false;
+        this.workerComplete = true;
         break;
 
       default:
@@ -25329,11 +25371,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
 
       if (this.iconNode) this.iconNode.classList.add('working');
-
+      
+      this.workerComplete = false;
       this.fuzzyWorker.postMessage({
         job: 'getList',
         html: this.targetNode.innerHTML,
         defaultValue: this.targetNode.dataset.defaultValue || this.targetNode.value,
+        filter: this.filter,
         uuid: this.uuid
       });
 
@@ -25380,9 +25424,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     return continueBool;
   }
 
-  _continueProcessOptions (defaultSelected)
+  _continueProcessOptions (defaultSelected, fromWorker)
   {
-
+    fromWorker = fromWorker === undefined ? false : fromWorker;
     // TODO: Implement Search Mode
     this.searchMode = false;
 
@@ -25450,6 +25494,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.Ready = true;
 
+    if (fromWorker)
+    {
+      this.targetNode.dispatchEvent(new Event('workerComplete'));
+      this.workerComplete = true;
+    }
+
     return true;
   }
 
@@ -25481,13 +25531,15 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         console.log('! \t search for  : ', searchFor);
         console.log('! \t search data : ', searchData);
       }
-
+      
+      this.workerComplete = false;
       this.fuzzyWorker.postMessage({
         job: 'doSearch',
         data: searchData,
         searchKey: searchKey,
         searchFor: searchFor,
-        perfDelay: this.fuzzySearchLargeDataDelay
+        perfDelay: this.fuzzySearchLargeDataDelay,
+        filter: this.filter
       });
 
     }
@@ -25797,6 +25849,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       if (this.useWebWorkers)
       {
+        this.workerComplete = false;
         this.fuzzyWorker.postMessage({ job: 'resetList' });
       }
       else
@@ -26092,9 +26145,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     if (this.fuzzyWorker && 'postMessage' in this.fuzzyWorker)
     {
+      this.workerComplete = false;
       this.fuzzyWorker.postMessage({
         job: 'getSelectedList',
         defaultValue: this.targetNode.value,
+        filter: this.filter,
         uuid: this.uuid
       });
     }
@@ -26278,9 +26333,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         var li = this.listNode.querySelector('li.visible.selected');
         if (li)
         {
-
-
-
           this.listNode.scrollTo(0, 0);
           this.listNode.scrollTo(0, Affinity2018.getOffsetRect(li).y - 5);
         }
@@ -26579,20 +26631,25 @@ function distance (stringA, stringB)
   return matrix[b.length][a.length];
 }
 
-function returnSelectOptions (data, searchFor, ismobile)
+function returnSelectOptions (data, searchFor, ismobile, filter)
 {
-  var i, dataPair, option, options = "";
+  var i, dataPair, addItem, option, options = "";
   for (i = 0; i < data.length; i++)
   {
     dataPair = data[i];
     if (dataPair.Value.toLowerCase().indexOf(searchFor.toLowerCase()) > -1 || ismobile)
     {
-      option = "<option value=\"" + dataPair.Key + "\">" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
-      if (dataPair.Value === searchFor)
+      addItem = true;
+      if (filter !== null && new RegExp('(' + filter + ')', 'gi').test(dataPair.Value)) addItem = false;
+      if (addItem)
       {
-        option = "<option value=\"" + dataPair.Key + "\" selected>" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
+        option = "<option value=\"" + dataPair.Key + "\">" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
+        if (dataPair.Value === searchFor)
+        {
+          option = "<option value=\"" + dataPair.Key + "\" selected>" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
+        }
+        options += option;
       }
-      options += option;
     }
   }
   postMessage({ job: 'getOptions', html: options });
@@ -26607,13 +26664,14 @@ function returnListItem (data)
   li += ' class="' + data.klass + '"';
   li += ' data-index="' + data.originalIndex + '"';
   li += ' data-value="' + data.value + '"';
+  li += ' data-display="' + data.html + '"';
   li += '>';
   li += data.html;
   li += '</li>';
   return li;
 }
 
-function returnList (uuid, html, defaultValue)
+function returnList (uuid, html, defaultValue, filter)
 {
   var options = html.split('</option>'),
       items = [], // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
@@ -26652,60 +26710,57 @@ function returnList (uuid, html, defaultValue)
         }
         klass += ' ' + newKlass;
       }
-      /*
-      li = '<li';
-      li += ' id="' + uuid + '-li-' + i + '"';
-      li += ' class="' + klass + '"';
-      li += ' data-index="' + i + '"';
-      li += ' data-value="' + value + '"';
-      li += '>';
-      li += display;
-      li += '</li>';
-      */
 
-      li = returnListItem({
-        uuid: uuid,
-        klass: klass,
-        originalIndex: i,
-        value: value,
-        html: display
-      });
+      var addItem = true;
+      if (filter !== null && new RegExp('(' + filter + ')', 'gi').test(display)) addItem = false;
 
-      returndata.html += li;
-      finalHtml += li;
-
-      // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
-      items.push({
-        id: uuid + '-li-' + i,
-        html: li,
-        klass: klass,
-        searchstr: ogvalue,
-        value: value
-      });
-
-      returndata.total++;
-
-      // start index
-      wordsArr = ogvalue.trim().toLowerCase().replace(new RegExp(/ /g), ' ').split(' ');
-      soundexArr = [];
-      for (j = 0; j < wordsArr.length; j++)
+      if (addItem)
       {
-        soundexArr.push(soundex(wordsArr[j]));
-      }
+        li = returnListItem({
+          uuid: uuid,
+          klass: klass,
+          originalIndex: i,
+          value: value,
+          html: display
+        });
 
-      // hang on to this for later referenceing on search ....
-      fuzzySearchData.push({
-        id: uuid + '-li-' + i,
-        html: li,
-        oghtml: li,
-        klass: klass,
-        searchstr: ogvalue,
-        value: value,
-        words: wordsArr,
-        wordCount: wordsArr.length,
-        soundex: soundexArr,
-        originalIndex: i
-      });
+        returndata.html += li;
+        finalHtml += li;
+
+        // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
+        items.push({
+          id: uuid + '-li-' + i,
+          html: li,
+          klass: klass,
+          searchstr: ogvalue,
+          value: value
+        });
+
+        returndata.total++;
+
+        // start index
+        wordsArr = ogvalue.trim().toLowerCase().replace(new RegExp(/ /g), ' ').split(' ');
+        soundexArr = [];
+        for (j = 0; j < wordsArr.length; j++)
+        {
+          soundexArr.push(soundex(wordsArr[j]));
+        }
+
+        // hang on to this for later referenceing on search ....
+        fuzzySearchData.push({
+          id: uuid + '-li-' + i,
+          html: li,
+          oghtml: li,
+          klass: klass,
+          searchstr: ogvalue,
+          value: value,
+          words: wordsArr,
+          wordCount: wordsArr.length,
+          soundex: soundexArr,
+          originalIndex: i
+        });
+
+      }
 
     }
   }
@@ -26715,25 +26770,30 @@ function returnList (uuid, html, defaultValue)
   postMessage({ job: 'getList', data: returndata, html: finalHtml });
 }
 
-function returnSelectedList (uuid, defaultValue)
+function returnSelectedList (uuid, defaultValue, filter)
 {
   var copyList = (originalListHTML + '').replace(new RegExp(' selected', 'gi'), ''),
       items = copyList.split('<li'),
       i = 0,
-      html, value, currentValue,
+      html, value, currentValue, addItem,
       finalHtml = '';
   for (; i < items.length; i++)
   {
     html = items[i];
     if (html.trim() !== '')
     {
-      currentValue = html.substring(html.indexOf('>') + 1, html.indexOf('<', html.indexOf('>') + 1));
-      html = '<li' + html.replace(new RegExp(escapeRegExp(currentValue), 'g'), cleanDisplay(stripTags(currentValue)));
-      if (html.indexOf('data-value="' + defaultValue + '"') > -1)
+      var addItem = true;
+      if (filter !== null && new RegExp('(' + filter + ')', 'gi').test(html)) addItem = false;
+      if (addItem)
       {
-        html = html.replace(new RegExp('class\=\"visible\"', 'g'), 'class="visible selected"');
+        currentValue = html.substring(html.indexOf('>') + 1, html.indexOf('<', html.indexOf('>') + 1));
+        html = '<li' + html.replace(new RegExp(escapeRegExp(currentValue), 'g'), cleanDisplay(stripTags(currentValue)));
+        if (html.indexOf('data-value="' + defaultValue + '"') > -1)
+        {
+          html = html.replace(new RegExp('class\=\"visible\"', 'g'), 'class="visible selected"');
+        }
+        finalHtml += html;
       }
-      finalHtml += html;
     }
   }
   finalHtml = finalHtml.replace(new RegExp('\<li\<li', 'gi'), '<li');
@@ -26793,7 +26853,7 @@ function addClassString (what, toWhat)
   return bits.join(' ');
 }
 
-function fuzzySearch (searchData, searchKey, searchFor, perfDelay)
+function fuzzySearch (searchData, searchKey, searchFor, perfDelay, filter)
 {
   if (fuzzyRunning) return;
   fuzzyRunning = true;
@@ -26805,6 +26865,7 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay)
       gotone = false,
       bestguess = false,
       data,
+      addItem,
       score, wordScore, wordScores, searchIn, isMatch, hasMatch, totalWordsToSearch, totalWordMatch, totalWords,
       searchForWords, searchInWords, searchForWord, searchInWord, soundexFor, soundexIn, soundexScore,
       i, j, k, index, searchDataItem, dataItem, html, searchForWord, searchIn,
@@ -26818,37 +26879,42 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay)
       searchDataItem = searchData[i] || false;
       dataItem = fuzzySearchData[i];
 
-      hasFilterClass = filterClassExists(searchDataItem ? searchDataItem.klass : dataItem.klass);
-      filterClass = returnClassFilters(searchDataItem ? searchDataItem.klass : dataItem.klass);
+      addItem = true;
+      if (filter !== null && new RegExp('(' + filter + ')', 'gi').test(dataItem.value)) addItem = false;
 
-      if (dataItem[searchKey].indexOf(searchFor) !== -1)
+      if (addItem)
       {
-        wordScore = dataItem[searchKey].split(searchFor).length - 1 || 0;
-        searchInWords = dataItem.words;
+        hasFilterClass = filterClassExists(searchDataItem ? searchDataItem.klass : dataItem.klass);
+        filterClass = returnClassFilters(searchDataItem ? searchDataItem.klass : dataItem.klass);
+
+        if (dataItem[searchKey].indexOf(searchFor) !== -1)
+        {
+          wordScore = dataItem[searchKey].split(searchFor).length - 1 || 0;
+          searchInWords = dataItem.words;
+
+          if (hasFilterClass) dataItem.klass = addClassString(filterClass, dataItem.klass);
+
+          data = {
+            uuid: dataItem.uuid,
+            originalIndex: index,
+            html: dataItem.html,
+            value: dataItem.value,
+            klass: dataItem.klass,
+            score: wordScore,
+            wordScore: wordScore / searchInWords
+          };
+          if (perfDelay < 101) data.html = cleanDisplay(stripTags(dataItem.html)).replace(new RegExp('(' + escapeRegExp(searchFor) + ')', 'gi'), "<strong>$1</strong>");
+          else data.html = cleanDisplay(stripTags(dataItem.html));
+          results.push(data);
+          dataItem.klass = 'visible';
+        }
+        else
+        {
+          dataItem.klass = 'hidden';
+        }
 
         if (hasFilterClass) dataItem.klass = addClassString(filterClass, dataItem.klass);
-
-        data = {
-          uuid: dataItem.uuid,
-          originalIndex: index,
-          html: dataItem.html,
-          value: dataItem.value,
-          klass: dataItem.klass,
-          score: wordScore,
-          wordScore: wordScore / searchInWords
-        };
-        if (perfDelay < 101) data.html = cleanDisplay(stripTags(dataItem.html)).replace(new RegExp('(' + escapeRegExp(searchFor) + ')', 'gi'), "<strong>$1</strong>");
-        else data.html = cleanDisplay(stripTags(dataItem.html));
-        results.push(data);
-        dataItem.klass = 'visible';
       }
-      else
-      {
-        dataItem.klass = 'hidden';
-      }
-
-      if (hasFilterClass) dataItem.klass = addClassString(filterClass, dataItem.klass);
-
     }
   }
   else
@@ -26866,117 +26932,125 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay)
         searchDataItem = searchData[i] || false;
         dataItem = fuzzySearchData[i];
 
-        hasFilterClass = filterClassExists(searchDataItem ? searchDataItem.klass : dataItem.klass);
-        filterClass = returnClassFilters(searchDataItem ? searchDataItem.klass : dataItem.klass);
+        addItem = true;
+        if (filter !== null && new RegExp('(' + filter + ')', 'gi').test(dataItem.value)) addItem = false;
 
-        score = 0;
-        wordScores = [];
-        searchFor = searchFor.toLowerCase();
-        searchIn = dataItem[searchKey].toLowerCase().trim();
-        isMatch = searchFor === searchIn;
-        hasMatch = searchIn.indexOf(searchFor) > -1 ? true : false;
-
-        searchForWords = searchFor.split(' ');
-        totalWordsToSearch = searchForWords.length;
-        totalWords = searchIn.trim().replace(/[ ]{2,}/gi, ' ').split(' ').length;
-
-        if (isMatch)
+        if (addItem)
         {
-          totalWordMatch = totalWordsToSearch;
-          wordScore = 99999;
-          score = 99999;
-          dataItem.klass = 'visible';
-          if (perfDelay)
+
+          hasFilterClass = filterClassExists(searchDataItem ? searchDataItem.klass : dataItem.klass);
+          filterClass = returnClassFilters(searchDataItem ? searchDataItem.klass : dataItem.klass);
+
+          score = 0;
+          wordScores = [];
+          searchFor = searchFor.toLowerCase();
+          searchIn = dataItem[searchKey].toLowerCase().trim();
+          isMatch = searchFor === searchIn;
+          hasMatch = searchIn.indexOf(searchFor) > -1 ? true : false;
+
+          searchForWords = searchFor.split(' ');
+          totalWordsToSearch = searchForWords.length;
+          totalWords = searchIn.trim().replace(/[ ]{2,}/gi, ' ').split(' ').length;
+
+          if (isMatch)
           {
-            dataItem.html = cleanDisplay(stripTags(dataItem.html));
-          }
-          else
-          {
-            dataItem.html = '<strong>' + cleanDisplay(stripTags(dataItem.html)) + '</strong>'
-          }
-        }
-        if (!isMatch)
-        {
-          if (hasMatch)
-          {
-            totalWordMatch = searchIn.split(searchFor).length - 1 || 0;
-            // wordScore = totalWordMatch;
-            // wordScore = Math.round((totalWordMatch / totalWordsToSearch) * 100) / 100 || 0;
-            wordScore = Math.round((totalWordMatch / totalWords) * 100) / 100 || 0;
-            score = wordScore + 100;
+            totalWordMatch = totalWordsToSearch;
+            wordScore = 99999;
+            score = 99999;
             dataItem.klass = 'visible';
-            if (!perfDelay || perfDelay < 101)
+            if (perfDelay)
             {
-              html = this.cleanDisplay(stripTags(dataItem.html));
-              html = html.replace(new RegExp('(' + this.escapeRegExp(searchFor) + ')', 'gi'), "<strong>$1</strong>");
-              dataItem.html = html;
+              dataItem.html = cleanDisplay(stripTags(dataItem.html));
             }
             else
             {
-              dataItem.html = this.cleanDisplay(stripTags(dataItem.html));
+              dataItem.html = '<strong>' + cleanDisplay(stripTags(dataItem.html)) + '</strong>'
             }
           }
-          else
+          if (!isMatch)
           {
-            if (!perfDelay || perfDelay < 1001)
+            if (hasMatch)
             {
-              searchInWords = dataItem.words;
-              totalWordMatch = 0;
-              for (j = 0; j < searchForWords.length; j++)
+              totalWordMatch = searchIn.split(searchFor).length - 1 || 0;
+              // wordScore = totalWordMatch;
+              // wordScore = Math.round((totalWordMatch / totalWordsToSearch) * 100) / 100 || 0;
+              wordScore = Math.round((totalWordMatch / totalWords) * 100) / 100 || 0;
+              score = wordScore + 100;
+              dataItem.klass = 'visible';
+              if (!perfDelay || perfDelay < 101)
               {
-                searchForWord = searchForWords[j];
-                for (k = 0; k < searchInWords.length; k++)
+                html = this.cleanDisplay(stripTags(dataItem.html));
+                html = html.replace(new RegExp('(' + this.escapeRegExp(searchFor) + ')', 'gi'), "<strong>$1</strong>");
+                dataItem.html = html;
+              }
+              else
+              {
+                dataItem.html = this.cleanDisplay(stripTags(dataItem.html));
+              }
+            }
+            else
+            {
+              if (!perfDelay || perfDelay < 1001)
+              {
+                searchInWords = dataItem.words;
+                totalWordMatch = 0;
+                for (j = 0; j < searchForWords.length; j++)
                 {
-                  searchInWord = searchInWords[k];
-                  if (
-                    searchInWord && searchForWord
-                    && typeof searchInWord === 'string'
-                    && typeof searchForWord === 'string'
-                    && searchInWord.trim() !== ''
-                    && searchForWord.trim() !== ''
-                  )
+                  searchForWord = searchForWords[j];
+                  for (k = 0; k < searchInWords.length; k++)
                   {
-                    soundexFor = soundex(searchForWord);
-                    soundexIn = soundex(searchInWord);
-                    soundexScore = distance(soundexFor, soundexIn);
-                    if (soundexScore == 0) totalWordMatch += 1;
+                    searchInWord = searchInWords[k];
+                    if (
+                      searchInWord && searchForWord
+                      && typeof searchInWord === 'string'
+                      && typeof searchForWord === 'string'
+                      && searchInWord.trim() !== ''
+                      && searchForWord.trim() !== ''
+                    )
+                    {
+                      soundexFor = soundex(searchForWord);
+                      soundexIn = soundex(searchInWord);
+                      soundexScore = distance(soundexFor, soundexIn);
+                      if (soundexScore == 0) totalWordMatch += 1;
+                    }
+                  }
+                }
+                // wordScore = Math.round((totalWordMatch / totalWordsToSearch) * 100) / 100 || 0;
+                wordScore = Math.round((totalWordMatch / totalWords) * 100) / 100 || 0;
+                score = wordScore + totalWordMatch;
+                if (score >= 0)
+                {
+                  dataItem.klass = 'visible';
+                  if (!perfDelay || perfDelay < 101)
+                  {
+                    html = this.cleanDisplay(stripTags(dataItem.html));
+                    html = html.replace(new RegExp('(' + this.escapeRegExp(searchFor) + ')', 'gi'), "<strong>$1</strong>");
+                    dataItem.html = html;
+                  }
+                  else
+                  {
+                    dataItem.html = cleanDisplay(stripTags(dataItem.html));
                   }
                 }
               }
-              // wordScore = Math.round((totalWordMatch / totalWordsToSearch) * 100) / 100 || 0;
-              wordScore = Math.round((totalWordMatch / totalWords) * 100) / 100 || 0;
-              score = wordScore + totalWordMatch;
-              if (score >= 0)
-              {
-                dataItem.klass = 'visible';
-                if (!perfDelay || perfDelay < 101)
-                {
-                  html = this.cleanDisplay(stripTags(dataItem.html));
-                  html = html.replace(new RegExp('(' + this.escapeRegExp(searchFor) + ')', 'gi'), "<strong>$1</strong>");
-                  dataItem.html = html;
-                }
-                else
-                {
-                  dataItem.html = cleanDisplay(stripTags(dataItem.html));
-                }
-              }
             }
           }
+
+          if (hasFilterClass) dataItem.klass = addClassString(filterClass, dataItem.klass);
+
+          data = {
+            uuid: dataItem.id,
+            originalIndex: i,
+            html: dataItem.html,
+            value: dataItem.value,
+            klass: dataItem.klass,
+            score: score,
+            wordScore: wordScore
+          };
+
+          results.push(data);
+
         }
-        
-        if (hasFilterClass) dataItem.klass = addClassString(filterClass, dataItem.klass);
-
-        data = {
-          uuid: dataItem.id,
-          originalIndex: i,
-          html: dataItem.html,
-          value: dataItem.value,
-          klass: dataItem.klass,
-          score: score,
-          wordScore: wordScore
-        };
-
-        results.push(data);
 
       }
     }
@@ -27241,15 +27315,15 @@ onmessage = function (msgData)
   var opts = msgData.data;
   if (opts.job === "getOptions")
   {
-    returnSelectOptions(opts.data, opts.searchFor, opts.ismobile);
+    returnSelectOptions(opts.data, opts.searchFor, opts.ismobile, opts.filter);
   }
   if (opts.job === "getList")
   {
-    returnList(opts.uuid, opts.html, opts.defaultValue);
+    returnList(opts.uuid, opts.html, opts.defaultValue, opts.filter);
   }
   if (opts.job === "getSelectedList")
   {
-    returnSelectedList(opts.uuid, opts.defaultValue);
+    returnSelectedList(opts.uuid, opts.defaultValue, opts.filter);
   }
   if (opts.job === "resetList")
   {
@@ -27257,7 +27331,7 @@ onmessage = function (msgData)
   }
   if (opts.job === "doSearch")
   {
-    fuzzySearch(opts.data, opts.searchKey, opts.searchFor, opts.perfDelay);
+    fuzzySearch(opts.data, opts.searchKey, opts.searchFor, opts.perfDelay, opts.filter);
   }
   if (opts.job === "terminate")
   {
