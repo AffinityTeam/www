@@ -13,26 +13,26 @@
 (3298,12-13): run-time error JS1004: Expected ';': {
 (3301,17-18): run-time error JS1004: Expected ';': {
 (3872,36-41): run-time error JS1195: Expected expression: class
-(3973,31-36): run-time error JS1195: Expected expression: class
-(4115,35-40): run-time error JS1195: Expected expression: class
-(4243,33-38): run-time error JS1195: Expected expression: class
-(4450,39-40): run-time error JS1014: Invalid character: `
-(4450,40-41): run-time error JS1195: Expected expression: <
-(4450,100-101): run-time error JS1014: Invalid character: `
-(4469,43-44): run-time error JS1014: Invalid character: `
-(4469,44-45): run-time error JS1195: Expected expression: <
-(4469,108-109): run-time error JS1014: Invalid character: `
-(4537,33-38): run-time error JS1195: Expected expression: class
-(4833,32-37): run-time error JS1195: Expected expression: class
-(5148,33-38): run-time error JS1195: Expected expression: class
-(5226,37-42): run-time error JS1195: Expected expression: class
-(5299,46-51): run-time error JS1195: Expected expression: class
-(5300,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3985,30-35): run-time error JS1195: Expected expression: class
+(4090,31-36): run-time error JS1195: Expected expression: class
+(4232,35-40): run-time error JS1195: Expected expression: class
+(4360,33-38): run-time error JS1195: Expected expression: class
+(4567,39-40): run-time error JS1014: Invalid character: `
+(4567,40-41): run-time error JS1195: Expected expression: <
+(4567,100-101): run-time error JS1014: Invalid character: `
+(4586,43-44): run-time error JS1014: Invalid character: `
+(4586,44-45): run-time error JS1195: Expected expression: <
+(4586,108-109): run-time error JS1014: Invalid character: `
+(4654,33-38): run-time error JS1195: Expected expression: class
+(4950,32-37): run-time error JS1195: Expected expression: class
+(5265,33-38): run-time error JS1195: Expected expression: class
+(5343,37-42): run-time error JS1195: Expected expression: class
+(5344,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5302,5-16): run-time error JS1006: Expected ')': constructor
-(5534,3-4): run-time error JS1002: Syntax error: }
-(5534,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5304,46-52): run-time error JS1018: 'return' statement outside of function: return
+(5345,5-16): run-time error JS1006: Expected ')': constructor
+(5414,3-4): run-time error JS1002: Syntax error: }
+(5414,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5358,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -3990,6 +3990,123 @@
 
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
+  /***                                                                ********************************************************************************/
+  /***   ███████ ████████  ██████  ██████   █████   ██████  ███████   ********************************************************************************/
+  /***   ██         ██    ██    ██ ██   ██ ██   ██ ██       ██        ********************************************************************************/
+  /***   ███████    ██    ██    ██ ██████  ███████ ██   ███ █████     ********************************************************************************/
+  /***        ██    ██    ██    ██ ██   ██ ██   ██ ██    ██ ██        ********************************************************************************/
+  /***   ███████    ██     ██████  ██   ██ ██   ██  ██████  ███████   ********************************************************************************/
+  /***                                                                ********************************************************************************/
+  /***************************************************************************************************************************************************/
+  /************************************************************************************************************************** Source63 *** Storage ***/
+
+
+  /**
+   *
+   * Summary.       Storage manager
+   *
+   * Description.   Storage helper for both Session Storage and Local Storage
+   *
+   * @author        Ben King, ben.king at source63.com, +64 21 2672729.
+   *
+   *
+   * @since         01.01.2020
+   * @class         Default
+   * @namespace     Affinity2018
+   * @memberof      Affinity2018
+   *
+   * @public
+   *
+  **/
+  Affinity2018.Storage = new class
+  {
+    constructor()
+    {
+      this.Session = {};
+      this.Session.Has = this.HasSession;
+      this.Session.Get = this.GetSession;
+      this.Session.Set = this.SetSession;
+      this.Session.Del = this.DelSession;
+      this.Local = {};
+      this.Local.Has = this.HasLocal;
+      this.Local.Get = this.GetLocal;
+      this.Local.Set = this.SetLocal;
+      this.Local.Del = this.DelLocal;
+    }
+    /**/
+    HasSession (name)
+    {
+      return window.sessionStorage.getItem(name) !== null;
+    }
+    GetSession (name)
+    {
+      let data = window.sessionStorage.getItem(name);
+      if (data !== null)
+      {
+        if (Affinity2018.isString(data) && ['true', 'false'].contains(data.trim().toLowerCase()))
+        {
+          if (data.trim().toLowerCase() === 'true') return true;
+          if (data.trim().toLowerCase() === 'false') return false;
+        }
+        if (Affinity2018.isNumeric(data) && Affinity2018.isString(data) && data.contains('.'))
+        {
+          return parseFloat(data);
+        }
+        if (Affinity2018.isNumeric(data) && Affinity2018.isString(data) && !data.contains('.'))
+        {
+          return parseInt(data);
+        }
+        try
+        {
+          return JSON.parse(unescape(data));
+        }
+        catch (err) { }
+        return unescape(data);
+      }
+      return false;
+    }
+    SetSession (name, data)
+    {
+      if (!Affinity2018.isString(data)) data = JSON.stringify(data);
+      window.sessionStorage.setItem(name, escape(data));
+    }
+    DelSession (name)
+    {
+      window.sessionStorage.removeItem(name);
+    }
+    /**/
+    HasLocal (name)
+    {
+      return window.localStorage.getItem(name) !== null;
+    }
+    GetLocal (name)
+    {
+      let data = window.localStorage.getItem(name);
+      if (data !== null)
+      {
+        try
+        {
+          return JSON.parse(unescape(data));
+        }
+        catch (err) { }
+        return data;
+      }
+      return false;
+    }
+    SetLocal (name, data)
+    {
+      if (!Affinity2018.isString(data)) data = JSON.stringify(data);
+      window.localStorage.setItem(name, escape(data));
+    }
+    DelLocal (name)
+    {
+      window.localStorage.removeItem(name);
+    }
+  };
+
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
   /***                                                                          **********************************************************************/
   /***   ██       █████  ███    ██  ██████  ██    ██  █████   ██████  ███████   **********************************************************************/
   /***   ██      ██   ██ ████   ██ ██       ██    ██ ██   ██ ██       ██        **********************************************************************/
@@ -5671,25 +5788,20 @@
       else this.init();
     }
 
-    init ()
+    init()
     {
-      if(!document.querySelector('style.scrollbars'))
+      if (!document.querySelector('style.scrollbars'))
       {
         this.scrollStyleNode = document.createElement('style');
         document.body.appendChild(this.scrollStyleNode);
       }
       Affinity2018.DarkMode = document.body.classList.contains('dark') ? true : false;
-      if (Affinity2018.CookieMonster.Read('dark-mode'))
-      {
-        var m = Affinity2018.CookieMonster.Read('dark-mode');
-        Affinity2018.DarkMode = (typeof m === 'string' && m.toLowerCase().trim() === 'true') || (typeof m === 'boolean' && m === true) ? true : false;
-      }
-      if (window.location.href.contains('dark'))
+      if (Affinity2018.Storage.Local.Has('dark-mode')) Affinity2018.DarkMode = Affinity2018.Storage.Local.Get('dark-mode');
+      if (window.location.href.contains('#dark'))
       {
         Affinity2018.DarkMode = true;
-        Affinity2018.CookieMonster.Write("dark-mode", Affinity2018.DarkMode);
+        Affinity2018.Storage.Local.Set('dark-mode', Affinity2018.DarkMode);
       }
-
       this.set();
       window.addEventListener('keyup', this.onkey);
     }
@@ -5699,7 +5811,7 @@
       if (ev.ctrlKey && ev.altKey && (ev.key === "d" || ev.key === "D"))
       {
         Affinity2018.DarkMode = !Affinity2018.DarkMode;
-        Affinity2018.CookieMonster.Write("dark-mode", Affinity2018.DarkMode);
+        Affinity2018.Storage.Local.Set('dark-mode', Affinity2018.DarkMode);
         this.set();
       }
     }
@@ -10894,16 +11006,38 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           if (response && $a.isObject(response.data))
           {
+            var gotTemplate = false;
+
+            
+            // TODO: old - retire once new is used.
             if (response.data.hasOwnProperty('sectionWorkflowVisibilitySettings'))
             {
               this.CleverForms.SectionWorkflowVisibilitySettings = response.data.sectionWorkflowVisibilitySettings;
             }
+            
+            // new
+            if (response.data.hasOwnProperty('SectionWorkflowVisibilitySettings'))
+            {
+              this.CleverForms.SectionWorkflowVisibilitySettings = response.data.SectionWorkflowVisibilitySettings;
+            }
+
+            // TODO: old - retire once new is used.
             if (response.data.hasOwnProperty('elementTemplateMerged') && $a.isArray(response.data.elementTemplateMerged))
             {
               this.TemplateData = response.data.elementTemplateMerged;
               window.dispatchEvent(new Event('DesignerGotTemplate')); // detach from promise for debugging ....
+              gotTemplate = true;
             }
-            else
+
+            // new
+            if (response.data.hasOwnProperty('Data') && $a.isArray(response.data.Data))
+            {
+              this.TemplateData = response.data.Data;
+              window.dispatchEvent(new Event('DesignerGotTemplate')); // detach from promise for debugging ....
+              gotTemplate = true;
+            }
+
+            if (!gotTemplate)
             {
               this._loadTemplateError('template load succeeded, but result not recognised');
             }
@@ -14519,7 +14653,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           if ($a.isMethod(rowNode.controller.IsValid))
           {
-            if (!rowNode.controller.IsValid())
+            var valid = rowNode.controller.IsValid();
+            if (!valid)
             {
               setError = true;
               rowNode.classList.add('error');
@@ -14585,7 +14720,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
             }
           }
-          if (!setError && rowNode.querySelector('input,textarea,select'))
+          if (!setError && rowNode.querySelector('input:not([type="checkbox"]):not([type="radio"]),textarea,select'))
           {
             var inputNode, testValue = '', hasNode = false;
             if (inputNode = rowNode.querySelector('.select.hidden:not(.no-validate)'))
@@ -15390,6 +15525,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     if (this.Config.Details.hasOwnProperty('IsReadOnly') && $a.isBool(this.Config.Details.IsReadOnly)) this.IsReadOnly = this.Config.Details.IsReadOnly;
 
     if (!this.DesignerNode && document.querySelector('.item-' + this.UniqueName)) this.DesignerNode = document.querySelector('.item-' + this.UniqueName);
+
   }
 
 
@@ -15808,12 +15944,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    */
   SetFormRow(target, html)
   {
-
+    
     var isReadOnly = this.Config.Details.IsReadOnly;
     var isHidden = false;
     if (this.Config.Type === 'AffinityField' && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum) isReadOnly = true;
     if (this.Config.Type === 'AffinityField' && this.Config.Disabled ) isReadOnly = true;
     if (this.Config.Type === 'AffinityField' && this.Config.Hidden) isHidden = true;
+
+    this.IsReadOnly = isReadOnly;
+    this.IsHidden = isHidden;
 
     var tempNode = document.createElement('div');
     tempNode.innerHTML = html;
@@ -17298,7 +17437,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var value = this.Config.Details.Value;
     var isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
     var isLookup = this.CleverForms.IsLookup(this.Config);
+    var isHidden = false;
     var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
+    if (this.Config.Type === 'AffinityField' && this.Config.Disabled ) isReadOnly = true;
+
+    this.IsReadOnly = isReadOnly;
+    this.Config.Details.IsReadOnly = isReadOnly;
 
     // no more hidden please
     if (this.Config.Details.AffinityField.Mode == this.CleverForms.AffnityFieldModeTypes.Hidden.Enum)
@@ -17384,17 +17528,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.ElementControllerType = displayType;
       this.ElementController = new elements[displayType](this.Config);
       this.FormRowNode = this.ElementController.SetFormRow(target);
-      if (
-        displayType === 'SingleSelectDropdown'
-        && (this.Config.Details.AffinityField.IsKeyField || this.Config.Details.AffinityField.IsGlobalKey)
-        && this.Config.Details.AffinityField.LookupTable === null
-      )
+      if (!this.IsReadOnly)
       {
-        this.FormRowNode.querySelector('select').addEventListener('change', this._formRowLookupChanged);
-      }
-      else
-      {
-        if (!isGlobalKey) window.addEventListener('ModelLookupChanged', this._modelLookupChanged);
+        if (
+          displayType === 'SingleSelectDropdown'
+          && (this.Config.Details.AffinityField.IsKeyField || this.Config.Details.AffinityField.IsGlobalKey)
+          && this.Config.Details.AffinityField.LookupTable === null
+        )
+        {
+          this.FormRowNode.querySelector('select').addEventListener('change', this._formRowLookupChanged);
+        }
+        else
+        {
+          if (!isGlobalKey) window.addEventListener('ModelLookupChanged', this._modelLookupChanged);
+        }
       }
     }
 
@@ -18222,7 +18369,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
   _setLink (name, link)
   {
     this.FormRowNode.innerHTML = this.HtmlRowLinkTemplate.format({
-      label: this.Config.Label,
+      label: this.Config.Details.Label,
       link: link,
       name: name
     });
@@ -18574,7 +18721,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
 
     ].bindEach(this);
 
@@ -18664,6 +18811,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   SetFromValue (value)
   {
 
+  }
+
+  IsValid()
+  {
+    if (!this.Config.Details.Required) return true;
+    var inputNode = this.FormRowNode.querySelector('input[type="checkbox"]');
+    return inputNode.checked;
   }
 
   /**/
@@ -21379,7 +21533,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
 
     ].bindEach(this);
 
@@ -21586,6 +21740,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
         }
       }.bind(this));
     }
+  }
+
+  IsValid()
+  {
+    if (!this.Config.Details.Required) return true;
+    var inputNode = this.FormRowNode.querySelector('input[type="checkbox"]:checked');
+    return inputNode != null;
   }
 
   /**/
@@ -22388,11 +22549,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   SetFormRow (target)
   {
+
     var html;
-    if (this.IsReadOnly) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label);
+    if (this.IsReadOnly) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
     else html = this.HtmlRowTemplate.format(this.Config.Details.Label);
     this.FormRowNode = super.SetFormRow(target, html);
-    if (this.FormRowNode)
+    if (this.FormRowNode && !this.IsReadOnly)
     {
 
       // set any special elements
@@ -22466,6 +22628,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       }
       else
       {
+
+
         if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
 
         if (
@@ -22623,7 +22787,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue (value)
+  SetFromValue(value)
   {
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
@@ -22638,7 +22802,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     }
   }
 
-  IsValid ()
+  IsValid()
   {
     var required = this.Config.Details.Required, value = false;
     if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
@@ -22698,7 +22862,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     this.HtmlRowReadOnlyTemplate = `
     <div class="form-row">
       <label>{0}</label>
-      <input type="text" disabled value="" />
+      <input type="text" disabled value="{1}" />
     </div>
     `;
 
@@ -22748,7 +22912,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
 
     ].bindEach(this);
 
@@ -22930,6 +23094,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
         this.FormRowNode.querySelector('input[type="radio"]:checked').checked = false;
       }
     }
+  }
+
+  IsValid()
+  {
+    if (!this.Config.Details.Required) return true;
+    var inputNode = this.FormRowNode.querySelector('input[type="radio"]:checked');
+    return inputNode != null;
   }
 
   /**/
@@ -28182,6 +28353,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
       && Affinity2018.isPropArray(resultObj, this.params.results)
     )
     {
+
       var html = '',
         inc = 0,
         inserted = false,
@@ -28208,8 +28380,13 @@ Affinity2018.Classes.Plugins.BigSearch = class
 
       if (data)
       {
+
         emptyQuery = typeof data.query === 'string' && data.query.trim() !== '' ? false : true;
-        showingAll = data.page === this.maxPageSize;
+        showingAll = data.size === this.maxPageSize;
+
+        if (data.results.length > 0 && !showingAll) this.showAllNode.classList.remove('hidden');
+        else this.showAllNode.classList.add('hidden');
+        if (data.query == null) this.showAllNode.classList.add('hidden');
 
         this.resultsInfoNode.classList.remove('hidden');
         html = '';
