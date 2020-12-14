@@ -25,6 +25,7 @@ var Leave = new Class({
         /**/
         'logout',
         'loggedin', 'loggedout',
+        'doPositionUpdateOrValidation',
         /**/
         //'populateForwardHistory', //moved to detail
         //'leaveDetailData',
@@ -674,6 +675,41 @@ var Leave = new Class({
             this.config = false;
         }
         this.forceunlockui();
+    },
+    doPositionUpdateOrValidation: function (tsGroupId, methodToExecuteIfPassed, param) {
+        this._methodName = 'ui.leave.js -> doPositionUpdateOrValidation ()';
+        this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DoPositionUpdateOrValidation/' + tsGroupId);
+        new Request.JSON({
+            url: this._api,
+            onRequest: function () {
+                Affinity.leave.lockui('leave-doPositionUpdateOrValidation');
+                if (!this._noAlerts) {
+                    uialert({
+                        message: ' ',
+                        showLoader: true,
+                        showButtons: false,
+                        noClose: true
+                    });
+                }
+            }.bind(this),
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('leave-doPositionUpdateOrValidation');
+                prompts.hide();
+                if (response) {
+                    if (methodToExecuteIfPassed && typeof (methodToExecuteIfPassed) === 'function') {
+                        methodToExecuteIfPassed(param);
+                    }
+                } else {
+                    uialert({
+                        'message': 'Your position has changed since you applied for this leave, so you can’t make changes. Please cancel this leave and re-apply.',
+                        showButtons: true,
+                        noClose: false
+                    });
+                }
+               
+
+            }.bind(this)
+        }).post();
     },
 
     /**/
@@ -2207,8 +2243,7 @@ var UILeaveApply = new Class({
                             var unitType = this.leaveCode.UnitType;
                             var days = response.Data.Days;
                             Array.each(this.data, function (unit, index) {
-                                if (unitType === 'H' &&
-                                    unit.Hours) {
+                                if (unitType === 'H' && unit.Hours) {
                                     total += parseFloat(unit.Hours);
                                    // var day = days.filter(x => x.Date == unit.Date);
                                     var day = days.filter(function (day) {
@@ -2230,8 +2265,7 @@ var UILeaveApply = new Class({
                                     }
                                     
 
-                                } else if (unitType === 'D' &&
-                                    unit.Days) {
+                                } else if (unitType === 'D' && unit.Days) {
                                     total += parseFloat(unit.Days);
                                     //SSL-1702 - Re-calculate the hours if it's in Days 
                                     unit.Hours = unit.Hours * unit.Days;
@@ -3010,14 +3044,9 @@ var UILeaveApply = new Class({
                     var totalUnitsApplied = +vm.unitInput.get('id');
                     
                     vm.calculateLeaveAvailability(totalUnitsApplied);
-
-                  
                 }
 
             });
-
-
-            
         }
        
     },
@@ -3027,15 +3056,38 @@ var UILeaveApply = new Class({
             Affinity.modal.clear();
             Affinity.modal.position();
 
-            this.modalData = new Element('div', { 'class': 'modal-data', 'style': 'min-height: 120px; width: 700px;' });
+            this.modalData = new Element('div', { 'class': 'modal-data', 'style': 'min-height: 120px; width: auto' });
+            this.reasonLabelbox = new Element('div').inject(this.modalData)
+            this.reasonLabel = new Element('span', {
+                'style': 'font-weight: bold',
+                'html': 'Leave Type'
+            }).inject(this.reasonLabelbox)
+            this.reasonLabel = new Element('span', {
+                'style': 'margin-left: 10px;',
+                'html': this.leaveCode.Description
+            }).inject(this.reasonLabelbox)
+
             this.unitForm = new Element('div', { 'class': 'form-row' }).inject(this.modalData);
-            this.unitsBox = new Element('div', { 'class': 'details-positions-box' }).inject(this.unitForm);
+            this.unitsBox = new Element('div', { 'class': 'apply-positions-box' }).inject(this.unitForm);
             this.units = new Element('div', { 'class': 'details-positions' }).inject(this.unitsBox, 'bottom');
             this.positionsLabels = new Element('div', { 'class': 'position-labels' }).inject(this.units);
             this.unitScrollerBox = new Element('div', { 'class': 'unit-scroller-box' }).inject(this.units);
             this.scroller = new Element('div', { 'class': 'details-units-scroller' }).inject(this.unitScrollerBox);
 
-            this.updateButton = new Element('button', { 'class': 'grey', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
+            this.updateButton = new Element('span', {
+                'class': 'button orange',
+                'style': 'float:right;',
+            }).adopt(
+                new Element('span', {
+                    'class': 'icon-save',
+                    'style': 'margin-right: 10px;',
+                }),
+                new Element('span', {
+                    'html': 'Update'
+                })
+            ).inject(this.unitForm);
+
+            // this.updateButton = new Element('button', { 'class': 'orange', 'style': 'float:right;', 'html': 'Update' }).inject(this.unitForm);
             this.updateButton.addEvent(Affinity.events.click, function () { this.updatePosUnit() }.bind(this));
 
             //This modal thing is buggy
@@ -3089,74 +3141,95 @@ var UILeaveApply = new Class({
         //    this.unitInput.set('html', '');
     },
 
-    setUnitInputEvents: function (input, hoursInput, day, unit, unitType) {
-        input.addEvent(Affinity.events.start, function (e) {
-            e.target.store('initial-value', e.target.value);
-        });
-        input.addEvent('blur', function (e) {
-            e.target.value = parseFloat(typeOf(parseFloat(e.target.value)) !== 'null' ? e.target.value : e.target.retrieve('initial-value')).toFixed(2);
-            e.target.removeClass('error-border');
-
-            var validation = input.retrieve('validation');
-            if (validation) {
-                validation.destroy();
-                input.eliminate('validation');
-            }
-
-            var enableUpdateButton = true;
-            var units = document.querySelectorAll('.edit-position-hours, .edit-position-days');
-            Array.each(units, function (u) {
-                if (u.retrieve('validation')) {
-                    enableUpdateButton = false;
-                    return;
+    setUnitInputEvents: function (inputElements, hoursInput, day, daysInput, unit, unitType) {
+        Array.each(inputElements, function(input) {
+            input.addEvent(Affinity.events.start, function (e) {
+                e.target.store('initial-value', e.target.value);
+            });
+            input.addEvent('blur', function (e) {
+                e.target.value = parseFloat(typeOf(parseFloat(e.target.value)) !== 'null' ? e.target.value : e.target.retrieve('initial-value')).toFixed(2);
+                e.target.removeClass('error-border');
+    
+                var validation = input.retrieve('validation');
+                if (validation) {
+                    validation.destroy();
+                    input.eliminate('validation');
                 }
-            }.bind(this));
-
-            if (enableUpdateButton) {
-                this.updateButton.set('disabled', null);
-                this.updateButton.removeClass('disabled');
-            }
-
-            var maxUnit = 24;
-            var unitLabel = '';
-            if (unitType === 'H') {
-                maxUnit = unit.MaxHours;
-                unitLabel = ' hours';
-            } else if (unitType === 'D') {
-                maxUnit = 1;
-                unitLabel = ' day';
-            }
-
-            if (e.target.value > maxUnit) {
-                e.target.addClass('error-border');
-
-                this.updateButton.set('disabled', 'disabled');
-                this.updateButton.addClass('disabled');
-
-                var validation = new Element('div', { 'class': 'form-row unit-validation' }).adopt(
-                    new Element('span', { 'class': 'icon-warning' }),
-                    new Element('span', {
-                        'html': 'Please enter a value up to ' + maxUnit + unitLabel + ' on ' + Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y') + ' for ' + unit.PositionTitle + '.'
-                    }));
-                this.modalData.adopt(validation);
-                input.store('validation', validation);
-            } else {
-                if (hoursInput) {
-                    var schedHours = unit.HoursWorkScheduled;
-
-                    if (!schedHours || schedHours <= 0)
-                        schedHours = unit.HoursStandard;
-
-                    if (schedHours > 0) {
-                        hoursInput.set('value', (e.target.value * schedHours).toFixed(2));
+    
+                var enableUpdateButton = true;
+                var units = document.querySelectorAll('.edit-position-hours, .edit-position-days');
+                Array.each(units, function (u) {
+                    if (u.retrieve('validation')) {
+                        enableUpdateButton = false;
+                        return;
+                    }
+                }.bind(this));
+    
+                if (enableUpdateButton) {
+                    this.updateButton.set('disabled', null);
+                    this.updateButton.removeClass('disabled');
+                }
+    
+                var maxUnit = 24;
+                var unitLabel = '';
+                var totalHours = inputElements.map(function(element) {
+                    return Number(element.value);
+                }).reduce(function (a, b) {
+                    return a + b;
+                })
+                if (unitType === 'H') {
+                    maxUnit = unit.MaxHours;
+                    unitLabel = ' hours';
+                    daysInput.set('value', input.value && unit.HoursStandard ? (totalHours / unit.HoursStandard ).toFixed(2) : 0)
+    
+                } else if (unitType === 'D') {
+                    maxUnit = 1;
+                    unitLabel = ' day';
+                    hoursInput.set('value', input.value ? (unit.HoursStandard * input.value).toFixed(2) : 0)
+                } else if (unitType === 'SD') {
+                    maxUnit = 1;
+                    unitLabel = ' day'
+                    hoursInput.set('value', input.value ? (unit.HoursStandard * input.value).toFixed(2) : 0)
+                } else if (unitType === 'HD') {
+                    maxUnit = unit.MaxHours;
+                    unitLabel = ' hours';
+                    daysInput.set('value', input.value && unit.HoursStandard ? (input.value / unit.HoursStandard ).toFixed(2) : 0)
+    
+                }
+                
+    
+                if (e.target.value > maxUnit) {
+                    e.target.addClass('error-border');
+    
+                    this.updateButton.set('disabled', 'disabled');
+                    this.updateButton.addClass('disabled');
+    
+                    var validation = new Element('div', { 'class': 'form-row unit-validation' }).adopt(
+                        new Element('span', { 'class': 'icon-warning' }),
+                        new Element('span', {
+                            'html': 'You\' have entered invalid units.'
+                            // 'Please enter a value up to ' + maxUnit + unitLabel + ' on ' + Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y') + ' for ' + unit.PositionTitle + '.'
+                        }));
+                    this.unitsBox.adopt(validation);
+                    input.store('validation', validation);
+                } else {
+                    if (hoursInput) {
+                        var schedHours = unit.HoursWorkScheduled;
+    
+                        if (!schedHours || schedHours <= 0)
+                            schedHours = unit.HoursStandard;
+    
+                        if (schedHours > 0) {
+                            hoursInput.set('value', (e.target.value * schedHours).toFixed(2));
+                        }
                     }
                 }
-            }
+            }.bind(this));
         }.bind(this));
+        
     },
 
     populateEditable: function (response, dataDateRange) {
-        var scrollerWidth = 0;
         this.unitsGrid = new Element('div', { 'class': 'unit-grid' }).inject(this.scroller);
         this.gridHeader = new Element('div', { 'class': 'unit-gridheader' }).inject(this.unitsGrid);
         this.gridBody = new Element('div', { 'class': 'unit-gridbody' }).inject(this.unitsGrid);
@@ -3172,10 +3245,7 @@ var UILeaveApply = new Class({
                 new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
                 new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
             );
-            scrollerWidth += 79;
         }.bind(this));
-        this.scroller.setStyle('width', scrollerWidth);
-        this.scroller.store('scrollerWidth', scrollerWidth);
 
         if (typeOf(response.Data) === 'null') {
             var messages = [];
@@ -3208,94 +3278,163 @@ var UILeaveApply = new Class({
             }.bind(this));
         }.bind(this));
 
-        var fBuildUnits = function (position, dates, unitType) {
-            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
-            var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
-            new Element('label', { 'html': position.get('html') }).inject(posTitle);
+        var fBuildUnits = function (positions, dates, unitType) {
+            var _positions = [];
 
-            var posDaysRow;
-            var posHoursRow;
+            _positions = _.filter(positions, function (pos) {
+                return pos.get('id') != -01 // pass first empty option
+            })
 
-            if (unitType === 'H') {
-                posHoursRow = new Element('div', { 'class': 'positions-hours', 'id': position.get('id') }).inject(this.gridBody);
-            } else if (unitType === 'D') {
-                posDaysRow = new Element('div', { 'class': 'positions-days', 'id': position.get('id') }).inject(this.gridBody);
-                var unitLabels = new Element('div', { 'class': 'position-unit-label' }).inject(pos);
-                new Element('label', { 'html': '(Days)', 'class': 'position-unit-days' }).inject(unitLabels);
-                //new Element('label', { 'html': '(Hours)', 'class': 'position-unit-hours' }).inject(unitLabels);
+            var dayorHourUnitlabel = 'Hour Unit';
+            if (unitType === 'D') {
+                dayorHourUnitlabel = 'Day Unit'
             }
+            Array.each(_positions, function(position) {
+                var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
+                var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
 
-            var hours;
-            var days;
-            Array.each(dates, function (dayEl, index) {
-                Array.each(this.days, function (day, index) {
+                var unitLabel = new Element('div', { 'class': 'unit-label', 'html': dayorHourUnitlabel }).inject(pos);
+
+                new Element('label', { 'html': position.get('html') }).inject(posTitle);
+            }.bind(this))
+          
+            // scroller space 
+            if (this.days.length >= 8) {
+                new Element('div', {'class': 'position-label-space'}).inject(this.positionsLabels);
+            }
+            
+
+            var commonDays = _.filter(this.days, function(day) {
+                return _.some(dates, function(dayEl) {
                     var posDate = Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y');
                     var date = Affinity.leave.cleanBadDate(dayEl.get('id')).format('%d/%b/%y');
-                    if (date === posDate) {
-                        Array.each(day.PositionUnits, function (pUnit, Index) {
-                            if (pUnit.PositionCode === position.get('id')) {
-                                if (unitType === 'H') {
-                                    hours = new Element('input', { 'class': 'edit-position-hours data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(posHoursRow);
-                                    hours.set('value', (pUnit.HoursAppliedFor || 0).toFixed(2));
-                                    hours.store('old', (pUnit.HoursAppliedFor || 0).toFixed(2));
-                                    this.setUnitInputEvents(hours, null, day, pUnit, 'H');
-                                } else if (unitType === 'D') {
-                                    days = new Element('input', { 'class': 'edit-position-days data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(posDaysRow);
-                                    days.set('value', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
-                                    days.store('old', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
-                                    this.setUnitInputEvents(days, hours, day, pUnit, 'D');
-                                }
+                    return posDate === date;
+                })
+            })
+            
+            var positionID = _positions[0].get('id');
+            _.forEach(commonDays, function (day, index) {
+                var date = Affinity.leave.cleanBadDate(day.Date).format('%d/%b/%y');
+                var pUnit = _.find(day.PositionUnits, function(p) {return p.PositionCode === _positions[0].get('id')})
 
-                                if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
-                                    if (unitType === 'H') {
-                                        hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    }
-                                    
-                                    if (unitType === 'D') {
-                                        days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    }
-                                    this.unitsGrid.getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                }
-                            }
-                        }.bind(this));
 
-                        if (posHoursRow && !hours)
-                            new Element('div', { 'class': 'edit-position-hours', 'id': date }).inject(posHoursRow);
-                        if (posDaysRow && !days)
-                            new Element('div', { 'class': 'edit-days-hours', 'id': date }).inject(posDaysRow);
+                var posDaysRow;
+                var posHoursRow;
+    
+                var dayRow;
+                var hourRow;
+
+                var thisdayRow = new Element('div', { 'class': 'day-row', "id": positionID }).inject(this.gridBody);
+    
+                if (unitType === 'H') {
+                    dayRow = new Element('div', { 'class': 'positions-days', "id": positionID }).inject(thisdayRow);
+                    posHoursRow = new Element('div', { 'class': 'positions-hours', 'style': 'width: ' + (80 * _positions.length) + 'px;', "id": positionID }).inject(thisdayRow);
+                } else if (unitType === 'D') {
+                    hourRow = new Element('div', { 'class': 'positions-hours', "id": positionID }).inject(thisdayRow);
+                    posDaysRow = new Element('div', { 'class': 'positions-days', "id": positionID }).inject(thisdayRow);
+                }
+    
+                var hours;
+                var days;
+
+                if (pUnit.PositionCode) {
+                    if (unitType === 'H') {
+
+                        // setup day
+                        days = new Element('input', { 'class': 'edit-position-days data-hj-whitelist',
+                                           'id': date,
+                                           'value': '0',
+                                           'readonly': _positions.length > 1,
+                                           'type': 'text' }).inject(dayRow);
+                        days.set('value', (pUnit.HoursAppliedFor ? 1 : 0).toFixed(2));
+                        days.store('old', (pUnit.HoursAppliedFor ? 1 : 0).toFixed(2));
+
+                        var hoursElements = [];
+                        // setup hours
+                        Array.each(_positions, function(position, index) {
+                            var pUnit = _.find(day.PositionUnits, function(p) {return p.PositionCode === _positions[index].get('id')})
+                            hours = new Element('input', { 'class': 'edit-position-hours data-hj-whitelist',
+                                        'id': date,
+                                        'value': '0',
+                                        'type': 'text',
+                                       
+                                    }).inject(posHoursRow);
+                            hours.set('value', (pUnit.HoursAppliedFor || 0).toFixed(2));
+                            hours.store('old', (pUnit.HoursAppliedFor || 0).toFixed(2));    
+                            hoursElements.push(hours)
+                        }.bind(this))
+                        this.setUnitInputEvents(hoursElements, null, day, days, pUnit, 'H');
+
+                        // only add caculation event when 1 position is selected / avaliable.
+                        if (_positions.length === 1) {
+                            this.setUnitInputEvents([days], hours, day, days, pUnit, 'SD');    
+                        }
+ 
+                        console.log('date', day)
+
+                    } else if (unitType === 'D') {
+                        // setup hours
+                        hours = new Element('input', { 'class': 'edit-position-hours data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(hourRow);
+                        hours.set('value', (pUnit.HoursAppliedFor || 0).toFixed(2));
+                        hours.store('old', (pUnit.HoursAppliedFor || 0).toFixed(2));
+
+                        days = new Element('input', { 'class': 'edit-position-days data-hj-whitelist', 'id': date, 'value': '0', 'type': 'text' }).inject(posDaysRow);
+                        days.set('value', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
+                        days.store('old', (pUnit.DaysAppliedFor ? pUnit.DaysAppliedFor : 0).toFixed(2));
+                        this.setUnitInputEvents([days], hours, day, days, pUnit, 'D');
+                        this.setUnitInputEvents([hours], null, day, days, pUnit, 'HD');
                     }
-                }.bind(this));
-            }.bind(this));
+
+                    if (typeOf(day.IsPublicHoliday) === 'boolean' && day.IsPublicHoliday === true) {
+                        if (unitType === 'H') {
+                            hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                        }
+                        if (unitType === 'D') {
+                            days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                        }
+                        this.unitsGrid.getElement('.day-class.d-' + date.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                    }
+                }
+                if (posHoursRow && !hours) {
+                    new Element('div', { 'class': 'edit-position-hours', 'id': date }).inject(posHoursRow);
+                    new Element('div', { 'class': 'edit-days-hours', 'id': date }).inject(dayRow);
+                }
+                    
+
+
+                if (posDaysRow && !days) {
+                    new Element('div', { 'class': 'edit-days-hours', 'id': date }).inject(posDaysRow);
+                    new Element('div', { 'class': 'edit-position-hours', 'id': date }).inject(hourRow);
+                }
+                    
+            }.bind(this) )
         }.bind(this);
         
         if (this.leaveCode) {
             var unitType = this.leaveCode.UnitType;
             var dates = this.gridHeader.getElements('.day-class');
+            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
+            var unitLabel = new Element('div', { 'class': 'unit-label', 'html': 'Day' }).inject(pos);
+            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
+            var dayorHourUnitlabel = 'Day Unit';
+            if (unitType === 'D') {
+                dayorHourUnitlabel = 'Hour Unit'
+            }
+            var unitLabel = new Element('div', { 'class': 'unit-label', 'html': dayorHourUnitlabel }).inject(pos);
+
             if (this.positionSelector) {
                 this.posies = this.positionSelector.getElements('option');
                 this.selectedPos = this.positionSelector[this.positionSelector.selectedIndex];
 
                 if (this.selectedPos.get('id') && this.selectedPos.get('id').toString() === '-01') {
-                    Array.each(this.posies, function (pos, index) {
-                        if (pos.get('id') != -01) {
-                            fBuildUnits(pos, dates, unitType);
-                        }
-                    }.bind(this));
+                    fBuildUnits( this.posies, dates, unitType);
                 } else {
-                    fBuildUnits(this.selectedPos, dates, unitType);
+                    fBuildUnits([this.selectedPos], dates, unitType);
                 }
             } else {
                 this.pos = this.position.getElement('.position');
-                fBuildUnits(this.pos, dates, unitType);
+                fBuildUnits([this.pos], dates, unitType);
             }
-        }
-
-        var containerSize = this.unitScrollerBox.measure(function () { return this.getSize().x; });
-        var scrollerSize = this.scroller.measure(function () { return this.getScrollSize().x; });
-        if (scrollerSize > containerSize) {
-            this.unitScrollerBox.setStyle('overflow-x', 'scroll');
-        } else {
-            this.unitScrollerBox.setStyle('overflow-x', 'hidden');
         }
 
         Affinity.tooltips.processNew();
@@ -4998,23 +5137,26 @@ var UILeaveDetail = new Class({
 
 
     editDetail: function () {
-        if (this.isManager) {
-            if (Affinity.leave.manager) {
-                Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
-                    if (employee) {
-                        this.doEditDetail(employee);
-                    }
-                    else {
-                        this.doEditDetail(Affinity.leave.manager.config);
-                    }
-                }.bind(this));
+
+            if (this.isManager) {
+                if (Affinity.leave.manager) {
+                    Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
+                        if (employee) {
+                            this.doEditDetail(employee);
+                        }
+                        else {
+                            this.doEditDetail(Affinity.leave.manager.config); 
+                        }
+                    }.bind(this));
+                }
             }
-        }
-        else {
-            if (Affinity.leave.employee.config) {
-                this.doEditDetail(Affinity.leave.employee.config);
+            else {
+                if (Affinity.leave.employee.config) {
+                    this.doEditDetail(Affinity.leave.employee.config);
+
+                }
             }
-        }
+       
     },
 
     createForwardingFeature: function (form) {
@@ -5076,6 +5218,8 @@ var UILeaveDetail = new Class({
 
         var leaveHeader = this.data.LeaveHeader;
         var components = this.data.Components;
+
+     
 
         Affinity.modal.show();
         Affinity.modal.clear();
@@ -5767,18 +5911,12 @@ var UILeaveDetail = new Class({
                 if (this.data.LeaveHeader.StatusCode !== -1) {
                     //No Approving or Declining for non-pending cancelled applications.
 
-                    this.acceptButton = new Element('span', {
-                        'class': 'button green w-icon-only'
-                    }).adopt(
-                        new Element('span', { 'html': Affinity.icons.ThumbsUp }),
-                        new Element('span', { 'html': 'Approve' })
-                    ).inject(this.buttonsBox);
-                    this.acceptButton.addEvent('click', function () {
-                        if (this.validateAttachmentRequirement()) {
+                    var approveFunction = function (param) {
+                        if (param.validateAttachmentRequirement()) {
                             var statusChange = 3;
-                            var leaveId = this.data.LeaveHeader.TSGroupId;
-                            var empNo = this.data.LeaveHeader.EmployeeNo;
-                            if (this.requireUpdate) {
+                            var leaveId = param.data.LeaveHeader.TSGroupId;
+                            var empNo = param.data.LeaveHeader.EmployeeNo;
+                            if (param.requireUpdate) {
                                 uialert({
                                     message: 'Oops! This leave application has been changed by someone else, please reload.',
                                     showButtons: true,
@@ -5786,7 +5924,7 @@ var UILeaveDetail = new Class({
                                     showLoader: false
                                 });
                             }
-                            else if (this.totalUnitsUnits.get('html') == 0) {
+                            else if (param.totalUnitsUnits.get('html') == 0) {
                                 uialert({
                                     message: 'Oops! There are no hours to approve for this leave.',
                                     showButtons: true,
@@ -5797,27 +5935,40 @@ var UILeaveDetail = new Class({
                             else {
                                 //this.applyForLeave.postAttachements(empNo, leaveId);
                                 //this.bossResponse(empNo, leaveId, oldStatus, statusChange, authId);
-                                this.bossResponse(empNo, leaveId, this.authorisation.StatusCode, statusChange, this.authorisation.AuthorisationId, this.data.LeaveHeader.TimeLastModified);
+                                param.bossResponse(empNo, leaveId, param.authorisation.StatusCode, statusChange, param.authorisation.AuthorisationId, param.data.LeaveHeader.TimeLastModified);
                             }
                         } else {
-                            this.displayAttachmentRequiredModalMessage();
+                            param.displayAttachmentRequiredModalMessage();
                         } 
+                    };
+
+                    this.acceptButton = new Element('span', {
+                        'class': 'button green w-icon-only'
+                    }).adopt(
+                        new Element('span', { 'html': Affinity.icons.ThumbsUp }),
+                        new Element('span', { 'html': 'Approve' })
+                    ).inject(this.buttonsBox);
+                    this.acceptButton.addEvent('click', function () {
                         
+                        var param = new Object();
+                        param.data = this.data;
+                        param.validateAttachmentRequirement = this.validateAttachmentRequirement;
+                        param.requireUpdate = this.requireUpdate;
+                        param.totalUnitsUnits = this.totalUnitsUnits;
+                        param.bossResponse = this.bossResponse;
+                        param.authorisation = this.authorisation;
+                        param.displayAttachmentRequiredModalMessage = this.displayAttachmentRequiredModalMessage;
+                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, approveFunction, param);
                     }.bind(this));
 
                     if (this.data.LeaveHeader.StatusCode !== 6) {
-                        this.declineButton = new Element('span', {
-                            'class': 'button red w-icon-only'
-                        }).adopt(
-                            new Element('span', { 'html': Affinity.icons.ThumbsDown }),
-                            new Element('span', { 'html': 'Decline' })
-                        ).inject(this.buttonsBox);
-                        this.declineButton.addEvent('click', function () {
+
+                        var declineFunction = function (param) {
                             window.fireEvent('attachmentRequired', false);
                             var statusChange = 2;
-                            var leaveId = this.data.LeaveHeader.TSGroupId;
-                            var empNo = this.data.LeaveHeader.EmployeeNo;
-                            if (this.requireUpdate) {
+                            var leaveId = param.data.LeaveHeader.TSGroupId;
+                            var empNo = param.data.LeaveHeader.EmployeeNo;
+                            if (param.requireUpdate) {
                                 uialert({
                                     message: 'Oops! This leave application has been changed by someone else, please reload.',
                                     showButtons: true,
@@ -5835,8 +5986,23 @@ var UILeaveDetail = new Class({
                             //}
                             else {
                                 //this.bossResponse(empNo, leaveId, oldStatus, statusChange, authId);
-                                this.bossResponse(empNo, leaveId, this.authorisation.StatusCode, statusChange, this.authorisation.AuthorisationId, this.data.LeaveHeader.timeLastModified);
+                                param.bossResponse(empNo, leaveId, param.authorisation.StatusCode, statusChange, param.authorisation.AuthorisationId, param.data.LeaveHeader.timeLastModified);
                             }
+                        };
+
+                        this.declineButton = new Element('span', {
+                            'class': 'button red w-icon-only'
+                        }).adopt(
+                            new Element('span', { 'html': Affinity.icons.ThumbsDown }),
+                            new Element('span', { 'html': 'Decline' })
+                        ).inject(this.buttonsBox);
+                        this.declineButton.addEvent('click', function () {
+                            var param = new Object();
+                            param.data = this.data;
+                            param.requireUpdate = this.requireUpdate;
+                            param.bossResponse = this.bossResponse;
+                            param.authorisation = this.authorisation;
+                            Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, declineFunction, param);
                         }.bind(this));
                     }
 
@@ -5924,6 +6090,43 @@ var UILeaveDetail = new Class({
                 }
             }
 
+            //Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, this.doEditDetail, employee);
+            var editFunction = function (param) {
+                var response = function (data) {
+                    param.data.LeaveHeader.StatusCode = 6;
+                    param.editDetail();
+                }.bind(this);
+                if (!this.isManager && param.data.LeaveHeader.StatusCode == 3) {
+                    uialert({
+                        message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
+                        showButtons: true,
+                        showCancel: true,
+                        okText: "Yes",
+                        cancelText: 'No',
+                        onOk: function () {
+                            param.submitLeave(param.data.LeaveHeader.TSGroupId, 6, 3, response);
+                        }.bind(this),
+                        onCancel: function () {
+                        }
+                    });
+                } else if (!param.isManager && param.partialApproved) {
+                    uialert({
+                        message: 'This Leave Application is partially approved. <br /> Do you want to cancel it to make it editable?',
+                        showButtons: true,
+                        showCancel: true,
+                        okText: 'Yes - Cancel and Edit',
+                        okIcon: Affinity.icons.Plane,
+                        onOk: function () {
+                            param.submitLeave(param.data.LeaveHeader.TSGroupId, 6, 0, response);
+                        }.bind(this),
+                        onCancel: function () {
+                        }
+                    });
+                } else {
+                    param.editDetail();
+                }
+            };
+
             if (!isEdit && ((this.data.LeaveHeader.StatusCode != 7)
                 || this.data.LeaveHeader.StatusCode == 0)) {
                 this.editButton = new Element('button', {
@@ -5933,39 +6136,13 @@ var UILeaveDetail = new Class({
                     new Element('span', { 'html': 'Edit' })
                 ).inject(this.buttonsBox);
                 this.editButton.addEvent('click', function () {
-                    var response = function (data) {
-                        this.data.LeaveHeader.StatusCode = 6;
-                        this.editDetail();
-                    }.bind(this);
-                    if (!this.isManager && this.data.LeaveHeader.StatusCode == 3) {
-                        uialert({
-                            message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
-                            showButtons: true,
-                            showCancel: true,
-                            okText: "Yes",
-                            cancelText: 'No',
-                            onOk: function () {
-                                this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 3, response);
-                            }.bind(this),
-                            onCancel: function () {
-                            }
-                        });
-                    } else if (!this.isManager && this.partialApproved) {
-                        uialert({
-                            message: 'This Leave Application is partially approved. <br /> Do you want to cancel it to make it editable?',
-                            showButtons: true,
-                            showCancel: true,
-                            okText: 'Yes - Cancel and Edit',
-                            okIcon: Affinity.icons.Plane,
-                            onOk: function () {
-                                this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 0, response);
-                            }.bind(this),
-                            onCancel: function () {
-                            }
-                        });
-                    } else {
-                        this.editDetail();
-                    }
+                    var param = new Object();
+                    param.isManager = this.isManager;
+                    param.data = this.data;
+                    param.submitLeave = this.submitLeave;
+                    param.editDetail = this.editDetail;
+                    param.partialApproved = this.partialApproved;
+                    Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, editFunction, param);
                 }.bind(this));
             }
         }
@@ -6215,6 +6392,23 @@ var UILeaveDetail = new Class({
 
         //var posUnits = [];
         var daysRow, hoursRow, posName, posDate, hours, days, date, component;
+
+        var isEmployeeMultiPositions = true;
+        var componentPositions = new Array();
+        component = null;
+        Array.each(components, function (comp, Index) {
+            if (componentPositions.length === 0) {
+                componentPositions.push(comp.positionCode);
+            } else if (componentPositions.length > 0 &&
+                componentPositions.indexOf(comp.positionCode) < 0) {
+                componentPositions.push(comp.positionCode);
+            }
+        });
+
+        if (componentPositions.length === 1 && positions.length == 1) {
+            isEmployeeMultiPositions = false;
+        }
+
         Array.each(positions, function (position, index) {
             var pos = new Element('div', { 'class': 'position-label' }).inject(this.positionsLabels);
             var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
@@ -6239,7 +6433,8 @@ var UILeaveDetail = new Class({
 
             component = null;
             Array.each(components, function (comp, Index) {
-                if (comp.PositionCode === position.PositionCode) {
+                if ((comp.PositionCode === position.PositionCode && isEmployeeMultiPositions) ||
+                    !isEmployeeMultiPositions) {
                     component = comp;
                 }
             });
@@ -6828,6 +7023,22 @@ var UILeaveDetail = new Class({
         //    'class': 'detail-approver-box'
         //}).inject(this.unitsBox);
 
+        var isEmployeeMultiPositions = true;
+        var componentPositions = new Array();
+        component = null;
+        Array.each(components, function (comp, Index) {
+            if (componentPositions.length === 0) {
+                componentPositions.push(comp.positionCode);
+            } else if (componentPositions.length > 0 &&
+                componentPositions.indexOf(comp.positionCode) < 0) {
+                componentPositions.push(comp.positionCode);
+            }
+        });
+
+        if (componentPositions.length === 1 && positions.length == 1) {
+            isEmployeeMultiPositions = false;
+        }
+
         if (this.approverBox)
             this.approverBox.empty();
 
@@ -6855,11 +7066,15 @@ var UILeaveDetail = new Class({
                 }).inject(posBox);
                 approverSelector.addEvent('change', this.updateAuthoriser);
 
+
+                
+
                 if (componant.Authorisation && componant.Authorisation.AuthorisationId) {
                     approverSelector.store('authId', componant.Authorisation.AuthorisationId);
                     //var positions = Affinity.leave.employee.config.Positions;
                     Array.each(positions, function (position) {
-                        if (componant.PositionCode == position.PositionCode) {
+                        if ((componant.PositionCode == position.PositionCode && isEmployeeMultiPositions) ||
+                            !isEmployeeMultiPositions) {
                             Array.each(position.SubmittedTos, function (approver, index) {
                                 var option = new Element('option', {
                                     'value': index + 1
