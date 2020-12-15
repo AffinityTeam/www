@@ -1907,7 +1907,7 @@
         try { this.detail.keyboardEvent.stopPropagation(); } catch (er) { console.warn('failed to stop propagation'); };
       }
     };
-    Affinity2018.stopEvents = Affinity2018.stopEvent;
+    Affinity2018.StopEvent = Affinity2018.stopEvent;
     if (!Event.prototype.stop) Event.prototype.stop = function () { Affinity2018.StopEvent(this); };
     if (!CustomEvent.prototype.stop) CustomEvent.prototype.stop = function () { Affinity2018.StopEvent(this); };
   }
@@ -8193,6 +8193,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString();
       Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString();
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
+      window.dispatchEvent(new Event('GotUserData'));
       this.OnInit();
     }
     else
@@ -11008,7 +11009,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           {
             var gotTemplate = false;
 
-            
             // TODO: old - retire once new is used.
             if (response.data.hasOwnProperty('sectionWorkflowVisibilitySettings'))
             {
@@ -17438,8 +17438,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
     var isLookup = this.CleverForms.IsLookup(this.Config);
     var isHidden = false;
-    var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
-    if (this.Config.Type === 'AffinityField' && this.Config.Disabled ) isReadOnly = true;
+    var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Disabled || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
 
     this.IsReadOnly = isReadOnly;
     this.Config.Details.IsReadOnly = isReadOnly;
@@ -22551,8 +22550,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
 
     var html;
-    if (this.IsReadOnly) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
-    else html = this.HtmlRowTemplate.format(this.Config.Details.Label);
+    if (this.IsReadOnly || this.Config.IsReadOnly)
+      html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    else
+      html = this.HtmlRowTemplate.format(this.Config.Details.Label);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode && !this.IsReadOnly)
     {
