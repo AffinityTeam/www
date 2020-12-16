@@ -1907,7 +1907,7 @@
         try { this.detail.keyboardEvent.stopPropagation(); } catch (er) { console.warn('failed to stop propagation'); };
       }
     };
-    Affinity2018.stopEvents = Affinity2018.stopEvent;
+    Affinity2018.StopEvent = Affinity2018.stopEvent;
     if (!Event.prototype.stop) Event.prototype.stop = function () { Affinity2018.StopEvent(this); };
     if (!CustomEvent.prototype.stop) CustomEvent.prototype.stop = function () { Affinity2018.StopEvent(this); };
   }
@@ -8193,6 +8193,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString();
       Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString();
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
+      window.dispatchEvent(new Event('GotUserData'));
       this.OnInit();
     }
     else
@@ -11008,7 +11009,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           {
             var gotTemplate = false;
 
-            
             // TODO: old - retire once new is used.
             if (response.data.hasOwnProperty('sectionWorkflowVisibilitySettings'))
             {
@@ -15477,11 +15477,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
       'ReturnChanges', 'CheckChanges',
 
+      'CheckLabelOverflow',
+
       '_getFileIds', '_setupFileNode', '_fileResized', '_fileUploaded', '_fileDeleted', '_fileDeleteFailed', '_fileWidgetReady',
 
       '_listSourceChanged', '_gotNewSourceList', '_gotNewSourceListFail', '_listBuilderModified',
-
-      '_labelOverflow',
 
       '_options', '_templates'
 
@@ -16017,7 +16017,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         if (this.FormRowNode.querySelector('input')) this.FormRowNode.querySelector('input').disabled = true;
       }
 
-      this._labelOverflow(this.FormRowNode.querySelector('label'));
+      this.CheckLabelOverflow(this.FormRowNode.querySelector('label'));
     }
     else
     {
@@ -16584,6 +16584,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    * @this    Class scope
    * @access  private
    */
+  CheckLabelOverflow (node)
+  {
+    var text = this.Config.Details.Label;
+    //console.log(this.Config.Details.Label);
+    //console.log(node.innerText);
+    //console.log(node.scrollWidth, ' vs ', node.clientWidth);
+    //console.log($a.getSize(node).width);
+    //console.log('');
+    if (node.scrollHeight > node.clientHeight || node.scrollWidth > node.clientWidth)
+    {
+      node.dataset.tooltip = text;
+      node.dataset.tooltipDir = 'top-right';
+      node.classList.add('ui-has-tooltip');
+      node.classList.add('overflow');
+      node.parentNode.classList.add('overflow');
+      var icons = node.querySelectorAll('span');
+      if (icons.length > 0) for (var i = icons.length - 1; i > -1; i--) node.parentNode.insertBefore(icons[i], node.nextSibling);
+    }
+  }
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   _isNullOrEmpty (mixed)
   {
     if (mixed === null) return true;
@@ -16630,27 +16656,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       if (saveOnChange) this.CleverForms.Designer.CheckSave();
     }
     return this.Changed;
-  }
-
-
-  /**
-   * Summary. ?
-   * @this    Class scope
-   * @access  private
-   */
-  _labelOverflow (node)
-  {
-    var text = this.Config.Details.Label;
-    if (node.scrollHeight > node.clientHeight || node.scrollWidth > node.clientWidth)
-    {
-      node.dataset.tooltip = text;
-      node.dataset.tooltipDir = 'top-right';
-      node.classList.add('ui-has-tooltip');
-      node.classList.add('overflow');
-      node.parentNode.classList.add('overflow');
-      var icons = node.querySelectorAll('span');
-      if (icons.length > 0) for (var i = icons.length - 1; i > -1; i--) node.parentNode.insertBefore(icons[i], node.nextSibling);
-    }
   }
 
 
@@ -17438,8 +17443,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
     var isLookup = this.CleverForms.IsLookup(this.Config);
     var isHidden = false;
-    var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
-    if (this.Config.Type === 'AffinityField' && this.Config.Disabled ) isReadOnly = true;
+    var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Disabled || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
 
     this.IsReadOnly = isReadOnly;
     this.Config.Details.IsReadOnly = isReadOnly;
@@ -20286,8 +20290,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     {
       // set special html / values
 
-      this.AttachOnlyTrueNode = this.PopupNode.querySelector('input.AttachFormOnlyTrue');
-      this.AttachOnlyFalseNode = this.PopupNode.querySelector('input.AttachFormOnlyFalse');
+      this.AttachOnlyTrueNode = this.PopupNode.querySelector('input.attach-employee');
+      this.AttachOnlyFalseNode = this.PopupNode.querySelector('input.attach-form');
+      this.AttachPositionNode = this.PopupNode.querySelector('input.attach-position');
 
       this.DocCatsNode = this.TemplateNode.querySelector('.document-category div.select');
       this.DocCatsSelectNode = this.DocCatsNode.querySelector('select');
@@ -20304,18 +20309,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       {
         this.AttachOnlyFalseNode.checked = false;
         this.AttachOnlyTrueNode.checked = true;
+        this.AttachPositionNode.checked = false;
         this.AttachOnlyFalseNode.removeAttribute('checked');
+        this.AttachPositionNode.removeAttribute('checked');
       }
       else
       {
         this.AttachOnlyTrueNode.checked = false;
         this.AttachOnlyFalseNode.checked = true;
+        this.AttachPositionNode.checked = false;
         this.AttachOnlyTrueNode.removeAttribute('checked');
+        this.AttachPositionNode.removeAttribute('checked');
+      }
+      if ([11, '11', 'Position'].contains(this.Config.Details.DocumentCategory))
+      {
+        this.AttachOnlyTrueNode.checked = false;
+        this.AttachOnlyFalseNode.checked = false;
+        this.AttachPositionNode.checked = true;
+        this.AttachOnlyTrueNode.removeAttribute('checked');
+        this.AttachOnlyFalseNode.removeAttribute('checked');
       }
 
       this.DocCatsSelectNode.addEventListener('change', this._getDocumentTypes);
       this.AttachOnlyTrueNode.addEventListener('click', this._checkHideables);
       this.AttachOnlyFalseNode.addEventListener('click', this._checkHideables);
+      this.AttachPositionNode.addEventListener('click', this._checkHideables);
 
       this._checkHideables();
 
@@ -20349,15 +20367,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
     // update special values
 
-    //var cat = !isNaN(parseint(this.DocCatsSelectNode.value)) ? parseint(this.DocCatsSelectNode.value) : 0;
-    //var type = !isNaN(parseint(this.DocTypeSelectNode.value)) ? parseint(this.DocTypeSelectNode.value) : 0;
-
     this.Config.Details.DocumentCategory = this.DocCatsSelectNode.value;
     this.Config.Details.DocumentType = this.DocTypeSelectNode.value;
     this.Config.Details.DocumentDescription = this.DocumentDescriptionNode.value;
 
     if (this.AttachOnlyTrueNode.checked) this.Config.Details.AttachFormOnly = true;
     if (this.AttachOnlyFalseNode.checked) this.Config.Details.AttachFormOnly = false;
+
+    if (this.AttachPositionNode.checked)
+    {
+      this.Config.Details.DocumentCategory = "Position";
+      this.Config.Details.AttachFormOnly = false;
+    }
 
     this.CheckChanges(true);
 
@@ -20475,9 +20496,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.add('hide');
     }
-    else
+    else if (this.AttachOnlyFalseNode.checked)
     {
       this.DocCatsNode.parentNode.classList.remove('hide');
+      if (this.DocCatsSelectNode.value !== '') this.DocTypeNode.parentNode.classList.remove('hide');
+      else this.DocTypeNode.parentNode.parentNode.classList.add('hide');
+    }
+    else if (this.AttachPositionNode.checked)
+    {
+      this.DocCatsNode.parentNode.classList.add('hide');
       if (this.DocCatsSelectNode.value !== '') this.DocTypeNode.parentNode.classList.remove('hide');
       else this.DocTypeNode.parentNode.parentNode.classList.add('hide');
     }
@@ -20500,29 +20527,27 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           {
             this.DocumentCategories = {};
             this.DocCatsSelectNode.innerHTML = '';
-
             for (key in response.data)
             {
               this.DocumentCategories[key] = key.toTitleCase();
               if (response.data.hasOwnProperty(key))
               {
-                optionNode = document.createElement('option');
-                optionNode.innerHTML = this.DocumentCategories[key];
-                optionNode.value = key;
-                if (this.Config.Details.DocumentCategory === key)
+                if (key !== 'Position') // do not add Position
                 {
-                  optionNode.selected = 'selected';
-                  selected = key;
+                  optionNode = document.createElement('option');
+                  optionNode.innerHTML = this.DocumentCategories[key];
+                  optionNode.value = key;
+                  if (this.Config.Details.DocumentCategory === key)
+                  {
+                    optionNode.selected = 'selected';
+                    selected = key;
+                  }
+                  this.DocCatsSelectNode.appendChild(optionNode);
                 }
-                this.DocCatsSelectNode.appendChild(optionNode);
               }
             }
-              if (selected !== null) {
-                  this.DocCatsSelectNode.value = selected;
-              }
-              else {
-                  this.DocCatsSelectNode.value = "Employee";
-              }
+            if (selected !== null) this.DocCatsSelectNode.value = selected;
+            else this.DocCatsSelectNode.value = "Employee";
           }
         }
         this.DocCatsNode.classList.remove('working');
@@ -20553,12 +20578,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           this.DocCatsSelectNode.appendChild(optionNode);
         }
       }
-      if (selected !== null) {
-            this.DocCatsSelectNode.value = selected;
-      }
-      else {
-          this.DocCatsSelectNode.value = "Employee";
-      }
+      if (selected !== null) this.DocCatsSelectNode.value = selected;
+      else this.DocCatsSelectNode.value = "Employee";
       this.DocCatsNode.classList.remove('working');
       this._getDocumentTypes();
     }
@@ -20582,14 +20603,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       })
         .then(function (response)
         {
-
           this.DocTypeSelectNode.innerHTML = '';
           var selected = null, optionNode;
           optionNode = document.createElement('option');
           optionNode.innerHTML = 'Any';
           optionNode.value = '0';
           this.DocTypeSelectNode.appendChild(optionNode);
-
           if ($a.isPropArray(response, 'data'))
           {
             var i = 0;
@@ -20605,14 +20624,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
               }
               this.DocTypeSelectNode.appendChild(optionNode);
             }
-            }
-            if (selected !== null) {
-                this.DocTypeSelectNode.value = selected;
-            }
-            else {
-                this.DocTypeSelectNode.value = 0
-            }
-
+          }
+          if (selected !== null) this.DocTypeSelectNode.value = selected;
+          else this.DocTypeSelectNode.value = 0
           this.DocTypeNode.classList.remove('working');
         }.bind(this))
         .catch(function (error)
@@ -20681,13 +20695,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     super._templates();
 
     this.HtmlEditTemplate = `
+    <h2>Attach Document</h2>
     <div class="edit-row inline-radio">
-      <input type="radio" name="AttachFormOnly" class="AttachFormOnlyTrue" id="_AttachFormOnlyTrue" />
-      <label for="_AttachFormOnlyTrue">Attach Document to Form Only</label>
+      <input type="radio" name="AttachOptions" class="attach-employee" id="_AttachFormOnlyFalse" checked />
+      <label for="_AttachFormOnlyFalse">Employee</label>
     </div>
     <div class="edit-row inline-radio">
-      <input type="radio" name="AttachFormOnly" class="AttachFormOnlyFalse" id="_AttachFormOnlyFalse" checked />
-      <label for="_AttachFormOnlyFalse">Attach Document to Employee</label>
+      <input type="radio" name="AttachOptions" class="attach-position" id="_AttachPosition" />
+      <label for="_AttachPosition">Position</label>
+    </div>
+    <div class="edit-row inline-radio">
+      <input type="radio" name="AttachOptions" class="attach-form" id="_AttachFormOnlyTrue" />
+      <label for="_AttachFormOnlyTrue">Form Only</label>
     </div>
     <div class="edit-row document-category hidable">
       <label>Doc Categories</label>
@@ -22551,8 +22570,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
 
     var html;
-    if (this.IsReadOnly) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
-    else html = this.HtmlRowTemplate.format(this.Config.Details.Label);
+    if (this.IsReadOnly || this.Config.IsReadOnly)
+      html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    else
+      html = this.HtmlRowTemplate.format(this.Config.Details.Label);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode && !this.IsReadOnly)
     {
