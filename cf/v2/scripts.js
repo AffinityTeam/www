@@ -12032,11 +12032,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       postData.WorkflowDefinitionIds = postData.WorkflowDefinitionIds.removeEmpty();
       postData.WorkflowDefinitionIds = postData.WorkflowDefinitionIds.removeDuplicates();
     }
-    if (postData.WorkflowDefinitionIds.length === 0)
-    {
-      console.warn('Form Details save failed. Could not get WorkflowDefinitionIds.');
-      return;
-    }
+    //if (postData.WorkflowDefinitionIds.length === 0)
+    //{
+    //  console.warn('Form Details save failed. Could not get WorkflowDefinitionIds.');
+    //  return;
+    //}
     if (JSON.stringify(postData) !== JSON.stringify(this.lastUpdateFormDetails))
     {
       this.updatingFromDetails = true;
@@ -17552,20 +17552,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.ElementControllerType = displayType;
       this.ElementController = new elements[displayType](this.Config);
       this.FormRowNode = this.ElementController.SetFormRow(target);
-      if (!this.IsReadOnly)
+      if (
+        displayType === 'SingleSelectDropdown'
+        && (this.Config.Details.AffinityField.IsKeyField || this.Config.Details.AffinityField.IsGlobalKey)
+        && this.Config.Details.AffinityField.LookupTable === null
+      )
       {
-        if (
-          displayType === 'SingleSelectDropdown'
-          && (this.Config.Details.AffinityField.IsKeyField || this.Config.Details.AffinityField.IsGlobalKey)
-          && this.Config.Details.AffinityField.LookupTable === null
-        )
-        {
-          this.FormRowNode.querySelector('select').addEventListener('change', this._formRowLookupChanged);
-        }
-        else
-        {
-          if (!isGlobalKey) window.addEventListener('ModelLookupChanged', this._modelLookupChanged);
-        }
+        if (!this.IsReadOnly) this.FormRowNode.querySelector('select').addEventListener('change', this._formRowLookupChanged);
+      }
+      else
+      {
+        if (!isGlobalKey) window.addEventListener('ModelLookupChanged', this._modelLookupChanged);
       }
     }
 
@@ -23589,7 +23586,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     <div class="default-form">
       <div class="form-row">
         <label>Tax Number</label>
-        <input type="text" class="ui-has-taxnumber" placeholder="Enter your tax number" />
+        <input type="text" class="ui-has-taxnumber" data-country="NZ" data-country-status="show" placeholder="Enter your tax number" />
       </div>
     </div>
     `;
@@ -24698,13 +24695,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     if (this.StartAddressObject !== null)
     {
       var addressStrings = [];
-      if (this.StartAddressObject.hasOwnProperty('street')) addressStrings.push(this.StartAddressObject.street);
-      if (this.StartAddressObject.hasOwnProperty('suburb')) addressStrings.push(this.StartAddressObject.suburb);
-      if (this.StartAddressObject.hasOwnProperty('city')) addressStrings.push(this.StartAddressObject.city);
-      if (this.StartAddressObject.hasOwnProperty('state')) addressStrings.push(this.StartAddressObject.state);
-      if (this.StartAddressObject.hasOwnProperty('country')) addressStrings.push(this.StartAddressObject.country);
-      if (this.StartAddressObject.hasOwnProperty('postcode')) addressStrings.push(this.StartAddressObject.postcode);
-      addressStrings = addressStrings.filter(function (item) { return item !== null && item.trim() !== ''; });
+      if (this.StartAddressObject.hasOwnProperty('Street')) addressStrings.push(this.StartAddressObject.Street);
+      if (this.StartAddressObject.hasOwnProperty('Suburb')) addressStrings.push(this.StartAddressObject.Suburb);
+      if (this.StartAddressObject.hasOwnProperty('City')) addressStrings.push(this.StartAddressObject.city);
+      if (this.StartAddressObject.hasOwnProperty('State')) addressStrings.push(this.StartAddressObject.State);
+      if (this.StartAddressObject.hasOwnProperty('Country')) addressStrings.push(this.StartAddressObject.Country);
+      if (this.StartAddressObject.hasOwnProperty('Postcode')) addressStrings.push(this.StartAddressObject.Postcode);
+      addressStrings = addressStrings.filter(function (item) { return item !== undefined && item !== null && item.trim() !== ''; });
       if (addressStrings.length > 1)
       {
         this.lookupNode.value = addressStrings.join(', ');
@@ -35779,6 +35776,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       return;
     }
 
+    if (this._getCountryCode() == '')
+    {
+      this._setIcon();
+      return;
+    }
+
     var postData = new FormData();
     postData.append('EmployeeNo', employeeNumber);
     postData.append('TaxNumber', this._stringFromNodes().replace(/\-/g, ''));
@@ -35804,7 +35807,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }.bind(this))
     .catch(function (error)
     {
-      this.Valid = false;
       this._validated();
     }.bind(this));
   }
