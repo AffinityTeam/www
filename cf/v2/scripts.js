@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2628,32-37): run-time error JS1195: Expected expression: class
-(3164,32-37): run-time error JS1195: Expected expression: class
-(3177,20-21): run-time error JS1004: Expected ';': {
-(3248,27-28): run-time error JS1004: Expected ';': {
-(3252,29-30): run-time error JS1004: Expected ';': {
-(3253,29-30): run-time error JS1004: Expected ';': {
-(3254,29-30): run-time error JS1004: Expected ';': {
-(3255,29-30): run-time error JS1004: Expected ';': {
-(3256,13-14): run-time error JS1004: Expected ';': {
-(3275,15-16): run-time error JS1004: Expected ';': {
-(3293,12-13): run-time error JS1004: Expected ';': {
+(2633,32-37): run-time error JS1195: Expected expression: class
+(3169,32-37): run-time error JS1195: Expected expression: class
+(3182,20-21): run-time error JS1004: Expected ';': {
+(3253,27-28): run-time error JS1004: Expected ';': {
+(3257,29-30): run-time error JS1004: Expected ';': {
+(3258,29-30): run-time error JS1004: Expected ';': {
+(3259,29-30): run-time error JS1004: Expected ';': {
+(3260,29-30): run-time error JS1004: Expected ';': {
+(3261,13-14): run-time error JS1004: Expected ';': {
+(3280,15-16): run-time error JS1004: Expected ';': {
 (3298,12-13): run-time error JS1004: Expected ';': {
-(3301,17-18): run-time error JS1004: Expected ';': {
-(3872,36-41): run-time error JS1195: Expected expression: class
-(3985,30-35): run-time error JS1195: Expected expression: class
-(4090,31-36): run-time error JS1195: Expected expression: class
-(4232,35-40): run-time error JS1195: Expected expression: class
-(4360,33-38): run-time error JS1195: Expected expression: class
-(4567,39-40): run-time error JS1014: Invalid character: `
-(4567,40-41): run-time error JS1195: Expected expression: <
-(4567,100-101): run-time error JS1014: Invalid character: `
-(4586,43-44): run-time error JS1014: Invalid character: `
-(4586,44-45): run-time error JS1195: Expected expression: <
-(4586,108-109): run-time error JS1014: Invalid character: `
-(4654,33-38): run-time error JS1195: Expected expression: class
-(4950,32-37): run-time error JS1195: Expected expression: class
-(5265,33-38): run-time error JS1195: Expected expression: class
-(5343,37-42): run-time error JS1195: Expected expression: class
-(5344,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3303,12-13): run-time error JS1004: Expected ';': {
+(3306,17-18): run-time error JS1004: Expected ';': {
+(3877,36-41): run-time error JS1195: Expected expression: class
+(3990,30-35): run-time error JS1195: Expected expression: class
+(4095,31-36): run-time error JS1195: Expected expression: class
+(4237,35-40): run-time error JS1195: Expected expression: class
+(4365,33-38): run-time error JS1195: Expected expression: class
+(4572,39-40): run-time error JS1014: Invalid character: `
+(4572,40-41): run-time error JS1195: Expected expression: <
+(4572,100-101): run-time error JS1014: Invalid character: `
+(4591,43-44): run-time error JS1014: Invalid character: `
+(4591,44-45): run-time error JS1195: Expected expression: <
+(4591,108-109): run-time error JS1014: Invalid character: `
+(4659,33-38): run-time error JS1195: Expected expression: class
+(4955,32-37): run-time error JS1195: Expected expression: class
+(5270,33-38): run-time error JS1195: Expected expression: class
+(5348,37-42): run-time error JS1195: Expected expression: class
+(5349,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5345,5-16): run-time error JS1006: Expected ')': constructor
-(5414,3-4): run-time error JS1002: Syntax error: }
-(5414,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5358,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5350,5-16): run-time error JS1006: Expected ')': constructor
+(5419,3-4): run-time error JS1002: Syntax error: }
+(5419,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5363,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -67,7 +67,9 @@
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
-      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js'
+      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js',
+      //'https:/' + '/cdnjs.cloudflare.com/ajax/libs/css-element-queries/1.2.3/ElementQueries.min.js',
+      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/css-element-queries/1.2.3/ResizeSensor.js'
     ],
     Extentions: [ // loads after externalCDNs
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/plugins/ScrollToPlugin.min.js'
@@ -1908,6 +1910,8 @@
       }
     };
     Affinity2018.StopEvent = Affinity2018.stopEvent;
+    Affinity2018.StopEvents = Affinity2018.stopEvent;
+    Affinity2018.stopEvents = Affinity2018.stopEvent;
     if (!Event.prototype.stop) Event.prototype.stop = function () { Affinity2018.StopEvent(this); };
     if (!CustomEvent.prototype.stop) CustomEvent.prototype.stop = function () { Affinity2018.StopEvent(this); };
   }
@@ -2615,6 +2619,7 @@
         document.body.classList.add('disable-scroll');
       }
     }
+
     /**
      * Affinity2018.unlockBodyScroll()
      * Reset Body Scroll
@@ -5804,6 +5809,7 @@
       }
       this.set();
       window.addEventListener('keyup', this.onkey);
+      Affinity2018.CheckDarkMode = this.set;
     }
 
     onkey (ev)
@@ -5820,33 +5826,39 @@
     {
       if (Affinity2018.DarkMode)
       {
+        var color = '#222';
+        if (document.body.classList.contains('dashboard')) color = '#222';
         document.body.classList.add('dark');
-        this.scrollStyleNode.innerHTML = `
+        var template = `
         ::-webkit-scrollbar-track {
-          background: #222;
+          background: {0};
         }
         ::-webkit-scrollbar-thumb {
-          border: 2px solid #222;
+          border: 2px solid {0};
         }
         ::-webkit-resizer {
-          background: #222;
+          background: {0};
         }
         `;
+        this.scrollStyleNode.innerHTML = template.format(color);
       }
       else
       {
+        var color = '#f5fafe';
+        if (document.body.classList.contains('dashboard')) color = '#ddd';
         document.body.classList.remove('dark');
-        this.scrollStyleNode.innerHTML = `
+        var template = `
         ::-webkit-scrollbar-track {
-          background: #f5fafe;
+          background: {0};
         }
         ::-webkit-scrollbar-thumb {
-          border: 2px solid #f5fafe;
+          border: 2px solid {0};
         }
         ::-webkit-resizer {
-          background: #f5fafe;
+          background: {0};
         }
         `;
+        this.scrollStyleNode.innerHTML = template.format(color);
       }
     }
 
@@ -13891,10 +13903,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             )
           )
           {
+
+            // TODO: old - retire once new is used.
             if (response.data.hasOwnProperty('elementTemplateMerged') && $a.isArray(response.data.elementTemplateMerged))
             {
-              //this.TemplateData = response.data.elementTemplateMerged;
               this.FormData = response.data.elementTemplateMerged;
+              window.dispatchEvent(new Event('FormGotTemplate')); // detach from promise for debugging ....
+            }
+
+            // new
+            if (response.data.hasOwnProperty('Data') && $a.isArray(response.data.Data))
+            {
+              this.FormData = response.data.Data;
               window.dispatchEvent(new Event('FormGotTemplate')); // detach from promise for debugging ....
             }
             return;
@@ -18328,26 +18348,40 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   SetFormRow (target)
   {
-    var link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, link);
-
-    var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
-    axios({
-      method: 'GET',
-      url: url,
-    }).then(function (response)
+    var html, link
+    if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
-      if (
-        $a.isObject(response)
-        && $a.isPropObject(response, 'data')
-        && $a.isPropObject(response.data, 'data')
-      )
+      html = this.HtmlRowTemplate.format(this.Config.Details.Label, '#');
+    }
+    else
+    {
+      link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
+      html = this.HtmlRowTemplate.format(this.Config.Details.Label, link);
+      var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
+      axios({
+        method: 'GET',
+        url: url,
+      }).then(function (response)
       {
-        this._setLink(response.data.data[this.Config.Details.FileId], link);
-      }
-    }.bind(this)).catch(function () { });
+        if (
+          $a.isObject(response)
+          && $a.isPropObject(response, 'data')
+          && $a.isPropObject(response.data, 'data')
+        )
+        {
+          if (response.data.data.hasOwnProperty(''))
+            this._setLink(response.data.data[this.Config.Details.FileId], link);
+        }
+      }.bind(this)).catch(function () { });
+    }
 
     this.FormRowNode = super.SetFormRow(target, html);
+
+    if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
+    {
+      this._setLink('File Name Here', '#');
+    }
+
     if (this.FormRowNode)
     {
 
@@ -18383,6 +18417,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       link: link,
       name: name
     });
+    if (link == '#')
+    {
+      this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
+    }
   }
 
   /**/
@@ -23018,7 +23056,30 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
           && this.Config.Details.ItemSource.Items.length > 0
         )
         {
+          //dataList = this.Config.Details.ItemSource.Items;
+
+          value = this.Config.Details.Value;
+          defaultValue = this.Config.Details.ItemSource.hasOwnProperty('DefaultNone') ? this.Config.Details.ItemSource.DefaultNone : value;
+          isInline = this.Config.Details.ItemSource.hasOwnProperty('Inline') ? this.Config.Details.ItemSource.Inline : false;
+          cssClass = isInline ? 'inline' : '';
+          keys = Object.keys(this.Config.Details.ItemSource.Items[0]);
           dataList = this.Config.Details.ItemSource.Items;
+          dataList.forEach(function (listItem, index)
+          {
+            selectRow = document.createElement('div');
+            selectRow.classList.add('radio-label-pair');
+            if (isInline) selectRow.classList.add('inline');
+            selectRow.innerHTML = this.HtmlRadioRowTemplate.format({
+              id: 'radio-' + this.Config.Name + '-' + index,
+              name: this.Config.Name,
+              value: listItem[keys[1]],
+              label: listItem[keys[0]]
+            });
+            if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
+            this.FormRowNode.appendChild(selectRow);
+          }.bind(this));
+          if (isInline) this.FormRowNode.querySelector('label').classList.remove('solo');
+
         }
         else
         {
@@ -23027,21 +23088,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             { Key: '', Value: 'Radio Example Two' },
             { Key: '', Value: 'Radio Example Three' }
           ];
-        }
         
-        keys = Object.keys(dataList[0]);
-        dataList.forEach(function (listItem, index)
-        {
-          selectRow = document.createElement('div');
-          selectRow.classList.add('radio-label-pair');
-          selectRow.innerHTML = this.HtmlRadioRowTemplate.format({
-            id: 'radio-' + this.Config.Name + '-' + index,
-            name: this.Config.Name,
-            value: listItem[keys[1]],
-            label: listItem[keys[0]]
-          });
-          this.FormRowNode.appendChild(selectRow);
-        }.bind(this));
+          keys = Object.keys(dataList[0]);
+          dataList.forEach(function (listItem, index)
+          {
+            selectRow = document.createElement('div');
+            selectRow.classList.add('radio-label-pair');
+            selectRow.innerHTML = this.HtmlRadioRowTemplate.format({
+              id: 'radio-' + this.Config.Name + '-' + index,
+              name: this.Config.Name,
+              value: listItem[keys[1]],
+              label: listItem[keys[0]]
+            });
+            this.FormRowNode.appendChild(selectRow);
+          }.bind(this));
+
+        }
 
       }
       else
@@ -23434,69 +23496,83 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
 
   _setupCountry()
   {
-    this.TaxOptions = this.TaxCodeInputNode.querySelectorAll('option');
-    this.TaxNumberInputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
-    this.TaxNumberInputNode.addEventListener('countryChanged', this._countrySet);
-    if (this.TaxCodeInputNode && this.TaxCodeInputNode.widgets.Autocomplete)
+    if (!this.IsReadOnly)
     {
-      this.TaxCodeWidget = this.TaxCodeInputNode.widgets.Autocomplete;
-      this.TaxCodeInputNode.removeEventListener('complete', this._setupCountry);
-      this.TaxCodeInputNode.addEventListener('change', this._setFromTax);
-    }
-    else
-    {
-      this.TaxCodeWidget = false;
+      if (this.TaxCodeInputNode)
+      {
+        this.TaxOptions = this.TaxCodeInputNode.querySelectorAll('option');
+        this.TaxNumberInputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
+        this.TaxNumberInputNode.addEventListener('countryChanged', this._countrySet);
+        if (this.TaxCodeInputNode.widgets.Autocomplete)
+        {
+          this.TaxCodeWidget = this.TaxCodeInputNode.widgets.Autocomplete;
+          this.TaxCodeInputNode.removeEventListener('complete', this._setupCountry);
+          this.TaxCodeInputNode.addEventListener('change', this._setFromTax);
+        }
+      }
+      else
+      {
+        this.TaxCodeWidget = false;
+      }
     }
   }
 
   _countrySet(ev)
   {
-    if (ev && 'detail' in ev && 'Country' in ev.detail)
+    if (!this.IsReadOnly)
     {
-      clearTimeout(this.filterTimeout);
-      var check = '- ' + ev.detail.Country.toUpperCase() + ' ';
-      if (this.TaxCodeWidget)
+      if (ev && 'detail' in ev && 'Country' in ev.detail)
       {
-        this.SetMatch = check.contains('NZ') ? '- NZ ' : check.contains('AU') ? '- AU ' : null;
-        var filterMatch = check.contains('NZ') ? '- AU ' : check.contains('AU') ? '- NZ ' : null;
-        if (!this.DisableDepnedancy)
+        clearTimeout(this.filterTimeout);
+        var check = '- ' + ev.detail.Country.toUpperCase() + ' ';
+        if (this.TaxCodeWidget)
         {
-          this.DisableDepnedancy = true;
-          this.TaxCodeInputNode.addEventListener('workerComplete', this._autocompleteWorkerDone);
-          this.TaxCodeWidget.filterList(filterMatch);
+          this.SetMatch = check.contains('NZ') ? '- NZ ' : check.contains('AU') ? '- AU ' : null;
+          var filterMatch = check.contains('NZ') ? '- AU ' : check.contains('AU') ? '- NZ ' : null;
+          if (!this.DisableDepnedancy)
+          {
+            this.DisableDepnedancy = true;
+            this.TaxCodeInputNode.addEventListener('workerComplete', this._autocompleteWorkerDone);
+            this.TaxCodeWidget.filterList(filterMatch);
+          }
         }
       }
     }
   }
   _autocompleteWorkerDone()
   {
-    this.TaxCodeInputNode.removeEventListener('workerComplete', this._autocompleteWorkerDone);
-    var selected  = this.TaxCodeWidget.setFirst(this.SetMatch, false);
-    this.DisableDepnedancy = false;
+    if (!this.IsReadOnly)
+    {
+      this.TaxCodeInputNode.removeEventListener('workerComplete', this._autocompleteWorkerDone);
+      var selected = this.TaxCodeWidget.setFirst(this.SetMatch, false);
+      this.DisableDepnedancy = false;
+    }
   }
 
   _setFromTax (ev)
   {
-    if (this.DisableDepnedancy) return;
-    var value = this.TaxCodeWidget.getDisplayValue(), o = 0, country;
-    for (o = 0; o < this.CountryCodes.length; o++)
+    if (!this.IsReadOnly)
     {
-      if (value.toUpperCase().contains('- ' + this.CountryCodes[o].toUpperCase()))
+      if (this.DisableDepnedancy) return;
+      var value = this.TaxCodeWidget.getDisplayValue(), o = 0, country;
+      for (o = 0; o < this.CountryCodes.length; o++)
       {
-        country = this.CountryCodes[o];
-        break;
+        if (value.toUpperCase().contains('- ' + this.CountryCodes[o].toUpperCase()))
+        {
+          country = this.CountryCodes[o];
+          break;
+        }
+      }
+      if (country !== '')
+      {
+        this.TaxNumberInputNode.removeEventListener('countryChanged', this._countrySet);
+        var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
+        var inputWidget = inputNode.widgets.TaxNumber;
+        inputWidget.Clear();
+        inputWidget.SetCountry(country);
+        this.TaxNumberInputNode.addEventListener('countryChanged', this._countrySet);
       }
     }
-    if (country !== '')
-    {
-      this.TaxNumberInputNode.removeEventListener('countryChanged', this._countrySet);
-      var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
-      var inputWidget = inputNode.widgets.TaxNumber;
-      inputWidget.Clear();
-      inputWidget.SetCountry(country);
-      this.TaxNumberInputNode.addEventListener('countryChanged', this._countrySet);
-    }
-
   }
 
   /**/
@@ -27680,8 +27756,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.inputAccountNode = this.banknumberNode.querySelector('input.account');
     this.inputSuffixNode = this.banknumberNode.querySelector('input.suffix');
     this.suffixNode = this.banknumberNode.querySelector('.suffix-span');
-    this.bankNameNode = this.banknumberNode.querySelector('.bankname');
-    this.branchNameNode = this.banknumberNode.querySelector('.branchname');
+    this.NamesBoxNode = this.banknumberNode.querySelector('.names');
+    this.bankNameNode = this.NamesBoxNode.querySelector('.bankname');
+    this.branchNameNode = this.NamesBoxNode.querySelector('.branchname');
     this.iconNode = this.banknumberNode.querySelector('.tickcross');
 
     // widgets.Number
@@ -27801,6 +27878,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.inputSuffixNode.value = '';
     this.bankNameNode.innerHTML = '';
     this.branchNameNode.innerHTML = '';
+    this.bankNameNode.classList.add('hidden');
+    this.branchNameNode.classList.add('hidden');
     this._setIcon();
   }
 
@@ -28064,6 +28143,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       this.bankNameNode.innerHTML = data.bankName !== 'failed' ? data.bankName : '';
       this.branchNameNode.innerHTML = data.branchName !== 'failed' && data.branchName !== data.bankName ? data.branchName : '';
+
+      if (this.bankNameNode.innerText.trim() == '') this.bankNameNode.classList.add('hidden');
+      else this.bankNameNode.classList.remove('hidden');
+
+      if (this.branchNameNode.innerText.trim() == '') this.branchNameNode.classList.add('hidden');
+      else this.branchNameNode.classList.remove('hidden');
     }
   }
 
@@ -28118,8 +28203,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     <input class="suffix ui-has-integer" type="text" maxlength="3">
     <span class="tickcross grey icon-blocked"></span>
     <div class="names">
-      <div class="bankname"></div>
-      <div class="branchname"></div>
+      <div class="bankname hidden"></div>
+      <div class="branchname hidden"></div>
     </div>
     `;
   }
@@ -33659,7 +33744,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     var key = ev.keyCode || ev.key;
     if (!this._keyIsOk(key, ev.shiftKey))
     {
-      $a.stopEvents(ev);
+      ev.stop();
       return false;
     }
     // TODO: Limit decimal places?
@@ -33670,7 +33755,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     if (this.SpecialValidation) this._validate(ev);
     if (ev.defaultPrevented)
     {
-      $a.stopEvents(ev);
+      ev.stop();
       return false;
     }
   }
