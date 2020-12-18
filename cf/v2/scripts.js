@@ -20356,10 +20356,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       }
       else
       {
-        this.AttachOnlyTrueNode.checked = false;
-        this.AttachOnlyFalseNode.checked = true;
+        this.AttachOnlyTrueNode.checked = true;
+        this.AttachOnlyFalseNode.checked = false;
         this.AttachPositionNode.checked = false;
-        this.AttachOnlyTrueNode.removeAttribute('checked');
+        this.AttachOnlyFalseNode.removeAttribute('checked');
         this.AttachPositionNode.removeAttribute('checked');
       }
       if ([11, '11', 'Position'].contains(this.Config.Details.DocumentCategory))
@@ -20532,22 +20532,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   _checkHideables ()
   {
-    if (this.AttachOnlyTrueNode.checked)
+    if (this.AttachOnlyFalseNode.checked)
     {
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.add('hide');
     }
-    else if (this.AttachOnlyFalseNode.checked)
+    else if (this.AttachOnlyTrueNode.checked)
     {
+      this.DocCatsSelectNode.value = "Employee";
       this.DocCatsNode.parentNode.classList.remove('hide');
-      if (this.DocCatsSelectNode.value !== '') this.DocTypeNode.parentNode.classList.remove('hide');
-      else this.DocTypeNode.parentNode.parentNode.classList.add('hide');
+      this.DocTypeNode.parentNode.classList.remove('hide');
     }
     else if (this.AttachPositionNode.checked)
     {
+      this.DocCatsSelectNode.value = "Position";
       this.DocCatsNode.parentNode.classList.add('hide');
-      if (this.DocCatsSelectNode.value !== '') this.DocTypeNode.parentNode.classList.remove('hide');
-      else this.DocTypeNode.parentNode.parentNode.classList.add('hide');
+      this.DocTypeNode.parentNode.classList.remove('hide');
+      this._getDocumentTypes(); 
     }
   }
 
@@ -20750,7 +20751,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       <label for="_AttachFormOnlyTrue">Form Only</label>
     </div>
     <div class="edit-row document-category hidable">
-      <label>Doc Categories</label>
+      <label>Categories</label>
       <div class="select working">
         <select class="DocumentCategory" name="DocumentCategory">
           <option value=""></option>
@@ -20758,7 +20759,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       </div>
     </div>
     <div class="edit-row document-type hidable">
-      <label>Doc Types</label>
+      <label>Types</label>
       <div class="select working">
         <select class="DocumentType" name="DocumentType">
           <option value=""></option>
@@ -20766,7 +20767,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       </div>
     </div>
     <div class="edit-row hidden">
-      <label>Doc Description</label>
+      <label>Description</label>
       <textarea class="DocumentDescription" name="DocumentDescription"></textarea>
     </div>
     `;
@@ -22841,7 +22842,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
       // get any special elements
 
-      this.FormData.Value = this.FormRowNode.querySelector('div.select.hidden select').value;
+      if (this.FormRowNode.querySelector('div.select.hidden select'))
+      {
+        this.FormData.Value = this.FormRowNode.querySelector('div.select.hidden select').value;
+      }
+      if (this.FormRowNode.querySelector('input[type="text"]:disabled'))
+      {
+        this.FormData.Value = this.FormRowNode.querySelector('input[type="text"]:disabled').value;
+      }
+
       if (this.FormData.Value.toLowerCase().trim() === 'null') this.FormData.Value = null;
 
       return this.FormData;
