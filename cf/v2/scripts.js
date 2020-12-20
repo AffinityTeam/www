@@ -25,14 +25,14 @@
 (4591,108-109): run-time error JS1014: Invalid character: `
 (4659,33-38): run-time error JS1195: Expected expression: class
 (4955,32-37): run-time error JS1195: Expected expression: class
-(5270,33-38): run-time error JS1195: Expected expression: class
-(5348,37-42): run-time error JS1195: Expected expression: class
-(5349,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(5321,33-38): run-time error JS1195: Expected expression: class
+(5399,37-42): run-time error JS1195: Expected expression: class
+(5400,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5350,5-16): run-time error JS1006: Expected ')': constructor
-(5419,3-4): run-time error JS1002: Syntax error: }
-(5419,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5363,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5401,5-16): run-time error JS1006: Expected ')': constructor
+(5470,3-4): run-time error JS1002: Syntax error: }
+(5470,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5414,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -2618,7 +2618,7 @@
         document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
         document.body.classList.add('disable-scroll');
       }
-    }
+    };
 
     /**
      * Affinity2018.unlockBodyScroll()
@@ -2632,7 +2632,7 @@
         document.body.removeAttribute('style');
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
       }
-    }
+    };
   }
 
   /***************************************************************************************************************************************************/
@@ -2930,13 +2930,13 @@
   
     /**
      * Affinity2018.GetMimeType()
-     * Returns the MIME tpye information ofr the passed in file extention.
+     * Returns the MIME type information of the passed in file extension.
      * 
      * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
      * 
-     * @param {string} ext The extention of the file 
+     * @param {string} ext The extension of the file 
      * 
-     * @returns {string} The MIME type for the extention. example: 'txt' -> 'text/plain'
+     * @returns {string} The MIME type for the extension. example: 'txt' -> 'text/plain'
      */
     Affinity2018.GetMimeType = function (ext)
     {
@@ -4998,13 +4998,14 @@
         'doLogin',
         'loginCaptureEscape',
         'logout',
-        'showOptions','showQuestions','showEmail','showEmailSent','showSms','showSmsSent','showReset',
-        'disableClose','enableClose',
-        'disableLogin','enableLogin',
-        'getUsername','getPassword',
+        'showOptions', 'showQuestions', 'showEmail', 'showEmailSent', 'showSms', 'showSmsSent', 'showReset',
+        'disableClose', 'enableClose',
+        'disableLogin', 'enableLogin',
+        'getUsername', 'getPassword',
         'overrideAction'
       ].bindEach(this);
 
+      this.isInline = false;
       this.enabled = false;
       this.IsOverriden = false;
       if (document.getElementById('affinity-login')) this.enabled = true;
@@ -5014,56 +5015,87 @@
       this.loginShakeRemoveTimer;
       this.loginPanel = document.querySelector('#affinity-login');
       this.loginInnerPanel = this.loginPanel.querySelector('.affinity-login-box.login');
-      this.loginForm = this.loginInnerPanel.querySelector('form');
-      this.optionsInnerPanel = this.loginPanel.querySelector('.affinity-login-box.options');
-      this.optionsForm = this.optionsInnerPanel.querySelector('form');
-      this.questionsInnerPanel = this.loginPanel.querySelector('.affinity-login-box.questions');
-      this.questionsForm = this.questionsInnerPanel.querySelector('form');
-      this.emailInnerPanel = this.loginPanel.querySelector('.affinity-login-box.email');
-      this.emailForm = this.emailInnerPanel.querySelector('form');
-      this.emailSentInnerPanel = this.loginPanel.querySelector('.affinity-login-box.email-sent');
-      this.emailSentForm = this.emailSentInnerPanel.querySelector('form');
-      this.smsInnerPanel = this.loginPanel.querySelector('.affinity-login-box.sms');
-      this.smsForm = this.smsInnerPanel.querySelector('form');
-      this.smsSentInnerPanel = this.loginPanel.querySelector('.affinity-login-box.sms-sent');
-      this.smsSentForm = this.smsSentInnerPanel.querySelector('form');
-      this.resetInnerPanel = this.loginPanel.querySelector('.affinity-login-box.reset');
-      this.resetForm = this.resetInnerPanel.querySelector('form');
+      this.loginForm = this.loginInnerPanel.querySelector('form, .form');
+
+      if (this.loginPanel.querySelector('.affinity-login-box.options'))
+      {
+        this.optionsInnerPanel = this.loginPanel.querySelector('.affinity-login-box.options');
+        this.optionsForm = this.optionsInnerPanel.querySelector('form');
+        this.questionsInnerPanel = this.loginPanel.querySelector('.affinity-login-box.questions');
+        this.questionsForm = this.questionsInnerPanel.querySelector('form');
+        this.emailInnerPanel = this.loginPanel.querySelector('.affinity-login-box.email');
+        this.emailForm = this.emailInnerPanel.querySelector('form');
+        this.emailSentInnerPanel = this.loginPanel.querySelector('.affinity-login-box.email-sent');
+        this.emailSentForm = this.emailSentInnerPanel.querySelector('form');
+        this.smsInnerPanel = this.loginPanel.querySelector('.affinity-login-box.sms');
+        this.smsForm = this.smsInnerPanel.querySelector('form');
+        this.smsSentInnerPanel = this.loginPanel.querySelector('.affinity-login-box.sms-sent');
+        this.smsSentForm = this.smsSentInnerPanel.querySelector('form');
+        this.resetInnerPanel = this.loginPanel.querySelector('.affinity-login-box.reset');
+
+        this.resetForm = this.resetInnerPanel.querySelector('form');
+
+        this.optionsButtons = this.loginPanel.querySelectorAll('.recovery-options');
+        this.questionsButtons = this.loginPanel.querySelectorAll('.recovery-questions');
+        this.emailButtons = this.loginPanel.querySelectorAll('.recovery-email');
+        this.emailSentButtons = this.loginPanel.querySelectorAll('.recovery-email-sent');
+        this.smsButtons = this.loginPanel.querySelectorAll('.recovery-sms');
+        this.smsSentButtons = this.loginPanel.querySelectorAll('.recovery-sms-sent');
+        this.nextButtons = this.loginPanel.querySelectorAll('.recovery-reset');
+        this.loginButtons = this.loginPanel.querySelectorAll('.recovery-login');
+      }
+      else
+      {
+        this.loginForm.querySelector('.form-row.remember').classList.add('hidden');
+        this.loginForm.querySelector('.form-row.forgot').classList.add('hidden');
+        this.loginInnerPanel.classList.add('basic');
+        if (this.loginPanel.querySelector('p.error-message'))
+        {
+          this.loginInnerPanel.classList.add('error');
+          clearTimeout(this.loginShakeRemoveTimer);
+          this.loginInnerPanel.classList.remove('shake');
+          this.loginInnerPanel.classList.add('shake');
+          this.loginShakeRemoveTimer = setTimeout(function ()
+          {
+            this.loginInnerPanel.classList.remove('shake');
+          }.bind(this), 500);
+        }
+        else this.loginInnerPanel.classList.remove('error');
+      }
+
       this.userBox = this.loginForm.querySelector('input[type=text]');
       this.passBox = this.loginForm.querySelector('input[type=password]');
 
-      this.optionsButtons = this.loginPanel.querySelectorAll('.recovery-options');
-      this.questionsButtons = this.loginPanel.querySelectorAll('.recovery-questions');
-      this.emailButtons = this.loginPanel.querySelectorAll('.recovery-email');
-      this.emailSentButtons = this.loginPanel.querySelectorAll('.recovery-email-sent');
-      this.smsButtons = this.loginPanel.querySelectorAll('.recovery-sms');
-      this.smsSentButtons = this.loginPanel.querySelectorAll('.recovery-sms-sent');
-      this.nextButtons = this.loginPanel.querySelectorAll('.recovery-reset');
-      this.loginButtons = this.loginPanel.querySelectorAll('.recovery-login');
+      this.loginButton = this.mobileLoginButton = this.logoutButton = this.mobileLogoutButton = false;
 
-      if(document.querySelector('#avatar-login-button')) this.loginButton = document.querySelector('#avatar-login-button');
-      if(document.querySelector('#avatar-mobile-login-button')) this.mobileLoginButton = document.querySelector('#avatar-mobile-login-button');
-      if(document.querySelector('#avatar-logout-button')) this.logoutButton = document.querySelector('#avatar-logout-button');
-      if(document.querySelector('#avatar-mobile-logout-button')) this.mobileLogoutButton = document.querySelector('#avatar-mobile-logout-button');
+      if (document.querySelector('#avatar-login-button')) this.loginButton = document.querySelector('#avatar-login-button');
+      if (document.querySelector('#avatar-mobile-login-button')) this.mobileLoginButton = document.querySelector('#avatar-mobile-login-button');
+      if (document.querySelector('#avatar-logout-button')) this.logoutButton = document.querySelector('#avatar-logout-button');
+      if (document.querySelector('#avatar-mobile-logout-button')) this.mobileLogoutButton = document.querySelector('#avatar-mobile-logout-button');
       this.loginPanelLoginButton = document.querySelector('#affinity-login-button');
       this.closeButtons = document.querySelectorAll('.login-close');
       this.loginPanelCloseButton = this.loginInnerPanel.querySelector('.login-close');
 
-      if(this.loginButton) this.loginButton.addEventListener('click', this.showLogin);
-      if(this.mobileLoginButton) this.mobileLoginButton.addEventListener('click', this.showLogin);
-      if(this.logoutButton) this.logoutButton.addEventListener('click', this.logout);
-      if(this.mobileLogoutButton) this.mobileLogoutButton.addEventListener('click', this.logout);
+      if (this.loginButton) this.loginButton.addEventListener('click', this.showLogin);
+      if (this.mobileLoginButton) this.mobileLoginButton.addEventListener('click', this.showLogin);
+      if (this.logoutButton) this.logoutButton.addEventListener('click', this.logout);
+      if (this.mobileLogoutButton) this.mobileLogoutButton.addEventListener('click', this.logout);
+
       this.loginPanelLoginButton.addEventListener('click', this.doLogin);
 
-      this.closeButtons.forEach( function (node) { node.addEventListener('click', this.hideLogin); }.bind(this) );
-      this.optionsButtons.forEach( function (node) { node.addEventListener('click', this.showOptions); }.bind(this) );
-      this.questionsButtons.forEach( function (node) { node.addEventListener('click', this.showQuestions); }.bind(this) );
-      this.emailButtons.forEach( function (node) { node.addEventListener('click', this.showEmail); }.bind(this) );
-      this.emailSentButtons.forEach( function (node) { node.addEventListener('click', this.showEmailSent); }.bind(this) );
-      this.smsButtons.forEach( function (node) { node.addEventListener('click', this.showSms); }.bind(this) );
-      this.smsSentButtons.forEach( function (node) { node.addEventListener('click', this.showSmsSent); }.bind(this) );
-      this.nextButtons.forEach( function (node) { node.addEventListener('click', this.showReset); }.bind(this) );
-      this.loginButtons.forEach(function (node) { node.addEventListener('click', this.showLogin); }.bind(this));
+      this.closeButtons.forEach(function (node) { node.addEventListener('click', this.hideLogin); }.bind(this));
+
+      if (this.optionsInnerPanel)
+      {
+        this.optionsButtons.forEach(function (node) { node.addEventListener('click', this.showOptions); }.bind(this));
+        this.questionsButtons.forEach(function (node) { node.addEventListener('click', this.showQuestions); }.bind(this));
+        this.emailButtons.forEach(function (node) { node.addEventListener('click', this.showEmail); }.bind(this));
+        this.emailSentButtons.forEach(function (node) { node.addEventListener('click', this.showEmailSent); }.bind(this));
+        this.smsButtons.forEach(function (node) { node.addEventListener('click', this.showSms); }.bind(this));
+        this.smsSentButtons.forEach(function (node) { node.addEventListener('click', this.showSmsSent); }.bind(this));
+        this.nextButtons.forEach(function (node) { node.addEventListener('click', this.showReset); }.bind(this));
+        this.loginButtons.forEach(function (node) { node.addEventListener('click', this.showLogin); }.bind(this));
+      }
 
       this.userBox.addEventListener('keyup', this.checkEnterLogin);
       this.passBox.addEventListener('keyup', this.checkEnterLogin);
@@ -5114,23 +5146,42 @@
       }
     }
 
-    doLogin()
+    doLogin(ev)
     {
+      Affinity2018.stopEvent(ev);
       if (!this.enabled) return false;
-      if (this.userBox.value.length > 0 && this.passBox.value.length > 0) {
-        this.setUserDisplay('John Doe');
-        if(this.loginButton) this.loginButton.classList.add('hidden');
-        if(this.mobileLoginButton) this.mobileLoginButton.classList.add('hidden');
-        if(this.logoutButton) this.logoutButton.classList.remove('hidden');
-        if(this.mobileLogoutButton) this.mobileLogoutButton.classList.remove('hidden');
-        this.hideLogin();
-        // TODO: get user profile data and pass it to Avatar
-        if(Affinity2018.Avatar) Affinity2018.Avatar.Get(this.userBox.value);
-        if(!this.IsOverriden) window.dispatchEvent(new Event('loggedin'));
+      if (this.loginInnerPanel.querySelector('p.error-message')) this.loginInnerPanel.querySelector('p.error-message').parentNode.removeChild(this.loginInnerPanel.querySelector('p.error-message'));
+      this.loginInnerPanel.classList.remove('error');
+      if (this.userBox.value.length > 0 && this.passBox.value.length > 0)
+      {
+        if (this.loginPanel.classList.contains('native-form'))
+        {
+          this.loginPanelLoginButton.classList.add('disabled');
+          this.loginInnerPanel.classList.add('bounce');
+          document.querySelector('form').submit();
+        }
+        else
+        {
+          if (this.loginButton) this.loginButton.classList.add('hidden');
+          if (this.mobileLoginButton) this.mobileLoginButton.classList.add('hidden');
+          if (this.logoutButton) this.logoutButton.classList.remove('hidden');
+          if (this.mobileLogoutButton) this.mobileLogoutButton.classList.remove('hidden');
+          if (!this.isInline) this.hideLogin();
+          // TODO: get user profile data and pass it to Avatar
+          this.setUserDisplay('John Doe');
+          if (Affinity2018.Avatar) Affinity2018.Avatar.Get(this.userBox.value);
+          if (!this.IsOverriden) window.dispatchEvent(new Event('loggedin'));
+        }
       }
       else
       {
         clearTimeout(this.loginShakeRemoveTimer);
+        this.loginInnerPanel.classList.add('error');
+        var highlightNode = this.loginInnerPanel.querySelector('p.highlight');
+        var errorNode = document.createElement('p');
+        errorNode.classList.add('error-message');
+        errorNode.innerHTML = 'You must enter a username and password';
+        highlightNode.parentNode.insertBefore(errorNode, highlightNode)
         this.loginInnerPanel.classList.remove('shake');
         this.loginInnerPanel.classList.add('shake');
         this.loginShakeRemoveTimer = setTimeout(function ()
@@ -5758,7 +5809,7 @@
     Apply ()
     {
       this.link = Affinity2018.Lang.ReturnPath('generic.contact.email');
-      if(this.link !== null)
+      if (Affinity2018.isString(this.link))
       {
         document.querySelectorAll('a.help-link').forEach(function(el, index)
         {
@@ -8955,6 +9006,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.plugins = [
       'Autocompletes',
       'Calendars',
+      'Selects',
       'SelectLookups',
       'Strings',
       'Numbers',
@@ -20299,6 +20351,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
     this.DocumentCategories = null;
     this.DocumentTypes = null;
+
+    this.UseAutocomplets = true;
   }
 
   constructor(config)
@@ -20370,6 +20424,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         this.AttachOnlyTrueNode.removeAttribute('checked');
         this.AttachOnlyFalseNode.removeAttribute('checked');
       }
+      
+      this.PreselctCategory = "";
 
       this.DocCatsSelectNode.addEventListener('change', this._getDocumentTypes);
       this.AttachOnlyTrueNode.addEventListener('click', this._checkHideables);
@@ -20532,23 +20588,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   _checkHideables ()
   {
+    this.PreselctCategory = "";
     if (this.AttachOnlyFalseNode.checked)
     {
+      this.DocCatsSelectNode.value = "";
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.add('hide');
     }
     else if (this.AttachOnlyTrueNode.checked)
     {
-      this.DocCatsSelectNode.value = "Employee";
+      //this.DocCatsSelectNode.value = "Employee";
+      this.PreselctCategory = "Employee";
       this.DocCatsNode.parentNode.classList.remove('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
+      this._getDocumentTypes();
     }
     else if (this.AttachPositionNode.checked)
     {
-      this.DocCatsSelectNode.value = "Position";
+      //this.DocCatsSelectNode.value = "Position";
+      this.PreselctCategory = "Position";
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
-      this._getDocumentTypes(); 
+      this._getDocumentTypes();
     }
   }
 
@@ -20567,6 +20628,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         {
           if (['object', 'array'].contains($a.type(response.data)))
           {
+            var prepped = true;
+            if (this.DocCatsSelectNode.hasOwnProperty('widgets') && this.DocCatsSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocCatsSelectNode.widgets.Autocomplete.Destroy();
             this.DocumentCategories = {};
             this.DocCatsSelectNode.innerHTML = '';
             for (key in response.data)
@@ -20593,6 +20656,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           }
         }
         this.DocCatsNode.classList.remove('working');
+        if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocCatsSelectNode);
         this._getDocumentTypes();
       }.bind(this))
       .catch(function (error)
@@ -20604,6 +20668,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     }
     else
     {
+      var prepped = true;
+      if (this.DocCatsSelectNode.hasOwnProperty('widgets') && this.DocCatsSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocCatsSelectNode.widgets.Autocomplete.Destroy();
       this.DocCatsSelectNode.innerHTML = '';
       for (key in this.DocumentCategories)
       {
@@ -20623,24 +20689,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       if (selected !== null) this.DocCatsSelectNode.value = selected;
       else this.DocCatsSelectNode.value = "Employee";
       this.DocCatsNode.classList.remove('working');
+      if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocCatsSelectNode);
       this._getDocumentTypes();
     }
   }
 
   _getDocumentTypes ()
   {
-    if (this.DocCatsSelectNode.value === "")
+    if (this.DocCatsSelectNode.value === "" && this.PreselctCategory.trim() == "")
     {
+      var prepped = true;
+      if (this.DocTypeSelectNode.hasOwnProperty('widgets') && this.DocTypeSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocTypeSelectNode.widgets.Autocomplete.Destroy();
       this.DocTypeNode.parentNode.classList.add('hide');
       this.DocTypeNode.classList.remove('working');
       this.DocTypeSelectNode.innerHTML = '';
     }
     else
     {
+      var prepped = true;
+      if (this.DocTypeSelectNode.hasOwnProperty('widgets') && this.DocTypeSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocTypeSelectNode.widgets.Autocomplete.Destroy();
       this.DocTypeNode.parentNode.classList.remove('hide');
       this.DocTypeNode.classList.add('working');
+      var val = this.DocCatsSelectNode.value;
+      var docCat = val !== null && val !== undefined && ($a.isString(val) && val.trim() !== '') ? val.trim() : this.PreselctCategory.trim() !== "" ? this.PreselctCategory.trim() : '';
       axios({
-        url: this.CleverForms.GetDocumentTypes + '?documentCategory=' + this.DocCatsSelectNode.value,
+        url: this.CleverForms.GetDocumentTypes + '?documentCategory=' + docCat,
         method: 'GET'
       })
         .then(function (response)
@@ -20670,6 +20743,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           if (selected !== null) this.DocTypeSelectNode.value = selected;
           else this.DocTypeSelectNode.value = 0
           this.DocTypeNode.classList.remove('working');
+          if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocTypeSelectNode);
         }.bind(this))
         .catch(function (error)
         {
@@ -26745,6 +26819,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         delete this[key];
       }
     }
+    return true;
   }
 
   /**/
