@@ -20653,13 +20653,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
                 }
               }
             }
-            if (selected !== null) this.DocCatsSelectNode.value = selected;
-            else this.DocCatsSelectNode.value = "";
+              if (selected !== null) {
+                  this.DocCatsSelectNode.value = selected;
+                  this._getDocumentTypes();
+              }
+              if (selected === null && this.DocCatsSelectNode.value !== null) this._getDocumentTypes();
           }
         }
         this.DocCatsNode.classList.remove('working');
         if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocCatsSelectNode);
-        //this._getDocumentTypes();
       }.bind(this))
       .catch(function (error)
       {
@@ -20688,17 +20690,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           this.DocCatsSelectNode.appendChild(optionNode);
         }
       }
-      if (selected !== null) this.DocCatsSelectNode.value = selected;
+        if (selected !== null) {
+            this.DocCatsSelectNode.value = selected;
+            this._getDocumentTypes();
+        }
       else this.DocCatsSelectNode.value = "";
       this.DocCatsNode.classList.remove('working');
       if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocCatsSelectNode);
-      //this._getDocumentTypes();
     }
   }
 
   _getDocumentTypes ()
   {
-      if (this.DocCatsSelectNode.value === "" && this.PreselctCategory.trim() === "")
+    if (this.PreselctCategory.trim() === "")
     {
       var prepped = true;
       if (this.DocTypeSelectNode.hasOwnProperty('widgets') && this.DocTypeSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocTypeSelectNode.widgets.Autocomplete.Destroy();
@@ -20712,8 +20716,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       if (this.DocTypeSelectNode.hasOwnProperty('widgets') && this.DocTypeSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocTypeSelectNode.widgets.Autocomplete.Destroy();
       this.DocTypeNode.parentNode.classList.remove('hide');
       this.DocTypeNode.classList.add('working');
-      var val = this.PreselctCategory;
-      var docCat = val !== null && val !== undefined && ($a.isString(val) && val.trim() !== '') ? val.trim() : this.PreselctCategory.trim() !== "" ? this.PreselctCategory.trim() : '';
+      var val = this.PreselctCategory.trim() === "Position" ? this.PreselctCategory.trim() : this.DocCatsSelectNode.value;
+      var docCat = val !== null && val !== undefined && ($a.isString(val) && val.trim() !== '') ? val.trim() : '';
       axios({
         url: this.CleverForms.GetDocumentTypes + '?documentCategory=' + docCat,
         method: 'GET'
