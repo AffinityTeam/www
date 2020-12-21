@@ -9006,6 +9006,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.plugins = [
       'Autocompletes',
       'Calendars',
+      'Selects',
       'SelectLookups',
       'Strings',
       'Numbers',
@@ -20350,6 +20351,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
     this.DocumentCategories = null;
     this.DocumentTypes = null;
+
+    this.UseAutocomplets = true;
   }
 
   constructor(config)
@@ -20399,10 +20402,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
       if (this.Config.Details.AttachFormOnly)
       {
-        this.AttachOnlyFalseNode.checked = false;
-        this.AttachOnlyTrueNode.checked = true;
+        this.AttachOnlyTrueNode.checked = false;
+        this.AttachOnlyFalseNode.checked = true;
         this.AttachPositionNode.checked = false;
-        this.AttachOnlyFalseNode.removeAttribute('checked');
+        this.AttachOnlyTrueNode.removeAttribute('checked');
         this.AttachPositionNode.removeAttribute('checked');
       }
       else
@@ -20465,8 +20468,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.Config.Details.DocumentType = this.DocTypeSelectNode.value;
     this.Config.Details.DocumentDescription = this.DocumentDescriptionNode.value;
 
-    if (this.AttachOnlyTrueNode.checked) this.Config.Details.AttachFormOnly = true;
-    if (this.AttachOnlyFalseNode.checked) this.Config.Details.AttachFormOnly = false;
+      if (this.AttachOnlyTrueNode.checked) {
+          this.Config.Details.AttachFormOnly = false;
+      }
+      if (this.AttachOnlyFalseNode.checked) {
+          this.Config.Details.DocumentCategory = "";
+          this.Config.Details.AttachFormOnly = true;
+      }
 
     if (this.AttachPositionNode.checked)
     {
@@ -20588,13 +20596,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.PreselctCategory = "";
     if (this.AttachOnlyFalseNode.checked)
     {
-      this.DocCatsSelectNode.value = "";
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.add('hide');
     }
     else if (this.AttachOnlyTrueNode.checked)
     {
-      //this.DocCatsSelectNode.value = "Employee";
       this.PreselctCategory = "Employee";
       this.DocCatsNode.parentNode.classList.remove('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
@@ -20602,7 +20608,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     }
     else if (this.AttachPositionNode.checked)
     {
-      //this.DocCatsSelectNode.value = "Position";
       this.PreselctCategory = "Position";
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
@@ -20625,6 +20630,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         {
           if (['object', 'array'].contains($a.type(response.data)))
           {
+            var prepped = true;
+            if (this.DocCatsSelectNode.hasOwnProperty('widgets') && this.DocCatsSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocCatsSelectNode.widgets.Autocomplete.Destroy();
             this.DocumentCategories = {};
             this.DocCatsSelectNode.innerHTML = '';
             for (key in response.data)
@@ -20647,11 +20654,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
               }
             }
             if (selected !== null) this.DocCatsSelectNode.value = selected;
-            else this.DocCatsSelectNode.value = "Employee";
+            else this.DocCatsSelectNode.value = "";
           }
         }
         this.DocCatsNode.classList.remove('working');
-        this._getDocumentTypes();
+        if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocCatsSelectNode);
+        //this._getDocumentTypes();
       }.bind(this))
       .catch(function (error)
       {
@@ -20662,10 +20670,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     }
     else
     {
+      var prepped = true;
+      if (this.DocCatsSelectNode.hasOwnProperty('widgets') && this.DocCatsSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocCatsSelectNode.widgets.Autocomplete.Destroy();
       this.DocCatsSelectNode.innerHTML = '';
       for (key in this.DocumentCategories)
       {
-        if (this.DocumentCategories.hasOwnProperty(key))
+          if (this.DocumentCategories.hasOwnProperty(key) && key !== 'Position')
         {
           optionNode = document.createElement('option');
           optionNode.innerHTML = this.DocumentCategories[key];
@@ -20679,25 +20689,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         }
       }
       if (selected !== null) this.DocCatsSelectNode.value = selected;
-      else this.DocCatsSelectNode.value = "Employee";
+      else this.DocCatsSelectNode.value = "";
       this.DocCatsNode.classList.remove('working');
-      this._getDocumentTypes();
+      if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocCatsSelectNode);
+      //this._getDocumentTypes();
     }
   }
 
   _getDocumentTypes ()
   {
-    if (this.DocCatsSelectNode.value === "" && this.PreselctCategory.trim() == "")
+      if (this.DocCatsSelectNode.value === "" && this.PreselctCategory.trim() === "")
     {
+      var prepped = true;
+      if (this.DocTypeSelectNode.hasOwnProperty('widgets') && this.DocTypeSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocTypeSelectNode.widgets.Autocomplete.Destroy();
       this.DocTypeNode.parentNode.classList.add('hide');
       this.DocTypeNode.classList.remove('working');
       this.DocTypeSelectNode.innerHTML = '';
     }
     else
     {
+      var prepped = true;
+      if (this.DocTypeSelectNode.hasOwnProperty('widgets') && this.DocTypeSelectNode.widgets.hasOwnProperty('Autocomplete')) prepped = this.DocTypeSelectNode.widgets.Autocomplete.Destroy();
       this.DocTypeNode.parentNode.classList.remove('hide');
       this.DocTypeNode.classList.add('working');
-      var docCat = this.PreselctCategory.trim() !== "" ? this.PreselctCategory.trim() : this.DocCatsSelectNode.value;
+      var val = this.PreselctCategory;
+      var docCat = val !== null && val !== undefined && ($a.isString(val) && val.trim() !== '') ? val.trim() : this.PreselctCategory.trim() !== "" ? this.PreselctCategory.trim() : '';
       axios({
         url: this.CleverForms.GetDocumentTypes + '?documentCategory=' + docCat,
         method: 'GET'
@@ -20729,8 +20745,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           if (selected !== null) this.DocTypeSelectNode.value = selected;
           else this.DocTypeSelectNode.value = 0
           this.DocTypeNode.classList.remove('working');
-
-
+          if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocTypeSelectNode);
         }.bind(this))
         .catch(function (error)
         {
@@ -26806,6 +26821,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         delete this[key];
       }
     }
+    return true;
   }
 
   /**/
