@@ -17915,11 +17915,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       var editMode = this.CleverForms.AffnityFieldModeTypes.Edit.Enum;
       var selectMode = this.CleverForms.AffnityFieldModeTypes.Select.Enum;
       var createMode = this.CleverForms.AffnityFieldModeTypes.Create.Enum;
+      var displayMode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
 
       // TODO: Temp fix - we need "RequiresKeys" arrays in each of a "RequiresKeys" array's children (list of names rather than full obejcts will do)
       // so if the referenceMode is Edit, I can check if we are a lookup or a "key with no requires keys" to determine if we should be a select.
-      // SO!! for now, let's assume all MasterFile KEYS are selesct if reference mode is Edit.
-      if (referenceMode === editMode && this.CleverForms.IsMasterFile(refernceConfig)) referenceMode = selectMode;
+        // SO!! for now, let's assume all MasterFile KEYS are selesct if reference mode is Edit.
+        //if we added Display field we set SELECT of the key as we dont have Display mode on the key anymore
+        if (referenceMode === editMode && this.CleverForms.IsMasterFile(refernceConfig) || this.CleverForms.IsKey(config) && referenceMode === displayMode) referenceMode = selectMode;
       else if (!this.CleverForms.IsMasterFile(refernceConfig) && (this.CleverForms.IsLookup(config) || this.CleverForms.IsGlobalKey(config)) && referenceMode === createMode) referenceMode = selectMode;
       //if ([createMode, editMode].contains(referenceMode) && this.CleverForms.IsLookup(config)) referenceMode = selectMode;
       //else if (referenceMode === editMode && this.CleverForms.IsGlobalKey(config)) referenceMode = selectMode;
