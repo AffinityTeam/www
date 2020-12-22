@@ -8455,7 +8455,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       else
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
       toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
-      toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
+      //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
     }
     if (toConfig.Details.hasOwnProperty('AttachFormOnly')) toConfig.Details.AttachFormOnly = fromConfig.Details.AttachFormOnly;
     return toConfig;
@@ -8693,7 +8693,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
     if (config.Details.hasOwnProperty('DocumentCategory'))              postData.DocumentCategory = config.Details.DocumentCategory;
     if (config.Details.hasOwnProperty('DocumentType'))                  postData.DocumentType = config.Details.DocumentType;
-    if (config.Details.hasOwnProperty('DocumentDescription'))           postData.DocumentDescription = config.Details.DocumentDescription; // ??? Missing from data?
+    //if (config.Details.hasOwnProperty('DocumentDescription'))           postData.DocumentDescription = config.Details.DocumentDescription; // ??? Missing from data?
     if (config.Details.hasOwnProperty('AttachFormOnly'))                postData.AttachFormOnly = config.Details.AttachFormOnly
 
     if (config.Details.hasOwnProperty('FileId'))                        postData.FileId = config.Details.FileId;
@@ -20395,10 +20395,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.DocTypeNode = this.TemplateNode.querySelector('.document-type div.select');
       this.DocTypeSelectNode = this.DocTypeNode.querySelector('select');
 
-      this.DocumentDescriptionNode = this.TemplateNode.querySelector('textarea.DocumentDescription');
-      this.DocumentDescriptionRowNode = this.DocumentDescriptionNode.parentNode;
-      this.DocumentDescriptionNode.value = this.Config.Details.DocumentDescription === null ? '' : this.Config.Details.DocumentDescription;
-      this.DocumentDescriptionRowNode.classList.remove('hidden');
+      //this.DocumentDescriptionNode = this.TemplateNode.querySelector('textarea.DocumentDescription');
+      //this.DocumentDescriptionRowNode = this.DocumentDescriptionNode.parentNode;
+      //this.DocumentDescriptionNode.value = this.Config.Details.DocumentDescription === null ? '' : this.Config.Details.DocumentDescription;
+      //this.DocumentDescriptionRowNode.classList.remove('hidden');
 
       if (this.Config.Details.AttachFormOnly)
       {
@@ -20466,7 +20466,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
     this.Config.Details.DocumentCategory = this.DocCatsSelectNode.value;
     this.Config.Details.DocumentType = this.DocTypeSelectNode.value;
-    this.Config.Details.DocumentDescription = this.DocumentDescriptionNode.value;
+    //this.Config.Details.DocumentDescription = this.DocumentDescriptionNode.value;
 
       if (this.AttachOnlyTrueNode.checked) {
           this.Config.Details.AttachFormOnly = false;
@@ -20514,45 +20514,45 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     fileIds = fileIds.split(',').removeEmpty().removeDuplicates();
     fileIds = fileIds.map(function (x) { return x + ''; });
 
-    var desc = this.Config.Details.DocumentDescription;
-    var hasDesc = $a.isString(desc) && desc.trim() !== '';
+    //var desc = this.Config.Details.DocumentDescription;
+    //var hasDesc = $a.isString(desc) && desc.trim() !== '';
 
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      if (hasDesc)
-      {
-        html = this.HtmlRowReadOnlyWithDescTemplate.format({
-          label: this.Config.Details.Label,
-          desc: desc,
-          fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.'
-        });
-      }
-      else
-      {
+      //if (hasDesc)
+      //{
+      //  html = this.HtmlRowReadOnlyWithDescTemplate.format({
+      //    label: this.Config.Details.Label,
+      //    desc: desc,
+      //    fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.'
+      //  });
+      //}
+      //else
+      //{
         html = this.HtmlRowReadOnlyTemplate.format({
           label: this.Config.Details.Label,
           fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.'
         });
-      }
+      //}
       this._loadNames();
     }
     else
     {
-      if (hasDesc)
-      {
-        html = this.HtmlRowWithDescTemplate.format({
-          label: this.Config.Details.Label,
-          desc: desc,
-          fileids: this.Config.Details.Value
-        });
-      }
-      else
-      {
+      //if (hasDesc)
+      //{
+      //  html = this.HtmlRowWithDescTemplate.format({
+      //    label: this.Config.Details.Label,
+      //    desc: desc,
+      //    fileids: this.Config.Details.Value
+      //  });
+      //}
+      //else
+      //{
         html = this.HtmlRowTemplate.format({
           label: this.Config.Details.Label,
           fileids: this.Config.Details.Value
         });
-      }
+      //}
     }
 
     this.FormRowNode = super.SetFormRow(target, html);
@@ -20636,10 +20636,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
             this.DocCatsSelectNode.innerHTML = '';
             for (key in response.data)
             {
-              this.DocumentCategories[key] = key.toTitleCase();
+                this.DocumentCategories[key] = key.splitCamelCase();
               if (response.data.hasOwnProperty(key))
               {
-                if (key !== 'Position') // do not add Position
+                  if (key !== 'Position' && key !== 'Performance') // do not add Position or Performance
                 {
                   optionNode = document.createElement('option');
                   optionNode.innerHTML = this.DocumentCategories[key];
@@ -20677,7 +20677,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.DocCatsSelectNode.innerHTML = '';
       for (key in this.DocumentCategories)
       {
-          if (this.DocumentCategories.hasOwnProperty(key) && key !== 'Position')
+          if (this.DocumentCategories.hasOwnProperty(key) && key !== 'Position' && key !== 'Performance')
         {
           optionNode = document.createElement('option');
           optionNode.innerHTML = this.DocumentCategories[key];
@@ -20718,6 +20718,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.DocTypeNode.classList.add('working');
       var val = this.PreselctCategory.trim() === "Position" ? this.PreselctCategory.trim() : this.DocCatsSelectNode.value;
       var docCat = val !== null && val !== undefined && ($a.isString(val) && val.trim() !== '') ? val.trim() : '';
+      if (docCat === null || docCat === '') return;
+        
       axios({
         url: this.CleverForms.GetDocumentTypes + '?documentCategory=' + docCat,
         method: 'GET'
@@ -20762,8 +20764,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   _loadNames ()
   {
-    var desc = this.Config.Details.DocumentDescription;
-    var hasDesc = $a.isString(desc) && desc.trim() !== '';
+    //var desc = this.Config.Details.DocumentDescription;
+    //var hasDesc = $a.isString(desc) && desc.trim() !== '';
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
     axios({
@@ -20786,21 +20788,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         }
         if (links.length > 0)
         {
-          if (hasDesc)
-          {
-            this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
-              label: this.Config.Details.Label,
-              desc: desc,
-              links: links.join('<br />')
-            });
-          }
-          else
-          {
+          //if (hasDesc)
+          //{
+          //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
+          //    label: this.Config.Details.Label,
+          //    desc: desc,
+          //    links: links.join('<br />')
+          //  });
+          //}
+          //else
+          //{
             this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesTemplate.format({
               label: this.Config.Details.Label,
               links: links.join('<br />')
             });
-          }
+          //}
         }
       }
     }.bind(this)).catch(function ()
@@ -20845,10 +20847,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           <option value=""></option>
         </select>
       </div>
-    </div>
-    <div class="edit-row hidden">
-      <label>Description</label>
-      <textarea class="DocumentDescription" name="DocumentDescription"></textarea>
     </div>
     `;
 
