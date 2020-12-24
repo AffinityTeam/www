@@ -9291,7 +9291,9 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     {
       this.plugins.forEach(function (plugin)
       {
-        Affinity2018.Apps.Plugins[plugin].Apply();
+          if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin)) {
+              Affinity2018.Apps.Plugins[plugin].Apply();
+         }
       });
     }.bind(this), 600);
   }
