@@ -16406,17 +16406,27 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     uploadIds = uploadIds.map(function (x) { return x + ''; });
     uploadIds = uploadIds.removeDuplicates().removeEmpty();
 
-    if (this.CleverForms.hasOwnProperty('Designer')) saveIds = this.Config.Details.FileId.split(',');
+    if (this.CleverForms.hasOwnProperty('Designer') && this.Config.Details.FileId !== null && this.Config.Details.FileId !== '') saveIds = this.Config.Details.FileId.split(',');
     if (this.CleverForms.hasOwnProperty('Form')) saveIds = this.Config.Details.Value;
     if ($a.isString(saveIds)) saveIds = saveIds.split(',');
-    
-    saveIds = saveIds.map(function (x) { return x + ''; });
-    saveIds = saveIds.removeDuplicates().removeEmpty();
 
-    for (i = 0; i < uploadIds.length; i++)
-    {
-      if (!saveIds.contains(uploadIds[i])) saveIds.push(uploadIds[i]);
+    //Ben to review this logic when he comes back.
+    if (saveIds !== undefined) {
+       saveIds = saveIds.map(function (x) { return x + ''; });
+       saveIds = saveIds.removeDuplicates().removeEmpty();
+
+       for (i = 0; i < uploadIds.length; i++) {
+          if (!saveIds.contains(uploadIds[i])) saveIds.push(uploadIds[i]);
+       }
     }
+    else {
+        saveIds = [];
+        for (i = 0; i < uploadIds.length; i++) {
+            saveIds.push(uploadIds[i]);
+        }
+    }
+
+   
 
     if (this.CleverForms.hasOwnProperty('Designer'))
     {
