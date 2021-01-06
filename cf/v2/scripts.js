@@ -8454,8 +8454,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value;
       else
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
+      
       toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
       //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
+      toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
     }
     if (toConfig.Details.hasOwnProperty('AttachFormOnly')) toConfig.Details.AttachFormOnly = fromConfig.Details.AttachFormOnly;
     return toConfig;
@@ -8693,6 +8695,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
     if (config.Details.hasOwnProperty('DocumentCategory'))              postData.DocumentCategory = config.Details.DocumentCategory;
     if (config.Details.hasOwnProperty('DocumentType'))                  postData.DocumentType = config.Details.DocumentType;
+    if (config.Details.hasOwnProperty('SecurityLevel'))                 postData.SecurityLevel = config.Details.SecurityLevel;
     //if (config.Details.hasOwnProperty('DocumentDescription'))           postData.DocumentDescription = config.Details.DocumentDescription; // ??? Missing from data?
     if (config.Details.hasOwnProperty('AttachFormOnly'))                postData.AttachFormOnly = config.Details.AttachFormOnly
 
@@ -16358,7 +16361,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       $a.setObjectToDataset(this.FileNode, 'downloadParams', { documentId: '' });
 
       this.FileNode.dataset.postApi = false;
-      $a.setObjectToDataset(this.FileNode, 'postParams', { fileTag: this.CleverForms.GetTemplateGuid() === false ? this.CleverForms.GetInstanceGuid() : this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name })
+      $a.setObjectToDataset(this.FileNode, 'postParams', { fileTag: this.CleverForms.GetTemplateGuid() === false ? this.CleverForms.GetInstanceGuid() : this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name, securityLevel: this.Config.Details.SecurityLevel })
 
       if (Affinity2018.Apps.CleverForms.Designer === undefined)
       {
@@ -20409,6 +20412,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.DocTypeNode = this.TemplateNode.querySelector('.document-type div.select');
       this.DocTypeSelectNode = this.DocTypeNode.querySelector('select');
 
+      this.DocSecurityLevelNode = this.TemplateNode.querySelector('.document-security-level div.select');
+      this.DocSecurityLevelSelectNode = this.DocSecurityLevelNode.querySelector('select');
+      this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
+      if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocSecurityLevelSelectNode);
+
       //this.DocumentDescriptionNode = this.TemplateNode.querySelector('textarea.DocumentDescription');
       //this.DocumentDescriptionRowNode = this.DocumentDescriptionNode.parentNode;
       //this.DocumentDescriptionNode.value = this.Config.Details.DocumentDescription === null ? '' : this.Config.Details.DocumentDescription;
@@ -20477,9 +20485,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.Config = super.GetFromDesignEditor();
 
     // update special values
-
     this.Config.Details.DocumentCategory = this.DocCatsSelectNode.value;
     this.Config.Details.DocumentType = this.DocTypeSelectNode.value;
+    this.Config.Details.SecurityLevel = this.DocSecurityLevelSelectNode.value;
     //this.Config.Details.DocumentDescription = this.DocumentDescriptionNode.value;
 
       if (this.AttachOnlyTrueNode.checked) {
@@ -20861,6 +20869,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           <option value=""></option>
         </select>
       </div>
+    </div>
+    <div class="edit-row document-security-level">
+      <label>Security Level</label>
+      <div class="select">
+         <select class="SecurityLevel" name="SecurityLevel">
+           <option value="0">Visible to Employees and Above</option>
+           <option value="10">Visible to Managers and Above</option>
+           <option value="20">Visible to Payroll/HR only</option>
+         </select>
+       </div>
     </div>
     `;
 
