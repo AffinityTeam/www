@@ -22722,10 +22722,30 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
 
     var html;
-    if (this.IsReadOnly || this.Config.IsReadOnly)
-      html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    if (this.IsReadOnly || this.Config.IsReadOnly) {
+        if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ItemSourceType')) {
+            if(this.Config.Details.ItemSource.ItemSourceType === 'Custom'  
+                && $a.isPropArray(this.Config.Details.ItemSource, 'Items')
+                && this.Config.Details.ItemSource.Items.length > 0) {
+
+                var items = this.Config.Details.ItemSource.Items;
+                for (var key in items) {
+                   var item = items[key];
+                   if(item !== null && item.Value === this.Config.Details.Value) {
+                        html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key); 
+                        break;
+                   }
+                }
+            }
+             else {
+                html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
+            }
+        }
+       
+    }
     else
       html = this.HtmlRowTemplate.format(this.Config.Details.Label);
+
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode && !this.IsReadOnly)
     {
@@ -22801,8 +22821,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       }
       else
       {
-
-
         if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
 
         if (
