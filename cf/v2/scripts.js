@@ -15735,6 +15735,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.HelptextNode.classList.remove('hidden');
     }
 
+    /* label for link element */
+    if (this.Config && this.Config.Type === 'Link')
+    {
+      this.LabelNode.classList.remove('hidden');
+    }
+
+    
+
     /* filters block */
 
     this.FilterRadiosBoxNode.classList.add('hidden');
@@ -15767,6 +15775,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.PreviewBoxNode.innerHTML = this.HtmlEditExampleTemplate;
       this.PreviewNode.classList.remove('hidden');
     }
+
+    
 
     /* file widget */
 
