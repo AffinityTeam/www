@@ -22732,7 +22732,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
 
     var html;
-    if (this.IsReadOnly || this.Config.IsReadOnly) {
+    if (this.IsReadOnly || this.Config.Details.IsReadOnly) {
         if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ItemSourceType')) {
             if(this.Config.Details.ItemSource.ItemSourceType === 'Custom'  
                 && $a.isPropArray(this.Config.Details.ItemSource, 'Items')
@@ -22751,7 +22751,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
                 html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
             }
         }
-       
+        else {
+            html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+          }
     }
     else
       html = this.HtmlRowTemplate.format(this.Config.Details.Label);
