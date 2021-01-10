@@ -22751,7 +22751,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
                 html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
             }
         }
-       
+        else {
+            html = this.HtmlRowTemplate.format(this.Config.Details.Label);
+         }
     }
     else
       html = this.HtmlRowTemplate.format(this.Config.Details.Label);
