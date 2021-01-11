@@ -6104,7 +6104,13 @@ var UILeaveDetail = new Class({
                             this.data.LeaveHeader.StatusCode = 6;
                             this.editDetail();
                         }
+
                        
+                       
+                    }.bind(this);
+
+                    var editDetail = function () {
+                        this.editDetail();
                     }.bind(this);
 
                     var validationResponse = function (data) {
@@ -6142,7 +6148,7 @@ var UILeaveDetail = new Class({
                     } else if (!this.isManager && this.partialApproved) {
                         Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, validationResponse, null);
                     } else {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, response, null);
+                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, editDetail, null);
                       //  this.editDetail();
                     }
                 }.bind(this));
