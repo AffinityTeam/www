@@ -9278,7 +9278,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     if (this.DragNode)
     {
       this.DragNode.controller.SetDesignEditor(this);
-      if (this.PopupNode.querySelectorAll('.mode-wrapper:not(.hidden)').length <= 1) this.RequiredBoxNode.classList.add('hidden');
+     // if (this.PopupNode.querySelectorAll('.mode-wrapper:not(.hidden)').length <= 1) this.RequiredBoxNode.classList.add('hidden');
     }
 
     /**/
@@ -17136,7 +17136,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       /* if field is required, always tick and disable required. */
 
-      if (this.Config.Details.AffinityField.IsRequired)
+      if (this.Config.Details.AffinityField.IsRequired && this.CleverForms.IsMasterFile(this.Config))
       {
         this.RequiredBoxNode.classList.remove('hidden');
         this.RequiredBoxNode.querySelector('input').disabled = true;
@@ -17145,11 +17145,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       /* if is global or a key, always tick and disable required. */
 
       this.RequiredBoxNode.classList.remove('hidden');
-      if (
+      if (this.CleverForms.IsMasterFile(this.Config) && (
         this.CleverForms.PseudoGlobalElementTypes.contains(this.Config.Type)
         || this.CleverForms.IsGlobalKey(this.Config)
         || this.CleverForms.IsKey(this.Config)
-        || this.Config.Details.AffinityField.IsRequired
+        || this.Config.Details.AffinityField.IsRequired)
       )
       {
         this.Config.Details.Required = true;
@@ -17998,7 +17998,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     config.Label = keyConfig.DefaultLabel;
     config.Details.Label = keyConfig.DefaultLabel;
     config.Details.HelpText = keyConfig.FieldHint;
-    config.Details.Required = keyConfig.IsMandatory;
+    config.Details.Required = this.CleverForms.IsMasterFile(keyConfig) ? keyConfig.IsMandatory : this.Config.Details.Required;
     config.Details.IsReadOnly = keyConfig.IsReadOnly;
     if (config.Details.AffinityField.IsKeyField)
     {
@@ -20886,7 +20886,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
          <select class="SecurityLevel" name="SecurityLevel">
            <option value="0">Visible to Employees and Above</option>
            <option value="10">Visible to Managers and Above</option>
-           <option value="20">Visible to Payroll/HR only</option>
+           <option selected value="20">Visible to Payroll/HR only</option>
          </select>
        </div>
     </div>
