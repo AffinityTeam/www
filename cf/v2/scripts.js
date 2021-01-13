@@ -20424,7 +20424,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
       this.DocSecurityLevelNode = this.TemplateNode.querySelector('.document-security-level div.select');
       this.DocSecurityLevelSelectNode = this.DocSecurityLevelNode.querySelector('select');
-      this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
+      if(this.Config.Details.SecurityLevel === undefined) {
+          this.DocSecurityLevelSelectNode.value = '20';
+      }
+      else {
+         this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
+      }
       if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocSecurityLevelSelectNode);
 
       //this.DocumentDescriptionNode = this.TemplateNode.querySelector('textarea.DocumentDescription');
@@ -20439,6 +20444,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         this.AttachPositionNode.checked = false;
         this.AttachOnlyTrueNode.removeAttribute('checked');
         this.AttachPositionNode.removeAttribute('checked');
+        
       }
       else
       {
@@ -20447,6 +20453,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         this.AttachPositionNode.checked = false;
         this.AttachOnlyFalseNode.removeAttribute('checked');
         this.AttachPositionNode.removeAttribute('checked');
+        this.DocSecurityLevelNode.classList.remove('hide');
       }
       if ([11, '11', 'Position'].contains(this.Config.Details.DocumentCategory))
       {
@@ -20630,12 +20637,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     {
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.add('hide');
+      this.DocSecurityLevelNode.parentNode.classList.add('hide');
     }
     else if (this.AttachOnlyTrueNode.checked)
     {
       this.PreselctCategory = "Employee";
       this.DocCatsNode.parentNode.classList.remove('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
+      this.DocSecurityLevelNode.parentNode.classList.remove('hide');
       this._getDocumentTypes();
     }
     else if (this.AttachPositionNode.checked)
@@ -20643,6 +20652,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.PreselctCategory = "Position";
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
+      this.DocSecurityLevelNode.parentNode.classList.remove('hide');
       this._getDocumentTypes();
     }
   }
@@ -20880,13 +20890,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         </select>
       </div>
     </div>
-    <div class="edit-row document-security-level">
+    <div class="edit-row document-security-level hidable">
       <label>Security Level</label>
       <div class="select">
          <select class="SecurityLevel" name="SecurityLevel">
            <option value="0">Visible to Employees and Above</option>
            <option value="10">Visible to Managers and Above</option>
-           <option selected value="20">Visible to Payroll/HR only</option>
+           <option value="20">Visible to Payroll/HR only</option>
          </select>
        </div>
     </div>
