@@ -695,24 +695,16 @@ var Leave = new Class({
             onSuccess: function (response) {
                 Affinity.leave.unlockui('leave-doPositionUpdateOrValidation');
                 prompts.hide();
-                if (response) {
+                if (response.IsValid != undefined && response.IsValid) {
                     if (methodToExecuteIfPassed && typeof (methodToExecuteIfPassed) === 'function') {
                         methodToExecuteIfPassed(param);
                     }
-                } else {
-                    if (this.isManager) {
+                } else if (response.IsValid != undefined && !response.IsValid) {
                         uialert({
-                            'message': 'This employee’s position has changed since they applied for this leave, so you can’t make changes. Please ask the employee to cancel this leave and re-apply.',
+                            'message': response.Message,
                             showButtons: true,
                             noClose: false
                         });
-                    } else {
-                        uialert({
-                            'message': 'Your position has changed since you applied for this leave, so you can’t make changes. Please cancel this leave and re-apply.',
-                            showButtons: true,
-                            noClose: false
-                        });
-                    }
                     
                 }
                
