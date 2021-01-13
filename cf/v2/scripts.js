@@ -8450,8 +8450,17 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && $a.isObject(fromConfig.Details.FileSetting)
     )
     {
-      if (this.DocumentCategories.hasOwnProperty(fromConfig.Details.FileSetting.DocumentCategory))
-        toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value;
+      if (this.DocumentCategories.hasOwnProperty(fromConfig.Details.FileSetting.DocumentCategory)) {
+          this.DocumentCategories.forEach(function (pair) {
+              if( pair
+                && pair.hasOwnProperty('Key')
+                && pair.hasOwnProperty('Value') && pair['Key'] === fromConfig.Details.FileSetting.DocumentCategory) {
+                  toConfig.Details.DocumentCategory = pair['Value'];
+              }
+          }.bind(this));
+        //toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value; Ben this method returns wrong element
+          // as it is returning element number 19 which has key=20, rather than key=19. Please review. 
+      }
       else
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
       
