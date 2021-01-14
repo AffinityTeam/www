@@ -18191,11 +18191,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (document.querySelectorAll('div[data-model="' + modelName + '"].row-affinityfield').length > 0)
     {
       $a.ShowPageLoader();
+      var key = encodeURIComponent(select.value.trim());
 
       this.FormLookupApi = '{api}?modelName={modelName}&key={key}&instanceId={instanceId}'.format({
         api: this.CleverForms.GetModelApi.trim(),
         modelName: this.Config.Details.AffinityField.ModelName,
-        key: select.value.trim(),
+        key,
         instanceId: this.CleverForms.GetInstanceGuid()
       });
 
