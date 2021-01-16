@@ -8450,8 +8450,17 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && $a.isObject(fromConfig.Details.FileSetting)
     )
     {
-      if (this.DocumentCategories.hasOwnProperty(fromConfig.Details.FileSetting.DocumentCategory))
-        toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value;
+      if (this.DocumentCategories.hasOwnProperty(fromConfig.Details.FileSetting.DocumentCategory)) {
+          this.DocumentCategories.forEach(function (pair) {
+              if( pair
+                && pair.hasOwnProperty('Key')
+                && pair.hasOwnProperty('Value') && pair['Key'] === fromConfig.Details.FileSetting.DocumentCategory) {
+                  toConfig.Details.DocumentCategory = pair['Value'];
+              }
+          }.bind(this));
+        //toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value; Ben this method returns wrong element
+          // as it is returning element number 19 which has key=20, rather than key=19. Please review. 
+      }
       else
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
       
@@ -9278,7 +9287,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     if (this.DragNode)
     {
       this.DragNode.controller.SetDesignEditor(this);
-      if (this.PopupNode.querySelectorAll('.mode-wrapper:not(.hidden)').length <= 1) this.RequiredBoxNode.classList.add('hidden');
+     // if (this.PopupNode.querySelectorAll('.mode-wrapper:not(.hidden)').length <= 1) this.RequiredBoxNode.classList.add('hidden');
     }
 
     /**/
@@ -17136,7 +17145,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       /* if field is required, always tick and disable required. */
 
-      if (this.Config.Details.AffinityField.IsRequired)
+      if (this.Config.Details.AffinityField.IsRequired && this.CleverForms.IsMasterFile(this.Config))
       {
         this.RequiredBoxNode.classList.remove('hidden');
         this.RequiredBoxNode.querySelector('input').disabled = true;
@@ -17145,11 +17154,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       /* if is global or a key, always tick and disable required. */
 
       this.RequiredBoxNode.classList.remove('hidden');
-      if (
+      if (this.CleverForms.IsMasterFile(this.Config) && (
         this.CleverForms.PseudoGlobalElementTypes.contains(this.Config.Type)
         || this.CleverForms.IsGlobalKey(this.Config)
         || this.CleverForms.IsKey(this.Config)
-        || this.Config.Details.AffinityField.IsRequired
+        || this.Config.Details.AffinityField.IsRequired)
       )
       {
         this.Config.Details.Required = true;
@@ -17998,7 +18007,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     config.Label = keyConfig.DefaultLabel;
     config.Details.Label = keyConfig.DefaultLabel;
     config.Details.HelpText = keyConfig.FieldHint;
-    config.Details.Required = keyConfig.IsMandatory;
+    config.Details.Required = this.CleverForms.IsMasterFile(keyConfig) ? keyConfig.IsMandatory : this.Config.Details.Required;
     config.Details.IsReadOnly = keyConfig.IsReadOnly;
     if (config.Details.AffinityField.IsKeyField)
     {
@@ -18182,11 +18191,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (document.querySelectorAll('div[data-model="' + modelName + '"].row-affinityfield').length > 0)
     {
       $a.ShowPageLoader();
+      var key = encodeURIComponent(select.value.trim());
 
       this.FormLookupApi = '{api}?modelName={modelName}&key={key}&instanceId={instanceId}'.format({
         api: this.CleverForms.GetModelApi.trim(),
         modelName: this.Config.Details.AffinityField.ModelName,
-        key: select.value.trim(),
+        key,
         instanceId: this.CleverForms.GetInstanceGuid()
       });
 
@@ -20424,7 +20434,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
       this.DocSecurityLevelNode = this.TemplateNode.querySelector('.document-security-level div.select');
       this.DocSecurityLevelSelectNode = this.DocSecurityLevelNode.querySelector('select');
-      this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
+      if(this.Config.Details.SecurityLevel === undefined) {
+          this.DocSecurityLevelSelectNode.value = '20';
+      }
+      else {
+         this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
+      }
       if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocSecurityLevelSelectNode);
 
       //this.DocumentDescriptionNode = this.TemplateNode.querySelector('textarea.DocumentDescription');
@@ -20439,6 +20454,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         this.AttachPositionNode.checked = false;
         this.AttachOnlyTrueNode.removeAttribute('checked');
         this.AttachPositionNode.removeAttribute('checked');
+        
       }
       else
       {
@@ -20447,6 +20463,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         this.AttachPositionNode.checked = false;
         this.AttachOnlyFalseNode.removeAttribute('checked');
         this.AttachPositionNode.removeAttribute('checked');
+        this.DocSecurityLevelNode.classList.remove('hide');
       }
       if ([11, '11', 'Position'].contains(this.Config.Details.DocumentCategory))
       {
@@ -20630,12 +20647,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     {
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.add('hide');
+      this.DocSecurityLevelNode.parentNode.classList.add('hide');
     }
     else if (this.AttachOnlyTrueNode.checked)
     {
       this.PreselctCategory = "Employee";
       this.DocCatsNode.parentNode.classList.remove('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
+      this.DocSecurityLevelNode.parentNode.classList.remove('hide');
       this._getDocumentTypes();
     }
     else if (this.AttachPositionNode.checked)
@@ -20643,6 +20662,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       this.PreselctCategory = "Position";
       this.DocCatsNode.parentNode.classList.add('hide');
       this.DocTypeNode.parentNode.classList.remove('hide');
+      this.DocSecurityLevelNode.parentNode.classList.remove('hide');
       this._getDocumentTypes();
     }
   }
@@ -20880,7 +20900,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         </select>
       </div>
     </div>
-    <div class="edit-row document-security-level">
+    <div class="edit-row document-security-level hidable">
       <label>Security Level</label>
       <div class="select">
          <select class="SecurityLevel" name="SecurityLevel">
