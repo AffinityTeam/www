@@ -21832,7 +21832,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
             id: 'check-' + this.Config.Name + '-' + index,
             name: this.Config.Name,
             value: listItem[keys[1]],
-            label: listItem[keys[0]]
+            label: listItem[keys[0]],
+              disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
           });
           this.FormRowNode.appendChild(checkRow);
         }.bind(this));
@@ -21857,7 +21858,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
               id: 'check-' + this.Config.Name + '-' + index,
               name: this.Config.Name,
               value: listItem[keys[1]],
-              label: listItem[keys[0]]
+              label: listItem[keys[0]],
+              disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
             this.FormRowNode.appendChild(checkRow);
           }.bind(this));
@@ -21980,7 +21982,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     `;
 
     this.HtmlCheckboxRowTemplate = `
-    <input type="checkbox" id="{id}" value="{value}" /><label for="{id}" class="right">{label}</label>
+    <input type="checkbox" id="{id}" value="{value}" {disabled}/><label for="{id}" class="right">{label}</label>
     `;
 
   }
@@ -23266,7 +23268,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
               id: 'radio-' + this.Config.Name + '-' + index,
               name: this.Config.Name,
               value: listItem[keys[1]],
-              label: listItem[keys[0]]
+              label: listItem[keys[0]],
+              disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
             this.FormRowNode.appendChild(selectRow);
           }.bind(this));
@@ -23297,7 +23300,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
               id: 'radio-' + this.Config.Name + '-' + index,
               name: this.Config.Name,
               value: listItem[keys[1]],
-              label: listItem[keys[0]]
+              label: listItem[keys[0]],
+              disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
@@ -23392,7 +23396,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     `;
 
     this.HtmlRadioRowTemplate = `
-    <input type="radio" name="{name}" id="{id}" value="{value}" /><label for="{id}" class="right">{label}</label>
+    <input type="radio" name="{name}" id="{id}" value="{value}" {disabled}/><label for="{id}" class="right">{label}</label>
     `;
 
 
