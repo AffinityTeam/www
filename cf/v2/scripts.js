@@ -8450,16 +8450,21 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && $a.isObject(fromConfig.Details.FileSetting)
     )
     {
-      if (this.DocumentCategories.hasOwnProperty(fromConfig.Details.FileSetting.DocumentCategory)) {
-          this.DocumentCategories.forEach(function (pair) {
-              if( pair
-                && pair.hasOwnProperty('Key')
-                && pair.hasOwnProperty('Value') && pair['Key'] === fromConfig.Details.FileSetting.DocumentCategory) {
-                  toConfig.Details.DocumentCategory = pair['Value'];
-              }
-          }.bind(this));
-        //toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value; Ben this method returns wrong element
-          // as it is returning element number 19 which has key=20, rather than key=19. Please review. 
+      if (this.DocumentCategories.hasOwnProperty(fromConfig.Details.FileSetting.DocumentCategory))
+      {
+        this.DocumentCategories.forEach(function (pair)
+        {
+          if (
+            pair
+            && pair.hasOwnProperty('Key')
+            && pair.hasOwnProperty('Value') && pair['Key'] === fromConfig.Details.FileSetting.DocumentCategory
+          )
+          {
+            toConfig.Details.DocumentCategory = pair['Value'];
+          }
+        }.bind(this));
+        // toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value;
+        // Ben this method returns wrong element as it is returning element number 19 which has key=20, rather than key=19. Please review. 
       }
       else
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
@@ -16417,7 +16422,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    */
   _fileUploaded (ev)
   {
-    var uploadIds = [], saveIds, i;
+    var uploadIds = [], saveIds = [], i;
 
     if (ev && 'detail' in ev && 'dispatchObject' in ev.detail)
     {
@@ -16425,30 +16430,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       if ($a.isString(uploadIds)) uploadIds = uploadIds.split(',');
     }
     
-    uploadIds = uploadIds.map(function (x) { return x + ''; });
-    uploadIds = uploadIds.removeDuplicates().removeEmpty();
+    uploadIds = uploadIds.map(function (x) { return x + ''; }); // stringify ids
+    //uploadIds = uploadIds.removeDuplicates().removeEmpty();
 
     if (this.CleverForms.hasOwnProperty('Designer') && this.Config.Details.FileId !== null && this.Config.Details.FileId !== '') saveIds = this.Config.Details.FileId.split(',');
     if (this.CleverForms.hasOwnProperty('Form')) saveIds = this.Config.Details.Value;
-    if ($a.isString(saveIds)) saveIds = saveIds.split(',');
-
-    //Ben to review this logic when he comes back.
-    if (saveIds !== undefined) {
-       saveIds = saveIds.map(function (x) { return x + ''; });
-       saveIds = saveIds.removeDuplicates().removeEmpty();
-
-       for (i = 0; i < uploadIds.length; i++) {
-          if (!saveIds.contains(uploadIds[i])) saveIds.push(uploadIds[i]);
-       }
+    if ($a.isString(saveIds))
+    {
+      saveIds = saveIds.split(',');
+      saveIds = saveIds.map(function (x) { return x + ''; }); // stringify ids
+      //saveIds = saveIds.removeDuplicates().removeEmpty();
     }
-    else {
-        saveIds = [];
-        for (i = 0; i < uploadIds.length; i++) {
-            saveIds.push(uploadIds[i]);
-        }
-    }
-
-   
+    saveIds = saveIds.concat(uploadIds).removeDuplicates().removeEmpty();
 
     if (this.CleverForms.hasOwnProperty('Designer'))
     {
@@ -16460,8 +16453,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.Config.Details.Value = saveIds;
       this.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
-
   }
+
   /**
    * Summary. ?
    * @this    Class scope
@@ -17625,6 +17618,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       };
     }
 
+    // check for rates and use Float with 5 decimal places
+
+    if (/^rate [1-9]{1}$/i.test(this.Config.Details.AffinityField.FieldName))
+    {
+      displayType = 'Float';
+      this.Config.Details.DecimalNumber = 5;
+    }
+
+    /////////////////////////////////////////////////////////
+
     if (elements.hasOwnProperty(displayType))
     {
       if (displayType === 'Date')
@@ -17651,7 +17654,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (!isGlobalKey) window.addEventListener('ModelLookupChanged', this._modelLookupChanged);
       }
     }
-
 
     if (this.FormRowNode)
     {
@@ -20434,12 +20436,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
       this.DocSecurityLevelNode = this.TemplateNode.querySelector('.document-security-level div.select');
       this.DocSecurityLevelSelectNode = this.DocSecurityLevelNode.querySelector('select');
-      if(this.Config.Details.SecurityLevel === undefined) {
-          this.DocSecurityLevelSelectNode.value = '20';
-      }
-      else {
-         this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
-      }
+      if (this.Config.Details.SecurityLevel === undefined) this.DocSecurityLevelSelectNode.value = '20';
+      else this.DocSecurityLevelSelectNode.value = this.Config.Details.SecurityLevel;
       if (this.UseAutocomplets) Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocSecurityLevelSelectNode);
 
       //this.DocumentDescriptionNode = this.TemplateNode.querySelector('textarea.DocumentDescription');
@@ -22751,32 +22749,36 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   SetFormRow (target)
   {
 
-    var html;
-    if (this.IsReadOnly || this.Config.Details.IsReadOnly) {
-        if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ItemSourceType')) {
-            if(this.Config.Details.ItemSource.ItemSourceType === 'Custom'  
-                && $a.isPropArray(this.Config.Details.ItemSource, 'Items')
-                && this.Config.Details.ItemSource.Items.length > 0) {
-
-                var items = this.Config.Details.ItemSource.Items;
-                for (var key in items) {
-                   var item = items[key];
-                   if(item !== null && item.Value === this.Config.Details.Value) {
-                        html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key); 
-                        break;
-                   }
-                }
+    var html = null;
+    if (this.IsReadOnly || this.Config.Details.IsReadOnly)
+    {
+      if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ItemSourceType'))
+      {
+        if (
+          $a.isPropArray(this.Config.Details.ItemSource, 'Items')
+          && this.Config.Details.ItemSource.Items.length > 0
+        )
+        {
+          var items = this.Config.Details.ItemSource.Items;
+          for (var key in items)
+          {
+            var item = items[key];
+            if (item !== null && item.Value === this.Config.Details.Value)
+            {
+              if (this.Config.Details.ItemSource.ItemSourceType === 'Custom') html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key);
+              else html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key.replace(' - ', ', ')); 
+              break;
             }
-             else {
-                html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
-            }
-        }
-        else {
-            html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
           }
+        }
+        if (html === null) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
+      }
+      else
+      {
+        html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+      }
     }
-    else
-      html = this.HtmlRowTemplate.format(this.Config.Details.Label);
+    else html = this.HtmlRowTemplate.format(this.Config.Details.Label);
 
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode && !this.IsReadOnly)
