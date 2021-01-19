@@ -25,7 +25,6 @@ var Leave = new Class({
         /**/
         'logout',
         'loggedin', 'loggedout',
-        'doPositionUpdateOrValidation',
         /**/
         //'populateForwardHistory', //moved to detail
         //'leaveDetailData',
@@ -675,42 +674,6 @@ var Leave = new Class({
             this.config = false;
         }
         this.forceunlockui();
-    },
-    doPositionUpdateOrValidation: function (tsGroupId, methodToExecuteIfPassed, param) {
-        this._methodName = 'ui.leave.js -> doPositionUpdateOrValidation ()';
-        this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DoPositionUpdateOrValidation/' + tsGroupId);
-        new Request.JSON({
-            url: this._api,
-            onRequest: function () {
-                Affinity.leave.lockui('leave-doPositionUpdateOrValidation');
-                if (!this._noAlerts) {
-                    uialert({
-                        message: ' ',
-                        showLoader: true,
-                        showButtons: false,
-                        noClose: true
-                    });
-                }
-            }.bind(this),
-            onSuccess: function (response) {
-                Affinity.leave.unlockui('leave-doPositionUpdateOrValidation');
-                prompts.hide();
-                if (response.IsValid != undefined && response.IsValid) {
-                    if (methodToExecuteIfPassed && typeof (methodToExecuteIfPassed) === 'function') {
-                        methodToExecuteIfPassed(param);
-                    }
-                } else if (response.IsValid != undefined && !response.IsValid) {
-                        uialert({
-                            'message': response.Message,
-                            showButtons: true,
-                            noClose: false
-                        });
-                    
-                }
-               
-
-            }.bind(this)
-        }).post();
     },
 
     /**/
@@ -4574,20 +4537,8 @@ var UILeaveDetail = new Class({
                                 response.Response = subject + " has been declined";
                             }
                         }
-                        if (response.Messages.length > 0 &&
-                            response.Messages[0].Message !== undefined &&
-                            response.Messages[0].Message !== null &&
-                            response.Messages[0].Message.indexOf('position has changed') > -1) {
-                            uialert({
-                                'message': response.Messages[0].Message,
-                                showButtons: true,
-                                noClose: false
-                            });
-                        } else {
-                            this.acknowledgementModal(response);
-                            Affinity.leave.manager.refreshAll();
-                        }
-                        
+                        this.acknowledgementModal(response);
+                        Affinity.leave.manager.refreshAll();
                         //this.refreshHistory();
                     }
                     else {
@@ -5047,26 +4998,23 @@ var UILeaveDetail = new Class({
 
 
     editDetail: function () {
-
-            if (this.isManager) {
-                if (Affinity.leave.manager) {
-                    Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
-                        if (employee) {
-                            this.doEditDetail(employee);
-                        }
-                        else {
-                            this.doEditDetail(Affinity.leave.manager.config); 
-                         }
-                    }.bind(this));
-                }
+        if (this.isManager) {
+            if (Affinity.leave.manager) {
+                Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
+                    if (employee) {
+                        this.doEditDetail(employee);
+                    }
+                    else {
+                        this.doEditDetail(Affinity.leave.manager.config);
+                    }
+                }.bind(this));
             }
-            else {
-                if (Affinity.leave.employee.config) {
-                    this.doEditDetail(Affinity.leave.employee.config);
-
-                }
+        }
+        else {
+            if (Affinity.leave.employee.config) {
+                this.doEditDetail(Affinity.leave.employee.config);
             }
-       
+        }
     },
 
     createForwardingFeature: function (form) {
@@ -5128,8 +5076,6 @@ var UILeaveDetail = new Class({
 
         var leaveHeader = this.data.LeaveHeader;
         var components = this.data.Components;
-
-     
 
         Affinity.modal.show();
         Affinity.modal.clear();
@@ -5988,57 +5934,37 @@ var UILeaveDetail = new Class({
                 ).inject(this.buttonsBox);
                 this.editButton.addEvent('click', function () {
                     var response = function (data) {
-                        if ((data !== null &&
-                            data.Data !== null) || data === null) {
-                            this.data.LeaveHeader.StatusCode = 6;
-                            this.editDetail();
-                        }
-
-                       
-                       
-                    }.bind(this);
-
-                    var editDetail = function () {
+                        this.data.LeaveHeader.StatusCode = 6;
                         this.editDetail();
                     }.bind(this);
-
-                    var validationResponse = function (data) {
-                        if (!this.isManager && this.data.LeaveHeader.StatusCode == 3) {
-                            uialert({
-                                message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
-                                showButtons: true,
-                                showCancel: true,
-                                okText: "Yes",
-                                cancelText: 'No',
-                                onOk: function () {
-                                    this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 3, response);
-                                }.bind(this),
-                                onCancel: function () {
-                                }
-                            });
-                        } else if (!this.isManager && this.partialApproved) {
-                            uialert({
-                                message: 'This Leave Application is partially approved. <br /> Do you want to cancel it to make it editable?',
-                                showButtons: true,
-                                showCancel: true,
-                                okText: 'Yes - Cancel and Edit',
-                                okIcon: Affinity.icons.Plane,
-                                onOk: function () {
-                                    this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 0, response);
-                                }.bind(this),
-                                onCancel: function () {
-                                }
-                            });
-                        }
-                    }.bind(this);
-
                     if (!this.isManager && this.data.LeaveHeader.StatusCode == 3) {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, validationResponse, null);
+                        uialert({
+                            message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
+                            showButtons: true,
+                            showCancel: true,
+                            okText: "Yes",
+                            cancelText: 'No',
+                            onOk: function () {
+                                this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 3, response);
+                            }.bind(this),
+                            onCancel: function () {
+                            }
+                        });
                     } else if (!this.isManager && this.partialApproved) {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, validationResponse, null);
+                        uialert({
+                            message: 'This Leave Application is partially approved. <br /> Do you want to cancel it to make it editable?',
+                            showButtons: true,
+                            showCancel: true,
+                            okText: 'Yes - Cancel and Edit',
+                            okIcon: Affinity.icons.Plane,
+                            onOk: function () {
+                                this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 0, response);
+                            }.bind(this),
+                            onCancel: function () {
+                            }
+                        });
                     } else {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, editDetail, null);
-                      //  this.editDetail();
+                        this.editDetail();
                     }
                 }.bind(this));
             }
@@ -6063,26 +5989,12 @@ var UILeaveDetail = new Class({
     doLeaveCancellation: function () {
         this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, this.data.LeaveHeader.statusCode,
             function (response) {
-                if (response.Data !== null) {
-                    if (response.Data.LeaveHeader.StatusCode == 6) {
-                        this.acknowledgementModal(response, 'Your leave has been cancelled');
-                    }
-                    else if (response.Data.LeaveHeader.StatusCode == 7) {
-                        this.acknowledgementModal(response, 'Leave cancellation has been requested');
-                    }
-                } else {
-                    if (response.Messages[0].length > 0 &&
-                        response.Messages[0].Message !== null &&
-                        response.Messages[0].Message !== undefined &&
-                        response.Messages[0].Message.indexOf('position has changed') > -1) {
-                        uialert({
-                            'message': response.Messages[0].Message,
-                            showButtons: true,
-                            noClose: false
-                        });
-                    }
+                if (response.Data.LeaveHeader.StatusCode == 6) {
+                    this.acknowledgementModal(response, 'Your leave has been cancelled');
                 }
-               
+                else if (response.Data.LeaveHeader.StatusCode == 7) {
+                    this.acknowledgementModal(response, 'Leave cancellation has been requested');
+                }
             }.bind(this));
     },
 
@@ -6303,23 +6215,6 @@ var UILeaveDetail = new Class({
 
         //var posUnits = [];
         var daysRow, hoursRow, posName, posDate, hours, days, date, component;
-
-        var isEmployeeMultiPositions = true;
-        var componentPositions = new Array();
-        component = null;
-        Array.each(components, function (comp, Index) {
-            if (componentPositions.length === 0) {
-                componentPositions.push(comp.positionCode);
-            } else if (componentPositions.length > 0 &&
-                componentPositions.indexOf(comp.positionCode) < 0) {
-                componentPositions.push(comp.positionCode);
-            }
-        });
-
-        if (componentPositions.length === 1 && positions.length == 1) {
-            isEmployeeMultiPositions = false;
-        }
-
         Array.each(positions, function (position, index) {
             var pos = new Element('div', { 'class': 'position-label' }).inject(this.positionsLabels);
             var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
@@ -6344,8 +6239,7 @@ var UILeaveDetail = new Class({
 
             component = null;
             Array.each(components, function (comp, Index) {
-                if ((comp.PositionCode === position.PositionCode && isEmployeeMultiPositions) ||
-                    !isEmployeeMultiPositions) {
+                if (comp.PositionCode === position.PositionCode) {
                     component = comp;
                 }
             });
@@ -6934,22 +6828,6 @@ var UILeaveDetail = new Class({
         //    'class': 'detail-approver-box'
         //}).inject(this.unitsBox);
 
-        var isEmployeeMultiPositions = true;
-        var componentPositions = new Array();
-        component = null;
-        Array.each(components, function (comp, Index) {
-            if (componentPositions.length === 0) {
-                componentPositions.push(comp.positionCode);
-            } else if (componentPositions.length > 0 &&
-                componentPositions.indexOf(comp.positionCode) < 0) {
-                componentPositions.push(comp.positionCode);
-            }
-        });
-
-        if (componentPositions.length === 1 && positions.length == 1) {
-            isEmployeeMultiPositions = false;
-        }
-
         if (this.approverBox)
             this.approverBox.empty();
 
@@ -6977,15 +6855,11 @@ var UILeaveDetail = new Class({
                 }).inject(posBox);
                 approverSelector.addEvent('change', this.updateAuthoriser);
 
-
-                
-
                 if (componant.Authorisation && componant.Authorisation.AuthorisationId) {
                     approverSelector.store('authId', componant.Authorisation.AuthorisationId);
                     //var positions = Affinity.leave.employee.config.Positions;
                     Array.each(positions, function (position) {
-                        if ((componant.PositionCode == position.PositionCode && isEmployeeMultiPositions) ||
-                            !isEmployeeMultiPositions) {
+                        if (componant.PositionCode == position.PositionCode) {
                             Array.each(position.SubmittedTos, function (approver, index) {
                                 var option = new Element('option', {
                                     'value': index + 1
