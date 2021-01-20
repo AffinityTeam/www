@@ -10065,9 +10065,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     /** Add preview button event */
     this.TopNode.querySelector('.button.preview').addEventListener('click', this._loadPreview);
 
-    this.TopNode.querySelector('.button.download').addEventListener('click', this._download);
-    this.TopNode.querySelector('.button.upload').addEventListener('click', function () { document.querySelector('.cf-d2-top input.upload-file').click(); });
-    this.TopNode.querySelector('input.upload-file').addEventListener('change', this._upload);
+    if (this.TopNode.querySelector('.button.download') && this.TopNode.querySelector('.button.upload') && this.TopNode.querySelector('input.upload-file'))
+    {
+      this.TopNode.querySelector('.button.download').addEventListener('click', this._download);
+      this.TopNode.querySelector('.button.upload').addEventListener('click', function () { document.querySelector('.cf-d2-top input.upload-file').click(); });
+      this.TopNode.querySelector('input.upload-file').addEventListener('change', this._upload);
+    }
 
     /** Kick off data loader ... */
     Affinity2018.ShowPageLoader();
@@ -17620,10 +17623,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     // check for rates and use Float with 5 decimal places
 
-    if (/^rate [1-9]{1}$/i.test(this.Config.Details.AffinityField.FieldName))
+    if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName))
     {
       displayType = 'Float';
       this.Config.Details.DecimalNumber = 5;
+      this.Config.Details.Rounding = 'round';
     }
 
     /////////////////////////////////////////////////////////
@@ -21101,7 +21105,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
   SetFormRow (target)
   {
     var decimalNumber = this.Config.Details.DecimalNumber || 2;
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, decimalNumber, this.Config.Details.Value);
+    var rounding = this.Config.Details.Rounding || 'round';
+    var html = this.HtmlRowTemplate.format({
+      label: this.Config.Details.Label,
+      decimals: decimalNumber,
+      rounding: rounding,
+      value: this.Config.Details.Value
+    });
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
@@ -21170,8 +21180,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
     this.HtmlRowTemplate = `
     <div class="form-row">
-      <label>{0}</label>
-      <input type="text" class="ui-has-float" data-decimals="{1}" value="{2}" />
+      <label>{label}</label>
+      <input type="text" class="ui-has-float" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
     </div>
     `;
 
@@ -21628,7 +21638,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
   SetFormRow (target)
   {
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    var html = this.HtmlRowTemplate.format({
+      label: this.Config.Details.Label,
+      value: this.Config.Details.Value,
+      disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
+    });
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
@@ -21680,9 +21694,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
     this.HtmlRowTemplate = `
     <div class="form-row">
-      <label>{0}</label>
+      <label>{label}</label>
       <br />
-      <textarea rows="3" class="memo">{1}</textarea>
+      <textarea rows="3" class="memo" {disabled}>{value}</textarea>
     </div>
     `;
 
@@ -33766,9 +33780,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     this.WidgetName = 'Number';
     this.WidgetType = 'none';
 
+    this.Rounding = ['round', 'ceil', 'floor', 'none'];
+
     this.type = null;
     this.InputNode = null;
     this.decimals = 0;
+    this.rounding = 'round';
     this.Valid = true;
 
     this.SpecialValidation = false;
@@ -33858,6 +33875,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     {
       this.decimals = parseInt(this.InputNode.dataset.decimals);
       delete this.InputNode.dataset.decimals;
+    }
+
+    if (this.InputNode.dataset.rounding && this.Rounding.contains(this.InputNode.dataset.rounding.toLowerCase().trim()))
+    {
+      this.rounding = this.InputNode.dataset.rounding.toLowerCase().trim();
+      delete this.InputNode.dataset.rounding;
     }
 
     if (!this.InputNode.hasOwnProperty('widgets')) this.InputNode.widgets = {};
@@ -33999,7 +34022,24 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       if (this.decimals > 0)
       {
         decimalMultiplyer = 10 ** this.decimals;
-        value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
+        switch (this.rounding)
+        {
+          default:
+          case 'round':
+            value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
+            break;
+          case 'ceil':
+            value = Math.ceil(value * decimalMultiplyer) / decimalMultiplyer;
+            break;
+          case 'floor':
+            value = Math.floor(value * decimalMultiplyer) / decimalMultiplyer;
+            break;
+          case 'none':
+            var valueStr = value.toString();
+            if (valueStr.contains('.')) value = parseFloat(valueStr.split('.')[0] + '.' +  valueStr.split('.')[1].substring(0, this.decimals));
+            break;
+        }
+        //value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
       }
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
       this.InputNode.value = value;
