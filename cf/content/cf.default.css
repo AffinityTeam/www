@@ -65,6 +65,11 @@ newui .grid-list li {
     width: 150px;
 }
 
+.newui th.cf-index-link, .newui col.cf-index-user-instructions {
+    width: auto;
+}
+
+
 .newui th.cf-index-type, .newui col.cf-index-type {
     width: 150px;
 }
@@ -94,6 +99,21 @@ newui .grid-list li {
 
 .newui .button-col-b {
     display: inline;
+}
+
+.newui .button-col-b.no-dup span.button.disabled {
+  touch-action: manipulation !important;
+  pointer-events: all !important;
+}
+
+.newui .button-col-b.no-dup span.button.green.disabled:hover {
+	background-color: #7abd2d !important;
+}
+.newui .button-col-b.no-dup span.button.blue.disabled:hover {
+	background-color: #44b5ec !important;
+}
+.newui .button-col-b.no-dup span.button.blue.red:hover {
+	background-color: red !important;
 }
 
 @media only screen and (max-width : 1100px) and (min-width : 801px) {
