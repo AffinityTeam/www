@@ -1,49 +1,52 @@
 /* Minification failed. Returning unminified contents.
-(2633,32-37): run-time error JS1195: Expected expression: class
-(3169,32-37): run-time error JS1195: Expected expression: class
-(3182,20-21): run-time error JS1004: Expected ';': {
-(3253,27-28): run-time error JS1004: Expected ';': {
-(3257,29-30): run-time error JS1004: Expected ';': {
-(3258,29-30): run-time error JS1004: Expected ';': {
-(3259,29-30): run-time error JS1004: Expected ';': {
-(3260,29-30): run-time error JS1004: Expected ';': {
-(3261,13-14): run-time error JS1004: Expected ';': {
-(3280,15-16): run-time error JS1004: Expected ';': {
-(3298,12-13): run-time error JS1004: Expected ';': {
-(3303,12-13): run-time error JS1004: Expected ';': {
-(3306,17-18): run-time error JS1004: Expected ';': {
-(3877,36-41): run-time error JS1195: Expected expression: class
-(3990,30-35): run-time error JS1195: Expected expression: class
-(4095,31-36): run-time error JS1195: Expected expression: class
-(4237,35-40): run-time error JS1195: Expected expression: class
-(4365,33-38): run-time error JS1195: Expected expression: class
-(4572,39-40): run-time error JS1014: Invalid character: `
-(4572,40-41): run-time error JS1195: Expected expression: <
-(4572,100-101): run-time error JS1014: Invalid character: `
-(4591,43-44): run-time error JS1014: Invalid character: `
-(4591,44-45): run-time error JS1195: Expected expression: <
-(4591,108-109): run-time error JS1014: Invalid character: `
-(4659,33-38): run-time error JS1195: Expected expression: class
-(4955,32-37): run-time error JS1195: Expected expression: class
-(5321,33-38): run-time error JS1195: Expected expression: class
-(5399,37-42): run-time error JS1195: Expected expression: class
-(5400,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2640,32-37): run-time error JS1195: Expected expression: class
+(3176,32-37): run-time error JS1195: Expected expression: class
+(3189,20-21): run-time error JS1004: Expected ';': {
+(3260,27-28): run-time error JS1004: Expected ';': {
+(3264,29-30): run-time error JS1004: Expected ';': {
+(3265,29-30): run-time error JS1004: Expected ';': {
+(3266,29-30): run-time error JS1004: Expected ';': {
+(3267,29-30): run-time error JS1004: Expected ';': {
+(3268,13-14): run-time error JS1004: Expected ';': {
+(3287,15-16): run-time error JS1004: Expected ';': {
+(3305,12-13): run-time error JS1004: Expected ';': {
+(3310,12-13): run-time error JS1004: Expected ';': {
+(3313,17-18): run-time error JS1004: Expected ';': {
+(3884,36-41): run-time error JS1195: Expected expression: class
+(3997,30-35): run-time error JS1195: Expected expression: class
+(4102,31-36): run-time error JS1195: Expected expression: class
+(4343,35-40): run-time error JS1195: Expected expression: class
+(4471,33-38): run-time error JS1195: Expected expression: class
+(4678,39-40): run-time error JS1014: Invalid character: `
+(4678,40-41): run-time error JS1195: Expected expression: <
+(4678,100-101): run-time error JS1014: Invalid character: `
+(4697,43-44): run-time error JS1014: Invalid character: `
+(4697,44-45): run-time error JS1195: Expected expression: <
+(4697,108-109): run-time error JS1014: Invalid character: `
+(4765,33-38): run-time error JS1195: Expected expression: class
+(5061,32-37): run-time error JS1195: Expected expression: class
+(5427,33-38): run-time error JS1195: Expected expression: class
+(5505,37-42): run-time error JS1195: Expected expression: class
+(5506,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5401,5-16): run-time error JS1006: Expected ')': constructor
-(5470,3-4): run-time error JS1002: Syntax error: }
-(5470,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5414,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5507,5-16): run-time error JS1006: Expected ')': constructor
+(5576,3-4): run-time error JS1002: Syntax error: }
+(5576,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5520,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
 
   if (!window.hasOwnProperty('Affinity2018')) window.Affinity2018 = {};
   if (!Affinity2018.hasOwnProperty('Classes')) Affinity2018.Classes = {};
+  if (!Affinity2018.Classes.hasOwnProperty('Plugins')) Affinity2018.Classes.Plugins = {};
   if (!Affinity2018.hasOwnProperty('Apps')) Affinity2018.Apps = {};
+  if (!Affinity2018.Apps.hasOwnProperty('Plugins')) Affinity2018.Apps.Plugins = {};
   if (!Affinity2018.hasOwnProperty('Plugins')) Affinity2018.Plugins = {};
   if (!Affinity2018.hasOwnProperty('ApiEndpoints')) Affinity2018.ApiEndpoints = {};
   if (!Affinity2018.hasOwnProperty('UserProfile')) Affinity2018.UserProfile = {};
 
+  
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
@@ -52,6 +55,9 @@
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = '//cdn.source63.com/affinity/beta1/scripts/plugins/';
+  if (!Affinity2018.hasOwnProperty('HideAllTemplates')) Affinity2018.HideAllTemplates = false;
+  if (!Affinity2018.hasOwnProperty('DisablePlugins')) Affinity2018.DisablePlugins = [];
+  
 
   /* config */
 
@@ -86,6 +92,7 @@
     Audio: [],
     Video: []
   };
+
 
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
@@ -4132,7 +4139,66 @@
   {
     constructor()
     {
-      ['Load', 'CheckPath', 'ReturnPath', '_returnIcon', '_returnLabel', '_retuenMethodRef', '_processString', '_check', '_process'].bindEach(this);
+      ['Process', 'Load', 'CheckPath', 'ReturnPath', '_returnIcon', '_returnLabel', '_retuenMethodRef', '_processString', '_check', '_process'].bindEach(this);
+      this.Loaded = false;
+    }
+
+    Process()
+    {
+      if (this.Loaded)
+      {
+        var path, value, istooltip;
+        document.querySelectorAll('[data-lang],[data-lang-tooltip]').forEach(function (node)
+        {
+          path = null;
+          if (node.dataset.langTooltip)
+          {
+            istooltip = true;
+            path = node.dataset.langTooltip;
+          }
+          else
+          {
+            istooltip = false;
+            path = node.dataset.lang;
+          }
+
+          if (path !== null)
+          {
+            path = path.replace(/^app\./, 'application.');
+            path = path.replace(/^apps\./, 'application.');
+            path = path.replace('.ts.', '.timesheets.');
+            path = path.replace('.cf.', '.cleverfroms.');
+            if (this.CheckPath(path))
+            {
+              value = this.ReturnPath(path);
+              if (Affinity2018.isString(value))
+              {
+                if (value.trim() != '')
+                {
+                  if (istooltip)
+                  {
+                    node.classList.add('ui-has-tooltip');
+                    node.dataset.tooltip = value;
+                  }
+                  else node.innerHTML = value;
+                }
+              }
+              else
+              {
+                console.log('Language path "{0}" is not string:'.format(path), value);
+              }
+            }
+            else
+            {
+              console.log("Language can not find value for '" + path + "'");
+            }
+          }
+          node.removeAttribute('data-lang');
+          node.removeAttribute('data-lang-tooltip');
+        }.bind(this));
+        if (window.hasOwnProperty('Affinity') && Affinity.hasOwnProperty('tooltips')) Affinity.tooltips.processNew();
+        if (Affinity2018.hasOwnProperty('Tooltips')) Affinity2018.Tooltips.Apply();
+      }
     }
 
     Load()
@@ -4145,21 +4211,48 @@
 
     CheckPath (pathStr)
     {
-      var path = Affinity2018.languages.english,
+      var path = Affinity2018.languages.english, 
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
-        p = 0;
-      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
+        p = 0,
+        segment;
+      for (; p < patharray.length; p++)
+      {
+        segment = patharray[p];
+        if (segment === 'app') segment = segment.replace('app', 'application');
+        if (segment === 'apps') segment = segment.replace('apps', 'application');
+        if (segment === 'ts') segment = segment.replace('ts', 'timesheets');
+        if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
+        if (path.hasOwnProperty(segment)) path = path[segment];
+      }
       if (path) return true;
       return false;
     }
 
-    ReturnPath (pathStr)
+    ReturnPath (pathStr, variables)
     {
       var path = Affinity2018.languages.english,
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
-        p = 0;
-      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path) return path;
+        p = 0,
+        segment;
+      for (; p < patharray.length; p++)
+      {
+        segment = patharray[p];
+        if (segment === 'app') segment = segment.replace('app', 'application');
+        if (segment === 'apps') segment = segment.replace('apps', 'application');
+        if (segment === 'ts') segment = segment.replace('ts', 'timesheets');
+        if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
+        if (path.hasOwnProperty(segment)) path = path[segment];
+      }
+      if (path)
+      {
+
+        if (Affinity2018.isString(path))
+        {
+          path = this._processString(path, variables);
+        }
+
+        return path;
+      }
       return null;
     }
 
@@ -4198,7 +4291,7 @@
       return function () { };
     }
 
-    _processString (str)
+    _processString (str, variables)
     {
       if (str.contains('{{') && str.contains('}}'))
       {
@@ -4221,6 +4314,17 @@
                 break;
               case 'm:': // Method
                 str = this._retuenMethodRef(str, match);
+                break;
+              case 'v:': // variable
+                if (variables && Affinity2018.isObject(variables))
+                {
+                  var key = match.replace('v:', '').trim();
+                  var replace = '{{' + match + '}}';
+                  if (variables.hasOwnProperty(key))
+                  {
+                    str = str.replace(replace, variables[key]);
+                  }
+                }
                 break;
             }
           }
@@ -4251,8 +4355,10 @@
           Affinity2018.languages.english = this._check(Affinity2018.languages.english);
         }
       }
+      this.Loaded = true;
       let event = new Event('LangComplete');
       window.dispatchEvent(event);
+      this.Process();
     }
   };
 
@@ -6684,14 +6790,14 @@
       if (this.templatesHtml) Affinity2018.Body.insertAdjacentHTML('beforeend', this.templatesHtml);
 
       Affinity2018.Lang = new Affinity2018.Classes.Lang();
-      Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
-      Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
-      Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
-      Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
-      Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
-      Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
-      Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
-      Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
+      if (!Affinity2018.DisablePlugins.contains('Tooltips')) Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
+      if (!Affinity2018.DisablePlugins.contains('Dialog')) Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
+      if (!Affinity2018.DisablePlugins.contains('Pagination')) Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
+      if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
+      if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
 
       //moment.changeLocale('nz', function() {
       //  console.log('moment locale changed!');
@@ -6760,13 +6866,13 @@
       if(document.getElementById('affinity-login') && document.getElementById('avatar')) Affinity2018.Avatar = new Affinity2018.Classes.Avatar();
       if(document.getElementById('content')) Affinity2018.RateUs = new Affinity2018.Classes.RateUs();
 
-      Affinity2018.Tooltips.Apply();
-      Affinity2018.Pagination.Apply();
-      Affinity2018.UserInfo.Apply();
-      Affinity2018.HelpLinks.Apply();
-      Affinity2018.SelectLookups.Apply();
-      Affinity2018.Autocompletes.Apply();
-      Affinity2018.Calendars.Apply();
+      if (Affinity2018.hasOwnProperty('Tooltips')) Affinity2018.Tooltips.Apply();
+      if (Affinity2018.hasOwnProperty('Pagination')) Affinity2018.Pagination.Apply();
+      if (Affinity2018.hasOwnProperty('UserInfo')) Affinity2018.UserInfo.Apply();
+      if (Affinity2018.hasOwnProperty('HelpLinks')) Affinity2018.HelpLinks.Apply();
+      if (Affinity2018.hasOwnProperty('SelectLookups')) Affinity2018.SelectLookups.Apply();
+      if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply();
+      if (Affinity2018.hasOwnProperty('Calendars')) Affinity2018.Calendars.Apply();
 
       Affinity2018.HidePageLoader();
       Affinity2018.UiReady = true;
@@ -6835,6 +6941,21 @@
 
   let globalinit = function()
   {
+    if (Affinity2018.HideAllTemplates)
+    {
+      var style = document.createElement('style');
+      style.innerHTML = `
+        #affinity-login,
+        #dialog-bg,
+        #dialog,
+        #mobile-menu-bg,
+        #loading-toast {
+          display: none;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
     document.removeEventListener('DOMContentLoaded', globalinit, false);
     Affinity2018.Head = document.getElementsByTagName("head")[0];
     Affinity2018.Body = document.getElementsByTagName("body")[0];
@@ -7406,8 +7527,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.TableTypes = response.data.TableTypes;
           this.ArrowTypes = response.data.ArrowTypes;
           this.TypeMap = response.data.TypeMap;
-          this.ListBuilderHeaders = response.data.ListBuilderHeaders;
-          this.ListBuilderKeyNames = response.data.ListBuilderKeyNames;
           this.DocumentCategories = response.data.DocumentCategories;
           this.ElementControllerMap = {};
 
@@ -8991,7 +9110,21 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.SearchNode = this.SearchViewNode.querySelector('.search-box');
     this.SettingsNode = this.SettingsViewNode.querySelector('.settings-box');
 
-    this.SettingsNode.innerHTML = this.SettingsTemplate;
+    this.SettingsNode.innerHTML = this.SettingsTemplate.format({
+      nameLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.name_lable'),
+      helpLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.help_label'),
+      createLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.create_label'),
+      selectabel: $a.Lang.ReturnPath('app.cf.design_items.edit.select_label'),
+      editLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.edit_label'),
+      displayLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.display_label'),
+      hiddenLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hidden_label'),
+      formuserLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.formuser_label'),
+      hideLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hide_label'),
+      requiredLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.btons.required_label'),
+      cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.cancel_label'),
+      searchLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.search_label'),
+      okLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.ok_label')
+    });
 
     this.PreviewNode = this.PopupNode.querySelector('.example-template');
     this.PreviewToggleNode = this.PreviewNode.querySelector('.toggle-preview');
@@ -9073,7 +9206,9 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       type: 'Type',
       results: 'Results'
     });
-    this.Search.Insert(this.SearchNode, 'Search for the field you want on your form', [], []);
+    //this.Search.Insert(this.SearchNode, 'Search for the field you want on your form', [], []);
+    this.Search.Insert(this.SearchNode, $a.Lang.ReturnPath('app.cf.design_items.search_message'), [], []);
+
 
     this.CloseButtonNode.addEventListener('click', this._close);
 
@@ -9693,21 +9828,21 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.SettingsTemplate = `
     <div class="form">
       <div class="form-row label-row">
-        <label>Form Label</label>
+        <label>{nameLabel}</label>
         <input type="text" class="label" name="ShortText" />
       </div>
       <div class="form-row helptext-row">
-        <label>Help Text</label>
+        <label>{helpLabel}</label>
         <input type="text" class="helptext" name="HelpText" />
       </div>
       <div class="filters">
         <div class="radios hidden">
-          <span class="mode-wrapper mode-create-wrapper hidden"><input data-mode="0" id="-mode-create" type="radio" class="mode-create" name="mode" value="0" /><label for="-mode-create">Create</label></span>
-          <span class="mode-wrapper mode-update-wrapper hidden"><input data-mode="4" id="-mode-update" type="radio" class="mode-update" name="mode" value="4" /><label for="-mode-update">Select from list</label></span>
-          <span class="mode-wrapper mode-edit-wrapper"><input data-mode="1" id="-mode-edit" type="radio" class="mode-edit" name="mode" value="1" checked /><label for="-mode-edit">Edit</label></span>
-          <span class="mode-wrapper mode-display-wrapper"><input data-mode="2" id="-mode-display" type="radio" class="mode-display" name="mode" value="2" /><label for="-mode-display">Display</label></span>
-          <span class="mode-wrapper mode-hidden-wrapper"><input data-mode="3" id="-mode-hidden" type="radio" class="mode-hidden" name="mode" value="3" /><label for="-mode-hidden">Hidden</label></span>
-          <span class="mode-wrapper mode-initiator-wrapper"><input data-mode="5" id="-mode-initiator" type="radio" class="mode-initiator" name="mode" value="5" /><label for="-mode-initiator">Form User</label></span>
+          <span class="mode-wrapper mode-create-wrapper hidden"><input data-mode="0" id="-mode-create" type="radio" class="mode-create" name="mode" value="0" /><label for="-mode-create">{createLabel}</label></span>
+          <span class="mode-wrapper mode-update-wrapper hidden"><input data-mode="4" id="-mode-update" type="radio" class="mode-update" name="mode" value="4" /><label for="-mode-update">{selectabel}</label></span>
+          <span class="mode-wrapper mode-edit-wrapper"><input data-mode="1" id="-mode-edit" type="radio" class="mode-edit" name="mode" value="1" checked /><label for="-mode-edit">{editLabel}</label></span>
+          <span class="mode-wrapper mode-display-wrapper"><input data-mode="2" id="-mode-display" type="radio" class="mode-display" name="mode" value="2" /><label for="-mode-display">{displayLabel}</label></span>
+          <span class="mode-wrapper mode-hidden-wrapper"><input data-mode="3" id="-mode-hidden" type="radio" class="mode-hidden" name="mode" value="3" /><label for="-mode-hidden">{hiddenLabel}</label></span>
+          <span class="mode-wrapper mode-initiator-wrapper"><input data-mode="5" id="-mode-initiator" type="radio" class="mode-initiator" name="mode" value="5" /><label for="-mode-initiator">{formuserLabel}</label></span>
         </div>
         <div class="selects hidden">
         </div>
@@ -9715,19 +9850,19 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     </div>
     <div class="edit-hidden form hidden">
       <div class="check-row">
-        <input type="checkbox" class="" id="-hidden" /><label for="-hidden">Make Hidden</label>
+        <input type="checkbox" class="" id="-hidden" /><label for="-hidden">{hideLabel}</label>
       </div>
     </div>
     <div class="edit-template form hidden"></div>
     <div class="edit-required form hidden">
       <div class="check-row">
-        <input type="checkbox" class="required" id="-required" /><label for="-required">Required</label>
+        <input type="checkbox" class="required" id="-required" /><label for="-required">{requiredLabel}</label>
       </div>
     </div>
     <div class="buttons">
-      <div class="button grey cancel"><span class="icon-cross"></span>Cancel</div>
-      <div class="button blue back hidden"><span class="icon-back"></span>Search</div>
-      <div class="button green ok disabled"><span class="icon-tick"></span>OK</div>
+      <div class="button grey cancel"><span class="icon-cross"></span>{cancelLabel}</div>
+      <div class="button blue back hidden"><span class="icon-back"></span>{searchLabel}</div>
+      <div class="button green ok disabled"><span class="icon-tick"></span>{okLabel}</div>
     </div>
     `;
 
@@ -10460,7 +10595,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 if (this.RightListNode.querySelector(query) && this.RightListNode.querySelector(query) !== node)
                 {
                   keyExists = true;
-                  message = 'You already have this Global Key in the form';
+                  //message = 'You already have this Global Key in the form';
+                  message = $a.Lang.ReturnPath('app.cf.design_items.duplicate_global_key_warning');
                 }
               }
               else
@@ -10475,7 +10611,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   if (this.RightListNode.querySelector(query))
                   {
                     keyExists = true;
-                    message = 'You already have this key in this form';
+                    //message = 'You already have this key in this form';
+                    message = $a.Lang.ReturnPath('app.cf.design_items.duplicate_key_form_warning');
                   }
                 }
                 else
@@ -10487,7 +10624,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   if (SectionNode && SectionNode.querySelector(query))
                   {
                     keyExists = true;
-                    message = 'You already have this key in this section';
+                    //message = 'You already have this key in this section';
+                    message = $a.Lang.ReturnPath('app.cf.design_items.duplicate_key_section_warning');
+                    //
                   }
                 }
               }
@@ -10569,12 +10708,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               && !this.CleverForms.AllowedGlobalKeys.contains(FieldName)
             )
             {
-              message = '';
-              message += '<p>You can only have Affinity fields from one table per section.</p>';
-              message += '<p>This section already has Affinity fields for "' + SectionModel + '", but "' + config.Details.Label + '" is from "' + FieldModel + '".</p>';
-              message += '<p>You should create a new section for "' + FieldModel + '" fields, or try a section already using this table.</p>';
+              //message = '';
+              //message += '<p>You can only have Affinity fields from one table per section.</p>';
+              //message += '<p>This section already has Affinity fields for "' + SectionModel + '", but "' + config.Details.Label + '" is from "' + FieldModel + '".</p>';
+              //message += '<p>You should create a new section for "' + FieldModel + '" fields, or try a section already using this table.</p>';
               Affinity2018.Dialog.Show({
-                message: message,
+                message: $a.Lang.ReturnPath('duplicate_field_warning', { sectionModel: SectionModel }),
                 showOk: true,
                 showCancel: false,
                 showInput: false,
@@ -10637,24 +10776,34 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             {
               var searchstr = this.Editor.Search.InputNode.value.trim();
 
-              message = '';
-              message += 'It looks like you have selected an address field.';
-              message += '<br />'
-              message += 'Would you like to find a "Complete Address" instead?';
-              message += '<br />'
-              message += 'A "Complete Address" is a search box that will automatically fill all address fields for you.';
+              //message = '';
+              //message += 'It looks like you have selected an address field.';
+              //message += '<br />'
+              //message += 'Would you like to find a "Complete Address" instead?';
+              //message += '<br />'
+              //message += 'A "Complete Address" is a search box that will automatically fill all address fields for you.';
 
               console.log(config);
 
               Affinity2018.Dialog.Show({
-                message: message,
+                message:  $a.Lang.ReturnPath('app.cf.design_items.edit.address_suggestion'),
                 showOk: true,
                 showCancel: true,
                 showInput: false,
                 textAlign: 'left',
                 buttons: {
-                  ok: { show: true, icon: 'tick', color: 'green', text: 'Just use "' + config.Details.AffinityField.DisplayLabel + '"' },
-                  cancel: { show: true, icon: 'search', color: 'blue', text: 'Find the Complete Address!' }
+                  ok: {
+                    show: true,
+                    icon: 'tick',
+                    color: 'green',
+                    text: $a.Lang.ReturnPath('app.cf.design_items.edit.address_button_use_sinlge', { fieldName: config.Details.AffinityField.DisplayLabel })
+                  },
+                  cancel: {
+                    show: true,
+                    icon: 'search',
+                    color: 'blue',
+                    text: $a.Lang.ReturnPath('app.cf.design_items.edit.address_button_use_auto')
+                  }
                 },
                 onOk: function ()
                 {
@@ -10962,7 +11111,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
 
-    elementArray.sort(this._sortByLabel);
+    //elementArray.sort(this._sortByLabel);
+    elementArray.sort(this._sortByElementRank);
 
     for (e = 0; e < elementArray.length; e++)
     {
@@ -10998,7 +11148,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       elementNode = document.createElement('li');
 
-      if (data.Type.trim().toLowerCase() === 'section') elementNode.innerHTML = this.sectionTemplate;
+      if (data.Type.trim().toLowerCase() === 'section') elementNode.innerHTML = this.sectionTemplate.format($a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message'));
       else elementNode.innerHTML = this.elementTemplate;
 
       elementNode.dataset.type = data.Type;
@@ -11019,6 +11169,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       elementNode.classList.add('cf-designer-element', 'ui-has-tooltip');
       elementNode.dataset.tooltip = data.Tooltip;
       elementNode.dataset.tooltipDir = 'right';
+
+      if (data.Details.Divide) elementNode.classList.add('divide');
 
       return true;
     }
@@ -11125,17 +11277,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
             if (!gotTemplate)
             {
-              this._loadTemplateError('template load succeeded, but result not recognised');
+              this._loadTemplateError($a.Lang.ReturnPath('application.cleverfroms.designer.error_template_not_recognised'));
             }
           }
           else
           {
-            this._loadTemplateError('template load succeeded, but result not recognised');
+            this._loadTemplateError($a.Lang.ReturnPath('application.cleverfroms.designer.error_template_not_recognised'));
           }
         }.bind(this))
         .catch(function ()
         {
-          this._loadTemplateError('template load failed');
+          this._loadTemplateError($a.Lang.ReturnPath('application.cleverfroms.designer.error_template_fail'));
         }.bind(this));
     }
     return true;
@@ -11155,7 +11307,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     $a.HidePageLoader();
     $a.LogError('Design Error', 'Critical', error + '\n' + this.CleverForms.GetTemplateApi + '?templateId=' + this.CleverForms.GetTemplateGuid());
     $a.Dialog.Show({
-      message: 'Oops! We could not load your form. There appears to be something wrong with it.<br />Please contact Affinity.',
+      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_template'),
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -11339,19 +11491,24 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         var message;
         if (displayKeyConversions.length === 1)
         {
-          message = 'The Key Field "' + displayKeyConversions[0].Name + '" had mode set to "Display".';
-          message += '<br>This is not allowed, so we changed the mode to "' + displayKeyConversions[0].To + '".' ;
-          message += '<br>All fields that require this key will default to this mode.' ;
+          //message = 'The Key Field "' + displayKeyConversions[0].Name + '" had mode set to "Display".';
+          //message += '<br>This is not allowed, so we changed the mode to "' + displayKeyConversions[0].To + '".' ;
+          //message += '<br>All fields that require this key will default to this mode.';
+          message = $a.Lang.ReturnPath('application.cleverfroms.designer.mode_conversion_message_not_allowed', { name: displayKeyConversions[0].Name, mode: displayKeyConversions[0].To });
         }
         else
         {
-          message = 'We found some Key Fields whose modes were set to "Display"';
-          message += '<br>This is not allowed, so we changed the following:<br><br>';
+          var keylist = '';
+          //message = 'We found some Key Fields whose modes were set to "Display"';
+          //message += '<br>This is not allowed, so we changed the following:<br><br>';
           for (var i = 0; i < displayKeyConversions.length; i++)
           {
-            message += '"' + displayKeyConversions[i].Name + '" changed to "' + displayKeyConversions[i].To + '"<br>';
+            //message += '"' + displayKeyConversions[i].Name + '" changed to "' + displayKeyConversions[i].To + '"<br>';
+            keylist += "'" + displayKeyConversions[i].Name + "' changed to '" + displayKeyConversions[i].To + "'<br>";
           }
-          message += '<br>All fields that require these keys will default to this mode.' ;
+          //message += '<br>All fields that require these keys will default to this mode.';
+          message = $a.Lang.ReturnPath('application.cleverfroms.designer.mode_conversion_message', { keylist: keylist });
+
         }
         Affinity2018.Dialog.Show({
           message: message,
@@ -11406,7 +11563,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _injectDefaultSection ()
   {
     var sectionConfig = $a.jsonCloneObject(this.CleverForms.ElementData.Section);
-    sectionConfig.Details.Label = 'Default Section';
+    //sectionConfig.Details.Label = 'Default Section';
+    sectionConfig.Details.Label = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
     // config, autoEdit, targetNode, position, referenceNode
     this.Add(sectionConfig, false, this.RightListNode, 'top');
   }
@@ -11443,7 +11601,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           }
           if (node && node.hasOwnProperty('controller'))
           {
-            message = '<br />This section is using Model <strong>"' + node.controller.Config.Details.AffinityField.ModelName + '"</strong>.';
+            //message = '<br />This section is using Model <strong>"' + node.controller.Config.Details.AffinityField.ModelName + '"</strong>.';
+            message = '<br />' + $a.Lang.ReturnPath('application.cleverfroms.designer.section_mode_message', { model: node.controller.Config.Details.AffinityField.ModelName });
           }
         }
         sectionMessageNode.innerHTML = message;
@@ -11657,7 +11816,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
     Affinity2018.Dialog.Show({
-      message: 'Oops! We could not find the data for this element.<br />Please remove it and add it again.',
+      //message: 'Oops! We could not find the data for this element.<br />Please remove it and add it again.',
+      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_element_data'),
       showOk: true,
       showCancel: false,
       showInput: false
@@ -11785,7 +11945,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (node.dataset.type === 'Section' && globalKey && globalKey.parentNode === node.querySelector('ul')) // global key is in me!
       {
         Affinity2018.Dialog.Show({
-          message: 'You can not remove a section with the global field "' + globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
+          //message: 'You can not remove a section with the global field "' + globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
+          message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_section_remove_with_global', { label: globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') }), 
           showOk: true,
           showCancel: false,
           showInput: false,
@@ -11795,7 +11956,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
 
       message = '';
-      message += 'Are you sure you want to remove this ' + (node.dataset.type === 'Section' ? 'section' : 'field') + '?';
+      //message += 'Are you sure you want to remove this ' + (node.dataset.type === 'Section' ? 'section' : 'field') + '?';
+      message += $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_section_delete', { type: node.dataset.type === 'Section' ? 'section' : 'field' });
 
       if (node.dataset.type === 'Section')
       {
@@ -11821,7 +11983,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           var blockerConfig = node.querySelector('.is-global-key').controller.Config;
           Affinity2018.Dialog.Show({
-            message: 'You can not remove a section with the global field "' + blockerConfig.Display.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
+            //message: 'You can not remove a section with the global field "' + blockerConfig.Display.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
+            message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_section_remove_with_global', { label: globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') }), 
             showOk: true,
             showCancel: false,
             showInput: false,
@@ -11833,7 +11996,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           if (node.querySelectorAll('.cf-designer-element').length > 0)
           {
-            message += '<p><span class="blue"><strong>Reminder!</strong> This will remove all fields in this section.<br />This can not be undone.</span></p>';
+            //message += '<p><span class="blue"><strong>Reminder!</strong> This will remove all fields in this section.<br />This can not be undone.</span></p>';
+            message += $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_remove_reminder');
           }
         }
 
@@ -11872,11 +12036,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               var lastDependant = dependantNames.pop();
               ownersStr = '"<strong>' + dependantNames.join('</strong>", "<strong>') + '</strong>" and "<strong>' + lastDependant + '</strong>"';
             }
-            message = '';
-            message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
-            message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
-            message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
-            message += '<p>Are you sure you want to remove this required field?</p>';
+            //message = '';
+            //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
+            //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
+            //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
+            //message += '<p>Are you sure you want to remove this required field?</p>';
+            message = $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_global_remove', { owner: ownersStr, plural: plural });
           }
 
         }
@@ -13140,7 +13305,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   {
     this._postComplete();
     Affinity2018.Dialog.Show({
-      message: 'Oh no! We had trouble saving your changes.<br />Continue working. We will catch up!<!-- ' + errorMessage + ' -->',
+      //message: 'Oh no! We had trouble saving your changes.<br />Continue working. We will catch up!<!-- ' + errorMessage + ' -->',
+      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_save', { error: errorMessage }),
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -13216,8 +13382,30 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   */
   _sortByRank (a, b)
   {
-    if (a.Rank > b.Rank) return -1;
-    if (a.Rank < b.Rank) return 1;
+    if (a.hasOwnProperty('Rank'))
+    {
+      if (a.Rank > b.Rank) return -1;
+      if (a.Rank < b.Rank) return 1;
+    }
+    else if (a.hasOwnProperty('Details') && a.Details.hasOwnProperty('Rank'))
+    {
+      if (a.Details.Rank > b.Details.Rank) return -1;
+      if (a.Details.Rank < b.Details.Rank) return 1;
+    }
+    return 0;
+  }
+
+
+
+  /**
+  * Summary. Sort configs by Rank (display order)
+  * @this    Class scope
+  * @access  private
+  */
+  _sortByElementRank (a, b)
+  {
+    if (a.Details.Rank > b.Details.Rank) return 1;
+    if (a.Details.Rank < b.Details.Rank) return -1;
     return 0;
   }
 
@@ -13294,7 +13482,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (ext === 'json' && size <= 20)
       {
         $a.Dialog.Show({
-          message: 'This will perminantly delete all exisitng items in your form.<br />Are you sire you want to continue?',
+          //message: 'This will perminantly delete all exisitng items in your form.<br />Are you sire you want to continue?',
+          message: $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_message'),
           textAlign: 'left',
           buttons: {
             ok: { show: true, icon: 'tick', color: 'green', text: 'Continue' },
@@ -13312,14 +13501,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
       else
       {
-        var message = 'Something went wrong on upload';
+        //var message = 'Something went wrong on upload';
+        var message = $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_error');
         if (size > 20)
         {
-          message = 'File is too large to upload (is larger than 20MB)';
+          //message = 'File is too large to upload (is larger than 20MB)';
+          message = $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_error_large');
         }
         else if (ext !== 'json')
         {
-          message = 'File must be a .json plain text file';
+          //message = 'File must be a .json plain text file';
+          message = $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_error_format');
         }
         $a.Dialog.Show({
           buttons: { cancel: false },
@@ -13342,18 +13534,21 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (json.contains('AffinityField'))
         {
           $a.Dialog.Show({
-            message: 'Repair Affiinty Field Data?',
+            //message: 'Repair Affiinty Field Data?',
+            message: $a.Lang.ReturnPath('application.cleverfroms.designer.repair_message'),
             buttons: {
               ok: {
                 show: true,
                 icon: 'arrow-right',
-                text: 'Continue as is',
+                //text: 'Continue as is',
+                text: $a.Lang.ReturnPath('application.cleverfroms.designer.button_no_repair'),
                 color: 'dark-blue'
               },
               cancel: {
                 show: true,
                 icon: 'incident',
-                text: 'Repair and continue',
+                //text: 'Repair and continue',
+                text: $a.Lang.ReturnPath('application.cleverfroms.designer.button_repair'),
                 color: 'dark-green'
               }
             },
@@ -13464,7 +13659,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         <span class="del">X</span>
       </div>
       <div class="drag-handle icon-cf-drag"></div>
-      <p class="section-message">Required fields will be added to the form automatically. <em></em></p>
+      <p class="section-message">{0} <em></em><br></p>
       <ul class="droppable items-only"></ul>
     `;
 
@@ -14123,9 +14318,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             )
           )
           {
-
-
-
             if (response.data.hasOwnProperty('Data') && $a.isArray(response.data.Data))
             {
               this.TemplateData = response.data.Template;
@@ -14161,7 +14353,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     Affinity2018.HidePageLoader();
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
-      message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
+      //message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
+      message: $a.Lang.ReturnPath('application.cleverfroms.form_edit.error_instance_fail'),
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -14315,6 +14508,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.SaveButtonData =
       {
         "Name": "Save Form",
+        "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.save_button'),
         "Type": "FormButton",
         "ActionType": "save",
         "DestinationStateId": "",
@@ -14384,7 +14578,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         buttons.push({
           "Type": "WorkflowButton",
-          "Name": "Test Validation",
+          "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_validation_button'),
           "DestinationStateId": "",
           "SateType": 0,
           "ActionType": "post",
@@ -14400,7 +14594,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       this.SaveButtonData =
       {
-        "Name": "Test Validation",
+        "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_validation_button'),
         "Type": "FormButton",
         "ActionType": "post",
         "DestinationStateId": "",
@@ -14419,7 +14613,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "DestinationStateId": "",
       "SateType": 0,
       "ActionType": "print",
-      "Name": "Print",
+      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_print_button'),
       "Color": "dark-blue",
       "Icon": "print",
       "Path": null,
@@ -14431,7 +14625,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "DestinationStateId": "",
       "SateType": 0,
       "ActionType": "back",
-      "Name": "Back",
+      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_back_button'),
       "Color": "blue",
       "Icon": "arrow-left",
       "Path": null,
@@ -15620,6 +15814,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
     if (!this.DesignerNode && document.querySelector('.item-' + this.UniqueName)) this.DesignerNode = document.querySelector('.item-' + this.UniqueName);
 
+    this.ItemSourcesTemplate = this.ItemSourcesTemplate.format({
+      listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
+      listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
+    });
+
   }
 
 
@@ -15703,6 +15902,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    */
   SetDesignEditor()
   {
+
     var label = this.Config.hasOwnProperty('Details') ? this._isNullOrEmpty(this.Config.Details.Label) ? this.Config.Label : this.Config.Details.Label : '';
     var helpText = this.Config.hasOwnProperty('Details') ? this.Config.Details.HelpText : null;
 
@@ -15737,7 +15937,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.TemplateNode.classList.add('hidden');
     if (this.HtmlEditTemplate && this.HtmlEditTemplate.trim() !== '')
     {
-      var templateHtml = this.HtmlEditTemplate.trim();
+      var templateHtml = this.HtmlEditTemplate.trim().format({
+        filterlabel: $a.Lang.ReturnPath('app.cf.design_items.filter_label'),
+        linkmessage: $a.Lang.ReturnPath('app.cf.design_items.link_message'),
+        selectlabel: $a.Lang.ReturnPath('app.cf.design_items.link_select_label'),
+        sectionHidetitleLable: $a.Lang.ReturnPath('app.cf.design_items.section_hide_title_lebel'),
+        sectionCollapseLable: $a.Lang.ReturnPath('app.cf.design_items.section_collapse_lebel'),
+
+        listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
+        listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
+      });
       this.TemplateNode.innerHTML = templateHtml;
       this.TemplateNode.classList.remove('hidden');
     }
@@ -15753,12 +15962,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     }
 
     /* label for link element */
+
     if (this.Config && this.Config.Type === 'Link')
     {
       this.LabelNode.classList.remove('hidden');
     }
-
-    
 
     /* filters block */
 
@@ -15792,8 +16000,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.PreviewBoxNode.innerHTML = this.HtmlEditExampleTemplate;
       this.PreviewNode.classList.remove('hidden');
     }
-
-    
 
     /* file widget */
 
@@ -15838,7 +16044,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           option = document.createElement('option');
           option.value = pair.Value.trim();
           option.dataset.key = pair.Key.toString().trim();
-          option.innerHTML = pair.Value.toString().trim().splitCamelCase();
+          if (pair.hasOwnProperty('Display')) option.innerHTML = pair.Display;
+          else option.innerHTML = pair.Value.toString().trim().splitCamelCase();
+          
           if (
             this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
             && (
@@ -15850,9 +16058,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         }
       }.bind(this));
       if ([1, 'Custom'].contains(this.Config.Details.ItemSourceType)) this.ListSourceSelectNode.value = 'custom';
-
-      Affinity2018.Apps.Plugins.ListBuilder.ColumnHeaders = this.CleverForms.ListBuilderHeaders;
-      Affinity2018.Apps.Plugins.ListBuilder.KeyNames = this.CleverForms.ListBuilderKeyNames;
 
       if (
         this.Config.hasOwnProperty('Display')
@@ -16782,12 +16987,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   _templates ()
   {
     this.ItemSourcesTemplate = `
-    <h3>Data</h3>
     <div class="edit-row">
-      <label>List Source</label>
+      <label>{listLabel}</label>
       <div class="select">
         <select class="list-source ui-has-autocomplete">
-          <option value="0" selected>Custom (use list builder below)</option>
+          <option value="0" selected>{listCustom}</option>
         </select>
       </div>
     </div>
@@ -16855,6 +17059,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Address',
+      placeholder: $a.Lang.ReturnPath('app.cf.design_items.address_placeholder')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -16939,6 +17148,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     {
       html = this.HtmlRowTemplate.format({
         label: this.Config.Details.Label,
+        placeholder: $a.Lang.ReturnPath('app.cf.design_items.address_placeholder'),
         value: address
       });
     }
@@ -17002,8 +17212,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Address</label>
-        <input type="text" class="ui-has-address" data-position="fixed" placeholder="Enter your address to fill the fields below" />
+        <label>{label}</label>
+        <input type="text" class="ui-has-address" data-position="fixed" placeholder="{placeholder}" />
       </div>
     </div>
     `;
@@ -17011,7 +17221,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-address" placeholder="Enter your address to fill the fields below" value="{value}" />
+      <input type="text" class="ui-has-address" placeholder="{placeholder}"" value="{value}" />
     </div>
     `;
 
@@ -17240,13 +17450,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         var descText = affinityFieldDesc.substring(0, affinityFieldDesc.indexOf('.'));
         descText += ' (' + (displayDescription.endsWith('.') ? displayDescription.substring(0, displayDescription.length - 1) : displayDescription) + ').';
         descText += '<br /><br />';
-        descText += '<em>This is the Affinity Field <strong>' + this.Config.Details.AffinityField.FieldName + '</strong>';
+        //descText += '<em>This is the Affinity Field <strong>' + this.Config.Details.AffinityField.FieldName + '</strong>';
+
+        var descSuffix = $a.Lang.ReturnPath('app.cf.design_items.affinity_field_desc', {
+          fieldName: this.Config.Details.AffinityField.FieldName
+        });
         if (this.Config.Details.AffinityField.ModelName !== null)
         {
-          descText += ' from ' + (this.Config.Details.AffinityField.ModelName.toLowerCase().contains('employee') ? 'model' : 'table');
-          descText += ' <strong>' + this.Config.Details.AffinityField.ModelName + '</strong>';
+          descSuffix = $a.Lang.ReturnPath('app.cf.design_items.affinity_field_desc_with_table', {
+            fieldName: this.Config.Details.AffinityField.FieldName,
+            tableName: this.Config.Details.AffinityField.ModelName
+          });
+          //descText += ' from ' + (this.Config.Details.AffinityField.ModelName.toLowerCase().contains('employee') ? 'model' : 'table');
+          //descText += ' <strong>' + this.Config.Details.AffinityField.ModelName + '</strong>';
         }
-        descText += '.<em>';
+        //descText += '.<em>';
+        descText += descSuffix;
 
         this.SettingsViewNode.querySelector('.settings h3').innerHTML = label;
         this.SettingsViewNode.querySelector('.settings p').innerHTML = descText;
@@ -18299,14 +18518,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.HtmlEditTemplate = `
     <div class="edit-row top affinity-generic-group hidable hide hidden">
-      <label>Filter by group</label>
+      <label>{filterlabel}</label>
       <div class="select working">
         <select class=""></select>
       </div>
     </div>
-    <p class="affinity-form-link-desc">Add a link to allow the form user to start a new form. Example: Start "Add New Position" form to create a position not yet available in the original form.</p>
+    <p class="affinity-form-link-desc">{linkmessage}</p>
     <div class="edit-row affinity-form-link hidden">
-      <label>Select a form</label>
+      <label>{selectlabel}</label>
       <div class="select working">
         <select class=""></select>
       </div>
@@ -18388,6 +18607,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   SetDesignEditor()
   {
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('generic.buttons.uploadfile'),
+      choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -18523,10 +18747,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Upload File</label>
+      <label>{label}</label>
       <label class="ui-has-file">
         <input type="file" name="FileId" data-allow-multiple="false" />
-        <div class="button blue upload"><span class="icon-file-black"></span>Choose File</div>
+        <div class="button blue upload"><span class="icon-file-black"></span>{choose}</div>
       </label>
     </div>
     `;
@@ -18875,6 +19099,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      example: $a.Lang.ReturnPath('app.cf.design_items.checkbox_example')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -18974,7 +19202,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     <div class="default-form">
       <div class="form-row">
         <div class="check-label-pair">
-          <input type="checkbox" id="_SingleCheckExample" /><label for="_SingleCheckExample" class="right">Check box</label>
+          <input type="checkbox" id="_SingleCheckExample" /><label for="_SingleCheckExample" class="right">{example}</label>
         </div>
       </div>
     </div>
@@ -19048,6 +19276,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.currency_example_label'),
+      value: $a.Lang.ReturnPath('app.cf.design_items.currency_example_value')
+    });
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.currency_decimal_label')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -19147,7 +19384,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Decimal Places</label>
+      <label>{label}</label>
       <div class="select">
         <select class="DecimalNumber">
           <option selected value="2">2</option>
@@ -19162,10 +19399,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Price</label>
+        <label>{label}</label>
         <div class="currencybox">
           <div class="symbol"><strong>$</strong></div>
-          <input type="text" class="ui-has-currency" value="1,000.00" />
+          <input type="text" class="ui-has-currency" value="{value}" />
         </div>
       </div>
     </div>
@@ -19241,6 +19478,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.date_example_label')
+    });
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      showDateLabel: $a.Lang.ReturnPath('app.cf.design_items.date_show_date_label'),
+      showTimeLabel: $a.Lang.ReturnPath('app.cf.design_items.date_show_time_label'),
+      currentLabel: $a.Lang.ReturnPath('app.cf.design_items.date_default_current_label')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -19472,15 +19719,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     this.HtmlEditTemplate = `
     <div class="edit-row inline-check">
       <input type="checkbox" id="_DateTimeTypeAndDate" data-task="updateDateTimeType" checked />
-      <label for="_DateTimeTypeAndDate">Show Date Picker</label>
+      <label for="_DateTimeTypeAndDate">{showDateLabel}</label>
     </div>
     <div class="edit-row inline-check">
       <input type="checkbox" id="_DateTimeTypeAndTime" data-task="updateDateTimeType" />
-      <label for="_DateTimeTypeAndTime">Show Time Picker</label>
+      <label for="_DateTimeTypeAndTime">{showTimeLabel}</label>
     </div>
     <div class="edit-row inline-check">
       <input type="checkbox" id="_DateTimeDefaultValue" name="SetDefaultValue" checked />
-      <label for="_DateTimeDefaultValue">Set current day/time as default</label>
+      <label for="_DateTimeDefaultValue">{currentLabel}</label>
     </div>
     <input type="hidden" name="DateTimeType" value="date" />
     `;
@@ -19488,7 +19735,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row calendar">
-        <label>Date and Time</label>
+        <label>{label}</label>
         <input type="text" class="ui-has-calendar" data-type="datetime" />
       </div>
     </div>
@@ -19570,6 +19817,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.drawpanel_example_label')
+    });
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('generic.buttons.uploadimages'),
+      choose: $a.Lang.ReturnPath('generic.buttons.chooseimages')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -19703,13 +19959,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <p>You can upload optional background images that users can select and then draw over.</p>
-    </div>
-    <div class="edit-row">
-      <label>Upload Images</label>
+      <label>{label}</label>
       <label class="ui-has-file">
         <input type="file" name="FileId" data-allow-multiple="true" data-file-ids="" />
-        <div class="button blue upload"><span class="icon-file-black"></span>Choose File</div>
+        <div class="button blue upload"><span class="icon-file-black"></span>{choose}</div>
       </label>
     </div>
     `;
@@ -19717,7 +19970,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Draw Here</label>
+        <label>{label}</label>
         <input type="text" value="" class="ui-has-drawpanel" />
       </div>
       </div>
@@ -20217,6 +20470,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      example: $a.Lang.ReturnPath('app.cf.design_items.explaination_example')
+    });
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.explaination_label'),
+      arrowLabel: $a.Lang.ReturnPath('app.cf.design_items.explaination_arrow_label'),
+      noneLabel: $a.Lang.ReturnPath('app.cf.design_items.explaination_none_label'),
+      topLabel: $a.Lang.ReturnPath('app.cf.design_items.explaination_top_label'),
+      rightLabel: $a.Lang.ReturnPath('app.cf.design_items.explaination_right_label'),
+      bottomLabel: $a.Lang.ReturnPath('app.cf.design_items.explaination_bottom_label'),
+      leftLabel: $a.Lang.ReturnPath('app.cf.design_items.explaination_left_label')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -20323,20 +20590,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Enter display Text</div>
+      <label>{label}</div>
       <textarea class="LongText"></textarea>
     </div>
     <br />
     <br />
     <div class="edit-row">
-      <label>Pointer Arrow</label>
+      <label>{arrowLabel}</label>
       <div class="select">
         <select class="ArrowDirection">
-          <option value="none">None</option>
-          <option value="top">Top</option>
-          <option value="right">Right</option>
-          <option value="bottom">Bottom</option>
-          <option value="left">Left</option>
+          <option value="none">{noneLabel}</option>
+          <option value="top">{topLabel}</option>
+          <option value="right">{rightLabel}</option>
+          <option value="bottom">{bottomLabel}</option>
+          <option value="left">{leftLabel}</option>
         </select>
       </div>
     </div>
@@ -20345,7 +20612,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <div class="help-bubble explain bottom">This is a block of text to serve as an explaination for a field or section.</div>
+        <div class="help-bubble explain bottom">{example}</div>
       </div>
     </div>
     `;
@@ -20424,6 +20691,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   SetDesignEditor()
   {
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      empLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_radio_employee_label'),
+      posLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_radio_position_label'),
+      formOnlyLable: $a.Lang.ReturnPath('app.cf.design_items.file_upload_radio_formonly_label'),
+      catLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_category_label'),
+      typeLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_type_label'),
+      secLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_security_label'),
+      secEmpLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_security_emp_label'),
+      secManLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_security_manager_label'),
+      secPayrollLabel: $a.Lang.ReturnPath('app.cf.design_items.file_upload_security_payroll_label')
+    });
+
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('generic.buttons.uploadfile'),
+      choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -20582,7 +20866,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       //{
         html = this.HtmlRowReadOnlyTemplate.format({
           label: this.Config.Details.Label,
-          fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.'
+          fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.',
+          choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
       this._loadNames();
@@ -20601,7 +20886,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       //{
         html = this.HtmlRowTemplate.format({
           label: this.Config.Details.Label,
-          fileids: this.Config.Details.Value
+          fileids: this.Config.Details.Value,
+          choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
     }
@@ -20873,21 +21159,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     super._templates();
 
     this.HtmlEditTemplate = `
-    <h2>Attach Document</h2>
     <div class="edit-row inline-radio">
       <input type="radio" name="AttachOptions" class="attach-employee" id="_AttachFormOnlyFalse" checked />
-      <label for="_AttachFormOnlyFalse">Employee</label>
+      <label for="_AttachFormOnlyFalse">{empLabel}</label>
     </div>
     <div class="edit-row inline-radio">
       <input type="radio" name="AttachOptions" class="attach-position" id="_AttachPosition" />
-      <label for="_AttachPosition">Position</label>
+      <label for="_AttachPosition">{posLabel}</label>
     </div>
     <div class="edit-row inline-radio">
       <input type="radio" name="AttachOptions" class="attach-form" id="_AttachFormOnlyTrue" />
-      <label for="_AttachFormOnlyTrue">Form Only</label>
+      <label for="_AttachFormOnlyTrue">{formOnlyLable}</label>
     </div>
     <div class="edit-row document-category hidable">
-      <label>Categories</label>
+      <label>{catLabel}</label>
       <div class="select working">
         <select class="DocumentCategory" name="DocumentCategory">
           <option value=""></option>
@@ -20895,7 +21180,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       </div>
     </div>
     <div class="edit-row document-type hidable">
-      <label>Types</label>
+      <label>{typeLabel}</label>
       <div class="select working">
         <select class="DocumentType" name="DocumentType">
           <option value=""></option>
@@ -20903,12 +21188,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       </div>
     </div>
     <div class="edit-row document-security-level hidable">
-      <label>Security Level</label>
+      <label>{secLabel}</label>
       <div class="select">
          <select class="SecurityLevel" name="SecurityLevel">
-           <option value="0">Visible to Employees and Above</option>
-           <option value="10">Visible to Managers and Above</option>
-           <option value="20">Visible to Payroll/HR only</option>
+           <option value="0">{secEmpLabel}</option>
+           <option value="10">{secManLabel}</option>
+           <option value="20">{secPayrollLabel}</option>
          </select>
        </div>
     </div>
@@ -20916,11 +21201,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
     this.HtmlEditExampleTemplate = `
     <div data-template-name="FileUploadMulti" class="template template-FileUploadMulti form-row upload-multi">
-      <label>Upload File</label>
+      <label>{label}</label>
       <label class="ui-has-file">
         <input type="file" data-allow-multiple="true" />
         <div class="button blue upload">
-          <span class="icon-file-black"></span>Choose File
+          <span class="icon-file-black"></span>{choose}
         </div>
       </label>
     </div>
@@ -20934,7 +21219,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       <label class="ui-has-file" data-files="{fileids}">
         <input type="file" data-allow-multiple="true" />
         <div class="button blue upload">
-          <span class="icon-file-black"></span>Choose File
+          <span class="icon-file-black"></span>{choose}
         </div>
       </label>
     </div>
@@ -20948,7 +21233,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       <label class="ui-has-file" data-files="{fileids}">
         <input type="file" data-allow-multiple="true" />
         <div class="button blue upload">
-          <span class="icon-file-black"></span>Choose File
+          <span class="icon-file-black"></span>{choose}
         </div>
       </label>
     </div>
@@ -21050,6 +21335,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.float_example_label'),
+      value: $a.Lang.ReturnPath('app.cf.design_items.float_example_value')
+    });
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.float_decimal_label')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -21156,7 +21450,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Decimal Places</label>
+      <label>{label}</label>
       <div class="select">
         <select class="DecimalNumber">
           <option value="1">1</option>
@@ -21172,8 +21466,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Amount</label>
-        <input type="text" class="ui-has-float" value="1,234.56" />
+        <label>{label}</label>
+        <input type="text" class="ui-has-float" value="{value}" />
       </div>
     </div>
     `;
@@ -21245,6 +21539,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.integer_example_label'),
+      value: $a.Lang.ReturnPath('app.cf.design_items.integer_example_value')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -21343,8 +21642,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Age</label>
-        <input type="number" class="ui-has-integer" value="1234" />
+        <label>{label}</label>
+        <input type="number" class="ui-has-integer" value="{value}" />
       </div>
     </div>
     `;
@@ -21416,6 +21715,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
 
   SetDesignEditor()
   {
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.link_label')
+    });
+
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      link: $a.Lang.ReturnPath('app.cf.design_items.link_example')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -21509,7 +21816,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Enter a URL Link</label>
+      <label>{label}</label>
       <input type="text" class="ui-has-url" />
     </div>
     `;
@@ -21517,7 +21824,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <a href="#" target="_blank" class="link">Link Label</a>
+        <a href="#" target="_blank" class="link">{link}</a>
         <div class="print-only link"></div>
       </div>
     </div>
@@ -21590,6 +21897,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.memo_example_lebel'),
+      example: $a.Lang.ReturnPath('app.cf.design_items.memo_example')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -21685,9 +21997,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Memo</label>
+        <label>{label}</label>
         <br />
-        <textarea rows="3" class="memo">This is a block of text that can be any length.</textarea>
+        <textarea rows="3" class="memo">{example}</textarea>
       </div>
     </div>
     `;
@@ -21760,6 +22072,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.multiselect_example_label'),
+      example1: $a.Lang.ReturnPath('app.cf.design_items.multiselect_example_1'),
+      example2: $a.Lang.ReturnPath('app.cf.design_items.multiselect_example_2'),
+      example3: $a.Lang.ReturnPath('app.cf.design_items.multiselect_example_3'),
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -21975,16 +22294,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label class="solo">Check boxes</label>
+        <label class="solo">{label}</label>
         <div class="check-label-pair">
           <input type="checkbox" id="afgadadfscheck1" name="afgadadfscheck1" />
-          <label for="afgadadfscheck1" class="right">Check 1</label>
+          <label for="afgadadfscheck1" class="right">{example1}</label>
         </div>
         <div class="check-label-pair">
-          <input type="checkbox" id="afgadadfscheck2" anme="afgadadfscheck2" />
-          <label for="afgadadfscheck2" class="right">Check 2</label>
+          <input type="checkbox" id="afgadadfscheck2" name="afgadadfscheck2" />
+          <label for="afgadadfscheck2" class="right">{example2}</label>
         </div>
-        ...
+        <div class="check-label-pair">
+          <input type="checkbox" id="afgadadfscheck3" name="afgadadfscheck3" />
+          <label for="afgadadfscheck3" class="right">{example3}</label>
+        </div>
       </div>
     </div>
     `;
@@ -22059,6 +22381,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      example: $a.Lang.ReturnPath('app.cf.design_items.paragraph_example')
+    });
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.paragraph_label')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -22150,7 +22480,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Enter display Text</div>
+      <label>{label}</div>
       <textarea></textarea>
     </div>
     `;
@@ -22158,7 +22488,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <p>This is a block of text as a paragraph.</p>
+        <p>{example}</p>
       </div>
     </div>
     `;
@@ -22275,7 +22605,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
                 stateNode.classList.add('worflow-state', 'worflow-' + workflowConfig.WorkflowDefinitionId + '-state-' + stateConfig.WorkflwoStateId);
                 stateNode.dataset.stateId = stateConfig.WorkflwoStateId;
                 stateNode.dataset.stateName = stateConfig.WorkflowStateName;
-                stateNode.innerHTML = this.HtmlWorkflowStateTemplate.format(stateName, stateChecked);
+                stateNode.innerHTML = this.HtmlWorkflowStateTemplate.format({
+                  stateChecked: stateChecked,
+                  stateLabel: $a.Lang.ReturnPath('app.cf.design_items.section_workflow_state_label', { stateName: stateName})
+                });
                 this.WorflowStatesListNode.appendChild(stateNode);
                 gotWorkflowItems = true;
               }
@@ -22446,24 +22779,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
     this.HtmlEditTemplate = `
     <div class="edit-row inline-check">
       <input type="checkbox" id="_HideSectionTitle" />
-      <label for="_HideSectionTitle">Hide Section Title</label>
+      <label for="_HideSectionTitle">{sectionHidetitleLable}</label>
     </div>
     <div class="edit-row inline-check">
       <input type="checkbox" id="_StartSectionCollapsed" />
-      <label for="_StartSectionCollapsed">Start Collapsed</label>
+      <label for="_StartSectionCollapsed">{sectionCollapseLable}</label>
     </div>
     <div class="edit-row worflow-states-list-wrapper">
-      
       <div class="worflow-states-list">
-      
       </div>
     </div>
     `;
 
     this.HtmlWorkflowStateTemplate = `
-    <div class="workflow-state-check">
-      <input type="checkbox"{1} /><label>Section is visible for state "{0}"</label>
-    </div>
+    <div class="workflow-state-check"><input type="checkbox"{stateChecked} /><label>{stateLabel}</label></div>
     `;
 
     this.HtmlEditExampleTemplate = `
@@ -22632,18 +22961,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
 
     this.HtmlEditTemplate = `
       
-    `;
-
-    this.HtmlEditExampleTemplate = `
-    <div class="default-form">
-      <div class="form-row">
-        <p>This is some content.</p>
-      </div>
-      <hr />
-      <div class="form-row">
-        <p>This is some more content.</p>
-      </div>
-    </div>
     `;
 
     this.HtmlRowTemplate = `
@@ -23175,6 +23492,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      example1: $a.Lang.ReturnPath('app.cf.design_items.radio_example_1'),
+      example2: $a.Lang.ReturnPath('app.cf.design_items.radio_example_2')
+    });
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -23392,11 +23713,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
         <label class="solo">Gender</label>
         <div class="radio-label-pair">
           <input type="radio" id="afgadadfsradio1" name="afgadadfsradio1" />
-          <label for="afgadadfsradio1" class="right">Male</label>
+          <label for="afgadadfsradio1" class="right">{example1}</label>
         </div>
         <div class="radio-label-pair">
           <input type="radio" id="afgadadfsradio2" name="afgadadfsradio2" />
-          <label for="afgadadfsradio2" class="right">Female</label>
+          <label for="afgadadfsradio2" class="right">{example2}</label>
         </div>
         ...
       </div>
@@ -23854,6 +24175,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.text_example_label'),
+      value: $a.Lang.ReturnPath('app.cf.design_items.text_example_value')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -23956,8 +24282,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
       <div class="form-row">
-        <label>Text Label</label>
-        <input type="text" value="Text Value" />
+        <label>{label}</label>
+        <input type="text" value="{value}" />
       </div>
     </div>
     `;
@@ -24029,12 +24355,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   SetDesignEditor()
   {
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      example: $a.Lang.ReturnPath('app.cf.design_items.title_example')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
 
       var title = this.Config.Details.Label || '';
-      this.PopupNode.querySelector('.label-row label').innerHTML = 'Title Text';
+      this.PopupNode.querySelector('.label-row label').innerHTML = $a.Lang.ReturnPath('app.cf.design_items.title_label');
       this.PopupNode.querySelector('input.label').value = title.trim();
       this.PopupNode.querySelector('.label-row').classList.remove('hidden');
 
@@ -24128,7 +24458,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
     <div class="default-form">
       <div class="form-row">
         <span>Some text</span>
-        <div class="section-title">This is a title</div>
+        <div class="section-title">{example}</div>
         <span>Some text</span>
       </div>
     </div>
@@ -24206,6 +24536,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
 
   SetDesignEditor()
   {
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      label: $a.Lang.ReturnPath('app.cf.design_items.video_label'),
+      idLabel: $a.Lang.ReturnPath('app.cf.design_items.video_id_label'),
+      videoLabel: $a.Lang.ReturnPath('app.cf.design_items.video_video_label')
+    });
+
     if (super.SetDesignEditor())
     {
       // set special html / values
@@ -24428,16 +24764,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
 
     this.HtmlEditTemplate = `
     <div class="edit-row">
-      <label>Youtube URL</label>
+      <label>{label}</label>
       <input type="text" class="youtube-url" />
     </div>
     <div class="edit-row youtube">
-      <label>YouTube ID</label>
+      <label>{idLabel}</label>
       <input class="youtube-id validate" name="VideoId" type="text" data-validate-method="hasvalue" disabled="disabled" />
       <span class="icon-tick hidden"></span>
       <span class="icon-cross"></span>
     </div>
-    <div class="youtube-embed">Youtube Video</div>
+    <div class="youtube-embed">{videoLabel}</div>
     `;
 
     this.HtmlEditExampleTemplate = `
@@ -32959,11 +33295,12 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     this.WidgetName = 'ListBuilder';
 
     this.ColumnHeaders = {
-      KeyHeader: 'Description',
-      KeyHelp: 'Description is the friendly text a user sees on the form',
-      ValueHeader: 'Unique Code',
-      ValueHelp: 'Unique Code is what is sent when the form is posted'
+      KeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
+      KeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
+      ValueHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.value_header'),
+      ValueHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.value_help')
     };
+
     this.KeyNames = {
       KeyName: 'Key',
       ValueName: 'Value'
@@ -33029,6 +33366,18 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       this.targetNode.widgets.ListBuilder = this;
       this.targetNode.classList.add('ui-listbuilder');
     }
+
+    this.listTemplate = this.listTemplate.format({
+      downloadCSV: $a.Lang.ReturnPath('generic.list_builder.download_csv_label'),
+      downloadCSVTooltip: $a.Lang.ReturnPath('generic.list_builder.ownload_csv_tooltip'),
+      uploadCSVTooltip: $a.Lang.ReturnPath('generic.list_builder.upload_csv_tooltip'),
+      clearTooltip: $a.Lang.ReturnPath('generic.list_builder.clear_table_tooltip')
+    });
+
+    this.listRowTemplate = this.listRowTemplate.format({
+      descPlaceholder: $a.Lang.ReturnPath('generic.list_builder.desc_placeholder'),
+      codePlaceholder: $a.Lang.ReturnPath('generic.list_builder.code_placeholder')
+    });
   }
 
   Render (targetNode, data, renderedCallback)
@@ -33651,8 +34000,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       <table class="grid">
         <thead>
           <tr>
-            <th class="key-header">{KeyHeader} <icon class="icon-help-round ui-has-tooltip" data-tooltip="{KeyHelp}<br />{ValueHelp}"></icon></th>
-            <th class="value-header">{ValueHeader} <icon class="icon-help-round ui-has-tooltip" data-tooltip="{ValueHelp}<br />{KeyHelp}"></icon></th>
+            <th class="key-header">{KeyHeader} <icon class="icon-help-round ui-has-tooltip" data-tooltip="{KeyHelp}"></icon></th>
+            <th class="value-header">{ValueHeader} <icon class="icon-help-round ui-has-tooltip" data-tooltip="{ValueHelp}"></icon></th>
             <th></th>
           </tr>
         </thead>
@@ -33661,23 +34010,23 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       </table>
     </div>
     <div class="grid-buttons flat-top">
-      <a class="download-template" href="javascript:void(0)">Download CSV Termplate</a>
-      <button class="blue download no-label ui-has-tooltip" data-tooltip="Download table as CSV"><icon class="icon-download"></icon></button>
-      <button class="green upload no-label ui-has-tooltip" data-tooltip="Upload CSV to table">
+      <a class="download-template" href="javascript:void(0)">{downloadCSV}</a>
+      <button class="blue download no-label ui-has-tooltip" data-tooltip="{downloadCSVTooltip}"><icon class="icon-download"></icon></button>
+      <button class="green upload no-label ui-has-tooltip" data-tooltip="{uploadCSVTooltip}">
         <icon class="icon-upload"></icon>
         <input type="file" accept=".csv" />
       </button>
-      <button class="orange reset no-label ui-has-tooltip" data-tooltip="Clear table"><icon class="icon-trash"></icon></button>
+      <button class="orange reset no-label ui-has-tooltip" data-tooltip="{clearTooltip}"><icon class="icon-trash"></icon></button>
     </div>
 
     `;
 
     this.listRowTemplate = `
     <td>
-      <input class="description" type="text" placeholder="Enter Description" />
+      <input class="description" type="text" placeholder="{descPlaceholder}" />
     </td>
     <td>
-      <input class="code" type="text" placeholder="Enter Code or leave blank" />
+      <input class="code" type="text" placeholder="{codePlaceholder}" />
     </td>
     <td>
       <div class="button blue icon-arrow-up" data-do="up"></div>
