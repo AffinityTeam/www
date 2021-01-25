@@ -1,52 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(2640,32-37): run-time error JS1195: Expected expression: class
-(3176,32-37): run-time error JS1195: Expected expression: class
-(3189,20-21): run-time error JS1004: Expected ';': {
-(3260,27-28): run-time error JS1004: Expected ';': {
-(3264,29-30): run-time error JS1004: Expected ';': {
-(3265,29-30): run-time error JS1004: Expected ';': {
-(3266,29-30): run-time error JS1004: Expected ';': {
-(3267,29-30): run-time error JS1004: Expected ';': {
-(3268,13-14): run-time error JS1004: Expected ';': {
-(3287,15-16): run-time error JS1004: Expected ';': {
-(3305,12-13): run-time error JS1004: Expected ';': {
-(3310,12-13): run-time error JS1004: Expected ';': {
-(3313,17-18): run-time error JS1004: Expected ';': {
-(3884,36-41): run-time error JS1195: Expected expression: class
-(3997,30-35): run-time error JS1195: Expected expression: class
-(4102,31-36): run-time error JS1195: Expected expression: class
-(4343,35-40): run-time error JS1195: Expected expression: class
-(4471,33-38): run-time error JS1195: Expected expression: class
-(4678,39-40): run-time error JS1014: Invalid character: `
-(4678,40-41): run-time error JS1195: Expected expression: <
-(4678,100-101): run-time error JS1014: Invalid character: `
-(4697,43-44): run-time error JS1014: Invalid character: `
-(4697,44-45): run-time error JS1195: Expected expression: <
-(4697,108-109): run-time error JS1014: Invalid character: `
-(4765,33-38): run-time error JS1195: Expected expression: class
-(5061,32-37): run-time error JS1195: Expected expression: class
-(5427,33-38): run-time error JS1195: Expected expression: class
-(5505,37-42): run-time error JS1195: Expected expression: class
-(5506,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2633,32-37): run-time error JS1195: Expected expression: class
+(3169,32-37): run-time error JS1195: Expected expression: class
+(3182,20-21): run-time error JS1004: Expected ';': {
+(3253,27-28): run-time error JS1004: Expected ';': {
+(3257,29-30): run-time error JS1004: Expected ';': {
+(3258,29-30): run-time error JS1004: Expected ';': {
+(3259,29-30): run-time error JS1004: Expected ';': {
+(3260,29-30): run-time error JS1004: Expected ';': {
+(3261,13-14): run-time error JS1004: Expected ';': {
+(3280,15-16): run-time error JS1004: Expected ';': {
+(3298,12-13): run-time error JS1004: Expected ';': {
+(3303,12-13): run-time error JS1004: Expected ';': {
+(3306,17-18): run-time error JS1004: Expected ';': {
+(3877,36-41): run-time error JS1195: Expected expression: class
+(3990,30-35): run-time error JS1195: Expected expression: class
+(4095,31-36): run-time error JS1195: Expected expression: class
+(4237,35-40): run-time error JS1195: Expected expression: class
+(4365,33-38): run-time error JS1195: Expected expression: class
+(4572,39-40): run-time error JS1014: Invalid character: `
+(4572,40-41): run-time error JS1195: Expected expression: <
+(4572,100-101): run-time error JS1014: Invalid character: `
+(4591,43-44): run-time error JS1014: Invalid character: `
+(4591,44-45): run-time error JS1195: Expected expression: <
+(4591,108-109): run-time error JS1014: Invalid character: `
+(4659,33-38): run-time error JS1195: Expected expression: class
+(4955,32-37): run-time error JS1195: Expected expression: class
+(5321,33-38): run-time error JS1195: Expected expression: class
+(5399,37-42): run-time error JS1195: Expected expression: class
+(5400,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5507,5-16): run-time error JS1006: Expected ')': constructor
-(5576,3-4): run-time error JS1002: Syntax error: }
-(5576,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5520,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5401,5-16): run-time error JS1006: Expected ')': constructor
+(5470,3-4): run-time error JS1002: Syntax error: }
+(5470,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5414,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
 
   if (!window.hasOwnProperty('Affinity2018')) window.Affinity2018 = {};
   if (!Affinity2018.hasOwnProperty('Classes')) Affinity2018.Classes = {};
-  if (!Affinity2018.Classes.hasOwnProperty('Plugins')) Affinity2018.Classes.Plugins = {};
   if (!Affinity2018.hasOwnProperty('Apps')) Affinity2018.Apps = {};
-  if (!Affinity2018.Apps.hasOwnProperty('Plugins')) Affinity2018.Apps.Plugins = {};
   if (!Affinity2018.hasOwnProperty('Plugins')) Affinity2018.Plugins = {};
   if (!Affinity2018.hasOwnProperty('ApiEndpoints')) Affinity2018.ApiEndpoints = {};
   if (!Affinity2018.hasOwnProperty('UserProfile')) Affinity2018.UserProfile = {};
 
-  
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
@@ -55,9 +52,6 @@
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = '//cdn.source63.com/affinity/beta1/scripts/plugins/';
-  if (!Affinity2018.hasOwnProperty('HideAllTemplates')) Affinity2018.HideAllTemplates = false;
-  if (!Affinity2018.hasOwnProperty('DisablePlugins')) Affinity2018.DisablePlugins = [];
-  
 
   /* config */
 
@@ -92,7 +86,6 @@
     Audio: [],
     Video: []
   };
-
 
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
@@ -4139,66 +4132,7 @@
   {
     constructor()
     {
-      ['Process', 'Load', 'CheckPath', 'ReturnPath', '_returnIcon', '_returnLabel', '_retuenMethodRef', '_processString', '_check', '_process'].bindEach(this);
-      this.Loaded = false;
-    }
-
-    Process()
-    {
-      if (this.Loaded)
-      {
-        var path, value, istooltip;
-        document.querySelectorAll('[data-lang],[data-lang-tooltip]').forEach(function (node)
-        {
-          path = null;
-          if (node.dataset.langTooltip)
-          {
-            istooltip = true;
-            path = node.dataset.langTooltip;
-          }
-          else
-          {
-            istooltip = false;
-            path = node.dataset.lang;
-          }
-
-          if (path !== null)
-          {
-            path = path.replace(/^app\./, 'application.');
-            path = path.replace(/^apps\./, 'application.');
-            path = path.replace('.ts.', '.timesheets.');
-            path = path.replace('.cf.', '.cleverfroms.');
-            if (this.CheckPath(path))
-            {
-              value = this.ReturnPath(path);
-              if (Affinity2018.isString(value))
-              {
-                if (value.trim() != '')
-                {
-                  if (istooltip)
-                  {
-                    node.classList.add('ui-has-tooltip');
-                    node.dataset.tooltip = value;
-                  }
-                  else node.innerHTML = value;
-                }
-              }
-              else
-              {
-                console.log('Language path "{0}" is not string:'.format(path), value);
-              }
-            }
-            else
-            {
-              console.log("Language can not find value for '" + path + "'");
-            }
-          }
-          node.removeAttribute('data-lang');
-          node.removeAttribute('data-lang-tooltip');
-        }.bind(this));
-        if (window.hasOwnProperty('Affinity') && Affinity.hasOwnProperty('tooltips')) Affinity.tooltips.processNew();
-        if (Affinity2018.hasOwnProperty('Tooltips')) Affinity2018.Tooltips.Apply();
-      }
+      ['Load', 'CheckPath', 'ReturnPath', '_returnIcon', '_returnLabel', '_retuenMethodRef', '_processString', '_check', '_process'].bindEach(this);
     }
 
     Load()
@@ -4211,48 +4145,21 @@
 
     CheckPath (pathStr)
     {
-      var path = Affinity2018.languages.english, 
+      var path = Affinity2018.languages.english,
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
-        p = 0,
-        segment;
-      for (; p < patharray.length; p++)
-      {
-        segment = patharray[p];
-        if (segment === 'app') segment = segment.replace('app', 'application');
-        if (segment === 'apps') segment = segment.replace('apps', 'application');
-        if (segment === 'ts') segment = segment.replace('ts', 'timesheets');
-        if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
-        if (path.hasOwnProperty(segment)) path = path[segment];
-      }
+        p = 0;
+      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
       if (path) return true;
       return false;
     }
 
-    ReturnPath (pathStr, variables)
+    ReturnPath (pathStr)
     {
       var path = Affinity2018.languages.english,
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
-        p = 0,
-        segment;
-      for (; p < patharray.length; p++)
-      {
-        segment = patharray[p];
-        if (segment === 'app') segment = segment.replace('app', 'application');
-        if (segment === 'apps') segment = segment.replace('apps', 'application');
-        if (segment === 'ts') segment = segment.replace('ts', 'timesheets');
-        if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
-        if (path.hasOwnProperty(segment)) path = path[segment];
-      }
-      if (path)
-      {
-
-        if (Affinity2018.isString(path))
-        {
-          path = this._processString(path, variables);
-        }
-
-        return path;
-      }
+        p = 0;
+      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
+      if (path) return path;
       return null;
     }
 
@@ -4291,7 +4198,7 @@
       return function () { };
     }
 
-    _processString (str, variables)
+    _processString (str)
     {
       if (str.contains('{{') && str.contains('}}'))
       {
@@ -4314,17 +4221,6 @@
                 break;
               case 'm:': // Method
                 str = this._retuenMethodRef(str, match);
-                break;
-              case 'v:': // variable
-                if (variables && Affinity2018.isObject(variables))
-                {
-                  var key = match.replace('v:', '').trim();
-                  var replace = '{{' + match + '}}';
-                  if (variables.hasOwnProperty(key))
-                  {
-                    str = str.replace(replace, variables[key]);
-                  }
-                }
                 break;
             }
           }
@@ -4355,10 +4251,8 @@
           Affinity2018.languages.english = this._check(Affinity2018.languages.english);
         }
       }
-      this.Loaded = true;
       let event = new Event('LangComplete');
       window.dispatchEvent(event);
-      this.Process();
     }
   };
 
@@ -6790,14 +6684,14 @@
       if (this.templatesHtml) Affinity2018.Body.insertAdjacentHTML('beforeend', this.templatesHtml);
 
       Affinity2018.Lang = new Affinity2018.Classes.Lang();
-      if (!Affinity2018.DisablePlugins.contains('Tooltips')) Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
-      if (!Affinity2018.DisablePlugins.contains('Dialog')) Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
-      if (!Affinity2018.DisablePlugins.contains('Pagination')) Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
-      if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
-      if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
+      Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
+      Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
+      Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
+      Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
+      Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
+      Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
+      Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
+      Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
 
       //moment.changeLocale('nz', function() {
       //  console.log('moment locale changed!');
@@ -6866,13 +6760,13 @@
       if(document.getElementById('affinity-login') && document.getElementById('avatar')) Affinity2018.Avatar = new Affinity2018.Classes.Avatar();
       if(document.getElementById('content')) Affinity2018.RateUs = new Affinity2018.Classes.RateUs();
 
-      if (Affinity2018.hasOwnProperty('Tooltips')) Affinity2018.Tooltips.Apply();
-      if (Affinity2018.hasOwnProperty('Pagination')) Affinity2018.Pagination.Apply();
-      if (Affinity2018.hasOwnProperty('UserInfo')) Affinity2018.UserInfo.Apply();
-      if (Affinity2018.hasOwnProperty('HelpLinks')) Affinity2018.HelpLinks.Apply();
-      if (Affinity2018.hasOwnProperty('SelectLookups')) Affinity2018.SelectLookups.Apply();
-      if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply();
-      if (Affinity2018.hasOwnProperty('Calendars')) Affinity2018.Calendars.Apply();
+      Affinity2018.Tooltips.Apply();
+      Affinity2018.Pagination.Apply();
+      Affinity2018.UserInfo.Apply();
+      Affinity2018.HelpLinks.Apply();
+      Affinity2018.SelectLookups.Apply();
+      Affinity2018.Autocompletes.Apply();
+      Affinity2018.Calendars.Apply();
 
       Affinity2018.HidePageLoader();
       Affinity2018.UiReady = true;
@@ -6941,21 +6835,6 @@
 
   let globalinit = function()
   {
-    if (Affinity2018.HideAllTemplates)
-    {
-      var style = document.createElement('style');
-      style.innerHTML = `
-        #affinity-login,
-        #dialog-bg,
-        #dialog,
-        #mobile-menu-bg,
-        #loading-toast {
-          display: none;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-
     document.removeEventListener('DOMContentLoaded', globalinit, false);
     Affinity2018.Head = document.getElementsByTagName("head")[0];
     Affinity2018.Body = document.getElementsByTagName("body")[0];
@@ -9112,21 +8991,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.SearchNode = this.SearchViewNode.querySelector('.search-box');
     this.SettingsNode = this.SettingsViewNode.querySelector('.settings-box');
 
-    this.SettingsNode.innerHTML = this.SettingsTemplate.format({
-      nameLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.name_lable'),
-      helpLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.help_label'),
-      createLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.create_label'),
-      selectabel: $a.Lang.ReturnPath('app.cf.design_items.edit.select_label'),
-      editLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.edit_label'),
-      displayLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.display_label'),
-      hiddenLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hidden_label'),
-      formuserLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.formuser_label'),
-      hideLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hide_label'),
-      requiredLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.btons.required_label'),
-      cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.cancel_label'),
-      searchLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.search_label'),
-      okLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.ok_label')
-    });
+    this.SettingsNode.innerHTML = this.SettingsTemplate;
 
     this.PreviewNode = this.PopupNode.querySelector('.example-template');
     this.PreviewToggleNode = this.PreviewNode.querySelector('.toggle-preview');
@@ -9208,9 +9073,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       type: 'Type',
       results: 'Results'
     });
-    //this.Search.Insert(this.SearchNode, 'Search for the field you want on your form', [], []);
-    this.Search.Insert(this.SearchNode, $a.Lang.ReturnPath('app.cf.design_items.search_message'), [], []);
-
+    this.Search.Insert(this.SearchNode, 'Search for the field you want on your form', [], []);
 
     this.CloseButtonNode.addEventListener('click', this._close);
 
@@ -9830,21 +9693,21 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.SettingsTemplate = `
     <div class="form">
       <div class="form-row label-row">
-        <label>{nameLabel}</label>
+        <label>Form Label</label>
         <input type="text" class="label" name="ShortText" />
       </div>
       <div class="form-row helptext-row">
-        <label>{helpLabel}</label>
+        <label>Help Text</label>
         <input type="text" class="helptext" name="HelpText" />
       </div>
       <div class="filters">
         <div class="radios hidden">
-          <span class="mode-wrapper mode-create-wrapper hidden"><input data-mode="0" id="-mode-create" type="radio" class="mode-create" name="mode" value="0" /><label for="-mode-create">{createLabel}</label></span>
-          <span class="mode-wrapper mode-update-wrapper hidden"><input data-mode="4" id="-mode-update" type="radio" class="mode-update" name="mode" value="4" /><label for="-mode-update">{selectabel}</label></span>
-          <span class="mode-wrapper mode-edit-wrapper"><input data-mode="1" id="-mode-edit" type="radio" class="mode-edit" name="mode" value="1" checked /><label for="-mode-edit">{editLabel}</label></span>
-          <span class="mode-wrapper mode-display-wrapper"><input data-mode="2" id="-mode-display" type="radio" class="mode-display" name="mode" value="2" /><label for="-mode-display">{displayLabel}</label></span>
-          <span class="mode-wrapper mode-hidden-wrapper"><input data-mode="3" id="-mode-hidden" type="radio" class="mode-hidden" name="mode" value="3" /><label for="-mode-hidden">{hiddenLabel}</label></span>
-          <span class="mode-wrapper mode-initiator-wrapper"><input data-mode="5" id="-mode-initiator" type="radio" class="mode-initiator" name="mode" value="5" /><label for="-mode-initiator">{formuserLabel}</label></span>
+          <span class="mode-wrapper mode-create-wrapper hidden"><input data-mode="0" id="-mode-create" type="radio" class="mode-create" name="mode" value="0" /><label for="-mode-create">Create</label></span>
+          <span class="mode-wrapper mode-update-wrapper hidden"><input data-mode="4" id="-mode-update" type="radio" class="mode-update" name="mode" value="4" /><label for="-mode-update">Select from list</label></span>
+          <span class="mode-wrapper mode-edit-wrapper"><input data-mode="1" id="-mode-edit" type="radio" class="mode-edit" name="mode" value="1" checked /><label for="-mode-edit">Edit</label></span>
+          <span class="mode-wrapper mode-display-wrapper"><input data-mode="2" id="-mode-display" type="radio" class="mode-display" name="mode" value="2" /><label for="-mode-display">Display</label></span>
+          <span class="mode-wrapper mode-hidden-wrapper"><input data-mode="3" id="-mode-hidden" type="radio" class="mode-hidden" name="mode" value="3" /><label for="-mode-hidden">Hidden</label></span>
+          <span class="mode-wrapper mode-initiator-wrapper"><input data-mode="5" id="-mode-initiator" type="radio" class="mode-initiator" name="mode" value="5" /><label for="-mode-initiator">Form User</label></span>
         </div>
         <div class="selects hidden">
         </div>
@@ -9852,19 +9715,19 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     </div>
     <div class="edit-hidden form hidden">
       <div class="check-row">
-        <input type="checkbox" class="" id="-hidden" /><label for="-hidden">{hideLabel}</label>
+        <input type="checkbox" class="" id="-hidden" /><label for="-hidden">Make Hidden</label>
       </div>
     </div>
     <div class="edit-template form hidden"></div>
     <div class="edit-required form hidden">
       <div class="check-row">
-        <input type="checkbox" class="required" id="-required" /><label for="-required">{requiredLabel}</label>
+        <input type="checkbox" class="required" id="-required" /><label for="-required">Required</label>
       </div>
     </div>
     <div class="buttons">
-      <div class="button grey cancel"><span class="icon-cross"></span>{cancelLabel}</div>
-      <div class="button blue back hidden"><span class="icon-back"></span>{searchLabel}</div>
-      <div class="button green ok disabled"><span class="icon-tick"></span>{okLabel}</div>
+      <div class="button grey cancel"><span class="icon-cross"></span>Cancel</div>
+      <div class="button blue back hidden"><span class="icon-back"></span>Search</div>
+      <div class="button green ok disabled"><span class="icon-tick"></span>OK</div>
     </div>
     `;
 
@@ -11135,7 +10998,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       elementNode = document.createElement('li');
 
-      if (data.Type.trim().toLowerCase() === 'section') elementNode.innerHTML = this.sectionTemplate.format($a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message'));
+      if (data.Type.trim().toLowerCase() === 'section') elementNode.innerHTML = this.sectionTemplate;
       else elementNode.innerHTML = this.elementTemplate;
 
       elementNode.dataset.type = data.Type;
@@ -11262,17 +11125,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
             if (!gotTemplate)
             {
-              this._loadTemplateError($a.Lang.ReturnPath('application.cleverfroms.designer.error_template_not_recognised'));
+              this._loadTemplateError('template load succeeded, but result not recognised');
             }
           }
           else
           {
-            this._loadTemplateError($a.Lang.ReturnPath('application.cleverfroms.designer.error_template_not_recognised'));
+            this._loadTemplateError('template load succeeded, but result not recognised');
           }
         }.bind(this))
         .catch(function ()
         {
-          this._loadTemplateError($a.Lang.ReturnPath('application.cleverfroms.designer.error_template_fail'));
+          this._loadTemplateError('template load failed');
         }.bind(this));
     }
     return true;
@@ -11292,7 +11155,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     $a.HidePageLoader();
     $a.LogError('Design Error', 'Critical', error + '\n' + this.CleverForms.GetTemplateApi + '?templateId=' + this.CleverForms.GetTemplateGuid());
     $a.Dialog.Show({
-      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_template'),
+      message: 'Oops! We could not load your form. There appears to be something wrong with it.<br />Please contact Affinity.',
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -11476,24 +11339,19 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         var message;
         if (displayKeyConversions.length === 1)
         {
-          //message = 'The Key Field "' + displayKeyConversions[0].Name + '" had mode set to "Display".';
-          //message += '<br>This is not allowed, so we changed the mode to "' + displayKeyConversions[0].To + '".' ;
-          //message += '<br>All fields that require this key will default to this mode.';
-          message = $a.Lang.ReturnPath('application.cleverfroms.designer.mode_conversion_message_not_allowed', { name: displayKeyConversions[0].Name, mode: displayKeyConversions[0].To });
+          message = 'The Key Field "' + displayKeyConversions[0].Name + '" had mode set to "Display".';
+          message += '<br>This is not allowed, so we changed the mode to "' + displayKeyConversions[0].To + '".' ;
+          message += '<br>All fields that require this key will default to this mode.' ;
         }
         else
         {
-          var keylist = '';
-          //message = 'We found some Key Fields whose modes were set to "Display"';
-          //message += '<br>This is not allowed, so we changed the following:<br><br>';
+          message = 'We found some Key Fields whose modes were set to "Display"';
+          message += '<br>This is not allowed, so we changed the following:<br><br>';
           for (var i = 0; i < displayKeyConversions.length; i++)
           {
-            //message += '"' + displayKeyConversions[i].Name + '" changed to "' + displayKeyConversions[i].To + '"<br>';
-            keylist += "'" + displayKeyConversions[i].Name + "' changed to '" + displayKeyConversions[i].To + "'<br>";
+            message += '"' + displayKeyConversions[i].Name + '" changed to "' + displayKeyConversions[i].To + '"<br>';
           }
-          //message += '<br>All fields that require these keys will default to this mode.';
-          message = $a.Lang.ReturnPath('application.cleverfroms.designer.mode_conversion_message', { keylist: keylist });
-
+          message += '<br>All fields that require these keys will default to this mode.' ;
         }
         Affinity2018.Dialog.Show({
           message: message,
@@ -11548,8 +11406,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _injectDefaultSection ()
   {
     var sectionConfig = $a.jsonCloneObject(this.CleverForms.ElementData.Section);
-    //sectionConfig.Details.Label = 'Default Section';
-    sectionConfig.Details.Label = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+    sectionConfig.Details.Label = 'Default Section';
     // config, autoEdit, targetNode, position, referenceNode
     this.Add(sectionConfig, false, this.RightListNode, 'top');
   }
@@ -11586,8 +11443,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           }
           if (node && node.hasOwnProperty('controller'))
           {
-            //message = '<br />This section is using Model <strong>"' + node.controller.Config.Details.AffinityField.ModelName + '"</strong>.';
-            message = '<br />' + $a.Lang.ReturnPath('application.cleverfroms.designer.section_mode_message', { model: node.controller.Config.Details.AffinityField.ModelName });
+            message = '<br />This section is using Model <strong>"' + node.controller.Config.Details.AffinityField.ModelName + '"</strong>.';
           }
         }
         sectionMessageNode.innerHTML = message;
@@ -11801,8 +11657,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
     Affinity2018.Dialog.Show({
-      //message: 'Oops! We could not find the data for this element.<br />Please remove it and add it again.',
-      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_element_data'),
+      message: 'Oops! We could not find the data for this element.<br />Please remove it and add it again.',
       showOk: true,
       showCancel: false,
       showInput: false
@@ -11930,8 +11785,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (node.dataset.type === 'Section' && globalKey && globalKey.parentNode === node.querySelector('ul')) // global key is in me!
       {
         Affinity2018.Dialog.Show({
-          //message: 'You can not remove a section with the global field "' + globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
-          message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_section_remove_with_global', { label: globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') }), 
+          message: 'You can not remove a section with the global field "' + globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
           showOk: true,
           showCancel: false,
           showInput: false,
@@ -11941,8 +11795,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
 
       message = '';
-      //message += 'Are you sure you want to remove this ' + (node.dataset.type === 'Section' ? 'section' : 'field') + '?';
-      message += $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_section_delete', { type: node.dataset.type === 'Section' ? 'section' : 'field' });
+      message += 'Are you sure you want to remove this ' + (node.dataset.type === 'Section' ? 'section' : 'field') + '?';
 
       if (node.dataset.type === 'Section')
       {
@@ -11968,8 +11821,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           var blockerConfig = node.querySelector('.is-global-key').controller.Config;
           Affinity2018.Dialog.Show({
-            //message: 'You can not remove a section with the global field "' + blockerConfig.Display.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
-            message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_section_remove_with_global', { label: globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') }), 
+            message: 'You can not remove a section with the global field "' + blockerConfig.Display.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
             showOk: true,
             showCancel: false,
             showInput: false,
@@ -11981,8 +11833,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           if (node.querySelectorAll('.cf-designer-element').length > 0)
           {
-            //message += '<p><span class="blue"><strong>Reminder!</strong> This will remove all fields in this section.<br />This can not be undone.</span></p>';
-            message += $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_remove_reminder');
+            message += '<p><span class="blue"><strong>Reminder!</strong> This will remove all fields in this section.<br />This can not be undone.</span></p>';
           }
         }
 
@@ -12021,12 +11872,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               var lastDependant = dependantNames.pop();
               ownersStr = '"<strong>' + dependantNames.join('</strong>", "<strong>') + '</strong>" and "<strong>' + lastDependant + '</strong>"';
             }
-            //message = '';
-            //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
-            //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
-            //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
-            //message += '<p>Are you sure you want to remove this required field?</p>';
-            message = $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_global_remove', { owner: ownersStr, plural: plural });
+            message = '';
+            message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
+            message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
+            message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
+            message += '<p>Are you sure you want to remove this required field?</p>';
           }
 
         }
@@ -13290,8 +13140,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   {
     this._postComplete();
     Affinity2018.Dialog.Show({
-      //message: 'Oh no! We had trouble saving your changes.<br />Continue working. We will catch up!<!-- ' + errorMessage + ' -->',
-      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_save', { error: errorMessage }),
+      message: 'Oh no! We had trouble saving your changes.<br />Continue working. We will catch up!<!-- ' + errorMessage + ' -->',
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -13445,8 +13294,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (ext === 'json' && size <= 20)
       {
         $a.Dialog.Show({
-          //message: 'This will perminantly delete all exisitng items in your form.<br />Are you sire you want to continue?',
-          message: $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_message'),
+          message: 'This will perminantly delete all exisitng items in your form.<br />Are you sire you want to continue?',
           textAlign: 'left',
           buttons: {
             ok: { show: true, icon: 'tick', color: 'green', text: 'Continue' },
@@ -13464,17 +13312,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
       else
       {
-        //var message = 'Something went wrong on upload';
-        var message = $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_error');
+        var message = 'Something went wrong on upload';
         if (size > 20)
         {
-          //message = 'File is too large to upload (is larger than 20MB)';
-          message = $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_error_large');
+          message = 'File is too large to upload (is larger than 20MB)';
         }
         else if (ext !== 'json')
         {
-          //message = 'File must be a .json plain text file';
-          message = $a.Lang.ReturnPath('application.cleverfroms.designer.upload_template_error_format');
+          message = 'File must be a .json plain text file';
         }
         $a.Dialog.Show({
           buttons: { cancel: false },
@@ -13497,21 +13342,18 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (json.contains('AffinityField'))
         {
           $a.Dialog.Show({
-            //message: 'Repair Affiinty Field Data?',
-            message: $a.Lang.ReturnPath('application.cleverfroms.designer.repair_message'),
+            message: 'Repair Affiinty Field Data?',
             buttons: {
               ok: {
                 show: true,
                 icon: 'arrow-right',
-                //text: 'Continue as is',
-                text: $a.Lang.ReturnPath('application.cleverfroms.designer.button_no_repair'),
+                text: 'Continue as is',
                 color: 'dark-blue'
               },
               cancel: {
                 show: true,
                 icon: 'incident',
-                //text: 'Repair and continue',
-                text: $a.Lang.ReturnPath('application.cleverfroms.designer.button_repair'),
+                text: 'Repair and continue',
                 color: 'dark-green'
               }
             },
@@ -13622,7 +13464,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         <span class="del">X</span>
       </div>
       <div class="drag-handle icon-cf-drag"></div>
-      <p class="section-message">{0} <em></em><br></p>
+      <p class="section-message">Required fields will be added to the form automatically. <em></em></p>
       <ul class="droppable items-only"></ul>
     `;
 
@@ -14281,6 +14123,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             )
           )
           {
+
+
+
             if (response.data.hasOwnProperty('Data') && $a.isArray(response.data.Data))
             {
               this.TemplateData = response.data.Template;
@@ -14316,8 +14161,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     Affinity2018.HidePageLoader();
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
-      //message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
-      message: $a.Lang.ReturnPath('application.cleverfroms.form_edit.error_instance_fail'),
+      message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -14471,7 +14315,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.SaveButtonData =
       {
         "Name": "Save Form",
-        "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.save_button'),
         "Type": "FormButton",
         "ActionType": "save",
         "DestinationStateId": "",
@@ -14541,7 +14384,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         buttons.push({
           "Type": "WorkflowButton",
-          "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_validation_button'),
+          "Name": "Test Validation",
           "DestinationStateId": "",
           "SateType": 0,
           "ActionType": "post",
@@ -14557,7 +14400,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       this.SaveButtonData =
       {
-        "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_validation_button'),
+        "Name": "Test Validation",
         "Type": "FormButton",
         "ActionType": "post",
         "DestinationStateId": "",
@@ -14576,7 +14419,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "DestinationStateId": "",
       "SateType": 0,
       "ActionType": "print",
-      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_print_button'),
+      "Name": "Print",
       "Color": "dark-blue",
       "Icon": "print",
       "Path": null,
@@ -14588,7 +14431,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "DestinationStateId": "",
       "SateType": 0,
       "ActionType": "back",
-      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_back_button'),
+      "Name": "Back",
       "Color": "blue",
       "Icon": "arrow-left",
       "Path": null,
@@ -15894,11 +15737,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.TemplateNode.classList.add('hidden');
     if (this.HtmlEditTemplate && this.HtmlEditTemplate.trim() !== '')
     {
-      var templateHtml = this.HtmlEditTemplate.trim().format({
-        filterlabel: $a.Lang.ReturnPath('app.cf.design_items.filter_label'),
-        linkmessage: $a.Lang.ReturnPath('app.cf.design_items.link_message'),
-        selectlabel: $a.Lang.ReturnPath('app.cf.design_items.link_select_label')
-      });
+      var templateHtml = this.HtmlEditTemplate.trim();
       this.TemplateNode.innerHTML = templateHtml;
       this.TemplateNode.classList.remove('hidden');
     }
@@ -17401,22 +17240,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         var descText = affinityFieldDesc.substring(0, affinityFieldDesc.indexOf('.'));
         descText += ' (' + (displayDescription.endsWith('.') ? displayDescription.substring(0, displayDescription.length - 1) : displayDescription) + ').';
         descText += '<br /><br />';
-        //descText += '<em>This is the Affinity Field <strong>' + this.Config.Details.AffinityField.FieldName + '</strong>';
-
-        var descSuffix = $a.Lang.ReturnPath('app.cf.design_items.affinity_field_desc', {
-          fieldName: this.Config.Details.AffinityField.FieldName
-        });
+        descText += '<em>This is the Affinity Field <strong>' + this.Config.Details.AffinityField.FieldName + '</strong>';
         if (this.Config.Details.AffinityField.ModelName !== null)
         {
-          descSuffix = $a.Lang.ReturnPath('app.cf.design_items.affinity_field_desc_with_table', {
-            fieldName: this.Config.Details.AffinityField.FieldName,
-            tableName: this.Config.Details.AffinityField.ModelName
-          });
-          //descText += ' from ' + (this.Config.Details.AffinityField.ModelName.toLowerCase().contains('employee') ? 'model' : 'table');
-          //descText += ' <strong>' + this.Config.Details.AffinityField.ModelName + '</strong>';
+          descText += ' from ' + (this.Config.Details.AffinityField.ModelName.toLowerCase().contains('employee') ? 'model' : 'table');
+          descText += ' <strong>' + this.Config.Details.AffinityField.ModelName + '</strong>';
         }
-        //descText += '.<em>';
-        descText += descSuffix;
+        descText += '.<em>';
 
         this.SettingsViewNode.querySelector('.settings h3').innerHTML = label;
         this.SettingsViewNode.querySelector('.settings p').innerHTML = descText;
@@ -18469,14 +18299,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.HtmlEditTemplate = `
     <div class="edit-row top affinity-generic-group hidable hide hidden">
-      <label>{filterlabel}</label>
+      <label>Filter by group</label>
       <div class="select working">
         <select class=""></select>
       </div>
     </div>
-    <p class="affinity-form-link-desc">{linkmessage}</p>
+    <p class="affinity-form-link-desc">Add a link to allow the form user to start a new form. Example: Start "Add New Position" form to create a position not yet available in the original form.</p>
     <div class="edit-row affinity-form-link hidden">
-      <label>{selectlabel}</label>
+      <label>Select a form</label>
       <div class="select working">
         <select class=""></select>
       </div>
