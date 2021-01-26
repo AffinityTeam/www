@@ -10537,7 +10537,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               {
                 if (showMessages)
                 {
-                  message = 'Warning! This field has a key which is set as "{0}". This field must be set to "{0}" as well.'.format(ExisitngKeyModeName);
+                  //message = 'Warning! This field has a key which is set as "{0}". This field must be set to "{0}" as well.'.format(ExisitngKeyModeName);
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_mix_modes', { mode: ExisitngKeyModeName });
                   Affinity2018.Dialog.Show({
                     message: message,
                     showOk: true,
@@ -10545,7 +10546,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     showInput: false,
                     textAlign: 'left',
                     buttons: {
-                      cancel: false
+                      ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                      cancel: { shoe: false }
                     }
                   });
                 }
@@ -10561,7 +10563,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               {
                 if (showMessages)
                 {
-                  message = 'Warning! This field can not be "Create" as it has a key that is "{0}".'.format(ExisitngKeyModeName);
+                  //message = 'Warning! This field can not be "Create" as it has a key that is "{0}".'.format(ExisitngKeyModeName);
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_section_not_create', { mode: ExisitngKeyModeName });
                   Affinity2018.Dialog.Show({
                     message: message,
                     showOk: true,
@@ -10569,7 +10572,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     showInput: false,
                     textAlign: 'left',
                     buttons: {
-                      cancel: false
+                      ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                      cancel: { shoe: false }
                     }
                   });
                 }
@@ -10596,7 +10600,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   keyExists = true;
                   //message = 'You already have this Global Key in the form';
-                  message = $a.Lang.ReturnPath('app.cf.design_items.duplicate_global_key_warning');
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_global_key');
                 }
               }
               else
@@ -10612,7 +10616,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   {
                     keyExists = true;
                     //message = 'You already have this key in this form';
-                    message = $a.Lang.ReturnPath('app.cf.design_items.duplicate_key_form_warning');
+                    message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_key_form');
                   }
                 }
                 else
@@ -10625,7 +10629,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   {
                     keyExists = true;
                     //message = 'You already have this key in this section';
-                    message = $a.Lang.ReturnPath('app.cf.design_items.duplicate_key_section_warning');
+                    message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_key_section');
                     //
                   }
                 }
@@ -10641,6 +10645,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     showInput: false,
                     textAlign: 'left',
                     buttons: {
+                      ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
                       cancel: false
                     }
                   });
@@ -10674,13 +10679,15 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   if (showMessages)
                   {
-                    message = 'Warning! You already have a "{0}" version of this field in your form'.format(FieldModeName);
+                    //message = 'Warning! You already have a "{0}" version of this field in your form'.format(FieldModeName);
+                    message = $a.Lang.ReturnPath('app.cf.designer.error_one_masterfile', { mode: FieldModeName });
                     Affinity2018.Dialog.Show({
                       message: message,
                       showInput: false,
                       textAlign: 'left',
                       buttons: {
-                        cancel: false
+                        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                        cancel: { shoe: false }
                       }
                     });
                   }
@@ -10712,12 +10719,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               //message += '<p>You can only have Affinity fields from one table per section.</p>';
               //message += '<p>This section already has Affinity fields for "' + SectionModel + '", but "' + config.Details.Label + '" is from "' + FieldModel + '".</p>';
               //message += '<p>You should create a new section for "' + FieldModel + '" fields, or try a section already using this table.</p>';
+              message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_field', { mode: FieldModeName });
               Affinity2018.Dialog.Show({
-                message: $a.Lang.ReturnPath('duplicate_field_warning', { sectionModel: SectionModel }),
+                message: $a.Lang.ReturnPath('app.cf.designer.error_duplicate_field', { model: SectionModel }),
                 showOk: true,
                 showCancel: false,
                 showInput: false,
-                textAlign: 'left'
+                textAlign: 'left',
+                buttons: {
+                  ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                  cancel: { shoe: false }
+                }
               });
               return false;
             }
@@ -10734,10 +10746,15 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             )
             {
               Affinity2018.Dialog.Show({
-                message: 'Oops! You can only have one "' + config.Label + '" per section.',
+                //message: 'Oops! You can only have one "' + config.Label + '" per section.',
+                message = $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_section', { label: config.Label }),
                 showOk: true,
                 showCancel: false,
-                showInput: false
+                showInput: false,
+                buttons: {
+                  ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                  cancel: { shoe: false }
+                }
               });
               return false;
             }
@@ -10755,10 +10772,15 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             )
             {
               Affinity2018.Dialog.Show({
-                message: 'Oops! You can only have one "' + config.Label + '" per form.',
+                //message: 'Oops! You can only have one "' + config.Label + '" per form.',
+                message = $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_form', { label: config.Label }),
                 showOk: true,
                 showCancel: false,
-                showInput: false
+                showInput: false,
+                buttons: {
+                  ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                  cancel: { shoe: false }
+                }
               });
               return false;
             }
@@ -10796,7 +10818,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     show: true,
                     icon: 'tick',
                     color: 'green',
-                    text: $a.Lang.ReturnPath('app.cf.design_items.edit.address_button_use_sinlge', { fieldName: config.Details.AffinityField.DisplayLabel })
+                    text: $a.Lang.ReturnPath('app.cf.design_items.edit.address_button_use_single', { fieldName: config.Details.AffinityField.DisplayLabel })
                   },
                   cancel: {
                     show: true,
@@ -10857,7 +10879,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     || dragFromListNode.closest('li[data-type="Section"]').classList.contains('locked')
                   )
                   {
-                    this.DragEndMessage = 'You can not move items into or out of locked sections';
+                    //this.DragEndMessage = 'You can not move items into or out of locked sections';
+                    this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation');
                     this.DragEndCallback = false;
                     return false;
                   }
@@ -10885,7 +10908,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 && this.RightListNode.querySelector(fieldQuery)
               )
               {
-                this.DragEndMessage = 'You already have one of these';
+                //this.DragEndMessage = 'You already have one of these';
+                this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation_unique');
                 this.DragEndCallback = false;
                 return false;
               }
@@ -10905,7 +10929,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             {
               if (dragToListNode.classList.contains('items-only')) // TODO: Why do we need this check? items in non-items lists should have been caught above
               {
-                this.DragEndMessage = 'Affinity Fields that are not Masterfile data can not be moved between sections.';
+                //this.DragEndMessage = 'Affinity Fields that are not Masterfile data can not be moved between sections.';
+                this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation_non_masterfile');
               }
               this.DragEndCallback = false;
               return false;
@@ -10921,10 +10946,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               && DragToSectionModel !== FieldModel
             )
             {
-              this.DragEndMessage = '';
-              this.DragEndMessage += '<p>You can only have Affinity Fields from one Model per section.</p>';
-              this.DragEndMessage += '<p>This section already has Affinity Fields for Model "' + SectionModel + '", but "' + config.Details.Label + '" is from Model "' + FieldModel + '".</p>';
-              this.DragEndMessage += '<p>You should create a new section for "' + FieldModel + '" fields, or try a section already using this Model.</p>';
+              //this.DragEndMessage = '';
+              //this.DragEndMessage += '<p>You can only have Affinity Fields from one Model per section.</p>';
+              //this.DragEndMessage += '<p>This section already has Affinity Fields for Model "' + SectionModel + '", but "' + config.Details.Label + '" is from Model "' + FieldModel + '".</p>';
+              //this.DragEndMessage += '<p>You should create a new section for "' + FieldModel + '" fields, or try a section already using this Model.</p>';
+
+              this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation_mix_tables', {
+                sectionModel: SectionModel,
+                newFieldLabel: config.Details.Label,
+                newFieldModel: FieldModel
+              });
+
               this.DragEndCallback = false;
               return false;
             }
@@ -10939,7 +10971,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               && this.RightListNode.querySelector('.is-pseudo-global-key:not(.gu-transit)')
             )
             {
-              this.DragEndMessage = 'Oops! You can only have one "' + this.CleverForms.ElementData[node.dataset.type].Label + '" per form.';
+              //this.DragEndMessage = 'Oops! You can only have one "' + this.CleverForms.ElementData[node.dataset.type].Label + '" per form.';
+              this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation_one_pseudo', {
+                label: this.CleverForms.ElementData[node.dataset.type].Label
+              });
               this.DragEndCallback = this.Editor.Cancel;
               return false;
             }
@@ -11148,8 +11183,19 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       elementNode = document.createElement('li');
 
-      if (data.Type.trim().toLowerCase() === 'section') elementNode.innerHTML = this.sectionTemplate.format($a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message'));
-      else elementNode.innerHTML = this.elementTemplate;
+      if (data.Type.trim().toLowerCase() === 'section')
+      {
+        elementNode.innerHTML = this.sectionTemplate.format({
+          edit: $a.Lang.ReturnPath('application.cleverfroms.designer.element_edit_button'),
+          message: $a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message')
+        });
+      }
+      else
+      {
+        elementNode.innerHTML = this.elementTemplate.format({
+          edit: $a.Lang.ReturnPath('application.cleverfroms.designer.element_edit_button')
+        });
+      }
 
       elementNode.dataset.type = data.Type;
 
@@ -12041,7 +12087,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
             //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
             //message += '<p>Are you sure you want to remove this required field?</p>';
-            message = $a.Lang.ReturnPath('application.cleverfroms.designer.confirm_global_remove', { owner: ownersStr, plural: plural });
+            message = $a.Lang.ReturnPath('app.cf.designer.confirm_global_remove', { owner: ownersStr, plural: plural });
           }
 
         }
@@ -12056,8 +12102,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         showInput: false,
         textAlign: 'left',
         buttons: {
-          cancel: { show: true, icon: 'cross', text: 'Cancel' },
-          ok: { show: true, icon: 'tick', text: 'Remove' }
+          cancel: { show: true, icon: 'cross', text: $a.Lang.ReturnPath('generic.buttons.cancel') },
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.remove') }
         },
         onOk: function ()
         {
@@ -12798,7 +12844,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         showInput: false,
         textAlign: 'left',
         buttons: {
-          ok: { show: true, icon: 'tick', text: 'Ok' }
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') }
         }
       });
       this.DragEndMessage = false;
@@ -13655,11 +13701,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       <div class="main-icon"></div>
       <div class="label border"></div>
       <div class="buttons">
-        <span class="edit">Edit</span>
+        <span class="edit">{edit}</span>
         <span class="del">X</span>
       </div>
       <div class="drag-handle icon-cf-drag"></div>
-      <p class="section-message">{0} <em></em><br></p>
+      <p class="section-message">{message} <em></em><br></p>
       <ul class="droppable items-only"></ul>
     `;
 
@@ -13667,7 +13713,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       <div class="main-icon"></div>
       <div class="label"></div>
       <div class="buttons">
-        <span class="edit">Edit</span>
+        <span class="edit">{edit}</span>
         <span class="del">X</span>
       </div>
       <div class="buttons"></div>
@@ -14213,11 +14259,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     Affinity2018.HidePageLoader();
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
-      message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
+      //message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
+      message: $a.Lang.ReturnPath('app.cf.edit.error_template_get_fail'),
       showOk: true,
       showCancel: false,
       showInput: false,
-      textAlign: 'left'
+      textAlign: 'left',
+      buttons: {
+        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+        cancel: { show: false }
+      }
     });
   }
 
@@ -14354,11 +14405,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
       //message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
-      message: $a.Lang.ReturnPath('application.cleverfroms.form_edit.error_instance_fail'),
+      message: $a.Lang.ReturnPath('app.cf.edit.error_template_get_fail'),
       showOk: true,
       showCancel: false,
       showInput: false,
-      textAlign: 'left'
+      textAlign: 'left',
+      buttons: {
+        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+        cancel: { show: false }
+      }
     });
   }
 
@@ -14636,14 +14691,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       if (window.opener !== null)
       {
-        backData.Name = 'Close';
+        backData.Name = $a.Lang.ReturnPath('generic.buttons.close');
         backData.Color = 'orange';
         backData.Icon = 'cross';
         backData.Path = null;
       }
       else
       {
-        backData.Name = 'Back';
+        backData.Name = $a.Lang.ReturnPath('generic.buttons.back');
         backData.Color = 'blue';
         backData.Icon = 'arrow-left';
         backData.Path = null;
@@ -14653,14 +14708,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       if (['Preview'].contains(this.ViewType))
       {
-        backData.Name = 'Designer';
+        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
         backData.Color = 'blue';
         backData.Icon = 'brush';
         backData.Path = null;
       }
       if (['Form', 'ViewOnly'].contains(this.ViewType))
       {
-        backData.Name = 'Inbox';
+        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
         backData.Color = 'blue';
         backData.Icon = 'empty-inbox';
         backData.Path = null;
@@ -15111,7 +15166,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       });
       if (this.ViewType === 'Preview')
       {
-        $a.Dialog.Show({ message: 'And off a-posting we shall go!', buttons: { cancel: false } });
+        $a.Dialog.Show({
+          message: $a.Lang.ReturnPath('application.cleverfroms.designer.preview_test_validation_message'),
+          buttons: {
+            ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+            cancel: { show: false }
+          }
+        });
         $a.HidePageLoader();
         this._getPostData();
       }
@@ -15144,7 +15205,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
-    buttonData.Name = 'Save';
+    buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
     $a.ShowPageLoader();
     this._post(buttonData);
   }
@@ -15355,7 +15416,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     )
     {
       this.PostedErrors = response.data.Data;
-      var message = 'Oops! ' + (this.PostedErrors.length === 0 ? 'There is an error' : 'There are errors') + ' in this form that needs attention:<br /><br />';
+      //var message = 'Oops! ' + (this.PostedErrors.length === 0 ? 'There is an error' : 'There are errors') + ' in this form that needs attention:<br /><br />';
+      var message;
+      if (this.PostedErrors.length === 0) message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_error');
+      else message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_errors');
+
       if (this.PostedErrors.length >= 2)
       {
         var reg = new RegExp(/^(.*)\s?[.,:]{1}$/m);
@@ -15379,7 +15444,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         showOk: true,
         showCancel: false,
         showInput: false,
-        textAlign: 'left'
+        textAlign: 'left',
+        buttons: {
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+          cancel: { show: false }
+        }
       });
     }
 
@@ -15481,12 +15550,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this._postFailedThrottle = setTimeout(function ()
     {
       Affinity2018.Dialog.Show({
-        message: 'Oh no! We had trouble submitting your form.<!-- ' + errorMessage + ' -->',
+        //message: 'Oh no! We had trouble submitting your form.<!-- ' + errorMessage + ' -->',
+        message: $a.Lang.ReturnPath('app.cf.form.error_template_post_fail', { message: errorMessage }),
         showOk: true,
         showCancel: false,
         showInput: false,
         canBackgroundClose: false,
-        textAlign: 'left'
+        textAlign: 'left',
+        buttons: {
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+          cancel: { shoe: false }
+        }
       });
       if (data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
       console.error('Form Post ({0}) Error: {1}.'.format(this.SubmitActionName, errorMessage));
@@ -35746,28 +35820,28 @@ Affinity2018.Classes.Plugins.StringWidget = class
     {
       case 'string':
         pattern = /^[A-Za-z0-9_\-.]+$/g;
-        warning = 'Oops! Some characters used are invalid.<br />You can use _ - . but no spaces.';
+        warning = $a.Lang.ReturnPath('generic.validation.strings.string'); // + ' Some characters used are invalid.<br />You can use _ - . but no spaces.';
         extraspace = true;
         break;
       case 'sentence':
       case 'sentance':
         pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\*\/\\|()\s]*$/g;
-        warning = 'Oops! Some characters used are invalid.<br />You can use spaces . , _ - ; : ( ) ? $ * % @ # ! \\ \' "';
+        warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
         extraspace = true;
         break;
       case 'alphanumeric':
         pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\s]+$/g;
-        warning = 'Oops! Some characters used are invalid.<br />you can use . , _ - : ? $ * % ! \\ / \' |';
+        warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
         extraspace = true;
         break;
       case 'email':
         pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // old: pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        warning = 'Oops! This does not look like a valid email address.';
+        warning = $a.Lang.ReturnPath('generic.validation.strings.email'); // + ' This does not look like a valid email address.';
         break;
       case 'url':
         pattern = /^((ft|htt)ps?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|(localhost)|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%@_.~+&:]*)*(\?[;&a-z\d%@_.,~+&:=-]*)?(\#[-a-z\d_]*)?$/gi;
-        warning = 'Oops!  This does not look like a valid URL.';
+        warning = $a.Lang.ReturnPath('generic.validation.strings.url'); // + ' This does not look like a valid URL.';
         break;
     }
 
