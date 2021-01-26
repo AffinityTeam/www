@@ -10719,9 +10719,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               //message += '<p>You can only have Affinity fields from one table per section.</p>';
               //message += '<p>This section already has Affinity fields for "' + SectionModel + '", but "' + config.Details.Label + '" is from "' + FieldModel + '".</p>';
               //message += '<p>You should create a new section for "' + FieldModel + '" fields, or try a section already using this table.</p>';
-              message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_field', { mode: FieldModeName });
+              message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_field', { model: SectionModel });
               Affinity2018.Dialog.Show({
-                message: $a.Lang.ReturnPath('app.cf.designer.error_duplicate_field', { model: SectionModel }),
+                message: message,
                 showOk: true,
                 showCancel: false,
                 showInput: false,
@@ -10747,7 +10747,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             {
               Affinity2018.Dialog.Show({
                 //message: 'Oops! You can only have one "' + config.Label + '" per section.',
-                message = $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_section', { label: config.Label }),
+                message: $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_section', { label: config.Label }),
                 showOk: true,
                 showCancel: false,
                 showInput: false,
@@ -10773,7 +10773,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             {
               Affinity2018.Dialog.Show({
                 //message: 'Oops! You can only have one "' + config.Label + '" per form.',
-                message = $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_form', { label: config.Label }),
+                message: $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_form', { label: config.Label }),
                 showOk: true,
                 showCancel: false,
                 showInput: false,
@@ -16386,8 +16386,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
       if (this.Config.Details.Required && !isReadOnly)
       {
+        var className = 'required-message required';
+        if (document.querySelector('.required-message .required')) className = document.querySelector('.required-message .required').className;
         requiredNode = document.createElement('span');
-        requiredNode.className = document.querySelector('.required-message .required').className;
+        requiredNode.className = className;
         requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + ' is required';
         requiredNode.dataset.tooltipDir = 'top-right';
         requiredNode.classList.add('ui-has-tooltip');
