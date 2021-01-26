@@ -12534,6 +12534,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _loadPreview ()
   {
+    // As discussed, open in new window so users can compare elements in designer with preview of those elements
     var templateId = this.CleverForms.GetTemplateGuid(), path, redirectWindow;
     if (templateId)
     {
@@ -13350,9 +13351,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _postFailed (data, errorMessage)
   {
     this._postComplete();
+    var message = $a.Lang.ReturnPath('application.cleverfroms.designer.error_save', { error: errorMessage });
     Affinity2018.Dialog.Show({
       //message: 'Oh no! We had trouble saving your changes.<br />Continue working. We will catch up!<!-- ' + errorMessage + ' -->',
-      message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_save', { error: errorMessage }),
+      message: message,
       showOk: true,
       showCancel: false,
       showInput: false,
