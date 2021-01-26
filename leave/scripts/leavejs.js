@@ -5906,7 +5906,17 @@ var UILeaveDetail = new Class({
                             if (this.validateAttachmentRequirement()) {
                                 this.submitLeave(this.data.LeaveHeader.TSGroupId, 0, this.data.LeaveHeader.StatusCode,
                                     function (response) {
+                                        if (response.Response != null &&
+                                            response.Response.indexOf("position has changed since") !== -1) {
+                                            uialert({
+                                                'message': response.Response,
+                                                showButtons: true,
+                                                noClose: false
+                                            });
+
+                                        } else {
                                             this.acknowledgementModal(response, 'Your leave has been submitted');
+                                        }
                                     }.bind(this));
                             } else {
                                 this.displayAttachmentRequiredModalMessage();
@@ -5931,7 +5941,8 @@ var UILeaveDetail = new Class({
 
                             this.submitLeave(this.data.LeaveHeader.TSGroupId, 0, this.data.LeaveHeader.StatusCode,
                                 function (response) {
-                                    if (response.Response.indexOf("position has changed since") !== -1) {
+                                    if (response.Response != null &&
+                                        response.Response.indexOf("position has changed since") !== -1) {
                                         uialert({
                                             'message': response.Response,
                                             showButtons: true,
