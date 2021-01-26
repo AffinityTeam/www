@@ -14256,11 +14256,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _loadTemplateError()
   {
+    var message =  $a.Lang.ReturnPath('app.cf.form.error_template_get_fail');
     Affinity2018.HidePageLoader();
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
       //message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
-      message: $a.Lang.ReturnPath('app.cf.edit.error_template_get_fail'),
+      message: message,
       showOk: true,
       showCancel: false,
       showInput: false,
@@ -14401,11 +14402,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _loadInstanceError()
   {
+    var message = $a.Lang.ReturnPath('app.cf.form.error_template_get_fail');
     Affinity2018.HidePageLoader();
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
       //message: 'Oops! We could not load your form. There appears to be something wrong with it. Please contact your admin.',
-      message: $a.Lang.ReturnPath('app.cf.edit.error_template_get_fail'),
+      message: message,
       showOk: true,
       showCancel: false,
       showInput: false,
