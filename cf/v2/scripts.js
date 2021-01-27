@@ -10056,9 +10056,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     */
     this.AllowMultipleDisplayFields = false;
 
-
-
     /**/
+
+    this.OpenPreviewInNewWindow = false;
 
     this.LastModifiedTime = Date.now();
     this.LastPostTime = Date.now();
@@ -11990,6 +11990,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       var globalKey = this.RightListNode.querySelector('.is-global-key');
       if (node.dataset.type === 'Section' && globalKey && globalKey.parentNode === node.querySelector('ul')) // global key is in me!
       {
+        //var dependants = this._getDependantFields(globalKey.controller.Config);
         Affinity2018.Dialog.Show({
           //message: 'You can not remove a section with the global field "' + globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') + '" in it. You will have to remove it first, or move it to another section.',
           message: $a.Lang.ReturnPath('application.cleverfroms.designer.error_section_remove_with_global', { label: globalKey.controller.Config.Details.Label.replace(' ', '&nbsp;') }), 
@@ -12053,41 +12054,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
         if (node.dataset.type === 'AffinityField' && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
         {
-          var allNodes = this.RightListNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
-            plural = 's',
-            allNodeConfig, a,
-            ownersStr;
-          allNodes.forEach(function (allNode)
+          var dependants = this._getDependantFields(globalKey.controller.Config);
+          if (dependants.total > 0)
           {
-            allNodeConfig = allNode.controller.Config;
-            if ($a.type(allNodeConfig.Details.AffinityField.KeyFields) === 'array' && allNodeConfig.Details.AffinityField.KeyFields.length > 0)
-            {
-              for (a = 0; a < allNodeConfig.Details.AffinityField.KeyFields.length; a++)
-              {
-                if (allNodeConfig.Details.AffinityField.KeyFields[a].FieldName === node.dataset.field)
-                {
-                  dependantNodes.push(allNode);
-                  dependantNames.push(allNode.controller.Config.Details.Label);
-                }
-              }
-            }
-          }.bind(this));
-
-          if (dependantNames.length > 0)
-          {
-            ownersStr = '"<strong>' + dependantNames.join('</strong>", "<strong>') + '</strong>"';
-            if (dependantNames.length > 1)
-            {
-              plural = '';
-              var lastDependant = dependantNames.pop();
-              ownersStr = '"<strong>' + dependantNames.join('</strong>", "<strong>') + '</strong>" and "<strong>' + lastDependant + '</strong>"';
-            }
             //message = '';
             //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
             //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
             //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
             //message += '<p>Are you sure you want to remove this required field?</p>';
-            message = $a.Lang.ReturnPath('app.cf.designer.confirm_global_remove', { owner: ownersStr, plural: plural });
+            message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
+              keyField: globalKey.controller.Config.Details.Label,
+              fields: dependants.list,
+              plural: dependants.plural,
+              listPlural: dependants.listPlural
+            });
           }
 
         }
@@ -12126,6 +12106,59 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         onClose: this._clearRemove
       });
     }
+  }
+
+
+
+  /**
+   * Summary. Return a list string of dependant fields
+   * @this    Class scope
+   * @access  private
+   *
+   */
+  _getDependantFields(keyConfig)
+  {
+    var allNodes = this.RightListNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
+        dependantNodes = [],
+        dependantNames = [],
+        plural = '',
+        listPlural = 's',
+        ownersStr = '',
+        allNodeConfig, a, dependants;
+    allNodes.forEach(function (allNode)
+    {
+      allNodeConfig = allNode.controller.Config;
+      if ($a.type(allNodeConfig.Details.AffinityField.KeyFields) === 'array' && allNodeConfig.Details.AffinityField.KeyFields.length > 0)
+      {
+        for (a = 0; a < allNodeConfig.Details.AffinityField.KeyFields.length; a++)
+        {
+          if (allNodeConfig.Details.AffinityField.KeyFields[a].FieldName === keyConfig.Details.AffinityField.FieldName)
+          {
+            dependantNodes.push(allNode);
+            dependantNames.push(allNode.controller.Config.Details.Label);
+          }
+        }
+      }
+    }.bind(this));
+
+    if (dependantNames.length > 0)
+    {
+      ownersStr = "'<strong>" + dependantNames.join("</strong>'", "'<strong>") + "</strong>'";
+      if (dependantNames.length > 1)
+      {
+        plural = 's';
+        listPlural = '';
+        var lastDependant = dependantNames.pop();
+        ownersStr = "'<strong>" + dependantNames.join("</strong>'<br>'<strong>") + "</strong>'<br> and '<strong>" + lastDependant + "</strong>'";
+      }
+    }
+
+    return {
+      list: ownersStr,
+      plural: plural,
+      listPlural: listPlural,
+      total: dependantNames.length
+    };
   }
 
 
@@ -12540,8 +12573,15 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     {
       path = this.CleverForms.PreviewPath + '/' + templateId;
       if (window.location.hash) path += window.location.hash
-      redirectWindow = window.open(path, 'Designer'); // 'Designer' in place of '_blank' .. allows new page to access referrer and window title
-      redirectWindow.location;
+      if (this.OpenPreviewInNewWindow)
+      {
+        redirectWindow = window.open(path, 'Designer'); // 'Designer' in place of '_blank' .. allows new page to access referrer and window title
+        redirectWindow.location;
+      }
+      else
+      {
+        window.location = path;
+      }
     }
   }
 
@@ -13930,7 +13970,34 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       // TODO: Add AffinityField Key lookup hooks. If Key is EMPLOYEE_NO, fire event 'GotUser' on change and load.
 
-      if (this.ViewType === 'Preview') this._loadTemplate();
+      if (this.ViewType === 'Preview')
+      {
+        var topButtonsNode = document.querySelector('.preview-top-buttons');
+        if (topButtonsNode)
+        {
+          var placeHolder = document.createElement('div');
+          var template = this.buttonTemplate.format({
+            "Type": "Button",
+            "DestinationStateId": "",
+            "SateType": 0,
+            "ActionType": "back",
+            "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_back_button'),
+            "Color": "blue",
+            "Icon": "arrow-left",
+            "Path": null,
+            "visible": true
+          });
+          placeHolder.innerHTML = template;
+          var buttonNode = placeHolder.querySelector('div');
+          buttonNode.addEventListener('click', this._close);
+          topButtonsNode.appendChild(buttonNode);
+          placeHolder = null;
+          buttonNode = null;
+          topButtonsNode.classList.remove('hidden');
+        }
+
+        this._loadTemplate();
+      }
       if (this.ViewType === 'Form') this._loadInstance();
       if (this.ViewType === 'ViewOnly') this._loadInstance();
 
@@ -14830,6 +14897,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }
           buttonNode.dataset.id = id;
           buttonNode.buttonData = data;
+
+          if (buttonNode.tagName.toLowerCase() === 'a')
+          {
+            if (['{target}', '#'].contains(buttonNode.target) || buttonNode.target === '') buttonNode.removeAttribute('target');
+            if (['{Path}', '#'].contains(buttonNode.href) || buttonNode.href === '') buttonNode.removeAttribute('href');
+          }
+
         }
       }.bind(this));
       placeHolder.innerHTML = '';
