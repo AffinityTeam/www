@@ -12055,7 +12055,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (node.dataset.type === 'AffinityField' && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
         {
           var dependants = this._getDependantFields(globalKey.controller.Config);
-          if (dependants.total > 0)
+          dependantNodes = dependants.nodes;
+          if (dependants.nodes.length > 0)
           {
             //message = '';
             //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
@@ -12154,10 +12155,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     }
 
     return {
+      nodes: dependantNodes,
       list: ownersStr,
       plural: plural,
-      listPlural: listPlural,
-      total: dependantNames.length
+      listPlural: listPlural
     };
   }
 
