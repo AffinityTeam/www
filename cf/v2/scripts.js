@@ -10256,7 +10256,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @param {String} position top (default) | after, Position to inssert
    * @param {Object} referenceNode Optional reference node to Insert above or after
    */
-  Add (config, autoEdit, targetNode, position, referenceNode)
+  Add(config, autoEdit, targetNode, position, referenceNode)
   {
 
     if (this.LeftListNode.querySelector('li[data-type="' + config.Type + '"]'))
@@ -10312,7 +10312,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (config.Type.toLowerCase() === 'section') this._setSectionModelNameLabels();
         if (config.Type.toLowerCase() !== 'section') this._setElementModeLabel(node);
 
-        
+
         if (config.Type === 'AffinityField' && config.Details.AffinityField.FieldName === 'LINK_ID') node.classList.add('hidden');
 
         return node;
@@ -10332,7 +10332,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @this    Class scope
    * @access  public
    */
-  LockAffinityNonMasterFileSection (node)
+  LockAffinityNonMasterFileSection(node)
   {
     if (node)
     {
@@ -10367,7 +10367,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @param {Node} elementNode Child node of Section to discover and return
    * @param {Boolean} checkRightList Check if the elementNode or parent Section exists in the Right Designer List
    */
-  GetElementSectionNode (elementNode, checkRightList)
+  GetElementSectionNode(elementNode, checkRightList)
   {
     var checkRightList = $a.paramOrDefault(checkRightList, false, 'bool');
     var isDesignerNode = $a.isNode(elementNode) ? elementNode.classList.contains('cf-designer-element') : false;
@@ -10393,7 +10393,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @this    Class scope
    * @access  private
    */
-  GetElementSectionFilterMode (elementNode)
+  GetElementSectionFilterMode(elementNode)
   {
     var sectionNode = this.GetElementSectionNode(elementNode);
     if (sectionNode)
@@ -10419,57 +10419,60 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @this    Class scope
    * @access  private
    */
-  GetElementSectionNodelName (elementNode)
+  GetElementSectionNodelName(elementNode)
   {
-    var sectionNode = this.GetElementSectionNode(elementNode);
-    var modelName = elementNode.controller.GetModeName();
-    var nodes;
-    if (sectionNode)
+    if (elementNode)
     {
-      // check for any non global key of the same model
-      nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"][data-model="' + modelName + '"].is-key-field:not(.is-global-key)');
-      if (nodes.length > 0)
+      var sectionNode = this.GetElementSectionNode(elementNode);
+      var modelName = elementNode.controller.GetModeName();
+      var nodes;
+      if (sectionNode)
       {
-        return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        // check for any non global key of the same model
+        nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"][data-model="' + modelName + '"].is-key-field:not(.is-global-key)');
+        if (nodes.length > 0)
+        {
+          return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        }
+
+        // check for any global key of the same model
+        nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"][data-model="' + modelName + '"].is-key-field');
+        if (nodes.length > 0)
+        {
+          return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        }
+
+        // check for any field of the same model
+        nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"][data-model="' + modelName + '"]');
+        if (nodes.length > 0)
+        {
+          return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        }
+
+        /**/
+
+        // check for any non global key
+        nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"].is-key-field:not(.is-global-key)');
+        if (nodes.length > 0)
+        {
+          return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        }
+
+        // check for any global key
+        nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"].is-key-field');
+        if (nodes.length > 0)
+        {
+          return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        }
+
+        // check for any field
+        nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"]');
+        if (nodes.length > 0)
+        {
+          return nodes[0].controller.Config.Details.AffinityField.ModelName;
+        }
+
       }
-
-      // check for any global key of the same model
-      nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"][data-model="' + modelName + '"].is-key-field');
-      if (nodes.length > 0)
-      {
-        return nodes[0].controller.Config.Details.AffinityField.ModelName;
-      }
-
-      // check for any field of the same model
-      nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"][data-model="' + modelName + '"]');
-      if (nodes.length > 0)
-      {
-        return nodes[0].controller.Config.Details.AffinityField.ModelName;
-      }
-
-      /**/
-
-      // check for any non global key
-      nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"].is-key-field:not(.is-global-key)');
-      if (nodes.length > 0)
-      {
-        return nodes[0].controller.Config.Details.AffinityField.ModelName;
-      }
-
-      // check for any global key
-      nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"].is-key-field');
-      if (nodes.length > 0)
-      {
-        return nodes[0].controller.Config.Details.AffinityField.ModelName;
-      }
-
-      // check for any field
-      nodes = sectionNode.querySelectorAll('li[data-type="AffinityField"]');
-      if (nodes.length > 0)
-      {
-        return nodes[0].controller.Config.Details.AffinityField.ModelName;
-      }
-
     }
     return false;
   }
@@ -12054,21 +12057,26 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
         if (node.dataset.type === 'AffinityField' && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
         {
-          var dependants = this._getDependantFields(globalKey.controller.Config);
-          dependantNodes = dependants.nodes;
-          if (dependants.nodes.length > 0)
+          var dependants = null;
+          if (node.classList.contains('is-key-field')) dependants = this._getDependantFields(node.controller.Config);
+          if (node.classList.contains('is-global-key')) dependants = this._getDependantFields(globalKey.controller.Config);
+          if (dependants != null)
           {
-            //message = '';
-            //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
-            //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
-            //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
-            //message += '<p>Are you sure you want to remove this required field?</p>';
-            message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
-              keyField: globalKey.controller.Config.Details.Label,
-              fields: dependants.list,
-              plural: dependants.plural,
-              listPlural: dependants.listPlural
-            });
+            dependantNodes = dependants.nodes;
+            if (dependants.nodes.length > 0)
+            {
+              //message = '';
+              //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
+              //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
+              //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
+              //message += '<p>Are you sure you want to remove this required field?</p>';
+              message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
+                keyField: globalKey.controller.Config.Details.Label,
+                fields: dependants.list,
+                plural: dependants.plural,
+                listPlural: dependants.listPlural
+              });
+            }
           }
 
         }
@@ -12150,7 +12158,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         plural = 's';
         listPlural = '';
         var lastDependant = dependantNames.pop();
-        ownersStr = "'<strong>" + dependantNames.join("</strong>'<br>'<strong>") + "</strong>'<br> and '<strong>" + lastDependant + "</strong>'";
+        ownersStr = "'<strong>" + dependantNames.join("</strong>', '<strong>") + "</strong>', and '<strong>" + lastDependant + "</strong>'";
       }
     }
 
