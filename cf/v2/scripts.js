@@ -8821,6 +8821,18 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       //if (config.Details.ItemSource.hasOwnProperty('Items'))          postData.CustomList = config.Details.ItemSource.Items;
       if (config.Details.ItemSource.hasOwnProperty('ItemSourceType'))   postData.ItemSourceType = config.Details.ItemSource.ItemSourceType;
       if (config.Details.ItemSource.hasOwnProperty('TableType'))        postData.AffinityTableType = config.Details.ItemSource.TableType;
+      if (
+        postData.ItemSourceType === "Custom"
+        && (
+          postData.CustomList === undefined
+          || postData.CustomList === null
+          || postData.CustomList === []
+        )
+        && config.Details.ItemSource.hasOwnProperty('Items')
+      )
+      {
+        postData.CustomList = config.Details.ItemSource.Items;
+      }
     }
 
     if (config.Details.hasOwnProperty('ElementTypeEnum'))               postData.ElementTypeEnum = config.Details.ElementTypeEnum; // ???
@@ -12096,7 +12108,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         },
         onOk: function ()
         {
-
           var removed = false;
           if (dependantNodes.length > 0)
           {
@@ -12109,7 +12120,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           //removed = node.controller.RemoveDesignerElement(this._removeElement);
           this._setElementForDelete(node);
           this._setSectionModelNameLabels();
-
         }.bind(this),
         onCancel: this._clearRemove,
         onClose: this._clearRemove
@@ -12462,12 +12472,25 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (this.ld.currentScroll > this.ld.lastScroll) this.ld.scrollDirection = 'down';
     else this.ld.scrollDirection = 'up';
 
+    var dashFooterOffset = 0;
+    if (document.body.classList.contains('dashboard') && document.querySelector('#dashFooter'))
+    {
+      var dashFooterNode = document.querySelector('#dashFooter');
+      var dashFooterHeight = $a.getSize(dashFooterNode).height;
+      var totalHeight = $a.getPageSize().height;
+      var maxScroll = totalHeight - this.ld.viewHeight;
+      if (this.ld.currentScroll > (maxScroll - dashFooterHeight - 10))
+      {
+        dashFooterOffset = this.ld.currentScroll - (maxScroll - dashFooterHeight - 10);
+      }
+    }
+
     if (this.ld.scrollDirection === 'down')
     {
       if (!this.ld.locked && this.ld.currentScroll >= this.ld.top - 15)
       {
         this.LeftListNode.style.position = 'fixed';
-        this.LeftListNode.style.bottom = '15px';
+        this.LeftListNode.style.bottom = (15 + dashFooterOffset) +  'px';
         this.LeftListNode.style.height = (this.ld.viewHeight - 40) + 'px';
         this.LeftListNode.style.overflow = 'hidden';
         this.ld.locked = true;
@@ -12477,7 +12500,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         var scroll = this.LeftListNode.scrollTop;
         this.LeftListNode.scrollTo(0, scroll + (this.ld.currentScroll - this.ld.lastScroll));
         if ('scrollTo' in this.LeftListNode) this.LeftListNode.scrollTo(0, scroll + (this.ld.currentScroll - this.ld.lastScroll));
-        this.LeftListNode.scrollTop = scroll + (this.ld.currentScroll - this.ld.lastScroll)
+        this.LeftListNode.scrollTop = scroll + (this.ld.currentScroll - this.ld.lastScroll);
+        this.LeftListNode.style.bottom = (15 + dashFooterOffset) +  'px';
       }
     }
     if (this.ld.scrollDirection === 'up')
@@ -12485,7 +12509,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (this.ld.locked)
       {
         var scroll = this.LeftListNode.scrollTop;
-        this.LeftListNode.scrollTo(0, scroll - (this.ld.lastScroll - this.ld.currentScroll));
+        if (dashFooterOffset === 0)
+        {
+          this.LeftListNode.scrollTo(0, scroll - (this.ld.lastScroll - this.ld.currentScroll));
+        }
+        this.LeftListNode.style.bottom = (15 + dashFooterOffset) + 'px';
       }
       if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15)
       {
