@@ -10510,6 +10510,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       var config = node.hasOwnProperty('controller') ? node.controller.Config : null,
         AffinityField = config != null && config.Type === 'AffinityField' ? config.Details.AffinityField : null,
+        AffinityFieldLabel = config != null && config.Type === 'AffinityField' ? config.Details.Label : null,
         SectionNode, DragToSectionModel,
         SectionMode, SectionModel,
         FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower,
@@ -10553,7 +10554,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 if (showMessages)
                 {
                   //message = 'Warning! This field has a key which is set as "{0}". This field must be set to "{0}" as well.'.format(ExisitngKeyModeName);
-                  message = $a.Lang.ReturnPath('app.cf.designer.error_mix_modes', { mode: ExisitngKeyModeName });
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_mix_modes', {
+                    fieldLabel: ExisitngKeyNode.controller.Details.Label,
+                    mode: ExisitngKeyModeName
+                  });
                   Affinity2018.Dialog.Show({
                     message: message,
                     showOk: true,
@@ -10579,7 +10583,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 if (showMessages)
                 {
                   //message = 'Warning! This field can not be "Create" as it has a key that is "{0}".'.format(ExisitngKeyModeName);
-                  message = $a.Lang.ReturnPath('app.cf.designer.error_section_not_create', { mode: ExisitngKeyModeName });
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_section_not_create',
+                    {
+                      fieldLabel: ExisitngKeyNode.controller.Details.Label,
+                      mode: ExisitngKeyModeName,
+                    }
+                  );
                   Affinity2018.Dialog.Show({
                     message: message,
                     showOk: true,
@@ -10694,8 +10703,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   if (showMessages)
                   {
+                    var masterfileNode = this.RightListNode.querySelector(query);
                     //message = 'Warning! You already have a "{0}" version of this field in your form'.format(FieldModeName);
-                    message = $a.Lang.ReturnPath('app.cf.designer.error_one_masterfile', { mode: FieldModeName });
+                    message = $a.Lang.ReturnPath('app.cf.designer.error_one_masterfile', {
+                      fieldName: masterfileNode.controller.Config.Details.Label,
+                      mode: masterfileNode.controller.Config.Details.AffinityField.Mode
+                    });
                     Affinity2018.Dialog.Show({
                       message: message,
                       showInput: false,
@@ -10924,7 +10937,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               )
               {
                 //this.DragEndMessage = 'You already have one of these';
-                this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation_unique');
+                this.DragEndMessage = $a.Lang.ReturnPath('app.cf.designer.error_bad_drag_operation_unique', {
+                  label: this.RightListNode.querySelector(fieldQuery).controller.Details.Label
+                });
                 this.DragEndCallback = false;
                 return false;
               }
