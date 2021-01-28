@@ -10714,7 +10714,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     var modeName = this.CleverForms.AffnityFieldModeEnums[mode].Label
                     //message = 'Warning! You already have a "{0}" version of this field in your form'.format(FieldModeName);
                     message = $a.Lang.ReturnPath('app.cf.designer.error_one_masterfile', {
-                      fieldName: masterfileNode.controller.Config.Details.Label,
+                      label: masterfileNode.controller.Config.Details.Label,
                       mode: modeName
                     });
                     Affinity2018.Dialog.Show({
