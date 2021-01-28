@@ -6948,9 +6948,11 @@
         #affinity-login,
         #dialog-bg,
         #dialog,
+        #loader-bg,
+        #loader,
         #mobile-menu-bg,
         #loading-toast {
-          display: none;
+          display: none !important;
         }
       `;
       document.head.appendChild(style);
@@ -12098,14 +12100,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
               //message += '<p>Are you sure you want to remove this required field?</p>';
               message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
-                keyField: globalKey.controller.Config.Details.Label,
+                keyField: node.controller.Config.Details.Label,
                 fields: dependants.list,
                 plural: dependants.plural,
                 listPlural: dependants.listPlural
               });
             }
           }
-
+          
         }
       }
 
