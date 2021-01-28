@@ -10516,7 +10516,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         SectionNode, DragToSectionModel,
         SectionMode, SectionModel,
         FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower, FieldLabel,
-        ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName,
+        ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName, ExisitngKeyLabel,
         IsNew,
         message, query;
 
@@ -10538,6 +10538,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           ExisitngKeyNode = ExisitngKeyNode === null ? this.RightListNode.querySelector('li[data-model="{0}"].is-key-field'.format(FieldModel)) : null;
           ExisitngKeyMode = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.AffinityField.Mode : null;
           ExisitngKeyModeName = ExisitngKeyMode !== null ? this.CleverForms.AffnityFieldModeEnums[ExisitngKeyMode].Label : null;
+          ExisitngKeyLabel = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.Label : null;
           IsNew = node.controller.Saved ? false : true;
           message = '';
 
@@ -10558,7 +10559,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   //message = 'Warning! This field has a key which is set as "{0}". This field must be set to "{0}" as well.'.format(ExisitngKeyModeName);
                   message = $a.Lang.ReturnPath('app.cf.designer.error_mix_modes', {
-                    fieldLabel: ExisitngKeyNode.controller.Details.Label,
+                    fieldLabel: ExisitngKeyLabel,
                     mode: ExisitngKeyModeName
                   });
                   Affinity2018.Dialog.Show({
@@ -10588,7 +10589,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   //message = 'Warning! This field can not be "Create" as it has a key that is "{0}".'.format(ExisitngKeyModeName);
                   message = $a.Lang.ReturnPath('app.cf.designer.error_section_not_create',
                     {
-                      fieldLabel: ExisitngKeyNode.controller.Details.Label,
+                      fieldLabel: ExisitngKeyLabel,
                       mode: ExisitngKeyModeName,
                     }
                   );
