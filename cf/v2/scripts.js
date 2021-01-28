@@ -16261,10 +16261,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           if (
             this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
             && (
-              this.Config.Details.ItemSource.TableType === pair.Key
+              this.Config.Details.ItemSource.TableType === pair.Key - 1
               || this.Config.Details.ItemSource.TableType.toString().toLowerCase().trim() === pair.Value.toString().toLowerCase().trim()
             )
-          ) option.selected = 'selected';
+          )
+          {
+            option.selected = 'selected';
+          }
           this.ListSourceSelectNode.appendChild(option);
         }
       }.bind(this));
