@@ -10515,7 +10515,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         AffinityFieldLabel = config != null && config.Type === 'AffinityField' ? config.Details.Label : null,
         SectionNode, DragToSectionModel,
         SectionMode, SectionModel,
-        FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower,
+        FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower, FieldLabel,
         ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName,
         IsNew,
         message, query;
@@ -10533,6 +10533,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           FieldModeName = $a.isNumeric(FieldMode) ? this.CleverForms.AffnityFieldModeEnums[FieldMode].Label : null;
           FieldName = AffinityField.FieldName;
           FieldNameLower = FieldName !== null ? FieldName.toLowerCase() : null;
+          FieldLabel = config.Details.Label;
           ExisitngKeyNode = this.RightListNode.querySelector('li[data-model="{0}"].is-global-key'.format(FieldMode))
           ExisitngKeyNode = ExisitngKeyNode === null ? this.RightListNode.querySelector('li[data-model="{0}"].is-key-field'.format(FieldModel)) : null;
           ExisitngKeyMode = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.AffinityField.Mode : null;
@@ -10626,7 +10627,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   keyExists = true;
                   //message = 'You already have this Global Key in the form';
-                  message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_global_key');
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_global_key', {
+                    fieldLabel: FieldLabel
+                  });
                 }
               }
               else
@@ -10706,10 +10709,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   if (showMessages)
                   {
                     var masterfileNode = this.RightListNode.querySelector(query);
+                    var mode = masterfileNode.controller.Config.Details.AffinityField.Mode;
+                    var modeName = this.CleverForms.AffnityFieldModeEnums[mode].Label
                     //message = 'Warning! You already have a "{0}" version of this field in your form'.format(FieldModeName);
                     message = $a.Lang.ReturnPath('app.cf.designer.error_one_masterfile', {
                       fieldName: masterfileNode.controller.Config.Details.Label,
-                      mode: masterfileNode.controller.Config.Details.AffinityField.Mode
+                      mode: modeName
                     });
                     Affinity2018.Dialog.Show({
                       message: message,
