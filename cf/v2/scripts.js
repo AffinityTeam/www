@@ -6948,9 +6948,11 @@
         #affinity-login,
         #dialog-bg,
         #dialog,
+        #loader-bg,
+        #loader,
         #mobile-menu-bg,
         #loading-toast {
-          display: none;
+          display: none !important;
         }
       `;
       document.head.appendChild(style);
@@ -10513,8 +10515,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         AffinityFieldLabel = config != null && config.Type === 'AffinityField' ? config.Details.Label : null,
         SectionNode, DragToSectionModel,
         SectionMode, SectionModel,
-        FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower,
-        ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName,
+        FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower, FieldLabel,
+        ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName, ExisitngKeyLabel,
         IsNew,
         message, query;
 
@@ -10531,10 +10533,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           FieldModeName = $a.isNumeric(FieldMode) ? this.CleverForms.AffnityFieldModeEnums[FieldMode].Label : null;
           FieldName = AffinityField.FieldName;
           FieldNameLower = FieldName !== null ? FieldName.toLowerCase() : null;
+          FieldLabel = config.Details.Label;
           ExisitngKeyNode = this.RightListNode.querySelector('li[data-model="{0}"].is-global-key'.format(FieldMode))
           ExisitngKeyNode = ExisitngKeyNode === null ? this.RightListNode.querySelector('li[data-model="{0}"].is-key-field'.format(FieldModel)) : null;
           ExisitngKeyMode = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.AffinityField.Mode : null;
           ExisitngKeyModeName = ExisitngKeyMode !== null ? this.CleverForms.AffnityFieldModeEnums[ExisitngKeyMode].Label : null;
+          ExisitngKeyLabel = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.Label : null;
           IsNew = node.controller.Saved ? false : true;
           message = '';
 
@@ -10555,7 +10559,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   //message = 'Warning! This field has a key which is set as "{0}". This field must be set to "{0}" as well.'.format(ExisitngKeyModeName);
                   message = $a.Lang.ReturnPath('app.cf.designer.error_mix_modes', {
-                    fieldLabel: ExisitngKeyNode.controller.Details.Label,
+                    fieldLabel: ExisitngKeyLabel,
                     mode: ExisitngKeyModeName
                   });
                   Affinity2018.Dialog.Show({
@@ -10585,7 +10589,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   //message = 'Warning! This field can not be "Create" as it has a key that is "{0}".'.format(ExisitngKeyModeName);
                   message = $a.Lang.ReturnPath('app.cf.designer.error_section_not_create',
                     {
-                      fieldLabel: ExisitngKeyNode.controller.Details.Label,
+                      fieldLabel: ExisitngKeyLabel,
                       mode: ExisitngKeyModeName,
                     }
                   );
@@ -10624,7 +10628,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   keyExists = true;
                   //message = 'You already have this Global Key in the form';
-                  message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_global_key');
+                  message = $a.Lang.ReturnPath('app.cf.designer.error_duplicate_global_key', {
+                    fieldLabel: FieldLabel
+                  });
                 }
               }
               else
@@ -10704,10 +10710,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   if (showMessages)
                   {
                     var masterfileNode = this.RightListNode.querySelector(query);
+                    var mode = masterfileNode.controller.Config.Details.AffinityField.Mode;
+                    var modeName = this.CleverForms.AffnityFieldModeEnums[mode].Label
                     //message = 'Warning! You already have a "{0}" version of this field in your form'.format(FieldModeName);
                     message = $a.Lang.ReturnPath('app.cf.designer.error_one_masterfile', {
-                      fieldName: masterfileNode.controller.Config.Details.Label,
-                      mode: masterfileNode.controller.Config.Details.AffinityField.Mode
+                      label: masterfileNode.controller.Config.Details.Label,
+                      mode: modeName
                     });
                     Affinity2018.Dialog.Show({
                       message: message,
@@ -12098,14 +12106,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
               //message += '<p>Are you sure you want to remove this required field?</p>';
               message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
-                keyField: globalKey.controller.Config.Details.Label,
+                keyField: node.controller.Config.Details.Label,
                 fields: dependants.list,
                 plural: dependants.plural,
                 listPlural: dependants.listPlural
               });
             }
           }
-
+          
         }
       }
 
@@ -16254,10 +16262,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           if (
             this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
             && (
-              this.Config.Details.ItemSource.TableType === pair.Key
+              this.Config.Details.ItemSource.TableType === pair.Key - 1
               || this.Config.Details.ItemSource.TableType.toString().toLowerCase().trim() === pair.Value.toString().toLowerCase().trim()
             )
-          ) option.selected = 'selected';
+          )
+          {
+            option.selected = 'selected';
+          }
           this.ListSourceSelectNode.appendChild(option);
         }
       }.bind(this));
