@@ -1,50 +1,41 @@
 /* Minification failed. Returning unminified contents.
-(2675,32-37): run-time error JS1195: Expected expression: class
-(3211,32-37): run-time error JS1195: Expected expression: class
-(3224,20-21): run-time error JS1004: Expected ';': {
-(3295,27-28): run-time error JS1004: Expected ';': {
-(3299,29-30): run-time error JS1004: Expected ';': {
-(3300,29-30): run-time error JS1004: Expected ';': {
-(3301,29-30): run-time error JS1004: Expected ';': {
-(3302,29-30): run-time error JS1004: Expected ';': {
-(3303,13-14): run-time error JS1004: Expected ';': {
-(3322,15-16): run-time error JS1004: Expected ';': {
-(3340,12-13): run-time error JS1004: Expected ';': {
-(3345,12-13): run-time error JS1004: Expected ';': {
-(3348,17-18): run-time error JS1004: Expected ';': {
-(3919,36-41): run-time error JS1195: Expected expression: class
-(4032,30-35): run-time error JS1195: Expected expression: class
-(4137,31-36): run-time error JS1195: Expected expression: class
-(4378,35-40): run-time error JS1195: Expected expression: class
-(4506,33-38): run-time error JS1195: Expected expression: class
-(4713,39-40): run-time error JS1014: Invalid character: `
-(4713,40-41): run-time error JS1195: Expected expression: <
-(4713,100-101): run-time error JS1014: Invalid character: `
-(4732,43-44): run-time error JS1014: Invalid character: `
-(4732,44-45): run-time error JS1195: Expected expression: <
-(4732,108-109): run-time error JS1014: Invalid character: `
-(4800,33-38): run-time error JS1195: Expected expression: class
-(5096,32-37): run-time error JS1195: Expected expression: class
-(5462,33-38): run-time error JS1195: Expected expression: class
-(5540,37-42): run-time error JS1195: Expected expression: class
-(5541,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2640,32-37): run-time error JS1195: Expected expression: class
+(3176,32-37): run-time error JS1195: Expected expression: class
+(3189,20-21): run-time error JS1004: Expected ';': {
+(3260,27-28): run-time error JS1004: Expected ';': {
+(3264,29-30): run-time error JS1004: Expected ';': {
+(3265,29-30): run-time error JS1004: Expected ';': {
+(3266,29-30): run-time error JS1004: Expected ';': {
+(3267,29-30): run-time error JS1004: Expected ';': {
+(3268,13-14): run-time error JS1004: Expected ';': {
+(3287,15-16): run-time error JS1004: Expected ';': {
+(3305,12-13): run-time error JS1004: Expected ';': {
+(3310,12-13): run-time error JS1004: Expected ';': {
+(3313,17-18): run-time error JS1004: Expected ';': {
+(3884,36-41): run-time error JS1195: Expected expression: class
+(3997,30-35): run-time error JS1195: Expected expression: class
+(4102,31-36): run-time error JS1195: Expected expression: class
+(4343,35-40): run-time error JS1195: Expected expression: class
+(4471,33-38): run-time error JS1195: Expected expression: class
+(4678,39-40): run-time error JS1014: Invalid character: `
+(4678,40-41): run-time error JS1195: Expected expression: <
+(4678,100-101): run-time error JS1014: Invalid character: `
+(4697,43-44): run-time error JS1014: Invalid character: `
+(4697,44-45): run-time error JS1195: Expected expression: <
+(4697,108-109): run-time error JS1014: Invalid character: `
+(4765,33-38): run-time error JS1195: Expected expression: class
+(5061,32-37): run-time error JS1195: Expected expression: class
+(5427,33-38): run-time error JS1195: Expected expression: class
+(5505,37-42): run-time error JS1195: Expected expression: class
+(5506,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5542,5-16): run-time error JS1006: Expected ')': constructor
-(5611,3-4): run-time error JS1002: Syntax error: }
-(5611,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5555,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5507,5-16): run-time error JS1006: Expected ')': constructor
+(5576,3-4): run-time error JS1002: Syntax error: }
+(5576,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5520,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
-  var ieVersion = -1;
-  var ieVersionData = ((navigator.userAgent.match(/(?:MSIE |Trident.*rv:|Edge\/)(\d+(\.\d+)?)/)) || []);
-  if (ieVersionData.length > 0) ieVersion = parseFloat(ieVersionData[1]);
-  if (ieVersion > -1 && ieVersion < 18)
-  {
-    alert('This version of IE or Edge is not suported (' + ieVersion + '). Please use latest Chrome, Firefox, Safari, Brave or MS Edge v18 or newer.');
-    return;
-  }
-
 
   if (!window.hasOwnProperty('Affinity2018')) window.Affinity2018 = {};
   if (!Affinity2018.hasOwnProperty('Classes')) Affinity2018.Classes = {};
@@ -2025,32 +2016,6 @@
       return url;
     }
     Affinity2018.GetBaseUrl = Affinity2018.getBaseUrl;
-  }
-  
-  
-  /**
-   * Affinity2018.localiseUrl()
-   * Converts url to local url host
-   * 
-   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
-   * 
-   * @returns {string}
-   */
-  if (!(Affinity2018.hasOwnProperty('localiseUrl')))
-  {
-    Affinity2018.localiseUrl = function (path)
-    {
-      if (!Affinity2018.isString(path)) return path;
-      var pathArray = path.split('/');
-      var protocol = pathArray[0];
-      var host = pathArray[2];
-      var pathURL = protocol + '//' + host;
-      pathArray = window.location.href.split('/');
-      protocol = pathArray[0];
-      host = pathArray[2];
-      return path.replace(pathURL, protocol + '//' + host);
-    }
-    Affinity2018.LocaliseUrl = Affinity2018.localiseUrl;
   }
   
   
@@ -6325,43 +6290,6 @@
       Affinity2018.WheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : document.onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
     },
 
-
-    CheckElementScrollTo: function ()
-    {
-      if (Element.hasOwnProperty('scrollTo') || Element.prototype.hasOwnProperty('scrollTo')) Affinity2018.SupportsElementScrollTo = true;
-      else
-      {
-        Affinity2018.SupportsElementScrollTo = false;
-        var script = document.createElement('script');
-        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.scroll%2CElement.prototype.scrollIntoView%2CElement.prototype.scrollBy';
-        script.onerror = function ()
-        {
-          Element.prototype.scrollTo = function (x, y)
-          {
-            if (
-              x !== undefined
-              && y !== undefined
-              && Affinity2018.isNumeric(x)
-              && Affinity2018.isNumeric(y)
-            )
-            {
-              this.scrollLeft = x;
-              this.scrollTop = y;
-            }
-            if (
-              y === undefined
-              && Affinity2018.isObject(x)
-            )
-            {
-              if (x.hasOwnProperty('left')) this.scrollLeft = x.left;
-              if (x.hasOwnProperty('top')) this.scrollTop = x.top;
-            }
-          };
-        };
-        document.head.appendChild(script);
-      }
-    },
-
     /**
      * Async / Await Support Check
      * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
@@ -6801,22 +6729,6 @@
         'showMobileMenu', 'hideMobileMenu'
       ].bindEach(this);
 
-      /** fix paths **/
-
-      Affinity2018.Path = Affinity2018.localiseUrl(Affinity2018.Path);
-      Affinity2018.ApiPath = Affinity2018.localiseUrl(Affinity2018.ApiPath);
-      Affinity2018.ContentPath = Affinity2018.localiseUrl(Affinity2018.ContentPath);
-      Affinity2018.TemplatesPath = Affinity2018.localiseUrl(Affinity2018.TemplatesPath);
-      Affinity2018.WebWorkerPath = Affinity2018.localiseUrl(Affinity2018.WebWorkerPath);
-
-      for (var apiKey in Affinity2018.ApiEndpoints)
-      {
-        if (Affinity2018.ApiEndpoints.hasOwnProperty(apiKey))
-        {
-          Affinity2018.ApiEndpoints[apiKey] = Affinity2018.localiseUrl(Affinity2018.ApiEndpoints[apiKey]);
-        }
-      }
-
       /** run feature checks **/
 
       Object.keys(Affinity2018.FeatureChecks).map(function (objectKey, index)
@@ -6848,11 +6760,7 @@
         {
           this.templatesHtml = response.data;
           this.checkMobile();
-        }.bind(this))
-        .catch(function (ex)
-        {
-          console.log(ex);
-        });
+        }.bind(this));
       }
       else
       {
@@ -7569,19 +7477,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         this[key] = mergedConfig[key];
       }
       delete this.defaultConfig;
-    }
-
-    /* fix paths */
-    
-    for (var key in this)
-    {
-      if (this.hasOwnProperty(key))
-      {
-        if (Affinity2018.isString(this[key]) && this[key].startsWith('http'))
-        {
-          this[key] = Affinity2018.localiseUrl(this[key]);
-        }
-      }
     }
 
     /* compile enums */
@@ -12626,6 +12521,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (this.ld.locked)
       {
         var scroll = this.LeftListNode.scrollTop;
+        this.LeftListNode.scrollTo(0, scroll + (this.ld.currentScroll - this.ld.lastScroll));
         if ('scrollTo' in this.LeftListNode) this.LeftListNode.scrollTo(0, scroll + (this.ld.currentScroll - this.ld.lastScroll));
         this.LeftListNode.scrollTop = scroll + (this.ld.currentScroll - this.ld.lastScroll);
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) +  'px';
@@ -12638,8 +12534,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         var scroll = this.LeftListNode.scrollTop;
         if (dashFooterOffset === 0)
         {
-          if ('scrollTo' in this.LeftListNode) this.LeftListNode.scrollTo(0, scroll - (this.ld.lastScroll - this.ld.currentScroll));
-          this.LeftListNode.scrollTop = scroll - (this.ld.lastScroll - this.ld.currentScroll);
+          this.LeftListNode.scrollTo(0, scroll - (this.ld.lastScroll - this.ld.currentScroll));
         }
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) + 'px';
       }
