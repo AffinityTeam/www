@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2675,32-37): run-time error JS1195: Expected expression: class
-(3211,32-37): run-time error JS1195: Expected expression: class
-(3224,20-21): run-time error JS1004: Expected ';': {
-(3295,27-28): run-time error JS1004: Expected ';': {
-(3299,29-30): run-time error JS1004: Expected ';': {
+(2676,32-37): run-time error JS1195: Expected expression: class
+(3212,32-37): run-time error JS1195: Expected expression: class
+(3225,20-21): run-time error JS1004: Expected ';': {
+(3296,27-28): run-time error JS1004: Expected ';': {
 (3300,29-30): run-time error JS1004: Expected ';': {
 (3301,29-30): run-time error JS1004: Expected ';': {
 (3302,29-30): run-time error JS1004: Expected ';': {
-(3303,13-14): run-time error JS1004: Expected ';': {
-(3322,15-16): run-time error JS1004: Expected ';': {
-(3340,12-13): run-time error JS1004: Expected ';': {
-(3345,12-13): run-time error JS1004: Expected ';': {
-(3348,17-18): run-time error JS1004: Expected ';': {
-(3919,36-41): run-time error JS1195: Expected expression: class
-(4032,30-35): run-time error JS1195: Expected expression: class
-(4137,31-36): run-time error JS1195: Expected expression: class
-(4378,35-40): run-time error JS1195: Expected expression: class
-(4506,33-38): run-time error JS1195: Expected expression: class
-(4713,39-40): run-time error JS1014: Invalid character: `
-(4713,40-41): run-time error JS1195: Expected expression: <
-(4713,100-101): run-time error JS1014: Invalid character: `
-(4732,43-44): run-time error JS1014: Invalid character: `
-(4732,44-45): run-time error JS1195: Expected expression: <
-(4732,108-109): run-time error JS1014: Invalid character: `
-(4800,33-38): run-time error JS1195: Expected expression: class
-(5096,32-37): run-time error JS1195: Expected expression: class
-(5462,33-38): run-time error JS1195: Expected expression: class
-(5540,37-42): run-time error JS1195: Expected expression: class
-(5541,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3303,29-30): run-time error JS1004: Expected ';': {
+(3304,13-14): run-time error JS1004: Expected ';': {
+(3323,15-16): run-time error JS1004: Expected ';': {
+(3341,12-13): run-time error JS1004: Expected ';': {
+(3346,12-13): run-time error JS1004: Expected ';': {
+(3349,17-18): run-time error JS1004: Expected ';': {
+(3920,36-41): run-time error JS1195: Expected expression: class
+(4033,30-35): run-time error JS1195: Expected expression: class
+(4138,31-36): run-time error JS1195: Expected expression: class
+(4379,35-40): run-time error JS1195: Expected expression: class
+(4507,33-38): run-time error JS1195: Expected expression: class
+(4714,39-40): run-time error JS1014: Invalid character: `
+(4714,40-41): run-time error JS1195: Expected expression: <
+(4714,100-101): run-time error JS1014: Invalid character: `
+(4733,43-44): run-time error JS1014: Invalid character: `
+(4733,44-45): run-time error JS1195: Expected expression: <
+(4733,108-109): run-time error JS1014: Invalid character: `
+(4801,33-38): run-time error JS1195: Expected expression: class
+(5097,32-37): run-time error JS1195: Expected expression: class
+(5463,33-38): run-time error JS1195: Expected expression: class
+(5541,37-42): run-time error JS1195: Expected expression: class
+(5542,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5542,5-16): run-time error JS1006: Expected ')': constructor
-(5611,3-4): run-time error JS1002: Syntax error: }
-(5611,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5555,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5543,5-16): run-time error JS1006: Expected ')': constructor
+(5612,3-4): run-time error JS1002: Syntax error: }
+(5612,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5556,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -626,6 +626,7 @@
     cfDropDown: '&#xe5bb;',
     cfEffectiveDate: '&#xe5bc;',
     cfEmail: '&#xe5bd;',
+    cfDocsign: '&#xe591;',
     cfExplanation: '&#xe5be;',
     cfLink: '&#xe5bf;',
     cfMemo: '&#xe5c0;',
