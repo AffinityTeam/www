@@ -7334,6 +7334,16 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    The API end point for getting a list of hellosign templates.
+     * @type {String}
+    * @public
+    *
+    */
+    this.GetDocumentSigningTemplatesApi = Affinity2018.Path + 'DocumentSigning/GetTemplates';
+
+
+
+    /**
     * Description.    The API end point for loading all available forms.
      * @type {String}
     * @public
