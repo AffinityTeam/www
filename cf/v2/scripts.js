@@ -8788,6 +8788,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'ModeOptions',             newConfig, 'ModeOptions');
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'KeyFields',               newConfig, 'KeyFields');
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'IsMasterfileData',        newConfig, 'IsMasterfileData');
+    newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'ExternalTemplateId',      newConfig, 'ExternalTemplateId');
+
+    
 
     // Ensure Min Max vals are integers
     if ($a.isString(newConfig.Details.AffinityField.MaxValue) && !isNaN(parseInt(newConfig.Details.AffinityField.MaxValue))) newConfig.Details.AffinityField.MaxValue = parseInt(newConfig.Details.AffinityField.MaxValue);
@@ -8971,6 +8974,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('SetDefaultValue'))               postData.SetDefaultValue = config.Details.SetDefaultValue;
     if (config.Details.hasOwnProperty('UrlLink'))                       postData.UrlLink = config.Details.UrlLink;
     if (config.Details.hasOwnProperty('VideoId'))                       postData.VideoId = config.Details.VideoId;
+    if (config.Details.hasOwnProperty('ExternalTemplateId'))            postData.ExternalTemplateId = config.Details.ExternalTemplateId;
 
     switch (postType)
     {
