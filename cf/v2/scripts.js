@@ -36132,8 +36132,8 @@ Affinity2018.Classes.Plugins.StringWidget = class
     if (!isValid)
     {
       this.InputNode.classList.add('error');
-      if (parentRow) parentRow.classList.add('error');
-      if (parentRow && extraspace) parentRow.classList.add('error2');
+      if (parentRow && !this.InputNode.classList.contains('no-row-error')) parentRow.classList.add('error');
+      if (parentRow && !this.InputNode.classList.contains('no-row-error') && extraspace) parentRow.classList.add('error2');
       this.ShowError(warning);
       this.Valid = false;
     }
