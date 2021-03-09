@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2640,32-37): run-time error JS1195: Expected expression: class
-(3176,32-37): run-time error JS1195: Expected expression: class
-(3189,20-21): run-time error JS1004: Expected ';': {
-(3260,27-28): run-time error JS1004: Expected ';': {
-(3264,29-30): run-time error JS1004: Expected ';': {
+(2641,32-37): run-time error JS1195: Expected expression: class
+(3177,32-37): run-time error JS1195: Expected expression: class
+(3190,20-21): run-time error JS1004: Expected ';': {
+(3261,27-28): run-time error JS1004: Expected ';': {
 (3265,29-30): run-time error JS1004: Expected ';': {
 (3266,29-30): run-time error JS1004: Expected ';': {
 (3267,29-30): run-time error JS1004: Expected ';': {
-(3268,13-14): run-time error JS1004: Expected ';': {
-(3287,15-16): run-time error JS1004: Expected ';': {
-(3305,12-13): run-time error JS1004: Expected ';': {
-(3310,12-13): run-time error JS1004: Expected ';': {
-(3313,17-18): run-time error JS1004: Expected ';': {
-(3884,36-41): run-time error JS1195: Expected expression: class
-(3997,30-35): run-time error JS1195: Expected expression: class
-(4102,31-36): run-time error JS1195: Expected expression: class
-(4343,35-40): run-time error JS1195: Expected expression: class
-(4471,33-38): run-time error JS1195: Expected expression: class
-(4678,39-40): run-time error JS1014: Invalid character: `
-(4678,40-41): run-time error JS1195: Expected expression: <
-(4678,100-101): run-time error JS1014: Invalid character: `
-(4697,43-44): run-time error JS1014: Invalid character: `
-(4697,44-45): run-time error JS1195: Expected expression: <
-(4697,108-109): run-time error JS1014: Invalid character: `
-(4765,33-38): run-time error JS1195: Expected expression: class
-(5061,32-37): run-time error JS1195: Expected expression: class
-(5427,33-38): run-time error JS1195: Expected expression: class
-(5505,37-42): run-time error JS1195: Expected expression: class
-(5506,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3268,29-30): run-time error JS1004: Expected ';': {
+(3269,13-14): run-time error JS1004: Expected ';': {
+(3288,15-16): run-time error JS1004: Expected ';': {
+(3306,12-13): run-time error JS1004: Expected ';': {
+(3311,12-13): run-time error JS1004: Expected ';': {
+(3314,17-18): run-time error JS1004: Expected ';': {
+(3885,36-41): run-time error JS1195: Expected expression: class
+(3998,30-35): run-time error JS1195: Expected expression: class
+(4103,31-36): run-time error JS1195: Expected expression: class
+(4344,35-40): run-time error JS1195: Expected expression: class
+(4472,33-38): run-time error JS1195: Expected expression: class
+(4679,39-40): run-time error JS1014: Invalid character: `
+(4679,40-41): run-time error JS1195: Expected expression: <
+(4679,100-101): run-time error JS1014: Invalid character: `
+(4698,43-44): run-time error JS1014: Invalid character: `
+(4698,44-45): run-time error JS1195: Expected expression: <
+(4698,108-109): run-time error JS1014: Invalid character: `
+(4766,33-38): run-time error JS1195: Expected expression: class
+(5062,32-37): run-time error JS1195: Expected expression: class
+(5428,33-38): run-time error JS1195: Expected expression: class
+(5506,37-42): run-time error JS1195: Expected expression: class
+(5507,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5507,5-16): run-time error JS1006: Expected ')': constructor
-(5576,3-4): run-time error JS1002: Syntax error: }
-(5576,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5520,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5508,5-16): run-time error JS1006: Expected ')': constructor
+(5577,3-4): run-time error JS1002: Syntax error: }
+(5577,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5521,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -617,6 +617,7 @@
     cfDropDown: '&#xe5bb;',
     cfEffectiveDate: '&#xe5bc;',
     cfEmail: '&#xe5bd;',
+    cfDocsign: '&#xe591;',
     cfExplanation: '&#xe5be;',
     cfLink: '&#xe5bf;',
     cfMemo: '&#xe5c0;',
@@ -7241,6 +7242,16 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    The API end point for getting a list of hellosign templates.
+     * @type {String}
+    * @public
+    *
+    */
+    this.GetDocumentSigningTemplatesApi = Affinity2018.Path + 'DocumentSigning/GetTemplates';
+
+
+
+    /**
     * Description.    The API end point for loading all available forms.
      * @type {String}
     * @public
@@ -8672,6 +8683,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'ModeOptions',             newConfig, 'ModeOptions');
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'KeyFields',               newConfig, 'KeyFields');
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'IsMasterfileData',        newConfig, 'IsMasterfileData');
+    newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'ExternalTemplateId',      newConfig, 'ExternalTemplateId');
+
+    
 
     // Ensure Min Max vals are integers
     if ($a.isString(newConfig.Details.AffinityField.MaxValue) && !isNaN(parseInt(newConfig.Details.AffinityField.MaxValue))) newConfig.Details.AffinityField.MaxValue = parseInt(newConfig.Details.AffinityField.MaxValue);
@@ -8855,6 +8869,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('SetDefaultValue'))               postData.SetDefaultValue = config.Details.SetDefaultValue;
     if (config.Details.hasOwnProperty('UrlLink'))                       postData.UrlLink = config.Details.UrlLink;
     if (config.Details.hasOwnProperty('VideoId'))                       postData.VideoId = config.Details.VideoId;
+    if (config.Details.hasOwnProperty('ExternalTemplateId'))            postData.ExternalTemplateId = config.Details.ExternalTemplateId;
 
     switch (postType)
     {
@@ -36012,8 +36027,8 @@ Affinity2018.Classes.Plugins.StringWidget = class
     if (!isValid)
     {
       this.InputNode.classList.add('error');
-      if (parentRow) parentRow.classList.add('error');
-      if (parentRow && extraspace) parentRow.classList.add('error2');
+      if (parentRow && !this.InputNode.classList.contains('no-row-error')) parentRow.classList.add('error');
+      if (parentRow && !this.InputNode.classList.contains('no-row-error') && extraspace) parentRow.classList.add('error2');
       this.ShowError(warning);
       this.Valid = false;
     }
