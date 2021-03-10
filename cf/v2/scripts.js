@@ -7344,6 +7344,26 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    The API end point for posting a hellosign document.
+     * @type {String}
+    * @public
+    *
+    */
+    this.DocumentSigningPostApi = Affinity2018.Path + 'DocumentSigning/Send';
+
+
+
+    /**
+    * Description.    The API end point for canceling a posted a hellosign document.
+     * @type {String}
+    * @public
+    *
+    */
+    this.DocumentSigningCancelApi = Affinity2018.Path + 'DocumentSigning/Cancel';
+
+
+
+    /**
     * Description.    The API end point for loading all available forms.
      * @type {String}
     * @public
