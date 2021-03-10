@@ -20117,6 +20117,735 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 };;
 /**
  *
+ * Summary.       Element DocumentSigning Class.
+ *
+ * Description.   Element DocumentSigning (HelloSign) functions and features.
+ *
+ * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+ *
+ *
+ * @since         04.03.2021
+ * @class         DocumentSigning
+ * @namespace     Affinity2018.Classes.Apps.CleverForms.Elements
+ * @memberof      CleverForms.Elements
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning
+ *
+ * @public
+ */
+
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Apps' in Affinity2018.Classes)) Affinity2018.Classes.Apps = {};
+if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.CleverForms = {};
+if (!('Elements' in Affinity2018.Classes.Apps.CleverForms)) Affinity2018.Classes.Apps.CleverForms.Elements = {};
+
+if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if (!('Elements' in Affinity2018.Apps)) Affinity2018.Apps.Elements = {};
+
+Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase
+{
+  _options()
+  {
+    super._options();
+
+    this.FormMode = false;
+
+    this.IsOnlyRow = false;
+
+    this.SectionTitle = '';
+
+    this.DocSignSelectNode = false;
+    this.DocSignSelectWrapperNode = false;
+    this.DocSignDescNode = false;
+    this.DocSignErrorNode = false;
+
+    this.LastPostedDocsignTemplateId = null;
+
+  }
+
+  constructor(config)
+  {
+    super(config);
+    [
+      '_options', '_templates',
+      
+      'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
+      'RemoveDesignerElement',
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+
+      '_loadIds', '_idsLoaded', '_idsFailed', '_idChanged',
+      '_postDoc', '_postedDoc', '_postDocError',
+      '_postDocCancel', '_postDocCanceled', '_postDocCancelError',
+      '_checkDocSignButtons'
+
+    ].bindEach(this);
+
+    this._options();
+    this._templates();
+
+    if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form')) this.FormMode = true;
+
+    if (this.FormMode)
+    {
+      var form = Affinity2018.Apps.CleverForms.Form.FormData, section, element;
+      if (form && $a.isArray(form))
+      {
+        for (var a = 0; a < form.length; a++)
+        {
+          section = form[a];
+          if (
+            section
+            && $a.isObject(section)
+            && section.hasOwnProperty('Elements')
+            && $a.isArray(section.Elements)
+            && section.Elements.length > 0
+          )
+          {
+            for (var b = 0; b < section.Elements.length; b++)
+            {
+              element = section.Elements[b];
+              if (
+                element
+                && $a.isObject(element)
+                && element.hasOwnProperty('Name')
+                && $a.isString(element.Name)
+              )
+              {
+                if (element.Name == this.Config.Name)
+                {
+                  if (section.Elements.length === 1) this.IsOnlyRow = true;
+                  this.SectionTitle = section.Details.Title;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return this;
+  }
+
+  /**/
+
+  SetDesignEditor()
+  {
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label')
+    });
+
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      blockClass: this.IsOnlyRow ? '' : 'form-row-block grey-block',
+      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Document Signing',
+      templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
+      recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
+      cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
+      sendLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
+    });
+
+    if (super.SetDesignEditor())
+    {
+      // set special html / values
+
+      this.PopupNode.classList.add('large');
+
+      this._loadIds();
+
+      return true;
+    }
+    return false;
+  }
+
+  UnsetDesignEditor ()
+  {
+    if (super.UnsetDesignEditor())
+    {
+      // unset special html / values
+
+      return true;
+    }
+    return false;
+  }
+
+  GetFromDesignEditor ()
+  {
+    if (super.GetFromDesignEditor())
+    {
+
+      // update special values
+
+      if (this.DocSignSelectNode) this.Config.Details.ExternalTemplateId = this.DocSignSelectNode.value;
+
+    }
+
+    return this.Config;
+  }
+
+  SetFromValue (value)
+  {
+
+  }
+
+  RemoveDesignerElement (callback)
+  {
+    if (super.RemoveDesignerElement())
+    {
+
+      // do any removal stuff here
+      
+      var node = document.querySelector('.item-' + this.UniqueName);
+      if (node && $a.isFunction(callback))
+      {
+        callback(node);
+      }
+    }
+  }
+
+  /**/
+
+  SetFormRow (target)
+  {
+    var html = this.HtmlRowTemplate.format({
+      templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
+      recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
+      required: this.Config.Details.Required ? '<span class="required icon-star-full"></span>' : '',
+      cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
+      sendLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
+    });
+    this.FormRowNode = super.SetFormRow(target, html);
+    if (this.FormRowNode)
+    {
+
+      // set any special elements
+
+      if (this.IsOnlyRow && this.Config.Details.Label.toLowerCase().trim() === this.SectionTitle.toLowerCase().trim())
+      {
+        this.FormRowNode.querySelector('label').classList.add('hidden');
+        if (this.FormRowNode.querySelector('.help')) this.FormRowNode.querySelector('.help').classList.add('hidden');
+      }
+      if (!this.IsOnlyRow) this.FormRowNode.classList.add('indent') //, 'box');
+
+      this._loadIds();
+
+      return this.FormRowNode;
+    }
+  }
+
+  GetFromFormRow()
+  {
+    if (super.GetFromFormRow())
+    {
+
+      // get any special elements
+
+      return this.FormData;
+    }
+    throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
+  }
+
+  /**/
+
+  _loadIds()
+  {
+    $a.ShowPageLoader();
+
+    var baseNode = this.FormRowNode;
+    if (this.Designer) baseNode = this.EditNode;
+
+    this.DocSignSelectNode = baseNode.querySelector('select.docsign-template-ids') || false;
+    this.DocSignDescNode = baseNode.querySelector('p.docsign-template-desc') || false;
+    this.DocSignSelectWrapperNode = this.DocSignSelectNode ? this.DocSignSelectNode.closest('.select') : false;
+    this.DocSignErrorNode = this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.edit-row').querySelector('span.inline') : false;
+    this.DocSignErrorNode = !this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.form-row').querySelector('span.inline') : this.DocSignErrorNode;
+    this.DocSignFieldsNode = !this.Designer ? baseNode.querySelector('.docsign-fields') : false;
+
+    $a.RequestQueue.Get(this.CleverForms.GetDocumentSigningTemplatesApi, this._idsLoaded, this._idsFailed, 1);
+
+    //this._idsLoaded([]);
+
+    //this._idsLoaded([
+    //{
+    //  "ExternalTemplateId": "b6c35fcf-2b01-4cea-bd5c-8bddd0a8957e",
+    //  "Description": "Classic Ben's Template",
+    //  "Title": "Ben Tilte"
+    //},
+    //{
+    //  "ExternalTemplateId": "54c936a2ddb065c1626e7992c13a2ca459a0c190",
+    //  "Description": "Vimz Template",
+    //  "Title": "Vimz Tilte"
+    //}
+    //]);
+
+  }
+
+  _idsLoaded(response)
+  {
+    if ($a.isArray(response))
+    {
+      if (this.DocSignSelectNode)
+      {
+        var templateId = this.Config.Details.ExternalTemplateId;
+        var recipientValues = [];
+
+        if (this.FormMode && this.CleverForms.Form.ViewType === 'Form')
+        {
+          templateId = this.Config.Details.Value.ExternalTemplateId;
+          recipientValues = this.Config.Details.Value.Recipients;
+        }
+
+        this.DocSignSelectWrapperNode.classList.remove('hidden');
+        this.DocSignErrorNode.classList.add('hidden');
+        this.DocSignErrorNode.innerHTML = '';
+        if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.remove('hidden');
+        if (response.length > 0)
+        {
+          this.DocSignSelectNode.removeEventListener('change', this._idChanged);
+          if (this.DocSignDescNode) this.DocSignSelectNode.addEventListener('change', this._idChanged);
+          var autocomplete = false, optionNode;
+          if (this.DocSignSelectNode.hasOwnProperty('widgets') && this.DocSignSelectNode.widgets.hasOwnProperty('Autocomplete')) autocomplete = this.DocSignSelectNode.widgets.Autocomplete;
+          this.DocSignSelectNode.innerHTML = '';
+          optionNode = document.createElement('option');
+          optionNode.innerHTML = $a.Lang.ReturnPath('app.cf.design_items.docsign_select_default');
+          optionNode.value = '';
+          this.DocSignSelectNode.appendChild(optionNode);
+          response.forEach(function (data)
+          {
+            if (data.ExternalTemplateId !== null && $a.isString(data.ExternalTemplateId) && data.ExternalTemplateId.trim() !== '')
+            {
+              optionNode = document.createElement('option');
+              optionNode.innerHTML = data.Title;
+              optionNode.value = data.ExternalTemplateId;
+              optionNode.data = data;
+              if (data.ExternalTemplateId === templateId) optionNode.setAttribute('selected', 'selected');
+              this.DocSignSelectNode.appendChild(optionNode);
+            }
+          }.bind(this));
+          if (autocomplete)
+          {
+            autocomplete.refreshFromSelect();
+          }
+          else
+          {
+            if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply(this.DocSignSelectNode);
+            else Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocSignSelectNode);
+          }
+          if (this.DocSignDescNode) this._idChanged();
+        }
+        else
+        {
+          if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
+          this.DocSignSelectWrapperNode.classList.add('hidden');
+          this.DocSignErrorNode.classList.remove('hidden');
+          this.DocSignErrorNode.innerHTML = $a.Lang.ReturnPath('app.cf.design_items.docsign_not_signed_up');
+        }
+
+        /**/
+
+        if (this.FormMode)
+        {
+          Affinity2018.Apps.Plugins.Strings.Apply();
+
+          this.PostDocCancelButtonNode = this.FormRowNode.querySelector('.button.send-doc-cancel');
+          this.PostDocButtonNode = this.FormRowNode.querySelector('.button.send-doc');
+
+          this.PostDocCancelButtonNode.removeEventListener('click', this._postDocCancel);
+          this.PostDocButtonNode.removeEventListener('click', this._postDoc);
+
+          this.PostDocCancelButtonNode.addEventListener('click', this._postDocCancel);
+          this.PostDocButtonNode.addEventListener('click', this._postDoc);
+
+          var recipientNodes = this.FormRowNode.querySelectorAll('.docsign-row input.sv');
+          if (recipientNodes.length === 4)
+          {
+            for (var r = 0; r < recipientNodes.length; r++)
+            {
+              recipientNodes[r].removeEventListener('keyup', this._checkDocSignButtons);
+              recipientNodes[r].addEventListener('keyup', this._checkDocSignButtons);
+              if (recipientValues[r]) recipientNodes[r].value = recipientValues[r];
+            }
+
+            this.DocSignSelectNode.removeEventListener('change', this._checkDocSignButtons);
+            this.DocSignSelectNode.addEventListener('change', this._checkDocSignButtons);
+
+            this._checkDocSignButtons();
+          }
+        }
+
+      }
+    }
+    else
+    {
+      this._idsFailed(response);
+    }
+    $a.HidePageLoader();
+  }
+
+  _idsFailed(error)
+  {
+    if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
+    this.DocSignSelectWrapperNode.classList.add('hidden');
+    this.DocSignErrorNode.classList.remove('hidden');
+    this.DocSignErrorNode.innerHTML = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
+    $a.HidePageLoader();
+  }
+
+  _idChanged(ev)
+  {
+    if (this.DocSignDescNode)
+    {
+      var node = this.DocSignSelectNode.options[this.DocSignSelectNode.selectedIndex];
+      var data = node.hasOwnProperty('data') ? node.data : false;
+      if (data && data.hasOwnProperty('Description'))
+      {
+        this.DocSignDescNode.innerHTML = data.Description;
+        this.DocSignDescNode.classList.remove('hidden');
+        this.Config.Details.ExternalTemplateId = this.DocSignSelectNode.value;
+      }
+      else
+      {
+        this.DocSignDescNode.innerHTML = '';
+        this.DocSignDescNode.classList.add('hidden');
+        this.Config.Details.ExternalTemplateId = '';
+      }
+    }
+  }
+
+  /**/
+
+  _postDoc()
+  {
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    this.PostDocCancelButtonNode.classList.remove('disabled');
+    this.PostDocCancelButtonNode.classList.remove('hidden');
+    this.PostDocButtonNode.classList.add('disabled');
+    this.PostDocButtonNode.classList.remove('hidden');
+
+    var recipients = [];
+    var recipientNodes = this.FormRowNode.querySelectorAll('.docsign-row input.sv');
+    for (var r = 0; r < recipientNodes.length; r++)
+    {
+      if (recipientNodes[r] && recipientNodes[r].value.trim() !== '' && !recipientNodes[r].classList.contains('error')) recipients.push(recipientNodes[r].value.trim());
+    }
+
+    if (this.DocSignSelectNode.value !== '' && recipients.length > 0)
+    {
+      this.LastPostedDocsignTemplateId = this.DocSignSelectNode.value;
+      this.LastPostedDocsignRecipients = recipients;
+      axios({
+        method: 'post',
+        url: this.CleverForms.DocumentSigningPostApi,
+        data: {
+          InstanceId: this.CleverForms.GetInstanceGuid(),
+          ExternalTemplateId: this.LastPostedDocsignTemplateId,
+          QuestionName: this.Config.Name,
+          Recipients: this.LastPostedDocsignRecipients
+        }
+      })
+      .then(this._postedDoc)
+      .catch(this._postDocError);
+    }
+  }
+
+  _postedDoc(response)
+  {
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    console.log(response);
+
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
+    if (
+      $a.isObject(response.data)
+      && response.data.hasOwnProperty('Success')
+    )
+    {
+      if (response.data.Success)
+      {
+        message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
+        // TODO: Remove error marks
+      }
+      else
+      {
+        if (response.data.hasOwnProperty('ErrorMessage')) message = response.data.ErrorMessage;
+        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+        if (
+          response.data.hasOwnProperty('MissingCustomFields')
+          && $a.isArray(response.data.MissingCustomFields)
+        )
+        {
+          // TODO: mark missing fields
+        }
+      }
+    }
+    else
+    {
+      message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+    }
+    
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+
+    this._checkDocSignButtons();
+  }
+
+  _postDocError(error)
+  {
+    console.log(error);
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+    this._checkDocSignButtons();
+  }
+
+  _postDocCancel()
+  {
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+    
+    this.PostDocCancelButtonNode.classList.add('hidden');
+    this.PostDocCancelButtonNode.classList.remove('disabled');
+    this.PostDocButtonNode.classList.add('disabled');
+    this.PostDocButtonNode.classList.remove('hidden');
+
+    axios({
+      method: 'post',
+      url: this.CleverForms.DocumentSigningPostApi,
+      data: {
+        InstanceId: this.CleverForms.GetInstanceGuid(),
+        ExternalTemplateId: this.LastPostedDocsignTemplateId,
+        QuestionName: this.Config.Name,
+        Recipients: this.LastPostedDocsignRecipients
+      }
+    })
+    .then(this._postDocCanceled)
+    .catch(this._postDocCancelError);
+
+  }
+
+  _postDocCanceled(response)
+  {
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    console.log(response);
+
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_success');
+    if (
+      $a.isObject(response.data)
+      && response.data.hasOwnProperty('Success')
+    )
+    {
+      if (response.data.Success)
+      {
+        message = $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_success');
+        // TODO: Remove error marks
+      }
+      else
+      {
+        if (response.data.hasOwnProperty('ErrorMessage')) message = response.data.ErrorMessage;
+        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+        if (
+          response.data.hasOwnProperty('MissingCustomFields')
+          && $a.isArray(response.data.MissingCustomFields)
+          && response.data.MissingCustomFields.length > 0
+        )
+        {
+          var fieldLabels = [], fieldNode;
+          response.data.MissingCustomFields.forEach(function (fieldData)
+          {
+            if (document.querySelector('.' + fieldData.QuestionName))
+            {
+              fieldNode = fieldNode.dataset.label;
+              // TODO: mark field as error
+              fieldLabels.push(fieldNode.dataset.label);
+            }
+            else
+            {
+              fieldLabels.push(fieldData.FieldName);
+            }
+          }.bind(this));
+          if (fieldLabels.length > 0) message += '<br>{message}<br>{list}'.format({
+            message:  $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields'),
+            list: fieldLabels.join('<br>')
+          });
+        }
+      }
+    }
+    else
+    {
+      message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+    }
+    
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+
+    this._checkDocSignButtons();
+  }
+
+  _postDocCancelError(error)
+  {
+    console.log(error);
+    $a.Dialog.Show({
+      message: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error'),
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+    this._checkDocSignButtons();
+  }
+
+  /**/
+
+  _checkDocSignButtons()
+  {
+    if (this.DocSignSelectNode.value !== '')
+    {
+      var hasError = false;
+      var hasGoodRecipient = false;
+      var recipientNodes = this.FormRowNode.querySelectorAll('.docsign-row input.sv');
+      for (var r = 0; r < recipientNodes.length; r++)
+      {
+        if (recipientNodes[r] && recipientNodes[r].value.trim() !== '' && recipientNodes[r].classList.contains('error'))
+        {
+          hasError = true;
+          break;
+        }
+        if (recipientNodes[r] && recipientNodes[r].value.trim() !== '' && !recipientNodes[r].classList.contains('error'))
+        {
+          hasGoodRecipient = true;
+        }
+      }
+      if (hasError || !hasGoodRecipient)
+      {
+        this.PostDocCancelButtonNode.classList.add('hidden');
+        this.PostDocCancelButtonNode.classList.remove('disabled');
+        this.PostDocButtonNode.classList.add('disabled');
+        this.PostDocButtonNode.classList.remove('hidden');
+        return;
+      }
+
+      this.PostDocCancelButtonNode.classList.add('disabled');
+      this.PostDocCancelButtonNode.classList.remove('hidden');
+      this.PostDocButtonNode.classList.remove('disabled');
+      this.PostDocButtonNode.classList.remove('hidden');
+    }
+  }
+
+  /**/
+
+  _templates ()
+  {
+    super._templates();
+
+    this.HtmlEditTemplate = `
+    <div class="edit-row">
+      <label>{templateLabel}</label>
+      <div class="select working">
+        <select class="docsign-template-ids"></select>
+      </div>
+      <span class="inline hidden"></span>
+      <p class="desc docsign-template-desc"></p>
+    </div>
+    `;
+
+    this.HtmlRowTemplate = `
+    <div class="form-row">
+      <label>{0}</label>
+      <div class="docsign-fields">
+        <div class="docsign-row">
+          <label>{templateLabel}</label>
+          <div class="select">
+            <select class="docsign-template-ids"></select>
+          </div>
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 1{required}</label>
+          <input type="text" class="ui-has-email no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 2</label>
+          <input type="text" class="ui-has-email no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 3</label>
+          <input type="text" class="ui-has-email no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 4</label>
+          <input type="text" class="ui-has-email no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label></label>
+          <div class="row-inline-buttons">
+            <div class="button grey send-doc-cancel hidden"><span class="icon-cross"></span>{cancelLabel}</div>
+            <div class="button dark-blue send-doc hidden"><span class="icon-mail-tick"></span>{sendLabel}</div>
+          </div>
+      </div>
+      <span class="inline hidden"></span>
+    </div>
+    `;
+
+    this.HtmlEditExampleTemplate = `
+    <div class="default-form">
+      <div class="form-row row-documentsigning">
+        <label class="solo">{label}</label>
+        <div class="docsign-fields">
+          <div class="docsign-row">
+            <label>{templateLabel}</label>
+            <div class="select">
+              <select class="">
+                <option>Employee Contract</option>
+              </select>
+            </div>
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 1</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 2</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 3</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 4</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label></label>
+            <div class="row-inline-buttons">
+              <div class="button grey send-doc-cancel"><span class="icon-cross"></span>{cancelLabel}</div>
+              <div class="button dark-blue send-doc"><span class="icon-mail-tick"></span>{sendLabel}</div>
+            </div>
+          </div>
+        <div>
+      </div>
+    `;
+
+  }
+
+};;
+/**
+ *
  * Summary.       Element Drawpanel Class.
  *
  * Description.   Element Drawpanel functions and features.
