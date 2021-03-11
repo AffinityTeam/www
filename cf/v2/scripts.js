@@ -20386,10 +20386,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     {
       if (this.DocSignSelectNode)
       {
-        var templateId = this.Config.Details.ExternalTemplateId;
+        var templateId = this.Config.Details.ExternalTemplateId || null;
         var recipientValues = [];
 
-        if (this.FormMode && this.CleverForms.Form.ViewType === 'Form')
+        if (
+          this.FormMode
+          && this.CleverForms.Form.ViewType === 'Form'
+          && this.Config.Details.hasOwnProperty('Value')
+          && $a.isObject(this.Config.Details.Value)
+          && this.Config.Details.Value.hasOwnProperty('ExternalTemplateId')
+          && this.Config.Details.Value.hasOwnProperty('Recipients')
+        )
         {
           templateId = this.Config.Details.Value.ExternalTemplateId;
           recipientValues = this.Config.Details.Value.Recipients;
@@ -20739,12 +20746,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         this.PostDocButtonNode.classList.remove('hidden');
         return;
       }
-
-      this.PostDocCancelButtonNode.classList.add('disabled');
-      this.PostDocCancelButtonNode.classList.remove('hidden');
-      this.PostDocButtonNode.classList.remove('disabled');
-      this.PostDocButtonNode.classList.remove('hidden');
     }
+
+    this.PostDocCancelButtonNode.classList.add('disabled');
+    this.PostDocCancelButtonNode.classList.remove('hidden');
+    this.PostDocButtonNode.classList.remove('disabled');
+    this.PostDocButtonNode.classList.remove('hidden');
   }
 
   /**/
