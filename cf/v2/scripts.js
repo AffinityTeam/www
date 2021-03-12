@@ -8358,7 +8358,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    */
   IsErrorPage(error)
   {
-    return error.contains('<!DOCTYPE html>');
+    if (Affinity2018.isString(error)) return error.contains('<!DOCTYPE html>');
+    return false;
   }
 
 
@@ -20560,6 +20561,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _idsFailed(error)
   {
+    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
+
     console.log('_idsFailed');
     console.log(error);
     console.log('');
@@ -20660,7 +20663,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if (response.data.hasOwnProperty('ErrorMessage')) message = response.data.ErrorMessage;
+        if (response.data.hasOwnProperty('ErrorMessage') && !$a.isNullOrEmpty(response.data.ErrorMessage)) message = response.data.ErrorMessage;
         else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
         if (
           response.data.hasOwnProperty('MissingCustomFields')
@@ -20668,6 +20671,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         )
         {
           this.CanSend = true;
+          message = message + this._getMissingFieldsMessage(response.data.MissingCustomFields);
           // TODO: mark missing fields
         }
       }
@@ -20693,6 +20697,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocError(error)
   {
+    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
+
     console.log('_postDocError');
     console.log(error);
     console.log('');
@@ -20758,7 +20764,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if (response.data.hasOwnProperty('ErrorMessage')) message = response.data.ErrorMessage;
+        if (response.data.hasOwnProperty('ErrorMessage') && !$a.isNullOrEmpty(response.data.ErrorMessage)) message = response.data.ErrorMessage;
         else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
         if (
           response.data.hasOwnProperty('MissingCustomFields')
@@ -20766,24 +20772,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
           && response.data.MissingCustomFields.length > 0
         )
         {
-          var fieldLabels = [], fieldNode;
-          response.data.MissingCustomFields.forEach(function (fieldData)
-          {
-            if (document.querySelector('.' + fieldData.QuestionName))
-            {
-              fieldNode = fieldNode.dataset.label;
-              // TODO: mark field as error
-              fieldLabels.push(fieldNode.dataset.label);
-            }
-            else
-            {
-              fieldLabels.push(fieldData.FieldName);
-            }
-          }.bind(this));
-          if (fieldLabels.length > 0) message += '<br>{message}<br>{list}'.format({
-            message:  $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields'),
-            list: fieldLabels.join('<br>')
-          });
+          message = message + this._getMissingFieldsMessage(response.data.MissingCustomFields);
           this.CanSend = false;
         }
       }
@@ -20809,6 +20798,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocCancelError(error)
   {
+    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
+
     console.log('_postDocCancelError');
     console.log(error);
     console.log('');
@@ -20829,6 +20820,51 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
   }
 
   /**/
+
+  _getMissingFieldsMessage(fields)
+  {
+    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', fieldRow, fieldLabel, fieldNode;
+
+    fields.forEach(function (fieldData)
+    {
+      if (document.querySelector('div[data-name="{0}"]'.format(fieldData.QuestionName)))
+      {
+        fieldRow = document.querySelector('div[data-name="{0}"]'.format(fieldData.QuestionName));
+        fieldLabel = fieldRow.querySelector('label') ? fieldRow.querySelector('label').innerText.trim() : '';
+        fieldNode = fieldRow.querySelector('input, select, textarea');
+        // TODO: mark fieldNode as error
+        
+        if (fieldLabel !== '') invalidFields.push(fieldLabel);
+        else invalidFields.push(fieldData.FieldName);
+      }
+      else
+      {
+        missingFields.push(fieldData.FieldName);
+      }
+    }.bind(this));
+
+    if (invalidFields.length > 0)
+    {
+      message += '<br>{message}<br>{tab}{list}'.format({
+        tab: tab,
+        message:  $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields'),
+        list: invalidFields.join('<br>' + tab)
+      });
+    }
+
+    if (missingFields.length > 0)
+    {
+      message += '<br>{message}<br>{tab}{list}'.format({
+        tab: tab,
+        message:  $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields'),
+        list: missingFields.join('<br>' + tab)
+      });
+    }
+
+    console.log(message);
+
+    return message;
+  }
 
   _setReadyOnly()
   {
@@ -20906,6 +20942,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       {
         this.PostDocButtonNode.classList.remove('disabled');
       }
+    }
+    if (this.FormRowNode && this.DocSignSelectNode.value === '')
+    {
+      this.PostDocButtonNode.classList.add('disabled');
     }
   }
 
