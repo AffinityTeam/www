@@ -9006,6 +9006,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('UrlLink'))                       postData.UrlLink = config.Details.UrlLink;
     if (config.Details.hasOwnProperty('VideoId'))                       postData.VideoId = config.Details.VideoId;
 
+    if (config.Details.hasOwnProperty('ExternalTemplateId'))            postData.VideoId = config.Details.ExternalTemplateId;
+    if (config.Details.hasOwnProperty('Recipients'))                    postData.VideoId = config.Details.Recipients;
+
     switch (postType)
     {
       case 'edit-section':
@@ -20408,8 +20411,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     this.DocSignSelectNode = baseNode.querySelector('select.docsign-template-ids') || false;
     this.DocSignDescNode = baseNode.querySelector('p.docsign-template-desc') || false;
     this.DocSignSelectWrapperNode = this.DocSignSelectNode ? this.DocSignSelectNode.closest('.select') : false;
-    this.DocSignErrorNode = this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.edit-row').querySelector('span.inline') : false;
-    this.DocSignErrorNode = !this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.form-row').querySelector('span.inline') : this.DocSignErrorNode;
+    this.DocSignErrorNode = this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.edit-row').querySelector('.docsign-error') : false;
+    this.DocSignErrorNode = !this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.form-row').querySelector('.docsign-error') : this.DocSignErrorNode;
     this.DocSignFieldsNode = !this.Designer ? baseNode.querySelector('.docsign-fields') : false;
 
     $a.RequestQueue.Get(this.CleverForms.GetDocumentSigningTemplatesApi, this._idsLoaded, this._idsFailed, 1);
@@ -20981,7 +20984,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       <div class="select working">
         <select class="docsign-template-ids"></select>
       </div>
-      <span class="inline hidden"></span>
+      <span class="docsign-error red inline hidden"></span>
       <p class="desc docsign-template-desc"></p>
     </div>
     `;
@@ -21019,7 +21022,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
             <div class="button dark-blue send-doc hidden"><span class="icon-mail-tick"></span>{sendLabel}</div>
           </div>
       </div>
-      <span class="inline hidden"></span>
+      <span class="docsign-error red inline hidden"></span>
     </div>
     `;
 
