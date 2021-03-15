@@ -8594,6 +8594,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'UrlLink', newConfig, 'UrlLink');
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'DecimalNumber', newConfig, 'DecimalNumber');
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'ArrowDirection', newConfig, 'ArrowDirection');
+
+        newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'ExternalTemplateId', newConfig, 'ExternalTemplateId');
+        newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'Recipients', newConfig, 'Recipients');
         
         // TODO: Requires Alignment
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'File', newConfig, 'FileId');
@@ -8821,7 +8824,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'ModeOptions',             newConfig, 'ModeOptions');
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'KeyFields',               newConfig, 'KeyFields');
     newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'IsMasterfileData',        newConfig, 'IsMasterfileData');
-    newConfig = this.__PORT_G_G_G_GET_AFFINITYFIELD(oldConfig, 'ExternalTemplateId',      newConfig, 'ExternalTemplateId');
 
     // Ensure Min Max vals are integers
     if ($a.isString(newConfig.Details.AffinityField.MaxValue) && !isNaN(parseInt(newConfig.Details.AffinityField.MaxValue))) newConfig.Details.AffinityField.MaxValue = parseInt(newConfig.Details.AffinityField.MaxValue);
@@ -9006,8 +9008,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('UrlLink'))                       postData.UrlLink = config.Details.UrlLink;
     if (config.Details.hasOwnProperty('VideoId'))                       postData.VideoId = config.Details.VideoId;
 
-    if (config.Details.hasOwnProperty('ExternalTemplateId'))            postData.VideoId = config.Details.ExternalTemplateId;
-    if (config.Details.hasOwnProperty('Recipients'))                    postData.VideoId = config.Details.Recipients;
+    if (config.Details.hasOwnProperty('ExternalTemplateId'))            postData.ExternalTemplateId = config.Details.ExternalTemplateId;
+    if (config.Details.hasOwnProperty('Recipients'))                    postData.Recipients = config.Details.Recipients;
 
     switch (postType)
     {
@@ -20299,7 +20301,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       if (this.DocSignSelectNode)
       {
         this.Config.Details.ExternalTemplateId = this.GetSigningTemplateId();
-        this.Config.Details.Recipients = this.GetSigningRecipients();
       }
 
     }
@@ -20383,6 +20384,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
   GetSigningTemplateId()
   {
     if (this.DocSignSelectNode) return this.DocSignSelectNode.value;
+    if (
+      this.FormMode
+      && this.CleverForms.Form.ViewType === 'Form'
+      && this.Config.Details.hasOwnProperty('Value')
+      && $a.isObject(this.Config.Details.Value)
+      && this.Config.Details.Value.hasOwnProperty('ExternalTemplateId')
+      && this.Config.Details.Value.hasOwnProperty('Recipients')
+    ) return this.Config.Details.Value.ExternalTemplateId;
     return this.Config.Details.ExternalTemplateId;
   }
 
@@ -20848,10 +20857,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     if (invalidFields.length > 0)
     {
-      message += '<br>{message}<br>{tab}{list}'.format({
+      message += '<br>{prefix}<br>{tab}{list}<br>{suffix}'.format({
         tab: tab,
-        message:  $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields'),
-        list: invalidFields.join('<br>' + tab)
+        prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields'),
+        list: invalidFields.join('<br>' + tab),
+        suffix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields_message')
       });
     }
 
