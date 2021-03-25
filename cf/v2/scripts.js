@@ -20379,13 +20379,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  IsValid()
-  {
-    if (!this.Config.Details.Required) return true;
-    if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) return true;
-    return false;
-  }
-
   /**/
 
   GetSigningTemplateId()
