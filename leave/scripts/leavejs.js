@@ -3769,12 +3769,12 @@ var UILeaveApply = new Class({
             if (hoursOverLimit != null && leaveLimitType != null ) {
                 switch (leaveLimitType) {
                     case "CurrentBalance":
-                        if (unitsAppFor > currentUnitsBal) {
+                        if (unitsAppFor > (currentUnitsBal + hoursOverLimit)) {
                             leaveAppValid = false;
                         }
                         break;
                     case "ProjectedBalance":
-                        if (unitsAppFor > projectedUnitsBal) {
+                        if (unitsAppFor > (projectedUnitsBal + hoursOverLimit)) {
                             leaveAppValid = false;
                         }
                         break;
