@@ -15,24 +15,24 @@
 (3920,36-41): run-time error JS1195: Expected expression: class
 (4033,30-35): run-time error JS1195: Expected expression: class
 (4138,31-36): run-time error JS1195: Expected expression: class
-(4379,35-40): run-time error JS1195: Expected expression: class
-(4507,33-38): run-time error JS1195: Expected expression: class
-(4714,39-40): run-time error JS1014: Invalid character: `
-(4714,40-41): run-time error JS1195: Expected expression: <
-(4714,100-101): run-time error JS1014: Invalid character: `
-(4733,43-44): run-time error JS1014: Invalid character: `
-(4733,44-45): run-time error JS1195: Expected expression: <
-(4733,108-109): run-time error JS1014: Invalid character: `
-(4801,33-38): run-time error JS1195: Expected expression: class
-(5097,32-37): run-time error JS1195: Expected expression: class
-(5463,33-38): run-time error JS1195: Expected expression: class
-(5541,37-42): run-time error JS1195: Expected expression: class
-(5542,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(4376,35-40): run-time error JS1195: Expected expression: class
+(4504,33-38): run-time error JS1195: Expected expression: class
+(4711,39-40): run-time error JS1014: Invalid character: `
+(4711,40-41): run-time error JS1195: Expected expression: <
+(4711,100-101): run-time error JS1014: Invalid character: `
+(4730,43-44): run-time error JS1014: Invalid character: `
+(4730,44-45): run-time error JS1195: Expected expression: <
+(4730,108-109): run-time error JS1014: Invalid character: `
+(4798,33-38): run-time error JS1195: Expected expression: class
+(5094,32-37): run-time error JS1195: Expected expression: class
+(5460,33-38): run-time error JS1195: Expected expression: class
+(5538,37-42): run-time error JS1195: Expected expression: class
+(5539,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5543,5-16): run-time error JS1006: Expected ')': constructor
-(5612,3-4): run-time error JS1002: Syntax error: }
-(5612,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5556,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5540,5-16): run-time error JS1006: Expected ')': constructor
+(5609,3-4): run-time error JS1002: Syntax error: }
+(5609,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5553,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -4260,7 +4260,7 @@
         if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
         if (path.hasOwnProperty(segment)) path = path[segment];
       }
-      if (path) return true;
+      if (path !== null && path !== undefined) return true;
       return false;
     }
 
@@ -4279,14 +4279,12 @@
         if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
         if (path.hasOwnProperty(segment)) path = path[segment];
       }
-      if (path)
+      if (path !== null && path !== undefined)
       {
-
         if (Affinity2018.isString(path))
         {
           path = this._processString(path, variables);
         }
-
         return path;
       }
       return null;
@@ -4298,7 +4296,7 @@
         patharray = pathStr.replace('i:', '').split('.'),
         p = 0;
       for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path && typeof path === 'string') return str.replace('{{' + pathStr + '}}', path);
+      if (path !== null && path !== undefined && typeof path === 'string') return str.replace('{{' + pathStr + '}}', path);
       return str;
     }
 
@@ -4309,7 +4307,7 @@
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
         p = 0;
       for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path)
+      if (path !== null && path !== undefined)
       {
         if (joinArray && Array.isArray(path)) return str.replace('{{' + pathStr + '}}', path.join(' '));
         if (!joinArray && (typeof path === 'string' || typeof path === 'number')) return str.replace('{{' + pathStr + '}}', path);
@@ -4323,7 +4321,7 @@
         patharray = pathStr.replace('m:', '').split('.'),
         p = 0;
       for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path && typeof path === 'function') return path;
+      if (path !== null && path !== undefined && typeof path === 'function') return path;
       return function () { };
     }
 
@@ -4331,8 +4329,7 @@
     {
       if (str.contains('{{') && str.contains('}}'))
       {
-        var braceRegExp = /[^{{\}}]+(?=}})/g,
-          matches = str.match(braceRegExp);
+        var braceRegExp = /[^{{\}}]+(?=}})/g, matches = str.match(braceRegExp);
         if (matches !== null)
         {
           var m, match, type, patharray, newStr;
@@ -11378,9 +11375,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       if (data.Type.trim().toLowerCase() === 'section')
       {
+        var message = $a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message');
+        var messageClass = '';
+        if (message.trim() === '') messageClass = ' none';
+
         elementNode.innerHTML = this.sectionTemplate.format({
           edit: $a.Lang.ReturnPath('application.cleverfroms.designer.element_edit_button'),
-          message: $a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message')
+          message: message,
+          messageClass: messageClass
         });
       }
       else
@@ -11583,6 +11585,22 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       else
       {
         var sectionNode, firstElement, keyData, newElementData, updateElement, previouseElement, elements, isAffinityField, requiresKeys;
+    
+        // reset default auto-add section label
+        if (this.TemplateData.length === 1)
+        {
+          var sectionConfig = this.TemplateData[0];
+          console.info(sectionConfig);
+          if (
+            sectionConfig.hasOwnProperty('Elements')
+            && $a.isArray(sectionConfig.Elements)
+            && sectionConfig.Elements.length === 0
+            && sectionConfig.Details.Title === 'Default'
+          )
+          {
+            this.TemplateData[0].Details.Title = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+          }
+        }
 
         // build form fields
         this.TemplateData.sort(this._sortByRank);
@@ -11802,8 +11820,18 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _injectDefaultSection ()
   {
     var sectionConfig = $a.jsonCloneObject(this.CleverForms.ElementData.Section);
+
     //sectionConfig.Details.Label = 'Default Section';
     sectionConfig.Details.Label = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+    sectionConfig.Details.Title = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+
+    console.info("Lang Check:");
+    console.info("Method: '_injectDefaultSection'");
+    console.info("Set confgi label to value of lang path 'app.cf.designer.default_form_section_name'.");
+    console.info($a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name'));
+    console.info(sectionConfig);
+    console.info('');
+
     // config, autoEdit, targetNode, position, referenceNode
     this.Add(sectionConfig, false, this.RightListNode, 'top');
   }
@@ -13962,7 +13990,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         <span class="del">X</span>
       </div>
       <div class="drag-handle icon-cf-drag"></div>
-      <p class="section-message">{message} <em></em><br></p>
+      <p class="section-message{messageClass}">{message} <em></em><br></p>
       <ul class="droppable items-only"></ul>
     `;
 
