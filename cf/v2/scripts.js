@@ -16688,7 +16688,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       }
       if (this.Config.Details.Required)
       {
-        tooltips.push(this.Config.Details.Label + ' is required');
+        if ($a.isPropString(this.Config.Details, 'ValidationString') && this.Config.Details.ValidationString.trim() !== '')
+        {
+          tooltips.push(this.Config.Details.Label + this.Config.Details.ValidationString);
+        }
+        else
+        {
+          tooltips.push(this.Config.Details.Label + ' is required');
+        }
       }
     }
 
@@ -16713,7 +16720,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         if (document.querySelector('.required-message .required')) className = document.querySelector('.required-message .required').className;
         requiredNode = document.createElement('span');
         requiredNode.className = className;
-        requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + ' is required';
+        if ($a.isPropString(this.Config.Details, 'ValidationString') && this.Config.Details.ValidationString.trim() !== '')
+        {
+          requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + this.Config.Details.ValidationString;
+        }
+        else
+        {
+          requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + ' is required';
+        }
         requiredNode.dataset.tooltipDir = 'top-right';
         requiredNode.classList.add('ui-has-tooltip');
         this.FormRowNode.classList.add('required');
@@ -20273,6 +20287,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         }
       }
     }
+    
+    this.Config.Details.ValidationString = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_validation', {
+      button: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
+    });
 
     return this;
   }
@@ -20972,29 +20990,66 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _returnBackendErrors(error)
   {
-    var errorStr = error, langPath;
-    if (error.toLowerCase().trim() == 'send error')
+    var errorStr = error, langPath, num, max;
+    error = error.toLowerCase().trim();
+
+    if (
+      error == 'send error'
+      || error.contains('Error while sending signature request') // og
+      || error.contains('send your request. Please try again later') // jody
+    )
     {
       langPath = 'app.cf.backend_sub_errors.send_error';
       errorStr = $a.Lang.ReturnPath(langPath);
     }
-    if (error.toLowerCase().trim() == 'deleted')
+
+    if (
+      error == 'deleted'
+      || error.contains('This resource has been deleted') // og
+      || error.contains('already been cancelled') // jody
+    )
     {
       langPath = 'app.cf.backend_sub_errors.deleted';
       errorStr = $a.Lang.ReturnPath(langPath);
     }
-    if (error.toLowerCase().trim() == 'cancel error: already completed')
+
+    if (
+      error == 'cancel error: already completed'
+      || error.contains('???') // og
+      || error.contains('???') // jody
+    )
     {
       langPath = 'app.cf.backend_sub_errors.cancel_error_already_completed';
       errorStr = $a.Lang.ReturnPath(langPath);
     }
-    if (error.toLowerCase().trim().startsWith('too many recipients. max required:'))
+
+    if (
+      error.startsWith('not enough recipients. required:')
+      || error.contains('you need to provide ') // og
+      //|| error.contains('???') // jody
+    )
     {
-      var max = parseInt(error.split(':')[1]);
+      num = 1;
+      if (!isNaN(parseInt(error.replace(/\D/g, '')))) num = error.replace(/\D/g, '');
+      if (error.contains(':')) num = parseInt(error.split(':')[1]);
+      langPath = 'app.cf.backend_sub_errors.not_enough_recipients';
+      errorStr = $a.Lang.ReturnPath(langPath, { num: num });
+    }
+
+    if (
+      error.startsWith('too many recipients. max required:')
+      || error.contains('you have entered more than the required') // og
+      || error.contains('please remove the extra signatories') // jody
+    )
+    {
+      max = 1;
+      if (!isNaN(parseInt(error.replace(/\D/g, '')))) max = error.replace(/\D/g, '');
+      if (error.contains(':')) max = parseInt(error.split(':')[1]);
       langPath = 'app.cf.backend_sub_errors.too_many_recipients_n_required';
       if (max > 1) langPath = 'app.cf.backend_sub_errors.too_many_recipients_1_required';
       errorStr = $a.Lang.ReturnPath(langPath, { max: max });
     }
+
     return errorStr;
   }
 
@@ -21134,15 +21189,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         </div>
         <div class="docsign-row">
           <label>{recipientLabel} 2</label>
-          <input type="text" class="ui-has-email no-row-error" value="" />
+          <input type="text" class="ui-has-email required-override no-row-error" value="" />
         </div>
         <div class="docsign-row">
           <label>{recipientLabel} 3</label>
-          <input type="text" class="ui-has-email no-row-error" value="" />
+          <input type="text" class="ui-has-email required-override no-row-error" value="" />
         </div>
         <div class="docsign-row">
           <label>{recipientLabel} 4</label>
-          <input type="text" class="ui-has-email no-row-error" value="" />
+          <input type="text" class="ui-has-email required-override no-row-error" value="" />
         </div>
         <div class="docsign-row">
           <label></label>
@@ -37165,7 +37220,10 @@ Affinity2018.Classes.Plugins.StringWidget = class
   _isRequired()
   {
     var formRow = Affinity2018.getParent(this.InputNode, '.form-row');
-    if (this.InputNode.classList.contains('required') || (formRow && formRow.classList.contains('required'))) return true;
+    if (this.InputNode.classList.contains('required') || (formRow && formRow.classList.contains('required')))
+    {
+      if (!this.InputNode.classList.contains('required-override')) return true;
+    }
     return false;
   }
 
@@ -37175,6 +37233,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
         parentRow = Affinity2018.getParent(this.InputNode, '.form-row'),
         event = ev && ev.type === 'keyup' ? 'keyboard' : 'none',
         extraspace = false,
+        required = this._isRequired(),
         pattern, warning;
 
     this.Valid = true;
@@ -37212,6 +37271,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
     }
 
     var isValid = true;
+
     if (this['_' + this.type + 'Test'] && typeof this['_' + this.type + 'Test'] === 'function')
     {
       if (value !== '' && this['_' + this.type + 'Test'](value, pattern)) isValid = true;
@@ -37220,16 +37280,24 @@ Affinity2018.Classes.Plugins.StringWidget = class
     {
       if (value !== '' && !new RegExp(pattern).test(value)) isValid = false;
     }
-    if (value === '' && this._isRequired()) isValid = false;
+
+    if (value === '' && required)
+    {
+      isValid = false;
+    }
 
     if (value.length < this.MinLength || value.length > this.MaxLength)
     {
       isValid = false;
       extraspace = false;
       if (this.MinLength === 1 || this.MinLength === 0 || this.MinLength === Number.MIN_SAFE_INTEGER)
+      {
         warning = 'This must be shorter than ' + (this.MaxLength + 1) + ' character(s)';
+      }
       else
+      {
         warning = 'This must be between ' + this.MinLength + ' and ' + this.MaxLength + ' characters long.';
+      }
     }
 
     if (!isValid)
