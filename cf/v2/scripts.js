@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2676,32-37): run-time error JS1195: Expected expression: class
-(3212,32-37): run-time error JS1195: Expected expression: class
-(3225,20-21): run-time error JS1004: Expected ';': {
-(3296,27-28): run-time error JS1004: Expected ';': {
-(3300,29-30): run-time error JS1004: Expected ';': {
-(3301,29-30): run-time error JS1004: Expected ';': {
-(3302,29-30): run-time error JS1004: Expected ';': {
-(3303,29-30): run-time error JS1004: Expected ';': {
-(3304,13-14): run-time error JS1004: Expected ';': {
-(3323,15-16): run-time error JS1004: Expected ';': {
-(3341,12-13): run-time error JS1004: Expected ';': {
-(3346,12-13): run-time error JS1004: Expected ';': {
-(3349,17-18): run-time error JS1004: Expected ';': {
-(3920,36-41): run-time error JS1195: Expected expression: class
-(4033,30-35): run-time error JS1195: Expected expression: class
-(4138,31-36): run-time error JS1195: Expected expression: class
-(4376,35-40): run-time error JS1195: Expected expression: class
-(4504,33-38): run-time error JS1195: Expected expression: class
-(4711,39-40): run-time error JS1014: Invalid character: `
-(4711,40-41): run-time error JS1195: Expected expression: <
-(4711,100-101): run-time error JS1014: Invalid character: `
-(4730,43-44): run-time error JS1014: Invalid character: `
-(4730,44-45): run-time error JS1195: Expected expression: <
-(4730,108-109): run-time error JS1014: Invalid character: `
-(4798,33-38): run-time error JS1195: Expected expression: class
-(5094,32-37): run-time error JS1195: Expected expression: class
-(5460,33-38): run-time error JS1195: Expected expression: class
-(5538,37-42): run-time error JS1195: Expected expression: class
-(5539,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2701,32-37): run-time error JS1195: Expected expression: class
+(3237,32-37): run-time error JS1195: Expected expression: class
+(3250,20-21): run-time error JS1004: Expected ';': {
+(3321,27-28): run-time error JS1004: Expected ';': {
+(3325,29-30): run-time error JS1004: Expected ';': {
+(3326,29-30): run-time error JS1004: Expected ';': {
+(3327,29-30): run-time error JS1004: Expected ';': {
+(3328,29-30): run-time error JS1004: Expected ';': {
+(3329,13-14): run-time error JS1004: Expected ';': {
+(3348,15-16): run-time error JS1004: Expected ';': {
+(3366,12-13): run-time error JS1004: Expected ';': {
+(3371,12-13): run-time error JS1004: Expected ';': {
+(3374,17-18): run-time error JS1004: Expected ';': {
+(3964,36-41): run-time error JS1195: Expected expression: class
+(4077,30-35): run-time error JS1195: Expected expression: class
+(4182,31-36): run-time error JS1195: Expected expression: class
+(4420,35-40): run-time error JS1195: Expected expression: class
+(4548,33-38): run-time error JS1195: Expected expression: class
+(4755,39-40): run-time error JS1014: Invalid character: `
+(4755,40-41): run-time error JS1195: Expected expression: <
+(4755,100-101): run-time error JS1014: Invalid character: `
+(4774,43-44): run-time error JS1014: Invalid character: `
+(4774,44-45): run-time error JS1195: Expected expression: <
+(4774,108-109): run-time error JS1014: Invalid character: `
+(4842,33-38): run-time error JS1195: Expected expression: class
+(5138,32-37): run-time error JS1195: Expected expression: class
+(5504,33-38): run-time error JS1195: Expected expression: class
+(5582,37-42): run-time error JS1195: Expected expression: class
+(5583,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5540,5-16): run-time error JS1006: Expected ')': constructor
-(5609,3-4): run-time error JS1002: Syntax error: }
-(5609,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5553,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5584,5-16): run-time error JS1006: Expected ')': constructor
+(5653,3-4): run-time error JS1002: Syntax error: }
+(5653,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5597,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -2643,6 +2643,31 @@
   
   
   /**
+   * Affinity2018.decodeHTML()
+   * Returns a decoded html string
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {string} string
+   */
+  if (!(Affinity2018.hasOwnProperty('decodeHTML ')))
+  {
+    Affinity2018.decodeHTML = function (string)
+    {
+      if (Affinity2018.isString(string))
+      {
+        string = string.replace(/\<br.*?\>/gi, '\n');
+        var txt = document.createElement('textarea');
+        txt.innerHTML = string;
+        string = txt.value;
+        txt = null;
+      }
+      return string;
+    }
+  }
+  
+  
+  /**
    * Affinity2018.lockBodyScroll()
    * Locks Body Scroll so that other HTMLElements can have scroll focus without scrolling Body
    * Affinity2018.unlockBodyScroll()
@@ -3467,6 +3492,25 @@
     };
   }
   */
+  
+
+  /**
+   * Array.diff()
+   * Returns the differnce between two arrays
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {Array} array
+   * 
+   * @returns {array}
+   */
+  if (!Array.prototype.diff)
+  {
+    Array.prototype.diff = function (array)
+    {
+      return this.filter(function(i) {return array.indexOf(i) < 0;});
+    };
+  }
   
 
   /**
@@ -7923,13 +7967,21 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
       else if (this.IsErrorPage(str) || str.contains('<div class="error-info">'))
       {
-        var errorDetails = GetDetailsFromErrorPage(str);
+        var errorDetails = this.GetDetailsFromErrorPage(str);
         if (errorDetails && errorDetails.Details !== '')
         {
            return errorDetails.Details;
         }
         var from = str.indexOf('<h1>', str.indexOf('<div class="error-info">')) + 4, to = str.indexOf('</h1>', from);
         message = str.substring(from, to).trim();
+      }
+    }
+    if (this.IsErrorPage(str))
+    {
+      var errorDetails = this.GetDetailsFromErrorPage(str);
+      if (errorDetails && errorDetails.Details !== '')
+      {
+          return errorDetails.Details;
       }
     }
     return message;
@@ -8356,6 +8408,17 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   IsErrorPage(error)
   {
     if (Affinity2018.isString(error)) return error.contains('<!DOCTYPE html>');
+    if (
+      error
+      && error.hasOwnProperty('response')
+      && $a.isObject(error.response)
+      && error.response.hasOwnProperty('data')
+      && $a.isString(error.response.data)
+      && error.response.data.contains('<!DOCTYPE html>')
+    )
+    {
+      return true;
+    }
     return false;
   }
 
@@ -8391,6 +8454,18 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         str = str.replace(/(\&nbsp\;)/g, ' ');
         str = str.replace(/  +/g, ' ').trim();
         return str;
+      }
+
+      if (
+        error
+        && error.hasOwnProperty('response')
+        && $a.isObject(error.response)
+        && error.response.hasOwnProperty('data')
+        && $a.isString(error.response.data)
+        && error.response.data.contains('<!DOCTYPE html>')
+      )
+      {
+        error = error.response.data;
       }
 
       if (error.contains('<title>') && error.contains('</title>'))
@@ -8450,6 +8525,41 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
     return output;
   }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetErrorPageOutputString(error)
+  {
+    var output = '';
+    if (this.IsErrorPage(error)) error = this.GetDetailsFromErrorPage(error);
+    if ($a.isObject(error))
+    {
+      var outLines = [];
+      if (error.hasOwnProperty('Title') && error.Title !== '') outLines.push(error.Title);
+      else outLines.push('Error');
+      if (error.hasOwnProperty('Details') && error.Details !== '') outLines.push(error.Details);
+      if (error.hasOwnProperty('Description') && error.Description !== '') outLines.push(error.Description);
+      if (error.hasOwnProperty('Source') && error.Source !== '') outLines.push(error.Source);
+      if (error.hasOwnProperty('Lines') && error.Lines.length > 0)
+      {
+        for (var l = 0; l < error.Lines.length; l++)
+        {
+          if ($a.isString(error.Lines[l]) && error.Lines[l] !== '')
+          {
+            outLines.push('\t' + $a.decodeHTML(error.Lines[l]));
+          }
+        }
+      }
+      output = outLines.join('\n');
+    }
+    return output;
+  }
+
 
 
 
@@ -15605,7 +15715,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
-   
+  
   /**
    * Summary. Post the form
    * @this    Class scope
@@ -15670,6 +15780,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _postThen (response)
   {
+    if (this.CleverForms.IsErrorPage(response))
+    {
+      console.log('_postThen Error');
+      console.log(this.CleverForms.GetErrorPageOutputString(response));
+      console.log('');
+    }
+
     if (typeof response === 'object' && response.hasOwnProperty('status'))
     {
       if (response.status === 205) // Reset Content - do a re-load!
@@ -15784,7 +15901,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _postComplete ()
+  _postComplete()
   {
     console.groupEnd();
     
@@ -15823,10 +15940,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _postCatch (response)
+  _postCatch(response)
   {
-
     var postedStr = '', postedData = {}, error = 'unknown error';
+    
+    if (this.CleverForms.IsErrorPage(response))
+    {
+      console.log('_postCatch Error');
+      console.log(this.CleverForms.GetErrorPageOutputString(response));
+      console.log('');
+      this._postFailed(this.PostData, this.CleverForms.GetErrorPageOutputString(response));
+      return;
+    }
+
     if ($a.type(response) === 'error')
     {
       this._postFailed(this.PostData, response.message);
@@ -15866,9 +15992,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _postFailed (data, errorMessage)
   {
+    console.groupEnd();
     clearTimeout(this._postFailedThrottle);
     this._postFailedThrottle = setTimeout(function ()
     {
+      if (this.CleverForms.IsErrorPage(errorMessage))
+      {
+        errorMessage = this.CleverForms.GetErrorPageOutputString(response);
+      }
+
       Affinity2018.Dialog.Show({
         //message: 'Oh no! We had trouble submitting your form.<!-- ' + errorMessage + ' -->',
         message: $a.Lang.ReturnPath('app.cf.form.error_template_post_fail', { message: errorMessage }),
@@ -15883,10 +16015,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       });
       if (data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
-      console.error('Form Post ({0}) Error: {1}.'.format(this.SubmitActionName, errorMessage));
-      console.groupEnd();
+
+      console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage));
+
       $a.HidePageLoader();
-      throw 'Blocker';
     }.bind(this), 500);
   }
 
@@ -20222,6 +20354,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     this.CanSend = true;
 
     this.ValidOnlyIfSent = true;
+
+    this.ShortenFieldLists = false;
   }
 
   constructor(config)
@@ -20539,7 +20673,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
           {
             this.CanSend = false;
           }
-
           console.log('Config Value');
           console.log(this.Config.Details.Value);
         }
@@ -20697,6 +20830,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     if (this.DocSignSelectNode.value !== '')
     {
       var recipients = this.GetSigningRecipients();
+      if (JSON.stringify(recipients.sort()) !== JSON.stringify(recipients.unique().sort()))
+      {
+        $a.Dialog.Show({
+          message: $a.Lang.ReturnPath('app.cf.design_items.docsign_duplicate_emails',
+            {
+              recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label').toLowerCase(),
+              filedLabel: this.Config.Details.Label
+            }
+          ),
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'left'
+        });
+        return;
+      }
+
       if (recipients.length > 0)
       {
         $a.ShowPageLoader();
@@ -20763,7 +20913,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         )
         {
           this.CanSend = true;
-          message = message + this._getMissingFieldsMessage(response.data.MissingCustomFields);
+          message = this._getMissingFieldsMessage(response.data.MissingCustomFields);
           // TODO: mark missing fields
         }
       }
@@ -20793,11 +20943,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocError(error)
   {
-    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
-    
-    console.log('_postDocError');
-    console.log(error);
-    console.log('');
+    if (this.CleverForms.IsErrorPage(error))
+    {
+      console.error('Post DocSign Error (_postDocError)\nError:\n{0}\n '.format( this.CleverForms.GetErrorPageOutputString(error)));
+    }
 
     $a.HidePageLoader();
 
@@ -20879,7 +21028,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
           && response.data.MissingCustomFields.length > 0
         )
         {
-          message = message + this._getMissingFieldsMessage(response.data.MissingCustomFields);
+          message = this._getMissingFieldsMessage(response.data.MissingCustomFields);
           this.CanSend = false;
         }
       }
@@ -20910,11 +21059,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocCancelError(error)
   {
-    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
-
-    console.log('_postDocCancelError');
-    console.log(error);
-    console.log('');
+    if (this.CleverForms.IsErrorPage(error))
+    {
+      console.log('_postDocCancelError');
+      console.log(this.CleverForms.GetErrorPageOutputString(error));
+      console.log('');
+    }
 
     // TODO: Check and process errors
 
@@ -20943,7 +21093,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _getMissingFieldsMessage(fields)
   {
-    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', fieldRow, fieldLabel, fieldNode;
+    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', invalidList = null, missingList = null, fields, fieldRow, fieldLabel;
 
     fields.forEach(function (fieldData)
     {
@@ -20953,7 +21103,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         fieldLabel = fieldRow.querySelector('label') ? fieldRow.querySelector('label').innerText.trim() : '';
         fieldNode = fieldRow.querySelector('input, select, textarea');
         // TODO: mark fieldNode as error
-        
         if (fieldLabel !== '') invalidFields.push(fieldLabel);
         else invalidFields.push(fieldData.FieldName);
       }
@@ -20963,27 +21112,68 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
     }.bind(this));
 
-    if (invalidFields.length > 0)
+    if (invalidFields.length + missingFields.length > 0)
+    {
+      if (invalidFields.length + missingFields.length > 14)
+      {
+        if (invalidFields.length > 0)
+        {
+          invalidList = '<div class="indent">' + invalidFields.join(', ') + '</div>';
+        }
+        if (missingFields.length > 0)
+        {
+          missingList = '<div class="indent">' + missingFields.join(', ') + '</div>';
+        }
+      }
+      else
+      {
+        if (this.ShortenFieldLists)
+        {
+          if (invalidFields.length > 7)
+          {
+            fields = invalidFields.slice(0, 5);
+            fields.push('...');
+            fields.push(invalidFields[invalidFields.length - 1]);
+            invalidFields = fields;
+          }
+          if (missingFields.length > 7)
+          {
+            fields = missingFields.slice(0, 5);
+            fields.push('...');
+            fields.push(missingFields[missingFields.length - 1]);
+            missingFields = fields;
+          }
+        }
+        if (invalidFields.length > 0)
+        {
+          invalidList = invalidFields.join('<br>' + tab);
+        }
+        if (missingFields.length > 0)
+        {
+          missingList = missingFields.join('<br>' + tab);
+        }
+      }
+    }
+
+    if (invalidList !== null)
     {
       message += '<br>{prefix}<br>{tab}{list}<br>{suffix}'.format({
         tab: tab,
         prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields'),
-        list: invalidFields.join('<br>' + tab),
+        list: invalidList,
         suffix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields_message')
       });
     }
 
-    if (missingFields.length > 0)
+    if (missingList !== null)
     {
       message += '<br>{prefix}<br>{tab}{list}<br>{suffix}'.format({
         tab: tab,
         prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields'),
-        list: missingFields.join('<br>' + tab),
+        list: missingList,
         suffix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields_message'),
       });
     }
-
-    console.log(message);
 
     return message;
   }
@@ -21030,7 +21220,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     )
     {
       num = 1;
-      if (!isNaN(parseInt(error.replace(/\D/g, '')))) num = error.replace(/\D/g, '');
+      if (!isNaN(parseInt(error.replace(/\D/g, '')))) num = parseInt(error.replace(/\D/g, ''));
       if (error.contains(':')) num = parseInt(error.split(':')[1]);
       langPath = 'app.cf.backend_sub_errors.not_enough_recipients';
       errorStr = $a.Lang.ReturnPath(langPath, { num: num });
@@ -21043,10 +21233,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     )
     {
       max = 1;
-      if (!isNaN(parseInt(error.replace(/\D/g, '')))) max = error.replace(/\D/g, '');
+      if (!isNaN(parseInt(error.replace(/\D/g, '')))) max = parseInt(error.replace(/\D/g, ''));
       if (error.contains(':')) max = parseInt(error.split(':')[1]);
-      langPath = 'app.cf.backend_sub_errors.too_many_recipients_n_required';
-      if (max > 1) langPath = 'app.cf.backend_sub_errors.too_many_recipients_1_required';
+      langPath = 'app.cf.backend_sub_errors.too_many_recipients_1_required';
+      if (max > 1) langPath = 'app.cf.backend_sub_errors.too_many_recipients_n_required';
       errorStr = $a.Lang.ReturnPath(langPath, { max: max });
     }
 
