@@ -15380,7 +15380,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         if (formElement.hasOwnProperty('widgets'))
         {
-          for (key in formElement.widgets)
+          var widgets = formElement.widgets;
+          if (formElement.widgets.hasOwnProperty('TaxNumber'))
+          {
+            widgets = { TaxNumber: formElement.widgets.TaxNumber };
+          }
+          else if (formElement.widgets.hasOwnProperty('Address'))
+          {
+            widgets = { Address: formElement.widgets.Address };
+          }
+          for (key in widgets)
           {
             if (formElement.widgets.hasOwnProperty(key))
             {
@@ -16822,7 +16831,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       {
         if ($a.isPropString(this.Config.Details, 'ValidationString') && this.Config.Details.ValidationString.trim() !== '')
         {
-          tooltips.push(this.Config.Details.Label + this.Config.Details.ValidationString);
+          tooltips.push(this.Config.Details.ValidationString);
         }
         else
         {
@@ -16854,7 +16863,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         requiredNode.className = className;
         if ($a.isPropString(this.Config.Details, 'ValidationString') && this.Config.Details.ValidationString.trim() !== '')
         {
-          requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + this.Config.Details.ValidationString;
+          requiredNode.dataset.tooltip = this.Config.Details.ValidationString;
         }
         else
         {
@@ -20833,12 +20842,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       if (JSON.stringify(recipients.sort()) !== JSON.stringify(recipients.unique().sort()))
       {
         $a.Dialog.Show({
-          message: $a.Lang.ReturnPath('app.cf.design_items.docsign_duplicate_emails',
-            {
-              recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label').toLowerCase(),
-              filedLabel: this.Config.Details.Label
-            }
-          ),
+          //message: $a.Lang.ReturnPath('app.cf.design_items.docsign_duplicate_emails',
+          //  {
+          //    recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label').toLowerCase(),
+          //    filedLabel: this.Config.Details.Label
+          //  }
+          //),
+          message: $a.Lang.ReturnPath('app.cf.design_items.docsign_duplicate_emails'),
           showOk: true,
           showCancel: false,
           showInput: false,
@@ -21093,7 +21103,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _getMissingFieldsMessage(fields)
   {
-    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', invalidList = null, missingList = null, fields, fieldRow, fieldLabel;
+    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', invalidList = null, missingList = null, fields, fieldRow, fieldLabel, fieldNode;
 
     fields.forEach(function (fieldData)
     {
@@ -21102,7 +21112,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         fieldRow = document.querySelector('div[data-name="{0}"]'.format(fieldData.QuestionName));
         fieldLabel = fieldRow.querySelector('label') ? fieldRow.querySelector('label').innerText.trim() : '';
         fieldNode = fieldRow.querySelector('input, select, textarea');
-        // TODO: mark fieldNode as error
+        fieldRow.classList.add('error');
         if (fieldLabel !== '') invalidFields.push(fieldLabel);
         else invalidFields.push(fieldData.FieldName);
       }
@@ -21157,7 +21167,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     if (invalidList !== null)
     {
-      message += '<br>{prefix}<br>{tab}{list}<br>{suffix}'.format({
+      message += '{prefix}<br>{tab}{list}<br>{suffix}'.format({
         tab: tab,
         prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields'),
         list: invalidList,
@@ -21167,7 +21177,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     if (missingList !== null)
     {
-      message += '<br>{prefix}<br>{tab}{list}<br>{suffix}'.format({
+      if (invalidList !== null) message += '<br><br>';
+      message += '{prefix}<br>{tab}{list}<br>{suffix}'.format({
         tab: tab,
         prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields'),
         list: missingList,
@@ -26694,7 +26705,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.Ready = false;
 
     targetNode.classList.remove('ui-has-address');
-    targetNode.classList.add('ui-address');
+    targetNode.classList.add('ui-address', 'no-validate');
 
     this.lookupNode = targetNode;
     this.lookupNode.classList.add('ui-address-lookup');
@@ -29945,7 +29956,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
 
     targetNode.classList.remove('ui-has-banknumber');
-    targetNode.classList.add('ui-banknumber');
+    targetNode.classList.add('ui-banknumber', 'no-validate');
     
     this.initInputNode = targetNode;
     this.initInputNode.type = 'hidden';
@@ -37695,7 +37706,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var showCountryNode = true;
 
     targetNode.classList.remove('ui-has-taxnumber');
-    targetNode.classList.add('ui-taxnumber');
+    targetNode.classList.add('ui-taxnumber', 'no-validate');
 
     this.initInputNode = targetNode;
     this.initInputNode.type = 'hidden';
