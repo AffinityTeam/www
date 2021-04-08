@@ -20867,7 +20867,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         this.PostDocButtonNode.classList.add('disabled');
 
         this.LastPostedDocsignTemplateId = this.GetSigningTemplateId();
-        this.LastPostedDocsignRecipients = recipients;
+        this.LastPostedDocsignRecipients = this.GetSigningRecipients();
         axios({
           method: 'post',
           url: this.CleverForms.DocumentSigningPostApi,
