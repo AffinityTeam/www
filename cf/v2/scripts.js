@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2675,32-37): run-time error JS1195: Expected expression: class
-(3211,32-37): run-time error JS1195: Expected expression: class
-(3224,20-21): run-time error JS1004: Expected ';': {
-(3295,27-28): run-time error JS1004: Expected ';': {
-(3299,29-30): run-time error JS1004: Expected ';': {
-(3300,29-30): run-time error JS1004: Expected ';': {
-(3301,29-30): run-time error JS1004: Expected ';': {
-(3302,29-30): run-time error JS1004: Expected ';': {
-(3303,13-14): run-time error JS1004: Expected ';': {
-(3322,15-16): run-time error JS1004: Expected ';': {
-(3340,12-13): run-time error JS1004: Expected ';': {
-(3345,12-13): run-time error JS1004: Expected ';': {
-(3348,17-18): run-time error JS1004: Expected ';': {
-(3919,36-41): run-time error JS1195: Expected expression: class
-(4032,30-35): run-time error JS1195: Expected expression: class
-(4137,31-36): run-time error JS1195: Expected expression: class
-(4378,35-40): run-time error JS1195: Expected expression: class
-(4506,33-38): run-time error JS1195: Expected expression: class
-(4713,39-40): run-time error JS1014: Invalid character: `
-(4713,40-41): run-time error JS1195: Expected expression: <
-(4713,100-101): run-time error JS1014: Invalid character: `
-(4732,43-44): run-time error JS1014: Invalid character: `
-(4732,44-45): run-time error JS1195: Expected expression: <
-(4732,108-109): run-time error JS1014: Invalid character: `
-(4800,33-38): run-time error JS1195: Expected expression: class
-(5096,32-37): run-time error JS1195: Expected expression: class
-(5462,33-38): run-time error JS1195: Expected expression: class
-(5540,37-42): run-time error JS1195: Expected expression: class
-(5541,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2701,32-37): run-time error JS1195: Expected expression: class
+(3237,32-37): run-time error JS1195: Expected expression: class
+(3250,20-21): run-time error JS1004: Expected ';': {
+(3321,27-28): run-time error JS1004: Expected ';': {
+(3325,29-30): run-time error JS1004: Expected ';': {
+(3326,29-30): run-time error JS1004: Expected ';': {
+(3327,29-30): run-time error JS1004: Expected ';': {
+(3328,29-30): run-time error JS1004: Expected ';': {
+(3329,13-14): run-time error JS1004: Expected ';': {
+(3348,15-16): run-time error JS1004: Expected ';': {
+(3366,12-13): run-time error JS1004: Expected ';': {
+(3371,12-13): run-time error JS1004: Expected ';': {
+(3374,17-18): run-time error JS1004: Expected ';': {
+(3964,36-41): run-time error JS1195: Expected expression: class
+(4077,30-35): run-time error JS1195: Expected expression: class
+(4182,31-36): run-time error JS1195: Expected expression: class
+(4420,35-40): run-time error JS1195: Expected expression: class
+(4548,33-38): run-time error JS1195: Expected expression: class
+(4755,39-40): run-time error JS1014: Invalid character: `
+(4755,40-41): run-time error JS1195: Expected expression: <
+(4755,100-101): run-time error JS1014: Invalid character: `
+(4774,43-44): run-time error JS1014: Invalid character: `
+(4774,44-45): run-time error JS1195: Expected expression: <
+(4774,108-109): run-time error JS1014: Invalid character: `
+(4842,33-38): run-time error JS1195: Expected expression: class
+(5138,32-37): run-time error JS1195: Expected expression: class
+(5504,33-38): run-time error JS1195: Expected expression: class
+(5582,37-42): run-time error JS1195: Expected expression: class
+(5583,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5542,5-16): run-time error JS1006: Expected ')': constructor
-(5611,3-4): run-time error JS1002: Syntax error: }
-(5611,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5555,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5584,5-16): run-time error JS1006: Expected ')': constructor
+(5653,3-4): run-time error JS1002: Syntax error: }
+(5653,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5597,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -626,6 +626,7 @@
     cfDropDown: '&#xe5bb;',
     cfEffectiveDate: '&#xe5bc;',
     cfEmail: '&#xe5bd;',
+    cfDocsign: '&#xe591;',
     cfExplanation: '&#xe5be;',
     cfLink: '&#xe5bf;',
     cfMemo: '&#xe5c0;',
@@ -2642,6 +2643,31 @@
   
   
   /**
+   * Affinity2018.decodeHTML()
+   * Returns a decoded html string
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {string} string
+   */
+  if (!(Affinity2018.hasOwnProperty('decodeHTML ')))
+  {
+    Affinity2018.decodeHTML = function (string)
+    {
+      if (Affinity2018.isString(string))
+      {
+        string = string.replace(/\<br.*?\>/gi, '\n');
+        var txt = document.createElement('textarea');
+        txt.innerHTML = string;
+        string = txt.value;
+        txt = null;
+      }
+      return string;
+    }
+  }
+  
+  
+  /**
    * Affinity2018.lockBodyScroll()
    * Locks Body Scroll so that other HTMLElements can have scroll focus without scrolling Body
    * Affinity2018.unlockBodyScroll()
@@ -3469,6 +3495,25 @@
   
 
   /**
+   * Array.diff()
+   * Returns the differnce between two arrays
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {Array} array
+   * 
+   * @returns {array}
+   */
+  if (!Array.prototype.diff)
+  {
+    Array.prototype.diff = function (array)
+    {
+      return this.filter(function(i) {return array.indexOf(i) < 0;});
+    };
+  }
+  
+
+  /**
    * Array.contains()
    * Determines whether the current Array contains the parsed in Object
    * 
@@ -4259,7 +4304,7 @@
         if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
         if (path.hasOwnProperty(segment)) path = path[segment];
       }
-      if (path) return true;
+      if (path !== null && path !== undefined) return true;
       return false;
     }
 
@@ -4278,14 +4323,12 @@
         if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
         if (path.hasOwnProperty(segment)) path = path[segment];
       }
-      if (path)
+      if (path !== null && path !== undefined)
       {
-
         if (Affinity2018.isString(path))
         {
           path = this._processString(path, variables);
         }
-
         return path;
       }
       return null;
@@ -4297,7 +4340,7 @@
         patharray = pathStr.replace('i:', '').split('.'),
         p = 0;
       for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path && typeof path === 'string') return str.replace('{{' + pathStr + '}}', path);
+      if (path !== null && path !== undefined && typeof path === 'string') return str.replace('{{' + pathStr + '}}', path);
       return str;
     }
 
@@ -4308,7 +4351,7 @@
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
         p = 0;
       for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path)
+      if (path !== null && path !== undefined)
       {
         if (joinArray && Array.isArray(path)) return str.replace('{{' + pathStr + '}}', path.join(' '));
         if (!joinArray && (typeof path === 'string' || typeof path === 'number')) return str.replace('{{' + pathStr + '}}', path);
@@ -4322,7 +4365,7 @@
         patharray = pathStr.replace('m:', '').split('.'),
         p = 0;
       for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
-      if (path && typeof path === 'function') return path;
+      if (path !== null && path !== undefined && typeof path === 'function') return path;
       return function () { };
     }
 
@@ -4330,8 +4373,7 @@
     {
       if (str.contains('{{') && str.contains('}}'))
       {
-        var braceRegExp = /[^{{\}}]+(?=}})/g,
-          matches = str.match(braceRegExp);
+        var braceRegExp = /[^{{\}}]+(?=}})/g, matches = str.match(braceRegExp);
         if (matches !== null)
         {
           var m, match, type, patharray, newStr;
@@ -7333,6 +7375,36 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    The API end point for getting a list of hellosign templates.
+     * @type {String}
+    * @public
+    *
+    */
+    this.GetDocumentSigningTemplatesApi = Affinity2018.Path + 'DocumentSigning/GetTemplates';
+
+
+
+    /**
+    * Description.    The API end point for posting a hellosign document.
+     * @type {String}
+    * @public
+    *
+    */
+    this.DocumentSigningPostApi = Affinity2018.Path + 'DocumentSigning/Send';
+
+
+
+    /**
+    * Description.    The API end point for canceling a posted a hellosign document.
+     * @type {String}
+    * @public
+    *
+    */
+    this.DocumentSigningCancelApi = Affinity2018.Path + 'DocumentSigning/Cancel';
+
+
+
+    /**
     * Description.    The API end point for loading all available forms.
      * @type {String}
     * @public
@@ -7893,15 +7965,23 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         message = 'Response is a 404 error page';
       }
-      else if (str.contains('<div class="error-info">'))
+      else if (this.IsErrorPage(str) || str.contains('<div class="error-info">'))
       {
-        var errorDetails = GetDetailsFromErrorPage(str);
+        var errorDetails = this.GetDetailsFromErrorPage(str);
         if (errorDetails && errorDetails.Details !== '')
         {
            return errorDetails.Details;
         }
         var from = str.indexOf('<h1>', str.indexOf('<div class="error-info">')) + 4, to = str.indexOf('</h1>', from);
         message = str.substring(from, to).trim();
+      }
+    }
+    if (this.IsErrorPage(str))
+    {
+      var errorDetails = this.GetDetailsFromErrorPage(str);
+      if (errorDetails && errorDetails.Details !== '')
+      {
+          return errorDetails.Details;
       }
     }
     return message;
@@ -8325,11 +8405,35 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
+  IsErrorPage(error)
+  {
+    if (Affinity2018.isString(error)) return error.contains('<!DOCTYPE html>');
+    if (
+      error
+      && error.hasOwnProperty('response')
+      && $a.isObject(error.response)
+      && error.response.hasOwnProperty('data')
+      && $a.isString(error.response.data)
+      && error.response.data.contains('<!DOCTYPE html>')
+    )
+    {
+      return true;
+    }
+    return false;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   GetDetailsFromErrorPage (error)
   {
     var output = null;
 
-    if (error.contains('<!DOCTYPE html>'))
+    if (this.IsErrorPage(error))
     {
 
       output = {
@@ -8350,6 +8454,18 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         str = str.replace(/(\&nbsp\;)/g, ' ');
         str = str.replace(/  +/g, ' ').trim();
         return str;
+      }
+
+      if (
+        error
+        && error.hasOwnProperty('response')
+        && $a.isObject(error.response)
+        && error.response.hasOwnProperty('data')
+        && $a.isString(error.response.data)
+        && error.response.data.contains('<!DOCTYPE html>')
+      )
+      {
+        error = error.response.data;
       }
 
       if (error.contains('<title>') && error.contains('</title>'))
@@ -8409,6 +8525,41 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
     return output;
   }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetErrorPageOutputString(error)
+  {
+    var output = '';
+    if (this.IsErrorPage(error)) error = this.GetDetailsFromErrorPage(error);
+    if ($a.isObject(error))
+    {
+      var outLines = [];
+      if (error.hasOwnProperty('Title') && error.Title !== '') outLines.push(error.Title);
+      else outLines.push('Error');
+      if (error.hasOwnProperty('Details') && error.Details !== '') outLines.push(error.Details);
+      if (error.hasOwnProperty('Description') && error.Description !== '') outLines.push(error.Description);
+      if (error.hasOwnProperty('Source') && error.Source !== '') outLines.push(error.Source);
+      if (error.hasOwnProperty('Lines') && error.Lines.length > 0)
+      {
+        for (var l = 0; l < error.Lines.length; l++)
+        {
+          if ($a.isString(error.Lines[l]) && error.Lines[l] !== '')
+          {
+            outLines.push('\t' + $a.decodeHTML(error.Lines[l]));
+          }
+        }
+      }
+      output = outLines.join('\n');
+    }
+    return output;
+  }
+
 
 
 
@@ -8550,6 +8701,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'UrlLink', newConfig, 'UrlLink');
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'DecimalNumber', newConfig, 'DecimalNumber');
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'ArrowDirection', newConfig, 'ArrowDirection');
+
+        newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'ExternalTemplateId', newConfig, 'ExternalTemplateId');
+        newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'Recipients', newConfig, 'Recipients');
         
         // TODO: Requires Alignment
         newConfig = this.__PORT_G_G_G_GET_DETAILS(oldConfig, 'File', newConfig, 'FileId');
@@ -8960,6 +9114,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('SetDefaultValue'))               postData.SetDefaultValue = config.Details.SetDefaultValue;
     if (config.Details.hasOwnProperty('UrlLink'))                       postData.UrlLink = config.Details.UrlLink;
     if (config.Details.hasOwnProperty('VideoId'))                       postData.VideoId = config.Details.VideoId;
+
+    if (config.Details.hasOwnProperty('ExternalTemplateId'))            postData.ExternalTemplateId = config.Details.ExternalTemplateId;
+    if (config.Details.hasOwnProperty('Recipients'))                    postData.Recipients = config.Details.Recipients;
 
     switch (postType)
     {
@@ -11328,9 +11485,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       if (data.Type.trim().toLowerCase() === 'section')
       {
+        var message = $a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message');
+        var messageClass = '';
+        if (message.trim() === '') messageClass = ' none';
+
         elementNode.innerHTML = this.sectionTemplate.format({
           edit: $a.Lang.ReturnPath('application.cleverfroms.designer.element_edit_button'),
-          message: $a.Lang.ReturnPath('application.cleverfroms.designer.section_required_fields_message')
+          message: message,
+          messageClass: messageClass
         });
       }
       else
@@ -11533,6 +11695,22 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       else
       {
         var sectionNode, firstElement, keyData, newElementData, updateElement, previouseElement, elements, isAffinityField, requiresKeys;
+    
+        // reset default auto-add section label
+        if (this.TemplateData.length === 1)
+        {
+          var sectionConfig = this.TemplateData[0];
+          console.info(sectionConfig);
+          if (
+            sectionConfig.hasOwnProperty('Elements')
+            && $a.isArray(sectionConfig.Elements)
+            && sectionConfig.Elements.length === 0
+            && sectionConfig.Details.Title === 'Default'
+          )
+          {
+            this.TemplateData[0].Details.Title = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+          }
+        }
 
         // build form fields
         this.TemplateData.sort(this._sortByRank);
@@ -11752,8 +11930,18 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _injectDefaultSection ()
   {
     var sectionConfig = $a.jsonCloneObject(this.CleverForms.ElementData.Section);
+
     //sectionConfig.Details.Label = 'Default Section';
     sectionConfig.Details.Label = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+    sectionConfig.Details.Title = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
+
+    console.info("Lang Check:");
+    console.info("Method: '_injectDefaultSection'");
+    console.info("Set confgi label to value of lang path 'app.cf.designer.default_form_section_name'.");
+    console.info($a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name'));
+    console.info(sectionConfig);
+    console.info('');
+
     // config, autoEdit, targetNode, position, referenceNode
     this.Add(sectionConfig, false, this.RightListNode, 'top');
   }
@@ -13912,7 +14100,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         <span class="del">X</span>
       </div>
       <div class="drag-handle icon-cf-drag"></div>
-      <p class="section-message">{message} <em></em><br></p>
+      <p class="section-message{messageClass}">{message} <em></em><br></p>
       <ul class="droppable items-only"></ul>
     `;
 
@@ -15192,7 +15380,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         if (formElement.hasOwnProperty('widgets'))
         {
-          for (key in formElement.widgets)
+          var widgets = formElement.widgets;
+          if (formElement.widgets.hasOwnProperty('TaxNumber'))
+          {
+            widgets = { TaxNumber: formElement.widgets.TaxNumber };
+          }
+          else if (formElement.widgets.hasOwnProperty('Address'))
+          {
+            widgets = { Address: formElement.widgets.Address };
+          }
+          for (key in widgets)
           {
             if (formElement.widgets.hasOwnProperty(key))
             {
@@ -15527,7 +15724,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
-   
+  
   /**
    * Summary. Post the form
    * @this    Class scope
@@ -15559,7 +15756,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (this.ViewType === 'Preview')
     {
-
       return;
     }
 
@@ -15593,6 +15789,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _postThen (response)
   {
+    if (this.CleverForms.IsErrorPage(response))
+    {
+      console.log('_postThen Error');
+      console.log(this.CleverForms.GetErrorPageOutputString(response));
+      console.log('');
+    }
+
     if (typeof response === 'object' && response.hasOwnProperty('status'))
     {
       if (response.status === 205) // Reset Content - do a re-load!
@@ -15707,7 +15910,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _postComplete ()
+  _postComplete()
   {
     console.groupEnd();
     
@@ -15746,10 +15949,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _postCatch (response)
+  _postCatch(response)
   {
-
     var postedStr = '', postedData = {}, error = 'unknown error';
+    
+    if (this.CleverForms.IsErrorPage(response))
+    {
+      console.log('_postCatch Error');
+      console.log(this.CleverForms.GetErrorPageOutputString(response));
+      console.log('');
+      this._postFailed(this.PostData, this.CleverForms.GetErrorPageOutputString(response));
+      return;
+    }
+
     if ($a.type(response) === 'error')
     {
       this._postFailed(this.PostData, response.message);
@@ -15789,9 +16001,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _postFailed (data, errorMessage)
   {
+    console.groupEnd();
     clearTimeout(this._postFailedThrottle);
     this._postFailedThrottle = setTimeout(function ()
     {
+      if (this.CleverForms.IsErrorPage(errorMessage))
+      {
+        errorMessage = this.CleverForms.GetErrorPageOutputString(response);
+      }
+
       Affinity2018.Dialog.Show({
         //message: 'Oh no! We had trouble submitting your form.<!-- ' + errorMessage + ' -->',
         message: $a.Lang.ReturnPath('app.cf.form.error_template_post_fail', { message: errorMessage }),
@@ -15806,10 +16024,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       });
       if (data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
-      console.error('Form Post ({0}) Error: {1}.'.format(this.SubmitActionName, errorMessage));
-      console.groupEnd();
+
+      console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage));
+
       $a.HidePageLoader();
-      throw 'Blocker';
     }.bind(this), 500);
   }
 
@@ -16611,7 +16829,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       }
       if (this.Config.Details.Required)
       {
-        tooltips.push(this.Config.Details.Label + ' is required');
+        if ($a.isPropString(this.Config.Details, 'ValidationString') && this.Config.Details.ValidationString.trim() !== '')
+        {
+          tooltips.push(this.Config.Details.ValidationString);
+        }
+        else
+        {
+          tooltips.push(this.Config.Details.Label + ' is required');
+        }
       }
     }
 
@@ -16636,7 +16861,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         if (document.querySelector('.required-message .required')) className = document.querySelector('.required-message .required').className;
         requiredNode = document.createElement('span');
         requiredNode.className = className;
-        requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + ' is required';
+        if ($a.isPropString(this.Config.Details, 'ValidationString') && this.Config.Details.ValidationString.trim() !== '')
+        {
+          requiredNode.dataset.tooltip = this.Config.Details.ValidationString;
+        }
+        else
+        {
+          requiredNode.dataset.tooltip = this.FormRowNode.querySelector('label').innerText.trim() + ' is required';
+        }
         requiredNode.dataset.tooltipDir = 'top-right';
         requiredNode.classList.add('ui-has-tooltip');
         this.FormRowNode.classList.add('required');
@@ -20075,6 +20307,1148 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       <label>{label}</label>
       <input type="text" disabled value="{value}" />
     </div>
+    `;
+
+  }
+
+};;
+/**
+ *
+ * Summary.       Element DocumentSigning Class.
+ *
+ * Description.   Element DocumentSigning (HelloSign) functions and features.
+ *
+ * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+ *
+ *
+ * @since         04.03.2021
+ * @class         DocumentSigning
+ * @namespace     Affinity2018.Classes.Apps.CleverForms.Elements
+ * @memberof      CleverForms.Elements
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning
+ *
+ * @public
+ */
+
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Apps' in Affinity2018.Classes)) Affinity2018.Classes.Apps = {};
+if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.CleverForms = {};
+if (!('Elements' in Affinity2018.Classes.Apps.CleverForms)) Affinity2018.Classes.Apps.CleverForms.Elements = {};
+
+if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if (!('Elements' in Affinity2018.Apps)) Affinity2018.Apps.Elements = {};
+
+Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase
+{
+  _options()
+  {
+    super._options();
+
+    this.FormMode = false;
+
+    this.IsOnlyRow = false;
+
+    this.SectionTitle = '';
+
+    this.DocSignSelectNode = false;
+    this.DocSignSelectWrapperNode = false;
+    this.DocSignDescNode = false;
+    this.DocSignErrorNode = false;
+
+    this.LastPostedDocsignTemplateId = null;
+
+    this.LastPostState = '';
+
+    this.CanSend = true;
+
+    this.ValidOnlyIfSent = true;
+
+    this.ShortenFieldLists = false;
+  }
+
+  constructor(config)
+  {
+    super(config);
+    [
+      '_options', '_templates',
+      
+      'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
+      'RemoveDesignerElement',
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+
+      'GetSigningTemplateId', 'GetSigningRecipients',
+
+      '_loadIds', '_idsLoaded', '_idsFailed', '_idChanged',
+      '_postDoc', '_postedDoc', '_postDocError',
+      '_postDocCancel', '_postDocCanceled', '_postDocCancelError',
+      '_setReadyOnly', '_unsetReadyOnly', '_checkRecipientValidation', 
+      '_checkDocSignButtons'
+
+    ].bindEach(this);
+
+    this._options();
+    this._templates();
+
+    if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form')) this.FormMode = true;
+
+    if (this.FormMode)
+    {
+      var form = Affinity2018.Apps.CleverForms.Form.FormData, section, element;
+      if (form && $a.isArray(form))
+      {
+        for (var a = 0; a < form.length; a++)
+        {
+          section = form[a];
+          if (
+            section
+            && $a.isObject(section)
+            && section.hasOwnProperty('Elements')
+            && $a.isArray(section.Elements)
+            && section.Elements.length > 0
+          )
+          {
+            for (var b = 0; b < section.Elements.length; b++)
+            {
+              element = section.Elements[b];
+              if (
+                element
+                && $a.isObject(element)
+                && element.hasOwnProperty('Name')
+                && $a.isString(element.Name)
+              )
+              {
+                if (element.Name == this.Config.Name)
+                {
+                  if (section.Elements.length === 1) this.IsOnlyRow = true;
+                  this.SectionTitle = section.Details.Title;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    this.Config.Details.ValidationString = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_validation', {
+      button: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
+    });
+
+    return this;
+  }
+
+  /**/
+
+  SetDesignEditor()
+  {
+
+    this.HtmlEditTemplate = this.HtmlEditTemplate.format({
+      templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label')
+    });
+
+    this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
+      blockClass: this.IsOnlyRow ? '' : 'form-row-block grey-block',
+      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Document Signing',
+      templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
+      recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
+      cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
+      sendLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
+    });
+
+    if (super.SetDesignEditor())
+    {
+      // set special html / values
+
+      this.PopupNode.classList.add('large');
+
+      this._loadIds();
+
+      return true;
+    }
+    return false;
+  }
+
+  UnsetDesignEditor ()
+  {
+    if (super.UnsetDesignEditor())
+    {
+      // unset special html / values
+
+      return true;
+    }
+    return false;
+  }
+
+  GetFromDesignEditor ()
+  {
+    if (super.GetFromDesignEditor())
+    {
+
+      // update special values
+
+      if (this.DocSignSelectNode)
+      {
+        this.Config.Details.ExternalTemplateId = this.GetSigningTemplateId();
+      }
+
+    }
+
+    return this.Config;
+  }
+
+  SetFromValue (value)
+  {
+
+  }
+
+  RemoveDesignerElement (callback)
+  {
+    if (super.RemoveDesignerElement())
+    {
+
+      // do any removal stuff here
+      
+      var node = document.querySelector('.item-' + this.UniqueName);
+      if (node && $a.isFunction(callback))
+      {
+        callback(node);
+      }
+    }
+  }
+
+  /**/
+
+  SetFormRow (target)
+  {
+    var html = this.HtmlRowTemplate.format({
+      templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
+      recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
+      required: this.Config.Details.Required ? '<span class="required icon-star-full"></span>' : '',
+      cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
+      sendLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
+    });
+    this.FormRowNode = super.SetFormRow(target, html);
+    if (this.FormRowNode)
+    {
+
+      // set any special elements
+
+      if (this.IsOnlyRow && this.Config.Details.Label.toLowerCase().trim() === this.SectionTitle.toLowerCase().trim())
+      {
+        this.FormRowNode.querySelector('label').classList.add('hidden');
+        if (this.FormRowNode.querySelector('.help')) this.FormRowNode.querySelector('.help').classList.add('hidden');
+      }
+      if (!this.IsOnlyRow) this.FormRowNode.classList.add('indent') //, 'box');
+
+      this._loadIds();
+
+      return this.FormRowNode;
+    }
+  }
+
+  GetFromFormRow()
+  {
+    if (super.GetFromFormRow())
+    {
+
+      // get any special elements
+      
+      var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : '';
+
+      this.FormData.Value = JSON.stringify({
+        ExternalTemplateId: this.GetSigningTemplateId(),
+        Recipients: this.GetSigningRecipients(),
+        CanSend: this.CanSend,
+        SignatureRequestId: signatureRequestId
+      });
+
+      return this.FormData;
+    }
+    throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
+  }
+
+  IsValid()
+  {
+    if (!this.Config.Details.Required) return true;
+    if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0)
+    {
+      console.log(this.Config);
+      if (this.ValidOnlyIfSent)
+      {
+        if (!this.Config.Details.Value.CanSend) return true;
+      }
+      else
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**/
+
+  GetSigningTemplateId()
+  {
+    if (this.DocSignSelectNode) return this.DocSignSelectNode.value;
+    if (
+      this.FormMode
+      && this.CleverForms.Form.ViewType === 'Form'
+      && this.Config.Details.hasOwnProperty('Value')
+      && $a.isObject(this.Config.Details.Value)
+      && this.Config.Details.Value.hasOwnProperty('ExternalTemplateId')
+      && this.Config.Details.Value.hasOwnProperty('Recipients')
+    ) return this.Config.Details.Value.ExternalTemplateId;
+    return this.Config.Details.ExternalTemplateId;
+  }
+
+  GetSigningRecipients()
+  {
+    var recipients = [];
+    if (this.FormRowNode && this.FormRowNode.querySelector('.docsign-row input.sv'))
+    {
+      this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node)
+      {
+        if (node && node.value.trim() !== '' && !node.classList.contains('error')) recipients.push(node.value.trim());
+      });
+    }
+    return recipients;
+  }
+
+  /**/
+
+  _loadIds()
+  {
+    $a.ShowPageLoader();
+
+    var baseNode = this.FormRowNode;
+    if (this.Designer) baseNode = this.EditNode;
+
+    this.DocSignSelectNode = baseNode.querySelector('select.docsign-template-ids') || false;
+    this.DocSignDescNode = baseNode.querySelector('p.docsign-template-desc') || false;
+    this.DocSignSelectWrapperNode = this.DocSignSelectNode ? this.DocSignSelectNode.closest('.select') : false;
+    this.DocSignErrorNode = this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.edit-row').querySelector('.docsign-error') : false;
+    this.DocSignErrorNode = !this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.form-row').querySelector('.docsign-error') : this.DocSignErrorNode;
+    this.DocSignFieldsNode = !this.Designer ? baseNode.querySelector('.docsign-fields') : false;
+
+    $a.RequestQueue.Get(this.CleverForms.GetDocumentSigningTemplatesApi, this._idsLoaded, this._idsFailed, 1);
+
+    //this._idsLoaded([]);
+
+    //this._idsLoaded([
+    //{
+    //  "ExternalTemplateId": "b6c35fcf-2b01-4cea-bd5c-8bddd0a8957e",
+    //  "Description": "Classic Ben's Template",
+    //  "Title": "Ben Tilte"
+    //},
+    //{
+    //  "ExternalTemplateId": "54c936a2ddb065c1626e7992c13a2ca459a0c190",
+    //  "Description": "Vimz Template",
+    //  "Title": "Vimz Tilte"
+    //}
+    //]);
+
+  }
+
+  _idsLoaded(response)
+  {
+    console.log('_idsLoaded');
+    console.log(response);
+
+    // TODO: Check and process errors
+
+    if ($a.isArray(response))
+    {
+      if (this.DocSignSelectNode)
+      {
+        var templateId = this.Config.Details.ExternalTemplateId || null;
+        var recipientValues = [];
+
+        if (
+          this.FormMode
+          && this.CleverForms.Form.ViewType === 'Form'
+          && this.Config.Details.hasOwnProperty('Value')
+          && $a.isObject(this.Config.Details.Value)
+          && this.Config.Details.Value.hasOwnProperty('ExternalTemplateId')
+          && this.Config.Details.Value.hasOwnProperty('Recipients')
+        )
+        {
+          templateId = this.Config.Details.Value.ExternalTemplateId;
+          recipientValues = this.Config.Details.Value.Recipients;
+          if (
+            this.Config.Details.Value.hasOwnProperty('CanSend')
+            && !this.Config.Details.Value.CanSend
+          )
+          {
+            this.CanSend = false;
+          }
+          console.log('Config Value');
+          console.log(this.Config.Details.Value);
+        }
+        else
+        {
+          console.log('Config');
+          console.log(this.Config);
+        }
+        console.log('');
+
+        this.DocSignSelectWrapperNode.classList.remove('hidden');
+        this.DocSignErrorNode.classList.add('hidden');
+        this.DocSignErrorNode.innerHTML = '';
+        if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.remove('hidden');
+        if (response.length > 0)
+        {
+          this.DocSignSelectNode.removeEventListener('change', this._idChanged);
+          if (this.DocSignSelectNode) this.DocSignSelectNode.addEventListener('change', this._idChanged);
+          var autocomplete = false, optionNode;
+          if (this.DocSignSelectNode.hasOwnProperty('widgets') && this.DocSignSelectNode.widgets.hasOwnProperty('Autocomplete')) autocomplete = this.DocSignSelectNode.widgets.Autocomplete;
+          this.DocSignSelectNode.innerHTML = '';
+          optionNode = document.createElement('option');
+          optionNode.innerHTML = $a.Lang.ReturnPath('app.cf.design_items.docsign_select_default');
+          optionNode.value = '';
+          this.DocSignSelectNode.appendChild(optionNode);
+          response.forEach(function (data)
+          {
+            if (
+              data.Enabled
+              && data.ExternalTemplateId !== null
+              && $a.isString(data.ExternalTemplateId)
+              && data.ExternalTemplateId.trim() !== ''
+            )
+            {
+              optionNode = document.createElement('option');
+              optionNode.innerHTML = data.Title;
+              optionNode.value = data.ExternalTemplateId;
+              optionNode.data = data;
+              if (data.ExternalTemplateId === templateId) optionNode.setAttribute('selected', 'selected');
+              this.DocSignSelectNode.appendChild(optionNode);
+            }
+          }.bind(this));
+          if (this.DocSignSelectNode) this._idChanged();
+          if (autocomplete)
+          {
+            autocomplete.refreshFromSelect();
+          }
+          else
+          {
+            if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply(this.DocSignSelectNode);
+            else Affinity2018.Apps.Plugins.Autocompletes.Apply(this.DocSignSelectNode);
+          }
+        }
+        else
+        {
+          if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
+          this.DocSignSelectWrapperNode.classList.add('hidden');
+          this.DocSignErrorNode.classList.remove('hidden');
+          this.DocSignErrorNode.innerHTML = $a.Lang.ReturnPath('app.cf.design_items.docsign_not_signed_up');
+        }
+
+        /**/
+
+        if (this.FormMode)
+        {
+          Affinity2018.Apps.Plugins.Strings.Apply();
+
+          this.PostDocCancelButtonNode = this.FormRowNode.querySelector('.button.send-doc-cancel');
+          this.PostDocButtonNode = this.FormRowNode.querySelector('.button.send-doc');
+
+          this.PostDocCancelButtonNode.removeEventListener('click', this._postDocCancel);
+          this.PostDocButtonNode.removeEventListener('click', this._postDoc);
+
+          this.PostDocCancelButtonNode.addEventListener('click', this._postDocCancel);
+          this.PostDocButtonNode.addEventListener('click', this._postDoc);
+
+          var recipientNodes = this.FormRowNode.querySelectorAll('.docsign-row input.sv');
+          if (recipientNodes.length === 4)
+          {
+            for (var r = 0; r < recipientNodes.length; r++)
+            {
+              recipientNodes[r].removeEventListener('keyup', this._checkDocSignButtons);
+              recipientNodes[r].addEventListener('keyup', this._checkDocSignButtons);
+              if (recipientValues[r]) recipientNodes[r].value = recipientValues[r];
+            }
+
+            this.DocSignSelectNode.removeEventListener('change', this._checkDocSignButtons);
+            this.DocSignSelectNode.addEventListener('change', this._checkDocSignButtons);
+
+            this._checkDocSignButtons();
+          }
+        }
+
+      }
+    }
+    else
+    {
+      this._idsFailed(response);
+    }
+    $a.HidePageLoader();
+  }
+
+  _idsFailed(error)
+  {
+    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
+
+    console.log('_idsFailed');
+    console.log(error);
+    console.log('');
+
+    // TODO: Check and process errors
+    var error = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
+    var subbedError = this._returnBackendErrors(error); // TODO: add error messgae string here
+    if (subbedError !== error) error = subbedError;
+
+    if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
+    this.DocSignSelectWrapperNode.classList.add('hidden');
+    this.DocSignErrorNode.classList.remove('hidden');
+    this.DocSignErrorNode.innerHTML = error;
+    $a.HidePageLoader();
+  }
+
+  _idChanged(ev)
+  {
+    if (this.DocSignSelectNode)
+    {
+      if (!$a.isObject(this.Config.Details.Value)) this.Config.Details.Value = { ExternalTemplateId: '', Recipients: [] };
+      var node = this.DocSignSelectNode.options[this.DocSignSelectNode.selectedIndex];
+      var data = node.hasOwnProperty('data') ? node.data : false;
+      if (data && data.hasOwnProperty('Description'))
+      {
+        if (this.DocSignDescNode)
+        {
+          this.DocSignDescNode.innerHTML = data.Description;
+          this.DocSignDescNode.classList.remove('hidden');
+        }
+      }
+      else
+      {
+        if (this.DocSignDescNode)
+        {
+          this.DocSignDescNode.innerHTML = '';
+          this.DocSignDescNode.classList.add('hidden');
+        }
+      }
+    }
+  }
+
+  /**/
+
+  _postDoc()
+  {
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    if (this.DocSignSelectNode.value !== '')
+    {
+      var recipients = this.GetSigningRecipients();
+      if (JSON.stringify(recipients.sort()) !== JSON.stringify(recipients.unique().sort()))
+      {
+        $a.Dialog.Show({
+          //message: $a.Lang.ReturnPath('app.cf.design_items.docsign_duplicate_emails',
+          //  {
+          //    recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label').toLowerCase(),
+          //    filedLabel: this.Config.Details.Label
+          //  }
+          //),
+          message: $a.Lang.ReturnPath('app.cf.design_items.docsign_duplicate_emails'),
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'left'
+        });
+        return;
+      }
+
+      if (recipients.length > 0)
+      {
+        $a.ShowPageLoader();
+
+        this.PostDocCancelButtonNode.classList.remove('hidden');
+        this.PostDocCancelButtonNode.classList.add('disabled');
+        this.PostDocButtonNode.classList.remove('hidden');
+        this.PostDocButtonNode.classList.add('disabled');
+
+        this.LastPostedDocsignTemplateId = this.GetSigningTemplateId();
+        this.LastPostedDocsignRecipients = this.GetSigningRecipients();
+        axios({
+          method: 'post',
+          url: this.CleverForms.DocumentSigningPostApi,
+          data: {
+            InstanceId: this.CleverForms.GetInstanceGuid(),
+            ExternalTemplateId: this.LastPostedDocsignTemplateId,
+            QuestionName: this.Config.Name,
+            Recipients: this.LastPostedDocsignRecipients
+          }
+        })
+          .then(this._postedDoc)
+          .catch(this._postDocError);
+      }
+    }
+  }
+
+  _postedDoc(response)
+  {
+    console.log('_postedDoc');
+    console.log(response);
+    console.log('');
+
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
+    if (
+      $a.isObject(response.data)
+      && response.data.hasOwnProperty('Success')
+    )
+    {
+      if (response.data.Success)
+      {
+        message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
+        this.CanSend = false;
+        if (
+          response.data.hasOwnProperty('SignatureRequestId')
+          && $a.isString(response.data.SignatureRequestId)
+          && response.data.SignatureRequestId.trim() !== ''
+        ) this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
+        // TODO: Remove error marks
+      }
+      else
+      {
+        if (response.data.hasOwnProperty('ErrorMessage') && !$a.isNullOrEmpty(response.data.ErrorMessage)) message = response.data.ErrorMessage;
+        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+        
+        var subbedError = this._returnBackendErrors(message); // add error messgae string here
+        if (subbedError !== message) message = subbedError;
+
+        if (
+          response.data.hasOwnProperty('MissingCustomFields')
+          && $a.isArray(response.data.MissingCustomFields)
+        )
+        {
+          this.CanSend = true;
+          message = this._getMissingFieldsMessage(response.data.MissingCustomFields);
+          // TODO: mark missing fields
+        }
+      }
+    }
+    else
+    {
+      // TODO: Check and process errors
+      message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+      var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
+      if (subbedError !== message) message = subbedError;
+
+      this.CanSend = true;
+    }
+    
+    $a.HidePageLoader();
+
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+
+    this._checkDocSignButtons();
+  }
+
+  _postDocError(error)
+  {
+    if (this.CleverForms.IsErrorPage(error))
+    {
+      console.error('Post DocSign Error (_postDocError)\nError:\n{0}\n '.format( this.CleverForms.GetErrorPageOutputString(error)));
+    }
+
+    $a.HidePageLoader();
+
+    this.CanSend = true;
+
+    // TODO: Check and process errors
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+    var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
+    if (subbedError !== message) message = subbedError;
+
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+    this._checkDocSignButtons();
+  }
+
+  _postDocCancel()
+  {
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    $a.ShowPageLoader();
+    
+    this.PostDocCancelButtonNode.classList.remove('hidden');
+    this.PostDocCancelButtonNode.classList.add('disabled');
+    this.PostDocButtonNode.classList.remove('hidden');
+    this.PostDocButtonNode.classList.add('disabled');
+
+    axios({
+      method: 'post',
+      url: this.CleverForms.DocumentSigningCancelApi,
+      data: {
+        InstanceId: this.CleverForms.GetInstanceGuid(),
+        QuestionName: this.Config.Name
+      }
+    })
+    .then(this._postDocCanceled)
+    .catch(this._postDocCancelError);
+    
+  }
+
+  _postDocCanceled(response)
+  {
+    console.log('_postDocCanceled');
+    console.log(response);
+    console.log('');
+
+    // TODO: Check and process errors
+
+    if (this.CleverForms.Form.ViewType !== 'Form') return;
+
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_success');
+    if (
+      $a.isObject(response.data)
+      && response.data.hasOwnProperty('Success')
+    )
+    {
+      if (response.data.Success)
+      {
+        message = $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_success');
+        this.CanSend = true;
+        // TODO: Remove error marks
+      }
+      else
+      {
+        if (response.data.hasOwnProperty('ErrorMessage') && !$a.isNullOrEmpty(response.data.ErrorMessage)) message = response.data.ErrorMessage;
+        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+
+        // TODO: Check and process errors
+        var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
+        if (subbedError !== message) message = subbedError;
+
+        if (
+          response.data.hasOwnProperty('MissingCustomFields')
+          && $a.isArray(response.data.MissingCustomFields)
+          && response.data.MissingCustomFields.length > 0
+        )
+        {
+          message = this._getMissingFieldsMessage(response.data.MissingCustomFields);
+          this.CanSend = false;
+        }
+      }
+    }
+    else
+    {
+      message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+
+      // TODO: Check and process errors
+      var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
+      if (subbedError !== message) message = subbedError;
+
+      this.CanSend = false;
+    }
+
+    $a.HidePageLoader();
+    
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+
+    this._checkDocSignButtons();
+  }
+
+  _postDocCancelError(error)
+  {
+    if (this.CleverForms.IsErrorPage(error))
+    {
+      console.log('_postDocCancelError');
+      console.log(this.CleverForms.GetErrorPageOutputString(error));
+      console.log('');
+    }
+
+    // TODO: Check and process errors
+
+    $a.HidePageLoader();
+
+    this.CanSend = false;
+
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+
+    // TODO: Check and process errors
+    var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
+    if (subbedError !== message) message = subbedError;
+
+    $a.Dialog.Show({
+      message: message,
+      showOk: true,
+      showCancel: false,
+      showInput: false,
+      textAlign: 'left'
+    });
+
+    this._checkDocSignButtons();
+  }
+
+  /**/
+
+  _getMissingFieldsMessage(fields)
+  {
+    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', invalidList = null, missingList = null, fields, fieldRow, fieldLabel, fieldNode;
+
+    fields.forEach(function (fieldData)
+    {
+      if (document.querySelector('div[data-name="{0}"]'.format(fieldData.QuestionName)))
+      {
+        fieldRow = document.querySelector('div[data-name="{0}"]'.format(fieldData.QuestionName));
+        fieldLabel = fieldRow.querySelector('label') ? fieldRow.querySelector('label').innerText.trim() : '';
+        fieldNode = fieldRow.querySelector('input, select, textarea');
+        fieldRow.classList.add('error');
+        if (fieldLabel !== '') invalidFields.push(fieldLabel);
+        else invalidFields.push(fieldData.FieldName);
+      }
+      else
+      {
+        missingFields.push(fieldData.FieldName);
+      }
+    }.bind(this));
+
+    if (invalidFields.length + missingFields.length > 0)
+    {
+      if (invalidFields.length + missingFields.length > 14)
+      {
+        if (invalidFields.length > 0)
+        {
+          invalidList = '<div class="indent">' + invalidFields.join(', ') + '</div>';
+        }
+        if (missingFields.length > 0)
+        {
+          missingList = '<div class="indent">' + missingFields.join(', ') + '</div>';
+        }
+      }
+      else
+      {
+        if (this.ShortenFieldLists)
+        {
+          if (invalidFields.length > 7)
+          {
+            fields = invalidFields.slice(0, 5);
+            fields.push('...');
+            fields.push(invalidFields[invalidFields.length - 1]);
+            invalidFields = fields;
+          }
+          if (missingFields.length > 7)
+          {
+            fields = missingFields.slice(0, 5);
+            fields.push('...');
+            fields.push(missingFields[missingFields.length - 1]);
+            missingFields = fields;
+          }
+        }
+        if (invalidFields.length > 0)
+        {
+          invalidList = invalidFields.join('<br>' + tab);
+        }
+        if (missingFields.length > 0)
+        {
+          missingList = missingFields.join('<br>' + tab);
+        }
+      }
+    }
+
+    if (invalidList !== null)
+    {
+      message += '{prefix}<br>{tab}{list}<br>{suffix}'.format({
+        tab: tab,
+        prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields'),
+        list: invalidList,
+        suffix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_invalid_fields_message')
+      });
+    }
+
+    if (missingList !== null)
+    {
+      if (invalidList !== null) message += '<br><br>';
+      message += '{prefix}<br>{tab}{list}<br>{suffix}'.format({
+        tab: tab,
+        prefix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields'),
+        list: missingList,
+        suffix: $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_missing_fields_message'),
+      });
+    }
+
+    return message;
+  }
+
+  _returnBackendErrors(error)
+  {
+    var errorStr = error, langPath, num, max;
+    error = error.toLowerCase().trim();
+
+    if (
+      error == 'send error'
+      || error.contains('Error while sending signature request') // og
+      || error.contains('send your request. Please try again later') // jody
+    )
+    {
+      langPath = 'app.cf.backend_sub_errors.send_error';
+      errorStr = $a.Lang.ReturnPath(langPath);
+    }
+
+    if (
+      error == 'deleted'
+      || error.contains('This resource has been deleted') // og
+      || error.contains('already been cancelled') // jody
+    )
+    {
+      langPath = 'app.cf.backend_sub_errors.deleted';
+      errorStr = $a.Lang.ReturnPath(langPath);
+    }
+
+    if (
+      error == 'cancel error: already completed'
+      || error.contains('???') // og
+      || error.contains('???') // jody
+    )
+    {
+      langPath = 'app.cf.backend_sub_errors.cancel_error_already_completed';
+      errorStr = $a.Lang.ReturnPath(langPath);
+    }
+
+    if (
+      error.startsWith('not enough recipients. required:')
+      || error.contains('you need to provide ') // og
+      //|| error.contains('???') // jody
+    )
+    {
+      num = 1;
+      if (!isNaN(parseInt(error.replace(/\D/g, '')))) num = parseInt(error.replace(/\D/g, ''));
+      if (error.contains(':')) num = parseInt(error.split(':')[1]);
+      langPath = 'app.cf.backend_sub_errors.not_enough_recipients';
+      errorStr = $a.Lang.ReturnPath(langPath, { num: num });
+    }
+
+    if (
+      error.startsWith('too many recipients. max required:')
+      || error.contains('you have entered more than the required') // og
+      || error.contains('please remove the extra signatories') // jody
+    )
+    {
+      max = 1;
+      if (!isNaN(parseInt(error.replace(/\D/g, '')))) max = parseInt(error.replace(/\D/g, ''));
+      if (error.contains(':')) max = parseInt(error.split(':')[1]);
+      langPath = 'app.cf.backend_sub_errors.too_many_recipients_1_required';
+      if (max > 1) langPath = 'app.cf.backend_sub_errors.too_many_recipients_n_required';
+      errorStr = $a.Lang.ReturnPath(langPath, { max: max });
+    }
+
+    return errorStr;
+  }
+
+  _setReadyOnly()
+  {
+    //if (this.FormRowNode && this.FormRowNode.classList.contains('error')) this.FormRowNode.classList.remove('error');
+    if (this.DocSignSelectNode)
+    {
+      this.DocSignSelectNode.setAttribute('disabled', 'disabled');
+      if (
+        this.DocSignSelectNode.hasOwnProperty('widgets')
+        && this.DocSignSelectNode.widgets.hasOwnProperty('Autocomplete')
+        && $a.isNode(this.DocSignSelectNode.widgets.Autocomplete.displayNode)
+      )
+      {
+        this.DocSignSelectNode.widgets.Autocomplete.displayNode.setAttribute('disabled', 'disabled');
+      }
+    }
+    if (this.FormRowNode && this.FormRowNode.querySelector('.docsign-row input.sv'))
+    {
+      this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node)
+      {
+        node.setAttribute('disabled', 'disabled');
+      });
+    }
+  }
+
+  _unsetReadyOnly()
+  {
+    if (this.DocSignSelectNode)
+    {
+      this.DocSignSelectNode.removeAttribute('disabled');
+      if (
+        this.DocSignSelectNode.hasOwnProperty('widgets')
+        && this.DocSignSelectNode.widgets.hasOwnProperty('Autocomplete')
+        && $a.isNode(this.DocSignSelectNode.widgets.Autocomplete.displayNode)
+      )
+      {
+        this.DocSignSelectNode.widgets.Autocomplete.displayNode.removeAttribute('disabled');
+      }
+    }
+    if (this.FormRowNode && this.FormRowNode.querySelector('.docsign-row input.sv'))
+    {
+      this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node)
+      {
+        node.removeAttribute('disabled');
+      });
+    }
+    this._checkRecipientValidation();
+  }
+
+  _checkRecipientValidation()
+  {
+    if (this.FormRowNode && this.DocSignSelectNode.value !== '') // hanlde email and id validation
+    {
+      var hasError = false;
+      var hasGoodRecipient = false;
+      var recipientNodes = this.FormRowNode.querySelectorAll('.docsign-row input.sv');
+      for (var r = 0; r < recipientNodes.length; r++)
+      {
+        if (recipientNodes[r] && recipientNodes[r].value.trim() !== '' && recipientNodes[r].classList.contains('error'))
+        {
+          hasError = true;
+          break;
+        }
+        if (recipientNodes[r] && recipientNodes[r].value.trim() !== '' && !recipientNodes[r].classList.contains('error'))
+        {
+          hasGoodRecipient = true;
+        }
+      }
+      if (hasError || !hasGoodRecipient)
+      {
+        this.PostDocButtonNode.classList.add('disabled');
+        return;
+      }
+      if (!hasError && hasGoodRecipient)
+      {
+        this.PostDocButtonNode.classList.remove('disabled');
+      }
+    }
+    if (this.FormRowNode && this.DocSignSelectNode.value === '')
+    {
+      this.PostDocButtonNode.classList.add('disabled');
+    }
+  }
+
+  _checkDocSignButtons()
+  {
+    if (this.CanSend)
+    {
+      this.PostDocCancelButtonNode.classList.add('disabled');
+      this.PostDocCancelButtonNode.classList.remove('hidden');
+      this.PostDocButtonNode.classList.remove('disabled');
+      this.PostDocButtonNode.classList.remove('hidden');
+      this._unsetReadyOnly();
+    }
+    else
+    {
+      this.PostDocCancelButtonNode.classList.remove('disabled');
+      this.PostDocCancelButtonNode.classList.remove('hidden');
+      this.PostDocButtonNode.classList.add('disabled');
+      this.PostDocButtonNode.classList.add('hidden');
+      this._setReadyOnly();
+    }
+  }
+
+  /**/
+
+  _templates ()
+  {
+    super._templates();
+
+    this.HtmlEditTemplate = `
+    <div class="edit-row">
+      <label>{templateLabel}</label>
+      <div class="select working">
+        <select class="docsign-template-ids"></select>
+      </div>
+      <span class="docsign-error red inline hidden"></span>
+      <p class="desc docsign-template-desc"></p>
+    </div>
+    `;
+
+    this.HtmlRowTemplate = `
+    <div class="form-row">
+      <label>{0}</label>
+      <div class="docsign-fields">
+        <div class="docsign-row">
+          <label>{templateLabel}</label>
+          <div class="select">
+            <select class="docsign-template-ids"></select>
+          </div>
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 1{required}</label>
+          <input type="text" class="ui-has-email no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 2</label>
+          <input type="text" class="ui-has-email required-override no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 3</label>
+          <input type="text" class="ui-has-email required-override no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label>{recipientLabel} 4</label>
+          <input type="text" class="ui-has-email required-override no-row-error" value="" />
+        </div>
+        <div class="docsign-row">
+          <label></label>
+          <div class="row-inline-buttons">
+            <div class="button grey send-doc-cancel hidden"><span class="icon-cross"></span>{cancelLabel}</div>
+            <div class="button dark-blue send-doc hidden"><span class="icon-mail-tick"></span>{sendLabel}</div>
+          </div>
+      </div>
+      <span class="docsign-error red inline hidden"></span>
+    </div>
+    `;
+
+    this.HtmlEditExampleTemplate = `
+    <div class="default-form">
+      <div class="form-row row-documentsigning">
+        <label class="solo">{label}</label>
+        <div class="docsign-fields">
+          <div class="docsign-row">
+            <label>{templateLabel}</label>
+            <div class="select">
+              <select class="">
+                <option>Employee Contract</option>
+              </select>
+            </div>
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 1</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 2</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 3</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label>{recipientLabel} 4</label>
+            <input type="text" class="ui-has-email no-row-error" value="name@email.com" />
+          </div>
+          <div class="docsign-row">
+            <label></label>
+            <div class="row-inline-buttons">
+              <div class="button grey send-doc-cancel"><span class="icon-cross"></span>{cancelLabel}</div>
+              <div class="button dark-blue send-doc"><span class="icon-mail-tick"></span>{sendLabel}</div>
+            </div>
+          </div>
+        <div>
+      </div>
     `;
 
   }
@@ -25331,7 +26705,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.Ready = false;
 
     targetNode.classList.remove('ui-has-address');
-    targetNode.classList.add('ui-address');
+    targetNode.classList.add('ui-address', 'no-validate');
 
     this.lookupNode = targetNode;
     this.lookupNode.classList.add('ui-address-lookup');
@@ -28582,7 +29956,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
 
     targetNode.classList.remove('ui-has-banknumber');
-    targetNode.classList.add('ui-banknumber');
+    targetNode.classList.add('ui-banknumber', 'no-validate');
     
     this.initInputNode = targetNode;
     this.initInputNode.type = 'hidden';
@@ -36047,7 +37421,10 @@ Affinity2018.Classes.Plugins.StringWidget = class
   _isRequired()
   {
     var formRow = Affinity2018.getParent(this.InputNode, '.form-row');
-    if (this.InputNode.classList.contains('required') || (formRow && formRow.classList.contains('required'))) return true;
+    if (this.InputNode.classList.contains('required') || (formRow && formRow.classList.contains('required')))
+    {
+      if (!this.InputNode.classList.contains('required-override')) return true;
+    }
     return false;
   }
 
@@ -36057,6 +37434,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
         parentRow = Affinity2018.getParent(this.InputNode, '.form-row'),
         event = ev && ev.type === 'keyup' ? 'keyboard' : 'none',
         extraspace = false,
+        required = this._isRequired(),
         pattern, warning;
 
     this.Valid = true;
@@ -36094,6 +37472,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
     }
 
     var isValid = true;
+
     if (this['_' + this.type + 'Test'] && typeof this['_' + this.type + 'Test'] === 'function')
     {
       if (value !== '' && this['_' + this.type + 'Test'](value, pattern)) isValid = true;
@@ -36102,23 +37481,31 @@ Affinity2018.Classes.Plugins.StringWidget = class
     {
       if (value !== '' && !new RegExp(pattern).test(value)) isValid = false;
     }
-    if (value === '' && this._isRequired()) isValid = false;
+
+    if (value === '' && required)
+    {
+      isValid = false;
+    }
 
     if (value.length < this.MinLength || value.length > this.MaxLength)
     {
       isValid = false;
       extraspace = false;
       if (this.MinLength === 1 || this.MinLength === 0 || this.MinLength === Number.MIN_SAFE_INTEGER)
+      {
         warning = 'This must be shorter than ' + (this.MaxLength + 1) + ' character(s)';
+      }
       else
+      {
         warning = 'This must be between ' + this.MinLength + ' and ' + this.MaxLength + ' characters long.';
+      }
     }
 
     if (!isValid)
     {
       this.InputNode.classList.add('error');
-      if (parentRow) parentRow.classList.add('error');
-      if (parentRow && extraspace) parentRow.classList.add('error2');
+      if (parentRow && !this.InputNode.classList.contains('no-row-error')) parentRow.classList.add('error');
+      if (parentRow && !this.InputNode.classList.contains('no-row-error') && extraspace) parentRow.classList.add('error2');
       this.ShowError(warning);
       this.Valid = false;
     }
@@ -36319,7 +37706,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var showCountryNode = true;
 
     targetNode.classList.remove('ui-has-taxnumber');
-    targetNode.classList.add('ui-taxnumber');
+    targetNode.classList.add('ui-taxnumber', 'no-validate');
 
     this.initInputNode = targetNode;
     this.initInputNode.type = 'hidden';
