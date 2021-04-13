@@ -20574,11 +20574,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     // if this IS required ....
     if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
     {
-      console.log(this.Config);
       if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
       {
-        if (!this.Config.Details.Value.hasOwnProperty('CanSend')) return false; // CanSend does not exist, so must not have been sent - this must be sent first, so fail
-        if (this.Config.Details.Value.hasOwnProperty('CanSend') && !this.Config.Details.Value.CanSend) return false; // CanSend is there, but is true - this must be sent first, so fail
+
+        if (!this.Config.Details.Value.hasOwnProperty('CanSend'))
+        {
+          return false; // CanSend does not exist, so must not have been sent yet - this must be sent first, so fail
+        }
+        else
+        {
+          if (this.Config.Details.Value.CanSend) return false; // CanSend is there, but is true - this must be sent first, so fail
+          else return true; // CanSenmd is false, whioch mneans it has ben sent, so all good
+        }
       }
       else
       {
