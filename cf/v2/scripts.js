@@ -20570,13 +20570,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   IsValid()
   {
-    if (!this.Config.Details.Required) return true;
-    if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0)
+    if (!this.Config.Details.Required) return true; // if not required, this does not need to be sent or have reciepients, etc, so is always valid
+    // if this IS required ....
+    if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
     {
       console.log(this.Config);
-      if (this.ValidOnlyIfSent)
+      if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
       {
-        if (!this.Config.Details.Value.CanSend) return true;
+        if (!this.Config.Details.Value.hasOwnProperty('CanSend')) return false; // CanSend does not exist, so must not have been sent - this must be sent first, so fail
+        if (this.Config.Details.Value.hasOwnProperty('CanSend') && !this.Config.Details.Value.CanSend) return false; // CanSend is there, but is true - this must be sent first, so fail
       }
       else
       {
@@ -20612,6 +20614,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         if (node && node.value.trim() !== '' && !node.classList.contains('error')) recipients.push(node.value.trim());
       });
     }
+    if (recipients.join('').trim() === '') return [];
     return recipients;
   }
 
