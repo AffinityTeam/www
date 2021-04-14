@@ -20899,10 +20899,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       {
         message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
         this.CanSend = false;
-
-        if ($a.isPropString(response.data, 'SignatureRequestId') && response.data.SignatureRequestId.trim() !== '') this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
-        if ($a.isPropBool(response.data, 'CanSend')) this.Config.Details.Value.CanSend = false;
+        this.Config.Details.Value.CanSend = false;
         this.Config.Details.Value.Recipients = this.LastPostedDocsignRecipients;
+        if ($a.isPropString(response.data, 'SignatureRequestId') && response.data.SignatureRequestId.trim() !== '') this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
 
         if (this.FormRowNode && this.FormRowNode.classList.contains('error')) this.FormRowNode.classList.remove('error');
         // TODO: Remove error marks
