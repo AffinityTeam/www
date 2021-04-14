@@ -20900,7 +20900,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
         this.CanSend = false;
 
-        if ($a.isPropString(response.data, 'SignatureRequestId') && !string.isNullOrEmpty(response.data.SignatureRequestId)) this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
+        if ($a.isPropString(response.data, 'SignatureRequestId') && response.data.SignatureRequestId.trim() !== '') this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
         if ($a.isPropBool(response.data, 'CanSend')) this.Config.Details.Value.CanSend = false;
         this.Config.Details.Value.Recipients = this.LastPostedDocsignRecipients;
 
@@ -20909,7 +20909,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if (response.data.hasOwnProperty('ErrorMessage') && !$a.isNullOrEmpty(response.data.ErrorMessage)) message = response.data.ErrorMessage;
+        if ($a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '') message = response.data.ErrorMessage;
         else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
         
         var subbedError = this._returnBackendErrors(message); // add error messgae string here
@@ -21028,7 +21028,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if (response.data.hasOwnProperty('ErrorMessage') && !$a.isNullOrEmpty(response.data.ErrorMessage)) message = response.data.ErrorMessage;
+        if (response.data.hasOwnProperty('ErrorMessage') && response.data.ErrorMessage.trim() === '') message = response.data.ErrorMessage;
         else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
 
         // TODO: Check and process errors
