@@ -20584,7 +20584,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         else
         {
           if (this.Config.Details.Value.CanSend) return false; // CanSend is there, but is true - this must be sent first, so fail
-          else return true; // CanSenmd is false, whioch mneans it has ben sent, so all good
+          else return true; // CanSend is false, which means it has been sent, so all good
         }
       }
       else
@@ -20692,15 +20692,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
           {
             this.CanSend = false;
           }
-          console.log('Config Value');
-          console.log(this.Config.Details.Value);
         }
-        else
-        {
-          console.log('Config');
-          console.log(this.Config);
-        }
-        console.log('');
 
         this.DocSignSelectWrapperNode.classList.remove('hidden');
         this.DocSignErrorNode.classList.add('hidden');
@@ -20798,11 +20790,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
   {
     if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
 
-    console.log('_idsFailed');
-    console.log(error);
-    console.log('');
-
-    // TODO: Check and process errors
     var error = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
     var subbedError = this._returnBackendErrors(error); // TODO: add error messgae string here
     if (subbedError !== error) error = subbedError;
@@ -20912,11 +20899,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       {
         message = $a.Lang.ReturnPath('app.cf.design_items.docsign_send_success');
         this.CanSend = false;
-        if (
-          response.data.hasOwnProperty('SignatureRequestId')
-          && $a.isString(response.data.SignatureRequestId)
-          && response.data.SignatureRequestId.trim() !== ''
-        ) this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
+
+        if ($a.isPropString(response.data, 'SignatureRequestId') && !string.isNullOrEmpty(response.data.SignatureRequestId)) this.Config.Details.Value.SignatureRequestId = response.data.SignatureRequestId;
+        if ($a.isPropBool(response.data, 'CanSend')) this.Config.Details.Value.CanSend = false;
+        this.Config.Details.Value.Recipients = this.LastPostedDocsignRecipients;
+
+        if (this.FormRowNode && this.FormRowNode.classList.contains('error')) this.FormRowNode.classList.remove('error');
         // TODO: Remove error marks
       }
       else
@@ -21031,6 +21019,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       {
         message = $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_success');
         this.CanSend = true;
+
+        if ($a.isPropBool(response.data, 'CanSend')) this.Config.Details.Value.CanSend = true;
+        this.Config.Details.Value.Recipients = this.LastPostedDocsignRecipients;
+
+        if (this.FormRowNode && this.FormRowNode.classList.contains('error')) this.FormRowNode.classList.remove('error');
         // TODO: Remove error marks
       }
       else
