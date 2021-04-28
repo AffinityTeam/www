@@ -10824,6 +10824,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     fieldLabel: ExisitngKeyLabel,
                     mode: ExisitngKeyModeName
                   });
+
+
                   Affinity2018.Dialog.Show({
                     message: message,
                     showOk: true,
@@ -18610,13 +18612,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       if (warnNodes.length > 0)
       {
-        var nodeLabels = [];
-        for (n = 0; n < warnNodes.length; n++) nodeLabels.push('&nbsp;&nbsp;&nbsp;&nbsp;' + warnNodes[n].controller.Config.Details.Label);
+        //var nodeLabels = [];
+        //for (n = 0; n < warnNodes.length; n++) nodeLabels.push('&nbsp;&nbsp;&nbsp;&nbsp;' + warnNodes[n].controller.Config.Details.Label);
+        //var message = 'You are changing "' + this.CleverForms.AffnityFieldModeEnums[orignalMode].Label + '" to "' + this.CleverForms.AffnityFieldModeEnums[mode].Label + '"';
+        //message += '<br /><br >Please review the fields below to match your change:';
+        //message += '<br /><br />' + nodeLabels.join('<br />');
+        //message += '<br /><br >Do you wish to continue?';
 
-        var message = 'You are changing "' + this.CleverForms.AffnityFieldModeEnums[orignalMode].Label + '" to "' + this.CleverForms.AffnityFieldModeEnums[mode].Label + '"';
-        message += '<br /><br >Please review the fields below to match your change:';
-        message += '<br /><br />' + nodeLabels.join('<br />');
-        message += '<br /><br >Do you wish to continue?';
+        var nodeLabels = [];
+        for (n = 0; n < warnNodes.length; n++) nodeLabels.push(warnNodes[n].controller.Config.Details.Label);
+        var tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        var nodeLablesList = nodeLabels.join('<br>' + tab);
+        if (nodeLabels.length > 11)
+        {
+          var fields = nodeLabels.slice(0, 10);
+          fields.push('...');
+          fields.push(nodeLabels[nodeLabels.length - 1]);
+          nodeLabels = fields;
+          nodeLablesList = '<div class="indent">' + nodeLabels.join(', ') + '</div>';
+        }
+        
+        var message = $a.Lang.ReturnPath('app.cf.designer.affinityfield_mode_switch_keys', {
+          modeFrom: this.CleverForms.AffnityFieldModeEnums[orignalMode].Label,
+          modeTo: this.CleverForms.AffnityFieldModeEnums[mode].Label,
+          keylist: nodeLablesList
+        });
 
         Affinity2018.Dialog.Show({
           message: message,
@@ -18732,9 +18752,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       // TODO: Temp fix - we need "RequiresKeys" arrays in each of a "RequiresKeys" array's children (list of names rather than full obejcts will do)
       // so if the referenceMode is Edit, I can check if we are a lookup or a "key with no requires keys" to determine if we should be a select.
-        // SO!! for now, let's assume all MasterFile KEYS are selesct if reference mode is Edit.
-        //if we added Display field we set SELECT of the key as we dont have Display mode on the key anymore
-        if (referenceMode === editMode && this.CleverForms.IsMasterFile(refernceConfig) || this.CleverForms.IsKey(config) && referenceMode === displayMode) referenceMode = selectMode;
+      // SO!! for now, let's assume all MasterFile KEYS are selesct if reference mode is Edit.
+      //if we added Display field we set SELECT of the key as we dont have Display mode on the key anymore
+      if (referenceMode === editMode && this.CleverForms.IsMasterFile(refernceConfig) || this.CleverForms.IsKey(config) && referenceMode === displayMode) referenceMode = selectMode;
       else if (!this.CleverForms.IsMasterFile(refernceConfig) && (this.CleverForms.IsLookup(config) || this.CleverForms.IsGlobalKey(config)) && referenceMode === createMode) referenceMode = selectMode;
       //if ([createMode, editMode].contains(referenceMode) && this.CleverForms.IsLookup(config)) referenceMode = selectMode;
       //else if (referenceMode === editMode && this.CleverForms.IsGlobalKey(config)) referenceMode = selectMode;
