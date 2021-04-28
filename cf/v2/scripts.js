@@ -15,24 +15,24 @@
 (3964,36-41): run-time error JS1195: Expected expression: class
 (4077,30-35): run-time error JS1195: Expected expression: class
 (4182,31-36): run-time error JS1195: Expected expression: class
-(4420,35-40): run-time error JS1195: Expected expression: class
-(4548,33-38): run-time error JS1195: Expected expression: class
-(4755,39-40): run-time error JS1014: Invalid character: `
-(4755,40-41): run-time error JS1195: Expected expression: <
-(4755,100-101): run-time error JS1014: Invalid character: `
-(4774,43-44): run-time error JS1014: Invalid character: `
-(4774,44-45): run-time error JS1195: Expected expression: <
-(4774,108-109): run-time error JS1014: Invalid character: `
-(4842,33-38): run-time error JS1195: Expected expression: class
-(5138,32-37): run-time error JS1195: Expected expression: class
-(5504,33-38): run-time error JS1195: Expected expression: class
-(5582,37-42): run-time error JS1195: Expected expression: class
-(5583,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(4421,35-40): run-time error JS1195: Expected expression: class
+(4549,33-38): run-time error JS1195: Expected expression: class
+(4760,39-40): run-time error JS1014: Invalid character: `
+(4760,40-41): run-time error JS1195: Expected expression: <
+(4760,100-101): run-time error JS1014: Invalid character: `
+(4779,43-44): run-time error JS1014: Invalid character: `
+(4779,44-45): run-time error JS1195: Expected expression: <
+(4779,108-109): run-time error JS1014: Invalid character: `
+(4847,33-38): run-time error JS1195: Expected expression: class
+(5143,32-37): run-time error JS1195: Expected expression: class
+(5509,33-38): run-time error JS1195: Expected expression: class
+(5587,37-42): run-time error JS1195: Expected expression: class
+(5588,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5584,5-16): run-time error JS1006: Expected ')': constructor
-(5653,3-4): run-time error JS1002: Syntax error: }
-(5653,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5597,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5589,5-16): run-time error JS1006: Expected ')': constructor
+(5658,3-4): run-time error JS1002: Syntax error: }
+(5658,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5602,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -4303,6 +4303,7 @@
         if (segment === 'ts') segment = segment.replace('ts', 'timesheets');
         if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
         if (path.hasOwnProperty(segment)) path = path[segment];
+        else return false;
       }
       if (path !== null && path !== undefined) return true;
       return false;
@@ -4598,6 +4599,8 @@
       if (document.getElementById('dialog') && document.getElementById('dialog-bg')) this.enabled = true;
       else return false;
 
+      this.Open = false;
+
       this.default = {
         message: 'Default message',
         buttons: {
@@ -4709,6 +4712,7 @@
       this.dialogBgEl.classList.add('show');
       this.dialogEl.classList.add('show');
       this.Position();
+      this.Open = true;
     }
 
     Hide()
@@ -4719,6 +4723,7 @@
       this.dialogEl.classList.remove('show');
       this.data.onClose();
       this._resetTimeout = setTimeout(this.Reset, 300);
+      this.Open = false;
     }
 
     _setMessage()
@@ -15824,6 +15829,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               this._postComplete();
               return true;
             }
+            else
+            {
+              this._postFailed(this.PostData, false, response);
+              return true;
+            }
           }
           this._postFailed(this.PostData, checkForError);
           return true;
@@ -15855,52 +15865,63 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       rowNode.classList.remove('error', 'flash-error');
     });
 
+    var message = '';
+
+    /**/
+
+    response.data = {
+      "Success": false,
+      "ErrorMessages": [
+        "You have an invalid Tax Number",
+        "You're not allowed to process this form"
+      ],
+      "DuplicateRecords": [
+        {
+          "ModelName": "Employee",
+          "KeyFields": [
+            {
+              "EmployeeNo": "100"
+            }
+          ]
+        },
+        {
+          "ModelName": "Position",
+          "KeyFields": [
+            {
+              "PositionCode": "P001"
+            }
+          ]
+        },
+        {
+          "ModelName": "Sdates",
+          "KeyFields": [
+            {
+              "EmployeeNo": "100",
+              "SdatesDate": "10.12.20202",
+              "Reason": "REASON"
+            }
+          ]
+        }
+      ]
+    };
+
+    if (
+      $a.isPropObject(response, 'data')
+      && $a.isPropBool(response.data, 'Success')
+      && !response.data.Success
+      && $a.isPropArray(response.data, 'ErrorMessages')
+      && response.data.ErrorMessages.length > 0
+    ) this.PostedErrors = response.data.ErrorMessages;
+
     if (
       $a.isPropObject(response, 'data')
       && $a.isPropBool(response.data, 'Success')
       && !response.data.Success
       && $a.isPropArray(response.data, 'Data')
       && response.data.Data.length > 0
-    )
-    {
-      this.PostedErrors = response.data.Data;
-      //var message = 'Oops! ' + (this.PostedErrors.length === 0 ? 'There is an error' : 'There are errors') + ' in this form that needs attention:<br /><br />';
-      var message;
-      if (this.PostedErrors.length === 0) message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_error');
-      else message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_errors');
+    ) this.PostedErrors = response.data.Data;
 
-      if (this.PostedErrors.length >= 2)
-      {
-        var reg = new RegExp(/^(.*)\s?[.,:]{1}$/m);
-        for (var i = 0; i < this.PostedErrors.length; i++)
-        {
-          if (reg.test(this.PostedErrors[i])) this.PostedErrors[i] = this.PostedErrors[i].substr(0, this.PostedErrors[i].length - 1);
-        }
-        var last = this.PostedErrors[this.PostedErrors.length - 1];
-        last = last[0].toLowerCase() + last.substr(1);
-        var remaining = $a.jsonCloneObject(this.PostedErrors);
-        remaining.splice(remaining.indexOf(last), 1);
-        message += remaining.join(',<br />');
-        message += ',<br />And, ' + last + '<br /><br />';
-      }
-      else
-      {
-        message += this.PostedErrors[0];
-      }
-      Affinity2018.Dialog.Show({
-        message: message,
-        showOk: true,
-        showCancel: false,
-        showInput: false,
-        textAlign: 'left',
-        buttons: {
-          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-          cancel: { show: false }
-        }
-      });
-    }
-
-    if (this.PostedErrors > 0) return false;
+    if (this.PostedErrors.length > 0) return false;
 
     return true;
   }
@@ -16001,20 +16022,150 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _postFailed (data, errorMessage)
+  _postFailed (data, errorMessage, response)
   {
     console.groupEnd();
     clearTimeout(this._postFailedThrottle);
     this._postFailedThrottle = setTimeout(function ()
     {
-      if (this.CleverForms.IsErrorPage(errorMessage))
+
+      /**
+      response.data = {
+        "Success": false,
+        "ErrorMessages": [
+          "You have an invalid Tax Number",
+          "You're not allowed to process this form"
+        ],
+        "DuplicateRecords": [
+          {
+            "ModelName": "Employee",
+            "KeyFields": [
+              {
+                "EmployeeNo": "100"
+              }
+            ]
+          },
+          {
+            "ModelName": "Position",
+            "KeyFields": [
+              {
+                "PositionCode": "P001"
+              }
+            ]
+          },
+          {
+            "ModelName": "Sdates",
+            "KeyFields": [
+              {
+                "EmployeeNo": "100",
+                "SdatesDate": "10.12.20202",
+                "Reason": "REASON"
+              }
+            ]
+          }
+        ]
+      };
+      /**/
+
+      var logError = true;
+
+      if (!errorMessage) errorMessage = '';
+      else if (this.CleverForms.IsErrorPage(errorMessage))errorMessage = this.CleverForms.GetErrorPageOutputString(response);
+      
+      var message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail', { message: errorMessage });
+
+      if (
+        response !== null
+        && response !== undefined
+        && $a.isPropObject(response, 'data')
+        && $a.isPropBool(response.data, 'Success')
+        && !response.data.Success
+      )
       {
-        errorMessage = this.CleverForms.GetErrorPageOutputString(response);
+        if ($a.isPropArray(response.data, 'ErrorMessages'))
+        {
+          if (response.data.ErrorMessages.length > 0) this.PostedErrors = response.data.ErrorMessages;
+          if (this.PostedErrors.length === 0) message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_error');
+          else message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_errors') + '<br>' + this.PostedErrors.join('<br>');
+          var prefix = '';
+          for (var key in response.data)
+          {
+            if (
+              response.data.hasOwnProperty(key)
+              && !['Success', 'ErrorMessages'].contains(key)
+              && $a.isArray(response.data[key])
+              && response.data[key].length > 0
+            )
+            {
+              var keyLangName = key.toLowerCase().trim();
+              if ($a.Lang.CheckPath('app.cf.generic_errors.' + keyLangName)) prefix = $a.Lang.ReturnPath('app.cf.generic_errors.' + keyLangName);
+              if (prefix != '') message += '<br><br>' + prefix + '';
+              var modelNames = [];
+              for (var m = 0; m < response.data[key].length; m++)
+              {
+                if (response.data[key][m].hasOwnProperty('ModelName'))
+                {
+                  var modelName = response.data[key][m].ModelName.toLowerCase();
+                  if ($a.Lang.CheckPath('app.cf.backend_sub_names.' + modelName)) modelNames.push($a.Lang.ReturnPath('app.cf.backend_sub_names.' + modelName));
+                  else modelNames.push(modelName.toTitleCase());
+                }
+              }
+            }
+          }
+          if (response.data.ErrorMessages.length > 0 || modelNames.length > 0)
+          {
+            var tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
+            if (modelNames.length > 0)
+            {
+              message += '<br>';
+              var modelNameList = modelNames.join('<br>' + tab);
+              if (modelNames.length > 11)
+              {
+                var names = modelNames.slice(0, 10);
+                names.push('...');
+                names.push(modelNames[modelNames.length - 1]);
+                modelNames = names;
+                modelNameList = '<div class="indent">' + modelNames.join(', ') + '</div>';
+              }
+              message += modelNameList;
+            }
+            errorMessage = message;
+            logError = false;
+          }
+        }
+        else if ($a.isPropArray(response.data, 'Data') && response.data.Data.length > 0)
+        {
+          this.PostedErrors = response.data.Data;
+          //var message = 'Oops! ' + (this.PostedErrors.length === 0 ? 'There is an error' : 'There are errors') + ' in this form that needs attention:<br /><br />';
+      
+          if (this.PostedErrors.length === 0) message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_error');
+          else message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_errors');
+
+          if (this.PostedErrors.length >= 2)
+          {
+            var reg = new RegExp(/^(.*)\s?[.,:]{1}$/m);
+            for (var i = 0; i < this.PostedErrors.length; i++)
+            {
+              if (reg.test(this.PostedErrors[i])) this.PostedErrors[i] = this.PostedErrors[i].substr(0, this.PostedErrors[i].length - 1);
+            }
+            var last = this.PostedErrors[this.PostedErrors.length - 1];
+            last = last[0].toLowerCase() + last.substr(1);
+            var remaining = $a.jsonCloneObject(this.PostedErrors);
+            remaining.splice(remaining.indexOf(last), 1);
+            message += remaining.join(',<br>');
+            message += ',<br>And, ' + last + '<br><br>';
+          }
+          else
+          {
+            message += this.PostedErrors[0];
+          }
+          errorMessage = message;
+          logError = false;
+        }
       }
 
       Affinity2018.Dialog.Show({
-        //message: 'Oh no! We had trouble submitting your form.<!-- ' + errorMessage + ' -->',
-        message: $a.Lang.ReturnPath('app.cf.form.error_template_post_fail', { message: errorMessage }),
+        message: message,
         showOk: true,
         showCancel: false,
         showInput: false,
@@ -16022,12 +16173,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         textAlign: 'left',
         buttons: {
           ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-          cancel: { shoe: false }
+          cancel: { show: false }
         }
       });
-      if (data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
 
-      console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage));
+      if (logError && data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
+      if (logError) console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' ')));
 
       $a.HidePageLoader();
     }.bind(this), 500);
