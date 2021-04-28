@@ -14201,11 +14201,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     * @public
     */
     this.LogElementOutput = false;
-    
+
     this.RequestCheckCount = 0;
     this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
 
     this.Ready = false;
+
+    this.TestErrorStub = false;
+
   }
 
 
@@ -14402,7 +14405,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     if (Affinity2018.Classes.Apps.CleverForms.Elements.hasOwnProperty(type))
     {
       logs.push('form has object for ' + type);
-      
+
       var readonly = data.Details.hasOwnProperty('IsReadOnly') ? data.Details.IsReadOnly : false;
       // NO MUTATORS!!!
       var config = this.CleverForms.BackfillConfig($a.jsonCloneObject(data));
@@ -14492,7 +14495,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     }
   }
 
-  Save (suppressMessgae)
+  Save(suppressMessgae)
   {
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
     this._post(buttonData, suppressMessgae);
@@ -14684,7 +14687,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _loadTemplateError()
   {
-    var message =  $a.Lang.ReturnPath('app.cf.form.error_template_get_fail');
+    var message = $a.Lang.ReturnPath('app.cf.form.error_template_get_fail');
     Affinity2018.HidePageLoader();
     Affinity2018.LogError('Form Error', 'Critical', 'Could not load form data. Form init failed.');
     Affinity2018.Dialog.Show({
@@ -15139,14 +15142,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (['Preview'].contains(this.ViewType))
       {
         backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
-        backData.Color = 'blue';
+          backData.Color = 'blue';
         backData.Icon = 'brush';
         backData.Path = null;
       }
       if (['Form', 'ViewOnly'].contains(this.ViewType))
       {
         backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
-        backData.Color = 'blue';
+          backData.Color = 'blue';
         backData.Icon = 'empty-inbox';
         backData.Path = null;
       }
@@ -15155,17 +15158,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     buttons.push(backData);
 
     this._gotWorkflowButtons(buttons);
-    
+
   }
 
 
-   
+
   /**
    * Summary. Workflow buttons data loaded, so render them
    * @this    Class scope
    * @access  private
    */
-  _gotWorkflowButtons (buttonData)
+  _gotWorkflowButtons(buttonData)
   {
     if ($a.isArray(buttonData) && buttonData.length > 0)
     {
@@ -15181,7 +15184,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         else // button
         {
           id = 'button-' + $a.uuid();
-          
+
           if (data.Path === null)
           {
             template = this.buttonTemplate.format(data);
@@ -15206,7 +15209,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (data.ActionType === 'post') buttonNode.addEventListener('click', this._submit);
           if (data.ActionType === 'print') buttonNode.addEventListener('click', this._print);
           if (data.ActionType === 'back') buttonNode.addEventListener('click', this._close);
-          
+
           target.appendChild(buttonNode);
 
           if (data.Type === 'WorkflowButton')
@@ -15274,26 +15277,26 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
-   
+
   /**
    * Summary. Workflow buttons load failed
    * @this    Class scope
    * @access  private
    */
-  _getWorkflowButtonsFailed ()
+  _getWorkflowButtonsFailed()
   {
     //this._ready();
     Affinity2018.HidePageLoader();
   }
 
 
-   
+
   /**
    * Summary. IdentitySelect changed
    * @this    Class scope
    * @access  private
    */
-  _checkIdentitySelects ()
+  _checkIdentitySelects()
   {
     var show = false;
     var selectNodes = document.querySelectorAll('.identity');
@@ -15304,11 +15307,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         if (selectNode.value !== Affinity2018.UserProfile.UserGuid) show = true;
       });
     }
-    if (show) this._showComments(); 
+    if (show) this._showComments();
   }
 
 
-   
+
   /**
    * Summary. Show comments section
    * @this    Class scope
@@ -15325,7 +15328,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
-   
+
   /**
    * Summary. Hide comments section
    * @this    Class scope
@@ -15333,7 +15336,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _hideComments()
   {
-    if ($a.isNode(this.CommentNode))  this.CommentNode.classList.add('hide');
+    if ($a.isNode(this.CommentNode)) this.CommentNode.classList.add('hide');
   }
 
 
@@ -15351,24 +15354,24 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   /*************************************************************************************************************************** Source63 *** submit ***/
 
 
-   
+
   /**
    * Summary. Submit (Workflow button clicked)
    * @this    Class scope
    * @access  private
    */
-  _submit (ev)
+  _submit(ev)
   {
 
     if ($a.isEvent(ev)) $a.stopEvent(ev);
 
     var button = $a.getEventNode(ev, 'button'),
-        buttonData = button.buttonData,
-        firstErrorRow = { row: false, index: 999999 },
-        firstRequiredErrorRow = { row: false, index : 999999 },
-        scrollTarget = false,
-        scrollDelay = 0,
-        formElement, elemntRow, key, widget;
+      buttonData = button.buttonData,
+      firstErrorRow = { row: false, index: 999999 },
+      firstRequiredErrorRow = { row: false, index: 999999 },
+      scrollTarget = false,
+      scrollDelay = 0,
+      formElement, elemntRow, key, widget;
 
     $a.ShowPageLoader();
 
@@ -15647,7 +15650,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _save (ev)
+  _save(ev)
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
@@ -15671,13 +15674,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   /***************************************************************************************************************************** Source63 *** post ***/
 
 
-   
+
   /**
    * Summary. Gather all post data from form
    * @this    Class scope
    * @access  private
    */
-  _getPostData ()
+  _getPostData()
   {
     this.PostData = {
       Sections: []
@@ -15730,13 +15733,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
-  
+
   /**
    * Summary. Post the form
    * @this    Class scope
    * @access  private
    */
-  _post (buttonData, suppressMessage)
+  _post(buttonData, suppressMessage)
   {
     //buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '', StateType: 0}, 'object');
     buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '' }, 'object');
@@ -15781,19 +15784,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     }
     else
     {
-      this._postThen({ status: 200, config: { data: this.PostData }, data: { Success: true, Data: [] }  });
+      this._postThen({ status: 200, config: { data: this.PostData }, data: { Success: true, Data: [] } });
       //this._postThen({status: 200, config: { data: this.PostData }, data: { Success: false, Data: ['Some busted thing!','Some other broken thing.','The last messed up thing,'] }  });
     }
   }
 
 
-   
+
   /**
    * Summary. Post XHR request completed
    * @this    Class scope
    * @access  private
    */
-  _postThen (response)
+  _postThen(response)
   {
     if (this.CleverForms.IsErrorPage(response))
     {
@@ -15820,6 +15823,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
         if (requestData)
         {
+
+          if (this.TestErrorStub) response.data = this.TestErrorStub;
+
           var checkForError = this.CleverForms.CheckResponseForErrorPage(response.data);
           if (checkForError === 'OK')
           {
@@ -15868,49 +15874,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     /**/
 
-    response.data = {
-      "Success": false,
-      "ErrorMessages": [
-        "You have an invalid Tax Number",
-        "You're not allowed to process this form"
-      ],
-      "DuplicateRecords": [
-        {
-          "ModelName": "Employee",
-          "KeyFields": [
-            {
-              "EmployeeNo": "100"
-            }
-          ]
-        },
-        {
-          "ModelName": "Position",
-          "KeyFields": [
-            {
-              "PositionCode": "P001"
-            }
-          ]
-        },
-        {
-          "ModelName": "Sdates",
-          "KeyFields": [
-            {
-              "EmployeeNo": "100",
-              "SdatesDate": "10.12.20202",
-              "Reason": "REASON"
-            }
-          ]
-        }
-      ]
-    };
-
     if (
       $a.isPropObject(response, 'data')
       && $a.isPropBool(response.data, 'Success')
       && !response.data.Success
       && $a.isPropArray(response.data, 'ErrorMessages')
-      && response.data.ErrorMessages.length > 0
-    ) this.PostedErrors = response.data.ErrorMessages;
+      //&& response.data.ErrorMessages.length > 0
+    )
+    {
+      this.PostedErrors = response.data.ErrorMessages;
+      return false;
+    }
 
     if (
       $a.isPropObject(response, 'data')
@@ -16029,44 +16003,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this._postFailedThrottle = setTimeout(function ()
     {
 
-      /**
-      response.data = {
-        "Success": false,
-        "ErrorMessages": [
-          "You have an invalid Tax Number",
-          "You're not allowed to process this form"
-        ],
-        "DuplicateRecords": [
-          {
-            "ModelName": "Employee",
-            "KeyFields": [
-              {
-                "EmployeeNo": "100"
-              }
-            ]
-          },
-          {
-            "ModelName": "Position",
-            "KeyFields": [
-              {
-                "PositionCode": "P001"
-              }
-            ]
-          },
-          {
-            "ModelName": "Sdates",
-            "KeyFields": [
-              {
-                "EmployeeNo": "100",
-                "SdatesDate": "10.12.20202",
-                "Reason": "REASON"
-              }
-            ]
-          }
-        ]
-      };
-      /**/
-
       var logError = true;
 
       if (!errorMessage) errorMessage = '';
@@ -16088,6 +16024,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (this.PostedErrors.length === 0) message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_error');
           else message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_errors') + '<br>' + this.PostedErrors.join('<br>');
           var prefix = '';
+          var modelNames = [];
           for (var key in response.data)
           {
             if (
@@ -16100,7 +16037,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               var keyLangName = key.toLowerCase().trim();
               if ($a.Lang.CheckPath('app.cf.generic_errors.' + keyLangName)) prefix = $a.Lang.ReturnPath('app.cf.generic_errors.' + keyLangName);
               if (prefix != '') message += '<br><br>' + prefix + '';
-              var modelNames = [];
               for (var m = 0; m < response.data[key].length; m++)
               {
                 if (response.data[key][m].hasOwnProperty('ModelName'))
@@ -16118,7 +16054,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             if (modelNames.length > 0)
             {
               message += '<br>';
-              var modelNameList = modelNames.join('<br>' + tab);
+              var modelNameList = tab + modelNames.join('<br>' + tab);
               if (modelNames.length > 11)
               {
                 var names = modelNames.slice(0, 10);
