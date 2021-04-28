@@ -16024,6 +16024,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (this.PostedErrors.length === 0) message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_error');
           else message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail_with_errors') + '<br>' + this.PostedErrors.join('<br>');
           var prefix = '';
+          var suffix = ''
           var modelNames = [];
           for (var key in response.data)
           {
@@ -16037,6 +16038,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               var keyLangName = key.toLowerCase().trim();
               if ($a.Lang.CheckPath('app.cf.generic_errors.' + keyLangName)) prefix = $a.Lang.ReturnPath('app.cf.generic_errors.' + keyLangName);
               if (prefix != '') message += '<br><br>' + prefix + '';
+              if ($a.Lang.CheckPath('app.cf.generic_errors.' + keyLangName + '_suffix')) suffix = $a.Lang.ReturnPath('app.cf.generic_errors.' + keyLangName + '_suffix');
               for (var m = 0; m < response.data[key].length; m++)
               {
                 if (response.data[key][m].hasOwnProperty('ModelName'))
@@ -16065,6 +16067,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
               message += modelNameList;
             }
+            if (modelNames.length > 0 && suffix !== '') message += '<br><br>' + suffix;
+            if (modelNames.length === 0 && suffix !== '') message += '<br>' + suffix;
             errorMessage = message;
             logError = false;
           }
@@ -18709,7 +18713,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         var nodeLabels = [];
         for (n = 0; n < warnNodes.length; n++) nodeLabels.push(warnNodes[n].controller.Config.Details.Label);
         var tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
-        var nodeLablesList = nodeLabels.join('<br>' + tab);
+        var nodeLablesList = tab + nodeLabels.join('<br>' + tab);
         if (nodeLabels.length > 11)
         {
           var fields = nodeLabels.slice(0, 10);
