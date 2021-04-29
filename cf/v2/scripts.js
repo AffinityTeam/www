@@ -20804,10 +20804,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
             this.CanSend = false;
           }
         }
-        else if (this.CleverForms.Form.ViewType === 'ViewOnly'
-            && this.Config.Details.Value.hasOwnProperty('Recipients'))
+        else if (
+          this.FormMode
+          && this.CleverForms.Form.ViewType === 'ViewOnly'
+          && this.Config.Details.Value.hasOwnProperty('Recipients')
+        )
         {
-            recipientValues = this.Config.Details.Value.Recipients;
+          recipientValues = this.Config.Details.Value.Recipients;
         }
 
         this.DocSignSelectWrapperNode.classList.remove('hidden');
