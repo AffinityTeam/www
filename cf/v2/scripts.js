@@ -20727,9 +20727,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     var recipients = [];
     if (this.FormRowNode && this.FormRowNode.querySelector('.docsign-row input.sv'))
     {
-      this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node)
-      {
-        if (node && node.value.trim() !== '' && !node.classList.contains('error')) recipients.push(node.value.trim());
+      this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node) {
+        if (node && node.value.trim() !== '' && !node.classList.contains('error')) 
+        { 
+          recipients.push(
+            {
+              "EmailAddress": node.value.trim(),
+              "HasSigned":false,
+              "SignedAt":null
+            }
+          )
+        };
       });
     }
     if (recipients.join('').trim() === '') return [];
@@ -20886,7 +20894,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
             {
               recipientNodes[r].removeEventListener('keyup', this._checkDocSignButtons);
               recipientNodes[r].addEventListener('keyup', this._checkDocSignButtons);
-              if (recipientValues[r]) recipientNodes[r].value = recipientValues[r];
+              if (recipientValues[r]) {
+                recipientNodes[r].value = recipientValues[r].EmailAddress;
+              }
             }
 
             this.DocSignSelectNode.removeEventListener('change', this._checkDocSignButtons);
@@ -20984,6 +20994,26 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
         this.LastPostedDocsignTemplateId = this.GetSigningTemplateId();
         this.LastPostedDocsignRecipients = this.GetSigningRecipients();
+
+        this.LastPostedDocsignRecipients = this.LastPostedDocsignRecipients.map(recipients => {
+          if (typeof recipients === "string") {
+            return  {
+              "EmailAddress": recipients,
+              "HasSigned": false,
+              "SignedAt": null
+           }
+          } else {
+            return recipients
+          }
+        })
+
+        let data = {
+          InstanceId: this.CleverForms.GetInstanceGuid(),
+          ExternalTemplateId: this.LastPostedDocsignTemplateId,
+          QuestionName: this.Config.Name,
+          Recipients: this.LastPostedDocsignRecipients
+        }
+
         axios({
           method: 'post',
           url: this.CleverForms.DocumentSigningPostApi,
