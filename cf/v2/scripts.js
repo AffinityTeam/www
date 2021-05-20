@@ -20733,8 +20733,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
           recipients.push(
             {
               "EmailAddress": node.value.trim(),
-              "HasSigned":false,
-              "SignedAt":null
+              "HasSigned": node.recipientData ? node.recipientData.HasSigned : false,
+              "SignedAt": node.recipientData ? node.recipientData.SignedAt : null
             }
           )
         };
@@ -20896,6 +20896,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
               recipientNodes[r].addEventListener('keyup', this._checkDocSignButtons);
               if (recipientValues[r]) {
                 recipientNodes[r].value = recipientValues[r].EmailAddress;
+                recipientNodes[r].recipientData = recipientValues[r];
               }
             }
 
