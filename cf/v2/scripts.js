@@ -21004,16 +21004,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
               "SignedAt": null
            }
           } else {
-            return recipients
+              return recipients;
           }
         })
-
-        let data = {
-          InstanceId: this.CleverForms.GetInstanceGuid(),
-          ExternalTemplateId: this.LastPostedDocsignTemplateId,
-          QuestionName: this.Config.Name,
-          Recipients: this.LastPostedDocsignRecipients
-        }
 
         axios({
           method: 'post',
