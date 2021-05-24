@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2700,32-37): run-time error JS1195: Expected expression: class
-(3236,32-37): run-time error JS1195: Expected expression: class
-(3249,20-21): run-time error JS1004: Expected ';': {
-(3320,27-28): run-time error JS1004: Expected ';': {
-(3324,29-30): run-time error JS1004: Expected ';': {
-(3325,29-30): run-time error JS1004: Expected ';': {
-(3326,29-30): run-time error JS1004: Expected ';': {
-(3327,29-30): run-time error JS1004: Expected ';': {
-(3328,13-14): run-time error JS1004: Expected ';': {
-(3347,15-16): run-time error JS1004: Expected ';': {
-(3365,12-13): run-time error JS1004: Expected ';': {
-(3370,12-13): run-time error JS1004: Expected ';': {
-(3373,17-18): run-time error JS1004: Expected ';': {
-(3963,36-41): run-time error JS1195: Expected expression: class
-(4076,30-35): run-time error JS1195: Expected expression: class
-(4181,31-36): run-time error JS1195: Expected expression: class
-(4420,35-40): run-time error JS1195: Expected expression: class
-(4548,33-38): run-time error JS1195: Expected expression: class
-(4759,39-40): run-time error JS1014: Invalid character: `
-(4759,40-41): run-time error JS1195: Expected expression: <
-(4759,100-101): run-time error JS1014: Invalid character: `
-(4778,43-44): run-time error JS1014: Invalid character: `
-(4778,44-45): run-time error JS1195: Expected expression: <
-(4778,108-109): run-time error JS1014: Invalid character: `
-(4846,33-38): run-time error JS1195: Expected expression: class
-(5142,32-37): run-time error JS1195: Expected expression: class
-(5508,33-38): run-time error JS1195: Expected expression: class
-(5586,37-42): run-time error JS1195: Expected expression: class
-(5587,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2704,32-37): run-time error JS1195: Expected expression: class
+(3240,32-37): run-time error JS1195: Expected expression: class
+(3253,20-21): run-time error JS1004: Expected ';': {
+(3324,27-28): run-time error JS1004: Expected ';': {
+(3328,29-30): run-time error JS1004: Expected ';': {
+(3329,29-30): run-time error JS1004: Expected ';': {
+(3330,29-30): run-time error JS1004: Expected ';': {
+(3331,29-30): run-time error JS1004: Expected ';': {
+(3332,13-14): run-time error JS1004: Expected ';': {
+(3351,15-16): run-time error JS1004: Expected ';': {
+(3369,12-13): run-time error JS1004: Expected ';': {
+(3374,12-13): run-time error JS1004: Expected ';': {
+(3377,17-18): run-time error JS1004: Expected ';': {
+(3967,36-41): run-time error JS1195: Expected expression: class
+(4080,30-35): run-time error JS1195: Expected expression: class
+(4185,31-36): run-time error JS1195: Expected expression: class
+(4424,35-40): run-time error JS1195: Expected expression: class
+(4552,33-38): run-time error JS1195: Expected expression: class
+(4763,39-40): run-time error JS1014: Invalid character: `
+(4763,40-41): run-time error JS1195: Expected expression: <
+(4763,100-101): run-time error JS1014: Invalid character: `
+(4782,43-44): run-time error JS1014: Invalid character: `
+(4782,44-45): run-time error JS1195: Expected expression: <
+(4782,108-109): run-time error JS1014: Invalid character: `
+(4850,33-38): run-time error JS1195: Expected expression: class
+(5146,32-37): run-time error JS1195: Expected expression: class
+(5512,33-38): run-time error JS1195: Expected expression: class
+(5590,37-42): run-time error JS1195: Expected expression: class
+(5591,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5588,5-16): run-time error JS1006: Expected ')': constructor
-(5657,3-4): run-time error JS1002: Syntax error: }
-(5657,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5601,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5592,5-16): run-time error JS1006: Expected ')': constructor
+(5661,3-4): run-time error JS1002: Syntax error: }
+(5661,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5605,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1472,6 +1472,10 @@
         && obj.hasOwnProperty(prop)
         && Affinity2018.isFunction(obj[prop])
       )
+      {
+        return obj[prop];
+      }
+      if (typeof obj[prop] === 'function')
       {
         return obj[prop];
       }
@@ -10368,6 +10372,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       // public
 
       'Add',
+      'Delete',
 
       'LockAffinityNonMasterFileSection',
 
@@ -10601,6 +10606,31 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     }
 
     return false;
+  }
+
+
+
+  /**
+    * Summary. Delete an item
+    * @this    Class scope
+    * @access  public
+    *
+    * @param {Element} targetNode Form element that is being deleted
+    */
+  Delete(node)
+  {
+    if (node.classList.contains('.del'))
+    {
+      this._removeElementClicked({ target: node });
+    }
+    else if (node.querySelector('.del'))
+    {
+      this._removeElementClicked({ target: node.querySelector('.del') });
+    }
+    //if (node && node.hasOwnProperty('controller') && !node.controller.Saved)
+    //{
+    //  this._removeElement(node);
+    //}
   }
 
 
@@ -12274,10 +12304,30 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       node = this.RightListNode.querySelector('.item-' + config.UniqueName);
     }
 
-    if (node && node.hasOwnProperty('controller') && !node.controller.Saved)
+    if (node && node.hasOwnProperty('controller'))
     {
-      this._removeElement(node);
+      // not saved, so go ahead and remove
+      if (!node.controller.Saved)
+      {
+        this._removeElement(node);
+      }
+      // has been saved, so check for undo's
+      else
+      {
+        if ($a.isPropFunction(node.controller, 'CanCancel'))
+        {
+          if (node.controller.CanCancel())
+          {
+            this._removeElement(node);
+          }
+        }
+      }
     }
+
+    //if (node && node.hasOwnProperty('controller') && !node.controller.Saved)
+    //{
+    //  this._removeElement(node);
+    //}
   }
 
 
@@ -16338,6 +16388,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.Type = null;
     this.SectionName = null;
     this.Saved = false;
+    this.IsNewElement = false;
     this.Changed = true;
     this.Changes = [];
     this.Delete = false;
@@ -16395,6 +16446,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
       'CheckLabelOverflow',
 
+      'IsNew',
+
       '_getFileIds', '_setupFileNode', '_fileResized', '_fileUploaded', '_fileDeleted', '_fileDeleteFailed', '_fileWidgetReady',
 
       '_listSourceChanged', '_gotNewSourceList', '_gotNewSourceListFail', '_listBuilderModified',
@@ -16425,12 +16478,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       this.UniqueName = this.Config.Name;
       this.Name = this.Config.Name;
+      this.IsNewElement = false;
     }
     else
     {
       this.UniqueName = this.Type + '-' + $a.uuid();
       this.Name = this.UniqueName;
       this.Config.Name = this.Name;
+      this.IsNewElement = true;
     }
 
     if (this.Type === 'Section') this.SectionName = this.Name;
@@ -16466,7 +16521,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   Hide()
   {
@@ -16479,7 +16534,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   SetSection()
   {
@@ -16501,7 +16556,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   BackupConfig()
   {
@@ -16513,7 +16568,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   RestoreBackup()
   {
@@ -16526,7 +16581,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   SetDesignEditor()
   {
@@ -16724,7 +16779,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   UnsetDesignEditor()
   {
@@ -16763,7 +16818,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   GetFromDesignEditor(saveOnChanges) // saveOnChanges = true
   {
@@ -16857,7 +16912,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   /**
    * Summary. ?
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   RemoveDesignerElement()
   {
@@ -16871,6 +16926,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       return true;
     }
     return false
+  }
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  public
+   */
+  IsNew()
+  {
+    return this.IsNewElement;
   }
 
 
@@ -19262,6 +19328,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
     ].bindEach(this);
 
+    this.IsNew = super.IsNew();
+
     this._options();
     this._templates();
 
@@ -19323,6 +19391,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
         callback(node);
       }
     }
+  }
+
+  CanCancel ()
+  {
+    if (this.IsNew && this.Designer)
+    {
+      this.Designer.Delete(document.querySelector('.item-' + this.UniqueName));
+      return false;
+    }
+    if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
+    {
+      return true;
+    }
+    return false;
   }
 
   /**/
@@ -20730,19 +20812,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node) {
         if (node && node.value.trim() !== '' && !node.classList.contains('error')) 
         { 
-          var recipientFormated = null
-          if (node.recipientData) {
-            recipientFormated = Affinity2018.stringToDate(node.recipientData.SignedAt).toISOString()
+          var signedAt = null;
+          if (node.recipientData && node.recipientData.SignedAt !== null) {
+              signedAt = Affinity2018.stringToDate(node.recipientData.SignedAt).toISOString();
           } 
 
           recipients.push(
             {
               "EmailAddress": node.value.trim(),
               "HasSigned": node.recipientData ? node.recipientData.HasSigned : false,
-              "SignedAt": recipientFormated
+              "SignedAt": signedAt
             }
-          )
-        };
+          );
+        }
       });
     }
     if (recipients.join('').trim() === '') return [];
