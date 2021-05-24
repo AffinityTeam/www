@@ -20730,11 +20730,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node) {
         if (node && node.value.trim() !== '' && !node.classList.contains('error')) 
         { 
+          var recipientFormated = null
+          if (node.recipientData) {
+            recipientFormated = Affinity2018.stringToDate(node.recipientData.SignedAt).toISOString()
+          } 
+
           recipients.push(
             {
               "EmailAddress": node.value.trim(),
               "HasSigned": node.recipientData ? node.recipientData.HasSigned : false,
-              "SignedAt": node.recipientData ? node.recipientData.SignedAt : null
+              "SignedAt": recipientFormated
             }
           )
         };
