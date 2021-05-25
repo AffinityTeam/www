@@ -20752,7 +20752,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
       // get any special elements
       
-      var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : '';
+      var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : null;
 
       this.FormData.Value = JSON.stringify({
         ExternalTemplateId: this.GetSigningTemplateId(),
@@ -20818,16 +20818,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       {
         if (node && node.value.trim() !== '' && !node.classList.contains('error')) 
         { 
-          var signedAt = null;
-          if (node.recipientData && node.recipientData.SignedAt !== null)
-          {
-            signedAt = Affinity2018.stringToDate(node.recipientData.SignedAt).toISOString();
-          } 
           recipients.push({
-            'EmailAddress': node.value.trim(),
-            //'HasSigned': node.recipientData ? node.recipientData.HasSigned : false,
-            'SignatureStatus': node.recipientData.SignatureStatus,
-            'SignedAt': signedAt
+            'EmailAddress': node.value.trim()
           });
         }
       });
@@ -21093,10 +21085,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
           if (typeof recipients === 'string')
           {
             return {
-              'EmailAddress': recipients,
-              //'HasSigned': false,
-              'SignatureStatus': 0,
-              'SignedAt': null
+              'EmailAddress': recipients
             }
           }
           else
