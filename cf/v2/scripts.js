@@ -10619,18 +10619,23 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     */
   Delete(node)
   {
-    if (node.classList.contains('.del'))
+    if (node && node.classList.contains('cf-designer-element') && !node.classList.contains('.is-global-key'))
     {
-      this._removeElementClicked({ target: node });
+      // node is an eleemnt and is not a key
+      if (node.dataset.type === 'Section' && !node.querySelector('ul li'))
+      {
+        // node is an empty section, so just get rid of it.
+        this._setElementForDelete(node);
+        return;
+      }
+      if (node.dataset.type === 'Section' && node.querySelector('ul .is-global-key'))
+      {
+        // global key is in node, so do nothing
+        return;
+      }
+      // is all good to go ahead and delete
+      this._setElementForDelete(node);
     }
-    else if (node.querySelector('.del'))
-    {
-      this._removeElementClicked({ target: node.querySelector('.del') });
-    }
-    //if (node && node.hasOwnProperty('controller') && !node.controller.Saved)
-    //{
-    //  this._removeElement(node);
-    //}
   }
 
 
