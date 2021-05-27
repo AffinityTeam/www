@@ -21059,6 +21059,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         if (
           response.data.hasOwnProperty('MissingCustomFields')
           && $a.isArray(response.data.MissingCustomFields)
+          && response.data.MissingCustomFields.length > 0
         )
         {
           this.CanSend = true;
