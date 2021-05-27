@@ -20665,7 +20665,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
       // get any special elements
       
-      var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : '';
+      var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : null;
 
       this.FormData.Value = JSON.stringify({
         ExternalTemplateId: this.GetSigningTemplateId(),
@@ -20729,7 +20729,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     {
       this.FormRowNode.querySelectorAll('.docsign-row input.sv').forEach(function (node)
       {
-        if (node && node.value.trim() !== '' && !node.classList.contains('error')) recipients.push(node.value.trim());
+        if (node && node.value.trim() !== '' && !node.classList.contains('error')) 
+        { 
+          recipients.push({
+            'EmailAddress': node.value.trim()
+          });
+        }
       });
     }
     if (recipients.join('').trim() === '') return [];
@@ -20773,9 +20778,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _idsLoaded(response)
   {
-    console.log('_idsLoaded');
-    console.log(response);
-
+    //console.log('_idsLoaded');
+    //console.log(response);
     // TODO: Check and process errors
 
     if ($a.isArray(response))
@@ -20886,7 +20890,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
             {
               recipientNodes[r].removeEventListener('keyup', this._checkDocSignButtons);
               recipientNodes[r].addEventListener('keyup', this._checkDocSignButtons);
-              if (recipientValues[r]) recipientNodes[r].value = recipientValues[r];
+              if (recipientValues[r])
+              {
+                recipientNodes[r].value = recipientValues[r].EmailAddress;
+                recipientNodes[r].recipientData = recipientValues[r];
+              }
             }
 
             this.DocSignSelectNode.removeEventListener('change', this._checkDocSignButtons);
@@ -20984,6 +20992,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
         this.LastPostedDocsignTemplateId = this.GetSigningTemplateId();
         this.LastPostedDocsignRecipients = this.GetSigningRecipients();
+
+        this.LastPostedDocsignRecipients = this.LastPostedDocsignRecipients.map(recipients =>
+        {
+          if (typeof recipients === 'string')
+          {
+            return {
+              'EmailAddress': recipients
+            }
+          }
+          else
+          {
+            return recipients;
+          }
+        });
+
         axios({
           method: 'post',
           url: this.CleverForms.DocumentSigningPostApi,
@@ -21002,9 +21025,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postedDoc(response)
   {
-    console.log('_postedDoc');
-    console.log(response);
-    console.log('');
+    //console.log('_postedDoc');
+    //console.log(response);
+    //console.log('');
 
     if (this.CleverForms.Form.ViewType !== 'Form') return;
 
@@ -21036,6 +21059,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         if (
           response.data.hasOwnProperty('MissingCustomFields')
           && $a.isArray(response.data.MissingCustomFields)
+          && response.data.MissingCustomFields.length > 0
         )
         {
           this.CanSend = true;
@@ -21119,9 +21143,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocCanceled(response)
   {
-    console.log('_postDocCanceled');
-    console.log(response);
-    console.log('');
+    //console.log('_postDocCanceled');
+    //console.log(response);
+    //console.log('');
 
     // TODO: Check and process errors
 
@@ -21224,7 +21248,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _getMissingFieldsMessage(fields)
   {
-    var invalidFields = [], missingFields = [], message = '', tab = '&nbsp;&nbsp;&nbsp;&nbsp;', invalidList = null, missingList = null, fields, fieldRow, fieldLabel, fieldNode;
+    var invalidFields = [],
+        missingFields = [],
+        message = '',
+        tab = '&nbsp;&nbsp;&nbsp;&nbsp;',
+        invalidList = null,
+        missingList = null,
+        fields,
+        fieldRow,
+        fieldLabel,
+        fieldNode;
 
     fields.forEach(function (fieldData)
     {
