@@ -14209,6 +14209,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.TestErrorStub = false;
 
+	// TODO: Change post redirect to message if Affinity2018.DashboardTemplate is True
+    // console.log(Affinity2018.DashboardTemplate);
+
   }
 
 
