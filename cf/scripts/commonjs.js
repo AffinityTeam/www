@@ -1,8 +1,8 @@
 /* Minification failed. Returning unminified contents.
 (16500,101-102): run-time error JS1195: Expected expression: >
-(16500,127-128): run-time error JS1100: Expected ',': )
-(16500,140-141): run-time error JS1193: Expected ',' or ')': }
-(16500,141-142): run-time error JS1195: Expected expression: )
+(16500,162-163): run-time error JS1100: Expected ',': )
+(16500,178-179): run-time error JS1193: Expected ',' or ')': }
+(16500,179-180): run-time error JS1195: Expected expression: )
 (16503,15-16): run-time error JS1195: Expected expression: )
 (16509,13-14): run-time error JS1002: Syntax error: }
 (16517,38-39): run-time error JS1004: Expected ';': {
@@ -16510,7 +16510,7 @@ var CFInbox = new Class({
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
                 new Element('td', { 'class': 'indicate none sort-by', 'html': data.DisplayName }),
                 new Element('td', { 'class': 'sort-by', 'html': data.StateName }),
-                new Element('td', { 'class': 'sort-by', 'html': data.DocumentRequestStatuses.map(s => s.SignatureRequestStatus).join(', ') }),
+                new Element('td', { 'class': 'sort-by', 'html': data.DocumentRequestStatuses.map(s => s.Title + ' - ' + '<b>' + s.SignatureRequestStatus + '</b>').join('</br>') }),
                 new Element('td', { 'class': 'ui-inbox-date sort-by ui-format-date', 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
                 buttons
               ).inject(this.toActionBox.getElement('tbody'));
