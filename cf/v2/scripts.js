@@ -20799,8 +20799,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         )
         {
           templateId = this.Config.Details.Value.ExternalTemplateId;
-            recipientValues = this.Config.Details.Value.Recipients;
-          if (this.Config.Details.Value.SignatureRequestStatus >= 1)
+          recipientValues = this.Config.Details.Value.Recipients;
+          if (
+            this.Config.Details.Value.hasOwnProperty('CanSend')
+            && !this.Config.Details.Value.CanSend
+          )
           {
             this.CanSend = false;
           }
