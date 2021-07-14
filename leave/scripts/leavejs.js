@@ -2607,12 +2607,48 @@ var UILeaveApply = new Class({
                 var dateValue = day.Date;
                 var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
                 var schedulesHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
+                schedulesHours = parseFloat(schedulesHours).toFixed(2);
+                var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
+                var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
 
-                this.leavePeriodDaysDateColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly' : 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
-                this.leavePeriodDaysDaysColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-apply-input-days', 'value': day.PositionUnits[0].DaysAppliedFor }).inject(this.leavePeriodDaysDaysColumnContainer);
-                this.leavePeriodDaysHoursColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-apply-input-hours', 'value': day.PositionUnits[0].HoursAppliedFor }).inject(this.leavePeriodDaysHoursColumnContainer);
-                this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-apply-input-small', 'value': schedulesHours }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly' : 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
+                this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-apply-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
+                this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': 'leave-apply-input-hours', 'value': hoursAppliedFor }).inject(this.leavePeriodDaysHoursColumnContainer);
+                this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': 'leave-apply-input-small', 'value': schedulesHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
 
+                if (day.IsPublicHoliday) {
+                    this.leavePeriodDaysHoursColumnValue.removeClass('leave-apply-input-hours');
+                    this.leavePeriodDaysHoursColumnValue.addClass('leave-apply-input-uneditable-hours');
+
+                }
+
+
+                this.leavePeriodDaysHoursColumnValue.removeEvents();
+                this.leavePeriodDaysHoursColumnValue.addEvent('keyup', function (e) {
+                    var targetId = e.target.id;
+                    var scheduledHoursId = targetId.replace('hours', 'scheduledHours');
+                    var daysAppliedForId = targetId.replace('hours', 'days');
+                    var hoursAppliedForContainer = this.leavePeriodDaysContainer.getElementById(e.target.id);
+
+                    var hoursperday = parseFloat(this.leavePeriodDaysContainer.getElementById(scheduledHoursId).value);
+                    var hoursAppliedFor = e.target.value;
+
+                    if (isNaN(hoursAppliedFor)) {
+                        hoursAppliedFor = parseFloat(0).toFixed(2);
+                        hoursAppliedForContainer.value = hoursAppliedFor;
+                    } else {
+                        hoursAppliedFor = parseFloat(e.target.value);
+                    }
+
+                    var daysAppliedFor = hoursAppliedFor / hoursperday;
+                    if (daysAppliedFor > 1) {
+                        daysAppliedFor = 1;
+                    }
+                    this.leavePeriodDaysContainer.getElementById(daysAppliedForId).value = parseFloat(daysAppliedFor).toFixed(2);
+
+                }.bind(this));
+
+                
                 
 
             }.bind(this));
@@ -2622,7 +2658,7 @@ var UILeaveApply = new Class({
                     this.totalPeriodDaysDetail.destroy();
                 }
 
-                var totalString = 'Total [days] days / [hours] hours / [weeks] weeks';
+                var totalString = 'Total [days] days / [hours] hours';
                 totalString = totalString.replace('[days]', data.TotalDaysAppliedFor);
                 totalString = totalString.replace('[hours]', data.TotalHoursAppliedFor);
                 this.totalPeriodDaysDetail = new Element('label', {
@@ -5281,7 +5317,7 @@ var UILeaveDetail = new Class({
                     }
                 }.bind(this),
                 cancelInput: function () {
-                    this.managerCommentBox.set('value', leaveHeader.Reply);
+                    this.managerCommentBox.set('value', this.data.LeaveHeader.Reply);
                 }.bind(this)
             });
         }
@@ -5517,7 +5553,7 @@ var UILeaveDetail = new Class({
             for (var i = 0; i < leaveComponent.Units.length; i++) {
                 var newDay = new Object();
                 newDay.Date = leaveComponent.Units[i].Date;
-                //newDay.IsPublicHoliday = null;
+                newDay.IsPublicHoliday = leaveComponent.Units[i].IsPublicHoliday;
                 newDay.PositionUnits = [];
                 var positionUnit = new Object();
 
@@ -5618,13 +5654,63 @@ var UILeaveDetail = new Class({
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
                 var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
-                var schedulesHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
+                var scheduledHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
+                scheduledHours = parseFloat(scheduledHours).toFixed(2);
+                var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
+                var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
 
-                this.leavePeriodDaysDateColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-detail-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
-                this.leavePeriodDaysDaysColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-detail-input-days', 'value': day.PositionUnits[0].DaysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
-                this.leavePeriodDaysHoursColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-detail-input-hours', 'value': day.PositionUnits[0].HoursAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysHoursColumnContainer);
-                this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'type': 'text', 'class': 'leave-detail-input-small', 'value': schedulesHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                if (isNaN(daysAppliedFor)) {
+                    daysAppliedFor = parseFloat(0).toFixed(2);
+                }
 
+                this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-detail-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
+                this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-detail-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
+                this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': 'leave-detail-input-hours', 'value': hoursAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysHoursColumnContainer);
+                this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': 'leave-detail-input-small', 'value': scheduledHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
+
+
+                if (scheduledHours !== hoursAppliedFor) {
+                    this.leavePeriodDaysHoursColumnValue.addClass("leave-detail-input-yellow-bg");
+                } else {
+                    this.leavePeriodDaysHoursColumnValue.removeClass("leave-detail-input-yellow-bg");
+                }
+
+                if (day.IsPublicHoliday) {
+                    this.leavePeriodDaysHoursColumnValue.removeClass('leave-detail-input-hours');
+                    this.leavePeriodDaysHoursColumnValue.addClass('leave-detail-input-uneditable-hours');
+
+                }
+
+                this.leavePeriodDaysHoursColumnValue.removeEvents();
+                this.leavePeriodDaysHoursColumnValue.addEvent('keyup', function (e) {
+                    var targetId = e.target.id;
+                    var scheduledHoursId = targetId.replace('hours', 'scheduledHours');
+                    var daysAppliedForId = targetId.replace('hours', 'days');
+                    var hoursAppliedForContainer = this.leavePeriodDaysContainer.getElementById(e.target.id);
+
+                    var hoursperday = parseFloat(this.leavePeriodDaysContainer.getElementById(scheduledHoursId).value);
+                    var hoursAppliedFor = e.target.value;
+
+                    if (isNaN(hoursAppliedFor)) {
+                        hoursAppliedFor = parseFloat(0).toFixed(2);
+                        hoursAppliedForContainer.value = hoursAppliedFor;
+                    } else {
+                        hoursAppliedFor = parseFloat(e.target.value);
+                    }
+
+                    var daysAppliedFor = hoursAppliedFor / hoursperday;
+                    if (daysAppliedFor > 1) {
+                        daysAppliedFor = 1;
+                    }
+                    this.leavePeriodDaysContainer.getElementById(daysAppliedForId).value = parseFloat(daysAppliedFor).toFixed(2);
+
+                    if (hoursperday !== hoursAppliedFor) {
+                        hoursAppliedForContainer.addClass("leave-detail-input-yellow-bg");
+                    } else {
+                        hoursAppliedForContainer.removeClass("leave-detail-input-yellow-bg");
+                    }
+
+                }.bind(this));
 
 
             }.bind(this));
@@ -5661,9 +5747,9 @@ var UILeaveDetail = new Class({
                 totalHoursAppliedFor += parseFloat(hours.value);
             }
 
-            var totalString = 'Total [days] days / [hours] hours / [weeks] weeks';
-            totalString = totalString.replace('[days]', totalDaysAppliedFor);
-            totalString = totalString.replace('[hours]', totalHoursAppliedFor);
+            var totalString = 'Total [days] days / [hours] hours';
+            totalString = totalString.replace('[days]', parseFloat(totalDaysAppliedFor).toFixed(2));
+            totalString = totalString.replace('[hours]', parseFloat(totalHoursAppliedFor).toFixed(2));
             viewModel.totalPeriodDaysDetail = new Element('label', {
                 'html': totalString,
                 'class': 'leave-apply-total-period-days-detail'
@@ -5771,7 +5857,32 @@ var UILeaveDetail = new Class({
 
             if (this.isInEditMode) {
                 var viewModel = this;
-                this.updateLeave2(null,null, null,viewModel);
+                var customErrorHandler = function (responseObject, vm) {
+                    var errMessage = "Something's stopping the Reason field from updating. Try again.<br /><br />";
+                    //errMessage += '<span class="color-red">' + errorMessage + '</span>';
+                    var validationMessages = vm.getValidationErrorsConcatenated(responseObject);
+                    if (validationMessages != "") {
+                        errMessage = validationMessages;
+                    }
+
+                    var leaveTypes = vm.leaveTypeSelector;
+                    for (var i = 0; i < leaveTypes.length; i++) {
+                        var leaveType = leaveTypes[i];
+                        if (vm.data.LeaveHeader.LeaveCode === leaveType.id) {
+                            vm.leaveTypeSelector.selectedIndex = parseInt(leaveType.value);
+                            break;
+                        }
+                    }
+
+                    uialert({
+                        'message': errMessage,
+                        okText: 'Close',
+                        showButtons: true,
+                        noClose: false
+                    });
+                }
+
+                this.updateLeave2(null, null, customErrorHandler,viewModel);
             }
             
         }
@@ -5817,7 +5928,7 @@ var UILeaveDetail = new Class({
         if (customSuccessHandler != null) {
             customSuccessHandler(response, viewModel);
         }
-
+        
        
 
         
@@ -6349,7 +6460,7 @@ var UILeaveDetail = new Class({
         var vm = this;
         this.getLeaveUnits(employeeNo, fromDate, toDate, leaveCode, null, function (leave) {
             var currentEditedLeaveInstance = vm.getEditedLeaveInstance(); //app.createLeaveModel(app.data)
-            //vm.createDaysFields(leave, currentEditedLeaveInstance);
+            vm.createDaysFields(leave, currentEditedLeaveInstance);
          
             var customErrorHandler = function (responseObject, vm) {
                 var errMessage = "Something's stopping the Unit field from updating. Try again.<br /><br />";
@@ -6358,12 +6469,7 @@ var UILeaveDetail = new Class({
                 if (validationMessages != "") {
                     errMessage = validationMessages;
                 }
-                uialert({
-                    'message': errMessage,
-                    okText: 'Close',
-                    showButtons: true,
-                    noClose: false
-                });
+
                 var dateFrom = Date.parse(vm.currentlySavedLeaveInstance.dateFrom);
                 var dateTo = Date.parse(vm.currentlySavedLeaveInstance.dateTo);
                 vm.fromDateWidget.setDate(dateFrom);
@@ -6371,12 +6477,20 @@ var UILeaveDetail = new Class({
 
                 Affinity.leave.setDates(vm.fromDateBox, dateFrom);
                 Affinity.leave.setDates(vm.toDateBox, dateTo);
+                var leaveModel = vm.createLeaveModel(vm.data);
+                vm.createDaysFields(leaveModel,vm.currentlySavedLeaveInstance);
 
+                uialert({
+                    'message': errMessage,
+                    okText: 'Close',
+                    showButtons: true,
+                    noClose: false
+                });
+               
 
             }
             var customSuccessHandler = function (response, vm) {
-                var currentEditedLeaveInstance = vm.getEditedLeaveInstance();
-                vm.createDaysFields(leave, vm.currentlySavedLeaveInstance);
+                //vm.createDaysFields(leave, vm.currentlySavedLeaveInstance);
             }
             vm.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
         });
@@ -6385,20 +6499,24 @@ var UILeaveDetail = new Class({
         var leaveDetailDates = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-date');
         var leaveDetailDays = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-days');
         var leaveDetailHours = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-hours');
+     
 
         for (var i = 0; i < leaveDetailDates.length; i++) {
             var dateString = Date.parse(leaveDetailDates[i].value).toLocaleString();
             var dateCriteriaString = Date.parse(dateCriteria).toLocaleString();
             if (dateString === dateCriteriaString) {
                 leaveDetailDays[i].value = parseFloat(newDaysValue).toFixed(2);
-                leaveDetailHours[i].value = parseFloat(newHoursValue).toFixed(2);
+                if (leaveDetailHours[i] !== undefined) {
+                    leaveDetailHours[i].value = parseFloat(newHoursValue).toFixed(2);
+                }
+                
             }
         }
 
 
 
     },
-    getStandardHoursPerday: function (dateCriteria, positionCriteria,leaveUnitComponents) {
+    getMaxHours: function (dateCriteria, positionCriteria,leaveUnitComponents) {
         var selectedUnitComponent = new Object();
 
             for (var i = 0; i < leaveUnitComponents.length; i++) {
@@ -6408,8 +6526,9 @@ var UILeaveDetail = new Class({
                         var unit = leaveUnitComponent.Units[i];
                         var dateCriteriaString = Date.parse(dateCriteria).toLocaleString();
                         var unitDate = Date.parse(unit.Date).toLocaleString();
-                        if (dateCriteriaString === unitDate) {
-                            return unit.HoursStandard;
+                    if (dateCriteriaString === unitDate) {
+                        var maxHours = unit.HoursWorkScheduled === null ? unit.HoursStandard : unit.HoursWorkScheduled;
+                        return maxHours;
                         }
                     }
                 }
@@ -6423,90 +6542,80 @@ var UILeaveDetail = new Class({
         var leaveDetailDays = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-days');
         var leaveDetailHours = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-hours');
 
-        if (unitType === 'D') {
-            for (var i = 0; i < leaveDetailDays.length; i++) {
-                var day = leaveDetailDays[i];
-                day.set('readonly', false);
-            }
-        } else if (unitType == 'H') {
-            for (var i = 0; i < leaveDetailHours.length; i++) {
-                var hours = leaveDetailHours[i];
-                hours.set('readonly', false);
-            }
+        for (var i = 0; i < leaveDetailHours.length; i++) {
+            var hours = leaveDetailHours[i];
+            hours.set('readonly', false);
         }
-        
-
-        
-
+       
         var app = this;
         this.leavePeriodDaysContainerEdit = new InputEditWidget({
             target: app.leavePeriodDaysBox,
             input: app.leavePeriodDaysContainer,
             updateInput: function () {
-                var customErrorHandler = function (responseObject,vm) {
-                    var errMessage = "Something's stopping the Unit field from updating. Try again.<br /><br />";
-                    //errMessage += '<span class="color-red">' + errorMessage + '</span>';
+                //check if there is difference in leave units
+                var oldLeaveUnits = app.currentlySavedLeaveInstance.leaveUnits;
+                var newLeaveUnits = app.getEditedLeaveInstance().leaveUnits;
 
-                    var validationMessages = vm.getValidationErrorsConcatenated(responseObject);
-                    if (validationMessages != "") {
-                        errMessage = validationMessages;
-                    }
+                if (JSON.stringify(oldLeaveUnits) !== JSON.stringify(newLeaveUnits)) {
+                    var customErrorHandler = function (responseObject, vm) {
+                        var errMessage = "Something's stopping the Unit field from updating. Try again.<br /><br />";
+                        //errMessage += '<span class="color-red">' + errorMessage + '</span>';
 
-                    uialert({
-                        'message': errMessage,
-                        okText: 'Close',
-                        showButtons: true,
-                        noClose: false
-                    });
-
-                    //undo changes
-                    var leaveUnits = vm.currentlySavedLeaveInstance.leaveUnits;
-                    for (var i = 0; i < leaveUnits.length; i++) {
-                        var leaveUnit = leaveUnits[i];
-                        var dateCriteria = Date.parse(leaveUnit.leaveDate);
-                        var newDaysValue = parseFloat(leaveUnit.daysAppliedFor);
-                        var newHoursValue = parseFloat(leaveUnit.hoursAppliedFor);
-                        vm.setUnitValue(dateCriteria, newDaysValue, newHoursValue);
-                    }
-                }
-                var customSuccessHandler = function (responseObject,vm) {
-                    var editedLeaveInstance = vm.getEditedLeaveInstance();
-                    var leaveUnits = editedLeaveInstance.leaveUnits;
-                  
-                    var stdHoursPerday = 0;
-
-                    for (var i = 0; i < leaveUnits.length; i++) {
-                        var leaveUnit = leaveUnits[i];
-                        var dateCriteria = Date.parse(leaveUnit.leaveDate);
-                        var positionCriteria = leaveUnit.positionCode;
-                        if (stdHoursPerday <= 0) {
-                            stdHoursPerday = parseFloat(vm.getStandardHoursPerday(dateCriteria, positionCriteria, vm.data.Components));
+                        var validationMessages = vm.getValidationErrorsConcatenated(responseObject);
+                        if (validationMessages != "") {
+                            errMessage = validationMessages;
                         }
 
-                        var hoursAppliedFor = parseFloat(leaveUnit.hoursAppliedFor);
-                        var daysAppliedFor = parseFloat(leaveUnit.daysAppliedFor);
+                        uialert({
+                            'message': errMessage,
+                            okText: 'Close',
+                            showButtons: true,
+                            noClose: false
+                        });
 
-                        if (vm.data.LeaveHeader.UnitType === 'H') {
-                            
+                        //undo changes
+                        var leaveUnits = vm.currentlySavedLeaveInstance.leaveUnits;
+                        for (var i = 0; i < leaveUnits.length; i++) {
+                            var leaveUnit = leaveUnits[i];
+                            var dateCriteria = Date.parse(leaveUnit.leaveDate);
+                            var newDaysValue = parseFloat(leaveUnit.daysAppliedFor);
+                            var newHoursValue = parseFloat(leaveUnit.hoursAppliedFor);
+                            vm.setUnitValue(dateCriteria, newDaysValue, newHoursValue);
+                        }
+                    }
+                    var customSuccessHandler = function (responseObject, vm) {
+                        var editedLeaveInstance = vm.getEditedLeaveInstance();
+                        var leaveUnits = editedLeaveInstance.leaveUnits;
+
+                        var stdHoursPerday = 0;
+
+                        for (var i = 0; i < leaveUnits.length; i++) {
+                            var leaveUnit = leaveUnits[i];
+                            var dateCriteria = Date.parse(leaveUnit.leaveDate);
+                            var positionCriteria = leaveUnit.positionCode;
+                            if (stdHoursPerday <= 0) {
+                                stdHoursPerday = parseFloat(vm.getMaxHours(dateCriteria, positionCriteria, vm.data.Components));
+                            }
+
+                            var hoursAppliedFor = parseFloat(leaveUnit.hoursAppliedFor);
+
                             var newDaysValue = hoursAppliedFor / stdHoursPerday;
                             vm.setUnitValue(dateCriteria, newDaysValue, hoursAppliedFor);
-                        } else if (vm.data.LeaveHeader === 'D') {
-                            var newHoursValue = daysAppliedFor * stdHoursPerday;
-                            vm.setUnitValue(dateCriteria, daysAppliedFor, newHoursValue);
+
+
                         }
-                        
+
+                        vm.computeUnitTotals(vm);
                     }
-
-                    vm.computeUnitTotals(vm);
+                    app.updateLeave2(null, customSuccessHandler, customErrorHandler, app);
                 }
-                app.updateLeave2(null, customSuccessHandler, customErrorHandler, app);
-
-
 
 
             }.bind(this),
             cancelInput: function () {
-                // this.managerCommentBox.set('value', leaveHeader.Reply);
+                var editedLeaveInstance = app.getEditedLeaveInstance();
+                var leaveModel = app.createLeaveModel(app.data);
+                app.createDaysFields(leaveModel, null);
             }.bind(this)
         });
     },
@@ -6524,46 +6633,47 @@ var UILeaveDetail = new Class({
         this.leaveDetailsGroupRow7.removeClass('hidden');
         this.leaveDetailsGroupRow8.removeClass('hidden');
 
-        if (this.commentBox !== undefined) {
-            this.commentBox.destroy();
-            this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
-            this.commentBox.set('html', this.data.LeaveHeader.Comment);
+        if (!this.isManager) {
+            if (this.commentBox !== undefined) {
+                this.commentBox.destroy();
+                this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
+                this.commentBox.set('html', this.data.LeaveHeader.Comment);
 
-            this.commentEdit = new InputEditWidget({
-                target: this.leaveDetailsRow4Column2,
-                input: this.commentBox,
-                updateInput: function () {
-                    var newComment = this.commentBox.value;
-                    if (newComment != this.data.LeaveHeader.Comment) {
-                       
-                        var vm = this;
-                        var customErrorHandler = function (responseObject,vm) {
-                            var errMessage = "Something's stopping the Comment field from updating. Try again.<br /><br />";
-                            //errMessage += '<span class="color-red">' + errorMessage + '</span>';
+                this.commentEdit = new InputEditWidget({
+                    target: this.leaveDetailsRow4Column2,
+                    input: this.commentBox,
+                    updateInput: function () {
+                        var newComment = this.commentBox.value;
+                        if (newComment != this.data.LeaveHeader.Comment) {
 
-                            var validationMessages = vm.getValidationErrorsConcatenated(responseObject);
-                            if (validationMessages != "") {
-                                errMessage = validationMessages;
+                            var vm = this;
+                            var customErrorHandler = function (responseObject, vm) {
+                                var errMessage = "Something's stopping the Comment field from updating. Try again.<br /><br />";
+                                //errMessage += '<span class="color-red">' + errorMessage + '</span>';
+
+                                var validationMessages = vm.getValidationErrorsConcatenated(responseObject);
+                                if (validationMessages != "") {
+                                    errMessage = validationMessages;
+                                }
+
+                                uialert({
+                                    'message': errMessage,
+                                    okText: 'Close',
+                                    showButtons: true,
+                                    noClose: false
+                                });
+
                             }
-
-                            uialert({
-                                'message': errMessage,
-                                okText: 'Close',
-                                showButtons: true,
-                                noClose: false
-                            });
-
+                            this.updateLeave2(null, null, customErrorHandler, vm);
                         }
-                        this.updateLeave2(null, null, customErrorHandler, vm);
-                    }
-                }.bind(this),
-                cancelInput: function () {
-                    this.commentBox.set('value', leaveHeader.Comment);
-                }.bind(this)
-            });
+                    }.bind(this),
+                    cancelInput: function () {
+                        this.commentBox.set('value', this.data.LeaveHeader.Comment);
+                    }.bind(this)
+                });
+            }
         }
         
-
         //attachments
         if (this.leaveDetailsRow6Column2 !== undefined) {
             this.leaveDetailsRow6Column2.empty();
@@ -7025,38 +7135,51 @@ var UILeaveDetail = new Class({
         
         for (var i = 0; i < leaveUnitDates.length; i++) {
             var leaveUnitDate = Date.parse(leaveUnitDates[i].value).format('%d-%b-%Y');
-            var leaveUnitHour = parseFloat(leaveUnitHours[i].value);
-            var leaveUnitDay = parseFloat(leaveUnitDays[i].value);
-            var leaveUnitScheduledHour = parseFloat(leaveUnitScheduledHours[i].value);
-            var leaveUnit = new Object();
-            leaveUnit.tsGroupId = currentLeaveObject.TSGroupId;
-            leaveUnit.leaveDate = leaveUnitDate;
-            leaveUnit.positionCode = currentLeaveObject.PositionCode;
-            leaveUnit.hoursAppliedFor = leaveUnitHour;
-            leaveUnit.daysAppliedFor = leaveUnitDay;
-            leaveUnit.scheduleHours = leaveUnitScheduledHour;
+            if (Date.parse(leaveUnitDate) <= Date.parse(editedLeaveInstance.dateTo)) {
+                var leaveUnitHour = 0.00;
+                if (leaveUnitHours[i] !== undefined) {
+                    leaveUnitHour = parseFloat(leaveUnitHours[i].value);
+                }
 
-            if (excludeDaysWithNoScheduledHours === true &&
-                leaveUnitScheduledHour > 0) {
-                editedLeaveInstance.leaveUnits.push(leaveUnit);
-            } else if (excludeDaysWithNoScheduledHours === null ||
-                excludeDaysWithNoScheduledHours === undefined ||
-                excludeDaysWithNoScheduledHours === false) {
-                editedLeaveInstance.leaveUnits.push(leaveUnit);
+                var leaveUnitDay = parseFloat(leaveUnitDays[i].value);
+                var leaveUnitScheduledHour = parseFloat(leaveUnitScheduledHours[i].value);
+                var leaveUnit = new Object();
+                leaveUnit.tsGroupId = currentLeaveObject.TSGroupId;
+                leaveUnit.leaveDate = leaveUnitDate;
+                leaveUnit.positionCode = currentLeaveObject.PositionCode;
+                leaveUnit.hoursAppliedFor = leaveUnitHour;
+                leaveUnit.daysAppliedFor = this.computeDaysEquivalent(leaveUnitHour, leaveUnitScheduledHour);
+                leaveUnit.scheduleHours = leaveUnitScheduledHour;
+
+                if (excludeDaysWithNoScheduledHours === true &&
+                    leaveUnitScheduledHour > 0) {
+                    editedLeaveInstance.leaveUnits.push(leaveUnit);
+                } else if (excludeDaysWithNoScheduledHours === null ||
+                    excludeDaysWithNoScheduledHours === undefined ||
+                    excludeDaysWithNoScheduledHours === false) {
+                    editedLeaveInstance.leaveUnits.push(leaveUnit);
+                }
             }
-            
-            
+  
         }
 
         return editedLeaveInstance;
     },
-
+    computeDaysEquivalent: function (hoursInput, hoursPerday) {
+        var daysResult = hoursInput / hoursPerday;
+        if (daysResult > 1) {
+            daysResult = 1;
+        }
+        return daysResult;
+    },
     updateLeave2: function (leaveStatus, customSuccessHandler, customFailureHandler, viewModel) {
         var editedLeaveInstance = this.getEditedLeaveInstance(true);
 
         if (leaveStatus !== null) {
             editedLeaveInstance.leaveStatus = leaveStatus;
         }
+
+       
 
         var apiUrl = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeaveV2/' + editedLeaveInstance.tsGroupId);
 
@@ -7066,22 +7189,33 @@ var UILeaveDetail = new Class({
             urlEncoded: false,
             onRequest: function () {
                 Affinity.leave.lockui('myleave-update');
+                uialert({
+                    message: 'Saving changes. Please wait',
+                    showLoader: true,
+                    showButtons: false,
+                    noClose: true
+                });
             },
             onFailure: function (e) {
-
+                Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
                 var response = JSON.parse(e.response);
-                viewModel.updateRequestValidationErrorHandler(response,e.status, viewModel, customFailureHandler);
+                viewModel.updateRequestValidationErrorHandler(response, e.status, viewModel, customFailureHandler);
+                
 
             }.bind(this),
             onException: function () {
                 Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
 
             },
             onCancel: function () {
                 Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
             },
             onSuccess: function (response) {
                 Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
                 viewModel.updateRequestSuccessHandler(response, viewModel, customSuccessHandler);
 
 
