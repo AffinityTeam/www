@@ -5937,9 +5937,11 @@ var UILeaveDetail = new Class({
     },
     handleValidationErrors: function (responseObject, fieldName, customMessage) {
         var errMessage = "Something's stopping the " + fieldName + " field from updating. Try again.<br /><br />";
-        if (customMessage !== null) {
+        if (customMessage !== null &&
+            customMessage !== undefined) {
             errMessage = customMessage;
         }
+       
         //errMessage += '<span class="color-red">' + errorMessage + '</span>';
         var validationMessages = this.getValidationErrors(responseObject);
         if (validationMessages != "") {
@@ -6052,49 +6054,31 @@ var UILeaveDetail = new Class({
         
     },
     
-    updateRequestSuccessHandler: function (response, viewModel, customSuccessHandler) {
-        viewModel.currentlySavedLeaveInstance = viewModel.getEditedLeaveInstance();
-        viewModel.data = response.Data;
-        
-        document.getElement('.messages').empty();
+    updateRequestSuccessHandler: function (response, viewModel, customSuccessHandler, customFailureHandler) {
+        if (response.Message === 'The request is invalid.') {
+            this.updateRequestValidationErrorHandler(response, 400, viewModel, customFailureHandler);
+        } else {
+            viewModel.currentlySavedLeaveInstance = viewModel.getEditedLeaveInstance();
+            viewModel.data = response.Data;
 
-        if (viewModel.isManager) {
-            viewModel.approveButton.removeClass('disabled');
-            viewModel.declineButton.removeClass('disabled');
-          
-        } 
-        
-        viewModel.computeUnitTotals(viewModel);
-        if (customSuccessHandler != null) {
-            customSuccessHandler(response, viewModel);
+            document.getElement('.messages').empty();
+
+            if (viewModel.isManager) {
+                viewModel.approveButton.removeClass('disabled');
+                viewModel.declineButton.removeClass('disabled');
+
+            }
+
+            viewModel.computeUnitTotals(viewModel);
+            if (customSuccessHandler != null) {
+                customSuccessHandler(response, viewModel);
+            }
         }
+        
         
        
 
         
-    },
-    getListOfValidatedFields: function (modelState) {
-        
-        return Object.getOwnPropertyNames(modelState);
-    },
-    getValidationErrors: function (response) {
-        var validationErrors = [];
-        if (response.ModelState !== undefined) {
-            var modelState = response.ModelState;
-            var properties = this.getListOfValidatedFields(modelState);
-            for (var i = 0; i < properties.length; i++) {
-                var property = properties[i];
-                var propertyValidation = modelState[property];
-
-                for (var j = 0; j < propertyValidation.length; j++) {
-                    var validationMessage = propertyValidation[j];
-                    validationErrors.push(validationMessage);
-                }
-                
-            }
-        }
-
-        return validationErrors;
     },
     updateRequestValidationErrorHandler: function (responseObject, status, viewModel, customFailureHandler) {
         document.getElement('.messages').empty();
@@ -6118,6 +6102,32 @@ var UILeaveDetail = new Class({
             customFailureHandler(responseObject, viewModel);
         }
     },
+    getListOfValidatedFields: function (modelState) {
+        
+        return Object.getOwnPropertyNames(modelState);
+    },
+    getValidationErrors: function (response) {
+        var validationErrors = [];
+        if (response.ModelState !== undefined) {
+            var modelState = response.ModelState;
+            var properties = this.getListOfValidatedFields(modelState);
+            for (var i = 0; i < properties.length; i++) {
+                var property = properties[i];
+                var propertyValidation = modelState[property];
+
+                for (var j = 0; j < propertyValidation.length; j++) {
+                    var validationMessage = propertyValidation[j];
+                    validationErrors.push(validationMessage);
+                }
+
+            }
+        } else {
+            return '';
+        }
+
+        return validationErrors;
+    },
+    
     setToPreviousValue: function (viewModel) {
         var leave = viewModel.currentlySavedLeaveInstance;
         var config = Affinity.leave.manager.config;
@@ -7433,7 +7443,7 @@ var UILeaveDetail = new Class({
             onSuccess: function (response) {
                 Affinity.leave.unlockui('myleave-update');
                 prompts.hide();
-                viewModel.updateRequestSuccessHandler(response, viewModel, customSuccessHandler);
+                viewModel.updateRequestSuccessHandler(response, viewModel, customSuccessHandler,customFailureHandler);
 
 
             }.bind(this)
