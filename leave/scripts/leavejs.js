@@ -2634,6 +2634,10 @@ var UILeaveApply = new Class({
                 var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
                 var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
 
+                if (day.IsPublicHoliday) {
+                    schedulesHours = parseFloat(0).toFixed(2);
+                }
+
                 this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly' : 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
                 this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-apply-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
                 this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': 'leave-apply-input-hours', 'value': hoursAppliedFor }).inject(this.leavePeriodDaysHoursColumnContainer);
@@ -2647,9 +2651,12 @@ var UILeaveApply = new Class({
                 }
 
                 if (day.IsPublicHoliday) {
+                    this.leavePeriodDaysHoursColumnValue.set('readonly', true);
                     this.leavePeriodDaysHoursColumnValue.removeClass('leave-apply-input-hours');
                     this.leavePeriodDaysHoursColumnValue.addClass('leave-apply-input-uneditable-hours');
 
+
+                    this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
                     this.leavePeriodDaysScheduledColumnValue.removeClass('leave-apply-input-scheduledHours');
                     this.leavePeriodDaysScheduledColumnValue.addClass('leave-apply-input-uneditable-scheduledHours');
 
@@ -5782,6 +5789,7 @@ var UILeaveDetail = new Class({
                 var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
                 var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
                 var defaultHoursWorkScheduled = parseFloat(day.PositionUnits[0].DefaultHoursWorkScheduled);
+                var isPublicHoliday = day.IsPublicHoliday;
 
                 if (isNaN(daysAppliedFor)) {
                     daysAppliedFor = parseFloat(0).toFixed(2);
@@ -5792,12 +5800,17 @@ var UILeaveDetail = new Class({
                     var hoursFieldClass = "leave-detail-input-uneditable-hours";
                     var scheduledHoursFieldClass = "leave-detail-input-uneditable-scheduledHours";
                 } 
+
+                if (isPublicHoliday) {
+                    scheduledHours = parseFloat(0).toFixed(2);
+                }
+
                 this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-detail-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
                 this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-detail-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
                 this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': hoursFieldClass, 'value': hoursAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysHoursColumnContainer);
                 this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': scheduledHoursFieldClass, 'value': scheduledHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
-
+                this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
                
                
                 //if (scheduledHours !== hoursAppliedFor) {
@@ -5806,11 +5819,13 @@ var UILeaveDetail = new Class({
                 //    this.leavePeriodDaysHoursColumnValue.removeClass("leave-detail-input-yellow-bg");
                 //}
 
-                if (day.IsPublicHoliday) {
+                if (isPublicHoliday) {
+                    this.leavePeriodDaysHoursColumnValue.set('readonly', true);
                     this.leavePeriodDaysHoursColumnValue.removeClass('leave-detail-input-hours');
                     this.leavePeriodDaysHoursColumnValue.addClass('leave-detail-input-uneditable-hours');
 
 
+                    this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
                     this.leavePeriodDaysScheduledColumnValue.removeClass('leave-detail-input-scheduledHours');
                     this.leavePeriodDaysScheduledColumnValue.addClass('leave-detail-input-uneditable-scheduledHours');
                 }
@@ -6690,18 +6705,24 @@ var UILeaveDetail = new Class({
         var editedLeaveInstance = this.getEditedLeaveInstance();
         var leaveUnits = editedLeaveInstance.leaveUnits;
 
+
+
         for (var i = 0; i < leaveUnits.length; i++) {
+            var leaveUnit = leaveUnits[i];
+
             var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
             var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
-  
-            hoursField.set('readonly', false);
-            scheduledHoursField.set('readonly', false);
+            if (!leaveUnit.isPublicHoliday) {
+                hoursField.set('readonly', false);
+                scheduledHoursField.set('readonly', false);
 
-            hoursField.removeClass('leave-detail-input-uneditable-hours');
-            scheduledHoursField.removeClass('leave-detail-input-uneditable-scheduledHours');
+                hoursField.removeClass('leave-detail-input-uneditable-hours');
+                scheduledHoursField.removeClass('leave-detail-input-uneditable-scheduledHours');
 
-            hoursField.addClass('leave-detail-input-hours');
-            scheduledHoursField.addClass('leave-detail-input-scheduledHours');
+                hoursField.addClass('leave-detail-input-hours');
+                scheduledHoursField.addClass('leave-detail-input-scheduledHours');
+            }
+            
         }
        
         var app = this;
@@ -7328,14 +7349,21 @@ var UILeaveDetail = new Class({
             var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
             var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
             var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+            var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
 
-            if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
-                hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
-                daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
-            } else {
-                hoursField.set('style', ''); 
-                daysField.set('style', ''); 
+            var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+
+
+            if (!isPublicHoliday) {
+                if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
+                    hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                    daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                } else {
+                    hoursField.set('style', '');
+                    daysField.set('style', '');
+                }
             }
+            
         }
     },
     getEditedLeaveInstance: function (excludeDaysWithNoScheduledHours) {
@@ -7364,6 +7392,7 @@ var UILeaveDetail = new Class({
             var leaveUnitDaysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
             var leaveUnitScheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
             var leaveUnitDefaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var leaveUnitIsPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
             if (Date.parse(leaveUnitDate) <= Date.parse(editedLeaveInstance.dateTo)) {
 
                 var leaveUnitHour = parseFloat(leaveUnitHoursField.value);
@@ -7377,14 +7406,19 @@ var UILeaveDetail = new Class({
                 leaveUnit.daysAppliedFor = this.computeDaysEquivalent(leaveUnitHour, leaveUnitScheduledHour);
                 leaveUnit.hoursWorkSched = leaveUnitScheduledHour;
                 leaveUnit.defaultHoursWorkScheduled = parseFloat(leaveUnitDefaultScheduledHoursField.value);
+                leaveUnit.isPublicHoliday = leaveUnitIsPublicHolidayField.value === 'true' ? true : false;
 
                 if (excludeDaysWithNoScheduledHours === true &&
                     leaveUnitScheduledHour > 0) {
-                    editedLeaveInstance.leaveUnits.push(leaveUnit);
+                    if (!leaveUnit.isPublicHoliday) {
+                        editedLeaveInstance.leaveUnits.push(leaveUnit);
+                    }
+                    
                 } else if (excludeDaysWithNoScheduledHours === null ||
                     excludeDaysWithNoScheduledHours === undefined ||
                     excludeDaysWithNoScheduledHours === false) {
-                    editedLeaveInstance.leaveUnits.push(leaveUnit);
+                       editedLeaveInstance.leaveUnits.push(leaveUnit);
+                 
                 }
             }
   
