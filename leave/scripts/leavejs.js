@@ -2114,7 +2114,7 @@ var UILeaveApply = new Class({
         this.title = new Element('div', { 'class': 'section-title leave-apply-title ui-has-tooltip', 'html': sTitle, 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
             .addEvent(Affinity.events.click, this.toggle).inject(this.form);
         this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.title);
-        this.applyForm = new Element('div', { 'class': 'leave-apply-form', 'style': 'display:block;' }).inject(this.form);
+        this.applyForm = new Element('div', {'style': 'display:block;' }).inject(this.form);
         this.leaveData = new Element('div', { 'class': 'leave-form default-form' }).inject(this.applyForm);
         this.formData = new Element('form').inject(this.leaveData);
        
@@ -4957,7 +4957,7 @@ var UILeaveDetail = new Class({
                     this.createEditableDates(this.data.LeaveHeader, this.data.Components, this.positions);
                     Affinity.tooltips.processNew();
 
-                    if (this.isManager) {
+                    if (this.isManager && Affinity.leave.manager) {
                         Affinity.leave.manager.refreshAll();
                     } else {
                         Affinity.leave.employee.refreshAll();
@@ -6752,7 +6752,7 @@ var UILeaveDetail = new Class({
         this.leaveDetailsGroupRow7.removeClass('hidden');
         this.leaveDetailsGroupRow8.removeClass('hidden');
 
-        if (Affinity.leave.employee) {
+        if (Affinity.leave.employee && !this.isManager) {
             if (this.commentBox !== undefined) {
                 this.commentBox.destroy();
                 this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
@@ -6883,7 +6883,7 @@ var UILeaveDetail = new Class({
         var isAttachmentMandatory = false;
 
         var leaveCodes = null;
-        if (Affinity.leave.manager) {
+        if (Affinity.leave.manager && this.isManager) {
             if (Affinity.leave.manager.config !== undefined &&
                 Affinity.leave.manager.config.Employees !== undefined) {
                 var employees = Affinity.leave.manager.config.Employees;
@@ -6975,9 +6975,9 @@ var UILeaveDetail = new Class({
     },
     validateBeforeClosingModal: function (param) {
         var isCancelledLeave = false;
-        if (Affinity.leave.manager) {
+        if (Affinity.leave.manager && this.isManager) {
             Affinity.leave.manager.refreshAll();
-        } else if (Affinity.leave.employee) {
+        } else if (Affinity.leave.employee && !this.isManager) {
             Affinity.leave.employee.refreshAll();
         }
 
