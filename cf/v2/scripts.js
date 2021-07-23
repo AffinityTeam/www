@@ -20800,7 +20800,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
         {
           templateId = this.Config.Details.Value.ExternalTemplateId;
           recipientValues = this.Config.Details.Value.Recipients;
-          if (this.Config.Details.Value.SignatureRequestStatus >= 1)
+            if (this.Config.Details.Value.SignatureRequestStatus === 'OutForSignature'
+              || this.Config.Details.Value.SignatureRequestStatus === 'Completed'
+              || this.Config.Details.Value.SignatureRequestStatus === 'Declined')
           {
             this.CanSend = false;
           }
