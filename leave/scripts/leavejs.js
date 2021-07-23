@@ -2633,8 +2633,10 @@ var UILeaveApply = new Class({
                 schedulesHours = parseFloat(schedulesHours).toFixed(2);
                 var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
                 var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
+                var isPublicHoliday = day.IsPublicHoliday;
+                var defaultHoursWorkScheduled = parseFloat(schedulesHours);
 
-                if (day.IsPublicHoliday) {
+                if (isPublicHoliday) {
                     schedulesHours = parseFloat(0).toFixed(2);
                 }
 
@@ -2642,15 +2644,18 @@ var UILeaveApply = new Class({
                 this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-apply-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
                 this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': 'leave-apply-input-hours', 'value': hoursAppliedFor }).inject(this.leavePeriodDaysHoursColumnContainer);
                 this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': 'leave-apply-input-uneditable-scheduledHours', 'value': schedulesHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
+
 
                 if (this.isManager && Affinity.leave.manager.config) {
                     this.leavePeriodDaysScheduledColumnValue.set('readonly', false);
                     this.leavePeriodDaysScheduledColumnValue.removeClass('leave-apply-input-uneditable-scheduledHours');
                     this.leavePeriodDaysScheduledColumnValue.addClass('leave-apply-input-scheduledHours');
-                    
+                    // this.leavePeriodDaysScheduledColumnValue.set('style', '');
                 }
 
-                if (day.IsPublicHoliday) {
+                if (isPublicHoliday) {
                     this.leavePeriodDaysHoursColumnValue.set('readonly', true);
                     this.leavePeriodDaysHoursColumnValue.removeClass('leave-apply-input-hours');
                     this.leavePeriodDaysHoursColumnValue.addClass('leave-apply-input-uneditable-hours');
@@ -2660,7 +2665,25 @@ var UILeaveApply = new Class({
                     this.leavePeriodDaysScheduledColumnValue.removeClass('leave-apply-input-scheduledHours');
                     this.leavePeriodDaysScheduledColumnValue.addClass('leave-apply-input-uneditable-scheduledHours');
 
+
+                    //this.leavePeriodDaysDateColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                    //this.leavePeriodDaysDaysColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                } else {
+                    //this.leavePeriodDaysDateColumnValue.set('style', '');
+                    //this.leavePeriodDaysDaysColumnValue.set('style', '');
                 }
+
+                //if ((this.leavePeriodDaysDateColumnValue.value.indexOf('aturday') !== -1) ||
+                //    (this.leavePeriodDaysDateColumnValue.value.indexOf('unday')) !== -1) {
+                //    this.leavePeriodDaysDateColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                //    this.leavePeriodDaysDaysColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                //    this.leavePeriodDaysScheduledColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                //} else {
+                //    this.leavePeriodDaysDateColumnValue.set('style', '');
+                //    this.leavePeriodDaysDaysColumnValue.set('style', '');
+                //    this.leavePeriodDaysScheduledColumnValue.set('style', '');
+                //}
+
 
 
             }.bind(this));
@@ -2671,6 +2694,7 @@ var UILeaveApply = new Class({
                 }
 
                 this.registerFocusOutEvents();
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
                 this.computeUnitsDaysAppliedFor();
                 this.formatUnitsToDecimalFormat();
 
@@ -2697,15 +2721,73 @@ var UILeaveApply = new Class({
 
             hoursField.removeEvents();
             hoursField.addEvent('focusout', function () {
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
                 this.computeUnitsDaysAppliedFor();
                 this.formatUnitsToDecimalFormat();
             }.bind(this));
 
             scheduledHoursField.removeEvents();
             scheduledHoursField.addEvent('focusout', function () {
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
                 this.computeUnitsDaysAppliedFor();
                 this.formatUnitsToDecimalFormat();
             }.bind(this));
+
+        }
+    },
+    highlightUnitFieldsIfNotEqualToDefaultValue: function () {
+        var leaveUnits = this.data;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+            var dateField = this.leavePeriodDaysContainer.getElementById('date-' + i);
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+            var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+
+            hoursField.set('style', '');
+            daysField.set('style', '');
+            dateField.set('style', '');
+            scheduledHoursField.set('style', '');
+
+            var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+
+            if (isPublicHoliday) {
+                scheduledHoursField.set('readonly', true);
+
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+            if ((dateField.value.indexOf('aturday') !== -1) ||
+                (dateField.value.indexOf('unday') !== -1)) {
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+            if (Affinity.leave.manager && this.isManager && !isPublicHoliday) {
+                hoursField.set('style', '');
+                scheduledHoursField.set('style', '');
+            }
+
+            if (Affinity.leave.employee && !this.isManager && !isPublicHoliday) {
+                hoursField.set('style', '');
+            }
+
+
+
+            if (!isPublicHoliday) {
+                if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
+                    hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                    daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                }
+            }
 
         }
     },
@@ -5340,7 +5422,7 @@ var UILeaveDetail = new Class({
 
         //Row6 Columns
         this.leaveDetailsRow6Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
-        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-detail-group-column-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
         this.leaveDetailsRow6Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow6);
 
         if (this.isManager) {
@@ -5828,7 +5910,10 @@ var UILeaveDetail = new Class({
                     this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
                     this.leavePeriodDaysScheduledColumnValue.removeClass('leave-detail-input-scheduledHours');
                     this.leavePeriodDaysScheduledColumnValue.addClass('leave-detail-input-uneditable-scheduledHours');
+
                 }
+
+               
 
                 
 
@@ -6714,16 +6799,21 @@ var UILeaveDetail = new Class({
             var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
             if (!leaveUnit.isPublicHoliday) {
                 hoursField.set('readonly', false);
-                scheduledHoursField.set('readonly', false);
-
                 hoursField.removeClass('leave-detail-input-uneditable-hours');
-                scheduledHoursField.removeClass('leave-detail-input-uneditable-scheduledHours');
-
                 hoursField.addClass('leave-detail-input-hours');
-                scheduledHoursField.addClass('leave-detail-input-scheduledHours');
+
+                if (Affinity.leave.manager.config && this.isManager) {
+                    scheduledHoursField.set('readonly', false);
+                    scheduledHoursField.removeClass('leave-detail-input-uneditable-scheduledHours');
+                    scheduledHoursField.addClass('leave-detail-input-scheduledHours');
+                }
+                
+                
             }
             
         }
+        this.isInEditMode = true;
+        this.highlightUnitFieldsIfNotEqualToDefaultValue();
        
         var app = this;
         this.leavePeriodDaysContainerEdit = new InputEditWidget({
@@ -7344,25 +7434,55 @@ var UILeaveDetail = new Class({
 
         for (var i = 0; i < leaveUnits.length; i++) {
 
-
+            var dateField = this.leavePeriodDaysContainer.getElementById('date-' + i);
             var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
             var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
             var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
             var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
             var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
 
+            hoursField.set('style', '');
+            daysField.set('style', '');
+            dateField.set('style', '');
+            scheduledHoursField.set('style','');
+
             var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+
+            if (isPublicHoliday) {
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+            if ((dateField.value.indexOf('aturday') !== -1) ||
+                (dateField.value.indexOf('unday') !== -1)) {
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
 
 
             if (!isPublicHoliday) {
+               
+                if (this.isInEditMode) {
+                    if (Affinity.leave.manager && this.isManager) {
+                        hoursField.set('style', '');
+                        scheduledHoursField.set('style', '');
+                    }
+
+                    if (Affinity.leave.employee && !this.isManager) {
+                        hoursField.set('style', '');
+                    }
+                }
+
                 if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
                     hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
                     daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
-                } else {
-                    hoursField.set('style', '');
-                    daysField.set('style', '');
                 }
-            }
+              
+            } 
             
         }
     },
@@ -7409,7 +7529,7 @@ var UILeaveDetail = new Class({
                 leaveUnit.isPublicHoliday = leaveUnitIsPublicHolidayField.value === 'true' ? true : false;
 
                 if (excludeDaysWithNoScheduledHours === true &&
-                    leaveUnitScheduledHour > 0) {
+                    leaveUnitHour > 0) {
                     if (!leaveUnit.isPublicHoliday) {
                         editedLeaveInstance.leaveUnits.push(leaveUnit);
                     }
