@@ -10513,7 +10513,7 @@ var UIModal = new Class({
 		});
 
 		this.modalbody.setStyles({
-		    'max-height': size.y - 60
+            'max-height': size.y - 60,
 		});
 
 		delete size;
