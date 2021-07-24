@@ -20670,7 +20670,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
       this.FormData.Value = JSON.stringify({
         ExternalTemplateId: this.GetSignatureTemplateId(),
         Recipients: this.GetSignatureRecipients(),
-        CanSend: this.CanSend,
         SignatureRequestId: signatureRequestId
       });
 
@@ -20800,9 +20799,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
         {
           templateId = this.Config.Details.Value.ExternalTemplateId;
           recipientValues = this.Config.Details.Value.Recipients;
-            if (this.Config.Details.Value.SignatureRequestStatus === 'OutForSignature'
-              || this.Config.Details.Value.SignatureRequestStatus === 'Completed'
-              || this.Config.Details.Value.SignatureRequestStatus === 'Declined')
+            if (this.Config.Details.Value.SignatureRequestStatus === 1
+              || this.Config.Details.Value.SignatureRequestStatus === 2
+              || this.Config.Details.Value.SignatureRequestStatus === 4)
           {
             this.CanSend = false;
           }
