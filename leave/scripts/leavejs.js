@@ -2045,7 +2045,7 @@ var UILeaveApply = new Class({
         'setEmployee',
         'setEmployeeAndConfig',
         'updateButtons'
-        
+
     ],
 
     options: {
@@ -2082,10 +2082,10 @@ var UILeaveApply = new Class({
                 this.updateEmployeeSelector(this.includeIndirect.checked, this.employeeSelector[this.employeeSelector.selectedIndex].get('id'));
                 this.setEmployeeAndConfig(this.Employees[this.employeeSelector[this.employeeSelector.selectedIndex].get('value') - 1]);
                 this.timeinputs.addClass('hidden');
-          
+
             }
         }
-        
+
     },
 
     initialize: function (options) {
@@ -2114,13 +2114,21 @@ var UILeaveApply = new Class({
         this.title = new Element('div', { 'class': 'section-title leave-apply-title ui-has-tooltip', 'html': sTitle, 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
             .addEvent(Affinity.events.click, this.toggle).inject(this.form);
         this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.title);
-        this.applyForm = new Element('div', { 'class': 'leave-apply-form', 'style': 'display:block;' }).inject(this.form);
+        this.applyForm = new Element('div', {'style': 'display:block;' }).inject(this.form);
         this.leaveData = new Element('div', { 'class': 'leave-form default-form' }).inject(this.applyForm);
         this.formData = new Element('form').inject(this.leaveData);
+       
         if (this.isManager) {
-            this.employee = new Element('div', { 'class': 'form-row leave-apply-employee' }).inject(this.formData);
             this.employeeIndirect = new Element('div', { 'class': 'form-row leave-apply-indirect' }).inject(this.formData);
             new Element('label', { 'html': 'Include Indirect' }).inject(this.employeeIndirect);
+
+            this.employeeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
+            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
+            this.employeeInputRow = new Element('div', { 'class': 'leave-apply-row' }).inject(this.employeeGroup);
+            this.employeeInputColumn1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.employeeInputRow);
+           
             this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.employeeIndirect);
             this.includeIndirect.addEvent('change', function (e) {
                 if (this.employeeSelector && this.Employees) {
@@ -2131,23 +2139,211 @@ var UILeaveApply = new Class({
                     }
                 }
             }.bind(this));
+        } else {
+            this.employeeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
+            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
+            this.employeeInputRow = new Element('div', { 'class': 'leave-apply-row' }).inject(this.employeeGroup);
+
+            new Element('label', {
+                'html': 'Employee Details',
+                'class': 'leave-apply-group-main-label'
+            }).inject(this.employeeGroupRow1);
+            new Element('label', {
+                'html': 'Position',
+                'class': 'leave-apply-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
+            this.employeeInputColumn1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.employeeInputRow);
+
+            this.employeeInput = new Element('div', { 'style': 'margin-right:0' }).inject(this.formData);
         }
-        this.position = new Element('div', { 'class': 'form-row leave-apply-position' }).inject(this.formData);
-        if (this.isManager)
-            this.position.addClass('hidden');
-        new Element('label', { 'html': 'Position' }).inject(this.position);
+
+        this.leavePeriodGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
+        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+
+
+
+        
+        new Element('label', {
+            'html': 'Leave Period',
+            'class': 'leave-apply-group-title-label'
+        }).inject(this.leavePeriodGroupRow1);
+        
+        this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
+
+        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
+        this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
+
+        this.leavePeriodRequestPartDayInputColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
+
+        this.leavePeriodRequestPartDayLabel = new Element('label', {
+            'html': 'Part Day Reason',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
+
+
+        this.partDayReason = new Element('textarea', { 'class': 'leave-apply-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
+
+
+        
+
+        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
+
+
+        this.leavePeriodDaysBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysDateTitle = new Element('label', {
+            'html': 'Date',
+            'class': 'leave-apply-leave-period-header-date'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        
+
+        this.leavePeriodDaysDaysTitle = new Element('label', {
+            'html': 'Days',
+            'class': 'leave-apply-leave-period-header-days'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Hours',
+            'class': 'leave-apply-leave-period-header-hours'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Scheduled',
+            'class': 'leave-apply-leave-period-header-scheduled'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
+
+
+        this.leaveDetailsGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
+        this.leaveDetailsGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow2 = new Element('div', { 'class': 'leave-apply-group-row'}).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow3 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow4 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow5 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow6 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow7 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow8 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+
+        //Row 1 Colums
+        this.leaveDetailsRow1Column1 = new Element('span').inject(this.leaveDetailsGroupRow1);
+        this.leaveDetailsRow1Column2 = new Element('span').inject(this.leaveDetailsGroupRow1);
+        this.leaveDetailsRow1Column3 = new Element('span').inject(this.leaveDetailsGroupRow1);
+
+        //Row2 Columns
+        this.leaveDetailsRow2Column1 = new Element('span', { 'class':'leave-apply-group-column-blank-container'}).inject(this.leaveDetailsGroupRow2);
+        this.leaveDetailsRow2Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow2);
+        this.leaveDetailsRow2Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow2);
+
+        this.leaveProjectionPlaceHolder = new Element('div', {'class': 'leave-apply-leave-projection-placeholder'}).inject(this.leaveDetailsGroupRow2);
+
+        //Row3 Columns
+        this.leaveDetailsRow3Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow3);
+        this.leaveDetailsRow3Column2 = new Element('span').inject(this.leaveDetailsGroupRow3);
+
+        //Row4 Columns
+        this.leaveDetailsRow4Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow4);
+        this.leaveDetailsRow4Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow4);
+
+        //Row5 Columns
+        this.leaveDetailsRow5Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow5);
+        this.leaveDetailsRow5Column2 = new Element('span', { 'class': 'leave-apply-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
+        this.leaveDetailsRow5Column3 = new Element('span', { 'class': 'leave-apply-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
+
+        //Row6 Columns
+        this.leaveDetailsRow6Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow6);
+
+        //Row7 Columns
+        this.leaveDetailsRow7Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow7);
+        this.leaveDetailsRow7Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow7);
+        this.leaveDetailsRow7Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow7);
+
+        //Row8 Columns
+        this.leaveDetailsRow8Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow8);
+        this.leaveDetailsRow8Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow8);
+        this.leaveDetailsRow8Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow8);
+
+
+        //Row 1 Column Content
+        new Element('label', {
+            'html': 'Leave Details',
+            'class': 'leave-apply-group-title-label'
+        }).inject(this.leaveDetailsRow1Column1);
+
+
+        new Element('label', {
+            'html': 'Leave Type',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow1Column2);
+
+        this.reasonLabel = new Element('label', {
+            'html': 'Reason',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow1Column3);
+
+        //Row 2 Column Content
         this.type = new Element('div', { 'class': 'form-row leave-apply-type' }).inject(this.formData);
-        this.reason = new Element('div', { 'class': 'form-row leave-apply-reason' }).inject(this.formData);
-        this.reasonLabel = new Element('label', { 'html': 'Reason' }).inject(this.reason);
-        this.reasonSelector = new Element('select', { 'class': 'apply-reason-selector' }).inject(this.reason);
-        this.dates = new Element('div', { 'class': 'leave-dates' }).inject(this.leaveData);
-        this.commentData = new Element('div', { 'class': 'apply-comment-form default-form' }).inject(this.leaveData);
-        this.commentForm = new Element('form').inject(this.commentData);
-        this.commentRow = new Element('div', { 'class': 'form-row leave-apply-comment' }).inject(this.commentForm);
-        this.commentTitle = new Element('label', { 'html': 'Comment' }).inject(this.commentRow);
-        this.commentBox = new Element('textarea', { 'class': 'apply-comment-box data-hj-whitelist', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.commentRow);
-        this.attachmentForm = new Element('form', { 'class': 'apply-attachment-form' }).inject(this.leaveData);
-        this.attachment = new Element('div', { 'class': 'form-row leave-apply-attachment' }).inject(this.commentForm);
+        //Reason Column
+        this.reasonSelector = new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveDetailsRow2Column3);
+
+
+        //Row 3 Column Content
+        new Element('label', {
+            'html': 'Comments',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow3Column2);
+
+       
+        //Row 4 Column Content
+        this.commentBox = new Element('textarea', { 'class': 'leave-apply-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
+        
+        //Row 5 Column Content
+        new Element('label', {
+            'html': 'Attachments',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow5Column2);
+
+        //new Element('label', {
+        //    'html': 'Approver',
+        //    'class': 'leave-apply-group-column-label'
+        //}).inject(this.leaveDetailsRow5Column3);
+
+        //Row 6 Column Content
+        this.attachment = new Element('div', { 'class': 'form-row leave-apply-attachment leave-apply-attachment-form' }).inject(this.leaveDetailsRow6Column2);
+        //new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveDetailsRow6Column3);
+
+
+        //Row 7 Column Content
+        new Element('label', {
+            'html': 'Approver',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow7Column2);
+
+        //Row 8 Column Content
+        this.approverSelector = new Element('select', { 'class': 'leave-approver-selector leave-apply-select' }).inject(this.leaveDetailsRow8Column2);
+
+        
+        //this.commentData = new Element('div', { 'class': 'apply-comment-form default-form' }).inject(this.leaveData);
+        ////this.commentForm = new Element('form').inject(this.commentData);
+        //this.commentRow = new Element('div', { 'class': 'form-row leave-apply-comment' }).inject(this.commentForm);
+        //this.commentTitle = new Element('label', { 'html': 'Comment' }).inject(this.commentRow);
+        //this.commentBox = new Element('textarea', { 'class': 'apply-comment-box data-hj-whitelist', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.commentRow);
+       // this.attachmentForm = new Element('form', { 'class': 'apply-attachment-form' }).inject(this.leaveData);
+       // this.attachment = new Element('div', { 'class': 'form-row leave-apply-attachment' }).inject(this.commentForm);
         this.approversForm = new Element('form').inject(this.leaveData);
         this.approvers = new Element('div', { 'class': 'form-row leave-apply-approvers' }).inject(this.approversForm);
         this.hiddenApprovers = new Element('div', { 'class': 'hidden' }).inject(this.approversForm);
@@ -2183,11 +2379,11 @@ var UILeaveApply = new Class({
             },
             onSuccess: function (response) {
                 if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-                    if (response.Data.ComponentBalances.length > 0 && response.Data.ComponentBalances[0].CodeBalances.length > 0 && 
+                    if (response.Data.ComponentBalances.length > 0 && response.Data.ComponentBalances[0].CodeBalances.length > 0 &&
                         this.typeSelector.selectedIndex !== 0) {
                         this.ealProjectionReturned = true;
                         this.ealInfo = response.Data.ComponentBalances[0].CodeBalances[0];
-                       
+
                         var inlineEalSummary = document.getElementById("inlineEalSummary");
                         var inlineEalStory = document.getElementById("inlineEalStory");
                         if (inlineEalStory && inlineEalSummary) {
@@ -2210,14 +2406,22 @@ var UILeaveApply = new Class({
             onRequest: function () {
                 this.updateButtons(false);
                 Affinity.leave.lockui('leaveApply-leaveUnitsRequest');
+                Affinity.leave.lockui('leaveApply-leaveUnitsRequest');
+                uialert({
+                    message: 'Calculating leave units. Please wait',
+                    showLoader: true,
+                    showButtons: false,
+                    noClose: true
+                });
             }.bind(this),
             onFailure: function (e) {
                 Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
                 if (!Affinity.leave.handleXHRErrors(e, this._api, this._methodName)) {
                     uialert({
                         message: 'We can\'t load that information. Please try again.',
                         okText: 'Retry',
-                        showCancel: true,                
+                        showCancel: true,
                         onOk: function () {
                             this.leaveUnitsRequest.send();
                         }.bind(this)
@@ -2226,12 +2430,15 @@ var UILeaveApply = new Class({
             }.bind(this),
             onException: function () {
                 Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
             },
             onCancel: function () {
                 Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
             },
             onSuccess: function (response) {
                 Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
                 if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
 
                     if (this.retainTotalUnitsAppliedFor &&
@@ -2247,7 +2454,7 @@ var UILeaveApply = new Class({
                                 if (unitType === 'H' &&
                                     unit.Hours) {
                                     total += parseFloat(unit.Hours);
-                                   // var day = days.filter(x => x.Date == unit.Date);
+                                    // var day = days.filter(x => x.Date == unit.Date);
                                     var day = days.filter(function (day) {
                                         if (day.Date == unit.Date) {
                                             return day;
@@ -2265,7 +2472,7 @@ var UILeaveApply = new Class({
                                             position[0].HoursAppliedFor = unit.Hours;
                                         }
                                     }
-                                    
+
 
                                 } else if (unitType === 'D' &&
                                     unit.Days) {
@@ -2291,8 +2498,8 @@ var UILeaveApply = new Class({
                                             position[0].DaysAppliedFor = unit.Days;
                                         }
                                     }
-                                    
-                                   
+
+
                                 } else if (unitType === 'W') {
                                     total += parseFloat(unit.Weeks);
                                 }
@@ -2302,12 +2509,12 @@ var UILeaveApply = new Class({
                             if (unitType == 'H') {
                                 response.Data.TotalHoursAppliedFor = total;
                                 //Update Days
-                                
+
                             } else if (unitType == 'D') {
                                 response.Data.TotalDaysAppliedFor = total;
                             }
 
-                            
+
 
                             this.unitInput.set('html', parseFloat(total).toFixed(2));
                             this.unitInput.set('id', total);
@@ -2322,21 +2529,17 @@ var UILeaveApply = new Class({
                         this.retainTotalUnitsAppliedFor = false;
                     }
 
-                    //else if (!this.retainTotalUnitsAppliedFor) {
-
-                    //    this.savedData = this.data;
-                    //}
-
-
+                    
                     this.responseData = response.Data;
                     if (this.processUnits(response.Data)) {
                         this.checkHours(response.Data);
                         this.createResponseField(response.Data);
                         this.updateButtons(true);
+                        this.createDaysFields(response.Data);
 
                     }
 
-                    
+
                 }
             }.bind(this)
         });
@@ -2367,7 +2570,7 @@ var UILeaveApply = new Class({
                 prompts.hide();
             },
             onSuccess: function (response) {
-               
+
                 if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
                     var vm = this;
                     var requestResponse = response;
@@ -2378,7 +2581,7 @@ var UILeaveApply = new Class({
                     }.bind(this));
 
 
-                    if ( this.isManager ) {
+                    if (this.isManager) {
                         Affinity.leave.manager.refreshAll();
                     }
                     else {
@@ -2406,6 +2609,228 @@ var UILeaveApply = new Class({
         }
     },
 
+    createDaysFields: function (data) {
+     
+        if (data.Days.length > 0) {
+
+            if (this.leavePeriodDaysContainer !== undefined) {
+                this.leavePeriodDaysContainer.destroy();
+            }
+            
+            this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
+            Array.each(data.Days, function (day, index) {
+                this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer); 
+                this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header'}).inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDateColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysScheduledColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+
+                var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                var dateValue = day.Date;
+                var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
+                var schedulesHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
+                schedulesHours = parseFloat(schedulesHours).toFixed(2);
+                var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
+                var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
+                var isPublicHoliday = day.IsPublicHoliday;
+                var defaultHoursWorkScheduled = parseFloat(schedulesHours);
+
+                if (isPublicHoliday) {
+                    schedulesHours = parseFloat(0).toFixed(2);
+                }
+
+                this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly' : 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
+                this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-apply-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
+                this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': 'leave-apply-input-hours', 'value': hoursAppliedFor }).inject(this.leavePeriodDaysHoursColumnContainer);
+                this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': 'leave-apply-input-uneditable-scheduledHours', 'value': schedulesHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
+
+
+                if (this.isManager && Affinity.leave.manager.config) {
+                    this.leavePeriodDaysScheduledColumnValue.set('readonly', false);
+                    this.leavePeriodDaysScheduledColumnValue.removeClass('leave-apply-input-uneditable-scheduledHours');
+                    this.leavePeriodDaysScheduledColumnValue.addClass('leave-apply-input-scheduledHours');
+                    // this.leavePeriodDaysScheduledColumnValue.set('style', '');
+                }
+
+                if (isPublicHoliday) {
+                    this.leavePeriodDaysHoursColumnValue.set('readonly', true);
+                    this.leavePeriodDaysHoursColumnValue.removeClass('leave-apply-input-hours');
+                    this.leavePeriodDaysHoursColumnValue.addClass('leave-apply-input-uneditable-hours');
+
+
+                    this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
+                    this.leavePeriodDaysScheduledColumnValue.removeClass('leave-apply-input-scheduledHours');
+                    this.leavePeriodDaysScheduledColumnValue.addClass('leave-apply-input-uneditable-scheduledHours');
+
+
+                    //this.leavePeriodDaysDateColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                    //this.leavePeriodDaysDaysColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                } else {
+                    //this.leavePeriodDaysDateColumnValue.set('style', '');
+                    //this.leavePeriodDaysDaysColumnValue.set('style', '');
+                }
+
+                //if ((this.leavePeriodDaysDateColumnValue.value.indexOf('aturday') !== -1) ||
+                //    (this.leavePeriodDaysDateColumnValue.value.indexOf('unday')) !== -1) {
+                //    this.leavePeriodDaysDateColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                //    this.leavePeriodDaysDaysColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                //    this.leavePeriodDaysScheduledColumnValue.set('style', 'background-color: #C0C0C0 !important;');
+                //} else {
+                //    this.leavePeriodDaysDateColumnValue.set('style', '');
+                //    this.leavePeriodDaysDaysColumnValue.set('style', '');
+                //    this.leavePeriodDaysScheduledColumnValue.set('style', '');
+                //}
+
+
+
+            }.bind(this));
+
+            if (this.leavePeriodDaysContainer !== undefined) {
+                if (this.totalPeriodDaysDetail !== undefined) {
+                    this.totalPeriodDaysDetail.destroy();
+                }
+
+                this.registerFocusOutEvents();
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
+                this.computeUnitsDaysAppliedFor();
+                this.formatUnitsToDecimalFormat();
+
+                var totalString = 'Total [days] days / [hours] hours';
+                totalString = totalString.replace('[days]', data.TotalDaysAppliedFor);
+                totalString = totalString.replace('[hours]', data.TotalHoursAppliedFor);
+                this.totalPeriodDaysDetail = new Element('label', {
+                    'html': totalString,
+                    'class' : 'leave-apply-total-period-days-detail'
+                }).inject(this.leavePeriodDaysBox);
+            }
+        }
+
+       
+    },
+    registerFocusOutEvents: function () {
+        var leaveUnits = this.data;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+
+            hoursField.removeEvents();
+            hoursField.addEvent('focusout', function () {
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
+                this.computeUnitsDaysAppliedFor();
+                this.formatUnitsToDecimalFormat();
+            }.bind(this));
+
+            scheduledHoursField.removeEvents();
+            scheduledHoursField.addEvent('focusout', function () {
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
+                this.computeUnitsDaysAppliedFor();
+                this.formatUnitsToDecimalFormat();
+            }.bind(this));
+
+        }
+    },
+    highlightUnitFieldsIfNotEqualToDefaultValue: function () {
+        var leaveUnits = this.data;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+            var dateField = this.leavePeriodDaysContainer.getElementById('date-' + i);
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+            var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+
+            hoursField.set('style', '');
+            daysField.set('style', '');
+            dateField.set('style', '');
+            scheduledHoursField.set('style', '');
+
+            var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+
+            if (isPublicHoliday) {
+                scheduledHoursField.set('readonly', true);
+
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+            if ((dateField.value.indexOf('aturday') !== -1) ||
+                (dateField.value.indexOf('unday') !== -1)) {
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+            if (Affinity.leave.manager && this.isManager && !isPublicHoliday) {
+                hoursField.set('style', '');
+                scheduledHoursField.set('style', '');
+            }
+
+            if (Affinity.leave.employee && !this.isManager && !isPublicHoliday) {
+                hoursField.set('style', '');
+            }
+
+
+
+            if (!isPublicHoliday) {
+                if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
+                    hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                    daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                }
+            }
+
+        }
+    },
+    computeUnitsDaysAppliedFor: function () {
+        var leaveUnits = this.data;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+
+            hoursField.value = parseFloat(hoursField.value).toFixed(2);
+            scheduledHoursField.value = parseFloat(scheduledHoursField.value).toFixed(2);
+
+            var daysValue = parseFloat(hoursField.value) / parseFloat(scheduledHoursField.value);
+            if (daysValue > 1) {
+                daysValue = 1;
+            } else if (isNaN(daysValue)) {
+                daysValue = 0;
+            }
+
+            daysField.value = parseFloat(daysValue).toFixed(2);
+
+        }
+    },
+    formatUnitsToDecimalFormat: function () {
+        var leaveUnits = this.data;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+
+            daysField.value = parseFloat(daysField.value).toFixed(2);
+            hoursField.value = parseFloat(hoursField.value).toFixed(2);
+            scheduledHoursField.value = parseFloat(scheduledHoursField.value).toFixed(2);
+
+        }
+    },
     loadConfig: function (config) {
         this.leaveTypeMap = config.LeaveCodes.mapFromKey('LeaveCode');
         this.generateLeaveCodes(config.LeaveCodes);
@@ -2418,12 +2843,15 @@ var UILeaveApply = new Class({
         }
     },
 
-    
+
 
     generatePositions: function (positions) {
         var hasMultiPosition = positions.length > 1;
         if (positions.length === 1) {
-            this.positionDescription = new Element('span', { 'class': 'position', 'html': positions[0].PositionTitle, 'id': positions[0].PositionCode }).inject(this.position);
+            if (this.employeeInputColumn3 !== undefined) {
+                this.positionDescription = new Element('label', { 'class': 'position', 'html': positions[0].PositionTitle, 'id': positions[0].PositionCode }).inject(this.employeeInputColumn3);
+            }
+            
         } else {
             this.positionSelector = new Element('select', { 'class': 'leave-position-selector' }).inject(this.position);
             new Element('option', { 'value': '0', 'html': 'All', 'id': '-01' }).inject(this.positionSelector, 'top');
@@ -2442,16 +2870,16 @@ var UILeaveApply = new Class({
         }
 
         Array.each(positions, function (position, index) {
-            this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
+            //this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
 
-            if (hasMultiPosition) {
-                this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
-            } else {
-                this.label = new Element('label', { 'html': 'Approver'}).inject(this.approverBox);
-            }
-            
+            //if (hasMultiPosition) {
+            //    this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
+            //} else {
+            //    this.label = new Element('label', { 'html': 'Approver' }).inject(this.approverBox);
+            //}
 
-            this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
+
+            //this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
 
             if (position !== undefined &&
                 position !== null &&
@@ -2460,13 +2888,13 @@ var UILeaveApply = new Class({
                 position.SubmittedTos.length > 1) {
                 this.def = new Element('option', { 'value': '0', 'html': '' }).inject(this.approverSelector, 'top');
             }
-            
+
 
             this.approverSelector.selectedIndex = 0;
-            this.approverBox.set('id', position.PositionCode);
+            //this.approverBox.set('id', position.PositionCode);
             this.approverSelector.set('id', position.PositionCode);
 
-            
+
 
             Array.each(position.SubmittedTos, function (approver, index) {
                 new Element('option', { 'value': index + 1, 'html': approver.EmployeeName + ' (' + approver.EmployeeNo + ')', 'id': approver.EmployeeNo }).inject(this.approverSelector);
@@ -2477,14 +2905,14 @@ var UILeaveApply = new Class({
     refreshApprovers: function (data, index) {
         this.approvers.set('html', '');
         var hasMultiPosition = data.length > 1;
-        if ( data && typeOf(data) === 'array' ) {
+        if (data && typeOf(data) === 'array') {
             Array.each(data, function (position, i) {
                 if (index < 0 || index == i) {
                     this.approverBox = new Element('div', { 'class': 'leave-approver-box' }).inject(this.approvers);
                     if (hasMultiPosition) {
                         this.label = new Element('label', { 'html': 'Approver - ' + position.PositionTitle }).inject(this.approverBox);
                     } else {
-                        this.label = new Element('label', { 'html': 'Approver'}).inject(this.approverBox);
+                        this.label = new Element('label', { 'html': 'Approver' }).inject(this.approverBox);
                     }
 
                     this.approverSelector = new Element('select', { 'class': 'leave-approver-selector' }).inject(this.approverBox);
@@ -2526,34 +2954,53 @@ var UILeaveApply = new Class({
                 this.employeeSelectorAutocomplete.revert();
             }
 
-            this.employeeSelectorAutocomplete = new UIAutoCompleteWidget({
-                stopInitialChange: true,
-                selectElement: this.employeeSelector
-            });
+            //this.employeeSelectorAutocomplete = new UIAutoCompleteWidget({
+            //    stopInitialChange: true,
+            //    selectElement: this.employeeSelector
+            //});
         }
     },
 
     generateEmployees: function (employees) {
         this.Employees = employees;
-        var label = new Element('label', { 'html': 'Employee' }).inject(this.employee);
-        this.employeeSelector = new Element('select', { 'class': 'leave-employee-selector' }).inject(this.employee);
+        new Element('label', {
+            'html': 'Employee',
+            'class': 'leave-apply-group-main-label' 
+        }).inject(this.employeeGroupRow1);
+        new Element('label', {
+            'html': 'Full Name',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.employeeGroupRow1);
+        new Element('label', {
+            'html': 'Position',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.employeeGroupRow1);
+
+
+       // new Element('div').inject(this.employeeInputColumn1);
+        this.employeeSelector = new Element('select', { 'class': 'leave-apply-select'}).inject(this.employeeInputColumn2);
+        //new Element('select').inject(this.employeeInputColumn3);
+        //this.employeeSelector = new Element('input', { 'type': 'text' }).inject(this.employeeInputColumn2);
         this.employeeSelector.addEvent('change',
             function () {
                 this.updateButtons(false);
                 (
-                    function ()
-                    {
+                    function () {
                         var employee = this.Employees[this.employeeSelector[this.employeeSelector.selectedIndex].get('value') - 1];
                         this.setEmployee(employee);
                         if (employee) {
-                            this.position.removeClass('hidden');
+                            if (this.positionDescription !== undefined &&
+                                this.positionDescription.removeClass !== undefined) {
+                                this.positionDescription.removeClass('hidden');
+                            }
+                            
                             if (this.selectedEmployeeNumber !== employee.EmployeeNo) {
                                 this.timeinputs.addClass('hidden');
                             }
-                            
+
                         } else {
-                            this.position.addClass('hidden');
-                            
+                            this.positionDescription.addClass('hidden');
+
                         }
                     }.bind(this)
                 ).delay(1000, this);
@@ -2584,15 +3031,15 @@ var UILeaveApply = new Class({
             this.leaveCode !== null) {
             this.leaveUnits();
         }
-        
+
     },
     initiateAttachmentWidget: function () {
         if (this.attachWidgetDiv) {
-           // this.generateAttachments();
-           // Affinity.uploaders.reset(this.attachWidgetDiv);
-            
-     
-      
+            // this.generateAttachments();
+            // Affinity.uploaders.reset(this.attachWidgetDiv);
+
+
+
         }
     },
     initiateInputFields: function () {
@@ -2601,11 +3048,12 @@ var UILeaveApply = new Class({
         this.initiateReasonSelector();
         this.initiateDateRange();
         this.commentBox.value = '';
+        this.partDayReason.value = '';
         this.initiateAttachmentWidget();
 
         this.updateButtons(false);
         this.timeinputs.addClass('hidden');
-        
+
         var projectionInfo = document.getElementById("inlineProjectionInfo");
         if (projectionInfo !== undefined &&
             projectionInfo !== null &&
@@ -2613,7 +3061,15 @@ var UILeaveApply = new Class({
             projectionInfo.style.display !== undefined) {
             projectionInfo.style.display = "none";
         }
-        
+
+        if (this.leavePeriodDaysContainer !== undefined) {
+            this.leavePeriodDaysContainer.destroy();
+
+            if (this.totalPeriodDaysDetail !== undefined) {
+                this.totalPeriodDaysDetail.destroy();
+            }
+        }
+
     },
     setEmployeeAndConfig: function (employee) {
 
@@ -2624,28 +3080,28 @@ var UILeaveApply = new Class({
             this.positionSelector.destroy();
         }
 
-            var approvers = document.getElements('.leave-approver-box');
-            if (approvers && approvers.length > 0) {
-                approvers.destroy();
+        var approvers = document.getElements('.leave-approver-box');
+        if (approvers && approvers.length > 0) {
+            approvers.destroy();
         }
 
-            if (employee && employee.EmployeeNo) {
-                Affinity.leave.manager.getManagerEmployeeConfigFromBackend(employee.EmployeeNo, function (empData) {
-                    if (this.timeinputs !== undefined &&
-                        this.timeinputs.hasClass('hidden')) {
-                        this.retainTotalUnitsAppliedFor = false;
-                    } else {
-                        this.retainTotalUnitsAppliedFor = true;
-                    }
-                    this.generatePositions(empData.Positions);
-                    this.leaveUnits();
-                    this.leaveTypeMap = empData.LeaveCodes.mapFromKey('LeaveCode');
-                    var previouslySelectedLeaveTypeIndex = this.typeSelector.selectedIndex;
-                    this.generateLeaveCodes(empData.LeaveCodes);
-                    this.typeSelector.selectedIndex = previouslySelectedLeaveTypeIndex;
-                }.bind(this));
-            }
-      
+        if (employee && employee.EmployeeNo) {
+            Affinity.leave.manager.getManagerEmployeeConfigFromBackend(employee.EmployeeNo, function (empData) {
+                if (this.timeinputs !== undefined &&
+                    this.timeinputs.hasClass('hidden')) {
+                    this.retainTotalUnitsAppliedFor = false;
+                } else {
+                    this.retainTotalUnitsAppliedFor = true;
+                }
+                this.generatePositions(empData.Positions);
+                this.leaveUnits();
+                this.leaveTypeMap = empData.LeaveCodes.mapFromKey('LeaveCode');
+                var previouslySelectedLeaveTypeIndex = this.typeSelector.selectedIndex;
+                this.generateLeaveCodes(empData.LeaveCodes);
+                this.typeSelector.selectedIndex = previouslySelectedLeaveTypeIndex;
+            }.bind(this));
+        }
+
 
 
 
@@ -2691,9 +3147,9 @@ var UILeaveApply = new Class({
             if (employee && employee.EmployeeNo) {
                 this.updateButtons(true);
                 if (this.typeSelector.selectedIndex > 0) {
-                    this.timeinputs.removeClass('hidden');
+                   // this.timeinputs.removeClass('hidden');
                 }
-            } 
+            }
         }
 
     },
@@ -2708,26 +3164,26 @@ var UILeaveApply = new Class({
         }
 
         if (this.leaveCode && selectedEmployee) {
-            this.timeinputs.removeClass('hidden');
+           // this.timeinputs.removeClass('hidden');
         } else {
             this.timeinputs.addClass('hidden');
         }
     },
     generateLeaveCodes: function (leaveCodes) {
         if (this.typeSelector) { this.typeSelector.removeEvents(); }
-        this.type.set('html', null);
+        this.leaveDetailsRow2Column2.set('html', null);
 
-        this.label = new Element('label', { 'html': 'Leave Type' }).inject(this.type);
-       
-        this.typeSelector = new Element('select', { 'class': 'leave-type-selector data-hj-whitelist' }).inject(this.type);
+      //  this.label = new Element('label', { 'html': 'Leave Type' }).inject(this.type);
+
+        this.typeSelector = new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveDetailsRow2Column2);
         this.def = new Element('option', { 'value': '0', 'html': '' }).inject(this.typeSelector, 'top');
-       
+
         this.typeSelector.addEvent('change', function () {
             this.typeSelectorChanged();
         }.bind(this));
         var multiPositionCompanies = [2593, 6593, 5000];
         if (multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) < 0) { //non-multi position comps only
-            
+
             this.label = new Element('br').inject(this.type);
             this.label = new Element('label', { 'html': '' }).inject(this.type);
             this.inlineProjectionInfo = new Element('div', {
@@ -2762,7 +3218,7 @@ var UILeaveApply = new Class({
 
                 }.bind(this)),
                 new Element('div', { 'id': 'inlineEalStory', 'style': 'max-height: 0px; opacity: 0;', 'html': '' })
-            ).inject(this.type);
+            ).inject(this.leaveProjectionPlaceHolder);
         }
 
         this.outOfRangeInfo = new Element('div', {
@@ -2790,13 +3246,13 @@ var UILeaveApply = new Class({
         console.log(this.isManager)
         var userPronoun = "Your";
         if (this.isManager) {
-            userPronoun = leaveInfo.EmployeeFirstName+"'s";
+            userPronoun = leaveInfo.EmployeeFirstName + "'s";
         }
         var unitLabel = leaveInfo.UnitType == "H" ? "Hours" : "Days";
         var balDate = this.parseISOLocal(leaveInfo.BalanceDate);
         var formattedBalDate = balDate.getDate() + "/" + (balDate.getMonth() + 1) + "/" + balDate.getFullYear();
 
-        var storyHtml = "<div class='ealStory'><div class='leftText ealTableTitle'>How " + userPronoun +" Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
+        var storyHtml = "<div class='ealStory'><div class='leftText ealTableTitle'>How " + userPronoun + " Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
             "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.Entitlement) + "'>" + leaveInfo.Entitlement + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual) + "'>+" + +(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2) + "</td></tr>";
         var totalAmount = leaveInfo.UnitType == "H" ? leaveInfo.TotalHours : leaveInfo.TotalDays;
         if (leaveInfo.LeaveItems != null) {
@@ -2817,20 +3273,19 @@ var UILeaveApply = new Class({
 
         return storyHtml;
     },
-    initiateReasonSelector: function() {
+    initiateReasonSelector: function () {
         this.reasonSelector.set('html', '');
         this.def = new Element('option', { 'value': '0', 'html': '** Please select a leave type first **' }).inject(this.reasonSelector, 'top');
         this.reasonSelector.selectedIndex = 0;
     },
-    
+
     setLeaveCode: function (leaveCode) {
         this.initiateReasonSelector();
         this.leaveCode = leaveCode;
         var inlineProjectionInfo = document.getElementById("inlineProjectionInfo");
         if (leaveCode) {
             if (inlineProjectionInfo) {
-                if (!this.checkLeaveIsConfigured(leaveCode.LeaveCode, leaveCode.Description))
-                {
+                if (!this.checkLeaveIsConfigured(leaveCode.LeaveCode, leaveCode.Description)) {
                     inlineProjectionInfo.style.display = "none";
                 }
             }
@@ -2877,9 +3332,9 @@ var UILeaveApply = new Class({
                 this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
             }
             if (leaveCode.MandatoryAttachment) {
-                this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
+               // this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
             }
-            
+
         } else {
             if (inlineProjectionInfo) {
                 inlineProjectionInfo.style.display = "none";
@@ -2888,7 +3343,7 @@ var UILeaveApply = new Class({
         this.leaveUnits();
     },
 
-    checkLeaveIsConfigured: function(leaveCode, leaveDescription){
+    checkLeaveIsConfigured: function (leaveCode, leaveDescription) {
         var description = leaveDescription.split("Leave ");
         var descriptionCharCheck = null;
         if (description.length > 1) {
@@ -2930,7 +3385,7 @@ var UILeaveApply = new Class({
         this.hiddenDateDivFrom = new Element('div', { 'class': 'from-selector' }).inject(this.hiddenDateDiv);
         this.hiddenDateDivTo = new Element('div', { 'class': 'to-selector' }).inject(this.hiddenDateDiv);
 
-        this.hiddenDateInputFrom = new Element('input', { 'type': 'text', 'id': 'apply-date-from', 'class': 'scaled data-hj-whitelist'}).inject(this.hiddenDateDivFrom);
+        this.hiddenDateInputFrom = new Element('input', { 'type': 'text', 'id': 'apply-date-from', 'class': 'scaled data-hj-whitelist' }).inject(this.hiddenDateDivFrom);
         this.hiddenDateInputTo = new Element('input', { 'type': 'text', 'id': 'apply-date-to', 'class': 'scaled data-hj-whitelist' }).inject(this.hiddenDateDivTo);
 
         this.fromDateWidget = new UIDateTimeWidget({
@@ -2986,7 +3441,7 @@ var UILeaveApply = new Class({
             Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
             this.leaveUnits();
             //this.validateTotalUnitsAppliedFor();
-            
+
         }.bind(this));
 
         this.fromDateBox.addEvent(Affinity.events.click, function (e) {
@@ -3019,7 +3474,7 @@ var UILeaveApply = new Class({
                 } else {
                     vm.retainTotalUnitsAppliedFor = true;
                 }
-                
+
 
                 Affinity.leave.employee.config = data;
 
@@ -3045,18 +3500,18 @@ var UILeaveApply = new Class({
                 vm.clearBorderHilights();
                 if (!vm.timeinputs.classList.contains("hidden")) {
                     var totalUnitsApplied = +vm.unitInput.get('id');
-                    
+
                     vm.calculateLeaveAvailability(totalUnitsApplied);
 
-                  
+
                 }
 
             });
 
 
-            
+
         }
-       
+
     },
     editTimeModal: function () {
         if (this.leaveCode && (!this.employeeSelector || this.employeeSelector.selectedIndex > 0)) {
@@ -3077,8 +3532,8 @@ var UILeaveApply = new Class({
 
             //This modal thing is buggy
             (function () {
-                    Affinity.modal.setElement(this.modalData)
-                }.bind(this)).delay(200, this);
+                Affinity.modal.setElement(this.modalData)
+            }.bind(this)).delay(200, this);
 
             this.edititableDates();
         }
@@ -3096,31 +3551,31 @@ var UILeaveApply = new Class({
 
     updateEditableDays: function (dataDateRange) {
         //if (this.leaveCode && this.employeeSelector.selectedIndex > 0) {
-            var employeeNum;
-            var positionCode = false;
-            if (this.isManager) {
-                employeeNum = this.employeeSelector.getElements('option')[this.employeeSelector.selectedIndex].get('id');
-                //leaveCode = Affinity.leave.manager.config.LeaveCodes[this.selectedType];
-                positionCode = this.positionSelector ? this.positionSelector.getElements('option')[this.positionSelector.selectedIndex].get('id') : this.positionDescription.get('id');
-            } else {
-                employeeNum = Affinity.login.profile.employeeNumber;
-                //leaveCode = Affinity.leave.employee.config.LeaveCodes[this.selectedType];
-            }
+        var employeeNum;
+        var positionCode = false;
+        if (this.isManager) {
+            employeeNum = this.employeeSelector.getElements('option')[this.employeeSelector.selectedIndex].get('id');
+            //leaveCode = Affinity.leave.manager.config.LeaveCodes[this.selectedType];
+            positionCode = this.positionSelector ? this.positionSelector.getElements('option')[this.positionSelector.selectedIndex].get('id') : this.positionDescription.get('id');
+        } else {
+            employeeNum = Affinity.login.profile.employeeNumber;
+            //leaveCode = Affinity.leave.employee.config.LeaveCodes[this.selectedType];
+        }
 
-            var startDate = this.fromDateWidget.getRawDate().format('%d-%b-%Y');
-            var endDate = this.toDateWidget.getRawDate().format('%d-%b-%Y');
-            this._dataDateRange = dataDateRange;
-            this._methodName = 'ui.leave.apply.js -> updateEditableDays';
-            var path = Affinity.leave.apiroot + 'CalculateLeaveUnits/' + employeeNum + '/' + startDate + '/' + endDate + '/' + this.leaveCode.LeaveCode;
-            if (positionCode && positionCode != '-01')
-                path = path + '?positionCode=' + encodeURIComponent(positionCode)
-            this._api = Affinity.GetCacheSafePath(path);
+        var startDate = this.fromDateWidget.getRawDate().format('%d-%b-%Y');
+        var endDate = this.toDateWidget.getRawDate().format('%d-%b-%Y');
+        this._dataDateRange = dataDateRange;
+        this._methodName = 'ui.leave.apply.js -> updateEditableDays';
+        var path = Affinity.leave.apiroot + 'CalculateLeaveUnits/' + employeeNum + '/' + startDate + '/' + endDate + '/' + this.leaveCode.LeaveCode;
+        if (positionCode && positionCode != '-01')
+            path = path + '?positionCode=' + encodeURIComponent(positionCode)
+        this._api = Affinity.GetCacheSafePath(path);
 
-            if (this.updateEditableDaysRequest && this.updateEditableDaysRequest.isRunning()) {
-                this.updateEditableDaysRequest.cancel();
-            }
-            this.updateEditableDaysRequest.url = this.updateEditableDaysRequest.options.url = this._api;
-            this.updateEditableDaysRequest.get();
+        if (this.updateEditableDaysRequest && this.updateEditableDaysRequest.isRunning()) {
+            this.updateEditableDaysRequest.cancel();
+        }
+        this.updateEditableDaysRequest.url = this.updateEditableDaysRequest.options.url = this._api;
+        this.updateEditableDaysRequest.get();
         //}
         //else
         //    this.unitInput.set('html', '');
@@ -3246,7 +3701,7 @@ var UILeaveApply = new Class({
         }.bind(this));
 
         var fBuildUnits = function (position, dates, unitType) {
-            var pos = new Element('div', {'class': 'position-label'}).inject(this.positionsLabels);
+            var pos = new Element('div', { 'class': 'position-label' }).inject(this.positionsLabels);
             var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
             new Element('label', { 'html': position.get('html') }).inject(posTitle);
 
@@ -3287,7 +3742,7 @@ var UILeaveApply = new Class({
                                     if (unitType === 'H') {
                                         hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
                                     }
-                                    
+
                                     if (unitType === 'D') {
                                         days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', day.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
                                     }
@@ -3304,7 +3759,7 @@ var UILeaveApply = new Class({
                 }.bind(this));
             }.bind(this));
         }.bind(this);
-        
+
         if (this.leaveCode) {
             var unitType = this.leaveCode.UnitType;
             var dates = this.gridHeader.getElements('.day-class');
@@ -3361,7 +3816,7 @@ var UILeaveApply = new Class({
         if (!this.data)
             return;
 
-        var fUpfatePosUnits = function(unitType) {
+        var fUpfatePosUnits = function (unitType) {
             var positions = document.getElements('.positions-' + unitType.toLowerCase());
             Array.each(positions, function (position, index) {
                 var inputs = position.getElements('.edit-position-' + unitType.toLowerCase());
@@ -3377,7 +3832,7 @@ var UILeaveApply = new Class({
                         }
                     }.bind(this));
                 }.bind(this));
-            }.bind(this));           
+            }.bind(this));
         }.bind(this);
 
         fUpfatePosUnits('Hours');
@@ -3393,7 +3848,7 @@ var UILeaveApply = new Class({
                     total += parseFloat(unit.Days);
                     //SSL-1702 - Re-calculate the hours if it's in Days 
                     unit.Hours = unit.Hours * unit.Days;
-                    
+
                 } else if (unitType === 'W') {
                     total += parseFloat(unit.Weeks);
                 }
@@ -3551,8 +4006,7 @@ var UILeaveApply = new Class({
                                 var select = new Element('select');
                                 new Element('option', { 'html': '', 'value': 'none' }).inject(select);
 
-                                Array.each(empData.Positions, function (posData)
-                                {
+                                Array.each(empData.Positions, function (posData) {
                                     new Element('option', { 'html': posData.PositionTitle, 'value': posData.PositionCode }).inject(select);
                                 });
 
@@ -3560,8 +4014,7 @@ var UILeaveApply = new Class({
                                     message: 'Choose Position<br /><br />',
                                     showButtons: true,
                                     showCancel: true,
-                                    onOk: function ()
-                                    {
+                                    onOk: function () {
                                         var option = select.getElements('option')[select.selectedIndex];
                                         if (option.value !== 'none') {
                                             position = option.value;
@@ -3572,8 +4025,7 @@ var UILeaveApply = new Class({
                                         }
                                         select.destroy();
                                     }.bind(this),
-                                    onCancel: function ()
-                                    {
+                                    onCancel: function () {
                                         if (select.getWidget()) {
                                             select.getWidget().destroy();
                                         }
@@ -3601,8 +4053,8 @@ var UILeaveApply = new Class({
     },
 
     getLeaveUnits: function (employeeNum, leaveObj, startDate, endDate, position) {
-        this.clearBorderHilights(); 
-        document.getElementById("outOfRangeInfo").style.display = "none"; 
+        this.clearBorderHilights();
+        document.getElementById("outOfRangeInfo").style.display = "none";
 
         this._methodName = 'ui.leave.apply.js -> getLeaveUnits';
         var api = Affinity.leave.apiroot + 'CalculateLeaveUnits/' + employeeNum + '/' + startDate + '/' + endDate;
@@ -3630,7 +4082,7 @@ var UILeaveApply = new Class({
         } else if (startDateParsed.greaterThan(new Date(new Date().setFullYear(new Date().getFullYear() + 1)))) {
             document.getElementById("inlineProjectionInfo").style.display = "none";
             if (this.checkLeaveIsConfigured(leaveObj.LeaveCode, leaveObj.Description)) {
-                document.getElementById("outOfRangeInfo").style.display = "inline-block"; 
+                document.getElementById("outOfRangeInfo").style.display = "inline-block";
             }
             return false;
         }
@@ -3731,7 +4183,7 @@ var UILeaveApply = new Class({
             }
             this.unitInput.set('html', parseFloat(unitsAppFor).toFixed(2));
             this.unitInput.set('id', unitsAppFor);
-            this.unitInput.set('value', unitsAppFor);       
+            this.unitInput.set('value', unitsAppFor);
             //Trigger projection availability calculation logic if it is configured
             if (this.checkLeaveIsConfigured(this.leaveCode.LeaveCode, this.leaveCode.Description)) {
                 this.calculateLeaveAvailability(unitsAppFor);
@@ -3766,7 +4218,7 @@ var UILeaveApply = new Class({
                     break;
                 }
             }
-            if (hoursOverLimit != null && leaveLimitType != null ) {
+            if (hoursOverLimit != null && leaveLimitType != null) {
                 switch (leaveLimitType) {
                     case "CurrentBalance":
                         if (unitsAppFor > (currentUnitsBal + hoursOverLimit)) {
@@ -3793,7 +4245,7 @@ var UILeaveApply = new Class({
             for (var i = 0; i < datePickers.length; i++) {
                 if (!leaveAppValid) {
                     datePickers[i].classList.add(limitClass);
-                } 
+                }
             }
         } else {
             if (this.leaveAvailabilityCounter < 5000) {
@@ -3876,15 +4328,15 @@ var UILeaveApply = new Class({
         });
 
         this.attachment.adopt(
-            this.attachmentLabel = new Element('label', {
-                'html': 'Attach Files '
-            }).adopt(
-                new Element('span', {
-                    'class': 'indicator grey help print-hidden ui-has-tooltip',
-                    'html': '?',
-                    'data-tooltip': 'Attach Medical Certificate or ACC forms'
-                })
-            ),
+            //this.attachmentLabel = new Element('label', {
+            //    'html': 'Attach Files '
+            //}).adopt(
+            //    new Element('span', {
+            //        'class': 'indicator grey help print-hidden ui-has-tooltip',
+            //        'html': '?',
+            //        'data-tooltip': 'Attach Medical Certificate or ACC forms'
+            //    })
+            //),
 
             this.attachWidgetDiv.adopt(
                 new Element('input', {
@@ -3920,7 +4372,7 @@ var UILeaveApply = new Class({
         if (this.buttons) {
             new Element('label').inject(this.buttons);
 
-           // var resetButton = new Element('span', { 'class': 'button grey icon-cross', 'html': 'Clear' }).inject(this.buttons);
+            // var resetButton = new Element('span', { 'class': 'button grey icon-cross', 'html': 'Clear' }).inject(this.buttons);
 
             var resetButton = new Element('span', {
                 'class': 'button grey',
@@ -3948,7 +4400,7 @@ var UILeaveApply = new Class({
                 'style': 'margin-left:10px;'
             }).adopt(
                 new Element('span', {
-                'class': 'icon-paperplane',
+                    'class': 'icon-paperplane',
                 }),
                 new Element('span', {
                     'html': 'Submit'
@@ -4061,7 +4513,7 @@ var UILeaveApply = new Class({
                 Affinity.leave.manager.config.Employees !== undefined) {
                 var employees = Affinity.leave.manager.config.Employees;
 
-                
+
                 for (var i = 0; i < employees.length; i++) {
                     if (employees[i].LeaveCodes !== undefined) {
                         leaveCodes = employees[i].LeaveCodes;
@@ -4084,19 +4536,19 @@ var UILeaveApply = new Class({
         }
 
         if (leaveCodes) {
-     
+
 
             var typeSelector = document.getElementsByClassName("leave-type-selector")[0];
             if (typeSelector) {
-            var selectedLeaveType = typeSelector.getElement('option:selected').get('id');
+                var selectedLeaveType = typeSelector.getElement('option:selected').get('id');
 
-            for (var i = 0; i < leaveCodes.length; i++) {
-                var leaveCode = leaveCodes[i].LeaveCode;
-                if (selectedLeaveType === leaveCode) {
-                    isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
-                    break;
+                for (var i = 0; i < leaveCodes.length; i++) {
+                    var leaveCode = leaveCodes[i].LeaveCode;
+                    if (selectedLeaveType === leaveCode) {
+                        isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
+                        break;
+                    }
                 }
-            }
 
             }
 
@@ -4165,7 +4617,7 @@ var UILeaveApply = new Class({
                 return;
             }
         }
-
+        this.updateUnits(this.data, this.leaveCode.UnitType);
         var units = this.data;
         var finalUnits = [];
         var total = 0;
@@ -4174,8 +4626,19 @@ var UILeaveApply = new Class({
         if (unitType == 'D') {
             unitLabel = 'days';
         }
-
+        var hasInvalidWorkSched = false;
+        var invalidWorkSched = 0;
+        var invalidUnitDate = '';
         Array.each(units, function (position, index) {
+            if (position.HoursWorkSched < 0 ||
+                position.HoursWorkSched > 24) {
+               
+                hasInvalidWorkSched = true;
+                invalidWorkSched = position.HoursWorkSched;
+                invalidUnitDate = Date.parse(position.Date).format('%d/%m/%Y'); 
+                return;
+            }
+
             if (unitType == 'D') {
                 total += parseFloat(position.Days);
             }
@@ -4186,6 +4649,18 @@ var UILeaveApply = new Class({
                 finalUnits.push(position);
             }
         });
+
+        if (hasInvalidWorkSched) {
+            //Invalid leave units scheduled hours {0} applied for on {1}
+            var message = 'Invalid leave units scheduled hours ' + invalidWorkSched + ' applied for on ' + invalidUnitDate;
+            uialert({
+                message: message,
+                showButtons: true,
+                noClose: false,
+                showLoader: false
+            });
+            return;
+        }
 
         if (total == 0) {
 
@@ -4296,6 +4771,7 @@ var UILeaveApply = new Class({
         obj.UnitType = this.leaveCode.UnitType;
         obj.Reply = null;
         obj.Units = finalUnits;
+        obj.PartDayReason = this.partDayReason.value;
 
         this._methodName = 'ui.leave.apply.js -> submit';
 
@@ -4305,6 +4781,30 @@ var UILeaveApply = new Class({
         }
         this.sendApplicationRequest.url = this.sendApplicationRequest.options.url = this._api;
         this.sendApplicationRequest.post(JSON.stringify(obj));
+    },
+    updateUnits: function (units, unitType) {
+  
+        for (var i = 0; i < units.length; i++) {
+            var unit = units[i];
+            var dateInput = Date.parse(this.leavePeriodDaysContainer.getElementById('date-' + i).value).toLocaleString();
+
+            if (dateInput == Date.parse(unit.Date).toLocaleString()) {
+                var hoursInput = parseFloat(this.leavePeriodDaysContainer.getElementById('hours-' + i).value);
+                var daysInput = parseFloat(this.leavePeriodDaysContainer.getElementById('days-' + i).value);
+                var scheduledHoursInput = parseFloat(this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i).value);
+
+                unit.HoursWorkSched = scheduledHoursInput;
+                if (unitType === 'H') {
+                    unit.Hours = hoursInput;
+                } else if (unitType === 'D') {
+                    unit.Days = daysInput;
+                }
+                
+                
+            }
+
+        }
+
     },
 
     resetForm: function () {
@@ -4349,12 +4849,28 @@ var UILeaveApply = new Class({
             Affinity.uploaders.reset(this.attachWidgetDiv);
             Affinity.uploaders.setMaxSize(20963328); //19.99MB
         }
-        if (this.commentRow) {
+        if (this.commentBox) {
             this.commentBox.value = '';
         }
 
-        if (this.isManager)
-            this.position.addClass('hidden');
+        if (this.partDayReason) {
+            this.partDayReason.value = '';
+        }
+
+        if (this.leavePeriodDaysContainer !== undefined) {
+            this.leavePeriodDaysContainer.destroy();
+
+            if (this.totalPeriodDaysDetail !== undefined) {
+                this.totalPeriodDaysDetail.destroy();
+            }
+        }
+
+        if (this.isManager) {
+            if (this.positionDescription !== undefined) {
+                this.positionDescription.addClass('hidden');
+            }
+        }
+            
 
         this.timeinputs.addClass('hidden');
     },
@@ -4530,7 +5046,7 @@ var UILeaveDetail = new Class({
                     this.createEditableDates(this.data.LeaveHeader, this.data.Components, this.positions);
                     Affinity.tooltips.processNew();
 
-                    if (this.isManager) {
+                    if (this.isManager && Affinity.leave.manager) {
                         Affinity.leave.manager.refreshAll();
                     } else {
                         Affinity.leave.employee.refreshAll();
@@ -4602,7 +5118,39 @@ var UILeaveDetail = new Class({
             this.initializeSubmitLeaveRequest();
         }
     },
-
+    initializeSubmitLeaveRequest: function () {
+        this.submitLeaveRequest = new Request.JSON({
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            urlEncoded: false,
+            onRequest: function () {
+                Affinity.leave.lockui('leaveDetail-submitLeaveRequest');
+            },
+            onFailure: function (e) {
+                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
+                prompts.hide();
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+            }.bind(this),
+            onException: function () {
+                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
+                prompts.hide();
+            },
+            onCancel: function () {
+                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
+                prompts.hide();
+            },
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
+                prompts.hide();
+                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
+                    if (this._onResponse) {
+                        this._onResponse(response);
+                    }
+                    Affinity.leave.employee.refreshAll(); /** global in ui.myLeave.js **/
+                }
+                this.errorChecking(response);
+            }.bind(this)
+        });
+    },
     tryCreateAuditLogForImportedLeave: function (empNo, leaveId) {
         this._methodName = 'ui.leave.detail.js -> tryCreateAuditLogForImportedLeave ()';
         this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'ActivityLog/' + empNo + '/' + leaveId);
@@ -4645,44 +5193,12 @@ var UILeaveDetail = new Class({
             }.bind(this));
         }
 
-        
-    },
-    initializeSubmitLeaveRequest: function () {
-        this.submitLeaveRequest = new Request.JSON({
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            urlEncoded: false,
-            onRequest: function () {
-                Affinity.leave.lockui('leaveDetail-submitLeaveRequest');
-            },
-            onFailure: function (e) {
-                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
-                prompts.hide();
-                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
-            }.bind(this),
-            onException: function () {
-                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
-                prompts.hide();
-            },
-            onCancel: function () {
-                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
-                prompts.hide();
-            },
-            onSuccess: function (response) {
-                Affinity.leave.unlockui('leaveDetail-submitLeaveRequest');
-                prompts.hide();
-                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
-                    if (this._onResponse) {
-                        this._onResponse(response);
-                    }
-                    Affinity.leave.employee.refreshAll(); /** global in ui.myLeave.js **/
-                }
-                this.errorChecking(response);
-            }.bind(this)
-        });
+
     },
     viewDetail: function () {
         var leaveHeader = this.data.LeaveHeader;
         var components = this.data.Components;
+        this.isInEditMode = false;
 
         Affinity.modal.show();
         Affinity.modal.clear();
@@ -4703,7 +5219,7 @@ var UILeaveDetail = new Class({
         /**/
 
         if (Affinity.login.profile.employeeNumber !== leaveHeader.EmployeeNo) {
-            this.balanceBox = new Element('div').inject(form, 'top');
+            this.balanceBox = new Element('div', { 'class': 'leave-detail-balance-box'}).inject(form, 'top');
             this.balanceWidget = new EmployeeBalancesWidget({
                 target: this.balanceBox,
                 employeeId: leaveHeader.EmployeeNo,
@@ -4713,235 +5229,321 @@ var UILeaveDetail = new Class({
 
         /**/
 
-        var dateForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(form);
-        var dateRange = new Element('div', {
-            'class': 'details-date-range'
-        }).inject(dateForm);
-        var startDate = new Element('div', {
-            'class': 'leave-date leave-start'
-        }).adopt(
+
+        if (this.isManager) {
+            //herber detail
+            this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
+
+            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
+            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
+            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+
+            new Element('label', {
+                'html': 'Employee',
+                'class': 'leave-detail-group-title-label'
+            }).inject(this.employeeGroupRow1);
+            new Element('label', {
+                'html': 'Full Name',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
+            new Element('label', {
+                'html': 'Position',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
             new Element('div', {
-                'class': 'title', 'html': 'First Day'
-            }),
+                'html': leaveHeader.EmployeeName,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn2);
+
             new Element('div', {
-                'class': 'leave-date-picker'
-            }).adopt(
-                new Element('div', {
-                    'class': 'day'
-                }),
-                new Element('div', {
-                    'class': 'date'
-                }),
-                new Element('div', {
-                    'class': 'month'
-                }),
-                new Element('div', {
-                    'class': 'year'
-                })
-            )
-        ).inject(dateRange);
+                'html': leaveHeader.PositionTitle,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn3);
+           
+        } else {
+            this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
 
-        var stopDate = new Element('div', {
-            'class': 'leave-date leave-stop'
-        }).adopt(
+            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
+            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
+            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+
+            new Element('label', {
+                'html': 'Employee',
+                'class': 'leave-detail-group-title-label'
+            }).inject(this.employeeGroupRow1);
+            //new Element('label', {
+            //    'html': 'Full Name',
+            //    'class': 'leave-detail-group-column-label'
+            //}).inject(this.employeeGroupRow1);
+
+            new Element('label', {
+                'html': 'Position',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
+            //new Element('div', {
+            //    'html': leaveHeader.EmployeeName,
+            //    'class': 'leave-detail-group-column-label-value'
+            //}).inject(this.employeeInputColumn2);
+
             new Element('div', {
-                'class': 'title', 'html': 'Last Day'
-            }),
-            new Element('div', {
-                'class': 'leave-date-picker'
-            }).adopt(
-                new Element('div', {
-                    'class': 'day'
-                }),
-                new Element('div', {
-                    'class': 'date'
-                }),
-                new Element('div', {
-                    'class': 'month'
-                }),
-                new Element('div', {
-                    'class': 'year'
-                })
-            )
-        ).inject(dateRange);
-
-        var typeForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(form);
-        var typeBox = new Element('div', {
-            'class': 'details-type-box'
-        }).inject(typeForm);
-        var typeLabel = new Element('label', {
-            'class': 'details-label',
-            'html': 'Leave Type'
-        }).inject(typeBox);
-        var type = new Element('div', {
-            'class': 'details-type'
-        }).inject(typeBox);
-
-        var reasonForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(form);
-        var reasonBox = new Element('div', {
-            'class': 'details-reason-box'
-        }).inject(reasonForm);
-        var reasonLabel = new Element('label', {
-            'class': 'details-label',
-            'html': 'Leave Reason'
-        }).inject(reasonBox);
-        var reason = new Element('div', {
-            'class': 'details-reason'
-        }).inject(reasonBox);
-
-        this.unitForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(form);
-        this.unitsBox = new Element('div', {
-            'class': 'details-positions-box'
-        }).inject(this.unitForm);
-        this.unitsLabel = new Element('label', {
-            'class': 'details-label',
-            'style': 'display: block;',
-            'html': 'Units'
-        }).inject(this.unitsBox);
-        this.totalUnitsSection = new Element('div', {
-            'class': 'total-units-box'
-        }).inject(this.unitsBox);
-        this.buildUnitsTotals(components);
-
-        var approverBox = new Element('div', {
-            'class': 'details-approver-box'
-        }).inject(this.unitsBox);
-
-        //var approvalIcons = new Element('div', {
-        //    'class': 'details-approval-icons'
-        //}).inject(unitsBox);
-        this.partialApproved = false;
-        Array.each(components, function (componant, index) {
-            var posBox = new Element('div', {
-                'class': 'details-position-approver'
-            }).inject(approverBox);
-            var approverSelector = new Element('span', {
-                //'style': 'display:block'
-            }).inject(posBox);
-            if (componant.Authorisation) {
-                if (componant.Authorisation.ApprovedBy) {
-                    approverSelector.set('html', componant.Authorisation.ApprovedByName);
-                } else {
-                    approverSelector.set('html', componant.Authorisation.SubmittedToName);
-                }
-
-                if (this.data.LeaveHeader.StatusCode != -1 && this.data.LeaveHeader.StatusCode != 6) {
-                    var approved = new Element('span', {
-                        'class': 'tickcross color'
-                    }).inject(posBox);
-                    if (componant.Authorisation.StatusCode === 3) {
-                        approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave is approved');
-                        approved.addClass('icon-thumbs-up');
-                        approved.addClass('green');
-                        this.partialApproved = true;
-                    } else if (componant.Authorisation.StatusCode === 2) {
-                        approved.addClass('red');
-                        approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave is declined');
-                        approved.addClass('icon-thumbs-down');
-                    } else if (componant.Authorisation.StatusCode === 7) {
-                        approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave cancellation is pending approval');
-                        approved.addClass('icon-cancel');
-                        approved.addClass('blue');
-                    } else {
-                        approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave is pending approval');
-                        approved.addClass('icon-hourglass');
-                        approved.addClass('blue');
-                    }
-                }
-            }
-        }.bind(this));
-
-        this.units = new Element('div', {
-            'class': 'details-positions'
-        }).inject(this.unitsBox);
-        this.positionsLabels = new Element('div', {
-            'class': 'position-labels'
-        }).inject(this.units);
-        var scrollerBox = new Element('div', {
-            'class': 'unit-scroller-box'
-        }).inject(this.units);
-        var scroller = new Element('div', {
-            'class': 'details-units-scroller'
-        }).inject(scrollerBox);
-        this.createCommentReplyEdits(form, leaveHeader);
-
-        startDate.getElement('.day').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateFrom).format('%a'));
-        startDate.getElement('.date').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateFrom).format('%e'));
-        startDate.getElement('.month').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateFrom).format('%b'));
-        startDate.getElement('.year').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateFrom).format('%Y'));
-
-        stopDate.getElement('.day').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateTo).format('%a'));
-        stopDate.getElement('.date').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateTo).format('%e'));
-        stopDate.getElement('.month').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateTo).format('%b'));
-        stopDate.getElement('.year').set('html', Affinity.leave.cleanBadDate(leaveHeader.DateTo).format('%Y'));
-
-        type.set('html', leaveHeader.CodeDescription);
-        reason.set('html', leaveHeader.ReasonDescription);
-
-        var firstDate = Affinity.leave.cleanBadDate(leaveHeader.DateFrom);
-        var lastDate = Affinity.leave.cleanBadDate(leaveHeader.DateTo);
-        var dateRange = [];
-        var currentDate = firstDate.clone();
-
-        while (currentDate.lessThanOrEqualTo(lastDate)) {
-            dateRange.push(currentDate.clone());
-            currentDate.increment('day', 1);
+                'html': leaveHeader.PositionTitle,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn2);
         }
 
-        var scrollerWidth = 0;
-        var unitsGrid = new Element('div', {
-            'class': 'unit-grid'
-        }).inject(scroller);
+        this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
+        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
 
-        var gridHeader = new Element('div', {
-            'class': 'unit-gridheader'
-        }).inject(unitsGrid);
+        new Element('label', {
+            'html': 'Leave Period',
+            'class': 'leave-detail-group-title-label'
+        }).inject(this.leavePeriodGroupRow1);
 
-        var gridBody = new Element('div', {
-            'class': 'unit-gridbody'
-        }).inject(unitsGrid);
+        this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
 
-        var tempDate, dateCell;
-        Array.each(dateRange, function (day, index) {
-            /*
-            var date = new Element('div', {
-                'class': 'day-class',
-                'html': Date.parse(day).format('%d/%m/%y')
-            }).inject(gridHeader);
-            */
+        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
 
-            tempDate = Affinity.leave.cleanBadDate(day);
-            dateCell = new Element('div', { 'class': 'day-class d-' + tempDate.format('%d-%b-%y'), 'id': tempDate.format('%d/%b/%y') }).inject(gridHeader);
-            dateCell.adopt(
-                new Element('div', { 'class': 'day-class-day', 'html': tempDate.format('%a') }),
-                new Element('div', { 'class': 'day-class-date', 'html': tempDate.format('%e') }),
-                new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
-                new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
-            );
-            scrollerWidth += 79;
-        });
-        scroller.store('width', scrollerWidth);
-        scroller.setStyle('width', scrollerWidth);
+        this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow4);
 
+        this.leavePeriodRequestPartDayInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow5);
+
+        this.leavePeriodRequestPartDayLabel = new Element('label', {
+            'html': 'Part Day Reason',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
+
+
+        this.partDayReason = new Element('div').inject(this.leavePeriodRequestPartDayInputColumn2);
+
+        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
+
+
+        this.leavePeriodDaysBlankContainer = new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysDateTitle = new Element('label', {
+            'html': 'Date',
+            'class': 'leave-detail-leave-period-header-date'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+
+
+        this.leavePeriodDaysDaysTitle = new Element('label', {
+            'html': 'Days',
+            'class': 'leave-detail-leave-period-header-days'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Hours',
+            'class': 'leave-detail-leave-period-header-hours'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Scheduled',
+            'class': 'leave-detail-leave-period-header-scheduled'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        //hidden fields
+        this.timeLastModifiedField = new Element('input',
+            {
+                'type': 'hidden',
+                'value': ''
+            }).inject(form);
+
+        this.leaveDetailsGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
+        this.leaveDetailsGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow2 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow3 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow4 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        if (this.isManager) {
+            this.LeaveDetailsGroupManagerCommentsLabelRow = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+            this.LeaveDetailsGroupManagerCommentsInputRow = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        }
+        
+        this.leaveDetailsGroupRow5 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow6 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow7 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow8 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow9 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow10 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
+
+        //Row 1 Colums
+        this.leaveDetailsRow1Column1 = new Element('span').inject(this.leaveDetailsGroupRow1);
+        this.leaveDetailsRow1Column2 = new Element('span').inject(this.leaveDetailsGroupRow1);
+        this.leaveDetailsRow1Column3 = new Element('span').inject(this.leaveDetailsGroupRow1);
+
+        //Row2 Columns
+        this.leaveDetailsRow2Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow2);
+        this.leaveDetailsRow2Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow2);
+        this.leaveDetailsRow2Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow2);
+
+       // this.leaveProjectionPlaceHolder = new Element('div', { 'class': 'leave-detail-leave-projection-placeholder' }).inject(this.leaveDetailsGroupRow2);
+
+        //Row3 Columns
+        this.leaveDetailsRow3Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow3);
+        this.leaveDetailsRow3Column2 = new Element('span').inject(this.leaveDetailsGroupRow3);
+
+        //Row4 Columns
+        this.leaveDetailsRow4Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow4);
+        this.leaveDetailsRow4Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow4);
+
+        if (this.isManager) {
+            //Manager Comments Row Columns
+            this.leaveDetailsManagerCommentsLabelRowColumn1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.LeaveDetailsGroupManagerCommentsLabelRow);
+            this.leaveDetailsManagerCommentsLabelRowColumn2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsLabelRow);
+            this.leaveDetailsManagerCommentsLabelRowColumn3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsLabelRow);
+
+            //Manager Comments Row Columns
+            this.leaveDetailsManagerCommentsInputRowColumn1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.LeaveDetailsGroupManagerCommentsInputRow);
+            this.leaveDetailsManagerCommentsInputRowColumn2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsInputRow);
+            this.leaveDetailsManagerCommentsInputRowColumn3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsInputRow);
+
+        }
+      
+
+        //Row5 Columns
+        this.leaveDetailsRow5Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow5);
+        this.leaveDetailsRow5Column2 = new Element('span', { 'class': 'leave-detail-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
+        this.leaveDetailsRow5Column3 = new Element('span', { 'class': 'leave-detail-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
+
+        //Row6 Columns
+        this.leaveDetailsRow6Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-detail-group-column-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow6);
+
+        if (this.isManager) {
+            //Forwarding Feature
+            //Row7 Columns
+            this.leaveDetailsRow7Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow7);
+            this.leaveDetailsRow7Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow7);
+            this.leaveDetailsRow7Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow7);
+
+            //Row8 Columns
+            this.leaveDetailsRow8Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow8);
+            this.leaveDetailsRow8Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow8);
+            this.leaveDetailsRow8Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow8);
+
+            //Row9 Columns
+            this.leaveDetailsRow9Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow9);
+            this.leaveDetailsRow9Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow9);
+            this.leaveDetailsRow9Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow9);
+
+            //Row10 Columns
+            this.leaveDetailsRow10Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow10);
+            this.leaveDetailsRow10Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow10);
+            this.leaveDetailsRow10Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow10);
+        }
+        
+
+      
+
+
+        //Row 1 Column Content
+        new Element('label', {
+            'html': 'Leave Details',
+            'class': 'leave-detail-group-title-label'
+        }).inject(this.leaveDetailsRow1Column1);
+
+
+        new Element('label', {
+            'html': 'Leave Type',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leaveDetailsRow1Column2);
+
+        this.reasonLabel = new Element('label', {
+            'html': 'Reason',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leaveDetailsRow1Column3);
+
+        //Row 2 Column Content
+        this.leaveTypeSelector = new Element('select', { 'class': 'leave-detail-select leave-type-selector hidden' }).inject(this.leaveDetailsRow2Column2);
+        this.selectedLeaveLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value','html': '----' }).inject(this.leaveDetailsRow2Column2);
+        //Reason Column
+        this.leaveReasonSelector = new Element('select', { 'class': 'leave-detail-select hidden' }).inject(this.leaveDetailsRow2Column3);
+        this.selectedReasonLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveDetailsRow2Column3);
+
+
+        //Row 3 Column Content
+        new Element('label', {
+            'html': 'Comments',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leaveDetailsRow3Column2);
+
+
+        //Row 4 Column Content
+        //this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
+        this.commentBox = new Element('label').inject(this.leaveDetailsRow4Column2);
+
+        //Manager Comments Label Row Column Content
+        if (this.isManager) {
+            new Element('label', {
+                'html': 'Manager Comments',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.leaveDetailsManagerCommentsLabelRowColumn2);
+
+            this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsManagerCommentsInputRowColumn2);
+
+            this.managerCommentEdit = new InputEditWidget({
+                target: this.leaveDetailsManagerCommentsInputRowColumn2,
+                input: this.managerCommentBox,
+                updateInput: function () {
+                    var newManagerComment = this.managerCommentBox.value;
+                    if ((newManagerComment) != (this.data.LeaveHeader.Reply === null ? '' : this.data.LeaveHeader.Reply)) {
+                        var vm = this;
+                        var customErrorHandler = function (responseObject,vm) {
+                            vm.handleValidationErrors(responseObject, "Manager Comments");
+                        }
+                        var customSuccessHandler = function (response, vm) {
+                            vm.handleRequestWarnings(response);
+                        }
+                        this.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
+                        
+                    }
+                }.bind(this),
+                cancelInput: function () {
+                    this.managerCommentBox.set('value', this.data.LeaveHeader.Reply);
+                }.bind(this)
+            });
+        }
+
+        //Row 5 Column Content
+        new Element('label', {
+            'html': 'Attachments',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leaveDetailsRow5Column2);
+
+        //new Element('label', {
+        //    'html': 'Approver',
+        //    'class': 'leave-detail-group-column-label'
+        //}).inject(this.leaveDetailsRow5Column3);
+
+        //Row 6 Column Content
+       // this.attachment = new Element('div', { 'class': 'form-row leave-detail-attachment leave-detail-attachment-form' }).inject(this.leaveDetailsRow6Column2);
+        //new Element('select', { 'class': 'leave-detail-select' }).inject(this.leaveDetailsRow6Column3);
         if (this.data.Attachments.length > 0) {
             var attachmentForm = new Element('div', {
                 'class': 'form-row'
-            }).inject(form);
+            }).inject(this.leaveDetailsRow6Column2);
             var attachmentsBox = new Element('div', {
                 'class': 'details-attachments-box'
             }).inject(attachmentForm);
-            var attachmentsLabel = new Element('label', {
-                'class': 'details-label',
-                'html': 'Attachments'
-            }).inject(attachmentsBox);
+            //var attachmentsBlankSpace = new Element('div', {
+            //    'class': 'leave-detail-group-column-blank-container',
+            //}).inject(attachmentsBox);
             var attachments = new Element('ul', {
                 'class': 'details-attachments'
             }).inject(attachmentsBox);
@@ -4958,2109 +5560,92 @@ var UILeaveDetail = new Class({
             });
         }
 
-        if (leaveHeader.StatusCode === 7) {
-            this.createForwardingFeature(form);
-        } else {
+        if (this.isManager) {
+            //Row 7 Column Content
+            new Element('label', {
+                'html': 'Forward To',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.leaveDetailsRow7Column2);
+            this.leaveDetailsGroupRow7.addClass('hidden');
+
+            //Row 8 Column Content
+            this.forwardSelector = new Element('select', { 'class': 'leave-approver-selector leave-detail-select' }).inject(this.leaveDetailsRow8Column2);
+            this.leaveDetailsGroupRow8.addClass('hidden');
+
+
             //Only managers sees the forward box.
             if (Affinity.login.profile.employeeNumber !== leaveHeader.EmployeeNo) {
-                this.populateForwardHistory(this.data.Forwards, form);
+                this.createForwardingFeature(form);
             }
         }
         
-
-        
-
         this.createButtons(form, false);
-
-        Array.each(components, function (position, index) {
-            var pos = new Element('div', { 'class': 'position-label' }).inject(this.positionsLabels);
-            var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
-            new Element('label', {
-                'html': position.PositionTitle, 'class': 'ui-has-tooltip',
-                'data-tooltip': position.PositionTitle, 'data-tooltip-dir': 'bottom'
-            }).inject(posTitle);
-
-            var daysRow;
-
-            var unitLabels = new Element('div', { 'class': 'position-unit-label' }).inject(pos);
-            if (leaveHeader.UnitType === 'D') {
-                daysRow = new Element('div', { 'class': 'positions-days', 'id': position.PositionCode }).inject(gridBody);
-                new Element('label', { 'html': '(Days)' }).inject(unitLabels);
-            }
-            else {
-                new Element('label', { 'html': '(Hours)' }).inject(unitLabels);
-            }
-            var hoursRow = new Element('div', { 'class': 'positions-hours', 'id': position.PositionCode }).inject(gridBody);
-            if (leaveHeader.UnitType === 'D') {
-                hoursRow.addClass('hidden');
-            }
-
-            Array.each(dateRange, function (day, index) {
-                var date = Affinity.leave.cleanBadDate(day).format('%d/%b/%y');
-                var hours = new Element('span', { 'class': 'details-position-units fake-input', 'id': date, 'html': '0.00' }).inject(hoursRow);
-                var days = null;
-                if (leaveHeader.UnitType === 'D') {
-                    var days = new Element('span', { 'class': 'details-position-units fake-input', 'id': date, 'html': '0.00' }).inject(daysRow);
-                }
-
-                Array.each(components, function (component, Index) {
-                    if (component.PositionCode === position.PositionCode) {
-                        Array.each(component.Units, function (unit, unitIndex) {
-                            var posDate = Affinity.leave.cleanBadDate(unit.Date).format('%d/%b/%y');
-                            if (date === posDate) {
-                                hours.set('html', unit.HoursAppliedFor.toFixed(2));
-                                if (leaveHeader.UnitType === 'D') {
-                                    days.set('html', unit.DaysAppliedFor.toFixed(2));
-                                }
-                                //hours.set('value', unitsAppliedFor.toFixed(2));
-                                //hours.store('old', unitsAppliedFor);
-
-                                if (typeOf(unit.IsPublicHoliday) === 'boolean' && unit.IsPublicHoliday === true) {
-                                    hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    if (leaveHeader.UnitType === 'D') {
-                                        days.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    }
-                                    unitsGrid.getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-        }.bind(this));
 
         Affinity.leave.populateLeaveActivity(form, leaveHeader.EmployeeNo, leaveHeader.TSGroupId);
 
         Affinity.modal.setElement(modalData);
 
-        var containerSize = scrollerBox.measure(function () { return this.getSize().x; });
-        var scrollerSize = scroller.measure(function () { return this.getScrollSize().x; });
+        var leaveConfig = new Object();
 
-        if (scrollerSize > containerSize) {
-            scrollerBox.setStyle('overflow-x', 'scroll');
+        if (this.isManager) {
+            leaveConfig = Affinity.leave.manager.config;
+
+            this.generateCalendar(leaveConfig, leaveHeader.DateFrom, leaveHeader.DateTo, false);
+            this.generateLeaveCodes(leaveConfig);
+            this.generateApprovers(leaveConfig);
+            this.setLeaveValues(leaveHeader, leaveConfig);
+
         } else {
-            scrollerBox.setStyle('overflow-x', 'hidden');
+            leaveConfig = Affinity.leave.employee.config;
+            leaveConfig.AllCompanyLeaveCodes = leaveConfig.LeaveCodes;
+            this.generateCalendar(leaveConfig, leaveHeader.DateFrom, leaveHeader.DateTo, false);
+            this.generateLeaveCodes(leaveConfig);
+            this.setLeaveValues(leaveHeader, leaveConfig);
+
         }
+
+        var leaveModel = this.createLeaveModel(this.data);
+        this.createDaysFields(leaveModel, null);
+
+        this.currentlySavedLeaveInstance = this.getEditedLeaveInstance();
 
         Affinity.tooltips.processNew();
     },
-
-
-    editDetail: function () {
-
-            if (this.isManager) {
-                if (Affinity.leave.manager) {
-                    Affinity.leave.manager.getManagerEmployeeConfig(this.data.LeaveHeader.EmployeeNo, function (employee) {
-                        if (employee) {
-                            this.doEditDetail(employee);
-                        }
-                        else {
-                            this.doEditDetail(Affinity.leave.manager.config); 
-                         }
-                    }.bind(this));
-                }
+    showErrorMessages: function (errorMessages) {
+        if (document.getElement('.messages')) {
+            var messages = document.getElement('.messages').empty();
+            var errors = new Element('div').inject(messages);
+            var eList = new Element('ul').inject(errors);
+            for (var i = 0; i < errorMessages.length; i++) {
+                var errorMessage = errorMessages[i];
+                new Element('li', { 'html': errorMessage }).inject(eList);
             }
-            else {
-                if (Affinity.leave.employee.config) {
-                    this.doEditDetail(Affinity.leave.employee.config);
 
-                }
+            if (errorMessages.length > 0) {
+                errors.addClass('acknowledgement-errors');
             }
-       
+        }
     },
-
     createForwardingFeature: function (form) {
         /*      Forwarding      */
         if (this.isManager) {
             this.populateForwardHistory(this.data.Forwards, form);
 
             if (this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
-                this.forwardSelector = new Element('div',
-                    {
-                        'class': 'forward-to-selector form-row'
-                    }).inject(form);
-                this.forwardsToLabel = new Element('label',
-                    {
-                        'class': 'details-label',
-                        'html': 'Forward To'
-                    }).inject(this.forwardSelector);
-                this.forwardTo = new Element('select',
-                    {
-                        'class': 'details-forward-to ui-autocomplete'
-                    }).inject(this.forwardSelector);
 
-                new Element('option', { 'html': '', 'id': null, 'value': '' }).inject(this.forwardTo);
-                if (Affinity.leave.manager.config &&
-                    typeOf(Affinity.leave.manager.config.ForwardToManagers) === 'array' &&
-                    Affinity.leave.manager.config.ForwardToManagers.length > 0
-                ) {
-                    Array.each(Affinity.leave.manager.config.ForwardToManagers,
-                        function (manager, index) {
-                            new Element('option',
-                                {
-                                    'html': manager.EmployeeName + ' (' + manager.EmployeeNo + ')',
-                                    'id': manager.EmployeeNo,
-                                    'value': manager.EmployeeNo
-                                }).inject(this.forwardTo);
-                        }.bind(this));
-                }
+                //Row 9 Column Content
+                new Element('label', {
+                    'html': 'Forward Reason',
+                    'class': 'leave-detail-group-column-label'
+                }).inject(this.leaveDetailsRow9Column2);
+                this.leaveDetailsGroupRow9.addClass('hidden');
 
-                this.forwardReason = new Element('div',
-                    {
-                        'class': 'forward-to-reason form-row hidden'
-                    }).inject(form);
-                this.forwardReasonLabel = new Element('label',
-                    {
-                        'class': 'details-label',
-                        'html': 'Forward Reason:'
-                    }).inject(this.forwardReason);
-                this.forwardReasonText = new Element('textarea',
-                    {
-                        'class': 'forward-reason-text data-hj-whitelist',
-                        'rows': '3'
-                    }).inject(this.forwardReason);
+                //Row 10 Column Content
+                this.forwardReason = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'forwardReason', 'name': 'forwardReason' }).inject(this.leaveDetailsRow10Column2);
+                this.leaveDetailsGroupRow10.addClass('hidden');
             }
         }
     },
-
-    doEditDetail: function (employeeConfig) {
-
-
-        var leaveHeader = this.data.LeaveHeader;
-        var components = this.data.Components;
-
-     
-
-        Affinity.modal.show();
-        Affinity.modal.clear();
-        Affinity.modal.position();
-
-        this.modalData = new Element('div', {
-            'class': 'modal-data'
-        });
-
-        this.section = new Element('div', {
-            'class': 'section'
-        }).inject(this.modalData);
-
-        this.form = new Element('div', {
-            'class': 'default-form'
-        }).inject(this.section);
-
-        new Element('div', {
-            'class': 'leave-id hidden'
-        }).inject(this.form).store('old', leaveHeader.TSGroupId);
-
-        var messages = new Element('div', {
-            'class': 'messages'
-        }).inject(this.form);
-
-        var positions;
-        if (employeeConfig) {
-            this.config = employeeConfig;
-            positions = employeeConfig.positions;
-        }
-
-        if (this.isManager) {
-            this.balanceBox = new Element('div', { 'class': 'leave-detail-balance' }).inject(this.form);
-            this.balanceWidget = new EmployeeBalancesWidget({
-                target: this.balanceBox,
-                employeeId: leaveHeader.EmployeeNo,
-                filter: leaveHeader.CodeDescription
-            });
-            if (Affinity.leave.manager && !positions) {
-                positions = components; // Fix for forwarded applications
-            }
-        }
-        else {
-            if (Affinity.leave.employee.config) {
-                positions = Affinity.leave.employee.config.Positions;
-            }
-        }
-        this.positions = positions;
-
-        //limit positions by application position
-        if (leaveHeader.PositionCode && leaveHeader.PositionCode != '') {
-            var singlePosition;
-            positions.map(function (p) {
-                if (p.PositionCode == leaveHeader.PositionCode) {
-                    singlePosition = p;
-                }
-            }.bind(this));
-            if (singlePosition)
-                positions = [singlePosition];
-        }
-
-        this.dateRange = new Element('div', {
-            'class': 'details-date-range'
-        }).inject(this.form);
-
-        this.startDate = new Element('div', {
-            'class': 'leave-date leave-start'
-        }).adopt(
-            new Element('div', { 'class': 'title', 'html': 'First Day' }),
-            this.fromDateBox = new Element('div', { 'class': 'leave-date-picker selectable' }).adopt(
-                new Element('div', { 'class': 'day' }),
-                new Element('div', { 'class': 'date' }),
-                new Element('div', { 'class': 'month' }),
-                new Element('div', { 'class': 'year' })
-            )
-        ).inject(this.dateRange);
-
-        this.stopDate = new Element('div', { 'class': 'leave-date leave-stop' }).adopt(
-            new Element('div', { 'class': 'title', 'html': 'Last Day' }),
-            this.toDateBox = new Element('div', { 'class': 'leave-date-picker selectable' }).adopt(
-                new Element('div', { 'class': 'day' }),
-                new Element('div', { 'class': 'date' }),
-                new Element('div', { 'class': 'month' }),
-                new Element('div', { 'class': 'year' })
-            )
-        ).inject(this.dateRange);
-
-        var startDate = Affinity.leave.cleanBadDate(leaveHeader.DateFrom);
-        var endDate = Affinity.leave.cleanBadDate(leaveHeader.DateTo);
-        //if ( this.isManager ) {
-        //    Affinity.leave.setDates(this.fromDateBox, startDate);
-        //    Affinity.leave.setDates(this.toDateBox, endDate);
-        //} else {
-        new Element('div', {
-            'class': 'old-startDate hidden'
-        }).inject(this.form).store('old', leaveHeader.DateFrom);
-        new Element('div', {
-            'class': 'old-endDate hidden'
-        }).inject(this.form).store('old', leaveHeader.DateTo);
-        new Element('div', {
-            'class': 'globalDateRange hidden'
-        }).inject(this.form);
-
-        var hiddenDateDiv = new Element('div', {
-            'class': 'hidden'
-        }).inject(this.dateRange, 'top');
-        var hiddenDateDivFrom = new Element('div', {
-            'class': 'from-selector'
-        }).inject(hiddenDateDiv);
-        var hiddenDateDivTo = new Element('div', {
-            'class': 'to-selector'
-        }).inject(hiddenDateDiv);
-        var hiddenDateInputFrom = new Element('input', {
-            'type': 'text', 'id': 'detail-date-from', 'class': 'data-hj-whitelist'
-        }).inject(hiddenDateDivFrom);
-        var hiddenDateInputTo = new Element('input', {
-            'type': 'text', 'id': 'detail-date-to', 'class': 'data-hj-whitelist'
-        }).inject(hiddenDateDivTo);
-
-        this.fromDateWidget = new UIDateTimeWidget({
-            outputFormat: '%d.%m.%Y',
-            displayFormat: '%a %e %b %Y',
-            showCalendar: true,
-            showTime: false,
-            startDate: startDate.clone(),
-            labelName: '',
-            postId: '',
-            postName: '',
-            validationMethods: '',
-            validationErrorStr: '',
-            target: hiddenDateInputFrom,
-            cssPosition: 'fixed'
-        });
-
-        this.modalEls = {};
-        this.modalEls.fromDateWidget = this.fromDateWidget;
-        this.modalEls.fromDateBox = this.fromDateBox;
-        this.modalEls.fromDateHidden = hiddenDateInputFrom;
-        this.modalEls.fromDateOld = startDate.clone();
-
-        this.fromDateWidget.positionOverride = this.startDate;
-        this.fromDateWidget.addEvent('dateClicked', function () {
-            var dateOld = this.modalEls.fromDateOld.format('%d-%b-%y');
-            if (this.setStartDate()) {
-                var dateNew = this.fromDateWidget.getRawDate().format('%d-%b-%y');
-
-                this.updateDate('DateFrom', dateNew, dateOld, positions);
-                this.modalEls.fromDateOld = this.fromDateWidget.getRawDate();
-            }
-            else {
-                this.fromDateWidget.setDate(this.modalEls.fromDateOld);
-            }
-
-        }.bind(this));
-
-        this.toDateWidget = new UIDateTimeWidget({
-            outputFormat: '%d.%m.%Y',
-            displayFormat: '%a %e %b %Y',
-            showCalendar: true,
-            showTime: false,
-            startDate: endDate.clone(),
-            labelName: '',
-            postId: '',
-            postName: '',
-            validationMethods: '',
-            validationErrorStr: '',
-            target: hiddenDateInputTo,
-            cssPosition: 'fixed'
-        });
-
-        this.modalEls.toDateWidget = this.toDateWidget;
-        this.modalEls.toDateBox = this.toDateBox;
-        this.modalEls.toDateHidden = hiddenDateInputTo;
-        this.modalEls.toDateOld = endDate.clone();
-
-        this.toDateWidget.positionOverride = this.stopDate;
-        this.toDateWidget.addEvent('dateClicked', function () {
-            var dateOld = this.modalEls.toDateOld.format('%d-%b-%y');
-            if (this.setEndDate()) {
-                var dateNew = this.toDateWidget.getRawDate().format('%d-%b-%y');
-                this.updateDate('DateTo', dateNew, dateOld, positions);
-                //this.unitChanges(positions, 'stopdate', dateOld, dateNew, leaveHeader.PositionCode);
-                this.modalEls.toDateOld = this.toDateWidget.getRawDate();
-            }
-            else {
-                this.toDateWidget.setDate(this.modalEls.toDateOld);
-            }
-        }.bind(this));
-
-        this.startDate.addEvent('click', function (e) {
-            this.fromDateWidget.externalShow(e);
-        }.bind(this));
-        this.stopDate.addEvent('click', function (e) {
-            this.toDateWidget.externalShow(e);
-        }.bind(this));
-        this.setStartDate();
-        this.setEndDate();
-        //}
-
-        this.typeForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(this.form);
-
-        this.typeBox = new Element('div', {
-            'class': 'details-type-box'
-        }).inject(this.typeForm);
-
-        this.typeLabel = new Element('label', {
-            'class': 'details-label',
-            'html': 'Leave Type'
-        }).inject(this.typeBox);
-
-        //if (this.isManager) {
-        //    this.type = new Element('div', {
-        //        'class': 'details-type',
-        //        'html': leaveHeader.CodeDescription
-        //    }).inject(this.typeBox);
-        //}
-        //else {
-        this.typeSelector = new Element('select', {
-            'class': 'edit-type-selector'
-        }).inject(this.typeBox);
-        this.typeSelector.addEvent('change', function (e) {
-            var leaveCode = this.typeSelector.getElement('option:selected').get('id');
-            this.update('LeaveCode', leaveCode, this.data.LeaveHeader.LeaveCode, leaveHeader.EmployeeNo, leaveHeader.TSGroupId, this.data.LeaveHeader.TimeLastModified,
-
-                function (response, errorMessage) {
-                    if (response != null && response !== "error") {
-                        this.newLeaveReason(Affinity.leave.employee.config, this.typeSelector.selectedIndex);
-                        this.reasonSelector.selectedIndex = 0;
-                        if (this.data) {
-                            this.data.LeaveHeader.LeaveCode = response.LeaveHeader.leaveCode;
-                            this.data.LeaveHeader.ReasonCode = null;
-                            this.data.LeaveHeader.TimeLastModified = response.LeaveHeader.TimeLastModified;
-                            this.createEditableDates(this.data.LeaveHeader, this.data.Components, this.positions);
-                        }
-                    } else if (response === "error") {
-                        var errMessage = "Something's stopping the Leave Type field from updating. Check your selection then try again.<br /><br />";
-
-                        uialert({
-                            'message': errMessage,
-                            okText: 'Close',
-                            showButtons: true,
-                            noClose: false
-                        });
-                        // this.data.LeaveHeader.Comment = this.data.LeaveHeader.Comment;
-                        // this.comments.value = this.data.LeaveHeader.Comment;
-                        //var originIndex = this.typeSelector.getElements("options").indexOf(this.typeSelector.getElement("#" + this.data.LeaveHeader.LeaveCode));
-
-                        var originIndex = -1;
-                        for (var i = 0; i < this.typeSelector.getElements("option").length; i++) {
-                            var currentOption = this.typeSelector.getElements("option")[i];
-                            if (currentOption.id === this.data.LeaveHeader.LeaveCode) {
-                                originIndex = currentOption.index;
-                                break;
-                            }
-                        }
-                        if (originIndex != - 1) {
-                            this.typeSelector.selectedIndex = originIndex;
-                        }
-
-                    }
-                }.bind(this),
-                function (fieldName, oldValue, newValue) {
-                    if (fieldName === "LeaveCode") {
-                        var selectedIndex = -1;
-                        for (var i = 0; i < this.typeSelector.length; i++) {
-                            if (oldValue === this.typeSelector[i].id) {
-                                selectedIndex = i;
-                            }
-                            this.typeSelector.selectedIndex = selectedIndex;
-                        }
-                    }
-                }.bind(this));
-        }.bind(this));
-        //this.typeSelector.store('old', leaveHeader.LeaveCode);
-        // }
-
-        this.reasonForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(this.form);
-        this.reasonBox = new Element('div', {
-            'class': 'details-reason-box'
-        }).inject(this.reasonForm);
-        this.reasonLabel = new Element('label', {
-            'class': 'details-label',
-            'html': 'Leave Reason'
-        }).inject(this.reasonBox);
-        //if (this.isManager) {
-        //    this.reason = new Element('div', {
-        //        'class': 'details-reason',
-        //        'html': leaveHeader.ReasonDescription
-        //    }).inject(this.reasonBox);
-        //}
-        //else {
-        var leaveCodes = null;
-        leaveCodes = employeeConfig.LeaveCodes;
-        //if (this.isManager) {
-        //    leaveCodes = Affinity.leave.manager.config.LeaveCodes;
-        //} else {
-        //    leaveCodes = leaveCodes = Affinity.leave.employee.config.LeaveCodes;
-        //}
-        Array.each(leaveCodes, function (leaveCode, codeIndex) {
-            var typeOption = new Element('option', {
-                'value': parseInt(codeIndex)
-            }).inject(this.typeSelector);
-            typeOption.set('html', leaveCode.Description);
-            typeOption.set('id', leaveCode.LeaveCode);
-            if (leaveCode.LeaveCode === leaveHeader.LeaveCode) {
-                this.typeSelector.selectedIndex = codeIndex;
-                this.reasonSelector = new Element('select', {
-                    'class': 'edit-reason-selector'
-                }).inject(this.reasonBox);
-                new Element('option', {
-                    'value': '',
-                    'id': 'null', //SG: ideally need to pass actual null not string. this will do for now. 
-                    'html': ''
-                }).inject(this.reasonSelector, 'top')
-                //this.reasonSelector.store('old', leaveHeader.ReasonCode);
-                this.reasonSelector.addEvent('change', function (e) {
-                    var reasonCode = this.reasonSelector.getElement('option:selected').get('id');
-                    this.update('ReasonCode', reasonCode, this.data.LeaveHeader.ReasonCode, leaveHeader.EmployeeNo, leaveHeader.TSGroupId, this.data.LeaveHeader.TimeLastModified,
-
-
-
-                        function (response, errorMessage) {
-                            if (this.data && response !== "error") {
-                                this.data.LeaveHeader.ReasonCode = response.LeaveHeader.ReasonCode;
-                                this.data.LeaveHeader.TimeLastModified = response.LeaveHeader.TimeLastModified;
-                            } else if (response === "error") {
-                                var errMessage = "Something's stopping the Leave Reason field from updating. Check your selection then try again.<br /><br />";
-
-                                uialert({
-                                    'message': errMessage,
-                                    okText: 'Close',
-                                    showButtons: true,
-                                    noClose: false
-                                });
-                                var originIndex = -1;
-                                for (var i = 0; i < this.reasonSelector.getElements("option").length; i++) {
-                                    var currentOption = this.reasonSelector.getElements("option")[i];
-                                    if (currentOption.id === this.data.LeaveHeader.ReasonCode) {
-                                        originIndex = currentOption.index;
-                                        break;
-                                    }
-                                }
-                                if (originIndex != - 1) {
-                                    this.reasonSelector.selectedIndex = originIndex;
-                                }
-                            }
-                        }.bind(this));
-                }.bind(this));
-                if (typeof (leaveCodes[this.typeSelector.selectedIndex]) != 'undefined' && leaveCodes[this.typeSelector.selectedIndex].Reasons) {
-                    var reasons = leaveCodes[this.typeSelector.selectedIndex].Reasons
-                    Array.each(reasons, function (leaveReason, reasonIndex) {
-                        var reasonOption = new Element('option', {
-                            'value': reasonIndex
-                        }).inject(this.reasonSelector);
-                        reasonOption.set('html', leaveReason.Description);
-                        reasonOption.set('id', leaveReason.ReasonCode);
-                        if (leaveReason.ReasonCode === leaveHeader.ReasonCode) {
-                            this.reasonSelector.selectedIndex = reasonIndex + 1;
-                        }
-                    }.bind(this));
-                }
-            }
-        }.bind(this));
-        // }
-
-        this.unitForm = new Element('div', {
-            'class': 'form-row'
-        }).inject(this.form);
-        this.unitsBox = new Element('div', {
-            'class': 'details-positions-box'
-        }).inject(this.unitForm);
-        this.unitsLabel = new Element('label', {
-            'class': 'details-label',
-            'style': 'display: block;',
-            'html': 'Units'
-        }).inject(this.unitsBox);
-        this.totalUnitsSection = new Element('div', {
-            'class': 'total-units-box'
-        }).inject(this.unitsBox);
-        this.buildUnitsTotals(components);
-
-        this.approverBox = new Element('div', {
-            'class': 'detail-approver-box'
-        }).inject(this.unitsBox);
-
-        this.createApproverBoxes(components, positions);
-
-        // Units Edits
-        this.units = new Element('div', {
-            'class': 'details-positions'
-        }).inject(this.unitsBox, 'bottom');
-
-        this.rebuildUnits = function () {
-            this.buildUnitsTotals(this.data.Components);
-            this.createEditableDates(this.data.LeaveHeader, this.data.Components, this.positions);
-            Affinity.tooltips.processNew();
-        }.bind(this);
-
-        this.unitsEdit = new InputEditWidget({
-            target: this.units,
-            updateInput: this.updateUnits,
-            cancelInput: this.rebuildUnits
-        });
-
-        this.positionsLabels = new Element('div', {
-            'class': 'position-labels'
-        }).inject(this.units);
-        this.scrollerBox = new Element('div', {
-            'class': 'unit-scroller-box'
-        }).inject(this.units);
-        this.scroller = new Element('div', {
-            'class': 'details-units-scroller'
-        }).inject(this.scrollerBox);
-
-        this.createCommentReplyEdits(this.form, leaveHeader);
-
-        /*      Attachments     */
-        this.attachmentform = new Element('div', {
-            'class': 'form-row'
-        }).inject(this.form);
-        this.attachWidgetDiv = new Element('div', {
-            'class': 'uploadmulti print-hidden',
-            'data-question-name': 'docs'
-        }).adopt(
-            this.attachWidgetInput = new Element('input', {
-                'type': 'file'
-            }),
-            new Element('input', {
-                'hidden': 'file',
-                'class': 'initialValues'
-            })
-        );
-        this.attachmentbox = new Element('div', {
-            'class': 'edit-leave-attachment'
-        }).adopt(
-            new Element('label', { 'class': 'details-label', 'html': 'Attachments' }),
-            this.attachWidgetDiv
-        ).inject(this.attachmentform);
-
-
-
-        this.attachWidgetDiv.addEvent('multiFileDeleted', this.deleteAttachment);
-        this.attachWidgetDiv.addEvent('multiFileAdded', this.postAttachments);
-        this.attachWidgetDiv.addEvent('validateMultiFileDelete', this.validateFileDeletion);
-        window.addEvent('multiFileDeletedFromConfirmation', this.deleteAttachment);
-        window.addEvent('attachmentRequired', this.setAttachmentRequiredValue);
-        window.addEvent('leaveEditDetailCloses', this.validateBeforeClosingModal);
-
-        Affinity.modal.beforeClose = function () {
-            if (this.attachWidgetDiv) {
-                this.attachWidgetDiv.removeEvent('multiFileDeleted', this.deleteAttachment);
-                this.attachWidgetDiv.removeEvent('multiFileAdded', this.postAttachments);
-                this.attachWidgetDiv.removeEvent('validateMultiFileDelete', this.validateFileDeletion);
-                window.removeEvent('multiFileDeletedFromConfirmation', this.deleteAttachment);
-                window.removeEvent('attachmentRequired', this.setAttachmentRequiredValue);
-                window.removeEvent('leaveEditDetailCloses', this.validateBeforeClosingModal);
-            }
-            if (this.fromDateWidget) {
-                this.fromDateWidget.removeEvents();
-            }
-            if (this.toDateWidget) {
-                this.toDateWidget.removeEvents();
-            }
-            if (this.startDate) {
-                this.startDate.removeEvents();
-            }
-            if (this.toDate) {
-                this.toDate.removeEvents();
-            }
-            if (this.typeSelector) {
-                this.typeSelector.removeEvents();
-            }
-            if (this.reasonSelector) {
-                this.reasonSelector.removeEvents();
-            }
-            if (this.approverSelector) {
-                this.approverSelector.removeEvents();
-            }
-            if (this.reply) {
-                this.reply.removeEvents();
-            }
-            if (this.comments) {
-                this.comments.removeEvents();
-            }
-            if (this.forward) {
-                this.forward.removeEvents();
-            }
-            if (this.forwardTo) {
-                this.forwardTo.removeEvents();
-            }
-            if (this.acceptButton) {
-                this.acceptButton.removeEvents();
-            }
-            if (this.declineButton) {
-                this.declineButton.removeEvents();
-            }
-            if (this.submitButton) {
-                this.submitButton.removeEvents();
-            }
-            if (this.deleteButton) {
-                this.deleteButton.removeEvents();
-            }
-            if (this.closeButton) {
-                this.closeButton.removeEvents();
-            }
-            if (this.editButton) {
-                this.editButton.removeEvents();
-            }
-            window.removeEvents('UpdateLeaveSuccess');
-            window.removeEvents('DeleteLeaveUnitSuccess');
-            window.removeEvents('CreateMissingLeaveUnitsSuccess');
-            Affinity.modal.beforeClose = null;
-            delete Affinity.modal.beforeClose;
-        }.bind(this);
-
-        this.createForwardingFeature(this.form);
-
-        /*      Buttons     */
-        this.createButtons(this.form, true);
-
-        /*      Activity      */
-        Affinity.leave.populateLeaveActivity(this.form, leaveHeader.EmployeeNo, leaveHeader.TSGroupId);
-
-        this.createEditableDates(leaveHeader, components, positions);
-
-        //Show
-        Affinity.modal.setElement(this.modalData);
-
-        //populate attachments
-        this.attachWidget = new UIUplaodersMulti({
-            maxsize: 20963328 /* 19.99 MB */
-        });
-
-        this.attachWidget.addEvent('multiFileTooLarge', this.fileTooLarge);
-
-        Affinity.leave.populateAttachments(leaveHeader, this.data.Attachments, this.attachWidget, this.attachWidgetDiv);
-
-        //Resize units scroller
-        var containerSize = this.scrollerBox.measure(function () { return this.getSize().x; });
-        var scrollerSize = this.scroller.measure(function () { return this.getScrollSize().x; });
-        if (scrollerSize > containerSize) {
-            this.scrollerBox.setStyle('overflow-x', 'scroll');
-        } else {
-            this.scrollerBox.setStyle('overflow-x', 'hidden');
-        }
-        //this.editUnitsButtons.setStyle('top', (this.units.getSize().y - 4) + 'px');
-        Affinity.tooltips.processNew();
-    },
-
-    fileTooLarge: function (data) {
-
-        var maxsize = (data.maxsize / 1024 / 1024).round(2);
-        var size = (data.size / 1024 / 1024).round(2);
-
-        window.uialert({
-            message: 'You can only attach a document that is less than 20MB in size. Please try again.'
-        });
-
-    },
-
-    getLeaveStatusWhereForwardToIsNotAllowed: function () {
-        var notAllowedStatusCodes = [3, 2, 6];
-
-        return notAllowedStatusCodes;
-    },
-    allowForwardToBasedFromLeaveInstance: function (leaveInstance) {
-        var returnValue = false;
-        var notAllowedStatusCodes = this.getLeaveStatusWhereForwardToIsNotAllowed();
-        if (leaveInstance !== undefined &&
-            leaveInstance.StatusCode !== undefined &&
-            notAllowedStatusCodes.indexOf(leaveInstance.StatusCode) === -1) {
-            returnValue = true;
-        }
-        return returnValue;
-    },
-    createButtons: function (target, isEdit) {
-
-        var buttonLabel = "";
-        if (this.data.LeaveHeader.StatusCode === 7) {
-            buttonLabel = "Leave Cancellation";
-        } else if (this.data.LeaveHeader.StatusCode === 0) {
-            buttonLabel = "Leave Request";
-        }
-
-        this.buttons = new Element('div', {
-            'class': 'form-row'
-        }).inject(target);
-
-        this.buttonsBoxContainer = new Element('div', {
-            'class': 'details-comments-box'
-        }).inject(this.buttons);
-
-        this.buttonsLabelBox = new Element('label', {
-            'class': 'details-label',
-            'html': buttonLabel
-        }).inject(this.buttonsBoxContainer);
-
-        this.buttonsBox = new Element('div', {
-            'class': 'details-buttons-box'
-        }).inject(this.buttonsBoxContainer);
-
-
-
-
-
-        if (!this.data.LeaveHeader.isExternal) {
-            if (this.isManager) {
-                if ((isEdit || this.data.LeaveHeader.StatusCode === 7) && this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
-                    this.forward = new Element('span',
-                        {
-                            'class': 'button blue hidden w-icon-only'
-                        }).adopt(
-                            new Element('span', { 'html': Affinity.icons.Forward }),
-                            new Element('span', { 'html': 'Forward' })
-                        ).inject(this.buttonsBox);
-                    if (this.forwardTo.value !== '') {
-                        this.forward.removeClass('hidden');
-                        this.forwardReason.removeClass('hidden');
-                    }
-                    this.forwardTo.addEvent('change',
-                        function (e) {
-                            if (e.target.value === '') {
-                                // hide forward buttons
-                                this.forward.addClass('hidden');
-                                this.forwardReason.addClass('hidden');
-                            } else {
-                                this.forward.removeClass('hidden');
-                                this.forwardReason.removeClass('hidden');
-                            }
-                        }.bind(this));
-                    this.forward.addEvent('click',
-                        function () {
-                            var index = this.forwardTo.selectedIndex;
-                            var option = this.forwardTo[index];
-                            var id = option.get('id');
-                            var value = {
-                                ForwardedTo: id,
-                                AuthorisationId: this.data.Components[0].Authorisation.AuthorisationId,
-                                Comment: this.forwardReasonText.get('value')
-                            };
-
-                            if (value.ForwardedTo === '') {
-                                uialert({
-                                    message: 'Please select someone to forward to'
-                                });
-                                return;
-                            }
-
-                            var empNo = this.data.LeaveHeader.EmployeeNo;
-                            var leaveId = this.data.LeaveHeader.TSGroupId;
-                            var methodName = 'leave.detail.js -> createButtons (forward on click)';
-                            var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot +
-                                'LeaveForwarding/' +
-                                empNo +
-                                '/' +
-                                leaveId);
-                            new Request.JSON({
-                                url: api,
-                                headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                                urlEncoded: false,
-                                onRequest: function () {
-                                    Affinity.leave.lockui('teamleave-forward');
-                                },
-                                onFailure: function (e) {
-                                    Affinity.leave.unlockui('teamleave-forward');
-                                    Affinity.leave.handleXHRErrors(e, api, methodName);
-                                },
-                                onException: function () {
-                                    Affinity.leave.unlockui('teamleave-forward');
-                                },
-                                onCancel: function () {
-                                    Affinity.leave.unlockui('teamleave-forward');
-                                },
-                                onSuccess: function (response) {
-                                    Affinity.leave.unlockui('teamleave-forward');
-                                    Affinity.modal.hide();
-                                    if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-                                        Affinity.leave.manager.refreshAll();
-                                    }
-                                }.bind(this)
-                            }).post(JSON.stringify(value));
-                        }.bind(this));
-                }
-
-                if (this.data.LeaveHeader.StatusCode !== -1) {
-                    //No Approving or Declining for non-pending cancelled applications.
-
-                    this.acceptButton = new Element('span', {
-                        'class': 'button green w-icon-only'
-                    }).adopt(
-                        new Element('span', { 'html': Affinity.icons.ThumbsUp }),
-                        new Element('span', { 'html': 'Approve' })
-                    ).inject(this.buttonsBox);
-                    this.acceptButton.addEvent('click', function () {
-                        if (this.validateAttachmentRequirement()) {
-                            var statusChange = 3;
-                            var leaveId = this.data.LeaveHeader.TSGroupId;
-                            var empNo = this.data.LeaveHeader.EmployeeNo;
-                            if (this.requireUpdate) {
-                                uialert({
-                                    message: 'Oops! This leave application has been changed by someone else, please reload.',
-                                    showButtons: true,
-                                    noClose: false,
-                                    showLoader: false
-                                });
-                            }
-                            else if (this.totalUnitsUnits.get('html') == 0) {
-                                uialert({
-                                    message: 'Oops! There are no hours to approve for this leave.',
-                                    showButtons: true,
-                                    noClose: false,
-                                    showLoader: false
-                                });
-                            }
-                            else {
-                                //this.applyForLeave.postAttachements(empNo, leaveId);
-                                //this.bossResponse(empNo, leaveId, oldStatus, statusChange, authId);
-                                this.bossResponse(empNo, leaveId, this.authorisation.StatusCode, statusChange, this.authorisation.AuthorisationId, this.data.LeaveHeader.TimeLastModified);
-                            }
-                        } else {
-                            this.displayAttachmentRequiredModalMessage();
-                        } 
-                        
-                    }.bind(this));
-
-                    if (this.data.LeaveHeader.StatusCode !== 6) {
-                        this.declineButton = new Element('span', {
-                            'class': 'button red w-icon-only'
-                        }).adopt(
-                            new Element('span', { 'html': Affinity.icons.ThumbsDown }),
-                            new Element('span', { 'html': 'Decline' })
-                        ).inject(this.buttonsBox);
-                        this.declineButton.addEvent('click', function () {
-                            window.fireEvent('attachmentRequired', false);
-                            var statusChange = 2;
-                            var leaveId = this.data.LeaveHeader.TSGroupId;
-                            var empNo = this.data.LeaveHeader.EmployeeNo;
-                            if (this.requireUpdate) {
-                                uialert({
-                                    message: 'Oops! This leave application has been changed by someone else, please reload.',
-                                    showButtons: true,
-                                    noClose: false,
-                                    showLoader: false
-                                });
-                            }
-                            //else if (this.totalUnitsUnits.get('html') == 0) {
-                            //    uialert({
-                            //        message: 'Oops! There are no hours to decline for this leave.',
-                            //        showButtons: true,
-                            //        noClose: false,
-                            //        showLoader: false
-                            //    });
-                            //}
-                            else {
-                                //this.bossResponse(empNo, leaveId, oldStatus, statusChange, authId);
-                                this.bossResponse(empNo, leaveId, this.authorisation.StatusCode, statusChange, this.authorisation.AuthorisationId, this.data.LeaveHeader.timeLastModified);
-                            }
-                        }.bind(this));
-                    }
-
-                    if (this.data.LeaveHeader.StatusCode === 6) {
-                        this.submitButton = new Element('span', {
-                            'class': 'button green w-icon-only'
-                        }).adopt(
-                            new Element('span', { 'html': Affinity.icons.Plane }),
-                            new Element('span', { 'html': 'Submit' })
-                        ).inject(this.buttonsBox);
-                        this.submitButton.addEvent(Affinity.events.click, function () {
-
-                            if (this.validateAttachmentRequirement()) {
-                                this.submitLeave(this.data.LeaveHeader.TSGroupId, 0, this.data.LeaveHeader.StatusCode,
-                                    function (response) {
-                                        if (response.Response != null &&
-                                            response.Response.indexOf("position has changed since") !== -1) {
-                                            uialert({
-                                                'message': response.Response,
-                                                showButtons: true,
-                                                noClose: false
-                                            });
-
-                                        } else {
-                                            this.acknowledgementModal(response, 'Your leave has been submitted');
-                                        }
-                                    }.bind(this));
-                            } else {
-                                this.displayAttachmentRequiredModalMessage();
-                            }
-
-                            
-                        }.bind(this));
-                    }
-
-                }
-            } else {
-                if (this.data.LeaveHeader.StatusCode === -1 || this.data.LeaveHeader.StatusCode === 6) {
-                    this.submitButton = new Element('span', {
-                        'class': 'button green w-icon-only'
-                    }).adopt(
-                        new Element('span', { 'html': Affinity.icons.Plane }),
-                        new Element('span', { 'html': 'Submit' })
-                    ).inject(this.buttonsBox);
-                    this.submitButton.addEvent(Affinity.events.click, function () {
-
-                        if (this.validateAttachmentRequirement()) {
-
-                            this.submitLeave(this.data.LeaveHeader.TSGroupId, 0, this.data.LeaveHeader.StatusCode,
-                                function (response) {
-                                    if (response.Response != null &&
-                                        response.Response.indexOf("position has changed since") !== -1) {
-                                        uialert({
-                                            'message': response.Response,
-                                            showButtons: true,
-                                            noClose: false
-                                        });
-
-                                    } else {
-                                        this.acknowledgementModal(response, 'Your leave has been submitted');
-                                    }
-                                }.bind(this));
-                        } else {
-                            this.displayAttachmentRequiredModalMessage();
-                        }
-                        
-                    }.bind(this));
-                }
-                if (this.data.LeaveHeader.StatusCode === -1) {
-                    this.deleteButton = new Element('button', {
-                        'class': 'red detail-delete-button w-icon-only'
-                    }).adopt(
-                        new Element('span', { 'html': Affinity.icons.Trash }),
-                        new Element('span', { 'html': 'Delete' })
-                    ).inject(this.buttonsBox);
-                    this.deleteButton.addEvent(Affinity.events.click, function () {
-                        this.deleteLeave(this.data.LeaveHeader.EmployeeNo, this.data.LeaveHeader.TSGroupId);
-                        Affinity.modal.closeButtonCloser();
-                    }.bind(this));
-                } else if (this.data.LeaveHeader.StatusCode === 0 || this.data.LeaveHeader.StatusCode === 2 || this.data.LeaveHeader.StatusCode === 3) {
-                    this.cancelButton = new Element('span', {
-                        'class': 'button red w-icon-only'
-                    }).adopt(
-                        new Element('span', { 'html': Affinity.icons.Cancel }),
-                        new Element('span', { 'html': 'Cancel Leave' })
-                    ).inject(this.buttonsBox);
-                    this.cancelButton.addEvent(Affinity.events.click, function () {
-                        if (this.data.LeaveHeader.StatusCode == 2) {
-                            window.fireEvent('attachmentRequired', false);
-                            this.doLeaveCancellation();
-                        } else {
-                            uialert({
-                                message: 'Are you sure you want to cancel your leave?',
-                                showButtons: true,
-                                showCancel: true,
-                                okText: 'Yes',
-                                cancelText: 'No',
-                                onOk: function () {
-                                    window.fireEvent('attachmentRequired', false);
-                                    this.doLeaveCancellation();
-                                }.bind(this),
-                            });
-                        }
-                    }.bind(this));
-                }
-            }
-
-            if (!isEdit && ((this.data.LeaveHeader.StatusCode != 7)
-                || this.data.LeaveHeader.StatusCode == 0)) {
-                this.editButton = new Element('button', {
-                    'class': 'blue details-edit-leave-button w-icon-only',
-                }).adopt(
-                    new Element('span', { 'html': Affinity.icons.Pencil }),
-                    new Element('span', { 'html': 'Edit' })
-                ).inject(this.buttonsBox);
-                this.editButton.addEvent('click', function () {
-                    var response = function (data) {
-                        if ((data !== null &&
-                            data.Data !== null) || data === null) {
-                            this.data.LeaveHeader.StatusCode = 6;
-                            this.editDetail();
-                        }
-
-                       
-                       
-                    }.bind(this);
-
-                    var editDetail = function () {
-                        this.editDetail();
-                    }.bind(this);
-
-                    var validationResponse = function (data) {
-                        if (!this.isManager && this.data.LeaveHeader.StatusCode == 3) {
-                            uialert({
-                                message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
-                                showButtons: true,
-                                showCancel: true,
-                                okText: "Yes",
-                                cancelText: 'No',
-                                onOk: function () {
-                                    this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 3, response);
-                                }.bind(this),
-                                onCancel: function () {
-                                }
-                            });
-                        } else if (!this.isManager && this.partialApproved) {
-                            uialert({
-                                message: 'This Leave Application is partially approved. <br /> Do you want to cancel it to make it editable?',
-                                showButtons: true,
-                                showCancel: true,
-                                okText: 'Yes - Cancel and Edit',
-                                okIcon: Affinity.icons.Plane,
-                                onOk: function () {
-                                    this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, 0, response);
-                                }.bind(this),
-                                onCancel: function () {
-                                }
-                            });
-                        }
-                    }.bind(this);
-
-                    if (!this.isManager && this.data.LeaveHeader.StatusCode == 3) {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, validationResponse, null);
-                    } else if (!this.isManager && this.partialApproved) {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, validationResponse, null);
-                    } else {
-                        Affinity.leave.doPositionUpdateOrValidation(this.data.LeaveHeader.TSGroupId, editDetail, null);
-                      //  this.editDetail();
-                    }
-                }.bind(this));
-            }
-        }
-        this.closeButton = new Element('button', {
-            'class': 'grey details-close-leave-button w-icon-only'
-        }).adopt(
-            new Element('span', { 'html': Affinity.icons.Cross }),
-            new Element('span', { 'html': 'Close' })
-        ).inject(this.buttonsBox);
-        this.closeButton.addEvent('click', function () {
-            //if (isEdit) {
-            //    if (this.isManager) {
-            //        Affinity.leave.manager.refreshAll();
-            //    } else {
-            //        Affinity.leave.employee.refreshAll();
-            //    }
-            //}
-            Affinity.modal.closeButtonCloser();
-        }.bind(this));
-    },
-    doLeaveCancellation: function () {
-        this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, this.data.LeaveHeader.statusCode,
-            function (response) {
-                if (response.Data !== null) {
-                    if (response.Data.LeaveHeader.StatusCode == 6) {
-                        this.acknowledgementModal(response, 'Your leave has been cancelled');
-                    }
-                    else if (response.Data.LeaveHeader.StatusCode == 7) {
-                        this.acknowledgementModal(response, 'Leave cancellation has been requested');
-                    }
-                } else {
-                    if (response.Messages[0].length > 0 &&
-                        response.Messages[0].Message !== null &&
-                        response.Messages[0].Message !== undefined &&
-                        response.Messages[0].Message.indexOf('position has changed') > -1) {
-                        uialert({
-                            'message': response.Messages[0].Message,
-                            showButtons: true,
-                            noClose: false
-                        });
-                    }
-                }
-               
-            }.bind(this));
-    },
-
-    createCommentReplyEdits: function (target, leaveHeader) {
-        this.commentForm = null;
-        this.replyForm = null;
-        if (!this.isManager || leaveHeader.Comment) {
-            this.commentForm = new Element('div', {
-                'class': 'form-row'
-            });
-            this.commentsBox = new Element('div', {
-                'class': 'details-comments-box'
-            }).inject(this.commentForm);
-            this.commentsLabel = new Element('label', {
-                'class': 'details-label',
-                'html': 'Comments'
-            }).inject(this.commentsBox);
-        }
-
-        if (this.isManager || leaveHeader.Reply) {
-            this.replyForm = new Element('div', {
-                'class': 'form-row'
-            })
-            this.replyBox = new Element('div', {
-                'class': 'details-comments-box'
-            }).inject(this.replyForm);
-            this.replyLabel = new Element('label', {
-                'class': 'details-label',
-                'html': 'Manager Comments'
-            }).inject(this.replyBox);
-        }
-
-        if (this.isManager) {
-            if (this.commentForm) {
-                this.comments = new Element('div', {
-                    'class': 'details-comments',
-                    'html': leaveHeader.Comment
-                }).inject(this.commentsBox);
-            }
-
-            this.reply = new Element('textarea', {
-                'class': 'edit-reply data-hj-whitelist',
-                'rows': '4',
-                'html': leaveHeader.Reply
-            }).inject(this.replyBox);
-            this.replyEdit = new InputEditWidget({
-                target: this.replyBox,
-                input: this.reply,
-                updateInput: function () {
-                    var newReply = this.reply.value;
-                    if (newReply != this.data.LeaveHeader.Reply) {
-                        this.update('Reply', newReply, this.data.LeaveHeader.Reply, leaveHeader.EmployeeNo, leaveHeader.TSGroupId, this.data.LeaveHeader.TimeLastModified,
-                            function (response) {
-                                if (this.data) {
-                                    this.data.LeaveHeader.Reply = response.LeaveHeader.Reply;
-                                    this.data.LeaveHeader.TimeLastModified = response.LeaveHeader.TimeLastModified;
-                                }
-                            }.bind(this));
-
-
-                    }
-                }.bind(this),
-                cancelInput: function () {
-                    this.reply.set('value', leaveHeader.Reply);
-                }.bind(this)
-            });
-        }
-        else {
-            if (this.replyForm) {
-                this.reply = new Element('div', {
-                    'class': 'details-comments',
-                    'html': leaveHeader.Reply
-                }).inject(this.replyBox);
-            }
-
-            this.comments = new Element('textarea', {
-                'class': 'edit-comments data-hj-whitelist',
-                'rows': '4',
-                'html': leaveHeader.Comment
-            }).inject(this.commentsBox);
-            this.replyEdit = new InputEditWidget({
-                target: this.commentsBox,
-                input: this.comments,
-                updateInput: function () {
-                    var newComment = this.comments.value;
-                    if (newComment != this.data.LeaveHeader.Comment) {
-                        this.update('Comment', newComment, this.data.LeaveHeader.Comment, leaveHeader.EmployeeNo, leaveHeader.TSGroupId, this.data.LeaveHeader.TimeLastModified,
-                            function (response, errorMessage) {
-                                if (this.data && response !== "error") {
-                                    this.data.LeaveHeader.Comment = response.LeaveHeader.Comment;
-                                    this.data.LeaveHeader.TimeLastModified = response.LeaveHeader.TimeLastModified;
-                                } else if (response === 'error') {
-                                    //alert(errorMessage);
-
-                                    var errMessage = "Something's stopping the Comment field from updating. Try again.<br /><br />";
-                                    //errMessage += '<span class="color-red">' + errorMessage + '</span>';
-
-                                    uialert({
-                                        'message': errMessage,
-                                        okText: 'Close',
-                                        showButtons: true,
-                                        noClose: false
-                                    });
-                                    // this.data.LeaveHeader.Comment = this.data.LeaveHeader.Comment;
-                                    this.comments.value = this.data.LeaveHeader.Comment;
-                                }
-                            }.bind(this));
-                    }
-                }.bind(this),
-                cancelInput: function () {
-                    this.comments.set('value', leaveHeader.Comment);
-                }.bind(this)
-            });
-        }
-        if (this.commentForm)
-            this.commentForm.inject(target);
-        if (this.replyForm)
-            this.replyForm.inject(target);
-    },
-
-    buildUnitsTotals: function (components) {
-        if (this.totalUnitsSection)
-            this.totalUnitsSection.empty();
-        var isMultiPosition = components.length > 1;
-        var positionBoxStyle = 'display:none';
-        if (isMultiPosition) {
-            positionBoxStyle = 'display:block';
-        }
-        var total = 0;
-        Array.each(components, function (position, index) {
-            var positionbox = new Element('div', {
-                'class': 'position-units-box',
-                'style': positionBoxStyle
-            }).inject(this.totalUnitsSection);
-            var positionName = new Element('span', {
-                'class': 'position-name ui-has-tooltip',
-                'html': position.PositionTitle + ': ',
-                'data-tooltip': position.PositionTitle,
-                'data-tooltip-dir': 'bottom'
-            }).inject(positionbox);
-            var units = new Element('span', {
-                'class': 'position-units',
-                'html': position.TotalUnits.toFixed(2),
-                'id': position.PositionCode
-            }).store('units', position.TotalUnits).inject(positionbox);
-            total += position.TotalUnits;
-        }.bind(this));
-
-        this.totalUnits = new Element('div', {
-            'class': 'total-units'
-        }).inject(this.totalUnitsSection, 'bottom');
-        this.totalUnitsName = new Element('span', {
-            'class': 'total-units-name',
-            'html': 'Total: '
-        }).inject(this.totalUnits);
-        this.totalUnitsUnits = new Element('span', {
-            'class': 'total-units-units',
-            'html': total.toFixed(2)
-        }).inject(this.totalUnits);
-        this.totalUnitsUnits.store('total', total);
-    },
-
-    createEditableDates: function (leaveHeader, components, positions) {
-        var firstDate = Affinity.leave.cleanBadDate(leaveHeader.DateFrom);
-        var lastDate = Affinity.leave.cleanBadDate(leaveHeader.DateTo);
-        var dateRange = [];
-        var currentDate = new Date(firstDate);
-        while (currentDate <= lastDate) {
-            dateRange.push(new Date(currentDate));
-            currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
-        }
-
-        var units = this.units.querySelectorAll('.edit-position-hours, .edit-position-days');
-        Array.each(units, function (unit) {
-            var validation = unit.retrieve('validation');
-            if (validation) {
-                validation.destroy();
-                unit.eliminate('validation');
-            }
-        }.bind(this));
-
-        var scrollerWidth = 0;
-        if (this.gridBody) { this.gridBody.removeEvents(); }
-        this.scroller.empty();
-
-        this.positionsLabels.empty();
-        var unitsGrid = new Element('div', { 'class': 'unit-grid' }).inject(this.scroller);
-        var gridHeader = new Element('div', { 'class': 'unit-gridheader' }).inject(unitsGrid);
-        this.gridBody = new Element('div', { 'class': 'unit-gridbody' }).inject(unitsGrid);
-
-        var readOnly = false;
-        Array.each(this.config.LeaveCodes, function (code, index) {
-            if (leaveHeader.LeaveCode == code.LeaveCode && code.CanEditByDays != undefined) {
-                readOnly = !code.CanEditByDays;
-            }
-        });
-
-        if (!readOnly) {
-            this.unitsEdit.attachToInput(this.gridBody);
-        }
-
-        var tempDate, dateCell;
-        Array.each(dateRange, function (day, index) {
-            tempDate = Affinity.leave.cleanBadDate(day);
-
-            dateCell = new Element('div', { 'class': 'day-class d-' + tempDate.format('%d-%b-%y'), 'id': tempDate.format('%d/%b/%y') }).inject(gridHeader);
-            dateCell.adopt(
-                new Element('div', { 'class': 'day-class-day', 'html': tempDate.format('%a') }),
-                new Element('div', { 'class': 'day-class-date', 'html': tempDate.format('%e') }),
-                new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
-                new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
-            );
-
-            scrollerWidth += 79;
-        });
-        this.scroller.store('width', scrollerWidth);
-        this.scroller.setStyle('width', scrollerWidth);
-
-        //var posUnits = [];
-        var daysRow, hoursRow, posName, posDate, hours, days, date, component;
-
-        var isEmployeeMultiPositions = true;
-        var componentPositions = new Array();
-        component = null;
-        Array.each(components, function (comp, Index) {
-            if (componentPositions.length === 0) {
-                componentPositions.push(comp.positionCode);
-            } else if (componentPositions.length > 0 &&
-                componentPositions.indexOf(comp.positionCode) < 0) {
-                componentPositions.push(comp.positionCode);
-            }
-        });
-
-        if (componentPositions.length === 1 && positions.length == 1) {
-            isEmployeeMultiPositions = false;
-        }
-
-        Array.each(positions, function (position, index) {
-            var pos = new Element('div', { 'class': 'position-label' }).inject(this.positionsLabels);
-            var posTitle = new Element('div', { 'class': 'position-title' }).inject(pos);
-            new Element('label', {
-                'html': position.PositionTitle, 'class': 'ui-has-tooltip',
-                'data-tooltip': position.PositionTitle, 'data-tooltip-dir': 'bottom'
-            }).inject(posTitle);
-
-            var daysRow;
-            var unitLabels = new Element('div', { 'class': 'position-unit-label' }).inject(pos);
-            if (leaveHeader.UnitType === 'D') {
-                daysRow = new Element('div', { 'class': 'positions-days', 'id': position.PositionCode }).inject(this.gridBody);
-                new Element('label', { 'html': '(Days)' }).inject(unitLabels);
-            }
-            else {
-                new Element('label', { 'html': '(Hours)' }).inject(unitLabels);
-            }
-            hoursRow = new Element('div', { 'class': 'positions-hours', 'id': position.PositionCode }).inject(this.gridBody);
-            if (leaveHeader.UnitType === 'D') {
-                hoursRow.addClass('hidden');
-            }
-
-            component = null;
-            Array.each(components, function (comp, Index) {
-                if ((comp.PositionCode === position.PositionCode && isEmployeeMultiPositions) ||
-                    !isEmployeeMultiPositions) {
-                    component = comp;
-                }
-            });
-            if (component) {
-                Array.each(dateRange, function (day, index) {
-                    date = Affinity.leave.cleanBadDate(day).format('%d/%b/%y');
-                    hours = new Element('input', {
-                        'class': 'edit-position-hours data-hj-whitelist', 'id': date, 'value': '0.00'
-                    }).inject(hoursRow);
-                    hours.readOnly = readOnly;
-                    if (leaveHeader.UnitType === 'D') {
-                        days = new Element('input', {
-                            'class': 'edit-position-days data-hj-whitelist', 'id': date, 'value': '0.00'
-                        }).inject(daysRow);
-                        days.readOnly = readOnly;
-                    }
-
-                    (function (hours, days) {
-                        var maxHours = 0;
-                        var validateUnits;
-                        Array.each(component.Units, function (unit, unitIndex) {
-                            posDate = Affinity.leave.cleanBadDate(unit.Date).format('%d/%b/%y');
-                            if (date === posDate) {
-                                maxHours = unit.MaxHours;
-                                var h = 0;
-                                if (typeOf(unit.HoursAppliedFor) === 'number') {
-                                    h = unit.HoursAppliedFor.toFixed(2);
-                                }
-                                hours.store('old', h);
-                                hours.store('init', h);
-                                hours.set('value', h);
-
-                                if (!readOnly)
-                                    this.setUnitInputEvents(hours, null, day, component, unit, 'H');
-
-                                if (leaveHeader.UnitType === 'D') {
-                                    var d = 0;
-                                    if (typeOf(unit.DaysAppliedFor) === 'number') {
-                                        d = unit.DaysAppliedFor.toFixed(2);
-                                    }
-                                    days.store('old', d);
-                                    days.store('init', d);
-                                    days.set('value', d);
-
-                                    if (!readOnly)
-                                        this.setUnitInputEvents(days, hours, day, component, unit, 'D');
-                                }
-
-                                if (typeOf(unit.IsPublicHoliday) === 'boolean' && unit.IsPublicHoliday === true) {
-                                    hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                    hours.getParent('.unit-grid').getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                }
-                            }
-                        }.bind(this));
-                    }.bind(this))(hours, days);
-
-                }.bind(this));
-            }
-        }.bind(this));
-
-        //Resize units scroller
-        var containerSize = this.scrollerBox.measure(function () { return this.getSize().x; });
-        var scrollerSize = this.scroller.measure(function () { return this.getScrollSize().x; });
-        if (scrollerSize > containerSize) {
-            this.scrollerBox.setStyle('overflow-x', 'scroll');
-        } else {
-            this.scrollerBox.setStyle('overflow-x', 'hidden');
-        }
-        //this.editUnitsButtons.setStyle('top', (this.units.getSize().y - 4) + 'px');
-        // Affinity.tooltips.processNew();
-    },
-
-    setUnitInputEvents: function (input, hoursInput, day, position, unit, unitType) {
-        input.addEvent('blur', function (e) {
-            e.target.value = Affinity.leave.cleanUnit(e.target.value, e.target.retrieve('initial-value'));
-        }.bind(this));
-
-        input.addEvent('change', function (e) {
-            input.removeClass('error-border');
-
-            var validation = input.retrieve('validation');
-            if (validation) {
-                validation.destroy();
-                input.eliminate('validation');
-            }
-
-            var enableButtons = true;
-            var units = this.units.querySelectorAll('.edit-position-hours, .edit-position-days');
-            Array.each(units, function (u) {
-                if (u.retrieve('validation')) {
-                    enableButtons = false;
-                    return;
-                }
-            }.bind(this));
-
-            if (enableButtons) {
-                if (this.acceptButton) {
-                    this.acceptButton.set('disabled', null);
-                    this.acceptButton.removeClass('disabled');
-                }
-                if (this.declineButton) {
-                    this.declineButton.set('disabled', null);
-                    this.declineButton.removeClass('disabled');
-                }
-                if (this.unitsEdit)
-                    this.unitsEdit.enableSave();
-            }
-
-            var maxUnits = 24;
-            var unitLabel = '';
-            if (unitType === 'H') {
-                maxUnits = unit.MaxHours;
-                unitLabel = ' hours';
-            } else if (unitType === 'D') {
-                if (unit.MaxHours > 0)
-                    maxUnits = 1;
-                else
-                    maxUnits = 0;
-                unitLabel = ' day';
-            }
-
-            if (input.value > maxUnits) {
-                input.addClass('error-border');
-
-                if (this.acceptButton) {
-                    this.acceptButton.set('disabled', 'disabled');
-                    this.acceptButton.addClass('disabled');
-                }
-                if (this.declineButton) {
-                    this.declineButton.set('disabled', 'disabled');
-                    this.declineButton.addClass('disabled');
-                }
-                if (this.unitsEdit)
-                    this.unitsEdit.disableSave();
-
-                var validation = new Element('div', { 'class': 'form-row unit-validation' }).adopt(
-                    new Element('span', { 'class': 'icon-warning' }),
-                    new Element('span', {
-                        'html': 'Please enter a value up to ' + maxUnits + ' ' + unitLabel + ' on ' + Affinity.leave.cleanBadDate(day).format('%d/%b/%y') + ' for ' + position.PositionTitle + '.'
-                    })
-                );
-                this.units.adopt(validation);
-                input.store('validation', validation);
-            } else {
-                var value = input.value === '' ? 0 : parseFloat(input.value);
-                this.updateTotals(value, input.retrieve('old'), position.PositionCode);
-                input.store('old', value);
-
-                if (hoursInput) {
-                    var schedHours = unit.HoursWorkScheduled;
-
-                    if (!schedHours || schedHours <= 0)
-                        schedHours = unit.HoursStandard;
-
-                    if (schedHours > 0) {
-                        hoursInput.set('value', (value * schedHours).toFixed(2));
-                    }
-                }
-            }
-            //this.editUnitsButtons.setStyle('top', (this.units.getSize().y - 4) + 'px');
-        }.bind(this));
-    },
-
-    updateTotals: function (newValue, oldValue, positionCode) {
-
-        //SG: If the edit modal is already closed then no need to update totals, however we need to refresh the page.
-
-        if (document.id('uimodal') && document.id('uimodal').style.visibility != 'hidden') {
-            var totals = document.getElements('.position-units');
-            var totalUnits = document.getElement('.total-units-units');
-
-            var diff = Math.abs(newValue - oldValue);
-
-            var posValue, newTotal, oldT, newT, foundApprover, approverSelectors, approvers;
-
-            Array.each(totals, function (posTotal, index) {
-
-                if (posTotal.get('id') === positionCode) {
-
-                    if (newValue > oldValue) {
-
-                        posValue = posTotal.retrieve('units');
-                        newTotal = posValue + diff;
-
-                        posTotal.set('html', newTotal.toFixed(2));
-                        posTotal.store('units', newTotal);
-
-                        oldT = totalUnits.retrieve('total');
-                        newT = oldT + diff;
-
-                        totalUnits.set('html', newT.toFixed(2));
-                        totalUnits.store('total', newT);
-
-                    } else {
-
-                        posValue = posTotal.retrieve('units');
-                        newTotal = posValue - diff;
-
-                        posTotal.set('html', newTotal.toFixed(2));
-                        posTotal.store('units', newTotal);
-
-                        oldT = totalUnits.retrieve('total');
-                        newT = oldT - diff;
-
-                        totalUnits.set('html', newT.toFixed(2));
-                        totalUnits.store('total', newT);
-
-                    }
-
-                    if (newTotal == 0 && posValue != 0) {
-                        posTotal.getParent().destroy();
-
-                        foundApprover = false;
-                        approverSelectors = document.getElements('.details-positions-box .leave-approver-selector');
-
-                        Array.each(approverSelectors, function (approverSelector) {
-                            if (!foundApprover && approverSelector.get('id') == positionCode) {
-                                approverSelector.getParent().destroy();
-                                foundApprover = true;
-                            }
-                        });
-
-                        if (!foundApprover) {
-                            approvers = document.getElements('.details-position-approver');
-                            Array.each(approvers, function (approver) {
-                                if (!foundApprover && approver.get('id') == positionCode) {
-                                    approver.destroy();
-                                    foundApprover = true;
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        }
-        else {
-            if (!this.isManager && 'employee' in Affinity.leave) {
-                //document.getElement('.leave-info-panels').empty();
-                //document.getElement('.myLeaveHistoryTable').empty();
-                Affinity.leave.employee.refreshAll();
-            } else if (this.isManager && 'manager' in Affinity.leave) {
-                Affinity.leave.manager.refreshAll();
-            }
-        }
-    },
-    doUpdateUnits: function (updates, updateTotals, updateUnits, doOnUpdate) {
-        new Request.JSON({
-            url: this._api,
-            method: 'post',
-            emulation: false,
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            urlEncoded: false,
-            onRequest: function () {
-                Affinity.leave.lockui('leaveDetail-updateUnitsRequest');
-            },
-            onFailure: function (e) {
-                Affinity.leave.unlockui('leaveDetail-updateUnitsRequest');
-                prompts.hide();
-                if (doOnUpdate && typeOf(doOnUpdate) === 'function') {
-                    var errorMessage = "";
-                    var parsed = false;
-                    var jsonData = e.response;
-                    try {
-                        parsed = JSON.parse(jsonData);
-                    } catch (e) { }
-                    if (typeOf(parsed) === 'object') {
-                        if (parsed.Exception !== undefined &&
-                            parsed.Exception.Message !== undefined) {
-                            errorMessage = parsed.Exception.Message;
-                        }
-                        doOnUpdate("error", updateTotals, updateUnits, errorMessage);
-                    } else {
-                        doOnUpdate("error", updateTotals, updateUnits, "Internal Server Error");
-                    }
-                }
-                //Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
-            },
-            onException: function () {
-                Affinity.leave.unlockui('leaveDetail-updateUnitsRequest');
-                prompts.hide();
-                if (doOnUpdate && typeOf(doOnUpdate) === 'function') {
-                    var errorMessage = "";
-                    var parsed = false;
-                    var jsonData = e.response;
-                    try {
-                        parsed = JSON.parse(jsonData);
-                    } catch (e) { }
-                    if (typeOf(parsed) === 'object') {
-                        if (parsed.Exception !== undefined &&
-                            parsed.Exception.Message !== undefined) {
-                            errorMessage = parsed.Exception.Message;
-                        }
-                        doOnUpdate("error", updateTotals, updateUnits, errorMessage);
-                    } else {
-                        doOnUpdate("error", updateTotals, updateUnits, "Internal Server Error");
-                    }
-                }
-
-            },
-            onCancel: function () {
-                Affinity.leave.unlockui('leaveDetail-updateUnitsRequest');
-            },
-            onSuccess: function (response) {
-                Affinity.leave.unlockui('leaveDetail-updateUnitsRequest');
-                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
-                    var newTimeStamp = this.data.LeaveHeader.TimeLastModified ? Date.parse(this.data.LeaveHeader.TimeLastModified) : null;
-                    if (Affinity.leave.manager) {
-                        this.requireUpdate = this.requireUpdate || response.RequireUpdate;
-                        if (!this.requireUpdate && (!this.timeLastModified || newTimeStamp.getTime() > this.timeLastModified.getTime()))
-                            this.timeLastModified = newTimeStamp;
-                    }
-                    this.data = response.Data;
-                    if (this.data.Components !== undefined &&
-                        this.data.Components.length !== undefined &&
-                        this.data.Components.length > 0 &&
-                        this.data.Components[0].Authorisation !== undefined &&
-                        this.data.Components[0].Authorisation.AuthorisationId !== undefined) {
-                        if (this.authorisation !== undefined &&
-                            this.authorisation !== null) {
-                            this.authorisation.AuthorisationId = this.data.Components[0].Authorisation.AuthorisationId;
-                            this.authorisationId = this.authorisation.AuthorisationId;
-                        }
-
-                    }
-
-                    this.buildUnitsTotals(this.data.Components);
-                    this.createApproverBoxes(this.data.Components, this.positions);
-                    this.createEditableDates(this.data.LeaveHeader, this.data.Components, this.positions);
-                    Affinity.tooltips.processNew();
-
-                    if (this.isManager) {
-                        Affinity.leave.manager.refreshAll();
-                    } else {
-                        Affinity.leave.employee.refreshAll();
-                    }
-                }
-                prompts.hide();
-                this.errorChecking(response);
-            }.bind(this)
-        }).post(JSON.stringify(updates));
-    },
-    updateUnits: function () {
-        var posHoursArray = this.gridBody.getElements('.positions-hours');
-        var posDaysArray = this.gridBody.getElements('.positions-days');
-        var updates = [];
-        var inDays = this.data.LeaveHeader.UnitType == 'D';
-        var posCode, date, posDays, days, newHours, oldHours, newDays, oldDays;
-
-        Array.each(posHoursArray, function (posHours, i) {
-            posCode = posHours.get('id');
-            if (inDays)
-                posDays = posDaysArray[i].getElements('.edit-position-days');
-
-            Array.each(posHours.getElements('.edit-position-hours'), function (hours, j) {
-                date = hours.get('id');
-                if (inDays)
-                    days = posDays[j];
-
-                newHours = hours.value === '' ? 0 : parseFloat(hours.value);
-                oldHours = hours.retrieve('init');
-                if (!oldHours || oldHours === '')
-                    oldHours = 0;
-                if (inDays) {
-                    newDays = days.value === '' ? 0 : parseFloat(days.value);
-                    oldDays = days.retrieve('init');
-                    if (!oldDays || oldDays === '')
-                        oldDays = 0;
-                }
-
-                if (newHours != oldHours || newDays != oldDays) {
-                    updates.push({
-                        PositionCode: posCode,
-                        Date: date,
-                        NewHours: newHours,
-                        OldHours: oldHours,
-                        NewDays: newDays,
-                        OldDays: oldDays
-                    });
-                }
-            });
-        });
-
-        if (updates.length > 0) {
-            if (!this.updateUnitsRequest)
-                return;
-
-            uialert({
-                message: 'Updating Leave Units',
-                showLoader: true,
-                showButtons: false,
-                noClose: true
-            });
-
-            this._methodName = 'ui.leave.detail.js -> updateUnits';
-            var path = 'UpdateLeaveUnits/' + this.data.LeaveHeader.EmployeeNo + '/' + this.data.LeaveHeader.TSGroupId;
-            if (this.isManager && this.data.LeaveHeader.TimeLastModified) {
-                path = path + '?timeLastModified=' + this.data.LeaveHeader.TimeLastModified;
-            }
-
-            this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + path);
-            if (this.updateUnitsRequest && this.updateUnitsRequest.isRunning()) {
-                this.updateUnitsRequest.cancel();
-            }
-            this.updateUnitsRequest.url = this.updateUnitsRequest.options.url = this._api;
-            var positionCode = this.data.LeaveHeader.PositionCode;
-
-            //this.updateUnitsRequest.post(JSON.stringify(updates));
-            this.doUpdateUnits(updates, this.updateTotals, this.updateUnits, function (response, updateTotals, updateUnits, errorMessage) {
-                if (response === 'error') {
-                    if (inDays) {
-                        document.getElementsByClassName("edit-position-days")[0].value = oldDays;
-                        updateTotals(oldDays, newDays, positionCode);
-                        //input.store('old', value);
-                        document.getElementsByClassName("edit-position-days")[0].store('old', oldDays);
-                    } else {
-                        document.getElementsByClassName("edit-position-hours")[0].value = oldHours;
-                        updateTotals(oldHours, newHours, positionCode);
-                        document.getElementsByClassName("edit-position-hours")[0].store('old', oldHours);
-
-                    }
-
-                    var errMessage = "Something's stopping the Unit field from updating. Try again.<br /><br />";
-                    //errMessage += '<span class="color-red">' + errorMessage + '</span>';
-
-                    //uialert({
-                    //    'message': errMessage,
-                    //    showButtons: false,
-                    //    noClose: false
-                    //});
-
-                    uialert({
-                        message: errMessage,
-                        okText: 'Close',
-                        showButtons: true,
-                        showCancel: false,
-                        noClose: false
-                    });
-
-                }
-            });
-
-
-        }
-    },
-
-    newLeaveReason: function (config, typeIndex) {
-        if (this.reasonBox && this.reasonSelector) {
-            this.reasonSelector.empty();
-
-            new Element('option', {
-                'value': '',
-                'id': 'null', //SG: ideally need to pass actual null not string. this will do for now. 
-                'html': ''
-            }).inject(this.reasonSelector, 'top')
-
-
-
-            var leaveCodes = null;
-
-
-            //if (config !== undefined && config.LeaveCodes !== undefined) {
-            //    config.LeaveCodes;
-            //}
-
-            if (this.isManager) {
-                leaveCodes = Affinity.leave.manager.config.LeaveCodes;
-            } else {
-                leaveCodes = leaveCodes = Affinity.leave.employee.config.LeaveCodes;
-            }
-
-            if (typeof (leaveCodes[typeIndex]) != 'undefined' && leaveCodes[typeIndex].Reasons) {
-                var reasons = leaveCodes[typeIndex].Reasons
-                Array.each(reasons, function (leaveReason, index) {
-                    var option = new Element('option',
-                        {
-                            'value': index,
-                            'html': leaveReason.Description,
-                            'id': leaveReason.ReasonCode
-                        }).inject(this.reasonSelector);
-                }.bind(this));
-                this.reasonSelector.selectedIndex = 0;
-            }
-        }
-
-        if (document.getElement('.details-reason-box .required')) {
-            document.getElement('.details-reason-box .required').remove();
-        }
-        if (document.getElement('.edit-leave-attachment .required')) {
-            document.getElement('.edit-leave-attachment .required').remove();
-        }
-        if (typeof (leaveCodes[typeIndex]) != 'undefined') {
-            if (leaveCodes[typeIndex].MandatoryReason === true) {
-                var label = document.getElement('.details-reason-box label');
-                new Element('span', {
-                    'class': 'required',
-                    'html': '*required'
-                }).inject(label, 'bottom');
-            }
-
-            if (leaveCodes[typeIndex].MandatoryAttachment === true) {
-                var label = document.getElement('.edit-leave-attachment label');
-                new Element('span', {
-                    'class': 'required',
-                    'html': '*required'
-                }).inject(label, 'bottom');
-            }
-        }
-    },
-
-    setStartDate: function () {
-        //var fromDateWidget = Affinity.leave.employee.modalEls.fromDateWidget;
-        //var toDateWidget = Affinity.leave.employee.modalEls.toDateWidget;
-        //var fromDateBox = Affinity.leave.employee.modalEls.fromDateBox;
-        //var toDateBox = Affinity.leave.employee.modalEls.toDateBox;
-        var fromDateHidden = this.modalEls.fromDateHidden;
-        var toDateHidden = this.modalEls.toDateHidden;
-        if (this.fromDateWidget.getRawDate().greaterThan(this.toDateWidget.getRawDate())) {
-            //var fromDate = this.fromDateWidget.getRawDate().clone();
-            //var toDate = fromDate.clone();
-            //this.fromDateWidget.setDate(fromDate);
-            //this.toDateWidget.setDate(toDate);
-            uialert({
-                message: 'Oops! Something went wrong!<br /> Unable to change First Day to after Last Day.',
-                showLoader: false,
-                showButtons: true,
-                noClose: false
-            });
-            return false;
-        }
-        Affinity.leave.setDates(this.fromDateBox, this.fromDateWidget.getRawDate());
-        Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
-        this.modalEls.fromDateHidden = this.fromDateWidget.getDate();
-        this.modalEls.toDateHidden = this.toDateWidget.getDate();
-        return true;
-    },
-
-    setEndDate: function () {
-        //var fromDateWidget = Affinity.leave.employee.modalEls.fromDateWidget;
-        //var toDateWidget = Affinity.leave.employee.modalEls.toDateWidget;
-        //var fromDateBox = Affinity.leave.employee.modalEls.fromDateBox;
-        //var toDateBox = Affinity.leave.employee.modalEls.toDateBox;
-        var fromDateHidden = this.modalEls.fromDateHidden;
-        var toDateHidden = this.modalEls.toDateHidden;
-        if (this.toDateWidget.getRawDate().lessThan(this.fromDateWidget.getRawDate())) {
-            //var toDate = this.toDateWidget.getRawDate().clone();
-            //var fromDate = toDate.clone();
-            //this.fromDateWidget.setDate(fromDate);
-            //this.toDateWidget.setDate(toDate);
-            uialert({
-                message: 'Oops! Something went wrong!<br /> Unable to change Last Day to before First Day.',
-                showLoader: false,
-                showButtons: true,
-                noClose: false
-            });
-            return false;
-        }
-        Affinity.leave.setDates(this.fromDateBox, this.fromDateWidget.getRawDate());
-        Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
-        this.modalEls.fromDateHidden = this.fromDateWidget.getDate();
-        this.modalEls.toDateHidden = this.toDateWidget.getDate();
-        return true;
-    },
-
-    updateDate: function (field, newDate, oldDate, positions) {
-
-        //window.fireEvent('CreateMissingLeaveUnitsSuccess');
-        this.update(field, newDate, oldDate, this.data.LeaveHeader.EmployeeNo, this.data.LeaveHeader.TSGroupId, this.data.LeaveHeader.TimeLastModified, function (leave) {
-            this.buildUnitsTotals(leave.Components);
-            this.createApproverBoxes(leave.Components, positions);
-            this.createEditableDates(leave.LeaveHeader, leave.Components, positions);
-            this.data.LeaveHeader.TimeLastModified = leave.LeaveHeader.TimeLastModified;
-
-            Affinity.tooltips.processNew();
-            //this.createPositionUnits(positions, response, daterange, field, newDate);
-            if (this.isManager) {
-                Affinity.leave.manager.refreshAll();
-            } else {
-                Affinity.leave.employee.refreshAll();
-            }
-        }.bind(this));
-    },
-
-    createApproverBoxes: function (components, positions) {
-
-        //var approverBox = new Element('div', {
-        //    'class': 'detail-approver-box'
-        //}).inject(this.unitsBox);
-
-        var isEmployeeMultiPositions = true;
-        var componentPositions = new Array();
-        component = null;
-        Array.each(components, function (comp, Index) {
-            if (componentPositions.length === 0) {
-                componentPositions.push(comp.positionCode);
-            } else if (componentPositions.length > 0 &&
-                componentPositions.indexOf(comp.positionCode) < 0) {
-                componentPositions.push(comp.positionCode);
-            }
-        });
-
-        if (componentPositions.length === 1 && positions.length == 1) {
-            isEmployeeMultiPositions = false;
-        }
-
-        if (this.approverBox)
-            this.approverBox.empty();
-
-        Array.each(components, function (componant, index) {
-            var posBox = new Element('div', {
-                'class': 'details-position-approver authoriserId',
-                'id': componant.PositionCode
-            }).inject(this.approverBox);
-            if (componant.Authorisation) {
-                posBox.store('authId', componant.Authorisation.AuthorisationId);
-            }
-
-            if (this.isManager) {
-                var approverSelector = new Element('span').inject(posBox);
-                if (componant.Authorisation) {
-                    if (componant.Authorisation.ApprovedBy) {
-                        approverSelector.set('html', componant.Authorisation.ApprovedByName);
-                    } else {
-                        approverSelector.set('html', componant.Authorisation.SubmittedToName);
-                    }
-                }
-            } else {
-                var approverSelector = new Element('select', {
-                    'class': 'leave-approver-selector authoriserId'
-                }).inject(posBox);
-                approverSelector.addEvent('change', this.updateAuthoriser);
-
-
-                
-
-                if (componant.Authorisation && componant.Authorisation.AuthorisationId) {
-                    approverSelector.store('authId', componant.Authorisation.AuthorisationId);
-                    //var positions = Affinity.leave.employee.config.Positions;
-                    Array.each(positions, function (position) {
-                        if ((componant.PositionCode == position.PositionCode && isEmployeeMultiPositions) ||
-                            !isEmployeeMultiPositions) {
-                            Array.each(position.SubmittedTos, function (approver, index) {
-                                var option = new Element('option', {
-                                    'value': index + 1
-                                }).inject(approverSelector);
-                                option.set('html', approver.EmployeeName + ' (' + approver.EmployeeNo + ')');
-                                option.set('id', approver.EmployeeNo);
-                                if (/*componant.Authorisation &&*/ (parseInt(componant.Authorisation.SubmittedTo) === parseInt(approver.EmployeeNo))) {
-                                    option.set('selected', 'selected');
-                                    approverSelector.store('old', approver.EmployeeNo);
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    Affinity.modal.clear();
-                    Affinity.modal.hide();
-                    prompts.hide();
-                    Affinity.tooltips.hideAll();
-                    (function () {
-                        Affinity.modal.clear();
-                        Affinity.modal.hide();
-                        prompts.hide();
-                        Affinity.tooltips.hideAll();
-                        uialert({
-                            showLoader: false,
-                            noClose: false,
-                            showButtons: true,
-                            message: 'Can not find an Authoriser ID.<br />This Leave record is missing vital information or is corrupted.<br />Please contact your administrator.'
-                        });
-                    }).delay(1000, this);
-                    return;
-                }
-            }
-
-            if (this.data.LeaveHeader.StatusCode != -1 && this.data.LeaveHeader.StatusCode != 6) {
-                var approved = new Element('div', {
-                    'class': 'tickcross font-icons color'
-                }).inject(posBox);
-                if (componant.Authorisation && componant.Authorisation.StatusCode === 3) {
-                    approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave is approved');
-                    approved.addClass('icon-thumbs-up');
-                    approved.addClass('green');
-                } else if (componant.Authorisation && componant.Authorisation.StatusCode === 2) {
-                    approved.addClass('red');
-                    approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave is declined');
-                    approved.addClass('icon-thumbs-down');
-                } else if (componant.Authorisation) {
-                    approved.addClass('ui-has-tooltip').set('data-tooltip', 'Leave is pending approval');
-                    approved.addClass('icon-hourglass');
-                    approved.addClass('blue');
-                }
-            }
-        }.bind(this));
-    },
-
     populateForwardHistory: function (forwards, parentEl) {
         //var forwardsForm = new Element('div', {
         //    'class': 'form-row'
@@ -7156,419 +5741,1441 @@ var UILeaveDetail = new Class({
 
         //return forwardsBox;
     },
+    createLeaveModel: function (data) {
+        var leave = new Object();
 
-    update: function (fieldName, newValue, oldValue, employeeNo, leaveId, timeLastModified, doOnSuccess, doOnError) {
+            var leaveComponent = new Object();
+            leaveComponent = data.Components[0];
+            leave.TotalDaysAppliedFor = data.LeaveHeader.TotalDays;
+            leave.TotalHoursAppliedFor = data.LeaveHeader.TotalHours;
 
-        var value = {
-            FieldName: fieldName,
-            NewValue: newValue,
-            OldValue: oldValue
-        };
+            leave.Days = [];
 
-        var methodName = 'ui.myLeave.js -> update';
+            for (var i = 0; i < leaveComponent.Units.length; i++) {
+                var newDay = new Object();
+                newDay.Date = leaveComponent.Units[i].Date;
+                newDay.IsPublicHoliday = leaveComponent.Units[i].IsPublicHoliday;
+                newDay.PositionUnits = [];
+                var positionUnit = new Object();
 
-        var employeeNum = typeOf(employeeNo) !== 'null' ? employeeNo : Affinity.login.profile.employeeNumber;
+                positionUnit.DaysAppliedFor = leaveComponent.Units[i].DaysAppliedFor;
+                positionUnit.HoursAppliedFor = leaveComponent.Units[i].HoursAppliedFor;
+                positionUnit.HoursWorkScheduled = leaveComponent.Units[i].HoursWorkScheduled;
+                positionUnit.HoursAppliedFor = leaveComponent.Units[i].HoursAppliedFor;
+                positionUnit.HoursStandard = leaveComponent.Units[i].HoursStandard;
+                positionUnit.DefaultHoursWorkScheduled = leaveComponent.Units[i].DefaultHoursWorkScheduled;
 
-        var queryString = '';
-        if (timeLastModified) {
-            queryString = '?timeLastModified=' + timeLastModified;
-        }
+                newDay.PositionUnits.push(positionUnit);
 
-        if (!leaveId) {
-            leaveId = document.getElement('.leave-id').retrieve('old');
-        }
+                leave.Days.push(newDay);
+            }
 
-        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeave/' + employeeNum + '/' + leaveId + queryString);
-        new Request.JSON({
-            url: api,
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            urlEncoded: false,
-            onRequest: function () {
-                Affinity.leave.lockui('myleave-update');
-            },
-            onFailure: function (e) {
-                Affinity.leave.unlockui('myleave-update');
-                if (fieldName === 'Comment' ||
-                    fieldName === 'LeaveCode' ||
-                    fieldName === 'ReasonCode') {
-                    if (doOnSuccess && typeOf(doOnSuccess) === 'function') {
-                        var errorMessage = "";
-                        var parsed = false;
-                        var jsonData = e.response;
-                        try {
-                            parsed = JSON.parse(jsonData);
-                        } catch (e) { }
-                        if (typeOf(parsed) === 'object') {
-                            if (parsed.Exception !== undefined &&
-                                parsed.Exception.Message !== undefined) {
-                                errorMessage = parsed.Exception.Message;
-                            }
-                        }
-
-
-                        doOnSuccess("error", errorMessage);
-                    }
-                } else {
-                    Affinity.leave.handleXHRErrors(e, api, methodName);
-                }
-
-
-
-            },
-            onException: function () {
-                Affinity.leave.unlockui('myleave-update');
-                if (fieldName === 'Comment' ||
-                    fieldName === 'LeaveCode' ||
-                    fieldName === 'ReasonCode') {
-                    if (doOnSuccess && typeOf(doOnSuccess) === 'function') {
-                        var errorMessage = "";
-                        var parsed = false;
-                        var jsonData = e.response;
-                        try {
-                            parsed = JSON.parse(jsonData);
-                        } catch (e) { }
-                        if (typeOf(parsed) === 'object') {
-                            if (parsed.Exception !== undefined &&
-                                parsed.Exception.Message !== undefined) {
-                                errorMessage = parsed.Exception.Message;
-                            }
-                        }
-
-
-                        doOnSuccess("error", errorMessage);
-                    }
-                }
-            },
-            onCancel: function () {
-                Affinity.leave.unlockui('myleave-update');
-            },
-            onSuccess: function (response) {
-                Affinity.leave.unlockui('myleave-update');
-                if (!Affinity.leave.isErrorInJson(response, api, methodName, true)) {
-                    window.fireEvent('UpdateLeaveSuccess');
-
-                    console.debug('Time stamp log start');
-                    console.debug('Old timestamp: ' + timeLastModified);
-                    if (Affinity.leave.manager && timeLastModified && response.Data != null) {
-                        //Affinity.leave.manager.leaveHistory.getHistory(null, true); 
-                        //Affinity.leave.manager.leaveHistory.refreshHistory(false)// refresh timestamps on history
-                        console.debug('New time stamp: ' + response.Data.LeaveHeader.TimeLastModified);
-                        var newTimeStamp = Affinity.leave.cleanBadDate(response.Data.LeaveHeader.TimeLastModified);
-                        console.debug('Cleaned time stamp: ' + newTimeStamp);
-                        console.debug('Stored timestamp: ' + Affinity.leave.manager.leaveDetail.timeLastModified);
-                        if (!Affinity.leave.manager.leaveDetail.timeLastModified || newTimeStamp.getTime() > Affinity.leave.manager.leaveDetail.timeLastModified.getTime()) {
-                            console.debug('Time stamp update succeeded');
-                            Affinity.leave.manager.leaveDetail.timeLastModified = newTimeStamp;
-                        }
-                        else {
-                            console.debug('Time stamp update failed');
-                        }
-                        Affinity.leave.manager.leaveDetail.requireUpdate = Affinity.leave.manager.leaveDetail.requireUpdate || response.RequireUpdate;
-                    }
-
-                    if (doOnSuccess && typeOf(doOnSuccess) === 'function') {
-                        if ((fieldName === 'Comment' ||
-                            fieldName === 'LeaveCode' ||
-                            fieldName === 'ReasonCode') &&
-                            response.Data === null &&
-                            response.Response != null) {
-                            doOnSuccess("error", response.Response);
-                        } else {
-                            doOnSuccess(response.Data);
-                        }
-
-                    }
-                } else {
-                    //doOnError(fieldName, oldValue, newValue);
-                    this.errorChecking(response);
-                }
-
-                this.errorChecking(response);
-            }.bind(this)
-        }).post(JSON.stringify(value));
-
+        return leave;
     },
-
-    errorChecking: function (response) {
-        if (document.getElement('.messages')) {
-            var messages = document.getElement('.messages').empty();
-            var warnings = new Element('div').inject(messages);
-            var wList = new Element('ul').inject(warnings);
-            var hasWarning = false;
-            var errors = new Element('div').inject(messages);
-            var eList = new Element('ul').inject(errors);
-            var hasError = false;
-            if (response.Messages.length > 0) {
-                Array.each(response.Messages, function (message, index) {
-                    if (message.MessageType === 1) {
-                        
-                        uialert({
-                            message: message.Message,
-                            showButtons: true,
-                            showCancel: false,
-                            okText: 'OK',
-                        });
-                    }
-                    if (message.MessageType === 0) {
-                        if (message.Message === 'You must attach supporting documentation when applying for this type of leave.') {
-                            //window.fireEvent('attachmentRequired', true);
-                            uialert({
-                                message: message.Message,
-                                showButtons: true,
-                                showCancel: false,
-                                okText: 'OK',
-                            });
-                            //hasError = true;
-                        } else {
-                            new Element('li', { 'html': message.Message }).inject(eList);
-                            hasError = true;
-                        }
-                        
-                    }
+    getLeaveUnits: function (employeeNo, startDate, endDate, leaveCode, position, onSuccess) {
+        this.leaveUnitsRequest = new Request.JSON({
+            method: 'get',
+            onRequest: function () {
+                Affinity.leave.lockui('leaveApply-leaveUnitsRequest');
+                uialert({
+                    message: 'Calculating leave units. Please wait',
+                    showLoader: true,
+                    showButtons: false,
+                    noClose: true
                 });
-            }
-
-            if (response.Exception != null) {
-                new Element('li', { 'html': response.Exception }).inject(eList);
-                hasError = true;
-            }
-
-            if (hasError) {
-                errors.addClass('acknowledgement-errors');
-            }
-        }
-    },
-    doUpdateAuthoriser: function (apiUrl, value, authSelect, doOnUpdate) {
-        new Request.JSON({
-            url: apiUrl,
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            urlEncoded: false,
-            onRequest: function () {
-                Affinity.leave.lockui('leaveDetail-updateAuthoriser');
-            },
+            }.bind(this),
             onFailure: function (e) {
-                Affinity.leave.unlockui('leaveDetail-updateAuthoriser');
-                // Affinity.leave.handleXHRErrors(e, api, methodName);
-                if (doOnUpdate && typeOf(doOnUpdate) === 'function') {
-                    var errorMessage = "";
-                    var parsed = false;
-                    var jsonData = e.response;
-                    try {
-                        parsed = JSON.parse(jsonData);
-                    } catch (e) { }
-                    if (typeOf(parsed) === 'object') {
-                        if (parsed.Exception !== undefined &&
-                            parsed.Exception.Message !== undefined) {
-                            errorMessage = parsed.Exception.Message;
-                        }
-                        doOnUpdate("error", errorMessage);
-                    } else {
-                        doOnUpdate("error", "Internal Server Error.");
-                    }
+                Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
+                if (!Affinity.leave.handleXHRErrors(e, this._api, this._methodName)) {
+                    uialert({
+                        message: 'We can\'t load that information. Please try again.',
+                        okText: 'Retry',
+                        showCancel: true,
+                        onOk: function () {
+                            this.leaveUnitsRequest.send();
+                        }.bind(this)
+                    });
                 }
-            },
+            }.bind(this),
             onException: function () {
-                Affinity.leave.unlockui('leaveDetail-updateAuthoriser');
-                if (doOnUpdate && typeOf(doOnUpdate) === 'function') {
-                    var errorMessage = "";
-                    var parsed = false;
-                    var jsonData = e.response;
-                    try {
-                        parsed = JSON.parse(jsonData);
-                    } catch (e) { }
-                    if (typeOf(parsed) === 'object') {
-                        if (parsed.Exception !== undefined &&
-                            parsed.Exception.Message !== undefined) {
-                            errorMessage = parsed.Exception.Message;
-                        }
-                        doOnUpdate("error", errorMessage);
-                    } else {
-                        doOnUpdate("error", "Internal Server Error.");
-                    }
-                }
+                Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
             },
             onCancel: function () {
-                Affinity.leave.unlockui('leaveDetail-updateAuthoriser');
+                Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
             },
             onSuccess: function (response) {
-                Affinity.leave.unlockui('leaveDetail-updateAuthoriser');
-                if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-                    authSelect.store('old', newValue);
-                } else {
-                    var index = authSelect.getElements('option').indexOf(authSelect.getElement('#' + oldValue));
-                    authSelect.selectedIndex = index;
+                Affinity.leave.unlockui('leaveApply-leaveUnitsRequest');
+                prompts.hide();
+                if (onSuccess != null) {
+                    onSuccess(response.Data);
                 }
-            }
-        }).post(JSON.stringify(value));
-    },
-    updateAuthoriser: function (e) {
-        var authSelect = e.target;
-        var authorisationId = authSelect.retrieve('authId');
-        var oldValue = authSelect.retrieve('old');
-        var newValue = authSelect.getElements('option')[authSelect.selectedIndex].get('id');
-        var leaveId = authSelect.getParent('.default-form').getElement('.leave-id').retrieve('old');
-        var value = {
-            FieldName: 'SubmittedTo',
-            NewValue: newValue,
-            OldValue: oldValue
-        };
-        var employeeNum = Affinity.login.profile.employeeNumber;
-        var methodName = 'ui.leave.detail.js -> updateAuthoriser';
-        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeaveAuthorisation/' + employeeNum + '/' + leaveId + '/' + authorisationId);
-        this.doUpdateAuthoriser(api, value, authSelect,
-            function (response, errorMessage) {
-                if (response === "error") {
-                    var errMessage = "Something's stopping the Employee field from updating. Check your selection then try again.<br /><br />";
+                //this.createDaysFields(response.Data);
 
-                    uialert({
-                        'message': errMessage,
+            }.bind(this)
+        });
+
+
+        var api = Affinity.leave.apiroot + 'CalculateLeaveUnits/' + employeeNo + '/' + startDate + '/' + endDate;
+
+        if (leaveCode) {
+            api = api + '/' + leaveCode;
+        }
+        if (position) {
+            api = api + '?positionCode=' + encodeURIComponent(position);
+        }
+        this._api = Affinity.GetCacheSafePath(api);
+        if (this.leaveUnitsRequest && this.leaveUnitsRequest.isRunning()) {
+            this.leaveUnitsRequest.cancel();
+        }
+        this.leaveUnitsRequest.url = this.leaveUnitsRequest.options.url = this._api;
+        this.leaveUnitsRequest.send();
+    },
+    createDaysFields: function (leave, currentEditedLeaveInstance) {
+      
+        if (leave.Days.length > 0) {
+
+            if (this.leavePeriodDaysContainer !== undefined) {
+                this.leavePeriodDaysContainer.destroy();
+            }
+
+            this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-detail-days-value-container' }).inject(this.leavePeriodDaysBox);
+            Array.each(leave.Days, function (day, index) {
+
+                if (currentEditedLeaveInstance !== null) {
+                    for (var i = 0; i < currentEditedLeaveInstance.leaveUnits.length; i++) {
+                        var currentLeaveUnit = currentEditedLeaveInstance.leaveUnits[i];
+                        if (Date.parse(day.Date).toLocaleString() === Date.parse(currentLeaveUnit.leaveDate).toLocaleString()) {
+                            day.PositionUnits[0].HoursAppliedFor = currentLeaveUnit.hoursAppliedFor;
+                            day.PositionUnits[0].DaysAppliedFor = currentLeaveUnit.daysAppliedFor;
+                            day.PositionUnits[0].HoursWorkScheduled = currentLeaveUnit.hoursWorkSched;
+                            day.PositionUnits[0].DefaultHoursWorkScheduled = currentLeaveUnit.defaultHoursWorkScheduled;
+                        }
+                    }
+                }
+
+                this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer);
+                this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDateColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysScheduledColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+
+                var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                var dateValue = day.Date;
+                var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
+                var scheduledHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
+                scheduledHours = parseFloat(scheduledHours).toFixed(2);
+                var daysAppliedFor = parseFloat(day.PositionUnits[0].DaysAppliedFor).toFixed(2);
+                var hoursAppliedFor = parseFloat(day.PositionUnits[0].HoursAppliedFor).toFixed(2);
+                var defaultHoursWorkScheduled = parseFloat(day.PositionUnits[0].DefaultHoursWorkScheduled);
+                var isPublicHoliday = day.IsPublicHoliday;
+
+                if (isNaN(daysAppliedFor)) {
+                    daysAppliedFor = parseFloat(0).toFixed(2);
+                }
+                var hoursFieldClass = "leave-detail-input-hours";
+                var scheduledHoursFieldClass = "leave-detail-input-scheduledHours";
+                if (!this.isInEditMode) {
+                    var hoursFieldClass = "leave-detail-input-uneditable-hours";
+                    var scheduledHoursFieldClass = "leave-detail-input-uneditable-scheduledHours";
+                } 
+
+                if (isPublicHoliday) {
+                    scheduledHours = parseFloat(0).toFixed(2);
+                }
+
+                this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-detail-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
+                this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-detail-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
+                this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': hoursFieldClass, 'value': hoursAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysHoursColumnContainer);
+                this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': scheduledHoursFieldClass, 'value': scheduledHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
+               
+               
+                //if (scheduledHours !== hoursAppliedFor) {
+                //    this.leavePeriodDaysHoursColumnValue.addClass("leave-detail-input-yellow-bg");
+                //} else {
+                //    this.leavePeriodDaysHoursColumnValue.removeClass("leave-detail-input-yellow-bg");
+                //}
+
+                if (isPublicHoliday) {
+                    this.leavePeriodDaysHoursColumnValue.set('readonly', true);
+                    this.leavePeriodDaysHoursColumnValue.removeClass('leave-detail-input-hours');
+                    this.leavePeriodDaysHoursColumnValue.addClass('leave-detail-input-uneditable-hours');
+
+
+                    this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
+                    this.leavePeriodDaysScheduledColumnValue.removeClass('leave-detail-input-scheduledHours');
+                    this.leavePeriodDaysScheduledColumnValue.addClass('leave-detail-input-uneditable-scheduledHours');
+
+                }
+
+               
+
+                
+
+            }.bind(this)); //Array.each
+
+            var viewModel = this;
+            this.computeUnitTotals(viewModel);
+            this.registerFocusOutEvents();
+
+            if (this.isInEditMode) {
+                this.displayDaysInEditMode();
+            }
+        }
+
+
+    },
+    computeUnitTotals: function (viewModel) {
+        if (viewModel.leavePeriodDaysContainer !== undefined) {
+            if (viewModel.totalPeriodDaysDetail !== undefined) {
+                viewModel.totalPeriodDaysDetail.destroy();
+            }
+
+            var totalDaysAppliedFor = 0.0;
+            var totalHoursAppliedFor = 0.0;
+
+
+            var editedLeaveInstance = this.getEditedLeaveInstance();
+
+            var leaveUnits = editedLeaveInstance.leaveUnits;
+
+            for (var i = 0; i < leaveUnits.length; i++) {
+               
+                var day = this.leavePeriodDaysContainer.getElementById('days-' + i);
+                var hours = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+                totalDaysAppliedFor += parseFloat(day.value);
+                totalHoursAppliedFor += parseFloat(hours.value);
+            }
+
+            var totalString = 'Total [days] days / [hours] hours';
+            totalString = totalString.replace('[days]', parseFloat(totalDaysAppliedFor).toFixed(2));
+            totalString = totalString.replace('[hours]', parseFloat(totalHoursAppliedFor).toFixed(2));
+            viewModel.totalPeriodDaysDetail = new Element('label', {
+                'html': totalString,
+                'class': 'leave-detail-total-period-days-detail'
+            }).inject(viewModel.leavePeriodDaysBox);
+
+            this.highlightUnitFieldsIfNotEqualToDefaultValue();
+            this.computeUnitsDaysAppliedFor();
+            this.formatUnitsToDecimalFormat();
+        }
+    },
+    setLeaveValues: function (leave,config) {
+       
+        for (var i = 0; i < this.leaveTypeSelector.length; i++) {
+            var leaveItem = this.leaveTypeSelector[i];
+            if (leaveItem.id === leave.LeaveCode) {
+                this.leaveTypeSelector.selectedIndex = i;
+                this.selectedLeaveLabel.set('html', leaveItem.text);
+                this.leaveTypeSelectorChanged(config);
+                if (this.leaveReasonSelector.length > 0) {
+                    for (var j = 0; j < this.leaveReasonSelector.length; j++) {
+                        var leaveReasonItem = this.leaveReasonSelector[j];
+                        if (leaveReasonItem.id === leave.ReasonCode) {
+                            this.leaveReasonSelector.selectedIndex = j;
+                            if (this.leaveReasonSelector.text !== '') {
+                                this.selectedReasonLabel.set('html', leaveReasonItem.text);
+                             
+                            }
+                            break;
+                        }
+                    }
+                }
+                
+                break;
+            }
+        }
+
+        this.timeLastModifiedField.set('value', leave.TimeLastModified);
+
+        this.commentBox.set('html', leave.Comment);
+        this.partDayReason.set('html', leave.PartDayReason);
+        if (this.isManager) {
+            this.managerCommentBox.set('html', leave.Reply);
+        }
+        
+    },
+    generateApprovers: function (config) {
+        var approvers = config.ForwardToManagers;
+        this.defaultApprover = new Element('option', { 'value': '0', 'html': '' }).inject(this.forwardSelector, 'top');
+
+        for (var i = 0; i < approvers.length; i++) {
+            var approver = approvers[i];
+            this.option = new Element('option', { 'value': i, 'html': approver.EmployeeName, 'id': approver.EmployeeNo }).inject(this.forwardSelector);
+        }
+
+        this.forwardSelector.addEvent('change', function (e) {
+                if (e.target.selectedIndex === 0) {
+                    // hide forward buttons
+                    this.forwardButton.addClass('hidden');
+                    this.leaveDetailsGroupRow10.addClass('hidden');
+                    this.leaveDetailsGroupRow9.addClass('hidden');
+                } else {
+                    this.forwardButton.removeClass('hidden');
+                    this.leaveDetailsGroupRow10.removeClass('hidden');
+                    this.leaveDetailsGroupRow9.removeClass('hidden');
+                }
+            }.bind(this));
+    },
+    generateLeaveCodes: function (config) {
+        this.defaultLeaveType = new Element('option', { 'value': '0', 'html': '' }).inject(this.leaveTypeSelector, 'top');
+
+        this.leaveTypeSelector.addEvent('change', function () {
+            this.leaveTypeSelectorChanged(config);
+        }.bind(this));
+
+        var leaveCodes = config.AllCompanyLeaveCodes;
+
+        Array.each(leaveCodes, function (leaveCode, index) {
+            this.option = new Element('option', { 'value': index + 1, 'html': leaveCode.Description, 'id': leaveCode.LeaveCode }).inject(this.leaveTypeSelector);
+        }.bind(this));
+    },
+    handleValidationErrors: function (responseObject, fieldName, customMessage) {
+        var errMessage = "Something's stopping the " + fieldName + " field from updating. Try again.<br /><br />";
+        if (customMessage !== null &&
+            customMessage !== undefined) {
+            errMessage = customMessage;
+        }
+       
+        //errMessage += '<span class="color-red">' + errorMessage + '</span>';
+        var validationMessages = this.getValidationErrors(responseObject);
+        if (validationMessages != "") {
+            errMessage = validationMessages;
+            this.showErrorMessages(validationMessages);
+        } else {
+            var messages = [];
+            messages.push(errMessage);
+            this.showErrorMessages(messages);
+        }
+
+       
+    },
+    handleRequestWarnings: function (responseObject) {
+
+        if (responseObject.Messages !== null &&
+            responseObject.Messages !== undefined) {
+            
+            for (var i = 0; i < responseObject.Messages.length; i++) {
+                var messageObject = responseObject.Messages[i];
+                if (messageObject.MessageType === 1) {
+                     uialert({
+                         'message': messageObject.Message + "\n",
                         okText: 'Close',
                         showButtons: true,
                         noClose: false
                     });
-                    // this.data.LeaveHeader.Comment = this.data.LeaveHeader.Comment;
-                    // this.comments.value = this.data.LeaveHeader.Comment;
-                    //var originIndex = this.typeSelector.getElements("options").indexOf(this.typeSelector.getElement("#" + this.data.LeaveHeader.LeaveCode));
+                }
+            }
+        }
+    },
+    leaveTypeSelectorChanged: function (config) {
+        this.leaveReasonSelector.empty();
+        var leaveCode = this.leaveTypeSelector[this.leaveTypeSelector.selectedIndex].get('id');
+        var leaves = config.AllCompanyLeaveCodes;
+        var selectedLeave = new Object();
+        for (var i = 0; i < leaves.length; i++) {
+            if (leaveCode === leaves[i].LeaveCode) {
+                selectedLeave = leaves[i];
+                break;
+            }
+        }
 
-                    var originIndex = -1;
-                    for (var i = 0; i < authSelect.getElements("option").length; i++) {
-                        var currentOption = authSelect.getElements("option")[i];
-                        if (currentOption.id === oldValue.toString()) {
-                            originIndex = currentOption.index;
+        if (leaveCode !== null) {
+            
+            var reasons = selectedLeave.Reasons;
+            this.defaultLeaveReason = new Element('option', { 'value': '0', 'html': '' }).inject(this.leaveReasonSelector, 'top');
+            for (var i = 0; i < reasons.length; i++) {
+                this.option = new Element('option', { 'value': i, 'html': reasons[i].Description, 'id': reasons[i].ReasonCode }).inject(this.leaveReasonSelector);
+            }
+
+            var app = this;
+
+            if (this.leaveReasonSelector != undefined) {
+                this.leaveReasonSelector.removeEvents();
+            }
+
+            this.leaveReasonSelector.addEvent('change', function () {
+                app.leaveReasonSelectorChanged(app);
+            });
+
+            if (this.isInEditMode) {
+                var viewModel = this;
+                var customErrorHandler = function (responseObject, vm) {
+                    if (responseObject.ModelState !== null &&
+                        responseObject.ModelState.Reason !== undefined) {
+                        vm.handleValidationErrors(responseObject, "Reason");
+                    } else {
+                        vm.handleValidationErrors(responseObject, "Leave Type");
+                        var leaveTypes = vm.leaveTypeSelector;
+                        for (var i = 0; i < leaveTypes.length; i++) {
+                            var leaveType = leaveTypes[i];
+                            if (vm.data.LeaveHeader.LeaveCode === leaveType.id) {
+                                vm.leaveTypeSelector.selectedIndex = parseInt(leaveType.value);
+                                break;
+                            }
+                        } 
+                    } 
+                }
+
+                var customSuccessHandler = function (response, vm) {
+                    vm.handleRequestWarnings(response);
+                }
+
+                var editedLeaveInstance = this.getEditedLeaveInstance();
+                if (this.currentlySavedLeaveInstance.payCode !== editedLeaveInstance.payCode) {
+                    this.updateLeave2(null, customSuccessHandler, customErrorHandler, viewModel);
+                }
+                
+            }
+            
+        }
+
+    },
+    leaveReasonSelectorChanged: function (vm) {
+        
+        if (vm.isInEditMode) {
+            var editedLeaveInstance = vm.getEditedLeaveInstance();
+           
+            var customErrorHandler = function (responseObject, vm) {
+                vm.handleValidationErrors(responseObject, "Reason");
+            }
+
+            var customSuccessHandler = function (response, vm) {
+                vm.handleRequestWarnings(response);
+            }
+            vm.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
+
+        }
+        
+    },
+    
+    updateRequestSuccessHandler: function (response, viewModel, customSuccessHandler, customFailureHandler) {
+        if (response.Message === 'The request is invalid.') {
+            this.updateRequestValidationErrorHandler(response, 400, viewModel, customFailureHandler);
+        } else {
+            viewModel.currentlySavedLeaveInstance = viewModel.getEditedLeaveInstance();
+            viewModel.data = response.Data;
+
+            document.getElement('.messages').empty();
+
+            if (viewModel.isManager) {
+                viewModel.approveButton.removeClass('disabled');
+                viewModel.declineButton.removeClass('disabled');
+
+            }
+
+            viewModel.computeUnitTotals(viewModel);
+            if (customSuccessHandler != null) {
+                customSuccessHandler(response, viewModel);
+            }
+        }
+        
+        
+       
+
+        
+    },
+    updateRequestValidationErrorHandler: function (responseObject, status, viewModel, customFailureHandler) {
+        document.getElement('.messages').empty();
+        if (status === 400) {
+            if (responseObject.ModelState['Reason'] !== undefined) {
+                var validationMessage = responseObject.ModelState['Reason'][0];
+
+                if (validationMessage != null) {
+                    if (viewModel.requiredReason !== undefined) {
+                        viewModel.requiredReason.empty();
+                    }
+                    viewModel.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(viewModel.reasonLabel, 'bottom');
+                    viewModel.approveButton.addClass('disabled');
+                    viewModel.declineButton.addClass('disabled');
+
+                }
+            }
+        }
+
+        if (customFailureHandler != null) {
+            customFailureHandler(responseObject, viewModel);
+        }
+    },
+    getListOfValidatedFields: function (modelState) {
+        
+        return Object.getOwnPropertyNames(modelState);
+    },
+    getValidationErrors: function (response) {
+        var validationErrors = [];
+        if (response.ModelState !== undefined) {
+            var modelState = response.ModelState;
+            var properties = this.getListOfValidatedFields(modelState);
+            for (var i = 0; i < properties.length; i++) {
+                var property = properties[i];
+                var propertyValidation = modelState[property];
+
+                for (var j = 0; j < propertyValidation.length; j++) {
+                    var validationMessage = propertyValidation[j];
+                    validationErrors.push(validationMessage);
+                }
+
+            }
+        } else {
+            return '';
+        }
+
+        return validationErrors;
+    },
+    
+    setToPreviousValue: function (viewModel) {
+        var leave = viewModel.currentlySavedLeaveInstance;
+        var config = Affinity.leave.manager.config;
+
+        for (var i = 0; i < viewModel.leaveTypeSelector.length; i++) {
+            var leaveItem = viewModel.leaveTypeSelector[i];
+                if (leaveItem.id === leave.LeaveCode) {
+                    viewModel.leaveTypeSelector.selectedIndex = i;
+                    viewModel.selectedLeaveLabel.set('html', leaveItem.text);
+                    viewModel.leaveTypeSelectorChanged(config);
+                    if (viewModel.leaveReasonSelector.length > 0) {
+                        for (var j = 0; j < viewModel.leaveReasonSelector.length; j++) {
+                            var leaveReasonItem = this.leaveReasonSelector[j];
+                            if (leaveReasonItem.id === leave.ReasonCode) {
+                                viewModel.leaveReasonSelector.selectedIndex = j;
+                                if (viewModel.leaveReasonSelector.text !== '') {
+                                    viewModel.selectedReasonLabel.set('html', leaveReasonItem.text);
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+    },
+    generateCalendar: function (config, dateFrom, dateTo, isEditMode) {
+        var startDate = Affinity.leave.cleanBadDate(dateFrom);
+        var endDate = Affinity.leave.cleanBadDate(dateTo);
+        //var startDate = new Date();
+        //var endDate = new Date();
+        if (this.dateBox !== undefined) {
+            this.dateBox.destroy();
+        }
+
+        this.dateBox = new Element('div', { 'class': 'leave-date-box' }).inject(this.dates);
+
+        this.leaveStart = new Element('div', { 'class': 'leave-date leave-start' }).adopt(
+            this.leaveStartLabel = new Element('div', { 'class': 'title', 'html': 'First Day' }),
+            this.fromDateBox = new Element('div', { 'class': 'leave-date-picker selectable' }).adopt(
+                this.leaveStartDay = new Element('div', { 'class': 'day' }),
+                this.leaveStartDate = new Element('div', { 'class': 'date' }),
+                this.leaveStartMonth = new Element('div', { 'class': 'month' }),
+                this.leaveStartYear = new Element('div', { 'class': 'year' })
+            )
+        ).inject(this.dateBox);
+
+        this.leaveStop = new Element('div', { 'class': 'leave-date leave-stop' }).adopt(
+            this.leaveStopLabel = new Element('div', { 'class': 'title', 'html': 'Last Day' }),
+            this.toDateBox = new Element('div', { 'class': 'leave-date-picker selectable' }).adopt(
+                this.leaveStopDay = new Element('div', { 'class': 'day' }),
+                this.leaveStopDate = new Element('div', { 'class': 'date' }),
+                this.leaveStopMonth = new Element('div', { 'class': 'month' }),
+                this.leaveStopYeah = new Element('div', { 'class': 'year' })
+            )
+        ).inject(this.dateBox);
+
+        this.hiddenDateDiv = new Element('div', { 'class': 'hidden' }).inject(this.dates, 'top');
+        this.hiddenDateDivFrom = new Element('div', { 'class': 'from-selector' }).inject(this.hiddenDateDiv);
+        this.hiddenDateDivTo = new Element('div', { 'class': 'to-selector' }).inject(this.hiddenDateDiv);
+
+        this.hiddenDateInputFrom = new Element('input', { 'type': 'text', 'id': 'apply-date-from', 'class': 'scaled data-hj-whitelist' }).inject(this.hiddenDateDivFrom);
+        this.hiddenDateInputTo = new Element('input', { 'type': 'text', 'id': 'apply-date-to', 'class': 'scaled data-hj-whitelist' }).inject(this.hiddenDateDivTo);
+
+        this.fromDateWidget = new UIDateTimeWidget({
+            outputFormat: '%d.%m.%Y',
+            displayFormat: '%a %e %b %Y',
+            showCalendar: true,
+            showTime: false,
+            startDate: startDate.clone(),
+            labelName: '',
+            postId: '',
+            postName: '',
+            validationMethods: '',
+            validationErrorStr: '',
+            target: this.hiddenDateInputFrom
+        });
+        this.fromDateWidget.positionOverride = this.fromDateBox;
+       
+        
+
+        this.toDateWidget = new UIDateTimeWidget({
+            outputFormat: '%d.%m.%Y',
+            displayFormat: '%a %e %b %Y',
+            showCalendar: true,
+            showTime: false,
+            startDate: endDate.clone(),
+            labelName: '',
+            postId: '',
+            postName: '',
+            validationMethods: '',
+            validationErrorStr: '',
+            target: this.hiddenDateInputTo
+        });
+        this.toDateWidget.positionOverride = this.toDateBox;
+
+        if (isEditMode) {
+            this.fromDateWidget.addEvent('dateClicked', function (date) { // only update when date is clicked (IE: A new date is chosen)
+                var fromDate = this.fromDateWidget.getRawDate().clone();
+                var toDate = this.toDateWidget.getRawDate().clone();
+                if (fromDate.greaterThan(toDate)) {
+                    this.fromDateWidget.setDate(fromDate);
+                    this.toDateWidget.setDate(fromDate);
+                    toDate = fromDate;
+                }
+                Affinity.leave.setDates(this.fromDateBox, this.fromDateWidget.getRawDate());
+                Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
+             
+                this.recalculateLeaveUnitsDisplay(this.data.LeaveHeader.EmployeeNo, fromDate.format('%d-%b-%Y'), toDate.format('%d-%b-%Y'), this.data.LeaveHeader.LeaveCode);
+                //this.validateTotalUnitsAppliedFor();
+            }.bind(this));
+
+            this.toDateWidget.addEvent('dateClicked', function (date) { // only update when date is clicked (IE: A new date is chosen)
+                var fromDate = this.fromDateWidget.getRawDate().clone();
+                var toDate = this.toDateWidget.getRawDate().clone();
+                if (toDate.lessThan(fromDate)) {
+                    this.fromDateWidget.setDate(toDate);
+                    this.toDateWidget.setDate(toDate);
+                    fromDate = toDate;
+                }
+                Affinity.leave.setDates(this.fromDateBox, this.fromDateWidget.getRawDate());
+                Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
+     
+                //this.validateTotalUnitsAppliedFor();
+                this.recalculateLeaveUnitsDisplay(this.data.LeaveHeader.EmployeeNo, fromDate.format('%d-%b-%Y'), toDate.format('%d-%b-%Y'), this.data.LeaveHeader.LeaveCode);
+            }.bind(this));
+
+            this.fromDateBox.addEvent(Affinity.events.click, function (e) {
+                this.fromDateWidget.externalShow(e);
+            }.bind(this));
+            this.toDateBox.addEvent(Affinity.events.click, function (e) {
+                this.toDateWidget.externalShow(e);
+            }.bind(this));
+
+           
+        }
+
+        Affinity.leave.setDates(this.fromDateBox, startDate);
+        Affinity.leave.setDates(this.toDateBox, endDate);
+
+        this.timeinputs = new Element('div', { 'class': 'leave-time-inputs hidden' }).inject(this.dates, 'top');
+
+        this.units = new Element('div', { 'class': 'leave-time-units' }).adopt(
+            this.unitLabel = new Element('span', { 'class': 'title unit-label units', 'html': 'Total Hours ' }),
+            this.unitInput = new Element('span', { 'class': 'units widget unit-input', 'id': '' })
+        ).inject(this.timeinputs);
+    },
+    createButtonsForEditMode: function (container) {
+        if (container !== undefined) {
+            container.empty();
+        }
+      //  this.buttonsBox = new Element('div', { 'class': 'leave-detail-button-container' }).inject(form);
+        this.createForwardButton(container);
+        this.createApproveButton(container);
+        this.createDeclineButton(container);
+        this.createCancelButton(container);
+        this.createSubmitButton(container);
+        this.createCloseButton(container);
+      
+    },
+    createCloseButton: function (container) {
+        this.closeButton = new Element('button', {
+            'class': 'grey details-close-leave-button w-icon-only leave-detail-button'
+        }).adopt(
+            new Element('span', { 'html': Affinity.icons.Cross }),
+            new Element('span', { 'html': 'Close' })
+        ).inject(this.buttonsBox);
+        this.closeButton.addEvent('click', function () {
+            //if (isEdit) {
+            //    if (this.isManager) {
+            //        Affinity.leave.manager.refreshAll();
+            //    } else {
+            //        Affinity.leave.employee.refreshAll();
+            //    }
+            //}
+            Affinity.modal.closeButtonCloser();
+        }.bind(this));
+    },
+    createEditButton: function (container) {
+        var leave = this.data.LeaveHeader;
+        if (leave.StatusCode !== 7) {
+            this.editButton = new Element('button', {
+                'class': 'blue details-edit-leave-button w-icon-only leave-detail-button',
+            }).adopt(
+                new Element('span', { 'html': Affinity.icons.Pencil }),
+                new Element('span', { 'html': 'Edit' })
+            ).inject(container);
+            this.editButton.addEvent('click', function () {
+                var vm = this;
+                var customResponse = function (response) {
+                    if (response != null &&
+                        response.Response === 'Leave cancellation has been requested') {
+                        vm.acknowledgementModal(response);
+                    } else {
+                        
+                        vm.displayEditMode();
+                        if (!vm.isManager && leave.StatusCode === 3) {
+                            vm.data.LeaveHeader.StatusCode = 6;
+                        } 
+                        vm.createButtonsForEditMode(container);
+                        vm.isInEditMode = true;
+                    }
+                   
+                }
+                
+                this.partialApproved = false; //need to figure out what is this for?
+
+                var validationResponse = function (data) {
+                    if (!this.isManager && leave.StatusCode == 3) {
+                        uialert({
+                            message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
+                            showButtons: true,
+                            showCancel: true,
+                            okText: "Yes",
+                            cancelText: 'No',
+                            onOk: function () {
+                                this.updateLeave2(6, customResponse, null, vm);
+                            }.bind(this),
+                            onCancel: function () {
+                            }
+                        });
+                    }
+                    else if (!this.isManager && this.partialApproved) {
+                        uialert({
+                            message: 'This Leave Application is partially approved. <br /> Do you want to cancel it to make it editable?',
+                            showButtons: true,
+                            showCancel: true,
+                            okText: 'Yes - Cancel and Edit',
+                            okIcon: Affinity.icons.Plane,
+                            onOk: function () {
+                                this.updateLeave2(6, customResponse, null, vm);
+                            }.bind(this),
+                            onCancel: function () {
+                            }
+                        });
+                    }
+                }.bind(this);
+                if (!this.isManager && leave.StatusCode == 3) {
+                    Affinity.leave.doPositionUpdateOrValidation(leave.TSGroupId, validationResponse, null);
+                } else if (!this.isManager && this.partialApproved) {
+                    Affinity.leave.doPositionUpdateOrValidation(leave.TSGroupId, validationResponse, null);
+                } else {
+                    Affinity.leave.doPositionUpdateOrValidation(leave.TSGroupId, customResponse, null);
+                    //  this.editDetail();
+                }
+
+            }.bind(this));
+        }
+        
+    },
+    
+    createSubmitButton: function (container) {
+        var leave = this.data.LeaveHeader;
+        if (!this.isManager) {
+            if (leave.StatusCode === 6) {
+                this.submitButton = new Element('button', {
+                    'class': 'green details-edit-leave-button w-icon-only leave-detail-button',
+                }).adopt(
+                    new Element('span', { 'html': Affinity.icons.Plane }),
+                    new Element('span', { 'html': 'Submit' })
+                ).inject(container);
+
+                this.submitButton.addEvent('click', function () {
+                    if (this.validateAttachmentRequirement()) {
+                        var vm = this;
+                        var customResponse = function (response) {
+                            vm.acknowledgementModal(response)
+                        };
+                        this.updateLeave2(0, customResponse, null, vm);
+                    } else {
+                        this.displayAttachmentRequiredModalMessage();
+                    }
+
+                }.bind(this));
+
+                
+
+            }
+        }
+    },
+    createCancelButton: function (container) {
+        var leave = this.data.LeaveHeader;
+        if (!this.isManager) {
+            if (leave.StatusCode === 0 ||
+                leave.StatusCode === 2 ||
+                leave.StatusCode === 3) {
+
+                this.cancelButton = new Element('button', {
+                    'class': 'red details-edit-leave-button w-icon-only leave-detail-cancel-button',
+                }).adopt(
+                    new Element('span', { 'html': Affinity.icons.Cancel }),
+                    new Element('span', { 'html': 'Cancel Leave' })
+                ).inject(container);
+
+                this.cancelButton.addEvent('click', function () {
+                    if (leave.StatusCode == 2) {
+                        window.fireEvent('attachmentRequired', false);
+
+                        var vm = this;
+                        
+                        var customResponse = function (response) {
+                            vm.acknowledgementModal(response);
+                            Affinity.leave.manager.refreshAll();
+                        };
+                        var customErrorHandler = function (responseObject, vm) {
+                            vm.handleValidationErrors(responseObject, "Cancel", "Something went wrong. Please try again");
+                        }
+
+                        this.updateLeave2(6, customResponse, customErrorHandler, vm);
+
+                    } else {
+                        uialert({
+                            message: 'Are you sure you want to cancel your leave?',
+                            showButtons: true,
+                            showCancel: true,
+                            okText: 'Yes',
+                            cancelText: 'No',
+                            onOk: function () {
+                                window.fireEvent('attachmentRequired', false);
+                                var vm = this;
+                                var customResponse = function (response) {
+                                    vm.acknowledgementModal(response)
+                                };
+                                this.updateLeave2(6, customResponse, null, vm);
+                            }.bind(this),
+                        });
+                    }
+
+                  
+                }.bind(this));
+
+            }
+        }
+    },
+    createDeclineButton: function (container) {
+        var leave = this.data.LeaveHeader;
+        if (leave.StatusCode !== 6) {
+            if (this.isManager && !leave.isExternal) {
+                this.declineButton = new Element('span', {
+                    'class': 'button red w-icon-only leave-detail-button'
+                }).adopt(
+                    new Element('span', { 'html': Affinity.icons.ThumbsDown }),
+                    new Element('span', { 'html': 'Decline' })
+                ).inject(this.buttonsBox);
+                this.declineButton.addEvent('click', function () {
+                    var vm = this;
+                    var customResponse = function (response) {
+                        vm.acknowledgementModal(response);
+                        Affinity.leave.manager.refreshAll();
+
+                    };
+                    var customErrorHandler = function (responseObject, vm) {
+                        vm.handleValidationErrors(responseObject, "Decline", "Something went wrong. Please try again");
+                    }
+                    this.updateLeave2(2, customResponse, customErrorHandler, vm);
+                }.bind(this));
+            }
+            
+        }
+        
+    },
+    createForwardButton: function (container) {
+        var leave = this.data.LeaveHeader;
+        if (!leave.isExternal) {
+            if (this.isManager) {
+                if (this.allowForwardToBasedFromLeaveInstance(leave)) {
+                this.forwardButton = new Element('span', {
+                    'class': 'button blue w-icon-only leave-detail-button hidden'
+                }).adopt(
+                    new Element('span', { 'html': Affinity.icons.Forward }),
+                    new Element('span', { 'html': 'Forward' })
+                ).inject(this.buttonsBox);
+
+                this.forwardButton.addEvent('click',
+                    function () {
+                        var index = this.forwardSelector.selectedIndex;
+                        var option = this.forwardSelector[index];
+                        var id = option.get('id');
+                        var value = {
+                            ForwardedTo: id,
+                            AuthorisationId: this.data.Components[0].Authorisation.AuthorisationId,
+                            Comment: this.forwardReason.get('value')
+                        };
+
+                        if (value.ForwardedTo === '') {
+                            uialert({
+                                message: 'Please select someone to forward to'
+                            });
+                            return;
+                        }
+
+                        var empNo = this.data.LeaveHeader.EmployeeNo;
+                        var leaveId = this.data.LeaveHeader.TSGroupId;
+                        var methodName = 'leave.detail.js -> createButtons (forward on click)';
+                        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot +
+                            'LeaveForwarding/' +
+                            empNo +
+                            '/' +
+                            leaveId);
+                        new Request.JSON({
+                            url: api,
+                            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                            urlEncoded: false,
+                            onRequest: function () {
+                                Affinity.leave.lockui('teamleave-forward');
+                                uialert({
+                                    message: 'Forwarding leave. Please wait',
+                                    showLoader: true,
+                                    showButtons: false,
+                                    noClose: true
+                                });
+                            },
+                            onFailure: function (e) {
+                                Affinity.leave.unlockui('teamleave-forward');
+                                prompts.hide();
+                                Affinity.leave.handleXHRErrors(e, api, methodName);
+
+
+                            },
+                            onException: function () {
+                                Affinity.leave.unlockui('teamleave-forward');
+                                prompts.hide();
+                            },
+                            onCancel: function () {
+                                Affinity.leave.unlockui('teamleave-forward');
+                                prompts.hide();
+                            },
+                            onSuccess: function (response) {
+                                Affinity.leave.unlockui('teamleave-forward');
+                                prompts.hide();
+                                Affinity.modal.hide();
+                                if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
+                                    Affinity.leave.manager.refreshAll();
+                                }
+                            }.bind(this)
+                        }).post(JSON.stringify(value));
+                    }.bind(this));
+                   
+                }
+            } 
+        }
+    },
+    createApproveButton: function (container) {
+        var leave = this.data.LeaveHeader;
+        if (!leave.isExternal) {
+            if (this.isManager) {
+                if (leave.StatusCode !== -1) {
+                    this.approveButton = new Element('span', {
+                        'class': 'button green w-icon-only leave-detail-button'
+                    }).adopt(
+                        new Element('span', { 'html': Affinity.icons.ThumbsUp }),
+                        new Element('span', { 'html': 'Approve' })
+                    ).inject(this.buttonsBox);
+
+                    this.approveButton.addEvent('click', function () {
+                        if (this.validateAttachmentRequirement()) {
+                            var vm = this;
+                            var customResponse = function (response) {
+                                vm.acknowledgementModal(response);
+                                Affinity.leave.manager.refreshAll();
+                            };
+                            var customErrorHandler = function (responseObject, vm) {
+                                vm.handleValidationErrors(responseObject, "Approve", "Something went wrong. Please try again");
+                            }
+
+                            this.updateLeave2(3, customResponse, customErrorHandler, vm);
+                        } else {
+                            this.displayAttachmentRequiredModalMessage();
+                        }
+
+                    }.bind(this));
+                }
+            } 
+        }
+       
+    },
+    createButtons: function (form, isEdit) {
+        if (this.buttonsBox !== undefined) {
+            this.buttonsBox.empty();
+        }
+        this.buttonsBox = new Element('div', { 'class': 'leave-detail-button-container'}).inject(form); 
+
+        this.createApproveButton(this.buttonsBox);
+        this.createDeclineButton(this.buttonsBox);
+        this.createSubmitButton(this.buttonsBox, false);
+        this.createCancelButton(this.buttonsBox);
+        this.createEditButton(this.buttonsBox);
+        this.createCloseButton(this.buttonsBox);
+
+
+
+        
+
+
+        
+    },
+    getValidationErrorsConcatenated: function (response) {
+        var validationErrors = this.getValidationErrors(response);
+        var validationErrorsConcatenated = "";
+        if (validationErrors != null && validationErrors.length > 0) {
+            for (var i = 0; i < validationErrors.length; i++) {
+                validationErrorsConcatenated += validationErrors[i] + "\n"
+            }
+        }
+        return validationErrorsConcatenated;
+    },
+    recalculateLeaveUnitsDisplay: function (employeeNo, fromDate, toDate, leaveCode) {
+
+        var vm = this;
+        this.getLeaveUnits(employeeNo, fromDate, toDate, leaveCode, null, function (leave) {
+            var currentEditedLeaveInstance = vm.getEditedLeaveInstance(); //app.createLeaveModel(app.data)
+            vm.createDaysFields(leave, currentEditedLeaveInstance);
+         
+            var customErrorHandler = function (responseObject, vm) {
+                vm.handleValidationErrors(responseObject, "Unit");
+
+                var dateFrom = Date.parse(vm.currentlySavedLeaveInstance.dateFrom);
+                var dateTo = Date.parse(vm.currentlySavedLeaveInstance.dateTo);
+                vm.fromDateWidget.setDate(dateFrom);
+                vm.toDateWidget.setDate(dateTo);
+
+                Affinity.leave.setDates(vm.fromDateBox, dateFrom);
+                Affinity.leave.setDates(vm.toDateBox, dateTo);
+                var leaveModel = vm.createLeaveModel(vm.data);
+                vm.createDaysFields(leaveModel,vm.currentlySavedLeaveInstance);
+
+
+            }
+            var customSuccessHandler = function (response, vm) {
+                vm.handleRequestWarnings(response);
+            }
+            vm.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
+        });
+    },
+    getMaxHours: function (dateCriteria, positionCriteria,leaveUnitComponents) {
+        var selectedUnitComponent = new Object();
+
+            for (var i = 0; i < leaveUnitComponents.length; i++) {
+                var leaveUnitComponent = leaveUnitComponents[i];
+                if (leaveUnitComponent.PositionCode === positionCriteria) {
+                    for (var j = 0; j < leaveUnitComponent.Units.length; j++) {
+                        var unit = leaveUnitComponent.Units[i];
+                        var dateCriteriaString = Date.parse(dateCriteria).toLocaleString();
+                        var unitDate = Date.parse(unit.Date).toLocaleString();
+                    if (dateCriteriaString === unitDate) {
+                        var maxHours = unit.HoursWorkScheduled === null ? unit.HoursStandard : unit.HoursWorkScheduled;
+                        return maxHours;
+                        }
+                    }
+                }
+        }
+
+        return 0;
+         
+    },
+    displayDaysInEditMode: function () {
+        var unitType = this.data.LeaveHeader.UnitType;
+
+        var editedLeaveInstance = this.getEditedLeaveInstance();
+        var leaveUnits = editedLeaveInstance.leaveUnits;
+
+
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+            var leaveUnit = leaveUnits[i];
+
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+            if (!leaveUnit.isPublicHoliday) {
+                hoursField.set('readonly', false);
+                hoursField.removeClass('leave-detail-input-uneditable-hours');
+                hoursField.addClass('leave-detail-input-hours');
+
+                if (Affinity.leave.manager.config && this.isManager) {
+                    scheduledHoursField.set('readonly', false);
+                    scheduledHoursField.removeClass('leave-detail-input-uneditable-scheduledHours');
+                    scheduledHoursField.addClass('leave-detail-input-scheduledHours');
+                }
+                
+                
+            }
+            
+        }
+        this.isInEditMode = true;
+        this.highlightUnitFieldsIfNotEqualToDefaultValue();
+       
+        var app = this;
+        this.leavePeriodDaysContainerEdit = new InputEditWidget({
+            target: app.leavePeriodDaysBox,
+            input: app.leavePeriodDaysContainer,
+            updateInput: function () {
+                //check if there is difference in leave units
+                var oldLeaveUnits = app.currentlySavedLeaveInstance.leaveUnits;
+                var newLeaveUnits = app.getEditedLeaveInstance().leaveUnits;
+
+                if (JSON.stringify(oldLeaveUnits) !== JSON.stringify(newLeaveUnits)) {
+                    var customErrorHandler = function (responseObject, vm) {
+                        vm.handleValidationErrors(responseObject, "Unit");
+
+                        var leaveModel = vm.createLeaveModel(vm.data);
+                        vm.createDaysFields(leaveModel, vm.currentlySavedLeaveInstance);
+                    }
+                    var customSuccessHandler = function (response, vm) {
+                        var editedLeaveInstance = vm.getEditedLeaveInstance();
+                        var leaveModel = vm.createLeaveModel(vm.data);
+                        vm.createDaysFields(leaveModel, editedLeaveInstance);
+                        vm.handleRequestWarnings(response);
+                    }
+                    app.updateLeave2(null, customSuccessHandler, customErrorHandler, app);
+                }
+
+
+            }.bind(this),
+            cancelInput: function () {
+                var editedLeaveInstance = app.getEditedLeaveInstance();
+                var leaveModel = app.createLeaveModel(app.data);
+                app.createDaysFields(leaveModel, null);
+            }.bind(this)
+        });
+    },
+    displayEditMode: function () {
+        this.generateCalendar(Affinity.leave.manager.config, this.data.LeaveHeader.DateFrom, this.data.LeaveHeader.DateTo, true);
+
+        this.displayDaysInEditMode();
+        var app = this;
+
+        this.selectedLeaveLabel.addClass('hidden');
+        this.selectedReasonLabel.addClass('hidden');
+        this.leaveTypeSelector.removeClass('hidden');
+        this.leaveReasonSelector.removeClass('hidden');
+
+        this.leaveDetailsGroupRow7.removeClass('hidden');
+        this.leaveDetailsGroupRow8.removeClass('hidden');
+
+        if (Affinity.leave.employee && !this.isManager) {
+            if (this.commentBox !== undefined) {
+                this.commentBox.destroy();
+                this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
+                this.commentBox.set('html', this.data.LeaveHeader.Comment);
+
+                this.commentEdit = new InputEditWidget({
+                    target: this.leaveDetailsRow4Column2,
+                    input: this.commentBox,
+                    updateInput: function () {
+                        var newComment = this.commentBox.value;
+                        if ((newComment) !== (this.data.LeaveHeader.Comment === null ? '' : this.data.LeaveHeader.Comment)) {
+
+                            var vm = this;
+                            var customErrorHandler = function (responseObject, vm) {
+                                vm.handleValidationErrors(responseObject, "Comment");
+
+                            }
+
+                            var customSuccessHandler = function (response, vm) {
+                                vm.handleRequestWarnings(response);
+                            }
+                            this.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
+                        }
+                    }.bind(this),
+                    cancelInput: function () {
+                        this.commentBox.set('value', this.data.LeaveHeader.Comment);
+                    }.bind(this)
+                });
+            }
+
+            if (this.partDayReason !== undefined) {
+                this.partDayReason.destroy();
+                this.partDayReason = new Element('textarea', { 'class': 'leave-detail-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
+                this.partDayReason.set('html', this.data.LeaveHeader.PartDayReason);
+
+                this.partDayReasonEdit = new InputEditWidget({
+                    target: this.leavePeriodRequestPartDayInputColumn2,
+                    input: this.partDayReason,
+                    updateInput: function () {
+                        var newPartDayReason = this.partDayReason.value;
+                        if ((newPartDayReason) !== (this.data.LeaveHeader.PartDayReason === null ? '' : this.data.LeaveHeader.PartDayReason)) {
+
+                            var vm = this;
+                            var customErrorHandler = function (responseObject, vm) {
+                                vm.handleValidationErrors(responseObject, "Part Day Reason");
+
+                            }
+                            var customSuccessHandler = function (response, vm) {
+                                vm.handleRequestWarnings(response);
+                            }
+                            this.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
+                        }
+                    }.bind(this),
+                    cancelInput: function () {
+                        this.partDayReason.set('value', this.data.LeaveHeader.PartDayReason);
+                    }.bind(this)
+                });
+            }
+        }
+        
+        //attachments
+        if (this.leaveDetailsRow6Column2 !== undefined) {
+            this.leaveDetailsRow6Column2.empty();
+            this.attachmentform = new Element('div', {
+                'class': 'form-row'
+            }).inject(this.leaveDetailsRow6Column2);
+            this.attachWidgetDiv = new Element('div', {
+                'class': 'uploadmulti print-hidden',
+                'data-question-name': 'docs'
+            }).adopt(
+                this.attachWidgetInput = new Element('input', {
+                    'type': 'file'
+                }),
+                new Element('input', {
+                    'hidden': 'file',
+                    'class': 'initialValues'
+                })
+            );
+            this.attachmentbox = new Element('div', {
+                'class': 'edit-leave-attachment'
+            }).adopt(
+                this.attachWidgetDiv
+            ).inject(this.attachmentform);
+
+            //populate attachments
+            this.attachWidget = new UIUplaodersMulti({
+                maxsize: 20963328 /* 19.99 MB */
+            });
+
+            this.attachWidget.addEvent('multiFileTooLarge', this.fileTooLarge);
+
+            Affinity.leave.populateAttachments(this.data.LeaveHeader, this.data.Attachments, this.attachWidget, this.attachWidgetDiv);
+
+            this.attachWidgetDiv.addEvent('multiFileDeleted', this.deleteAttachment);
+            this.attachWidgetDiv.addEvent('multiFileAdded', this.postAttachments);
+            this.attachWidgetDiv.addEvent('validateMultiFileDelete', this.validateFileDeletion);
+            window.addEvent('multiFileDeletedFromConfirmation', this.deleteAttachment);
+            window.addEvent('attachmentRequired', this.setAttachmentRequiredValue);
+            window.addEvent('leaveEditDetailCloses', this.validateBeforeClosingModal);
+
+            Affinity.modal.beforeClose = function () {
+                if (this.attachWidgetDiv) {
+                    this.attachWidgetDiv.removeEvent('multiFileDeleted', this.deleteAttachment);
+                    this.attachWidgetDiv.removeEvent('multiFileAdded', this.postAttachments);
+
+                    this.attachWidgetDiv.removeEvent('validateMultiFileDelete', this.validateFileDeletion);
+                    window.removeEvent('multiFileDeletedFromConfirmation', this.deleteAttachment);
+                    window.removeEvent('attachmentRequired', this.setAttachmentRequiredValue);
+                    window.removeEvent('leaveEditDetailCloses', this.validateBeforeClosingModal);
+                }
+            }
+        }
+    },
+    attachmentRequired: false,
+    setAttachmentRequiredValue: function (val) {
+        this.attachmentRequired = val;
+    },
+    displayAttachmentRequiredModalMessage: function () {
+        uialert({
+            message: 'You must attach supporting documentation when applying for this type of leave.',
+            showLoader: false,
+            showButtons: true,
+            noClose: false
+        });
+    },
+    isAttachmentMandatoryForLeaveType: function () {
+
+        var isAttachmentMandatory = false;
+
+        var leaveCodes = null;
+        if (Affinity.leave.manager && this.isManager) {
+            if (Affinity.leave.manager.config !== undefined &&
+                Affinity.leave.manager.config.Employees !== undefined) {
+                var employees = Affinity.leave.manager.config.Employees;
+
+                for (var i = 0; i < employees.length; i++) {
+                    if (employees[i].LeaveCodes !== undefined) {
+                        leaveCodes = employees[i].LeaveCodes;
+                        break;
+                    }
+                }
+            } else if (this.config) {
+                leaveCodes = this.config.LeaveCodes;
+            }
+
+        } else {
+            if (Affinity.leave.employee.config !== undefined &&
+                Affinity.leave.employee.config.LeaveCodes !== undefined) {
+                leaveCodes = Affinity.leave.employee.config.LeaveCodes;
+            }
+            else {
+                leaveCodes = this.config.LeaveCodes;
+            }
+
+        }
+
+        if (leaveCodes) {
+
+            //var typeSelector = document.getElementsByClassName("edit-type-selector")[0];
+            //if (typeSelector) {
+            var selectedLeaveType = this.data.LeaveHeader.LeaveCode; //typeSelector.getElement('option:selected').get('id');
+
+            for (var i = 0; i < leaveCodes.length; i++) {
+                var leaveCode = leaveCodes[i].LeaveCode;
+                if (selectedLeaveType === leaveCode) {
+                    isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
+                    break;
+                }
+            }
+
+            //}
+
+        }
+
+        return isAttachmentMandatory;
+
+    },
+    validateAttachmentRequirement: function () {
+        if (!this.hasAttachedFiles() && this.isAttachmentMandatoryForLeaveType()) {
+            return false;
+        }
+        return true;
+    },
+    hasAttachedFiles: function () {
+        var attachmentDetails = document.getElementsByClassName('details-attachments');
+        if (attachmentDetails &&
+            attachmentDetails.length > 0) {
+            var attachments = attachmentDetails[0].getElements('li');
+            if (attachments !== undefined &&
+                attachments.length > 0) {
+                return true;
+            }
+        } else {
+            var attachmentDetails = document.getElementsByClassName("upload-table");
+            if (attachmentDetails &&
+                attachmentDetails.length > 0) {
+
+                for (var i = 0; i < attachmentDetails.length; i++) {
+                    var hasHiddenClass = attachmentDetails[i].hasClass("hidden");
+                    if (!hasHiddenClass) {
+                        var table = attachmentDetails[i].getElement("table");
+                        if (table) {
+                            var rows = table.getElements("tbody tr");
+                            if (rows &&
+                                rows.length > 0) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                var attachments = attachmentDetails[0].getElements('li');
+                if (attachments !== undefined &&
+                    attachments.length > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+    validateBeforeClosingModal: function (param) {
+        var isCancelledLeave = false;
+        if (Affinity.leave.manager && this.isManager) {
+            Affinity.leave.manager.refreshAll();
+        } else if (Affinity.leave.employee && !this.isManager) {
+            Affinity.leave.employee.refreshAll();
+        }
+
+        var greenButtons = document.getElementsByClassName('button green w-icon-only');
+        if (greenButtons &&
+            greenButtons.length > 0) {
+            for (var i = 0; i < greenButtons.length; i++) {
+                var containsSubmitButton = greenButtons[i].innerText.contains("Submit");
+                if (containsSubmitButton) {
+                    isCancelledLeave = true;
+                    break;
+                }
+            }
+        }
+
+
+        if (this.attachmentRequired && !isCancelledLeave) {
+            Affinity.modal.backgroundCloses = false;
+            uialert({
+                message: 'You must attach supporting documentation when applying for this type of leave.',
+                showLoader: false,
+                showButtons: true,
+                noClose: false
+            });
+        } else {
+            Affinity.modal.backgroundCloses = true;
+        }
+
+
+    },
+    validateFileDeletion: function (e) {
+
+        var rows = e.table.getElements('tbody tr');
+        if (rows) {
+
+            var isAttachmentMandatory = false;
+
+            var leaveCodes = null;
+            if (Affinity.leave.manager &&
+                Affinity.leave.manager.config &&
+                Affinity.leave.manager.config.LeaveCodes) {
+                leaveCodes = Affinity.leave.manager.config.LeaveCodes;
+            } else {
+                leaveCodes = Affinity.leave.employee.config.LeaveCodes;
+            }
+
+            if (leaveCodes) {
+
+                var typeSelector = document.getElementsByClassName("leave-type-selector")[0];
+                if (typeSelector) {
+                    var selectedLeaveType = typeSelector.getElement('option:selected').get('id');
+
+                    for (var i = 0; i < leaveCodes.length; i++) {
+                        var leaveCode = leaveCodes[i].LeaveCode;
+                        if (selectedLeaveType === leaveCode) {
+                            isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
                             break;
                         }
                     }
-                    if (originIndex != - 1) {
-                        authSelect.selectedIndex = originIndex;
-                    }
+
                 }
 
+            }
+
+            if (isAttachmentMandatory && rows.length === 1) {
+                window.fireEvent('attachmentRequired', true);
+            } else {
+                window.fireEvent('attachmentRequired', false);
+            }
+            e.row.addClass('preventDeletion');
+            uiconfirm({
+                message: 'Are you sure you want to delete this?',
+                onOk: function () {
+                    window.fireEvent('multiFileDeletedFromConfirmation', e.deletionTarget);
+                    e.row.destroy();
+                    Affinity.uiGrid.zebra(e.table);
+
+                    if (e.table.getElements('tbody tr').length == 0) {
+                        e.table.getParent().addClass('hidden');
+                    }
+                }.bind(this),
+                onCancel: function () {
+                    window.fireEvent('attachmentRequired', false);
+                }.bind(this)
             });
-    },
-
-    bossResponse: function (empNo, leaveId, oldStatus, statusChange, authorisationId, timeStamp) {
-        if (!this.bossResponseRequest)
-            return;
-
-        uialert({
-            message: (statusChange === 3 ? 'Approving' : statusChange === 2 ? 'Declining' : 'Processing') + ' Leave',
-            showLoader: true,
-            noClose: true,
-            showButtons: false
-        });
-
-        var value = {
-            FieldName: 'StatusCode',
-            NewValue: statusChange,
-            OldValue: oldStatus
-        };
-        this._statusChange = statusChange;
-        this._methodName = 'ui.leave.detail.js -> bossResponse';
-        var path = 'UpdateLeave/' + empNo + '/' + leaveId;
-        this.bossResponseRequest.isCancellation = oldStatus == 7;
-        if (authorisationId == '-1') {
-            if (this.bossResponseRequest.isCancellation === false) {
-                if (oldStatus == 7) {
-                    if (statusChange == 3) {
-                        path = 'ApproveCancelled/' + empNo + '/' + leaveId;
-                    }
-                    else {
-                        value.NewValue = '3';
-                    }
-                }
-            }
-
-        } else {
-            if (this.bossResponseRequest.isCancellation === false) {
-                path = 'UpdateLeaveAuthorisation/' + empNo + '/' + leaveId + '/' + authorisationId;
-            }
 
         }
-        if (timeStamp) {
-            path = path + '?timeLastModified=' + timeStamp;
-        }
-
-        this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + path);
-        (function () {
-            if (this.bossResponseRequest && this.bossResponseRequest.isRunning()) {
-                this.bossResponseRequest.cancel();
-            }
-            this.bossResponseRequest.url = this.bossResponseRequest.options.url = this._api;
-            this.bossResponseRequest.post(JSON.stringify(value));
-        }).delay(1000, this);
-    },
-
-    deleteLeave: function (empNo, leaveId) {
-        var methodName = 'ui.leave.detail.js -> deleteLeave';
-        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DeleteLeave/' + empNo + '/' + leaveId);
-        new Request.JSON({
-            url: api,
-            onRequest: function () {
-                Affinity.leave.lockui('myleaveleaveDetail-deleteLeave');
-            },
-            onFailure: function (e) {
-                Affinity.leave.unlockui('leaveDetail-deleteLeave');
-                Affinity.leave.handleXHRErrors(e, api, methodName);
-            },
-            onException: function () {
-                Affinity.leave.unlockui('leaveDetail-deleteLeave');
-            },
-            onCancel: function () {
-                Affinity.leave.unlockui('leaveDetail-deleteLeave');
-            },
-            onSuccess: function (response) {
-                Affinity.leave.unlockui('leaveDetail-deleteLeave');
-                if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-                    window.fireEvent('DeleteLeaveSuccess');
-                }
-            }
-        }).get();
-    },
-
-    submitLeave: function (leaveID, newStatus, oldStatus, onResponse) {
-        window.fireEvent('attachmentRequired', false);
-        if (!this.submitLeaveRequest)
-            return;
-
-        var value = {
-            FieldName: 'StatusCode',
-            NewValue: newStatus,
-            OldValue: oldStatus //0 to resubmit partial approved leave
-        };
-
-        var alertText;
-        if (newStatus == 6) {
-            alertText = 'Cancelling Leave Application'
-        }
-        else if (newStatus == 0) {
-            alertText = 'Submitting Leave Application'
-        }
-        setTimeout(function () {
-            uialert({
-                message: alertText,
-                showButtons: false,
-                showLoader: true,
-                noClose: true
-            });
-        }, 10);
-
-        this._methodName = 'ui.leave.history.js -> resubmitLeave';
-        this._onResponse = onResponse;
-
-        if (this.isManager &&
-            newStatus === 0) {
-            this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeave/' + this.data.LeaveHeader.EmployeeNo + '/' + leaveID);
-        } else {
-            this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeave/' + Affinity.login.profile.employeeNumber + '/' + leaveID);
-        }
-
-
-
-        if (this.submitLeaveRequest && this.submitLeaveRequest.isRunning()) {
-            this.submitLeaveRequest.cancel();
-        }
-        this.submitLeaveRequest.url = this.submitLeaveRequest.options.url = this._api;
-        this.submitLeaveRequest.post(JSON.stringify(value));
     },
     checkAttachmentsFileSize: function (e) {
 
@@ -7622,7 +7229,6 @@ var UILeaveDetail = new Class({
             window.fireEvent('attachmentRequired', false);
         }.bind(this));
     },
-
     deleteAttachment: function (e) {
         Affinity.leave.lockui('leaveDetail-deleteAttachment');
         uialert({
@@ -7639,69 +7245,30 @@ var UILeaveDetail = new Class({
             Affinity.leave.unlockui('leaveDetail-deleteAttachment');
         }.bind(this));
     },
-    attachmentRequired: false,
-    setAttachmentRequiredValue: function (val) {
-        this.attachmentRequired = val;
-    },
-    displayAttachmentRequiredModalMessage: function () {
-        uialert({
-            message: 'You must attach supporting documentation when applying for this type of leave.',
-            showLoader: false,
-            showButtons: true,
-            noClose: false
+    fileTooLarge: function (data) {
+
+        var maxsize = (data.maxsize / 1024 / 1024).round(2);
+        var size = (data.size / 1024 / 1024).round(2);
+
+        window.uialert({
+            message: 'You can only attach a document that is less than 20MB in size. Please try again.'
         });
+
     },
-    isAttachmentMandatoryForLeaveType: function () {
+    allowForwardToBasedFromLeaveInstance: function (leaveInstance) {
+        var returnValue = false;
+        var notAllowedStatusCodes = this.getLeaveStatusWhereForwardToIsNotAllowed();
+        if (leaveInstance !== undefined &&
+            leaveInstance.StatusCode !== undefined &&
+            notAllowedStatusCodes.indexOf(leaveInstance.StatusCode) === -1) {
+            returnValue = true;
+        }
+        return returnValue;
+    },
+    getLeaveStatusWhereForwardToIsNotAllowed: function () {
+        var notAllowedStatusCodes = [3, 2, 6];
 
-        var isAttachmentMandatory = false;
-       
-            var leaveCodes = null;
-        if (Affinity.leave.manager) {
-            if (Affinity.leave.manager.config !== undefined &&
-                Affinity.leave.manager.config.Employees !== undefined) {
-                var employees = Affinity.leave.manager.config.Employees;
-
-                for (var i = 0; i < employees.length; i++) {
-                    if (employees[i].LeaveCodes !== undefined) {
-                        leaveCodes = employees[i].LeaveCodes;
-                        break;
-                    }
-                }
-            } else if (this.config) {
-                leaveCodes = this.config.LeaveCodes;
-            }
-                
-            } else {
-                if (Affinity.leave.employee.config !== undefined &&
-                    Affinity.leave.employee.config.LeaveCodes !== undefined) {
-                    leaveCodes = Affinity.leave.employee.config.LeaveCodes;
-                }
-                else {
-                    leaveCodes = this.config.LeaveCodes;
-                }
-                
-            }
-
-            if (leaveCodes) {
-
-                //var typeSelector = document.getElementsByClassName("edit-type-selector")[0];
-                //if (typeSelector) {
-                var selectedLeaveType = this.data.LeaveHeader.LeaveCode; //typeSelector.getElement('option:selected').get('id');
-
-                    for (var i = 0; i < leaveCodes.length; i++) {
-                        var leaveCode = leaveCodes[i].LeaveCode;
-                        if (selectedLeaveType === leaveCode) {
-                            isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
-                            break;
-                        }
-                    }
-
-                //}
-
-            }
-
-            return isAttachmentMandatory;
-     
+        return notAllowedStatusCodes;
     },
     validateAttachmentRequirement: function () {
         if (!this.hasAttachedFiles() && this.isAttachmentMandatoryForLeaveType()) {
@@ -7746,94 +7313,297 @@ var UILeaveDetail = new Class({
         }
         return false;
     },
-    validateBeforeClosingModal: function (param) {
-        var isCancelledLeave = false;
+    isAttachmentMandatoryForLeaveType: function () {
 
-        var greenButtons = document.getElementsByClassName('button green w-icon-only');
-        if (greenButtons &&
-            greenButtons.length > 0) {
-            for (var i = 0; i < greenButtons.length; i++) {
-                var containsSubmitButton = greenButtons[i].innerText.contains("Submit");
-                if (containsSubmitButton) {
-                    isCancelledLeave = true;
+        var isAttachmentMandatory = false;
+
+        var leaveCodes = null;
+        if (Affinity.leave.manager) {
+            if (Affinity.leave.manager.config !== undefined &&
+                Affinity.leave.manager.config.Employees !== undefined) {
+                var employees = Affinity.leave.manager.config.Employees;
+
+                for (var i = 0; i < employees.length; i++) {
+                    if (employees[i].LeaveCodes !== undefined) {
+                        leaveCodes = employees[i].LeaveCodes;
+                        break;
+                    }
+                }
+            } else if (this.config) {
+                leaveCodes = this.config.LeaveCodes;
+            }
+
+        } else {
+            if (Affinity.leave.employee.config !== undefined &&
+                Affinity.leave.employee.config.LeaveCodes !== undefined) {
+                leaveCodes = Affinity.leave.employee.config.LeaveCodes;
+            }
+            else {
+                leaveCodes = this.config.LeaveCodes;
+            }
+
+        }
+
+        if (leaveCodes) {
+
+            var selectedLeaveType = this.data.LeaveHeader.LeaveCode; 
+
+            for (var i = 0; i < leaveCodes.length; i++) {
+                var leaveCode = leaveCodes[i].LeaveCode;
+                if (selectedLeaveType === leaveCode) {
+                    isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
                     break;
                 }
             }
         }
 
+        return isAttachmentMandatory;
 
-        if (this.attachmentRequired && !isCancelledLeave) {
-            Affinity.modal.backgroundCloses = false;
-            uialert({
-                message: 'You must attach supporting documentation when applying for this type of leave.',
-                showLoader: false,
-                showButtons: true,
-                noClose: false
-            });
-        } else {
-            Affinity.modal.backgroundCloses = true;
+    },
+    registerFocusOutEvents: function () {
+        var leaveUnits = this.getEditedLeaveInstance().leaveUnits;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+          
+
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+
+            hoursField.removeEvents();
+            hoursField.addEvent('focusout', function () {
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
+                this.computeUnitsDaysAppliedFor();
+                this.formatUnitsToDecimalFormat();
+            }.bind(this));
+
+            scheduledHoursField.removeEvents();
+            scheduledHoursField.addEvent('focusout', function () {
+                this.highlightUnitFieldsIfNotEqualToDefaultValue();
+                this.computeUnitsDaysAppliedFor();
+                this.formatUnitsToDecimalFormat();
+            }.bind(this));
+
+        }
+    },
+    computeUnitsDaysAppliedFor: function () {
+        var leaveUnits = this.getEditedLeaveInstance().leaveUnits;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+
+            hoursField.value = parseFloat(hoursField.value).toFixed(2);
+            scheduledHoursField.value = parseFloat(scheduledHoursField.value).toFixed(2);
+
+            var daysValue = parseFloat(hoursField.value) / parseFloat(scheduledHoursField.value);
+            if (daysValue > 1) {
+                daysValue = 1;
+            } else if (isNaN(daysValue)) {
+                daysValue = 0;
+            }
+
+            daysField.value = parseFloat(daysValue).toFixed(2);
+
+        }
+    },
+    formatUnitsToDecimalFormat: function () {
+        var leaveUnits = this.getEditedLeaveInstance().leaveUnits;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+
+            daysField.value = parseFloat(daysField.value).toFixed(2);
+            hoursField.value = parseFloat(hoursField.value).toFixed(2);
+            scheduledHoursField.value = parseFloat(scheduledHoursField.value).toFixed(2);
+            
+        }
+    },
+    highlightUnitFieldsIfNotEqualToDefaultValue: function () {
+        var leaveUnits = this.getEditedLeaveInstance().leaveUnits;
+
+        for (var i = 0; i < leaveUnits.length; i++) {
+
+            var dateField = this.leavePeriodDaysContainer.getElementById('date-' + i);
+            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+            var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+
+            hoursField.set('style', '');
+            daysField.set('style', '');
+            dateField.set('style', '');
+            scheduledHoursField.set('style','');
+
+            var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+
+            if (isPublicHoliday) {
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+            if ((dateField.value.indexOf('aturday') !== -1) ||
+                (dateField.value.indexOf('unday') !== -1)) {
+                dateField.set('style', 'background-color: #C0C0C0 !important;');
+                daysField.set('style', 'background-color: #C0C0C0 !important;');
+                hoursField.set('style', 'background-color: #C0C0C0 !important;');
+                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+            }
+
+
+            if (!isPublicHoliday) {
+               
+                if (this.isInEditMode) {
+                    if (Affinity.leave.manager && this.isManager) {
+                        hoursField.set('style', '');
+                        scheduledHoursField.set('style', '');
+                    }
+
+                    if (Affinity.leave.employee && !this.isManager) {
+                        hoursField.set('style', '');
+                    }
+                }
+
+                if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
+                    hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                    daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                }
+              
+            } 
+            
+        }
+    },
+    getEditedLeaveInstance: function (excludeDaysWithNoScheduledHours) {
+        var currentLeaveObject = this.data.LeaveHeader;
+        var editedLeaveInstance = new Object();
+        editedLeaveInstance.tsGroupId = currentLeaveObject.TSGroupId;
+        editedLeaveInstance.employeeNo = currentLeaveObject.EmployeeNo;
+        editedLeaveInstance.dateFrom = this.fromDateWidget.getRawDate().format('%d-%b-%Y');
+        editedLeaveInstance.dateTo = this.toDateWidget.getRawDate().format('%d-%b-%Y');
+        editedLeaveInstance.payCode = this.leaveTypeSelector[this.leaveTypeSelector.selectedIndex].id;
+        editedLeaveInstance.calcUnit = currentLeaveObject.UnitType;
+        editedLeaveInstance.reason = this.leaveReasonSelector[this.leaveReasonSelector.selectedIndex].id === '' ? null : this.leaveReasonSelector[this.leaveReasonSelector.selectedIndex].id;
+        editedLeaveInstance.empComment = this.commentBox.value === '' ? null : this.commentBox.value;
+        editedLeaveInstance.partDayReason = this.partDayReason.value === '' ? null : this.partDayReason.value;
+        editedLeaveInstance.timeLastModified = currentLeaveObject.TimeLastModified; 
+        if (this.isManager) {
+            editedLeaveInstance.managerNotes = this.managerCommentBox.value === '' ? null : this.managerCommentBox.value;
         }
         
 
-    },
+        editedLeaveInstance.leaveUnits = [];
+        var leaveUnitDates = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-date');
+        for (var i = 0; i < leaveUnitDates.length; i++) {
+            var leaveUnitDate = Date.parse(leaveUnitDates[i].value).format('%d-%b-%Y');
+            var leaveUnitHoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+            var leaveUnitDaysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+            var leaveUnitScheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+            var leaveUnitDefaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+            var leaveUnitIsPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+            if (Date.parse(leaveUnitDate) <= Date.parse(editedLeaveInstance.dateTo)) {
 
-    validateFileDeletion: function (e) {
+                var leaveUnitHour = parseFloat(leaveUnitHoursField.value);
+                var leaveUnitDay = parseFloat(leaveUnitDaysField.value);
+                var leaveUnitScheduledHour = parseFloat(leaveUnitScheduledHoursField.value);
+                var leaveUnit = new Object();
+                leaveUnit.tsGroupId = currentLeaveObject.TSGroupId;
+                leaveUnit.leaveDate = leaveUnitDate;
+                leaveUnit.positionCode = currentLeaveObject.PositionCode;
+                leaveUnit.hoursAppliedFor = leaveUnitHour;
+                leaveUnit.daysAppliedFor = this.computeDaysEquivalent(leaveUnitHour, leaveUnitScheduledHour);
+                leaveUnit.hoursWorkSched = leaveUnitScheduledHour;
+                leaveUnit.defaultHoursWorkScheduled = parseFloat(leaveUnitDefaultScheduledHoursField.value);
+                leaveUnit.isPublicHoliday = leaveUnitIsPublicHolidayField.value === 'true' ? true : false;
 
-        var rows = e.table.getElements('tbody tr');
-        if (rows) {
-
-            var isAttachmentMandatory = false;
-
-            var leaveCodes = null;
-            if (Affinity.leave.manager &&
-                Affinity.leave.manager.leaveDetail.config &&
-                Affinity.leave.manager.leaveDetail.config.LeaveCodes) {
-                leaveCodes = Affinity.leave.manager.leaveDetail.config.LeaveCodes;
-            } else {
-                leaveCodes = Affinity.leave.employee.leaveDetail.config.LeaveCodes;
-            }
-
-            if (leaveCodes) {
-
-                var typeSelector = document.getElementsByClassName("edit-type-selector")[0];
-                if (typeSelector) {
-                    var selectedLeaveType = typeSelector.getElement('option:selected').get('id');
-
-                    for (var i = 0; i < leaveCodes.length; i++) {
-                        var leaveCode = leaveCodes[i].LeaveCode;
-                        if (selectedLeaveType === leaveCode) {
-                            isAttachmentMandatory = leaveCodes[i].MandatoryAttachment;
-                            break;
-                        }
+                if (excludeDaysWithNoScheduledHours === true &&
+                    leaveUnitHour > 0) {
+                    if (!leaveUnit.isPublicHoliday) {
+                        editedLeaveInstance.leaveUnits.push(leaveUnit);
                     }
-
+                    
+                } else if (excludeDaysWithNoScheduledHours === null ||
+                    excludeDaysWithNoScheduledHours === undefined ||
+                    excludeDaysWithNoScheduledHours === false) {
+                       editedLeaveInstance.leaveUnits.push(leaveUnit);
+                 
                 }
-
             }
-
-            if (isAttachmentMandatory && rows.length === 1) {
-                window.fireEvent('attachmentRequired', true);
-            } else {
-                window.fireEvent('attachmentRequired', false);
-            }
-                e.row.addClass('preventDeletion');
-                uiconfirm({
-                    message: 'Are you sure you want to delete this?',
-                    onOk: function () {
-                        window.fireEvent('multiFileDeletedFromConfirmation', e.deletionTarget);
-                        e.row.destroy();
-                        Affinity.uiGrid.zebra(e.table);
-
-                        if (e.table.getElements('tbody tr').length == 0) {
-                            e.table.getParent().addClass('hidden');
-                        }
-                    }.bind(this),
-                    onCancel: function () {
-                        window.fireEvent('attachmentRequired', false);
-                    }.bind(this)
-                });
-
+  
         }
+
+        return editedLeaveInstance;
+    },
+    computeDaysEquivalent: function (hoursInput, hoursPerday) {
+        var daysResult = hoursInput / hoursPerday;
+        if (daysResult > 1) {
+            daysResult = 1;
+        }
+        return daysResult;
+    },
+    updateLeave2: function (leaveStatus, customSuccessHandler, customFailureHandler, viewModel) {
+        var editedLeaveInstance = this.getEditedLeaveInstance(true);
+
+        if (leaveStatus !== null) {
+            editedLeaveInstance.leaveStatus = leaveStatus;
+        }
+
+       
+
+        var apiUrl = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeaveV2/' + editedLeaveInstance.tsGroupId);
+
+        new Request.JSON({
+            url: apiUrl,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            urlEncoded: false,
+            onRequest: function () {
+                Affinity.leave.lockui('myleave-update');
+                uialert({
+                    message: 'Saving changes. Please wait',
+                    showLoader: true,
+                    showButtons: false,
+                    noClose: true
+                });
+            },
+            onFailure: function (e) {
+                Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
+                var response = JSON.parse(e.response);
+                viewModel.updateRequestValidationErrorHandler(response, e.status, viewModel, customFailureHandler);
+                
+
+            }.bind(this),
+            onException: function () {
+                Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
+
+            },
+            onCancel: function () {
+                Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
+            },
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('myleave-update');
+                prompts.hide();
+                viewModel.updateRequestSuccessHandler(response, viewModel, customSuccessHandler,customFailureHandler);
+
+
+            }.bind(this)
+        }).post(JSON.stringify(editedLeaveInstance));
+
+
     },
     acknowledgementModal: function (response, message) {
         Affinity.modal.show();
@@ -7854,7 +7624,8 @@ var UILeaveDetail = new Class({
         }
 
         var content = new Element('div', { 'class': 'acknowledgement-content' }).inject(modalData);
-        if (response.Messages.length > 0) {
+        if (response.Messages !== null &&
+            response.Messages.length > 0) {
             Array.each(response.Messages, function (message, index) {
                 if (message.MessageType === 1) {
                     new Element('li', { 'html': message.Message }).inject(wList);
@@ -7877,37 +7648,9 @@ var UILeaveDetail = new Class({
         Affinity.modal.setElement(modalData);
         Affinity.modal.show();
     },
-
-    reset: function () {
-        if (this.leaveDetailRequest && this.leaveDetailRequest.isRunning()) {
-            this.leaveDetailRequest.cancel();
-        }
-
-        if (this.isManager) {
-            if (this.bossResponseRequest && this.bossResponseRequest.isRunning()) {
-                this.bossResponseRequest.cancel();
-            }
-        }
-        else {
-            if (this.submitLeaveRequest && this.submitLeaveRequest.isRunning()) {
-                this.submitLeaveRequest.cancel();
-            }
-        }
+    saveChanges: function () {
+        alert('save changes');
     },
-
-    destroy: function () {
-        //window.removeEvent('multiFileDeleted', this.deleteAttachmentEvent);
-        this.reset();
-
-        if (this.acceptButton) { this.acceptButton.removeEvents(); }
-        if (this.declineButton) { this.declineButton.removeEvents(); }
-        if (this.closeButton) { this.closeButton.removeEvents(); }
-
-        Object.each(this, function (val, key) {
-            this[key] = null;
-            delete this[key];
-        }.bind(this));
-    }
 });
 
 var UIEmployeeLeaveBalances = new Class({
