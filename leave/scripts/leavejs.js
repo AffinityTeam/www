@@ -7511,6 +7511,8 @@ var UILeaveDetail = new Class({
 
         if (leaveStatus !== null) {
             editedLeaveInstance.leaveStatus = leaveStatus;
+        } else {
+            editedLeaveInstance.leaveStatus = this.data.LeaveHeader.StatusCode;
         }
 
        
