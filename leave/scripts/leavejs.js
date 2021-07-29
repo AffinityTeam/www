@@ -7438,20 +7438,24 @@ var UILeaveDetail = new Class({
         editedLeaveInstance.calcUnit = currentLeaveObject.UnitType;
         editedLeaveInstance.reason = this.leaveReasonSelector[this.leaveReasonSelector.selectedIndex].id === '' ? null : this.leaveReasonSelector[this.leaveReasonSelector.selectedIndex].id;
 
-        if (this.isInEditMode) {
-            editedLeaveInstance.empComment = this.commentBox.value === '' ? null : this.commentBox.value;
-            editedLeaveInstance.partDayReason = this.partDayReason.value === '' ? null : this.partDayReason.value;
-        } else {
+        if (Affinity.leave.manager &&
+            this.isManager) {
+            editedLeaveInstance.managerNotes = this.managerCommentBox.value === '' ? null : this.managerCommentBox.value;
             editedLeaveInstance.empComment = this.commentBox.textContent === '' ? null : this.commentBox.textContent;
             editedLeaveInstance.partDayReason = this.partDayReason.textContent === '' ? null : this.partDayReason.textContent;
+        } else if (Affinity.leave.employee &&
+            !this.isManager) {
+            editedLeaveInstance.managerNotes = currentLeaveObject.Reply;
+            if (this.isInEditMode) {
+                editedLeaveInstance.empComment = this.commentBox.value === '' ? null : this.commentBox.value;
+                editedLeaveInstance.partDayReason = this.partDayReason.value === '' ? null : this.partDayReason.value;
+            } else {
+                editedLeaveInstance.empComment = this.commentBox.textContent === '' ? null : this.commentBox.textContent;
+                editedLeaveInstance.partDayReason = this.partDayReason.textContent === '' ? null : this.partDayReason.textContent;
+            }
         }
-        
 
         editedLeaveInstance.timeLastModified = currentLeaveObject.TimeLastModified; 
-        if (this.isManager) {
-            editedLeaveInstance.managerNotes = this.managerCommentBox.value === '' ? null : this.managerCommentBox.value;
-        }
-        
 
         editedLeaveInstance.leaveUnits = [];
         var leaveUnitDates = this.leavePeriodDaysContainer.getElementsByClassName('leave-detail-input-date');
