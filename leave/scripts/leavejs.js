@@ -2087,48 +2087,198 @@ var UILeaveApply = new Class({
         }
 
     },
+    createLeaveTypeGroup: function (formData) {
 
-    initialize: function (options) {
-        this.setOptions(options);
+        this.leaveTypeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
+        this.leaveTypeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveTypeGroup);
+        this.leaveTypeGroupRow2 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveTypeGroup);
 
-        /* BUILD HTML */
-        this.target = this.options.target;
-        this.isManager = this.options.isManager ? true : false;
+        //Row 1 Colums
+        this.leaveTypeGroupRow1Column1 = new Element('span').inject(this.leaveTypeGroupRow1);
+        this.leaveTypeGroupRow1Column2 = new Element('span').inject(this.leaveTypeGroupRow1);
+        this.leaveTypeGroupRow1Column3 = new Element('span').inject(this.leaveTypeGroupRow1);
 
-        this.section = new Element('div', { 'class': 'section shadow' }).inject(this.target);
-        this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
+        //Row2 Columns
+        this.leaveTypeGroupRow2Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveTypeGroupRow2);
+        this.leaveTypeGroupRow2Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveTypeGroupRow2);
+        this.leaveTypeGroupRow2Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveTypeGroupRow2);
 
-        this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
-        this.ealInfo = null;
-        var sTitle;
-        if (this.isManager) {
-            sTitle = 'Create Team Leave';
-        }
-        else {
-            sTitle = 'Apply for Leave';
-        }
-        this.ealProjectionReturned = false;
-        this.leaveAvailabilityCounter = 0;
-        this.nonconfiguredLeaveTypes = ['A', 'B', 'C', 'D', 'E', 'S'];
-        this.availableLeaveCodes = ['07', '09', '10', '12', '13', '11'];
-        this.title = new Element('div', { 'class': 'section-title leave-apply-title ui-has-tooltip', 'html': sTitle, 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
-            .addEvent(Affinity.events.click, this.toggle).inject(this.form);
-        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.title);
-        this.applyForm = new Element('div', {'style': 'display:block;' }).inject(this.form);
-        this.leaveData = new Element('div', { 'class': 'leave-form default-form' }).inject(this.applyForm);
-        this.formData = new Element('form').inject(this.leaveData);
-       
-        if (this.isManager) {
-            this.employeeIndirect = new Element('div', { 'class': 'form-row leave-apply-indirect' }).inject(this.formData);
+        this.leaveProjectionPlaceHolder = new Element('div', { 'class': 'leave-apply-leave-projection-placeholder' }).inject(this.leaveTypeGroupRow2);
+        //Row 1 Column Content
+        new Element('label', {
+            'html': 'Leave Type',
+            'class': 'leave-apply-group-title-label'
+        }).inject(this.leaveTypeGroupRow1Column1);
+
+
+        new Element('label', {
+            'html': 'Leave Type',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveTypeGroupRow1Column2);
+
+        this.reasonLabel = new Element('label', {
+            'html': 'Reason',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveTypeGroupRow1Column3);
+
+        //Row 2 Column Content
+        this.type = new Element('div', { 'class': 'form-row leave-apply-type' }).inject(this.formData);
+        //Reason Column
+        this.reasonSelector = new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveTypeGroupRow2Column3);
+    },
+    createLeavePeriodGroup: function (formData) {
+        this.leavePeriodGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
+        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+
+
+
+
+        new Element('label', {
+            'html': 'Leave Period',
+            'class': 'leave-apply-group-title-label'
+        }).inject(this.leavePeriodGroupRow1);
+
+        this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
+
+        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
+        this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
+
+        this.leavePeriodRequestPartDayInputColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
+
+        this.leavePeriodRequestPartDayLabel = new Element('label', {
+            'html': 'Part Day Reason',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
+
+
+        this.partDayReason = new Element('textarea', { 'class': 'leave-apply-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
+
+
+
+
+        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
+
+
+        this.leavePeriodDaysBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysDateTitle = new Element('label', {
+            'html': 'Date',
+            'class': 'leave-apply-leave-period-header-date'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+
+
+        this.leavePeriodDaysDaysTitle = new Element('label', {
+            'html': 'Days',
+            'class': 'leave-apply-leave-period-header-days'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Hours',
+            'class': 'leave-apply-leave-period-header-hours'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Scheduled',
+            'class': 'leave-apply-leave-period-header-scheduled'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
+    },
+    createLeaveDetailsGroup: function (formData) {
+        this.leaveDetailsGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
+        this.leaveDetailsGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow2 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow3 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow4 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow5 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow6 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow7 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+        this.leaveDetailsGroupRow8 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
+
+        //Row 1 Colums
+        this.leaveDetailsRow1Column1 = new Element('span').inject(this.leaveDetailsGroupRow1);
+        this.leaveDetailsRow1Column2 = new Element('span').inject(this.leaveDetailsGroupRow1);
+        this.leaveDetailsRow1Column3 = new Element('span').inject(this.leaveDetailsGroupRow1);
+
+        //Row2 Columns
+        this.leaveDetailsRow2Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow2);
+        this.leaveDetailsRow2Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow2);
+        this.leaveDetailsRow2Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow2);
+
+        //Row3 Columns
+        this.leaveDetailsRow3Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow3);
+        this.leaveDetailsRow3Column2 = new Element('span').inject(this.leaveDetailsGroupRow3);
+
+        //Row4 Columns
+        this.leaveDetailsRow4Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container-for-attachment' }).inject(this.leaveDetailsGroupRow4);
+        this.leaveDetailsRow4Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow4);
+
+        //Row5 Columns
+        this.leaveDetailsRow5Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow5);
+        this.leaveDetailsRow5Column2 = new Element('span', { 'class': 'leave-apply-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
+        this.leaveDetailsRow5Column3 = new Element('span', { 'class': 'leave-apply-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
+
+        //Row6 Columns
+        this.leaveDetailsRow6Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow6);
+        this.leaveDetailsRow6Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow6);
+
+
+
+        new Element('label', {
+            'html': 'Leave Details',
+            'class': 'leave-apply-group-title-label'
+        }).inject(this.leaveDetailsRow1Column1);
+
+
+        new Element('label', {
+            'html': 'Comments',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow1Column2);
+
+
+
+        this.commentBox = new Element('textarea', { 'class': 'leave-apply-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow2Column2);
+
+
+        new Element('label', {
+            'html': 'Attachments',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow3Column2);
+
+
+        this.attachment = new Element('div', { 'class': 'form-row leave-apply-attachment leave-apply-attachment-form' }).inject(this.leaveDetailsRow4Column2);
+
+
+        new Element('label', {
+            'html': 'Approver',
+            'class': 'leave-apply-group-column-label'
+        }).inject(this.leaveDetailsRow5Column2);
+
+
+        this.approverSelector = new Element('select', { 'class': 'leave-approver-selector leave-apply-select' }).inject(this.leaveDetailsRow6Column2);
+    },
+    createEmployeeDetailsGroup: function (formData, isManager) {
+        if (isManager) {
+            this.employeeIndirect = new Element('div', { 'class': 'form-row leave-apply-indirect' }).inject(formData);
             new Element('label', { 'html': 'Include Indirect' }).inject(this.employeeIndirect);
 
-            this.employeeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
+            this.employeeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
             this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
             this.employeeInputRow = new Element('div', { 'class': 'leave-apply-row' }).inject(this.employeeGroup);
             this.employeeInputColumn1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.employeeInputRow);
             this.employeeInputColumn2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.employeeInputRow);
             this.employeeInputColumn3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.employeeInputRow);
-           
+
             this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.employeeIndirect);
             this.includeIndirect.addEvent('change', function (e) {
                 if (this.employeeSelector && this.Employees) {
@@ -2159,191 +2309,49 @@ var UILeaveApply = new Class({
 
             this.employeeInput = new Element('div', { 'style': 'margin-right:0' }).inject(this.formData);
         }
+    },
+    getFormTitle: function (isManager) {
+        var sTitle = null;
+        if (isManager) {
+            sTitle = 'Create Team Leave';
+        }
+        else {
+            sTitle = 'Apply for Leave';
+        }
 
-        this.leavePeriodGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
-        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        return sTitle;
+    },
+    initialize: function (options) {
+        this.setOptions(options);
 
+        /* BUILD HTML */
+        this.target = this.options.target;
+        this.isManager = this.options.isManager ? true : false;
 
+        this.section = new Element('div', { 'class': 'section shadow' }).inject(this.target);
+        this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
 
-        
-        new Element('label', {
-            'html': 'Leave Period',
-            'class': 'leave-apply-group-title-label'
-        }).inject(this.leavePeriodGroupRow1);
-        
-        this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
+        this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
+        this.ealInfo = null;
+        var sTitle = this.getFormTitle(this.isManager);
 
-        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
-        this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
-        this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
-        this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
-
-        this.leavePeriodRequestPartDayInputColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
-        this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
-        this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
-
-        this.leavePeriodRequestPartDayLabel = new Element('label', {
-            'html': 'Part Day Reason',
-            'class': 'leave-apply-group-column-label'
-        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
-
-
-        this.partDayReason = new Element('textarea', { 'class': 'leave-apply-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
-
-
-        
-
-        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
-
-
-        this.leavePeriodDaysBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysDateTitle = new Element('label', {
-            'html': 'Date',
-            'class': 'leave-apply-leave-period-header-date'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        
-
-        this.leavePeriodDaysDaysTitle = new Element('label', {
-            'html': 'Days',
-            'class': 'leave-apply-leave-period-header-days'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysHoursTitle = new Element('label', {
-            'html': 'Hours',
-            'class': 'leave-apply-leave-period-header-hours'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysHoursTitle = new Element('label', {
-            'html': 'Scheduled',
-            'class': 'leave-apply-leave-period-header-scheduled'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
-
-
-        this.leaveDetailsGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(this.formData);
-        this.leaveDetailsGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow2 = new Element('div', { 'class': 'leave-apply-group-row'}).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow3 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow4 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow5 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow6 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow7 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow8 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveDetailsGroup);
-
-        //Row 1 Colums
-        this.leaveDetailsRow1Column1 = new Element('span').inject(this.leaveDetailsGroupRow1);
-        this.leaveDetailsRow1Column2 = new Element('span').inject(this.leaveDetailsGroupRow1);
-        this.leaveDetailsRow1Column3 = new Element('span').inject(this.leaveDetailsGroupRow1);
-
-        //Row2 Columns
-        this.leaveDetailsRow2Column1 = new Element('span', { 'class':'leave-apply-group-column-blank-container'}).inject(this.leaveDetailsGroupRow2);
-        this.leaveDetailsRow2Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow2);
-        this.leaveDetailsRow2Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow2);
-
-        this.leaveProjectionPlaceHolder = new Element('div', {'class': 'leave-apply-leave-projection-placeholder'}).inject(this.leaveDetailsGroupRow2);
-
-        //Row3 Columns
-        this.leaveDetailsRow3Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow3);
-        this.leaveDetailsRow3Column2 = new Element('span').inject(this.leaveDetailsGroupRow3);
-
-        //Row4 Columns
-        this.leaveDetailsRow4Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow4);
-        this.leaveDetailsRow4Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow4);
-
-        //Row5 Columns
-        this.leaveDetailsRow5Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow5);
-        this.leaveDetailsRow5Column2 = new Element('span', { 'class': 'leave-apply-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
-        this.leaveDetailsRow5Column3 = new Element('span', { 'class': 'leave-apply-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
-
-        //Row6 Columns
-        this.leaveDetailsRow6Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
-        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow6);
-        this.leaveDetailsRow6Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow6);
-
-        //Row7 Columns
-        this.leaveDetailsRow7Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow7);
-        this.leaveDetailsRow7Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow7);
-        this.leaveDetailsRow7Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow7);
-
-        //Row8 Columns
-        this.leaveDetailsRow8Column1 = new Element('span', { 'class': 'leave-apply-group-column-blank-container' }).inject(this.leaveDetailsGroupRow8);
-        this.leaveDetailsRow8Column2 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow8);
-        this.leaveDetailsRow8Column3 = new Element('span', { 'class': 'leave-apply-group-column-container' }).inject(this.leaveDetailsGroupRow8);
-
-
-        //Row 1 Column Content
-        new Element('label', {
-            'html': 'Leave Details',
-            'class': 'leave-apply-group-title-label'
-        }).inject(this.leaveDetailsRow1Column1);
-
-
-        new Element('label', {
-            'html': 'Leave Type',
-            'class': 'leave-apply-group-column-label'
-        }).inject(this.leaveDetailsRow1Column2);
-
-        this.reasonLabel = new Element('label', {
-            'html': 'Reason',
-            'class': 'leave-apply-group-column-label'
-        }).inject(this.leaveDetailsRow1Column3);
-
-        //Row 2 Column Content
-        this.type = new Element('div', { 'class': 'form-row leave-apply-type' }).inject(this.formData);
-        //Reason Column
-        this.reasonSelector = new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveDetailsRow2Column3);
-
-
-        //Row 3 Column Content
-        new Element('label', {
-            'html': 'Comments',
-            'class': 'leave-apply-group-column-label'
-        }).inject(this.leaveDetailsRow3Column2);
-
+        this.ealProjectionReturned = false;
+        this.leaveAvailabilityCounter = 0;
+        this.nonconfiguredLeaveTypes = ['A', 'B', 'C', 'D', 'E', 'S'];
+        this.availableLeaveCodes = ['07', '09', '10', '12', '13', '11'];
+        this.title = new Element('div', { 'class': 'section-title leave-apply-title ui-has-tooltip', 'html': sTitle, 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
+            .addEvent(Affinity.events.click, this.toggle).inject(this.form);
+        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.title);
+        this.applyForm = new Element('div', {'style': 'display:block;' }).inject(this.form);
+        this.leaveData = new Element('div', { 'class': 'leave-form default-form' }).inject(this.applyForm);
+        this.formData = new Element('form').inject(this.leaveData);
        
-        //Row 4 Column Content
-        this.commentBox = new Element('textarea', { 'class': 'leave-apply-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
         
-        //Row 5 Column Content
-        new Element('label', {
-            'html': 'Attachments',
-            'class': 'leave-apply-group-column-label'
-        }).inject(this.leaveDetailsRow5Column2);
-
-        //new Element('label', {
-        //    'html': 'Approver',
-        //    'class': 'leave-apply-group-column-label'
-        //}).inject(this.leaveDetailsRow5Column3);
-
-        //Row 6 Column Content
-        this.attachment = new Element('div', { 'class': 'form-row leave-apply-attachment leave-apply-attachment-form' }).inject(this.leaveDetailsRow6Column2);
-        //new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveDetailsRow6Column3);
-
-
-        //Row 7 Column Content
-        new Element('label', {
-            'html': 'Approver',
-            'class': 'leave-apply-group-column-label'
-        }).inject(this.leaveDetailsRow7Column2);
-
-        //Row 8 Column Content
-        this.approverSelector = new Element('select', { 'class': 'leave-approver-selector leave-apply-select' }).inject(this.leaveDetailsRow8Column2);
-
-        
-        //this.commentData = new Element('div', { 'class': 'apply-comment-form default-form' }).inject(this.leaveData);
-        ////this.commentForm = new Element('form').inject(this.commentData);
-        //this.commentRow = new Element('div', { 'class': 'form-row leave-apply-comment' }).inject(this.commentForm);
-        //this.commentTitle = new Element('label', { 'html': 'Comment' }).inject(this.commentRow);
-        //this.commentBox = new Element('textarea', { 'class': 'apply-comment-box data-hj-whitelist', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.commentRow);
-       // this.attachmentForm = new Element('form', { 'class': 'apply-attachment-form' }).inject(this.leaveData);
-       // this.attachment = new Element('div', { 'class': 'form-row leave-apply-attachment' }).inject(this.commentForm);
+        this.createEmployeeDetailsGroup(this.formData, this.isManager);
+        this.createLeaveTypeGroup(this.formData);
+        this.createLeavePeriodGroup(this.formData);
+        this.createLeaveDetailsGroup(this.formData);
+       
         this.approversForm = new Element('form').inject(this.leaveData);
         this.approvers = new Element('div', { 'class': 'form-row leave-apply-approvers' }).inject(this.approversForm);
         this.hiddenApprovers = new Element('div', { 'class': 'hidden' }).inject(this.approversForm);
@@ -3171,11 +3179,11 @@ var UILeaveApply = new Class({
     },
     generateLeaveCodes: function (leaveCodes) {
         if (this.typeSelector) { this.typeSelector.removeEvents(); }
-        this.leaveDetailsRow2Column2.set('html', null);
+        this.leaveTypeGroupRow2Column2.set('html', null);
 
       //  this.label = new Element('label', { 'html': 'Leave Type' }).inject(this.type);
 
-        this.typeSelector = new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveDetailsRow2Column2);
+        this.typeSelector = new Element('select', { 'class': 'leave-apply-select' }).inject(this.leaveTypeGroupRow2Column2);
         this.def = new Element('option', { 'value': '0', 'html': '' }).inject(this.typeSelector, 'top');
 
         this.typeSelector.addEvent('change', function () {
@@ -3445,9 +3453,11 @@ var UILeaveApply = new Class({
         }.bind(this));
 
         this.fromDateBox.addEvent(Affinity.events.click, function (e) {
+            this.toDateWidget.hide();
             this.fromDateWidget.externalShow(e);
         }.bind(this));
         this.toDateBox.addEvent(Affinity.events.click, function (e) {
+            this.fromDateWidget.hide();
             this.toDateWidget.externalShow(e);
         }.bind(this));
 
@@ -5195,6 +5205,346 @@ var UILeaveDetail = new Class({
 
 
     },
+    createElementLeaveDetailGroupRow: function (container) {
+        var newElement = new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
+
+        return newElement;
+    },
+    createElementLeaveDetailBlankColumnHeader: function (container) {
+        var newElement = new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(container);
+
+        return newElement;
+    },
+    createElementLeaveDetailBlankColumnContainer: function (container) {
+        var newElement = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(container);
+
+        return newElement;
+    },
+    createElementLeaveDetailColumnContainer: function (container) {
+        var newElement = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(container);
+
+        return newElement;
+    },
+    createLeaveDetailsCommentsArea: function (container) {
+        this.commentsAreaRow1 = new Element('div', { 'class': 'form-row' }).inject(container);
+        this.commentsAreaRow1Column1 = new Element('span').inject(this.commentsAreaRow1);
+        this.commentsAreaRow1Column2 = new Element('span').inject(this.commentsAreaRow1);
+        this.commentsAreaRow1Column3 = new Element('span').inject(this.commentsAreaRow1);
+
+        new Element('label', {
+            'html': 'Leave Details',
+            'class': 'leave-detail-group-title-label'
+        }).inject(this.commentsAreaRow1Column1);
+
+        new Element('label', {
+            'html': 'Comments',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.commentsAreaRow1Column2);
+
+        this.commentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
+
+        this.commentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.commentsAreaRow2);
+        this.commentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
+        this.commentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
+
+        this.commentBox = new Element('label').inject(this.commentsAreaRow2Column2);
+
+    },
+    createLeaveDetailsManagerCommentsArea: function (container, isManager) {
+        if (isManager) {
+            this.managerCommentsAreaRow1 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
+            this.managerCommentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
+
+            this.managerCommentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow1); // new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow1);
+            this.managerCommentsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
+            this.managerCommentsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
+
+            this.managerCommentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow2);
+            this.managerCommentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
+            this.managerCommentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
+
+            new Element('label', {
+                'html': 'Manager Comments',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.managerCommentsAreaRow1Column2);
+
+            this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.managerCommentsAreaRow2Column2);
+
+            this.managerCommentEdit = new InputEditWidget({
+                target: this.managerCommentsAreaRow2Column2,
+                input: this.managerCommentBox,
+                updateInput: function () {
+                    var newManagerComment = this.managerCommentBox.value;
+                    if ((newManagerComment) != (this.data.LeaveHeader.Reply === null ? '' : this.data.LeaveHeader.Reply)) {
+                        var vm = this;
+                        var customErrorHandler = function (responseObject, vm) {
+                            vm.handleValidationErrors(responseObject, "Manager Comments");
+                        }
+                        var customSuccessHandler = function (response, vm) {
+                            vm.handleRequestWarnings(response);
+                        }
+                        this.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
+
+                    }
+                }.bind(this),
+                cancelInput: function () {
+                    this.managerCommentBox.set('value', this.data.LeaveHeader.Reply);
+                }.bind(this)
+            });
+        }
+    },
+    createLeaveDetailsAttachmentsArea: function (container, leaveHeader) {
+        this.attachmentsAreaRow1 = this.createElementLeaveDetailGroupRow(container); 
+        this.attachmentsAreaRow2 = this.createElementLeaveDetailGroupRow(container);
+
+   
+        this.attachmentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.attachmentsAreaRow1); 
+        this.attachmentsAreaRow1Column2 = new Element('span').inject(this.attachmentsAreaRow1);
+
+    
+        this.attachmentsAreaRow2Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container-for-attachment' }).inject(this.attachmentsAreaRow2);
+        this.attachmentsAreaRow2Column2 = new Element('span', { 'class': 'leave-detail-group-column-container-for-attachment' }).inject(this.attachmentsAreaRow2);
+
+        new Element('label', {
+            'html': 'Attachments',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.attachmentsAreaRow1Column2);
+
+        if (this.data.Attachments.length > 0) {
+            var attachmentForm = new Element('div', {
+                'class': 'form-row'
+            }).inject(this.attachmentsAreaRow2Column2);
+            var attachmentsBox = new Element('div', {
+                'class': 'details-attachments-box'
+            }).inject(attachmentForm);
+
+
+            var attachments = new Element('ul', {
+                'class': 'details-attachments'
+            }).inject(attachmentsBox);
+
+            Array.each(this.data.Attachments, function (attachment, index) {
+                url = Affinity.leave.apiroot + 'GetLeaveAttachment/' + leaveHeader.EmployeeNo + '/' + leaveHeader.TSGroupId + '/' + attachment.Id;
+                var link = new Element('a', {
+                    'href': url
+                }).inject(attachments);
+                var attach = new Element('li', {
+                    'class': 'details-attachment'
+                }).inject(link);
+                attach.set('html', attachment.Name);
+            });
+        }
+    },
+    createLeaveDetailsForwardsArea: function (form,container, isManager, leaveHeader) {
+        if (!isManager) return;
+        this.forwardsAreaRow1 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow2 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow3 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow4 = this.createElementLeaveDetailGroupRow(container); 
+
+        this.forwardsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow1); 
+        this.forwardsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow1);
+        this.forwardsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow1); 
+
+
+        this.forwardsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow2); 
+        this.forwardsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow2); 
+        this.forwardsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow2); 
+
+        this.forwardsAreaRow3Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow3); 
+        this.forwardsAreaRow3Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow3); 
+        this.forwardsAreaRow3Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow3); 
+
+        this.forwardsAreaRow4Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow4); 
+        this.forwardsAreaRow4Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow4); 
+        this.forwardsAreaRow4Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow4); 
+
+        new Element('label', {
+            'html': 'Forward To',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.forwardsAreaRow1Column2);
+        this.forwardsAreaRow1.addClass('hidden');
+
+        this.forwardSelector = new Element('select', { 'class': 'leave-approver-selector leave-detail-select' }).inject(this.forwardsAreaRow2Column2);
+        this.forwardsAreaRow2.addClass('hidden');
+
+        //Only managers sees the forward box.
+        if (Affinity.login.profile.employeeNumber !== leaveHeader.EmployeeNo) {
+            this.createForwardingFeature(form);
+        }
+
+    },
+    createEmployeeDetailsGroup: function (form, leaveHeader) {
+        if (this.isManager) {
+
+            this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
+
+            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
+            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
+            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+
+            new Element('label', {
+                'html': 'Employee',
+                'class': 'leave-detail-group-title-label'
+            }).inject(this.employeeGroupRow1);
+            new Element('label', {
+                'html': 'Full Name',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
+            new Element('label', {
+                'html': 'Position',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
+            new Element('div', {
+                'html': leaveHeader.EmployeeName,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn2);
+
+            new Element('div', {
+                'html': leaveHeader.PositionTitle,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn3);
+
+        } else {
+            this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
+
+            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
+            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
+            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+            this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
+
+            new Element('label', {
+                'html': 'Employee',
+                'class': 'leave-detail-group-title-label'
+            }).inject(this.employeeGroupRow1);
+
+
+            new Element('label', {
+                'html': 'Position',
+                'class': 'leave-detail-group-column-label'
+            }).inject(this.employeeGroupRow1);
+
+
+            new Element('div', {
+                'html': leaveHeader.PositionTitle,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn2);
+        }
+    },
+    createLeaveTypeGroup: function (form) {
+        this.leaveTypeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(form);
+        this.leaveTypeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveTypeGroup);
+        this.leaveTypeGroupRow2 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveTypeGroup);
+
+        //Row 1 Colums
+        this.leaveTypeGroupRow1Column1 = new Element('span').inject(this.leaveTypeGroupRow1);
+        this.leaveTypeGroupRow1Column2 = new Element('span').inject(this.leaveTypeGroupRow1);
+        this.leaveTypeGroupRow1Column3 = new Element('span').inject(this.leaveTypeGroupRow1);
+
+        //Row2 Columns
+        this.leaveTypeGroupRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.leaveTypeGroupRow2); 
+        this.leaveTypeGroupRow2Column2 = this.createElementLeaveDetailColumnContainer(this.leaveTypeGroupRow2); 
+        this.leaveTypeGroupRow2Column3 = this.createElementLeaveDetailColumnContainer(this.leaveTypeGroupRow2); 
+
+
+        new Element('label', {
+            'html': 'Leave Type',
+            'class': 'leave-detail-group-title-label'
+        }).inject(this.leaveTypeGroupRow1Column1);
+
+
+        new Element('label', {
+            'html': 'Leave Type',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leaveTypeGroupRow1Column2);
+
+        this.reasonLabel = new Element('label', {
+            'html': 'Reason',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leaveTypeGroupRow1Column3);
+
+
+        this.leaveTypeSelector = new Element('select', { 'class': 'leave-detail-select leave-type-selector hidden' }).inject(this.leaveTypeGroupRow2Column2);
+        this.selectedLeaveLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveTypeGroupRow2Column2);
+
+
+        this.leaveReasonSelector = new Element('select', { 'class': 'leave-detail-select hidden' }).inject(this.leaveTypeGroupRow2Column3);
+        this.selectedReasonLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveTypeGroupRow2Column3);
+    },
+    createLeavePeriodGroup: function (form) {
+        this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
+        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+
+        new Element('label', {
+            'html': 'Leave Period',
+            'class': 'leave-detail-group-title-label'
+        }).inject(this.leavePeriodGroupRow1);
+
+        this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
+
+        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
+
+        this.leavPeriodRequestPartDayLabelColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow4); //new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow4); 
+        this.leavPeriodRequestPartDayLabelColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow4); //new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow4);
+
+        this.leavePeriodRequestPartDayInputColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow5); //new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow5); //new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow5);
+        this.leavePeriodRequestPartDayInputColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow5); //new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow5);
+
+        this.leavePeriodRequestPartDayLabel = new Element('label', {
+            'html': 'Part Day Reason',
+            'class': 'leave-detail-group-column-label'
+        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
+
+
+        this.partDayReason = new Element('div').inject(this.leavePeriodRequestPartDayInputColumn2);
+
+        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
+
+
+        this.leavePeriodDaysBlankContainer = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodDaysBoxHeaderRow); //new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysDateTitle = new Element('label', {
+            'html': 'Date',
+            'class': 'leave-detail-leave-period-header-date'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+
+
+        this.leavePeriodDaysDaysTitle = new Element('label', {
+            'html': 'Days',
+            'class': 'leave-detail-leave-period-header-days'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Hours',
+            'class': 'leave-detail-leave-period-header-hours'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+
+        this.leavePeriodDaysHoursTitle = new Element('label', {
+            'html': 'Scheduled',
+            'class': 'leave-detail-leave-period-header-scheduled'
+        }).inject(this.leavePeriodDaysBoxHeaderRow);
+    },
+    createLeaveDetailsGroup: function (form, isManager, leaveHeader) {
+        this.leaveDetailsGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
+        this.createLeaveDetailsCommentsArea(this.leaveDetailsGroup);
+        this.createLeaveDetailsManagerCommentsArea(this.leaveDetailsGroup, isManager);
+        this.createLeaveDetailsAttachmentsArea(this.leaveDetailsGroup, leaveHeader);
+        this.createLeaveDetailsForwardsArea(form, this.leaveDetailsGroup, isManager, leaveHeader);
+
+       
+    },
     viewDetail: function () {
         var leaveHeader = this.data.LeaveHeader;
         var components = this.data.Components;
@@ -5227,357 +5577,10 @@ var UILeaveDetail = new Class({
             });
         }
 
-        /**/
-
-
-        if (this.isManager) {
-            //herber detail
-            this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
-
-            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
-            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
-            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
-            this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
-            this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
-
-            new Element('label', {
-                'html': 'Employee',
-                'class': 'leave-detail-group-title-label'
-            }).inject(this.employeeGroupRow1);
-            new Element('label', {
-                'html': 'Full Name',
-                'class': 'leave-detail-group-column-label'
-            }).inject(this.employeeGroupRow1);
-
-            new Element('label', {
-                'html': 'Position',
-                'class': 'leave-detail-group-column-label'
-            }).inject(this.employeeGroupRow1);
-
-            new Element('div', {
-                'html': leaveHeader.EmployeeName,
-                'class': 'leave-detail-group-column-label-value'
-            }).inject(this.employeeInputColumn2);
-
-            new Element('div', {
-                'html': leaveHeader.PositionTitle,
-                'class': 'leave-detail-group-column-label-value'
-            }).inject(this.employeeInputColumn3);
-           
-        } else {
-            this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
-
-            this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
-            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
-            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
-            this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
-            this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
-
-            new Element('label', {
-                'html': 'Employee',
-                'class': 'leave-detail-group-title-label'
-            }).inject(this.employeeGroupRow1);
-            //new Element('label', {
-            //    'html': 'Full Name',
-            //    'class': 'leave-detail-group-column-label'
-            //}).inject(this.employeeGroupRow1);
-
-            new Element('label', {
-                'html': 'Position',
-                'class': 'leave-detail-group-column-label'
-            }).inject(this.employeeGroupRow1);
-
-            //new Element('div', {
-            //    'html': leaveHeader.EmployeeName,
-            //    'class': 'leave-detail-group-column-label-value'
-            //}).inject(this.employeeInputColumn2);
-
-            new Element('div', {
-                'html': leaveHeader.PositionTitle,
-                'class': 'leave-detail-group-column-label-value'
-            }).inject(this.employeeInputColumn2);
-        }
-
-        this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
-        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-
-        new Element('label', {
-            'html': 'Leave Period',
-            'class': 'leave-detail-group-title-label'
-        }).inject(this.leavePeriodGroupRow1);
-
-        this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
-
-        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
-
-        this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
-        this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow4);
-        this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow4);
-
-        this.leavePeriodRequestPartDayInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
-        this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow5);
-        this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.leavePeriodGroupRow5);
-
-        this.leavePeriodRequestPartDayLabel = new Element('label', {
-            'html': 'Part Day Reason',
-            'class': 'leave-detail-group-column-label'
-        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
-
-
-        this.partDayReason = new Element('div').inject(this.leavePeriodRequestPartDayInputColumn2);
-
-        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
-
-
-        this.leavePeriodDaysBlankContainer = new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysDateTitle = new Element('label', {
-            'html': 'Date',
-            'class': 'leave-detail-leave-period-header-date'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-
-
-        this.leavePeriodDaysDaysTitle = new Element('label', {
-            'html': 'Days',
-            'class': 'leave-detail-leave-period-header-days'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysHoursTitle = new Element('label', {
-            'html': 'Hours',
-            'class': 'leave-detail-leave-period-header-hours'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        this.leavePeriodDaysHoursTitle = new Element('label', {
-            'html': 'Scheduled',
-            'class': 'leave-detail-leave-period-header-scheduled'
-        }).inject(this.leavePeriodDaysBoxHeaderRow);
-
-        //hidden fields
-        this.timeLastModifiedField = new Element('input',
-            {
-                'type': 'hidden',
-                'value': ''
-            }).inject(form);
-
-        this.leaveDetailsGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
-        this.leaveDetailsGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow2 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow3 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow4 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        if (this.isManager) {
-            this.LeaveDetailsGroupManagerCommentsLabelRow = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-            this.LeaveDetailsGroupManagerCommentsInputRow = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        }
-        
-        this.leaveDetailsGroupRow5 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow6 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow7 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow8 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow9 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-        this.leaveDetailsGroupRow10 = new Element('div', { 'class': 'leave-detail-group-row' }).inject(this.leaveDetailsGroup);
-
-        //Row 1 Colums
-        this.leaveDetailsRow1Column1 = new Element('span').inject(this.leaveDetailsGroupRow1);
-        this.leaveDetailsRow1Column2 = new Element('span').inject(this.leaveDetailsGroupRow1);
-        this.leaveDetailsRow1Column3 = new Element('span').inject(this.leaveDetailsGroupRow1);
-
-        //Row2 Columns
-        this.leaveDetailsRow2Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow2);
-        this.leaveDetailsRow2Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow2);
-        this.leaveDetailsRow2Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow2);
-
-       // this.leaveProjectionPlaceHolder = new Element('div', { 'class': 'leave-detail-leave-projection-placeholder' }).inject(this.leaveDetailsGroupRow2);
-
-        //Row3 Columns
-        this.leaveDetailsRow3Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow3);
-        this.leaveDetailsRow3Column2 = new Element('span').inject(this.leaveDetailsGroupRow3);
-
-        //Row4 Columns
-        this.leaveDetailsRow4Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow4);
-        this.leaveDetailsRow4Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow4);
-
-        if (this.isManager) {
-            //Manager Comments Row Columns
-            this.leaveDetailsManagerCommentsLabelRowColumn1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.LeaveDetailsGroupManagerCommentsLabelRow);
-            this.leaveDetailsManagerCommentsLabelRowColumn2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsLabelRow);
-            this.leaveDetailsManagerCommentsLabelRowColumn3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsLabelRow);
-
-            //Manager Comments Row Columns
-            this.leaveDetailsManagerCommentsInputRowColumn1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.LeaveDetailsGroupManagerCommentsInputRow);
-            this.leaveDetailsManagerCommentsInputRowColumn2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsInputRow);
-            this.leaveDetailsManagerCommentsInputRowColumn3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.LeaveDetailsGroupManagerCommentsInputRow);
-
-        }
-      
-
-        //Row5 Columns
-        this.leaveDetailsRow5Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow5);
-        this.leaveDetailsRow5Column2 = new Element('span', { 'class': 'leave-detail-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
-        this.leaveDetailsRow5Column3 = new Element('span', { 'class': 'leave-detail-group-column-label-container' }).inject(this.leaveDetailsGroupRow5);
-
-        //Row6 Columns
-        this.leaveDetailsRow6Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
-        this.leaveDetailsRow6Column2 = new Element('span', { 'class': 'leave-detail-group-column-container-for-attachment' }).inject(this.leaveDetailsGroupRow6);
-        this.leaveDetailsRow6Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow6);
-
-        if (this.isManager) {
-            //Forwarding Feature
-            //Row7 Columns
-            this.leaveDetailsRow7Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow7);
-            this.leaveDetailsRow7Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow7);
-            this.leaveDetailsRow7Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow7);
-
-            //Row8 Columns
-            this.leaveDetailsRow8Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow8);
-            this.leaveDetailsRow8Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow8);
-            this.leaveDetailsRow8Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow8);
-
-            //Row9 Columns
-            this.leaveDetailsRow9Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow9);
-            this.leaveDetailsRow9Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow9);
-            this.leaveDetailsRow9Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow9);
-
-            //Row10 Columns
-            this.leaveDetailsRow10Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.leaveDetailsGroupRow10);
-            this.leaveDetailsRow10Column2 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow10);
-            this.leaveDetailsRow10Column3 = new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.leaveDetailsGroupRow10);
-        }
-        
-
-      
-
-
-        //Row 1 Column Content
-        new Element('label', {
-            'html': 'Leave Details',
-            'class': 'leave-detail-group-title-label'
-        }).inject(this.leaveDetailsRow1Column1);
-
-
-        new Element('label', {
-            'html': 'Leave Type',
-            'class': 'leave-detail-group-column-label'
-        }).inject(this.leaveDetailsRow1Column2);
-
-        this.reasonLabel = new Element('label', {
-            'html': 'Reason',
-            'class': 'leave-detail-group-column-label'
-        }).inject(this.leaveDetailsRow1Column3);
-
-        //Row 2 Column Content
-        this.leaveTypeSelector = new Element('select', { 'class': 'leave-detail-select leave-type-selector hidden' }).inject(this.leaveDetailsRow2Column2);
-        this.selectedLeaveLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value','html': '----' }).inject(this.leaveDetailsRow2Column2);
-        //Reason Column
-        this.leaveReasonSelector = new Element('select', { 'class': 'leave-detail-select hidden' }).inject(this.leaveDetailsRow2Column3);
-        this.selectedReasonLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveDetailsRow2Column3);
-
-
-        //Row 3 Column Content
-        new Element('label', {
-            'html': 'Comments',
-            'class': 'leave-detail-group-column-label'
-        }).inject(this.leaveDetailsRow3Column2);
-
-
-        //Row 4 Column Content
-        //this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
-        this.commentBox = new Element('label').inject(this.leaveDetailsRow4Column2);
-
-        //Manager Comments Label Row Column Content
-        if (this.isManager) {
-            new Element('label', {
-                'html': 'Manager Comments',
-                'class': 'leave-detail-group-column-label'
-            }).inject(this.leaveDetailsManagerCommentsLabelRowColumn2);
-
-            this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsManagerCommentsInputRowColumn2);
-
-            this.managerCommentEdit = new InputEditWidget({
-                target: this.leaveDetailsManagerCommentsInputRowColumn2,
-                input: this.managerCommentBox,
-                updateInput: function () {
-                    var newManagerComment = this.managerCommentBox.value;
-                    if ((newManagerComment) != (this.data.LeaveHeader.Reply === null ? '' : this.data.LeaveHeader.Reply)) {
-                        var vm = this;
-                        var customErrorHandler = function (responseObject,vm) {
-                            vm.handleValidationErrors(responseObject, "Manager Comments");
-                        }
-                        var customSuccessHandler = function (response, vm) {
-                            vm.handleRequestWarnings(response);
-                        }
-                        this.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
-                        
-                    }
-                }.bind(this),
-                cancelInput: function () {
-                    this.managerCommentBox.set('value', this.data.LeaveHeader.Reply);
-                }.bind(this)
-            });
-        }
-
-        //Row 5 Column Content
-        new Element('label', {
-            'html': 'Attachments',
-            'class': 'leave-detail-group-column-label'
-        }).inject(this.leaveDetailsRow5Column2);
-
-        //new Element('label', {
-        //    'html': 'Approver',
-        //    'class': 'leave-detail-group-column-label'
-        //}).inject(this.leaveDetailsRow5Column3);
-
-        //Row 6 Column Content
-       // this.attachment = new Element('div', { 'class': 'form-row leave-detail-attachment leave-detail-attachment-form' }).inject(this.leaveDetailsRow6Column2);
-        //new Element('select', { 'class': 'leave-detail-select' }).inject(this.leaveDetailsRow6Column3);
-        if (this.data.Attachments.length > 0) {
-            var attachmentForm = new Element('div', {
-                'class': 'form-row'
-            }).inject(this.leaveDetailsRow6Column2);
-            var attachmentsBox = new Element('div', {
-                'class': 'details-attachments-box'
-            }).inject(attachmentForm);
-            //var attachmentsBlankSpace = new Element('div', {
-            //    'class': 'leave-detail-group-column-blank-container',
-            //}).inject(attachmentsBox);
-            var attachments = new Element('ul', {
-                'class': 'details-attachments'
-            }).inject(attachmentsBox);
-
-            Array.each(this.data.Attachments, function (attachment, index) {
-                url = Affinity.leave.apiroot + 'GetLeaveAttachment/' + leaveHeader.EmployeeNo + '/' + leaveHeader.TSGroupId + '/' + attachment.Id;
-                var link = new Element('a', {
-                    'href': url
-                }).inject(attachments);
-                var attach = new Element('li', {
-                    'class': 'details-attachment'
-                }).inject(link);
-                attach.set('html', attachment.Name);
-            });
-        }
-
-        if (this.isManager) {
-            //Row 7 Column Content
-            new Element('label', {
-                'html': 'Forward To',
-                'class': 'leave-detail-group-column-label'
-            }).inject(this.leaveDetailsRow7Column2);
-            this.leaveDetailsGroupRow7.addClass('hidden');
-
-            //Row 8 Column Content
-            this.forwardSelector = new Element('select', { 'class': 'leave-approver-selector leave-detail-select' }).inject(this.leaveDetailsRow8Column2);
-            this.leaveDetailsGroupRow8.addClass('hidden');
-
-
-            //Only managers sees the forward box.
-            if (Affinity.login.profile.employeeNumber !== leaveHeader.EmployeeNo) {
-                this.createForwardingFeature(form);
-            }
-        }
+        this.createEmployeeDetailsGroup(form, leaveHeader);
+        this.createLeaveTypeGroup(form);
+        this.createLeavePeriodGroup(form);
+        this.createLeaveDetailsGroup(form,this.isManager, leaveHeader);
         
         this.createButtons(form, false);
 
@@ -5633,24 +5636,19 @@ var UILeaveDetail = new Class({
 
             if (this.allowForwardToBasedFromLeaveInstance(this.data.LeaveHeader)) {
 
-                //Row 9 Column Content
                 new Element('label', {
                     'html': 'Forward Reason',
                     'class': 'leave-detail-group-column-label'
-                }).inject(this.leaveDetailsRow9Column2);
-                this.leaveDetailsGroupRow9.addClass('hidden');
+                }).inject(this.forwardsAreaRow3Column2);
+                this.forwardsAreaRow3.addClass('hidden');
 
-                //Row 10 Column Content
-                this.forwardReason = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'forwardReason', 'name': 'forwardReason' }).inject(this.leaveDetailsRow10Column2);
-                this.leaveDetailsGroupRow10.addClass('hidden');
+                this.forwardReason = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'forwardReason', 'name': 'forwardReason' }).inject(this.forwardsAreaRow4Column2);
+                this.forwardsAreaRow4.addClass('hidden');
             }
         }
     },
     populateForwardHistory: function (forwards, parentEl) {
-        //var forwardsForm = new Element('div', {
-        //    'class': 'form-row'
-        //}).inject(parentEl);
-
+ 
         if (forwards && parentEl && forwards.length > 0) {
 
             var forwardsBox = new Element('div', {
@@ -5689,11 +5687,6 @@ var UILeaveDetail = new Class({
                     'html': 'Forwarded To'
                 }),
 
-                //new Element('th', {
-                //    'class': '',
-                //    'html': 'Approved'
-                //}),
-
                 new Element('th', {
                     'class': '',
                     'html': 'Reason'
@@ -5723,12 +5716,6 @@ var UILeaveDetail = new Class({
                         'class': '',
                         'html': forward.ForwardedToName
                     }),
-
-                    //new Element('td', {
-                    //    'class': '',
-                    //    'html': forward.Approved
-                    //}),
-
                     new Element('td', {
                         'class': '',
                         'html': forward.Comment
@@ -5738,8 +5725,6 @@ var UILeaveDetail = new Class({
 
             });
         }
-
-        //return forwardsBox;
     },
     createLeaveModel: function (data) {
         var leave = new Object();
@@ -5812,11 +5797,9 @@ var UILeaveDetail = new Class({
                 if (onSuccess != null) {
                     onSuccess(response.Data);
                 }
-                //this.createDaysFields(response.Data);
-
+            
             }.bind(this)
         });
-
 
         var api = Affinity.leave.apiroot + 'CalculateLeaveUnits/' + employeeNo + '/' + startDate + '/' + endDate;
 
@@ -5894,13 +5877,6 @@ var UILeaveDetail = new Class({
                 this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
                
-               
-                //if (scheduledHours !== hoursAppliedFor) {
-                //    this.leavePeriodDaysHoursColumnValue.addClass("leave-detail-input-yellow-bg");
-                //} else {
-                //    this.leavePeriodDaysHoursColumnValue.removeClass("leave-detail-input-yellow-bg");
-                //}
-
                 if (isPublicHoliday) {
                     this.leavePeriodDaysHoursColumnValue.set('readonly', true);
                     this.leavePeriodDaysHoursColumnValue.removeClass('leave-detail-input-hours');
@@ -5912,12 +5888,7 @@ var UILeaveDetail = new Class({
                     this.leavePeriodDaysScheduledColumnValue.addClass('leave-detail-input-uneditable-scheduledHours');
 
                 }
-
-               
-
-                
-
-            }.bind(this)); //Array.each
+            }.bind(this)); 
 
             var viewModel = this;
             this.computeUnitTotals(viewModel);
@@ -5991,8 +5962,6 @@ var UILeaveDetail = new Class({
             }
         }
 
-        this.timeLastModifiedField.set('value', leave.TimeLastModified);
-
         this.commentBox.set('html', leave.Comment);
         this.partDayReason.set('html', leave.PartDayReason);
         if (this.isManager) {
@@ -6011,14 +5980,15 @@ var UILeaveDetail = new Class({
 
         this.forwardSelector.addEvent('change', function (e) {
                 if (e.target.selectedIndex === 0) {
-                    // hide forward buttons
+              
                     this.forwardButton.addClass('hidden');
-                    this.leaveDetailsGroupRow10.addClass('hidden');
-                    this.leaveDetailsGroupRow9.addClass('hidden');
+                    this.forwardsAreaRow3.addClass('hidden');
+                    this.forwardsAreaRow4.addClass('hidden');
+
                 } else {
                     this.forwardButton.removeClass('hidden');
-                    this.leaveDetailsGroupRow10.removeClass('hidden');
-                    this.leaveDetailsGroupRow9.removeClass('hidden');
+                    this.forwardsAreaRow3.removeClass('hidden');
+                    this.forwardsAreaRow4.removeClass('hidden');
                 }
             }.bind(this));
     },
@@ -6041,8 +6011,6 @@ var UILeaveDetail = new Class({
             customMessage !== undefined) {
             errMessage = customMessage;
         }
-       
-        //errMessage += '<span class="color-red">' + errorMessage + '</span>';
         var validationMessages = this.getValidationErrors(responseObject);
         if (validationMessages != "") {
             errMessage = validationMessages;
@@ -6149,9 +6117,7 @@ var UILeaveDetail = new Class({
                 vm.handleRequestWarnings(response);
             }
             vm.updateLeave2(null, customSuccessHandler, customErrorHandler, vm);
-
         }
-        
     },
     
     updateRequestSuccessHandler: function (response, viewModel, customSuccessHandler, customFailureHandler) {
@@ -6169,16 +6135,11 @@ var UILeaveDetail = new Class({
 
             }
 
-            viewModel.computeUnitTotals(viewModel);
             if (customSuccessHandler != null) {
                 customSuccessHandler(response, viewModel);
             }
+            viewModel.computeUnitTotals(viewModel);
         }
-        
-        
-       
-
-        
     },
     updateRequestValidationErrorHandler: function (responseObject, status, viewModel, customFailureHandler) {
         document.getElement('.messages').empty();
@@ -6197,7 +6158,6 @@ var UILeaveDetail = new Class({
                 }
             }
         }
-
         if (customFailureHandler != null) {
             customFailureHandler(responseObject, viewModel);
         }
@@ -6219,12 +6179,10 @@ var UILeaveDetail = new Class({
                     var validationMessage = propertyValidation[j];
                     validationErrors.push(validationMessage);
                 }
-
             }
         } else {
             return '';
         }
-
         return validationErrors;
     },
     
@@ -6258,8 +6216,7 @@ var UILeaveDetail = new Class({
     generateCalendar: function (config, dateFrom, dateTo, isEditMode) {
         var startDate = Affinity.leave.cleanBadDate(dateFrom);
         var endDate = Affinity.leave.cleanBadDate(dateTo);
-        //var startDate = new Date();
-        //var endDate = new Date();
+     
         if (this.dateBox !== undefined) {
             this.dateBox.destroy();
         }
@@ -6338,7 +6295,7 @@ var UILeaveDetail = new Class({
                 Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
              
                 this.recalculateLeaveUnitsDisplay(this.data.LeaveHeader.EmployeeNo, fromDate.format('%d-%b-%Y'), toDate.format('%d-%b-%Y'), this.data.LeaveHeader.LeaveCode);
-                //this.validateTotalUnitsAppliedFor();
+        
             }.bind(this));
 
             this.toDateWidget.addEvent('dateClicked', function (date) { // only update when date is clicked (IE: A new date is chosen)
@@ -6352,19 +6309,20 @@ var UILeaveDetail = new Class({
                 Affinity.leave.setDates(this.fromDateBox, this.fromDateWidget.getRawDate());
                 Affinity.leave.setDates(this.toDateBox, this.toDateWidget.getRawDate());
      
-                //this.validateTotalUnitsAppliedFor();
                 this.recalculateLeaveUnitsDisplay(this.data.LeaveHeader.EmployeeNo, fromDate.format('%d-%b-%Y'), toDate.format('%d-%b-%Y'), this.data.LeaveHeader.LeaveCode);
             }.bind(this));
 
-            this.fromDateBox.addEvent(Affinity.events.click, function (e) {
-                this.fromDateWidget.externalShow(e);
-            }.bind(this));
-            this.toDateBox.addEvent(Affinity.events.click, function (e) {
-                this.toDateWidget.externalShow(e);
-            }.bind(this));
-
-           
         }
+
+        var vm = this;
+        this.fromDateBox.addEvent(Affinity.events.click, function (e) {
+            this.toDateWidget.hide();
+            this.fromDateWidget.externalShow(e);
+        }.bind(this));
+        this.toDateBox.addEvent(Affinity.events.click, function (e) {
+            this.fromDateWidget.hide();
+            this.toDateWidget.externalShow(e);
+        }.bind(this));
 
         Affinity.leave.setDates(this.fromDateBox, startDate);
         Affinity.leave.setDates(this.toDateBox, endDate);
@@ -6380,7 +6338,7 @@ var UILeaveDetail = new Class({
         if (container !== undefined) {
             container.empty();
         }
-      //  this.buttonsBox = new Element('div', { 'class': 'leave-detail-button-container' }).inject(form);
+
         this.createForwardButton(container);
         this.createApproveButton(container);
         this.createDeclineButton(container);
@@ -6397,13 +6355,7 @@ var UILeaveDetail = new Class({
             new Element('span', { 'html': 'Close' })
         ).inject(this.buttonsBox);
         this.closeButton.addEvent('click', function () {
-            //if (isEdit) {
-            //    if (this.isManager) {
-            //        Affinity.leave.manager.refreshAll();
-            //    } else {
-            //        Affinity.leave.employee.refreshAll();
-            //    }
-            //}
+          
             Affinity.modal.closeButtonCloser();
         }.bind(this));
     },
@@ -6472,7 +6424,7 @@ var UILeaveDetail = new Class({
                     Affinity.leave.doPositionUpdateOrValidation(leave.TSGroupId, validationResponse, null);
                 } else {
                     Affinity.leave.doPositionUpdateOrValidation(leave.TSGroupId, customResponse, null);
-                    //  this.editDetail();
+           
                 }
 
             }.bind(this));
@@ -6718,12 +6670,6 @@ var UILeaveDetail = new Class({
         this.createEditButton(this.buttonsBox);
         this.createCloseButton(this.buttonsBox);
 
-
-
-        
-
-
-        
     },
     getValidationErrorsConcatenated: function (response) {
         var validationErrors = this.getValidationErrors(response);
@@ -6860,17 +6806,17 @@ var UILeaveDetail = new Class({
         this.leaveTypeSelector.removeClass('hidden');
         this.leaveReasonSelector.removeClass('hidden');
 
-        this.leaveDetailsGroupRow7.removeClass('hidden');
-        this.leaveDetailsGroupRow8.removeClass('hidden');
+        if (this.forwardsAreaRow1 !== undefined) this.forwardsAreaRow1.removeClass('hidden');
+        if (this.forwardsAreaRow2 !== undefined) this.forwardsAreaRow2.removeClass('hidden');
 
         if (Affinity.leave.employee && !this.isManager) {
             if (this.commentBox !== undefined) {
                 this.commentBox.destroy();
-                this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow4Column2);
+                this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.commentsAreaRow2Column2);
                 this.commentBox.set('html', this.data.LeaveHeader.Comment);
 
                 this.commentEdit = new InputEditWidget({
-                    target: this.leaveDetailsRow4Column2,
+                    target: this.commentsAreaRow2Column2,
                     input: this.commentBox,
                     updateInput: function () {
                         var newComment = this.commentBox.value;
@@ -6925,11 +6871,11 @@ var UILeaveDetail = new Class({
         }
         
         //attachments
-        if (this.leaveDetailsRow6Column2 !== undefined) {
-            this.leaveDetailsRow6Column2.empty();
+        if (this.attachmentsAreaRow2Column2 !== undefined) {
+            this.attachmentsAreaRow2Column2.empty();
             this.attachmentform = new Element('div', {
                 'class': 'form-row'
-            }).inject(this.leaveDetailsRow6Column2);
+            }).inject(this.attachmentsAreaRow2Column2);
             this.attachWidgetDiv = new Element('div', {
                 'class': 'uploadmulti print-hidden',
                 'data-question-name': 'docs'
@@ -7022,8 +6968,6 @@ var UILeaveDetail = new Class({
 
         if (leaveCodes) {
 
-            //var typeSelector = document.getElementsByClassName("edit-type-selector")[0];
-            //if (typeSelector) {
             var selectedLeaveType = this.data.LeaveHeader.LeaveCode; //typeSelector.getElement('option:selected').get('id');
 
             for (var i = 0; i < leaveCodes.length; i++) {
@@ -7033,9 +6977,6 @@ var UILeaveDetail = new Class({
                     break;
                 }
             }
-
-            //}
-
         }
 
         return isAttachmentMandatory;
@@ -7192,7 +7133,7 @@ var UILeaveDetail = new Class({
                     var trElements = this.attachWidgetDiv.getElements("table tbody tr");
                     for (var j = 0; j < trElements.length; j++) {
                         if (trElements[j].innerText.indexOf(files[i].name) !== -1) {
-                            //this.attachWidgetDiv.remove(trElements[j]);
+                     
                             trElements[j].destroy();
                         }
                     }
@@ -7478,8 +7419,8 @@ var UILeaveDetail = new Class({
                 }
 
                 if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
-                    hoursField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
-                    daysField.set('style', 'background-color: yellow !important;'); //.addClass("leave-detail-input-yellow-bg");
+                    hoursField.set('style', 'background-color: yellow !important;'); 
+                    daysField.set('style', 'background-color: yellow !important;'); 
                 }
               
             } 
@@ -7496,8 +7437,16 @@ var UILeaveDetail = new Class({
         editedLeaveInstance.payCode = this.leaveTypeSelector[this.leaveTypeSelector.selectedIndex].id;
         editedLeaveInstance.calcUnit = currentLeaveObject.UnitType;
         editedLeaveInstance.reason = this.leaveReasonSelector[this.leaveReasonSelector.selectedIndex].id === '' ? null : this.leaveReasonSelector[this.leaveReasonSelector.selectedIndex].id;
-        editedLeaveInstance.empComment = this.commentBox.value === '' ? null : this.commentBox.value;
-        editedLeaveInstance.partDayReason = this.partDayReason.value === '' ? null : this.partDayReason.value;
+
+        if (this.isInEditMode) {
+            editedLeaveInstance.empComment = this.commentBox.value === '' ? null : this.commentBox.value;
+            editedLeaveInstance.partDayReason = this.partDayReason.value === '' ? null : this.partDayReason.value;
+        } else {
+            editedLeaveInstance.empComment = this.commentBox.textContent === '' ? null : this.commentBox.textContent;
+            editedLeaveInstance.partDayReason = this.partDayReason.textContent === '' ? null : this.partDayReason.textContent;
+        }
+        
+
         editedLeaveInstance.timeLastModified = currentLeaveObject.TimeLastModified; 
         if (this.isManager) {
             editedLeaveInstance.managerNotes = this.managerCommentBox.value === '' ? null : this.managerCommentBox.value;
@@ -7647,9 +7596,6 @@ var UILeaveDetail = new Class({
         }
         Affinity.modal.setElement(modalData);
         Affinity.modal.show();
-    },
-    saveChanges: function () {
-        alert('save changes');
     },
 });
 
