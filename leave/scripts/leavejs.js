@@ -7486,8 +7486,8 @@ var UILeaveDetail = new Class({
                     if (!leaveUnit.isPublicHoliday) {
                         editedLeaveInstance.leaveUnits.push(leaveUnit);
                     }
-                    
-                } else if (excludeDaysWithNoScheduledHours === null ||
+                } 
+                else if (excludeDaysWithNoScheduledHours === null ||
                     excludeDaysWithNoScheduledHours === undefined ||
                     excludeDaysWithNoScheduledHours === false) {
                        editedLeaveInstance.leaveUnits.push(leaveUnit);
