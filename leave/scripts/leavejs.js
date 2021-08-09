@@ -2145,7 +2145,7 @@ var UILeaveApply = new Class({
 
         this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow1);
 
-        this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
+        this.leavePeriodDaysBox = new Element('div', {'attr': 'leavePeriodDaysBox'}).inject(this.leavePeriodGroupRow3);
         this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
         this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
         this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
@@ -2163,9 +2163,8 @@ var UILeaveApply = new Class({
         this.partDayReason = new Element('textarea', { 'class': 'leave-apply-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
 
 
-
-
-        this.leavePeriodDaysBoxHeaderRow = new Element('div', {'attr': 'leavePeriodDaysBox'}).inject(this.leavePeriodDaysBox);
+        this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
+        this.leavePeriodDaysBoxHeaderRow.hide()
 
 
         this.leavePeriodDaysBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodDaysBoxHeaderRow);
@@ -2192,7 +2191,7 @@ var UILeaveApply = new Class({
             'class': 'leave-apply-leave-period-header-scheduled'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
-        this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
+        // this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
     },
     createLeaveDetailsGroup: function (formData) {
         this.leaveDetailsGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
@@ -2657,7 +2656,8 @@ var UILeaveApply = new Class({
             if (this.leavePeriodDaysContainer !== undefined) {
                 this.leavePeriodDaysContainer.destroy();
             }
-            
+                    
+            this.leavePeriodDaysBoxHeaderRow.show();
             this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
             Array.each(data.Days, function (day, index) {
                 this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer); 
@@ -3065,11 +3065,8 @@ var UILeaveApply = new Class({
                 this.typeSelector.selectedIndex = previouslySelectedLeaveTypeIndex;
             }.bind(this));
         }
-
-
-
-
     },
+
     setEmployee: function (employee) {
         var toInitiateEmployeeConfig = false;
         if (employee !== undefined &&
