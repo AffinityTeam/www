@@ -2909,6 +2909,11 @@ var UILeaveApply = new Class({
                 this.employeeSelectorAutocomplete.revert();
             }
 
+            this.employeeSelectorAutocomplete = new UIAutoCompleteWidget({
+                stopInitialChange: true,
+                selectElement: this.employeeSelector
+            });
+
         }
     },
 
@@ -7570,7 +7575,6 @@ var UILeaveDetail = new Class({
     },
     createElementLeaveDetailColumnContainer: function (container) {
         var newElement = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(container);
-
         return newElement;
     },
     createLeaveDetailsStatusArea: function (container) {
@@ -7593,15 +7597,17 @@ var UILeaveDetail = new Class({
         this.statusArea1Row1Column2 = new Element('span').inject(this.statusAreaRow1);
         this.statusArea1Row1Column3 = new Element('span').inject(this.statusAreaRow1);
 
-        this.statusAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.statusAreaRow2);
-        this.statusAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.statusAreaRow2);
+        // this.statusAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.statusAreaRow2);
+        // this.statusAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.statusAreaRow2);
+        this.statusAreaRow2Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(this.statusAreaRow2);
+
         this.statusAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.statusAreaRow2);
 
 
-        new Element('label', {
-            'html': 'Leave Details',
-            'class': 'leave-detail-group-title-label'
-        }).inject(this.statusArea1Row1Column1);
+        // new Element('label', {
+        //     'html': 'Leave Details',
+        //     'class': 'leave-detail-group-title-label'
+        // }).inject(this.statusArea1Row1Column1);
 
         new Element('label', {
             'html': 'Approver',
@@ -7613,7 +7619,7 @@ var UILeaveDetail = new Class({
             'class': 'leave-detail-group-column-label'
         }).inject(this.statusArea1Row1Column3);
 
-        new Element('label', {
+        new Element('span', {
             'html': authorizer,
         }).inject(this.statusAreaRow2Column2);
 
@@ -7648,10 +7654,14 @@ var UILeaveDetail = new Class({
 
     },
     createLeaveDetailsCommentsArea: function (container) {
-        this.commentsAreaRow1 = this.createElementLeaveDetailGroupRow(container);
-        this.commentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.commentsAreaRow1); //ew Element('span').inject(this.commentsAreaRow1);
-        this.commentsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow1);
-        this.commentsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow1);
+        // this.commentsAreaRow1 = this.createElementLeaveDetailGroupRow(container);
+        this.commentsAreaRow1 = new Element('div', { 'class': 'leave-detail-group-row' , attr: 'comments-area'}).inject(container);
+
+        // this.commentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.commentsAreaRow1); //ew Element('span').inject(this.commentsAreaRow1);
+        // this.commentsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow1);
+        this.commentsAreaRow1Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(this.commentsAreaRow1);
+
+        // this.commentsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow1);
 
         //new Element('label', {
         //    'html': 'Leave Details',
@@ -7663,13 +7673,19 @@ var UILeaveDetail = new Class({
             'class': 'leave-detail-group-column-label'
         }).inject(this.commentsAreaRow1Column2);
 
-        this.commentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
+        this.commentBox = new Element('div', {class:'margin-top-10'}).inject(this.commentsAreaRow1Column2);
 
-        this.commentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.commentsAreaRow2);
-        this.commentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
-        this.commentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
 
-        this.commentBox = new Element('label').inject(this.commentsAreaRow2Column2);
+        // this.commentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
+        // var newElement = new Element('div', { 'class': 'leave-detail-group-row' , attr: 'comments-area-row2'}).inject(container);
+
+        // // this.commentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.commentsAreaRow2);
+        // // this.commentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
+        // this.commentsAreaRow2Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(container);
+
+        // this.commentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
+
+        // this.commentBox = new Element('label').inject(this.commentsAreaRow2Column2);
 
     },
     createLeaveDetailsManagerCommentsArea: function (container, isManager) {
@@ -7677,12 +7693,17 @@ var UILeaveDetail = new Class({
             this.managerCommentsAreaRow1 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
             this.managerCommentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
 
-            this.managerCommentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow1); // new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow1);
-            this.managerCommentsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
+            // this.managerCommentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow1); // new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow1);
+            this.managerCommentsAreaRow1Column1 = new Element('div', { 'class': 'leave-detail-group-row', attr: 'manager-comment-area' }).inject(this.managerCommentsAreaRow1);
+            // this.managerCommentsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1, true); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
+            this.managerCommentsAreaRow1Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
+
             this.managerCommentsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
 
-            this.managerCommentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow2);
-            this.managerCommentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
+            // this.managerCommentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow2);
+            // this.managerCommentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2, true); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
+            this.managerCommentsAreaRow2Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
+
             this.managerCommentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
 
             new Element('label', {
@@ -7726,11 +7747,15 @@ var UILeaveDetail = new Class({
         }
     },
     createLeaveDetailsAttachmentsArea: function (container, leaveHeader) {
-        this.attachmentsAreaRow1 = this.createElementLeaveDetailGroupRow(container); 
-        this.attachmentsAreaRow2 = this.createElementLeaveDetailGroupRow(container);
+        // this.attachmentsAreaRow1 = this.createElementLeaveDetailGroupRow(container);
+        this.attachmentsAreaRow1 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
+ 
+        // this.attachmentsAreaRow2 = this.createElementLeaveDetailGroupRow(container);
+        this.attachmentsAreaRow2 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
+
 
    
-        this.attachmentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.attachmentsAreaRow1); 
+        // this.attachmentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.attachmentsAreaRow1); 
         this.attachmentsAreaRow1Column2 = new Element('span').inject(this.attachmentsAreaRow1);
 
     
@@ -7812,15 +7837,15 @@ var UILeaveDetail = new Class({
             this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
 
             this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
-            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
-            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputRow = new Element('div', { 'class': 'form-row leave-detail-row' }).inject(this.employeeGroup);
+            // this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
             this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
             this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
 
-            new Element('label', {
-                'html': 'Employee',
-                'class': 'leave-detail-group-title-label'
-            }).inject(this.employeeGroupRow1);
+            // new Element('label', {
+            //     'html': 'Employee',
+            //     'class': 'leave-detail-group-title-label'
+            // }).inject(this.employeeGroupRow1);
             new Element('label', {
                 'html': 'Full Name',
                 'class': 'leave-detail-group-column-label'
@@ -7845,15 +7870,15 @@ var UILeaveDetail = new Class({
             this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
 
             this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
-            this.employeeInputRow = new Element('div', { 'class': 'leave-detail-row' }).inject(this.employeeGroup);
-            this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
+            this.employeeInputRow = new Element('div', { 'class': 'form-row leave-detail-row' }).inject(this.employeeGroup);
+            // this.employeeInputColumn1 = new Element('div', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.employeeInputRow);
             this.employeeInputColumn2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
             this.employeeInputColumn3 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.employeeInputRow);
 
-            new Element('label', {
-                'html': 'Employee',
-                'class': 'leave-detail-group-title-label'
-            }).inject(this.employeeGroupRow1);
+            // new Element('label', {
+            //     'html': 'Employee',
+            //     'class': 'leave-detail-group-title-label'
+            // }).inject(this.employeeGroupRow1);
 
 
             new Element('label', {
@@ -7871,7 +7896,7 @@ var UILeaveDetail = new Class({
     createLeaveTypeGroup: function (form) {
         this.leaveTypeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(form);
         this.leaveTypeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leaveTypeGroup);
-        this.leaveTypeGroupRow2 = new Element('div', { 'class': 'leave-apply-group-row' }).inject(this.leaveTypeGroup);
+        this.leaveTypeGroupRow2 = new Element('div', { 'class': 'form-row leave-apply-group-row' }).inject(this.leaveTypeGroup);
 
         //Row 1 Colums
         this.leaveTypeGroupRow1Column1 = new Element('span').inject(this.leaveTypeGroupRow1);
@@ -7879,15 +7904,15 @@ var UILeaveDetail = new Class({
         this.leaveTypeGroupRow1Column3 = new Element('span').inject(this.leaveTypeGroupRow1);
 
         //Row2 Columns
-        this.leaveTypeGroupRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.leaveTypeGroupRow2); 
+        // this.leaveTypeGroupRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.leaveTypeGroupRow2); 
         this.leaveTypeGroupRow2Column2 = this.createElementLeaveDetailColumnContainer(this.leaveTypeGroupRow2); 
         this.leaveTypeGroupRow2Column3 = this.createElementLeaveDetailColumnContainer(this.leaveTypeGroupRow2); 
 
 
-        new Element('label', {
-            'html': 'Leave Type',
-            'class': 'leave-detail-group-title-label'
-        }).inject(this.leaveTypeGroupRow1Column1);
+        // new Element('label', {
+        //     'html': 'Leave Type',
+        //     'class': 'leave-detail-group-title-label'
+        // }).inject(this.leaveTypeGroupRow1Column1);
 
 
         new Element('label', {
@@ -7909,32 +7934,32 @@ var UILeaveDetail = new Class({
         this.selectedReasonLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveTypeGroupRow2Column3);
     },
     createLeavePeriodGroup: function (form) {
-        this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group' }).inject(form);
-        this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group margin-top-20' }).inject(form);
+        // this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        // this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row', attr: 'period-row-4' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row', attr: 'period-row-5' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow6 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
 
-        new Element('label', {
-            'html': 'Leave Period',
-            'class': 'leave-detail-group-title-label'
-        }).inject(this.leavePeriodGroupRow1);
+        // new Element('label', {
+        //     'html': 'Leave Period',
+        //     'class': 'leave-detail-group-title-label'
+        // }).inject(this.leavePeriodGroupRow1);
 
         this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow2);
 
         this.leavePeriodDaysBox = new Element('div').inject(this.leavePeriodGroupRow3);
 
-        this.leavePeriodApproverAndStateColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow4);
-        this.leavePeriodApproverAndStateColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow4);
-        this.leavePeriodApproverAndStateColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow4); 
+        // this.leavePeriodApproverAndStateColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow4);
+        // this.leavePeriodApproverAndStateColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow4);
+        // this.leavePeriodApproverAndStateColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow4); 
 
-        this.leavPeriodRequestPartDayLabelColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow5); 
+        // this.leavPeriodRequestPartDayLabelColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow5); 
         this.leavPeriodRequestPartDayLabelColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow5); 
         this.leavPeriodRequestPartDayLabelColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow5); 
 
-        this.leavePeriodRequestPartDayInputColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow6); 
+        // this.leavePeriodRequestPartDayInputColumn1 = this.createElementLeaveDetailBlankColumnHeader(this.leavePeriodGroupRow6); 
         this.leavePeriodRequestPartDayInputColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow6);
         this.leavePeriodRequestPartDayInputColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow6); 
 
@@ -8293,7 +8318,7 @@ var UILeaveDetail = new Class({
                 }
 
                 this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer);
-                this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxValueRow);
+                // this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysDateColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
