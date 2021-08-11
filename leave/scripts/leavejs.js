@@ -7673,19 +7673,20 @@ var UILeaveDetail = new Class({
             'class': 'leave-detail-group-column-label'
         }).inject(this.commentsAreaRow1Column2);
 
-        this.commentBox = new Element('div', {class:'margin-top-10'}).inject(this.commentsAreaRow1Column2);
+       
 
 
         // this.commentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
-        // var newElement = new Element('div', { 'class': 'leave-detail-group-row' , attr: 'comments-area-row2'}).inject(container);
+        this.commentsAreaRow2 = new Element('div', { 'class': 'form-row leave-detail-group-row' , attr: 'comments-area-row2'}).inject(container);
 
         // // this.commentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.commentsAreaRow2);
         // // this.commentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
-        // this.commentsAreaRow2Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(container);
+        this.commentsAreaRow2Column2 = new Element('div', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
 
         // this.commentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.commentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.commentsAreaRow2);
 
         // this.commentBox = new Element('label').inject(this.commentsAreaRow2Column2);
+        this.commentBox = new Element('div', {class:'margin-top-10'}).inject(this.commentsAreaRow2Column2);
 
     },
     createLeaveDetailsManagerCommentsArea: function (container, isManager) {
@@ -7759,7 +7760,7 @@ var UILeaveDetail = new Class({
         this.attachmentsAreaRow1Column2 = new Element('span').inject(this.attachmentsAreaRow1);
 
     
-        this.attachmentsAreaRow2Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container-for-attachment' }).inject(this.attachmentsAreaRow2);
+        // this.attachmentsAreaRow2Column1 = new Element('span', { 'class': 'leave-detail-group-column-blank-container-for-attachment' }).inject(this.attachmentsAreaRow2);
         this.attachmentsAreaRow2Column2 = new Element('span', { 'class': 'leave-detail-group-column-container-for-attachment' }).inject(this.attachmentsAreaRow2);
 
         new Element('label', {
@@ -7773,7 +7774,7 @@ var UILeaveDetail = new Class({
             }).inject(this.attachmentsAreaRow2Column2);
             var attachmentsBox = new Element('div', {
                 'class': 'details-attachments-box'
-            }).inject(attachmentForm);
+            }).inject(this.attachmentsAreaRow2Column2);
 
 
             var attachments = new Element('ul', {
@@ -7794,25 +7795,32 @@ var UILeaveDetail = new Class({
     },
     createLeaveDetailsForwardsArea: function (form,container, isManager, leaveHeader) {
         if (!isManager) return;
-        this.forwardsAreaRow1 = this.createElementLeaveDetailGroupRow(container); 
-        this.forwardsAreaRow2 = this.createElementLeaveDetailGroupRow(container); 
-        this.forwardsAreaRow3 = this.createElementLeaveDetailGroupRow(container); 
-        this.forwardsAreaRow4 = this.createElementLeaveDetailGroupRow(container); 
+        // this.forwardsAreaRow1 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow1 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
 
-        this.forwardsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow1); 
+        // this.forwardsAreaRow2 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow2 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
+
+        // this.forwardsAreaRow3 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow3 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
+
+        // this.forwardsAreaRow4 = this.createElementLeaveDetailGroupRow(container); 
+        this.forwardsAreaRow4 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
+
+        // this.forwardsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow1); 
         this.forwardsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow1);
         this.forwardsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow1); 
 
 
-        this.forwardsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow2); 
+        // this.forwardsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow2); 
         this.forwardsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow2); 
         this.forwardsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow2); 
 
-        this.forwardsAreaRow3Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow3); 
+        // this.forwardsAreaRow3Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow3); 
         this.forwardsAreaRow3Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow3); 
         this.forwardsAreaRow3Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow3); 
 
-        this.forwardsAreaRow4Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow4); 
+        // this.forwardsAreaRow4Column1 = this.createElementLeaveDetailBlankColumnContainer(this.forwardsAreaRow4); 
         this.forwardsAreaRow4Column2 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow4); 
         this.forwardsAreaRow4Column3 = this.createElementLeaveDetailColumnContainer(this.forwardsAreaRow4); 
 
@@ -9453,9 +9461,9 @@ var UILeaveDetail = new Class({
         //attachments
         if (this.attachmentsAreaRow2Column2 !== undefined) {
             this.attachmentsAreaRow2Column2.empty();
-            this.attachmentform = new Element('div', {
-                'class': 'form-row'
-            }).inject(this.attachmentsAreaRow2Column2);
+            // this.attachmentform = new Element('div', {
+            //     'class': 'form-row'
+            // }).inject(this.attachmentsAreaRow2Column2);
             this.attachWidgetDiv = new Element('div', {
                 'class': 'uploadmulti print-hidden',
                 'data-question-name': 'docs'
@@ -9472,7 +9480,7 @@ var UILeaveDetail = new Class({
                 'class': 'edit-leave-attachment'
             }).adopt(
                 this.attachWidgetDiv
-            ).inject(this.attachmentform);
+            ).inject(this.attachmentsAreaRow2Column2);
 
             //populate attachments
             this.attachWidget = new UIUplaodersMulti({
