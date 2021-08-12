@@ -177,9 +177,9 @@ var TeamLeave = new Class({
                     }
 
                     this.managerHistory();
-                    if (response.Data.IsMultiPositionCompany) {
-                        this.managerMultiPositionApply();
-                        this.managerMultiPositionDetail();
+                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
+                        this.setLeaveApplyV1();
+                        this.setLeaveDetailV1();
                     } else {
                         this.managerApply();
                         this.managerDetail();
@@ -243,8 +243,8 @@ var TeamLeave = new Class({
             configData: configData
         });
     },
-
-    managerMultiPositionApply: function () {
+    //managerMultiPositionApply
+    setLeaveApplyV1: function () {
         this.applyForLeave = new UILeaveApplyV1({
             target: this.target,
             isManager: true
@@ -264,8 +264,8 @@ var TeamLeave = new Class({
             isManager: true
         });
     },
-
-    managerMultiPositionDetail: function () {
+    //managerMultiPositionDetail
+    setLeaveDetailV1: function () {
         this.leaveDetail = new UILeaveDetailV1({
             target: this.target,
             isManager: true

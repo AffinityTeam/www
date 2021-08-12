@@ -106,10 +106,10 @@ var EmployeeLeave = new Class({
                     }
 
                     this.employeeBalance();
-                    if (response.Data.IsMultiPositionCompany) {
-                        this.employeeMultiPositionApply();
+                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
+                        this.setLeaveApplyV1();
                         this.employeeHistory();
-                        this.initMultiPositionLeaveDetail();
+                        this.setLeaveDetailV1();
                     } else {
                         this.employeeApply();
                         this.employeeHistory();
@@ -153,8 +153,8 @@ var EmployeeLeave = new Class({
             isManager: false
         });
     },
-
-    initMultiPositionLeaveDetail: function () {
+    //initMultiPositionLeaveDetail
+    setLeaveDetailV1: function () {
         this.leaveDetail = new UILeaveDetailV1({
             target: this.target,
             isManager: false
@@ -174,7 +174,8 @@ var EmployeeLeave = new Class({
             this.leaveBlanaces.getBalances();
         }
     },
-    employeeMultiPositionApply: function () {
+    //employeeMultiPositionApply
+    setLeaveApplyV1: function () {
         this.applyForLeave = new UILeaveApplyV1({
             target: this.target,
             isManager: false
