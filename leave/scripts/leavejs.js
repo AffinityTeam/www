@@ -2155,7 +2155,7 @@ var UILeaveApply = new Class({
         this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
 
         this.leavePeriodRequestPartDayLabel = new Element('label', {
-            'html': 'Part Day Reason',
+            'html': 'Part-Day Reason',
             'class': 'leave-apply-group-column-label'
         }).inject(this.leavPeriodRequestPartDayLabelColumn2);
 
@@ -7944,7 +7944,7 @@ var UILeaveDetail = new Class({
         this.leavePeriodRequestPartDayInputColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow6); 
 
         this.leavePeriodRequestPartDayLabel = new Element('label', {
-            'html': 'Part Day Reason',
+            'html': 'Part-Day Reason',
             'class': 'leave-detail-group-column-label'
         }).inject(this.leavPeriodRequestPartDayLabelColumn2);
 
