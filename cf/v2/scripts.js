@@ -31450,7 +31450,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hasStartDate = false;
     this.showStartDate = false;
 
-    this.startDay = 1; // 1 = Monday, where 0 = Sunday
+    this.startDay = 0; // 0 = Sunday. 1 = Monday, etc
 
     this.status = 'closed';
     this.mouseState = '';
@@ -32027,10 +32027,22 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           firstDay = date.clone().moveToFirstDayOfMonth(),
           calDay = firstDay.clone().clearTime(),
           daysInMonth = Date.getDaysInMonth(firstDay.getFullYear(), firstDay.getMonth()),
-          startCell = firstDay.getDay() - this.startDay,
+          startCell = firstDay.getDay() - (this.startDay),
           d = 0, dCount = 1;
 
-      for ( ; d < 42; d++)
+      if (startCell < 0) startCell += 7;
+
+      var dayCells = this.calendarNode.querySelectorAll('.ui-cal-cells-row.date-days .ui-cal-cell');
+      var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      var dowDate = new Date();
+      dowDate.setDate(dowDate.getDate() - dowDate.getDay());
+      for (d = 0; d < 7; d++)
+      {
+        dayCells[d].innerHTML = days[dowDate.getDay() + this.startDay];
+        dowDate.setDate(dowDate.getDate() + 1);
+      }
+
+      for (d = 0; d < 42; d++)
       {
         cellNodes[d].className = 'ui-cal-cell';
         if (d < startCell || d >= startCell + daysInMonth)
