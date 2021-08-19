@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
 (2700,32-37): run-time error JS1195: Expected expression: class
-(3236,32-37): run-time error JS1195: Expected expression: class
-(3249,20-21): run-time error JS1004: Expected ';': {
-(3320,27-28): run-time error JS1004: Expected ';': {
-(3324,29-30): run-time error JS1004: Expected ';': {
+(3237,32-37): run-time error JS1195: Expected expression: class
+(3250,20-21): run-time error JS1004: Expected ';': {
+(3321,27-28): run-time error JS1004: Expected ';': {
 (3325,29-30): run-time error JS1004: Expected ';': {
 (3326,29-30): run-time error JS1004: Expected ';': {
 (3327,29-30): run-time error JS1004: Expected ';': {
-(3328,13-14): run-time error JS1004: Expected ';': {
-(3347,15-16): run-time error JS1004: Expected ';': {
-(3365,12-13): run-time error JS1004: Expected ';': {
-(3370,12-13): run-time error JS1004: Expected ';': {
-(3373,17-18): run-time error JS1004: Expected ';': {
-(3963,36-41): run-time error JS1195: Expected expression: class
-(4076,30-35): run-time error JS1195: Expected expression: class
-(4181,31-36): run-time error JS1195: Expected expression: class
-(4420,35-40): run-time error JS1195: Expected expression: class
-(4548,33-38): run-time error JS1195: Expected expression: class
-(4759,39-40): run-time error JS1014: Invalid character: `
-(4759,40-41): run-time error JS1195: Expected expression: <
-(4759,100-101): run-time error JS1014: Invalid character: `
-(4778,43-44): run-time error JS1014: Invalid character: `
-(4778,44-45): run-time error JS1195: Expected expression: <
-(4778,108-109): run-time error JS1014: Invalid character: `
-(4846,33-38): run-time error JS1195: Expected expression: class
-(5142,32-37): run-time error JS1195: Expected expression: class
-(5508,33-38): run-time error JS1195: Expected expression: class
-(5586,37-42): run-time error JS1195: Expected expression: class
-(5587,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3328,29-30): run-time error JS1004: Expected ';': {
+(3329,13-14): run-time error JS1004: Expected ';': {
+(3348,15-16): run-time error JS1004: Expected ';': {
+(3366,12-13): run-time error JS1004: Expected ';': {
+(3371,12-13): run-time error JS1004: Expected ';': {
+(3374,17-18): run-time error JS1004: Expected ';': {
+(3964,36-41): run-time error JS1195: Expected expression: class
+(4077,30-35): run-time error JS1195: Expected expression: class
+(4182,31-36): run-time error JS1195: Expected expression: class
+(4421,35-40): run-time error JS1195: Expected expression: class
+(4549,33-38): run-time error JS1195: Expected expression: class
+(4760,39-40): run-time error JS1014: Invalid character: `
+(4760,40-41): run-time error JS1195: Expected expression: <
+(4760,100-101): run-time error JS1014: Invalid character: `
+(4779,43-44): run-time error JS1014: Invalid character: `
+(4779,44-45): run-time error JS1195: Expected expression: <
+(4779,108-109): run-time error JS1014: Invalid character: `
+(4847,33-38): run-time error JS1195: Expected expression: class
+(5143,32-37): run-time error JS1195: Expected expression: class
+(5509,33-38): run-time error JS1195: Expected expression: class
+(5587,37-42): run-time error JS1195: Expected expression: class
+(5588,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5588,5-16): run-time error JS1006: Expected ')': constructor
-(5657,3-4): run-time error JS1002: Syntax error: }
-(5657,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5601,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5589,5-16): run-time error JS1006: Expected ')': constructor
+(5658,3-4): run-time error JS1002: Syntax error: }
+(5658,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5602,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -2827,7 +2827,8 @@
         Icon: Affinity2018.icons.fileExcelBlack,
         IconClass: 'icon-file-excel-black',
         TypeData: [
-          { Types: ['xl', 'xls', 'xll'], Mime: 'application/excel' },
+          {
+            Types: ['xl', 'xls', 'xlsx', 'xll'], Mime: 'application/excel' },
           { Types: ['csv'], Mime: 'application/vnd.ms-excel' }
         ]
       },
