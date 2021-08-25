@@ -17097,7 +17097,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     var currentConfig = $a.jsonCloneObject(this.Config),
       lastConfig = this.ConfigStringCheck.trim() !== '' ? JSON.parse(this.ConfigStringCheck) : {},
       configLines, lastConfigLines, allLines, filteredLines, uniqueLines,
-      doubles, l, from, to;
+      doubles, l, from, to, change;
 
     if (this.Config.Type === 'Section')
     {
@@ -17113,13 +17113,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       return ['New Element'];
     }
 
-    if (JSON.stringify(currentConfig) !== JSON.stringify(lastConfig))
+    var cleanLines = function (lines)
     {
-      configLines = JSON.stringify(currentConfig, null, 2).trim().split('\n');
-      lastConfigLines = JSON.stringify(lastConfig, null, 2).trim().split('\n');
-
-      allLines = configLines.concat(lastConfigLines);
-      filteredLines = allLines.filter(function (a)
+      return lines.filter(function (a)
       {
         var returnIF =
           a.trim() !== '{'
@@ -17131,9 +17127,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           && a.trim() !== ''
           && !a.trim().endsWith(': {')
           && !a.trim().endsWith(': [')
-        ;
+          ;
         return returnIF;
       });
+    };
+
+    if (JSON.stringify(currentConfig) !== JSON.stringify(lastConfig))
+    {
+      configLines = JSON.stringify(currentConfig, null, 2).trim().split('\n');
+      lastConfigLines = JSON.stringify(lastConfig, null, 2).trim().split('\n');
+
+      allLines = configLines.concat(lastConfigLines);
+      filteredLines = cleanLines(allLines);
       uniqueLines = filteredLines.unique();
 
       doubles = [];
@@ -17142,11 +17147,61 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         if (configLines.contains(uniqueLines[l]) && lastConfigLines.contains(uniqueLines[l])) { }
         else doubles.push(uniqueLines[l].replace(/,/g, '').trim());
       }
+
       for (l = 0; l < doubles.length / 2; l++)
       {
         from = doubles[l + doubles.length / 2];
         to = doubles[l];
-        this.Changes.push(($a.isString(from) ? from : '(not set)') + ' -> ' + to);
+        change = ($a.isString(from) ? from : '(not set)') + ' -> ' + to;
+        if (!this.Changes.contains(change)) this.Changes.push(change);
+      }
+
+      if (this.Config.Type === 'Section' && this.Changes.length === 0) // check workflows again
+      {
+        var sectionWorkflows = currentConfig.Details.SectionWorkflowVisibilitySettings.sort();
+        var lastSectionWorkflows = lastConfig.Details.SectionWorkflowVisibilitySettings.sort();
+        var workflows = {}, lastWorkflows = {}, w, wo;
+        for (w = 0; w < sectionWorkflows.length; w++)
+        {
+          wo = this.CleverForms.OrderObject(sectionWorkflows[w]);
+          workflows[wo.WorkflowDefinitionId] = {
+            name: wo.WorkflowDefinitionName,
+            lines: cleanLines(JSON.stringify(wo, null, 2).trim().split('\n'))
+          };
+        }
+        for (w = 0; w < lastSectionWorkflows.length; w++)
+        {
+          wo = this.CleverForms.OrderObject(lastSectionWorkflows[w]);
+          lastWorkflows[wo.WorkflowDefinitionId] = {
+            name: wo.WorkflowDefinitionName,
+            lines: cleanLines(JSON.stringify(wo, null, 2).trim().split('\n'))
+          };
+        }
+        if (Object.keys(workflows).join(",") !== Object.keys(lastWorkflows).join(","))
+        {
+          change = "Workflow config changed";
+          if (!this.Changes.contains(change)) this.Changes.push(change);
+        }
+        else
+        {
+          var keys = Object.keys(workflows);
+          for (w = 0; w < keys.length; w++)
+          {
+            var key = keys[w];
+            for (var l = 0; l < workflows[key].lines.length; l++)
+            {
+              var l1 = workflows[key].lines[l].trim();
+              var l2 = lastWorkflows[key].lines[l].trim();
+              if (l1 !== l2)
+              {
+                from = "(" + lastWorkflows[key].name + ") " + l2;
+                to = l1;
+                change = "Workflow " + from + ' -> ' + to;
+                if (!this.Changes.contains(change)) this.Changes.push(change);
+              }
+            }
+          }
+        }
       }
     }
     return this.Changes;
