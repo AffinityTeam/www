@@ -7385,7 +7385,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @public
     *
     */
-    this.GetDocumentSigningTemplatesApi = Affinity2018.Path + 'DocumentSigning/GetTemplates';
+    this.GetDocumentSignatureTemplatesApi = Affinity2018.Path + 'DocumentSignature/GetTemplates';
 
 
 
@@ -7395,7 +7395,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @public
     *
     */
-    this.DocumentSigningPostApi = Affinity2018.Path + 'DocumentSigning/Send';
+    this.DocumentSignaturePostApi = Affinity2018.Path + 'DocumentSignature/Send';
 
 
 
@@ -7405,7 +7405,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @public
     *
     */
-    this.DocumentSigningCancelApi = Affinity2018.Path + 'DocumentSigning/Cancel';
+    this.DocumentSignatureCancelApi = Affinity2018.Path + 'DocumentSignature/Cancel';
 
 
 
@@ -20481,18 +20481,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 };;
 /**
  *
- * Summary.       Element DocumentSigning Class.
+ * Summary.       Element DocumentSignature Class.
  *
- * Description.   Element DocumentSigning (HelloSign) functions and features.
+ * Description.   Element DocumentSignature (HelloSign) functions and features.
  *
  * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
  *
  *
  * @since         04.03.2021
- * @class         DocumentSigning
+ * @class         DocumentSignature
  * @namespace     Affinity2018.Classes.Apps.CleverForms.Elements
  * @memberof      CleverForms.Elements
- * @constructs    Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature
  *
  * @public
  */
@@ -20506,7 +20506,7 @@ if (!('Elements' in Affinity2018.Classes.Apps.CleverForms)) Affinity2018.Classes
 if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
 if (!('Elements' in Affinity2018.Apps)) Affinity2018.Apps.Elements = {};
 
-Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase
+Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase
 {
   _options()
   {
@@ -20544,7 +20544,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
 
-      'GetSigningTemplateId', 'GetSigningRecipients',
+      'GetSignatureTemplateId', 'GetSignatureRecipients',
 
       '_loadIds', '_idsLoaded', '_idsFailed', '_idChanged',
       '_postDoc', '_postedDoc', '_postDocError',
@@ -20616,7 +20616,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
       blockClass: this.IsOnlyRow ? '' : 'form-row-block grey-block',
-      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Document Signing',
+      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Document Signature',
       templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
       recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
       cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
@@ -20656,7 +20656,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
       if (this.DocSignSelectNode)
       {
-        this.Config.Details.ExternalTemplateId = this.GetSigningTemplateId();
+        this.Config.Details.ExternalTemplateId = this.GetSignatureTemplateId();
       }
 
     }
@@ -20724,9 +20724,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : null;
 
       this.FormData.Value = JSON.stringify({
-        ExternalTemplateId: this.GetSigningTemplateId(),
-        Recipients: this.GetSigningRecipients(),
-        CanSend: this.CanSend,
+        ExternalTemplateId: this.GetSignatureTemplateId(),
+        Recipients: this.GetSignatureRecipients(),
         SignatureRequestId: signatureRequestId
       });
 
@@ -20739,7 +20738,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
   {
     if (!this.Config.Details.Required) return true; // if not required, this does not need to be sent or have reciepients, etc, so is always valid
     // if this IS required ....
-    if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
+    if (this.GetSignatureTemplateId() !== '' && this.GetSignatureRecipients().length > 0) // we must have a seelcted template and valid recipients ...
     {
       if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
       {
@@ -20764,7 +20763,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   /**/
 
-  GetSigningTemplateId()
+  GetSignatureTemplateId()
   {
     if (this.DocSignSelectNode) return this.DocSignSelectNode.value;
     if (
@@ -20778,7 +20777,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     return this.Config.Details.ExternalTemplateId;
   }
 
-  GetSigningRecipients()
+  GetSignatureRecipients()
   {
     var recipients = [];
     if (this.FormRowNode && this.FormRowNode.querySelector('.docsign-row input.sv'))
@@ -20813,7 +20812,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     this.DocSignErrorNode = !this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.form-row').querySelector('.docsign-error') : this.DocSignErrorNode;
     this.DocSignFieldsNode = !this.Designer ? baseNode.querySelector('.docsign-fields') : false;
 
-    $a.RequestQueue.Get(this.CleverForms.GetDocumentSigningTemplatesApi, this._idsLoaded, this._idsFailed, 1);
+    $a.RequestQueue.Get(this.CleverForms.GetDocumentSignatureTemplatesApi, this._idsLoaded, this._idsFailed, 1);
 
     //this._idsLoaded([]);
 
@@ -20856,10 +20855,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         {
           templateId = this.Config.Details.Value.ExternalTemplateId;
           recipientValues = this.Config.Details.Value.Recipients;
-          if (
-            this.Config.Details.Value.hasOwnProperty('CanSend')
-            && !this.Config.Details.Value.CanSend
-          )
+            if (this.Config.Details.Value.SignatureRequestStatus === 1
+              || this.Config.Details.Value.SignatureRequestStatus === 2
+              || this.Config.Details.Value.SignatureRequestStatus === 4)
           {
             this.CanSend = false;
           }
@@ -21018,7 +21016,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     if (this.DocSignSelectNode.value !== '')
     {
-      var recipients = this.GetSigningRecipients();
+      var recipients = this.GetSignatureRecipients();
       if (JSON.stringify(recipients.sort()) !== JSON.stringify(recipients.unique().sort()))
       {
         $a.Dialog.Show({
@@ -21046,8 +21044,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         this.PostDocButtonNode.classList.remove('hidden');
         this.PostDocButtonNode.classList.add('disabled');
 
-        this.LastPostedDocsignTemplateId = this.GetSigningTemplateId();
-        this.LastPostedDocsignRecipients = this.GetSigningRecipients();
+        this.LastPostedDocsignTemplateId = this.GetSignatureTemplateId();
+        this.LastPostedDocsignRecipients = this.GetSignatureRecipients();
 
         this.LastPostedDocsignRecipients = this.LastPostedDocsignRecipients.map(recipients =>
         {
@@ -21065,7 +21063,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
         axios({
           method: 'post',
-          url: this.CleverForms.DocumentSigningPostApi,
+          url: this.CleverForms.DocumentSignaturePostApi,
           data: {
             InstanceId: this.CleverForms.GetInstanceGuid(),
             ExternalTemplateId: this.LastPostedDocsignTemplateId,
@@ -21186,7 +21184,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     axios({
       method: 'post',
-      url: this.CleverForms.DocumentSigningCancelApi,
+      url: this.CleverForms.DocumentSignatureCancelApi,
       data: {
         InstanceId: this.CleverForms.GetInstanceGuid(),
         QuestionName: this.Config.Name
@@ -21631,7 +21629,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
-      <div class="form-row row-documentsigning">
+      <div class="form-row row-documentsignature">
         <label class="solo">{label}</label>
         <div class="docsign-fields">
           <div class="docsign-row">
