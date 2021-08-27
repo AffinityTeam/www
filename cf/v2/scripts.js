@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
 (2700,32-37): run-time error JS1195: Expected expression: class
-(3236,32-37): run-time error JS1195: Expected expression: class
-(3249,20-21): run-time error JS1004: Expected ';': {
-(3320,27-28): run-time error JS1004: Expected ';': {
-(3324,29-30): run-time error JS1004: Expected ';': {
+(3237,32-37): run-time error JS1195: Expected expression: class
+(3250,20-21): run-time error JS1004: Expected ';': {
+(3321,27-28): run-time error JS1004: Expected ';': {
 (3325,29-30): run-time error JS1004: Expected ';': {
 (3326,29-30): run-time error JS1004: Expected ';': {
 (3327,29-30): run-time error JS1004: Expected ';': {
-(3328,13-14): run-time error JS1004: Expected ';': {
-(3347,15-16): run-time error JS1004: Expected ';': {
-(3365,12-13): run-time error JS1004: Expected ';': {
-(3370,12-13): run-time error JS1004: Expected ';': {
-(3373,17-18): run-time error JS1004: Expected ';': {
-(3963,36-41): run-time error JS1195: Expected expression: class
-(4076,30-35): run-time error JS1195: Expected expression: class
-(4181,31-36): run-time error JS1195: Expected expression: class
-(4420,35-40): run-time error JS1195: Expected expression: class
-(4548,33-38): run-time error JS1195: Expected expression: class
-(4759,39-40): run-time error JS1014: Invalid character: `
-(4759,40-41): run-time error JS1195: Expected expression: <
-(4759,100-101): run-time error JS1014: Invalid character: `
-(4778,43-44): run-time error JS1014: Invalid character: `
-(4778,44-45): run-time error JS1195: Expected expression: <
-(4778,108-109): run-time error JS1014: Invalid character: `
-(4846,33-38): run-time error JS1195: Expected expression: class
-(5142,32-37): run-time error JS1195: Expected expression: class
-(5508,33-38): run-time error JS1195: Expected expression: class
-(5586,37-42): run-time error JS1195: Expected expression: class
-(5587,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3328,29-30): run-time error JS1004: Expected ';': {
+(3329,13-14): run-time error JS1004: Expected ';': {
+(3348,15-16): run-time error JS1004: Expected ';': {
+(3366,12-13): run-time error JS1004: Expected ';': {
+(3371,12-13): run-time error JS1004: Expected ';': {
+(3374,17-18): run-time error JS1004: Expected ';': {
+(3964,36-41): run-time error JS1195: Expected expression: class
+(4077,30-35): run-time error JS1195: Expected expression: class
+(4182,31-36): run-time error JS1195: Expected expression: class
+(4421,35-40): run-time error JS1195: Expected expression: class
+(4549,33-38): run-time error JS1195: Expected expression: class
+(4760,39-40): run-time error JS1014: Invalid character: `
+(4760,40-41): run-time error JS1195: Expected expression: <
+(4760,100-101): run-time error JS1014: Invalid character: `
+(4779,43-44): run-time error JS1014: Invalid character: `
+(4779,44-45): run-time error JS1195: Expected expression: <
+(4779,108-109): run-time error JS1014: Invalid character: `
+(4847,33-38): run-time error JS1195: Expected expression: class
+(5143,32-37): run-time error JS1195: Expected expression: class
+(5509,33-38): run-time error JS1195: Expected expression: class
+(5587,37-42): run-time error JS1195: Expected expression: class
+(5588,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5588,5-16): run-time error JS1006: Expected ')': constructor
-(5657,3-4): run-time error JS1002: Syntax error: }
-(5657,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5601,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5589,5-16): run-time error JS1006: Expected ')': constructor
+(5658,3-4): run-time error JS1002: Syntax error: }
+(5658,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5602,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -2827,7 +2827,8 @@
         Icon: Affinity2018.icons.fileExcelBlack,
         IconClass: 'icon-file-excel-black',
         TypeData: [
-          { Types: ['xl', 'xls', 'xll'], Mime: 'application/excel' },
+          {
+            Types: ['xl', 'xls', 'xlsx', 'xll'], Mime: 'application/excel' },
           { Types: ['csv'], Mime: 'application/vnd.ms-excel' }
         ]
       },
@@ -7384,7 +7385,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @public
     *
     */
-    this.GetDocumentSignatureTemplatesApi = Affinity2018.Path + 'DocumentSignature/GetTemplates';
+    this.GetDocumentSigningTemplatesApi = Affinity2018.Path + 'DocumentSigning/GetTemplates';
 
 
 
@@ -7394,7 +7395,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @public
     *
     */
-    this.DocumentSignaturePostApi = Affinity2018.Path + 'DocumentSignature/Send';
+    this.DocumentSigningPostApi = Affinity2018.Path + 'DocumentSigning/Send';
 
 
 
@@ -7404,7 +7405,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @public
     *
     */
-    this.DocumentSignatureCancelApi = Affinity2018.Path + 'DocumentSignature/Cancel';
+    this.DocumentSigningCancelApi = Affinity2018.Path + 'DocumentSigning/Cancel';
 
 
 
@@ -17096,7 +17097,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     var currentConfig = $a.jsonCloneObject(this.Config),
       lastConfig = this.ConfigStringCheck.trim() !== '' ? JSON.parse(this.ConfigStringCheck) : {},
       configLines, lastConfigLines, allLines, filteredLines, uniqueLines,
-      doubles, l, from, to;
+      doubles, l, from, to, change;
 
     if (this.Config.Type === 'Section')
     {
@@ -17112,13 +17113,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       return ['New Element'];
     }
 
-    if (JSON.stringify(currentConfig) !== JSON.stringify(lastConfig))
+    var cleanLines = function (lines)
     {
-      configLines = JSON.stringify(currentConfig, null, 2).trim().split('\n');
-      lastConfigLines = JSON.stringify(lastConfig, null, 2).trim().split('\n');
-
-      allLines = configLines.concat(lastConfigLines);
-      filteredLines = allLines.filter(function (a)
+      return lines.filter(function (a)
       {
         var returnIF =
           a.trim() !== '{'
@@ -17130,9 +17127,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           && a.trim() !== ''
           && !a.trim().endsWith(': {')
           && !a.trim().endsWith(': [')
-        ;
+          ;
         return returnIF;
       });
+    };
+
+    if (JSON.stringify(currentConfig) !== JSON.stringify(lastConfig))
+    {
+      configLines = JSON.stringify(currentConfig, null, 2).trim().split('\n');
+      lastConfigLines = JSON.stringify(lastConfig, null, 2).trim().split('\n');
+
+      allLines = configLines.concat(lastConfigLines);
+      filteredLines = cleanLines(allLines);
       uniqueLines = filteredLines.unique();
 
       doubles = [];
@@ -17141,11 +17147,61 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         if (configLines.contains(uniqueLines[l]) && lastConfigLines.contains(uniqueLines[l])) { }
         else doubles.push(uniqueLines[l].replace(/,/g, '').trim());
       }
+
       for (l = 0; l < doubles.length / 2; l++)
       {
         from = doubles[l + doubles.length / 2];
         to = doubles[l];
-        this.Changes.push(($a.isString(from) ? from : '(not set)') + ' -> ' + to);
+        change = ($a.isString(from) ? from : '(not set)') + ' -> ' + to;
+        if (!this.Changes.contains(change)) this.Changes.push(change);
+      }
+
+      if (this.Config.Type === 'Section' && this.Changes.length === 0) // check workflows again
+      {
+        var sectionWorkflows = currentConfig.Details.SectionWorkflowVisibilitySettings.sort();
+        var lastSectionWorkflows = lastConfig.Details.SectionWorkflowVisibilitySettings.sort();
+        var workflows = {}, lastWorkflows = {}, w, wo;
+        for (w = 0; w < sectionWorkflows.length; w++)
+        {
+          wo = this.CleverForms.OrderObject(sectionWorkflows[w]);
+          workflows[wo.WorkflowDefinitionId] = {
+            name: wo.WorkflowDefinitionName,
+            lines: cleanLines(JSON.stringify(wo, null, 2).trim().split('\n'))
+          };
+        }
+        for (w = 0; w < lastSectionWorkflows.length; w++)
+        {
+          wo = this.CleverForms.OrderObject(lastSectionWorkflows[w]);
+          lastWorkflows[wo.WorkflowDefinitionId] = {
+            name: wo.WorkflowDefinitionName,
+            lines: cleanLines(JSON.stringify(wo, null, 2).trim().split('\n'))
+          };
+        }
+        if (Object.keys(workflows).join(",") !== Object.keys(lastWorkflows).join(","))
+        {
+          change = "Workflow config changed";
+          if (!this.Changes.contains(change)) this.Changes.push(change);
+        }
+        else
+        {
+          var keys = Object.keys(workflows);
+          for (w = 0; w < keys.length; w++)
+          {
+            var key = keys[w];
+            for (var l = 0; l < workflows[key].lines.length; l++)
+            {
+              var l1 = workflows[key].lines[l].trim();
+              var l2 = lastWorkflows[key].lines[l].trim();
+              if (l1 !== l2)
+              {
+                from = "(" + lastWorkflows[key].name + ") " + l2;
+                to = l1;
+                change = "Workflow " + from + ' -> ' + to;
+                if (!this.Changes.contains(change)) this.Changes.push(change);
+              }
+            }
+          }
+        }
       }
     }
     return this.Changes;
@@ -20425,18 +20481,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 };;
 /**
  *
- * Summary.       Element DocumentSignature Class.
+ * Summary.       Element DocumentSigning Class.
  *
- * Description.   Element DocumentSignature (HelloSign) functions and features.
+ * Description.   Element DocumentSigning (HelloSign) functions and features.
  *
  * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
  *
  *
  * @since         04.03.2021
- * @class         DocumentSignature
+ * @class         DocumentSigning
  * @namespace     Affinity2018.Classes.Apps.CleverForms.Elements
  * @memberof      CleverForms.Elements
- * @constructs    Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning
  *
  * @public
  */
@@ -20450,7 +20506,7 @@ if (!('Elements' in Affinity2018.Classes.Apps.CleverForms)) Affinity2018.Classes
 if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
 if (!('Elements' in Affinity2018.Apps)) Affinity2018.Apps.Elements = {};
 
-Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase
+Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase
 {
   _options()
   {
@@ -20488,7 +20544,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
 
-      'GetSignatureTemplateId', 'GetSignatureRecipients',
+      'GetSigningTemplateId', 'GetSigningRecipients',
 
       '_loadIds', '_idsLoaded', '_idsFailed', '_idChanged',
       '_postDoc', '_postedDoc', '_postDocError',
@@ -20560,7 +20616,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
     this.HtmlEditExampleTemplate = this.HtmlEditExampleTemplate.format({
       blockClass: this.IsOnlyRow ? '' : 'form-row-block grey-block',
-      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Document Signature',
+      label: this.CleverForms.ElementData.hasOwnProperty(this.Config.Type) ? this.CleverForms.ElementData[this.Config.Type].Label : 'Document Signing',
       templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
       recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
       cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
@@ -20600,7 +20656,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
       if (this.DocSignSelectNode)
       {
-        this.Config.Details.ExternalTemplateId = this.GetSignatureTemplateId();
+        this.Config.Details.ExternalTemplateId = this.GetSigningTemplateId();
       }
 
     }
@@ -20668,8 +20724,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
       var signatureRequestId = this.Config.Details.Value.hasOwnProperty('SignatureRequestId') && this.Config.Details.Value.SignatureRequestId ? this.Config.Details.Value.SignatureRequestId : null;
 
       this.FormData.Value = JSON.stringify({
-        ExternalTemplateId: this.GetSignatureTemplateId(),
-        Recipients: this.GetSignatureRecipients(),
+        ExternalTemplateId: this.GetSigningTemplateId(),
+        Recipients: this.GetSigningRecipients(),
+        CanSend: this.CanSend,
         SignatureRequestId: signatureRequestId
       });
 
@@ -20682,7 +20739,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
   {
     if (!this.Config.Details.Required) return true; // if not required, this does not need to be sent or have reciepients, etc, so is always valid
     // if this IS required ....
-    if (this.GetSignatureTemplateId() !== '' && this.GetSignatureRecipients().length > 0) // we must have a seelcted template and valid recipients ...
+    if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
     {
       if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
       {
@@ -20707,7 +20764,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
   /**/
 
-  GetSignatureTemplateId()
+  GetSigningTemplateId()
   {
     if (this.DocSignSelectNode) return this.DocSignSelectNode.value;
     if (
@@ -20721,7 +20778,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
     return this.Config.Details.ExternalTemplateId;
   }
 
-  GetSignatureRecipients()
+  GetSigningRecipients()
   {
     var recipients = [];
     if (this.FormRowNode && this.FormRowNode.querySelector('.docsign-row input.sv'))
@@ -20756,7 +20813,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
     this.DocSignErrorNode = !this.Designer && this.DocSignSelectNode ? this.DocSignSelectNode.closest('.form-row').querySelector('.docsign-error') : this.DocSignErrorNode;
     this.DocSignFieldsNode = !this.Designer ? baseNode.querySelector('.docsign-fields') : false;
 
-    $a.RequestQueue.Get(this.CleverForms.GetDocumentSignatureTemplatesApi, this._idsLoaded, this._idsFailed, 1);
+    $a.RequestQueue.Get(this.CleverForms.GetDocumentSigningTemplatesApi, this._idsLoaded, this._idsFailed, 1);
 
     //this._idsLoaded([]);
 
@@ -20799,9 +20856,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
         {
           templateId = this.Config.Details.Value.ExternalTemplateId;
           recipientValues = this.Config.Details.Value.Recipients;
-            if (this.Config.Details.Value.SignatureRequestStatus === 1
-              || this.Config.Details.Value.SignatureRequestStatus === 2
-              || this.Config.Details.Value.SignatureRequestStatus === 4)
+          if (
+            this.Config.Details.Value.hasOwnProperty('CanSend')
+            && !this.Config.Details.Value.CanSend
+          )
           {
             this.CanSend = false;
           }
@@ -20960,7 +21018,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
     if (this.DocSignSelectNode.value !== '')
     {
-      var recipients = this.GetSignatureRecipients();
+      var recipients = this.GetSigningRecipients();
       if (JSON.stringify(recipients.sort()) !== JSON.stringify(recipients.unique().sort()))
       {
         $a.Dialog.Show({
@@ -20988,8 +21046,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
         this.PostDocButtonNode.classList.remove('hidden');
         this.PostDocButtonNode.classList.add('disabled');
 
-        this.LastPostedDocsignTemplateId = this.GetSignatureTemplateId();
-        this.LastPostedDocsignRecipients = this.GetSignatureRecipients();
+        this.LastPostedDocsignTemplateId = this.GetSigningTemplateId();
+        this.LastPostedDocsignRecipients = this.GetSigningRecipients();
 
         this.LastPostedDocsignRecipients = this.LastPostedDocsignRecipients.map(recipients =>
         {
@@ -21007,7 +21065,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
         axios({
           method: 'post',
-          url: this.CleverForms.DocumentSignaturePostApi,
+          url: this.CleverForms.DocumentSigningPostApi,
           data: {
             InstanceId: this.CleverForms.GetInstanceGuid(),
             ExternalTemplateId: this.LastPostedDocsignTemplateId,
@@ -21128,7 +21186,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
     axios({
       method: 'post',
-      url: this.CleverForms.DocumentSignatureCancelApi,
+      url: this.CleverForms.DocumentSigningCancelApi,
       data: {
         InstanceId: this.CleverForms.GetInstanceGuid(),
         QuestionName: this.Config.Name
@@ -21573,7 +21631,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSignature = class extends
 
     this.HtmlEditExampleTemplate = `
     <div class="default-form">
-      <div class="form-row row-documentsignature">
+      <div class="form-row row-documentsigning">
         <label class="solo">{label}</label>
         <div class="docsign-fields">
           <div class="docsign-row">
@@ -31450,6 +31508,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hasStartDate = false;
     this.showStartDate = false;
 
+    this.startDay = 0; // 0 = Sunday. 1 = Monday, etc
+
     this.status = 'closed';
     this.mouseState = '';
 
@@ -32025,10 +32085,22 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           firstDay = date.clone().moveToFirstDayOfMonth(),
           calDay = firstDay.clone().clearTime(),
           daysInMonth = Date.getDaysInMonth(firstDay.getFullYear(), firstDay.getMonth()),
-          startCell = firstDay.getDay() - 1,
+          startCell = firstDay.getDay() - (this.startDay),
           d = 0, dCount = 1;
 
-      for ( ; d < 42; d++)
+      if (startCell < 0) startCell += 7;
+
+      var dayCells = this.calendarNode.querySelectorAll('.ui-cal-cells-row.date-days .ui-cal-cell');
+      var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      var dowDate = new Date();
+      dowDate.setDate(dowDate.getDate() - dowDate.getDay());
+      for (d = 0; d < 7; d++)
+      {
+        dayCells[d].innerHTML = days[dowDate.getDay() + this.startDay];
+        dowDate.setDate(dowDate.getDate() + 1);
+      }
+
+      for (d = 0; d < 42; d++)
       {
         cellNodes[d].className = 'ui-cal-cell';
         if (d < startCell || d >= startCell + daysInMonth)
