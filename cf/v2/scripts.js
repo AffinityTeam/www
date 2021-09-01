@@ -15915,16 +15915,30 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       if (this.PostedErrors.length === 0)
       {
-        var path = this.CleverForms.InboxPath;
-        if (window.location.hash) path += window.location.hash
-        var redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
+        if (Affinity2018.DashboardTemplate)
+        {
+          Affinity2018.Dialog.Show({
+            message: $a.Lang.ReturnPath('app.cf.form.dashboard_submit'),
+            showOk: true,
+            showCancel: false,
+            showInput: false,
+            textAlign: 'center'
+          });
+        }
+        else
+        {
+          var path = this.CleverForms.InboxPath;
+          if (window.location.hash) path += window.location.hash
+          var redirectWindow = window.open(path, '_self');
+          redirectWindow.location;
+        }
       }
     }
     if (this.SubmitActionName === 'Save' && this.suppressPostMessage) // && this.PostedErrors.length === 0)
     {
+      // saved
       Affinity2018.Dialog.Show({
-        message: 'Form Saved.',
+        message: $a.Lang.ReturnPath('app.cf.form.saved'),
         showOk: true,
         showCancel: false,
         showInput: false,
