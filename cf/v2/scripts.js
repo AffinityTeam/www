@@ -9017,7 +9017,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     {
       postData.CleverFormsDisplayType   = config.Details.AffinityField.CleverFormsDisplayType;
       postData.DataType                 = config.Details.AffinityField.DataType;
-      postData.PropertyType             = config.Details.AffinityField.PropertyType;
       postData.ModelName                = config.Details.AffinityField.ModelName;
       postData.DisplayLabel             = config.Details.AffinityField.DisplayLabel;
       postData.FieldName                = config.Details.AffinityField.FieldName;
