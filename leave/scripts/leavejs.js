@@ -10124,11 +10124,17 @@ var UILeaveDetail = new Class({
     },
 
     applyHolidayIcon: function(dateField, ruleParams) {
-        if (ruleParams.isPublicHoliday || ruleParams.isWeekEnds) {
+        if (ruleParams.isPublicHoliday) {
             var existingPlaneList = dateField.parentElement.getElementsByClassName('icon-plane');
             if (existingPlaneList && existingPlaneList.length === 0) {
                 dateField.parentElement.grab(new Element('span', {class: 'icon-plane'}), 'top');
             } 
+        } else {
+            var existingPlaneList = dateField.parentElement.getElementsByClassName('space-icon-plane');
+            if (existingPlaneList && existingPlaneList.length === 0) {
+                dateField.parentElement.grab(new Element('span', {class: 'space-icon-plane'}), 'top');
+            }
+            
         }
     },
 
