@@ -1,1 +1,1895 @@
-var TeamLeave=new Class({Implements:[Options,Events],Binds:["init","getTeamConfig","initConfig","managerHistory","managerBalance","managerApply","managerDetail","generateLeaveCalendar","applyTeamConfig","refreshBalance","refreshHistory","refreshAll","getManagerEmployeeConfig","getManagerEmployeeConfigFromBackend","reset","destroy"],options:{target:null},initialize:function(n){this.setOptions(n);this.target=this.options.target},configData:null,requireUpdate:!1,timeLastModified:null,leaveBlanaces:!1,leaveHistory:!1,leaveDetail:!1,init:function(){this.configQueue=[];this.getTeamConfig();this.managerHistory();this.managerApply();this.managerDetail();this.employeeConfigRequest=new Request.JSON({onRequest:function(){Affinity.leave.lockui("teamleave-managerEmployeeConfig")},onFailure:function(n){Affinity.leave.unlockui("teamleave-managerEmployeeConfig");prompts.hide();Affinity.leave.handleXHRErrors(n,this._api,"ui.teamLeave.js -> managerEmployeeConfig")}.bind(this),onException:function(){Affinity.leave.unlockui("teamleave-managerEmployeeConfig")},onCancel:function(){Affinity.leave.unlockui("teamleave-managerEmployeeConfig")},onSuccess:function(n){Affinity.leave.unlockui("teamleave-managerEmployeeConfig");prompts.hide();var t=-1;Affinity.leave.isErrorInJson(n,this._api,"ui.teamLeave.js -> managerEmployeeConfig")||(n.Data&&(Array.each(n.Data.Positions,function(n){n.SubmittedTos&&n.SubmittedTos.length!=0||(n.SubmittedTos=this.config.ForwardToManagers)}),Array.each(this.config.Employees,function(n,i){n.EmployeeNo==this._employeeNo&&(t=i)}.bind(this)),t==-1?this.config.Employees.push(n.Data):this.config.Employees[t]=n.Data),this._onSuccess&&(this._onSuccess(n.Data),this._onSuccess=null))}.bind(this)})},getManagerEmployeeConfig:function(n,t){var i=!1;Array.each(this.config.Employees,function(r){if(r.EmployeeNo==n&&r.Positions){t&&t(r);i=!0;return}}.bind(this));i||(uialert({message:"Loading Employee Configuration",showLoader:!0,showButtons:!1,noClose:!1}),this._employeeNo=n,this._onSuccess=t,this.employeeConfigRequest.options.url=this.employeeConfigRequest.url=this._api=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"LeaveManagerEmployeeConfig/"+n),this.employeeConfigRequest.get())},getManagerEmployeeConfigFromBackend:function(n,t){uialert({message:" ",showLoader:!0,showButtons:!1,noClose:!1});this._employeeNo=n;this._onSuccess=t;this.employeeConfigRequest.options.url=this.employeeConfigRequest.url=this._api=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"LeaveManagerEmployeeConfig/"+n);this.employeeConfigRequest.get()},getTeamConfig:function(){uialert({message:"Loading Manager Configuration",showLoader:!0,showButtons:!1,noClose:!1});var i=Affinity.login.profile.employeeNumber,t="ui.teamLeave.js -> teamLeaveConfig",n=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"LeaveManagerConfig/"+i);new Request.JSON({url:n,onRequest:function(){Affinity.leave.lockui("teamleave-teamLeaveConfig")},onFailure:function(i){Affinity.leave.unlockui("teamleave-teamLeaveConfig");prompts.hide();Affinity.leave.handleXHRErrors(i,n,t)},onException:function(){Affinity.leave.unlockui("teamleave-teamLeaveConfig")},onCancel:function(){Affinity.leave.unlockui("teamleave-teamLeaveConfig")},onSuccess:function(i){Affinity.leave.unlockui("teamleave-teamLeaveConfig");prompts.hide();Affinity.leave.isErrorInJson(i,n,t)||(this.config=i.Data,this.configQueue&&this.configQueue.length>0&&(Array.each(this.configQueue,function(n){n&&typeOf(n)==="function"&&n(this.config)}.bind(this)),this.configQueue=[]),this.initConfig(i.Data))}.bind(this)}).get()},initConfig:function(n){var t=document.querySelector(".section-nav.leave-nav li.u-blue.selected").classList.contains("manager");t&&(this.managerBalance(n),this.generateLeaveCalendar(),Affinity.tooltips.processNew(),this.target.removeClass("hidden"))},managerHistory:function(){this.leaveHistory=new UILeaveHistory({target:this.target,isManager:!0});Affinity.leave.manager.history=this.leaveHistory},refreshHistory:function(){this.leaveHistory&&(this.leaveHistory.reset(!0),this.leaveHistory.refreshHistory(!0))},refreshBalance:function(){this.leaveBlanaces&&(this.leaveBlanaces.reset(),this.leaveBlanaces.balanceTable&&this.leaveBlanaces.getBalances())},refreshAll:function(){this.refreshHistory();this.refreshBalance();this.refreshApplyForLeave()},refreshApplyForLeave:function(){this.applyForLeave.refreshEmployeeConfig()},managerBalance:function(n){this.leaveBlanaces=new UIManagerLeaveBalances({target:this.target,configData:n})},managerApply:function(){this.applyForLeave=new UILeaveApply({target:this.target,isManager:!0})},managerDetail:function(){this.leaveDetail=new UILeaveDetail({target:this.target,isManager:!0})},generateLeaveCalendar:function(){var n=new Date,t=new Date,i,r;t.setDate(1);i=t.setMonth(t.getMonth()-13);n.setMonth(n.getMonth()+11);r=new Date(n.getFullYear(),n.getMonth(),0);this.calendar=new UIManagerLeaveCalendar({target:this.target,fromDate:i,toDate:r})},applyTeamConfig:function(n){this.config?n(this.config):this.configQueue.push(n)},reset:function(){this.leaveBlanaces&&this.leaveBlanaces.reset();this.leaveHistory&&this.leaveHistory.reset();this.applyForLeave&&this.applyForLeave.reset();this.calendar&&this.calendar.reset();this.target.empty();this.target.addClass("hidden")},destroy:function(){this.reset();this.leaveBlanaces&&this.leaveBlanaces.destroy();this.leaveHistory&&this.leaveHistory.destroy();this.applyForLeave&&this.applyForLeave.destroy();this.calendar&&this.calendar.destroy()}}),UIManagerLeaveCalendar=new Class({Implements:[Options,Events],Binds:["hide","show","toggle","init","buildHistoryFrames","getHolidays","teamLeave","getExisitingLeave","processExistingLeave","buildHistoryControls","scrollFromMarker","positionKeyMarker","positionKeyMarkerOnScroll","reset","destroy"],options:{target:null,fromDate:!1,toDate:!1,startDay:0},initialize:function(n){this.setOptions(n);this.width="90%";this.today=new Date;this.currentMonth=Date.parse(this.options.fromDate).getMonth()+1;this.fromDate=Date.parse(this.options.fromDate);this.toDate=Date.parse(this.options.toDate);this.days=Math.ceil((this.toDate-this.fromDate)/864e5);this.visibleWidth="90%";this.segmentWidth=this.days*20<this.width?this.width/this.days:20;this.totalWidth=this.segmentWidth*this.days;this.target=this.options.target;this.section=new Element("div",{"class":"section shadow calendar-section"}).adopt(new Element("div",{"class":"section-body"}).adopt(this.calendarForm=new Element("div",{"class":"default-form manager-leave-calendar-form"}))).inject(this.target);this.section.setStyle("opacity",0);this.titlebox=new Element("div",{"class":"section-title ui-has-tooltip",html:"Team Leave Calendar","data-tooltip":"Open / Close","data-tooltip-dir":"top"}).addEvent(Affinity.events.click,this.toggle).inject(this.calendarForm);this.toggleButton=new Element("div",{"class":"toggle-button",html:Affinity.icons.ArrowLineSmallDown}).store("state","closed").inject(this.titlebox);this.hiddenBox=new Element("div",{"class":"manager-calendar-generator",style:"opacity: 0;"}).inject(this.target,"bottom");this.box=new Element("div",{"class":"manager-calendarbox",style:"opacity:1"}).inject(this.hiddenBox);this.teamMembers=new Element("div",{"class":"team-members"}).setStyle("width","8%").inject(this.box,"top");this.historyContainer=new Element("div",{"class":"calendar-history",style:"display:inline-block"}).setStyle("width",this.visibleWidth).inject(this.box);this.sectionBody=new Element("div",{"class":"section-body"}).inject(this.calendarForm);this.filters=new Element("div",{"class":"calendar-filters form-row"}).inject(this.sectionBody);this.includeIndirect=new Element("label",{"class":"include-indirect-label",html:"Include Indirect"}).inject(this.filters);this.includeIndirect=new Element("input",{type:"checkbox","class":"include-indirect-filter",value:"includeIndirect"}).inject(this.filters);this.includeIndirect.addEvent("change",function(){this.teamLeave()}.bind(this));this.historyFrame=new Element("div",{"class":"calendar-history-frame"}).setStyle("width","100%").inject(this.historyContainer);this.historyTitles=new Element("div",{"class":"calendar-history-titles"}).setStyle("width",this.totalWidth).inject(this.historyFrame);this.historySlider=new Element("div",{"class":"",html:""}).inject(this.box);this.scrollPosition=null;this.leaveRequest=new Request.JSON({onFailure:function(n){Affinity.leave.handleXHRErrors(n,this._api,this._methodName)},onSuccess:function(n){Affinity.leave.isErrorInJson(n,this._api,this._methodName)||this.getExisitingLeave(n.Data)}.bind(this)});this.holidayRequest=new Request.JSON({onFailure:function(n){Affinity.leave.handleXHRErrors(n,this._api,this._methodName)},onSuccess:function(n){Affinity.leave.isErrorInJson(n,this._api,this._methodName)||this.renderHolidays(n.Data)}.bind(this)});this.init();this.section.addEvent("managercalendarloaded",function(){this.box.inject(this.sectionBody),function(){this.section.setStyle("opacity",null)}.delay(500,this);this.hiddenBox.set("html","");Affinity.tooltips.processNew()}.bind(this))},hide:function(n){n||(this.scrollPosition=this.historyFrame.scrollLeft);this.toggleButton.set("html",Affinity.icons.ArrowLineSmallDown).store("state","closed");this.sectionBody.dissolve()},show:function(){this.toggleButton.set("html",Affinity.icons.ArrowLineSmallUp).store("state","open");this.sectionBody.reveal();this.historyFrame.scrollLeft=this.scrollPosition===null?this.scrollPosition=this.historyFrame.scrollWidth/2:this.scrollPosition},toggle:function(){this.toggleButton.retrieve("state")==="open"?this.hide():this.show()},init:function(){this.hide(!0);this.getHolidays();this.section.addEvent("managerScheduleReturned",this.buildHistoryFrames)},teamLeave:function(){var t=Affinity.login.profile.employeeNumber,n;this._methodName="ui.managerCalendar.js -> teamLeave";n=Affinity.leave.apiroot+"ManagerTeamCalendar/"+this.fromDate.format("%d-%b-%Y")+"/"+this.toDate.format("%d-%b-%Y");this.includeIndirect.checked&&(n+="?includeIndirect=true");this._api=Affinity.GetCacheSafePath(n);this.leaveRequest&&this.leaveRequest.isRunning()&&this.leaveRequest.cancel();this.leaveRequest.url=this.leaveRequest.options.url=this._api;this.leaveRequest.get()},getHolidays:function(){var n=Affinity.login.profile.employeeNumber;this._methodName="ui.managerCalendar.js -> getHolidays";this._api=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"Holidays/"+n+"/"+Date.parse(this.fromDate).format("%d-%b-%Y")+"/"+Date.parse(this.toDate).format("%d-%b-%Y"));this.holidays={};this.dayStarts=this.today.clone().clearTime().set("Hours",8).set("Minutes",30);this.dayEnds=this.today.clone().clearTime().set("Hours",17).set("Minutes",30);this.weekends=[0,6];this.holidayRequest&&this.holidayRequest.isRunning()&&this.holidayRequest.cancel();this.holidayRequest.url=this.holidayRequest.options.url=this._api;this.holidayRequest.get()},renderHolidays:function(n){Array.each(n,function(n){var t="t"+Date.parse(n.Date).clone().clearTime().format("%s");this.holidays[t]=n.Name}.bind(this));this.section.fireEvent("managerScheduleReturned")},getExisitingLeave:function(n){var t={};t.teamleave=[];t.teamleave.push(n);this.processExistingLeave(t)},buildHistoryFrames:function(){for(var n=this.fromDate.clone().clearTime(),u,f,i,r,o,e,t=0;t<this.days;t++)(t===0||n.getDate()===1)&&(u=this.segmentWidth*n.get("lastdayofmonth"),t===0&&(u=this.segmentWidth*(n.get("lastdayofmonth")-this.fromDate.getDate()+1)),new Element("div").addClass("title").setStyle("width",u+"px").set("html",n.format("%B %Y")).inject(this.historyTitles)),r=n.format("%A %B %e%o %Y"),f="calendar-history-segment ui-has-tooltip ",n.clearTime().getTime()==this.today.clearTime().getTime()&&(f+="today ",r+="<br />Today"),i="bottom",n.getDate()===1&&(i+=" month"),this.weekends.contains(n.getDay())&&(i+=" weekend"),this.holidays["t"+n.format("%s")]&&(i+=" holiday",r+="<br />"+this.holidays["t"+n.format("%s")]),o=t<this.days/2?"top,right":"top,left",e=new Element("div",{"class":f,"data-tooltip":r,"data-tooltip-dir":o}).adopt(new Element("div",{"class":"top"}),new Element("div",{"class":i})).inject(this.historyFrame),e.store("date",n.clone()),e.setStyles({width:this.segmentWidth,left:this.segmentWidth*t}),n.increment("day",1);this.historyTitles.setStyle("width",this.segmentWidth*t);this.fromDate.getDate()>15&&this.historyTitles.getElement(".title").set("html","");this.toDate.getDate()<15?this.historyTitles.getLast(".title").destroy():this.historyTitles.getLast(".title").setStyle("width","auto");this.teamLeave()},processExistingLeave:function(n){this.teamMembers.set("html","");this.historyFrame.getElements(".calendar-history-item").destroy();var i=45,u,f,e,r,t;n.teamleave&&n.teamleave.length>0&&Array.each(n.teamleave[0],function(n){this.teamMemberName=new Element("div",{"class":"team-members-name",html:n.EmployeeName}).inject(this.teamMembers);Array.each(n.LeaveBlocks,function(o){u=Math.round((Date.parse(o.DateTo).getTime()-Date.parse(o.DateFrom).getTime())/864e5)+1;f=u*this.segmentWidth;var s=this.fromDate.getFullYear()+"-"+(this.fromDate.getMonth()+1)+"-"+this.fromDate.getDate()+"T00:00:00";e=Math.round((Date.parse(o.DateFrom).getTime()-Date.parse(s).getTime())/864e5)*this.segmentWidth;r="calendar-history-item";r+=" ui-has-tooltip";t="<div class='details'>";t+="<strong>"+n.EmployeeName+"<\/strong><br />";t+="<p> <\/p>";t+="<strong>From<\/strong> "+Date.parse(o.DateFrom).format("%A %B %e%o %Y")+"<br />";t+="<strong>To<\/strong> "+Date.parse(o.DateTo).format("%A %B %e%o %Y")+"<br />";t+="<p> <\/p>";t+="<div>";Array.each(o.LeaveDescriptions,function(n){t+=" - <strong>"+n+"<\/strong><br />"});t+="<\/div>";t+="<\/div>";this.element=new Element("div").addClass(r).setStyles({"margin-left":e,width:f,top:i,"background-color":"#BEBEBE"}).set("data-tooltip",t).set("data-tooltip-direction","top").inject(this.historyFrame)}.bind(this));i+=35}.bind(this));this.historyFrame.setStyle("height",i+25);this.teamMembers.setStyle("height",i+25);Affinity.tooltips.processNew();this.buildHistoryControls.delay(100,this)},buildHistoryControls:function(){var i,n,t;this.historyFrame.scrollWidth>this.historyFrame.clientWidth&&(this.histroryFrameSize=this.historyFrame.measure(function(){return this.getSize()}),Affinity.mobile||(this.histroryFrameSize.x-=Affinity.scrollBarSize*1.5),this.keyScale=this.histroryFrameSize.x/this.totalWidth,i=this.histroryFrameSize.y,this.keyWrapper&&this.keyWrapper.destroy(),this.keyWrapper=new Element("div",{id:"keyWrapper"}),this.keyWrapper.setStyles({width:this.histroryFrameSize.x,height:i*this.keyScale,margin:"20px 0 30px 0",border:"1px solid #ccc",overflow:"hidden"}),this.keyWrapper.inject(this.historyContainer),this.historyKey=this.historyFrame.clone(),this.historyKey.setStyles({width:this.totalWidth,"transform-origin":"0 0",transform:"scale("+this.keyScale+","+this.keyScale+")",overflow:"hidden"}),this.historyKey.addClass("historyKey"),this.historyKey.inject(this.keyWrapper),n=this.historyKey.getPosition(this.historyContainer),t=this.historyKey.getSize(),this.keyButton=new Element("div").addClass("history-key-button has-events").setStyles({width:t.x,height:t.y,top:n.y,left:n.x}).addEvent(Affinity.events.click,this.positionKeyMarker).inject(this.historyKey,"after"),this.keyMarkerWidth=t.x*this.keyScale,this.keyButtonMarker=new Element("div").addClass("history-key-button-marker").setStyles({width:this.keyMarkerWidth,height:t.y+20,top:n.y-10,left:n.x}).inject(this.keyButton,"after"),new Drag(this.keyButtonMarker,{limit:{x:[0,this.histroryFrameSize.x-this.keyMarkerWidth-2],y:[0,0]},modifiers:{x:"margin-left",y:"margin-top"},onDrag:this.scrollFromMarker}),this.historyFrame.addEvent("scroll",this.positionKeyMarkerOnScroll),this.section.addEvent("LeaveCalendarScroll",function(n){this.historyFrame.scrollTo((this.totalWidth-this.histroryFrameSize.x)*n,0)}.bind(this)),delete n,delete t);this.box.setStyle("opacity",1).set("reveal",{duration:250});prompts.hide();this.section.fireEvent("managercalendarloaded")},scrollFromMarker:function(){var n=this.totalWidth-this.histroryFrameSize.x,t=this.histroryFrameSize.x-this.keyMarkerWidth-2,i=this.keyButtonMarker.getPosition(this.historyContainer).x-this.keyButton.getPosition(this.historyContainer).x;this.historyFrame.scrollTo(n*(i/t),0);delete n;delete t;delete i},positionKeyMarker:function(n){var t=n.client.x-this.keyButton.getPosition(this.historyContainer).x-this.keyMarkerWidth/2;t=t<0?0:t>this.histroryFrameSize.x-this.keyMarkerWidth?this.histroryFrameSize.x-this.keyMarkerWidth:t;this.keyButtonMarker.setStyle("margin-left",t);this.scrollFromMarker();delete t},positionKeyMarkerOnScroll:function(){var t=this.totalWidth-this.histroryFrameSize.x,n=this.historyFrame.getScroll().x,i=n/t;this.keyButtonMarker.setStyle("margin-left",n*this.keyScale);this.section.fireEvent("LeaveHistoryScroll",i);delete t;delete n;delete i},reset:function(){this.leaveRequest&&this.leaveRequest.isRunning()&&this.leaveRequest.cancel();this.holidayRequest&&this.holidayRequest.isRunning()&&this.holidayRequest.cancel()},destroy:function(){if(this.reset(),this.section){this.section.removeEvents();try{this.titlebox.removeEvents()}catch(n){}try{this.historyFrame.removeEvents()}catch(n){}Array.each(this.section.getElements(".has-events"),function(n){n.removeEvents()});Array.each(this.section.getElements(".button"),function(n){n.removeEvents()});this.section.empty();this.section.destroy()}}}),UIManagerLeaveBalances=new Class({Implements:[Options,Events],Extends:UIEmployeeLeaveBalances,Binds:["hide","show","toggle","getBalances","refreshEmployeeSelector","processTeam","leavePaginate","populateLeaveFilters","reset","destroy"],options:{target:null,configData:null},initialize:function(n){this.setOptions(n);this.parent(n,!0);var t=Affinity.login.profile.employeeNumber;this.balanceUrl=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"ManagerTeamLeaveBalance/"+t);this.leaveTypesUrl=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"LeaveTypes/"+t);this.target=this.options.target;this.managerConfig=this.options.configData;this.isManager=!0;this.section=new Element("div",{"class":"section shadow"}).inject(this.target);this.sectionBody=new Element("div",{"class":"section-body"}).inject(this.section);this.unitType="H";this.unitLabel="Hour";this.totalRecords=0;this.getBalancesType="ui";this.csvOffset=1;this.csvContentArr=[];this.csvBatchSize=50;this.tlbContent=null;this.tlbContentWrap=null;this.form=new Element("div",{"class":"default-form"}).inject(this.sectionBody);this.teamBalances=new Element("div",{"class":"team-leave-balance"}).inject(this.form);this.titlebar=new Element("div",{"class":"section-title team-leave-balance-title ui-has-tooltip",html:"Estimated Available Leave","data-tooltip":"Open / Close","data-tooltip-dir":"top"}).addEvent(Affinity.events.click,this.toggle).inject(this.teamBalances);this.toggleButton=new Element("div",{"class":"toggle-button",html:Affinity.icons.ArrowLineSmallDown}).store("state","closed").inject(this.titlebar);this.teamBalancesBody=new Element("div",{"class":"team-balance-body"}).inject(this.teamBalances);this.toggleFullView=new Element("span",{"class":"button footer-button detailed-view blue"}).adopt(new Element("span",{id:"toggle-button-wording",html:"Detailed View"})).addEvent(Affinity.events.click,function(){this.toggleTableView()}.bind(this));this.exportButton=new Element("span",{"class":"button green footer-button ui-has-tooltip","data-tooltip":"Export all team leave balances as csv","data-tooltip-dir":"right"}).adopt(new Element("span",{html:"Export All"})).addEvent(Affinity.events.click,function(){this.validateInput()&&(this.totalRecords==0?uialert({message:"Please ensure balances are displayed on screen before exporting.",noClose:!1}):this.buildCsv(null))}.bind(this));this.tableContainer=new Element("div");this.balanceTable=null;this.balanceSelector=null;this.currentPage=1;this.leavePagingCount=8;this.leaveTotalPages=1;this.leaveConfigOptions=null;this.employeeFromSearch=0;this.selection=0;this.dateTo=null;this.payPeriodEndDate=new Date;this.employeeSelector=new Element("select",{"class":"leave-employee-selector ui-autocomplete"});this.leaveTypeFilter=new Element("select",{"class":"leave-filter-select leave-type-filter inline"}).adopt(new Element("option",{value:"0",html:"Annual Leave",id:"09"}));this.leaveTypeElement=new Element("span").adopt(new Element("span",{"class":"filter-label",html:"Select Leave Type"}),this.leaveTypeFilter);this.annualLeaveHeader=new Element("span",{html:"Anual Leave"});this.showButton=new Element("span",{"class":"form-row team-balance-selector"}).adopt(new Element("span",{"class":"button blue",html:"Show"}));this.annualLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Leave available at the end of the last pay period","data-tooltip-dir":"left"});this.approvedLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Approved not-yet-paid leave","data-tooltip-dir":"left"});this.unapprovedLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Leave applied for awaiting approval","data-tooltip-dir":"left"});this.accruedLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Leave that accrued since the end of the last pay period","data-tooltip-dir":"left"});this.availableLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Estimated leave available on this date","data-tooltip-dir":"left"});this.availableHoursLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Estimated leave available on this date in hours","data-tooltip-dir":"left"});this.availableDaysLeaveTooltip=new Element("span",{"class":"icon small icon-help-round ui-has-tooltip","data-tooltip":"Estimated leave available on this date in days","data-tooltip-dir":"left"});this.nonconfiguredLeaveTypes=["A","B","C","D","E","S"];this.availableLeaveCodes=["07","09","10","12","13","11"];this.leaveBalanceDatePicker=new Element("span").adopt(new Element("span",{"class":"filter-label",html:"Select a Date"}),new Element("span",{"class":"form-row inline"}).adopt(this.dateToFilter=new Element("input",{type:"text",id:"leave-date-to","class":"data-hj-whitelist leave-filter-date inline uidate-calendar","data-calendar-display-format":"%d/%m/%y","data-calendar-return-format":"%d/%m/%Y","data-start-date":"none","data-calendar-nullable":"true",value:null})));this.tooltips=new Element("span",{"class":"hidden"}).adopt(this.annualLeaveTooltip,this.approvedLeaveTooltip,this.unapprovedLeaveTooltip,this.accruedLeaveTooltip,this.availableLeaveTooltip,this.availableDaysLeaveTooltip);this.loadingBar=new Element("div",{"class":"loadingBarContainer",id:"loadingBarContainer"}).adopt(new Element("div",{id:"loadingBarMessage","class":"color-orange"}),new Element("div",{"class":"barProgress",id:"barProgress"}).adopt(new Element("div",{"class":"loadingBar",id:"loadingBar"})));this.balanceSelector=new Element("div",{"class":"form-row team-balance-selector"}).adopt(this.employeeSelector,this.leaveTypeElement,this.leaveBalanceDatePicker,this.showButton,this.tooltips,this.loadingBar,this.tableContainer,this.toggleFullView,this.exportButton).inject(this.teamBalancesBody);this.paginateBox=new Element("div",{"class":"paginate-box pagination"}).inject(this.teamBalances,"bottom");this.showButton.addEvent(Affinity.events.click,function(){this.getBalances("ui")}.bind(this));this.employeeSelector.addEvent("change",function(){(function(){if(this.selection=this.employeeSelector.getSelected()[0].get("value"),this.selection==-1){this.employeeFromSearch=0;this.selection=0;return}this.selection==-2?(this.includeIndirect=!1,this.employeeFromSearch=0):this.selection==-3?(this.includeIndirect=!0,this.employeeFromSearch=0):(this.employeeFromSearch=this.selection,this.includeIndirect=!0)}).bind(this).delay(10,this)}.bind(this));this.refreshEmployeeSelector(!1);this.panels=new Element("div",{"class":"leave-info-panels"}).inject(this.teamBalancesBody);this.employeeNumber=null;this.teamBalanceRequest=new Request.JSON({headers:{Pragma:"no-cache"},onRequest:function(){this.getBalancesType!="csv"&&uialert({message:"Projecting Leave",showLoader:!0,showButtons:!1,noClose:!0})}.bind(this),onFailure:function(n){prompts.hide();Affinity.leave.handleXHRErrors(n,this._api,this._methodName)},onSuccess:function(n){prompts.hide();this.data=n.Data;this.data.hasOwnProperty("PayPeriodEndDate")&&(this.payPeriodEndDate=new Date(this.data.PayPeriodEndDate));this.getBalancesType=="csv"?this.buildCsv(this.data):(this.annualLeaveHeader.innerHTML="Leave Balance <br> (as at "+this.payPeriodEndDate.format("%d-%b-%Y")+")",Affinity.leave.isErrorInJson(n,this._api,this._methodName)||this.process(this.data),this.leavePaginate())}.bind(this)});this.leaveTypeRequest=new Request.JSON({headers:{Pragma:"no-cache"},onSuccess:function(n){this.data=n.Data;this.leaveConfigOptions==null&&this.data.hasOwnProperty("LeaveCodes")&&(this.leaveConfigOptions=this.data.LeaveCodes,this.populateLeaveFilters(this.leaveConfigOptions))}.bind(this)});this.leaveTypeRequest.url=this.leaveTypeRequest.options.url=this.leaveTypesUrl;this.leaveTypeRequest.get();Affinity.uiDateCalendar.processNew();this.teamBalancesBody.toggle()},refreshEmployeeSelector:function(n){if(this.employeeSelector&&this.managerConfig.Employees){this.employeeSelector.empty();new Element("option",{value:"-1","class":"grey-text",html:"Select an employee"}).inject(this.employeeSelector,"top");new Element("option",{value:"-2",html:"All Direct Employees"}).inject(this.employeeSelector);new Element("option",{value:"-3",html:"All Direct and Indirect Employees"}).inject(this.employeeSelector);var t=0,i=0;Array.each(this.managerConfig.Employees,function(r){r.IsDirect&&(new Element("option",{html:r.EmployeeName+" ("+r.EmployeeNo+")",value:r.EmployeeNo}).inject(this.employeeSelector),i++,n==r.EmployeeNo&&(t=i))}.bind(this));this.employeeSelector.selectedIndex=t;this.employeeSelectorAutocomplete&&this.employeeSelectorAutocomplete.revert();this.employeeSelectorAutocomplete=new UIAutoCompleteWidget({stopInitialChange:!0,selectElement:this.employeeSelector})}},getWording:function(n,t){return n==1||n==-1?n+" "+t:n+" "+t+"s"},buildCsv:function(n){var u,i,e,o,s,h,t;if(n!=null){u="ProjectedLeave"in n?n.ProjectedLeave:n;let t=this.csvContentArr;i=this.unitLabel;Array.each(u,function(n){var r=[];switch(n.CalcUnit){case"D":i="Days";break;case"W":i="Weeks";break;case"H":default:i="Hours"}r.push(n.EmployeeName+" ("+n.EmployeeNo+")",i,n.PpeEntitlement,n.PpeAccrual,n.LeaveBalance,n.ApprovedLeaveDisplay,n.PendingLeaveDisplay,n.AccruedProjectedLeave,n.TotalProjectedHours,n.TotalProjectedDays);t.push(r)});this.csvContentArr=t}if(this.totalRecords!=0){var r=Math.ceil(this.totalRecords/this.csvBatchSize),c=100/r,f=document.getElementById("loadingBarContainer");if(f.style.display="block",this.incrementProgressBar(c,r),this.csvOffset<=r)this.getBalances("csv"),this.csvOffset++;else if(this.csvContentArr.length>0){f.style.display="none";e=["Employee","Units","Entitlement","Accrual","Leave Balance (as at "+this.payPeriodEndDate.format("%d-%b-%Y")+")","Approved Leave","Unapproved Leave","Accrued Leave","Available Leave (hours)","Available Leave (days)"];this.csvContentArr.unshift(e);let i=this.csvContentArr,n="";i.forEach(function(t){let i=t.join(",");n+=i+"\r\n"});navigator.msSaveBlob?(o="TeamLeaveBalance.csv",s=new Blob([n],{type:"text/csv;charset=utf-8;"}),navigator.msSaveBlob(s,o)):(n="data:text/csv;charset=utf-8,"+n,h=encodeURI(n),t=document.createElement("a"),t.setAttribute("href",h),t.setAttribute("download","TeamLeaveBalance.csv"),document.body.appendChild(t),t.click(),t.parentNode.removeChild(t),this.csvContentArr=[],this.csvOffset=1,document.getElementById("loadingBar").style.width="0%")}}},generateEalTableHtml:function(n){var t,i,f;console.log(n);var o=n.calcUnit=="H"?"Hours":"Days",r=this.parseISOLocal(n.balanceDate),s=r.getDate()+"/"+(r.getMonth()+1)+"/"+r.getFullYear(),u="<div class='leftText ealTableTitle'>How "+n.employeeFirstName+"'s Estimated Leave Is Calculated<\/div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown<\/th><th class='centerText'>"+o+"<\/th><\/tr><\/thead><tbody><tr><td>Leave balance at last period end<\/td><td class='centerText "+this.evaluateCssClassByValue(n.unitlessLeaveBalance)+"'>"+n.unitlessLeaveBalance+"<\/td><\/tr><tr><td>Add leave accruals<\/td><td class='centerText "+this.evaluateCssClassByValue(n.postProjectedAccruals+n.unitlessProjectedAccruals)+"'>+"+ +(n.postProjectedAccruals+n.unitlessProjectedAccruals).toFixed(2)+"<\/td><\/tr>",e=n.calcUnit=="H"?n.unitlessTotalProjectedHours:n.unitlessTotalProjectedDays;if(n.leaveItems!=null)for(t=0;t<n.leaveItems.length;t++)i=this.parseISOLocal(n.leaveItems[t].DateFrom),f=i.getDate()+"/"+(i.getMonth()+1)+"/"+i.getFullYear(),u+=n.leaveItems[t].Credit?"<tr><td>Credit cancelled/declined leave booked on "+f+"<\/td><td class='centerText "+this.evaluateCssClassByValue(n.leaveItems[t].Units)+"'>+"+n.leaveItems[t].Units+"<\/td><\/tr>":"<tr><td>Subtract leave booked on "+f+"<\/td><td class='centerText "+this.evaluateCssClassByValue(-n.leaveItems[t].Units)+"'>-"+n.leaveItems[t].Units+"<\/td><\/tr>";return u+="<tfoot><tr><th>Total estimated leave available on "+s+"<\/th><th class='centerText "+this.evaluateCssClassByValue(e)+"'>"+e+"<\/th><\/tr> <\/tfoot>",u+"<\/table><br />"},parseISOLocal:function(n){var t=n.split(/\D/);return new Date(t[0],t[1]-1,t[2],t[3],t[4],t[5])},evaluateCssClassByValue:function(n){return n<0?"red":""},incrementProgressBar:function(n,t){var i=document.getElementById("loadingBar"),r=document.getElementById("barProgress"),u=i.clientWidth/r.clientWidth*100;totalPercentage=u+n;message=document.getElementById("loadingBarMessage");i.style.width=totalPercentage+"%";message.innerText=totalPercentage>=100-n&&t>2||t<=2&&Math.round(totalPercentage)==100?"We're almost there...":"Exporting. "+Math.round(totalPercentage)+"% complete. Don't navigate away from this page."},hide:function(){this.toggleButton.set("html",Affinity.icons.ArrowLineSmallDown).store("state","closed");this.teamBalancesBody.dissolve()},show:function(){this.toggleButton.set("html",Affinity.icons.ArrowLineSmallUp).store("state","open");this.teamBalancesBody.reveal()},toggle:function(){this.toggleButton.retrieve("state")==="open"?this.hide():this.show()},getBalances:function(n){(this.getBalancesType=n.length?n:"ui",this.teamBalanceRequest&&this.teamBalanceRequest.isRunning()&&this.teamBalanceRequest.cancel(),this.balanceTable&&this.getBalancesType!="csv"&&this.balanceTable.destroy(),this.getBalancesType!="ui"||(this.balanceTable=new Element("div",{"class":"team-balance-table"}).inject(this.tableContainer,"bottom"),this._methodName="ui.managerBalances.js -> getBalances",this.validateInput()))&&(this._api=this.getBalancesType=="csv"?this.getLeaveBalanceApiUrl(!1):this.getLeaveBalanceApiUrl(!0),this.teamBalanceRequest.url=this.teamBalanceRequest.options.url=this._api,this.teamBalanceRequest.get())},validateInput:function(){if(this.selection==-1)return uialert({message:"Please select an employee to view.",noClose:!1}),!1;if(this.dateTo=this.dateToFilter.getWidget().getRawDate(),this.dateTo=this.dateTo&&typeOf(this.dateTo)==="date"&&this.dateTo.isValid()?this.dateTo.format("%d-%b-%Y"):null,this.dateTo==null)return uialert({message:"Date selection is invalid",noClose:!1}),!1;var n=Date.parse(this.dateTo.replace(/-/g," "));return n.lessThan(new Date)?(uialert({message:"Past dates are invalid.",noClose:!1}),!1):n.greaterThan(new Date((new Date).setFullYear((new Date).getFullYear()+1)))?(uialert({message:"You can only estimate leave up to one year in advance.",noClose:!1}),!1):!0},process:function(n){var s="ProjectedLeave"in n?n.ProjectedLeave:n,f,r,t,e,h,o,u,i;if(this.balanceTable){for(this.balanceTable.empty(),f={},r=[],Array.each(s,function(n){this.unitType=n.CalcUnit;switch(this.unitType){case"D":this.unitLabel="Day";break;case"W":this.unitLabel="Week";break;case"H":default:this.unitLabel="Hour"}r.push({employee:n.EmployeeName+" ("+n.EmployeeNo+")",employeeFirstName:this.isEmptyOrSpaces(n.EmployeeFirstName)?"this employee":n.EmployeeFirstName,accruedProjectedLeave:this.getWording(n.AccruedProjectedLeave,this.unitLabel),unitlessProjectedAccruals:n.AccruedProjectedLeave,postProjectedAccruals:n.PostProjectedAccruals,approvedNotPaidLeave:this.getWording(n.ApprovedLeaveDisplay+n.PostProjectedApprovedLeaveDisplay,this.unitLabel),pendingApprovalLeave:this.getWording(n.PendingLeaveDisplay+n.PostProjectedPendingLeaveDisplay,this.unitLabel),leaveBalance:this.getWording(n.LeaveBalance,this.unitLabel),unitlessLeaveBalance:n.LeaveBalance,totalProjectedHours:this.getWording(n.TotalProjectedHours,"Hour"),totalProjectedDays:this.getWording(n.TotalProjectedDays,"Day"),unitlessTotalProjectedHours:n.TotalProjectedHours,unitlessTotalProjectedDays:n.TotalProjectedDays,calcUnit:n.CalcUnit,story:n.Story,totalsStory:n.TotalStory,balanceDate:n.BalanceDate,leaveItems:n.LeaveItems})}.bind(this)),e=Object.keys(f),e.sort(),this.tlbContent=new Element("table",{"class":"leave"}).adopt(new Element("thead").adopt(h=new Element("tr").adopt(new Element("th",{"class":"active tooltip-view",html:"Employee"}),new Element("th",{"class":"active full-view",html:"Employee"}),new Element("th",{"class":"full-view active",html:""}).adopt(this.annualLeaveHeader,this.annualLeaveTooltip),new Element("th",{"class":"full-view active",html:"Approved Leave"}).adopt(this.approvedLeaveTooltip),new Element("th",{"class":"full-view active",html:"Unapproved Leave"}).adopt(this.unapprovedLeaveTooltip),new Element("th",{"class":"full-view active",html:"Accrued Leave"}).adopt(this.accruedLeaveTooltip),new Element("th",{"class":"full-view active",html:"Available Leave (hours)"}).adopt(this.availableHoursLeaveTooltip),new Element("th",{"class":"full-view active",html:"Available Leave (days)"}).adopt(this.availableDaysLeaveTooltip),new Element("th",{"class":"tooltip-view active",html:"Available Leave"}).adopt(this.availableLeaveTooltip),new Element("th",{"class":"tooltip-view active",html:""}))),o=new Element("tbody",{"class":"teamLeaveBalancesTable"})),this.tlbContentWrap=new Element("div",{"class":"section-table summaryView"}).adopt(this.tlbContent).inject(this.balanceTable),Array.each(r,function(n){t=new Element("tr").inject(o);new Element("td",{"class":"active tooltip-view col-id-employee indicate first",html:n.employee}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.employee}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.leaveBalance}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.approvedNotPaidLeave}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.pendingApprovalLeave}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.accruedProjectedLeave}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.totalProjectedHours}).inject(t);new Element("td",{"class":"active full-view col-id-employee indicate first",html:n.totalProjectedDays}).inject(t);var i=n.totalProjectedHours;n.calcUnit=="D"&&(i=n.totalProjectedDays);new Element("td",{"class":"tooltip-view active col-id-employee indicate",html:i}).inject(t);new Element("td",{"class":"tooltip-view active col-id-employee indicate ui-has-tooltip",html:'<span class="button more w-icon"><span class="icon-info"><\/span><span>More Info<\/span><\/span>'}).addEvent(Affinity.events.click,function(){var t=this.generateEalTableHtml(n),i="<div class='eal-ppeTotalStory'><div class='eal-ppeTotalStoryTitle'><b>Totals at last pay period<\/b><\/div> <div>"+n.totalsStory+"<\/div><\/div>";uialert({message:t,okText:"Close",okIcon:" ",cssSelector:"tlbPrompt",showButtons:!0,noClose:!1,showHiddenInfo:!0,hiddenInfoMessage:i,hiddenInfoButtonText:"Totals at last pay period"})}.bind(this)).inject(t)}.bind(this)),Affinity.tooltips.processNew(),u=document.getElementsByClassName("footer-button"),i=0;i<u.length;i++)u[i].style.display="inline-block";document.getElementById("toggle-button-wording").innerText="Detailed View"}},reset:function(n){this.parent();n||(this.teamBalanceRequest&&this.teamBalanceRequest.isRunning()&&this.teamBalanceRequest.cancel(),this.balanceTable&&this.balanceTable.destroy())},isEmptyOrSpaces:function(n){return n===null||n.match(/^ *$/)!==null},toggleTableView:function(){var t=document.getElementsByClassName("tooltip-view"),i=document.getElementsByClassName("full-view"),r,n;t.length&&(r=t[0]);var u="table-cell",f="table-cell",e="Summary View",o=window.getComputedStyle(r);for(o.display==="none"?(u="none",e="Detailed View",this.tlbContentWrap.addClass("summaryView"),ga("send","event",{eventCategory:"EAL Manager Details",eventAction:"Show Summary View",eventLabel:"e: "+Affinity.login.profile.employeeNumber+" | c:"+Affinity.login.profile.companyNumber})):(f="none",this.tlbContentWrap.removeClass("summaryView"),ga("send","event",{eventCategory:"EAL Manager Details",eventAction:"Show Detailed View",eventLabel:"e: "+Affinity.login.profile.employeeNumber+" | c:"+Affinity.login.profile.companyNumber})),n=0;n<i.length;n++)i[n].style.display=u;for(n=0;n<t.length;n++)t[n].style.display=f;document.getElementById("toggle-button-wording").innerText=e},getLeaveBalanceApiUrl:function(n){var t=this.balanceUrl,i;return t=this.addToApiUrl(t,"dateTo="+this.dateTo),t=this.includeIndirect?this.addToApiUrl(t,"includeIndirect=true"):this.addToApiUrl(t,"includeIndirect=false"),t=this.addToApiUrl(t,"employeeNo="+this.employeeFromSearch),i=this.leaveTypeFilter[this.leaveTypeFilter.selectedIndex].get("id"),i.length&&(t=this.addToApiUrl(t,"leaveCode="+i)),n?t=this.addToApiUrl(t,"pageNo="+this.currentPage):(t=this.addToApiUrl(t,"pageNo="+this.csvOffset),t=this.addToApiUrl(t,"pageSize="+this.csvBatchSize)),t},addToApiUrl:function(n,t){return n+=n.indexOf("?")>-1?"&":"?",n+t},leavePaginate:function(){var n,r,u,e,f,t;for(typeOf(this.currentPage)!=="null"&&("currentPage"in this)||(this.currentPage=1),this.clearPagination(),n=this.data.PageCount,this.pageFirst=new Element("span",{"class":"pagination-first",html:"First"}).inject(this.paginateBox),this.pageBack=new Element("span",{"class":"pagination-back",html:"Previous"}).inject(this.paginateBox),this.pages=new Element("div",{"class":"pagination-pages"}).inject(this.paginateBox),this.pageForward=new Element("span",{"class":"pagination-forward",html:"Next"}).inject(this.paginateBox),this.pageLast=new Element("span",{"class":"pagination-last",html:"Last"}).inject(this.paginateBox),r=this.data.ProjectedLeave.length,r>0&&(u=(this.currentPage-1)*20+1,e="showing "+u+" to "+(u+r-1)+" of "+this.data.Count,this.pageSubText=new Element("div",{"class":"pagination-sub-text",html:e}).inject(this.paginateBox)),f=0,i=1;i<=n;i++)i>this.currentPage-1-this.leavePagingCount/2&&f<=this.leavePagingCount?(f++,i==this.currentPage?(t=new Element("input",{type:"text","class":"paginate-page-numbers data-hj-whitelist",value:i}).inject(this.pages),function(t){t.addEvent("change",function(){var r=t.get("value"),i=parseInt(r);i==r&&i>0&&i<=n?(this.currentPage=i,this.getBalances("ui")):uialert({message:"Unable to display page "+r,noClose:!1})}.bind(this))}.bind(this)(t)):(t=new Element("span",{"class":"paginate-page-numbers",html:i}).inject(this.pages),function(n,t){n.addEvent(Affinity.events.click,function(){this.currentPage=t;this.getBalances("ui")}.bind(this))}.bind(this)(t,i))):(i==1||i==n)&&(t=new Element("span",{"class":"paginate-page-numbers not-clickable",html:"..."}).inject(this.pages));this.totalRecords=this.data.Count;n>0&&this.currentPage!=1?(this.pageFirst.removeEvents(),this.pageFirst.addEvent(Affinity.events.click,function(){this.currentPage=1;this.getBalances("ui")}.bind(this)),this.pageBack.removeEvents(),this.pageBack.addEvent(Affinity.events.click,function(){this.currentPage=this.currentPage-1;this.getBalances("ui")}.bind(this))):(this.pageFirst.addClass("not-active"),this.pageBack.addClass("not-active"));n>0&&this.currentPage!=this.data.PageCount?(this.pageLast.removeEvents(),this.pageLast.addEvent(Affinity.events.click,function(){this.currentPage=this.data.PageCount;this.getBalances("ui")}.bind(this)),this.pageForward.removeEvents(),this.pageForward.addEvent(Affinity.events.click,function(){this.currentPage=this.currentPage+1;this.getBalances("ui")}.bind(this))):(this.pageLast.addClass("not-active"),this.pageForward.addClass("not-active"))},clearPagination:function(){this.paginateBox&&(this.pageFirst&&this.pageFirst.removeEvents(),this.pageBack&&this.pageBack.removeEvents(),this.pageForward&&this.pageForward.removeEvents(),this.pageLast&&this.pageLast.removeEvents(),this.pages&&Array.each(this.pages.getElements(".paginate-page-numbers"),function(n){n.removeEvents()}),this.paginateBox.empty())},populateLeaveFilters:function(n){this.leaveTypeFilter.empty();new Element("option",{value:"0",html:"Annual Leave",id:"09"}).inject(this.leaveTypeFilter);Array.each(n,function(t){if(t.Code!="09"){var i=t.Description.split("Leave "),r=null;i.length>1&&(r=i[1]);this.inArray(t.Code,this.availableLeaveCodes)&&!this.inArray(r,this.nonconfiguredLeaveTypes)&&new Element("option",{html:t.Description,id:t.Code,value:n.index}).inject(this.leaveTypeFilter)}}.bind(this))},inArray:function(n,t){return t.indexOf(n)>-1},destroy:function(){this.reset();this.employeeSelector&&this.employeeSelector.removeEvents();this.employeeSelectorAutocomplete&&this.employeeSelectorAutocomplete.destroy();this.section&&(Array.each(this.section.getElements(".button"),function(n){n.removeEvents()}),Array.each(this.section.getElements(".toggle-button"),function(n){n.removeEvents()}),this.section.empty(),this.section.destroy());Object.each(this,function(n,t){this[t]=null;delete this[t]}.bind(this))}}),EmployeeBalancesWidget=new Class({Implements:[Options,Events],Binds:["init","getData","buildPosition","updatePosition","updateInterface","refresh","reset","destroy"],options:{target:null,employeeId:null,managerId:null,filter:!1},initialize:function(n){this.setOptions(n);this.target=this.options.target;this.employeeId=this.options.employeeId;this.managerId=this.options.managerId;this.filter=this.options.filter;this.box=new Element("div",{"class":"balance-box"});this.table=new HtmlTable({properties:{border:0,cellspacing:0,"class":"ui-none"},headers:["","Total",Affinity.icons.ThumbsUp,Affinity.icons.Hourglass]}).inject(this.box);this.balanceDate=new Element("div",{"class":"balance-date"}).inject(this.box);this.tbody=this.table.body;this.thead=this.table.head;typeOf(this.target)==="null"||this.target.getElement(".balance-box")||this.box.inject(this.target);this.balanceRequest=new Request.JSON({onFailure:function(n){Affinity.leave.handleXHRErrors(n,this._api,this._methodName,!0)},onSuccess:function(n){Affinity.leave.isErrorInJson(n,this._api,this._methodName,!0)||this.updateInterface(n.Data)}.bind(this)});typeOf(this.employeeId)!=="null"&&this.refresh()},loading:!1,refresh:function(){if(typeOf(this.employeeId)!=="null"){if(this.loading)return;this.getData()}},getDataDelay:!1,getData:function(){if(typeOf(this.employeeId)!=="null"){if(this.box.addClass("hidden"),clearTimeout(this.getDataDelay),this.loading){this.getDataDelay=this.getData.delay(1e3,this);return}this.loading=!0;this._api=Affinity.GetCacheSafePath(Affinity.leave.apiroot+"EmployeeLeaveBalance/"+this.employeeId);this._methodName="ui.employee.balances.widget.js -> getData";this.balanceRequest&&this.balanceRequest.isRunning()&&this.balanceRequest.cancel();this.balanceRequest.url=this.balanceRequest.options.url=this._api;this.balanceRequest.get()}},buildPosition:function(n){this.table.push(["","","",""],{"class":"position-"+n.LeaveCode});this.updatePosition(n)},updatePosition:function(n){var r,t,i;this.tbody.getElement("tr.position-"+n.LeaveCode)?(r=this.tbody.getElement("tr.position-"+n.LeaveCode),t=n.TotalHours,n.UnitType==="D"&&(t=n.TotalDays),this.table.update(r,[n.CodeDescription,parseFloat(t).format({decimals:2}),parseFloat(n.ApprovedNotPaid).format({decimals:2}),parseFloat(n.Unapproved).format({decimals:2})]),i="as at "+Date.parse(n.PeriodEndDate).format("%d %b %Y"),i+=n.IncludeFutureLeave?" (inc. future leave)":" (exc. future leave)",this.balanceDate.set("html",i),this.box.removeClass("hidden")):this.buildPosition(n)},updateInterface:function(n){Array.each(n.ComponentBalances,function(n){Array.each(n.CodeBalances,function(n){typeOf(this.filter)!=="boolean"?(typeOf(this.filter)==="array"&&Array.each(this.filter,function(t){typeOf(t)==="string"&&t.toLowerCase().indexOf(n.CodeDescription.toLowerCase())>-1&&this.updatePosition(n)}),typeOf(this.filter)==="string"&&this.filter.toLowerCase().indexOf(n.CodeDescription.toLowerCase())>-1&&this.updatePosition(n)):this.updatePosition(n)}.bind(this))}.bind(this));typeOf(this.target)==="null"||this.target.getElement(".balance-box")||this.box.inject(this.target);this.loading=!1}})
+var TeamLeave = new Class({
+
+    Implements: [Options, Events],
+
+    Binds: [
+        'init',
+        'getTeamConfig',
+        'initConfig',
+        'managerHistory',
+        'managerBalance',
+        'managerApply',
+        'managerDetail',
+        'generateLeaveCalendar',
+        'applyTeamConfig',
+        'refreshBalance', 'refreshHistory', 'refreshAll',
+        'getManagerEmployeeConfig',
+        'getManagerEmployeeConfigFromBackend',
+        'reset', 'destroy'
+    ],
+
+    options: {
+        target: null
+    },
+
+    initialize: function (options) {
+        this.setOptions(options);
+        this.target = this.options.target;
+    },
+
+    configData: null,
+
+    requireUpdate: false,
+    timeLastModified: null,
+    
+    leaveBlanaces: false,
+    leaveHistory: false,
+    leaveDetail: false,
+
+    init: function (data) {
+        this.configQueue = [];
+        this.getTeamConfig();
+        
+
+        this.employeeConfigRequest = new Request.JSON({
+            //url: api,
+            onRequest: function () {
+                Affinity.leave.lockui('teamleave-managerEmployeeConfig');
+            },
+            onFailure: function (e) {
+                Affinity.leave.unlockui('teamleave-managerEmployeeConfig');
+                prompts.hide();
+                Affinity.leave.handleXHRErrors(e, this._api, 'ui.teamLeave.js -> managerEmployeeConfig');
+            }.bind(this),
+            onException: function () {
+                Affinity.leave.unlockui('teamleave-managerEmployeeConfig');
+            },
+            onCancel: function () {
+                Affinity.leave.unlockui('teamleave-managerEmployeeConfig');
+            },
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('teamleave-managerEmployeeConfig');
+                prompts.hide();
+                var eIndex = -1;
+                if (!Affinity.leave.isErrorInJson(response, this._api, 'ui.teamLeave.js -> managerEmployeeConfig')) {
+                    if (response.Data) {
+                        Array.each(response.Data.Positions, function (position, index) {
+                            if (!position.SubmittedTos || position.SubmittedTos.length == 0) {
+                                position.SubmittedTos = this.config.ForwardToManagers;
+                            }
+                        });
+
+                        Array.each(this.config.Employees, function (employee, index) {
+                            if (employee.EmployeeNo == this._employeeNo)
+                                eIndex = index;
+                        }.bind(this))
+                        if (eIndex == -1) {
+                            this.config.Employees.push(response.Data);
+                        }
+                        else {
+                            this.config.Employees[eIndex] = response.Data;
+                        }
+
+
+                    }
+                    
+                    if (this._onSuccess) {
+                        this._onSuccess( response.Data );
+                        this._onSuccess = null;
+                    }
+                }
+            }.bind(this)
+        })
+    },
+
+    getManagerEmployeeConfig: function (employeeNo, onSuccess) {
+        var found = false;
+        Array.each(this.config.Employees, function (employee, index) {
+            if (employee.EmployeeNo == employeeNo && employee.Positions) {
+                if (onSuccess) {
+                    onSuccess(employee);
+                }
+                found = true;
+                return;
+            }
+        }.bind(this));
+
+        if (!found) {
+            uialert({
+                message: 'Loading Employee Configuration',
+                showLoader: true,
+                showButtons: false,
+                noClose: false
+            });
+            this._employeeNo = employeeNo;
+            this._onSuccess = onSuccess;
+            this.employeeConfigRequest.options.url = this.employeeConfigRequest.url = this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'LeaveManagerEmployeeConfig/' + employeeNo);
+            this.employeeConfigRequest.get();
+        }
+    },
+
+    getManagerEmployeeConfigFromBackend: function (employeeNo, onSuccess) {
+
+
+            uialert({
+                message: ' ',
+                showLoader: true,
+                showButtons: false,
+                noClose: false
+            });
+            
+            this._employeeNo = employeeNo;
+            this._onSuccess = onSuccess;
+            this.employeeConfigRequest.options.url = this.employeeConfigRequest.url = this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'LeaveManagerEmployeeConfig/' + employeeNo);
+            this.employeeConfigRequest.get();
+    },
+
+
+    getTeamConfig: function(){
+        uialert({
+            message: 'Loading Manager Configuration',
+            showLoader: true,
+            showButtons: false,
+            noClose: false
+        });
+        var employeeNum = Affinity.login.profile.employeeNumber;
+        var methodName = 'ui.teamLeave.js -> teamLeaveConfig';
+        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'LeaveManagerConfig/' + employeeNum);
+        new Request.JSON({
+            url: api,
+            onRequest: function () {
+                Affinity.leave.lockui('teamleave-teamLeaveConfig');
+            },
+            onFailure: function (e) {
+                Affinity.leave.unlockui('teamleave-teamLeaveConfig');
+                prompts.hide();
+                Affinity.leave.handleXHRErrors(e, api, methodName);
+            },
+            onException: function () {
+                Affinity.leave.unlockui('teamleave-teamLeaveConfig');
+            },
+            onCancel: function () {
+                Affinity.leave.unlockui('teamleave-teamLeaveConfig');
+            },
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('teamleave-teamLeaveConfig');
+                prompts.hide();
+                if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
+                    this.config = response.Data;
+
+                    if (this.configQueue && this.configQueue.length > 0) {
+                        Array.each(this.configQueue, function (execution, index) {
+                            if (execution && typeOf(execution) === 'function')
+                                execution(this.config);
+                        }.bind(this));
+
+                        this.configQueue = [];
+                    }
+
+                    this.managerHistory();
+                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
+                        this.setLeaveApplyV1();
+                        this.setLeaveDetailV1();
+                    } else {
+                        this.managerApply();
+                        this.managerDetail();
+                    }
+                    this.initConfig(response.Data);
+                    
+                }
+            }.bind(this)
+        }).get();
+    },
+
+    initConfig: function (configData) {
+        var isManager = document.querySelector(".section-nav.leave-nav li.u-blue.selected").classList.contains("manager");
+
+        if (isManager) {
+            this.managerBalance(configData);
+            this.generateLeaveCalendar();
+            Affinity.tooltips.processNew();
+            this.target.removeClass('hidden');
+        }
+    },
+
+    managerHistory: function () {
+        this.leaveHistory = new UILeaveHistory({
+            target: this.target,
+            isManager: true
+        });
+        Affinity.leave.manager.history = this.leaveHistory;
+    },
+
+    refreshHistory: function () {
+        if (this.leaveHistory) {
+            this.leaveHistory.reset(true); //keep filters
+            this.leaveHistory.refreshHistory(true); //no alerts
+        }
+    },
+
+
+    refreshBalance: function () {
+        if (this.leaveBlanaces) {
+            this.leaveBlanaces.reset();
+            if (this.leaveBlanaces.balanceTable) {
+                this.leaveBlanaces.getBalances();
+            }
+        }
+    },
+
+    refreshAll: function () {
+        this.refreshHistory();
+        this.refreshBalance();
+        //this.refreshApplyForLeave();
+    },
+
+    refreshApplyForLeave: function () {
+        this.applyForLeave.refreshEmployeeConfig();
+    },
+
+    managerBalance: function (configData) {
+        this.leaveBlanaces = new UIManagerLeaveBalances({
+            target: this.target,
+            configData: configData
+        });
+    },
+    //managerMultiPositionApply
+    setLeaveApplyV1: function () {
+        this.applyForLeave = new UILeaveApplyV1({
+            target: this.target,
+            isManager: true
+        });
+    },
+
+    managerApply: function () {
+        this.applyForLeave = new UILeaveApply({
+            target: this.target,
+            isManager: true
+        });
+    },
+
+    managerDetail: function () {
+        this.leaveDetail = new UILeaveDetail({
+            target: this.target,
+            isManager: true
+        });
+    },
+    //managerMultiPositionDetail
+    setLeaveDetailV1: function () {
+        this.leaveDetail = new UILeaveDetailV1({
+            target: this.target,
+            isManager: true
+        });
+    },
+
+    generateLeaveCalendar: function () {
+
+        var date = new Date();
+
+        var datefrom = new Date();
+        datefrom.setDate(1);
+        var from = datefrom.setMonth(datefrom.getMonth() - 13);
+
+        date.setMonth(date.getMonth() + 11);
+        var to = new Date(date.getFullYear(), date.getMonth(), 0);
+
+        this.calendar = new UIManagerLeaveCalendar({
+            target: this.target,
+            fromDate: from,
+            toDate: to
+        });
+
+    },
+
+
+    applyTeamConfig: function (doOnConfig) {
+        if (this.config) {
+            doOnConfig(this.config)
+        }
+        else {
+            this.configQueue.push(doOnConfig);
+        }
+    },
+
+    reset: function () {
+        if (this.leaveBlanaces) { this.leaveBlanaces.reset(); }
+        if (this.leaveHistory) { this.leaveHistory.reset(); }
+        if (this.applyForLeave) { this.applyForLeave.reset(); }
+        if (this.calendar) { this.calendar.reset(); }
+        this.target.empty();
+        this.target.addClass('hidden');
+    },
+
+    destroy: function () {
+        this.reset();
+        if (this.leaveBlanaces) { this.leaveBlanaces.destroy(); }
+        if (this.leaveHistory) { this.leaveHistory.destroy(); }
+        if (this.applyForLeave) { this.applyForLeave.destroy(); }
+        if (this.calendar) { this.calendar.destroy(); }
+    }
+
+});
+
+var UIManagerLeaveCalendar = new Class({
+
+    Implements: [Options, Events],
+
+    Binds: [
+        'hide', 'show', 'toggle',
+        'init',
+        'buildHistoryFrames',
+        'getHolidays', 'teamLeave', 'getExisitingLeave', 'processExistingLeave',
+        'buildHistoryControls', 'scrollFromMarker', 'positionKeyMarker', 'positionKeyMarkerOnScroll',
+        'reset', 'destroy'
+    ],
+
+    options: {
+        target: null,
+        fromDate: false,
+        toDate: false,
+        startDay: 0
+    },
+
+    initialize: function (options) {
+
+        this.setOptions(options);
+
+        /**/
+
+        this.width = '90%';
+
+        this.today = new Date();
+
+        this.currentMonth = Date.parse(this.options.fromDate).getMonth() + 1;
+
+        this.fromDate = Date.parse(this.options.fromDate);
+        this.toDate = Date.parse(this.options.toDate);
+
+        this.days = Math.ceil((this.toDate - this.fromDate) / 86400000);
+
+        this.visibleWidth = '90%';
+
+        this.segmentWidth = this.days * 20 < this.width ? this.width / this.days : 20;
+
+        this.totalWidth = this.segmentWidth * this.days;
+
+        /* BULD HTML */
+
+        this.target = this.options.target;
+
+        this.section = new Element('div', { 'class': 'section shadow calendar-section' }).adopt(
+
+            new Element('div', { 'class': 'section-body' }).adopt(
+
+                this.calendarForm = new Element('div', { 'class': 'default-form manager-leave-calendar-form' })
+
+            )
+
+        ).inject(this.target);
+
+        this.section.setStyle('opacity', 0);
+
+        this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Team Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
+            .addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
+
+        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.titlebox);;
+
+        this.hiddenBox = new Element('div', { 'class': 'manager-calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
+
+        this.box = new Element('div', { 'class': 'manager-calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
+
+        this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.box, 'top');
+
+        this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.box);
+        
+        this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.calendarForm);
+        this.filters = new Element('div', { 'class': 'calendar-filters form-row' }).inject(this.sectionBody);
+        //this.filters.toggle();
+        this.includeIndirect = new Element('label', { 'class': 'include-indirect-label', 'html': 'Include Indirect' }).inject(this.filters);
+        this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.filters);
+        this.includeIndirect.addEvent('change', function (e) {
+            this.teamLeave();
+        }.bind(this));
+
+        this.historyFrame = new Element('div', { 'class': 'calendar-history-frame' }).setStyle('width', '100%').inject(this.historyContainer);
+
+        this.historyTitles = new Element('div', { 'class': 'calendar-history-titles' }).setStyle('width', this.totalWidth).inject(this.historyFrame);
+
+        this.historySlider = new Element('div', { 'class': '', 'html': '' }).inject(this.box);
+
+        this.scrollPosition = null;
+
+        /* REQUESTS */
+
+        this.leaveRequest = new Request.JSON({
+            onFailure: function (e) {
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+            },
+            onSuccess: function (response) {
+                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+                    this.getExisitingLeave(response.Data);
+                }
+            }.bind(this)
+        });
+
+        this.holidayRequest = new Request.JSON({
+            onFailure: function (e) {
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+            },
+            onSuccess: function (response) {
+                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+                    this.renderHolidays(response.Data);
+                }
+            }.bind(this)
+        });
+
+        /**/
+
+        this.init();
+
+        this.section.addEvent('managercalendarloaded', function () {
+
+            this.box.inject(this.sectionBody);
+
+            //this.box.toggle();
+            (function () {
+                this.section.setStyle('opacity', null);
+            }).delay(500, this);
+
+            this.hiddenBox.set('html', '');
+
+            Affinity.tooltips.processNew();
+
+        }.bind(this));
+
+    },
+
+    hide: function (init) {
+        if (!init) {
+            this.scrollPosition = this.historyFrame.scrollLeft;
+        }
+        
+        this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
+        this.sectionBody.dissolve();
+    },
+
+    show: function () {
+        this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
+        this.sectionBody.reveal();
+
+        // if not scroll poisition not initiallized then scroll to mid
+        if (this.scrollPosition === null) {
+            this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
+        } else {
+            this.historyFrame.scrollLeft = this.scrollPosition;
+        }
+    },
+
+    toggle: function () {
+        if (this.toggleButton.retrieve('state') === 'open') {
+            this.hide();
+        } else {
+            this.show();
+        }
+    },
+
+    init: function () {
+        this.hide(true);
+
+        this.getHolidays();
+
+        this.section.addEvent('managerScheduleReturned', this.buildHistoryFrames);
+
+    },
+
+    teamLeave: function () {
+
+        var employeeNum = Affinity.login.profile.employeeNumber;
+
+        this._methodName = 'ui.managerCalendar.js -> teamLeave';
+
+        var url = Affinity.leave.apiroot + 'ManagerTeamCalendar/' + this.fromDate.format('%d-%b-%Y') + '/' + this.toDate.format('%d-%b-%Y');
+        if (this.includeIndirect.checked) {
+            url += '?includeIndirect=true';
+        }
+        this._api = Affinity.GetCacheSafePath(url);
+
+
+
+        if (this.leaveRequest && this.leaveRequest.isRunning()) {
+            this.leaveRequest.cancel();
+        }
+        this.leaveRequest.url = this.leaveRequest.options.url = this._api;
+        this.leaveRequest.get();
+
+
+    },
+
+    getHolidays: function () {
+
+        var employeeNum = Affinity.login.profile.employeeNumber;
+
+        this._methodName = 'ui.managerCalendar.js -> getHolidays';
+
+        this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'Holidays/' + employeeNum + '/' + Date.parse(this.fromDate).format('%d-%b-%Y') + '/' + Date.parse(this.toDate).format('%d-%b-%Y'));
+
+        this.holidays = {};
+
+        this.dayStarts = this.today.clone().clearTime().set('Hours', 8).set('Minutes', 30);
+        this.dayEnds = this.today.clone().clearTime().set('Hours', 17).set('Minutes', 30);
+        this.weekends = [0, 6]; // Sunday, Saturday
+
+        if (this.holidayRequest && this.holidayRequest.isRunning()) {
+            this.holidayRequest.cancel();
+        }
+        this.holidayRequest.url = this.holidayRequest.options.url = this._api;
+        this.holidayRequest.get();
+
+    },
+
+    renderHolidays: function (hols) {
+
+        Array.each(hols, function (holiday, index) {
+
+            var date = 't' + Date.parse(holiday.Date).clone().clearTime().format('%s');
+            this.holidays[date] = holiday.Name;
+
+        }.bind(this));
+
+        this.section.fireEvent('managerScheduleReturned');
+
+    },
+
+    getExisitingLeave: function (teamLeaveData) {
+
+        var leave;
+
+        var data = {};
+
+        data.teamleave = [];
+
+        data.teamleave.push(teamLeaveData);
+
+        this.processExistingLeave(data);
+
+    },
+
+    buildHistoryFrames: function () {
+
+        var date = this.fromDate.clone().clearTime();
+
+        var i, titleWidth, klass, bklass, tooltip, tooltipdir, seg;
+
+        for (i = 0; i < this.days; i++) {
+
+            if (i === 0 || date.getDate() === 1) {
+                titleWidth = this.segmentWidth * date.get('lastdayofmonth');
+                if (i === 0) { titleWidth = this.segmentWidth * (date.get('lastdayofmonth') - this.fromDate.getDate() + 1); }
+                new Element('div')
+					.addClass('title')
+					.setStyle('width', titleWidth + 'px')
+					.set('html', date.format('%B %Y'))
+					.inject(this.historyTitles)
+                ;
+            }
+
+            tooltip = date.format('%A %B %e%o %Y');
+
+            klass = 'calendar-history-segment ui-has-tooltip ';
+            if (date.clearTime().getTime() == this.today.clearTime().getTime()) {
+                klass += 'today ';
+                tooltip += '<br />Today';
+            }
+
+            bklass = 'bottom';
+            if (date.getDate() === 1) { bklass += ' month' }
+            if (this.weekends.contains(date.getDay())) { bklass += ' weekend' }
+            if (this.holidays['t' + date.format('%s')]) {
+                bklass += ' holiday',
+                tooltip += '<br />' + this.holidays['t' + date.format('%s')]
+            }
+
+            tooltipdir = i < (this.days / 2) ? 'top,right' : 'top,left';
+
+            seg = new Element('div', {
+                'class': klass,
+                'data-tooltip': tooltip,
+                'data-tooltip-dir': tooltipdir
+            }).adopt(
+                new Element('div', { 'class': 'top' }),
+                new Element('div', { 'class': bklass })
+            ).inject(this.historyFrame);
+
+            seg.store('date', date.clone());
+
+            seg.setStyles({
+                width: this.segmentWidth,
+                left: this.segmentWidth * i
+            });
+
+            date.increment('day', 1);
+
+        }
+
+        this.historyTitles.setStyle('width', this.segmentWidth * i);
+
+        /* tidy up titles */
+
+        if (this.fromDate.getDate() > 15) {
+            this.historyTitles.getElement('.title').set('html', '');
+        }
+        if (this.toDate.getDate() < 15) {
+            this.historyTitles.getLast('.title').destroy();
+        } else {
+            this.historyTitles.getLast('.title').setStyle('width', 'auto');
+        }
+
+        this.teamLeave();
+
+    },
+
+    processExistingLeave: function (data) {
+
+        this.teamMembers.set('html', '');
+        this.historyFrame.getElements('.calendar-history-item').destroy();
+
+        var offset = 45;
+        var days, width, left, kass, massage;
+
+        if (data.teamleave && data.teamleave.length > 0) {
+
+            Array.each(data.teamleave[0], function (person) {
+
+                this.teamMemberName = new Element('div', {
+                    'class': 'team-members-name',
+                    'html': person.EmployeeName
+                }).inject(this.teamMembers);
+
+                Array.each(person.LeaveBlocks, function (range, index) {
+
+                    days = Math.round((Date.parse(range.DateTo).getTime() - Date.parse(range.DateFrom).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                    width = days * this.segmentWidth;
+                    //left = (Math.round((Date.parse(range.DateFrom).getTime() - this.fromDate.getTime()) / (1000 * 60 * 60 * 24)) * this.segmentWidth);
+                    var fromDate = this.fromDate.getFullYear() + '-' + (this.fromDate.getMonth() + 1) + '-' + this.fromDate.getDate() + 'T00:00:00';
+                    left = (Math.round((Date.parse(range.DateFrom).getTime() - Date.parse(fromDate).getTime()) / (1000 * 60 * 60 * 24)) * this.segmentWidth);
+                    kass = 'calendar-history-item';
+                    kass += ' ui-has-tooltip';
+                    massage = '<div class=\'details\'>';
+                    massage += '<strong>' + person.EmployeeName + '</strong><br />';
+                    massage += '<p> </p>';
+                    massage += '<strong>From</strong> ' + Date.parse(range.DateFrom).format('%A %B %e%o %Y') + '<br />';
+                    massage += '<strong>To</strong> ' + Date.parse(range.DateTo).format('%A %B %e%o %Y') + '<br />';
+                    massage += '<p> </p>';
+                    massage += '<div>';
+                    Array.each(range.LeaveDescriptions, function (description, index) {
+                        massage += ' - ' + '<strong>' + description + '</strong>' + '<br />';
+                    });
+                    massage += '</div>';
+                    massage += '</div>';
+
+                    this.element = new Element('div')
+                        .addClass(kass)
+                        .setStyles({
+                            'margin-left': left,
+                            'width': width,
+                            'top': offset,
+                            'background-color': '#BEBEBE'
+                        })
+                        .set('data-tooltip', massage)
+                        .set('data-tooltip-direction', 'top')
+                        .inject(this.historyFrame)
+                    ;
+
+                }.bind(this));
+
+                offset += 35;
+
+            }.bind(this));
+        }
+
+        this.historyFrame.setStyle('height', offset + 25);
+        this.teamMembers.setStyle('height', offset + 25);
+
+        Affinity.tooltips.processNew();
+
+        /* build control slider */
+        this.buildHistoryControls.delay(100, this);
+
+    },
+
+    buildHistoryControls: function () {
+
+        if (this.historyFrame.scrollWidth > this.historyFrame.clientWidth) {
+
+            this.histroryFrameSize = this.historyFrame.measure(function () { return this.getSize(); });
+
+            //This is a haunted function to fix overscrolling on calendar
+            if (!Affinity.mobile) {
+                this.histroryFrameSize.x -= (Affinity.scrollBarSize * 1.5);
+            }
+
+            this.keyScale = this.histroryFrameSize.x / this.totalWidth;
+
+            var height = this.histroryFrameSize.y;
+
+            if (this.keyWrapper)
+                this.keyWrapper.destroy();
+
+            this.keyWrapper = new Element('div', { 'id': 'keyWrapper' });
+
+            this.keyWrapper.setStyles({
+                'width': this.histroryFrameSize.x,
+                'height': (height * this.keyScale),
+                'margin': '20px 0 30px 0',
+                'border': '1px solid #ccc',
+                'overflow': 'hidden'
+            });
+            this.keyWrapper.inject(this.historyContainer);
+
+            this.historyKey = this.historyFrame.clone();
+
+            this.historyKey.setStyles({
+                'width': this.totalWidth,
+                'transform-origin': '0 0',
+                'transform': 'scale(' + this.keyScale + ',' + this.keyScale + ')',
+                'overflow': 'hidden'
+            });
+            this.historyKey.addClass('historyKey');
+            this.historyKey.inject(this.keyWrapper);
+
+            /**/
+
+            var pos = this.historyKey.getPosition(this.historyContainer);
+            var size = this.historyKey.getSize();
+
+            /**/
+
+            this.keyButton = new Element('div')
+				.addClass('history-key-button has-events')
+				.setStyles({
+				    'width': size.x,
+				    'height': size.y,
+				    'top': pos.y,
+				    'left': pos.x
+				})
+				.addEvent(Affinity.events.click, this.positionKeyMarker)
+				.inject(this.historyKey, 'after')
+            ;
+            this.keyMarkerWidth = size.x * this.keyScale;
+
+            this.keyButtonMarker = new Element('div')
+				.addClass('history-key-button-marker')
+				.setStyles({
+				    'width': this.keyMarkerWidth,
+				    'height': size.y + 20,
+				    'top': pos.y - 10,
+				    'left': pos.x
+				})
+				.inject(this.keyButton, 'after')
+            ;
+
+            /**/
+
+            new Drag(this.keyButtonMarker, {
+                limit: { x: [0, this.histroryFrameSize.x - this.keyMarkerWidth - 2], y: [0, 0] },
+                modifiers: { x: 'margin-left', y: 'margin-top' },
+                onDrag: this.scrollFromMarker
+            });
+
+            /**/
+
+            this.historyFrame.addEvent('scroll', this.positionKeyMarkerOnScroll);
+
+            this.section.addEvent('LeaveCalendarScroll', function (scrollper) {
+
+                this.historyFrame.scrollTo(((this.totalWidth - this.histroryFrameSize.x) * scrollper), 0);
+
+            }.bind(this));
+
+            /**/
+
+            delete pos; delete size;
+        }
+
+        /**/
+
+        this.box.setStyle('opacity', 1).set('reveal', { duration: 250 });
+
+        prompts.hide();
+
+        this.section.fireEvent('managercalendarloaded');
+
+    },
+
+    scrollFromMarker: function () {
+        var fullScroll = this.totalWidth - this.histroryFrameSize.x;
+        var scaleWidth = this.histroryFrameSize.x - this.keyMarkerWidth - 2;
+        var markerPos = this.keyButtonMarker.getPosition(this.historyContainer).x - this.keyButton.getPosition(this.historyContainer).x;
+        this.historyFrame.scrollTo(fullScroll * (markerPos / scaleWidth), 0);
+        delete fullScroll; delete scaleWidth; delete markerPos;
+    },
+
+    positionKeyMarker: function (e) {
+        var pos = (e.client.x - this.keyButton.getPosition(this.historyContainer).x) - (this.keyMarkerWidth / 2);
+        pos = pos < 0 ? 0 : pos > this.histroryFrameSize.x - this.keyMarkerWidth ? this.histroryFrameSize.x - this.keyMarkerWidth : pos
+        this.keyButtonMarker.setStyle('margin-left', pos);
+        this.scrollFromMarker();
+        delete pos;
+    },
+
+    positionKeyMarkerOnScroll: function () {
+        var fullScroll = this.totalWidth - this.histroryFrameSize.x;
+        var scrollx = this.historyFrame.getScroll().x;
+        var scrollPer = scrollx / fullScroll;
+        this.keyButtonMarker.setStyle('margin-left', scrollx * this.keyScale);
+        this.section.fireEvent('LeaveHistoryScroll', scrollPer);
+        delete fullScroll; delete scrollx; delete scrollPer;
+    },
+
+    reset: function () {
+        if (this.leaveRequest && this.leaveRequest.isRunning()) {
+            this.leaveRequest.cancel();
+        }
+        if (this.holidayRequest && this.holidayRequest.isRunning()) {
+            this.holidayRequest.cancel();
+        }
+    },
+
+    destroy: function () {
+        this.reset();
+        if (this.section) {
+            this.section.removeEvents();
+            try { this.titlebox.removeEvents(); } catch (e) { }
+            try { this.historyFrame.removeEvents(); } catch (e) { }
+            Array.each(this.section.getElements('.has-events'), function (el) { el.removeEvents(); });
+            Array.each(this.section.getElements('.button'), function (el) { el.removeEvents(); });
+            this.section.empty();
+            this.section.destroy();
+        }
+
+    }
+
+});
+
+var UIManagerLeaveBalances = new Class({
+
+    Implements: [Options, Events],
+
+    Extends: UIEmployeeLeaveBalances,
+
+    Binds: [
+        'hide',
+        'show',
+        'toggle',
+        'getBalances',
+        'refreshEmployeeSelector',
+        'processTeam',
+        'leavePaginate',
+        'populateLeaveFilters',
+        'reset', 'destroy'
+    ],
+
+    options: {
+        target: null,
+        configData: null
+    },
+
+    initialize: function (options) {
+
+        this.setOptions(options);
+
+        this.parent(options, true);
+
+        //request url
+        var employeeNum = Affinity.login.profile.employeeNumber;
+        this.balanceUrl = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'ManagerTeamLeaveBalance/' + employeeNum);
+        this.leaveTypesUrl = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'LeaveTypes/' + employeeNum);
+        /* BUILD HTML */
+        this.target = this.options.target;
+        this.managerConfig = this.options.configData;
+        this.isManager = true;
+        this.section = new Element('div', { 'class': 'section shadow' }).inject(this.target);
+        this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
+        this.unitType = 'H';
+        this.unitLabel = 'Hour';
+        this.totalRecords = 0;
+        this.getBalancesType = "ui";
+        this.csvOffset = 1;
+        this.csvContentArr = [];
+        this.csvBatchSize = 50;
+        this.tlbContent = null;
+        this.tlbContentWrap = null;
+        this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
+        this.teamBalances = new Element('div', { 'class': 'team-leave-balance' }).inject(this.form);
+        this.titlebar = new Element('div', { 'class': 'section-title team-leave-balance-title ui-has-tooltip', 'html': 'Estimated Available Leave', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.teamBalances);
+        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.titlebar)
+        this.teamBalancesBody = new Element('div', { 'class': 'team-balance-body' }).inject(this.teamBalances);
+        this.toggleFullView = new Element('span', { 'class': 'button footer-button detailed-view blue' }).adopt(
+            new Element('span', {'id': 'toggle-button-wording', 'html': 'Detailed View' })
+        ).addEvent(Affinity.events.click, function () {
+            this.toggleTableView();
+        }.bind(this));
+        this.exportButton = new Element('span', { 'class': 'button green footer-button ui-has-tooltip', 'data-tooltip': 'Export all team leave balances as csv', 'data-tooltip-dir': 'right' }).adopt(
+            new Element('span', { 'html': 'Export All' })
+        ).addEvent(Affinity.events.click, function () {
+            if (!this.validateInput()) {
+                return;
+            }
+            if (this.totalRecords == 0) {
+                uialert({
+                    message: 'Please ensure balances are displayed on screen before exporting.',
+                    noClose: false
+                });
+            } else {
+                this.buildCsv(null);
+            }
+        }.bind(this));
+        this.tableContainer = new Element('div');
+        this.balanceTable = null;
+        this.balanceSelector = null;
+        this.currentPage = 1;
+        this.leavePagingCount = 8;
+        this.leaveTotalPages = 1;
+        this.leaveConfigOptions = null;
+        this.employeeFromSearch = 0;
+        this.selection = 0;
+        this.dateTo = null;
+        this.payPeriodEndDate = new Date();
+        this.employeeSelector = new Element('select', { 'class': 'leave-employee-selector ui-autocomplete' });
+        this.leaveTypeFilter = new Element('select', { 'class': 'leave-filter-select leave-type-filter inline' }).adopt(
+            new Element('option', { 'value': '0', 'html': 'Annual Leave', 'id': '09' })
+        );
+        this.leaveTypeElement = new Element('span').adopt(
+            new Element('span', { 'class': 'filter-label', 'html': 'Select Leave Type' }),
+            this.leaveTypeFilter
+        );
+
+        this.annualLeaveHeader = new Element('span', { 'html': 'Anual Leave' });
+        this.showButton = new Element('span', { 'class': 'form-row team-balance-selector' }).adopt(
+            new Element('span', { 'class': 'button blue', 'html': 'Show' })
+        );
+
+        this.annualLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': 'Leave available at the end of the last pay period', 'data-tooltip-dir': 'left' });
+        this.approvedLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': "Approved not-yet-paid leave", 'data-tooltip-dir': 'left' });
+        this.unapprovedLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': 'Leave applied for awaiting approval', 'data-tooltip-dir': 'left' });
+        this.accruedLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': 'Leave that accrued since the end of the last pay period', 'data-tooltip-dir': 'left' });
+        this.availableLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': 'Estimated leave available on this date', 'data-tooltip-dir': 'left' });
+        this.availableHoursLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': 'Estimated leave available on this date in hours', 'data-tooltip-dir': 'left' });
+        this.availableDaysLeaveTooltip = new Element('span', { 'class': 'icon small icon-help-round ui-has-tooltip', 'data-tooltip': 'Estimated leave available on this date in days', 'data-tooltip-dir': 'left' });
+
+        this.nonconfiguredLeaveTypes = ['A', 'B', 'C', 'D', 'E', 'S'];
+        this.availableLeaveCodes = ['07', '09', '10', '12', '13', '11'];
+        this.leaveBalanceDatePicker = new Element('span').adopt(
+            new Element('span', { 'class': 'filter-label', 'html': 'Select a Date' }),
+            new Element('span', { 'class': 'form-row inline' }).adopt(
+                this.dateToFilter = new Element('input', { 'type': 'text', 'id': 'leave-date-to', 'class': 'data-hj-whitelist leave-filter-date inline uidate-calendar', 'data-calendar-display-format': '%d/%m/%y', 'data-calendar-return-format': '%d/%m/%Y', 'data-start-date': 'none', 'data-calendar-nullable': 'true', 'value': null })
+            )
+        );
+
+        this.tooltips = new Element('span', { 'class': 'hidden' }).adopt(
+            this.annualLeaveTooltip,
+            this.approvedLeaveTooltip,
+            this.unapprovedLeaveTooltip,
+            this.accruedLeaveTooltip,
+            this.availableLeaveTooltip,
+            this.availableDaysLeaveTooltip
+        );
+
+        this.loadingBar = new Element('div', { 'class': 'loadingBarContainer', 'id': 'loadingBarContainer' }).adopt(
+           new Element('div', { 'id': 'loadingBarMessage', 'class': 'color-orange' }),
+           new Element('div', { 'class': 'barProgress', 'id': 'barProgress' }).adopt(new Element('div', { 'class': 'loadingBar', 'id': 'loadingBar' }))
+       );
+
+        this.balanceSelector = new Element('div', { 'class': 'form-row team-balance-selector' }).adopt(
+            this.employeeSelector,
+            this.leaveTypeElement,
+            this.leaveBalanceDatePicker,
+            this.showButton,
+            this.tooltips,
+            this.loadingBar,
+            this.tableContainer,
+            this.toggleFullView,
+            this.exportButton
+        ).inject(this.teamBalancesBody);
+        
+        this.paginateBox = new Element('div', { 'class': 'paginate-box pagination' }).inject(this.teamBalances, 'bottom');
+
+        this.showButton.addEvent(Affinity.events.click, function () {
+            this.getBalances("ui");
+        }.bind(this));
+        this.employeeSelector.addEvent('change', function () {
+            (function () {
+                this.selection = this.employeeSelector.getSelected()[0].get('value');
+                if (this.selection == -1) {
+                    //Nothing's selected.
+                    this.employeeFromSearch = 0;
+                    this.selection = 0;
+                    return
+                } else if (this.selection == -2) {
+                    this.includeIndirect = false;
+                    this.employeeFromSearch = 0;
+                } else if (this.selection == -3) {
+                    this.includeIndirect = true;
+                    this.employeeFromSearch = 0;
+                } else {
+                    this.employeeFromSearch = this.selection;
+                    this.includeIndirect = true;
+                }
+            }.bind(this)).delay(10, this)
+        }.bind(this));
+
+        this.refreshEmployeeSelector(false);
+
+        this.panels = new Element('div', { 'class': 'leave-info-panels' }).inject(this.teamBalancesBody);
+
+       
+
+       
+
+        this.employeeNumber = null;
+
+        /* REQUESTS */
+        this.teamBalanceRequest = new Request.JSON({
+            headers: { 'Pragma': 'no-cache' },
+            onRequest: function () {
+                if (this.getBalancesType != "csv") {
+                    uialert({
+                        message: 'Projecting Leave',
+                        showLoader: true,
+                        showButtons: false,
+                        noClose: true
+                    });
+                } else {
+
+                }
+            }.bind(this),
+            onFailure: function (e) {
+                prompts.hide();
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+            },
+            onSuccess: function (response) {
+                prompts.hide();
+                this.data = response.Data;
+
+                if (this.data.hasOwnProperty("PayPeriodEndDate")) {
+                    this.payPeriodEndDate = new Date(this.data.PayPeriodEndDate);
+                }
+                if (this.getBalancesType == "csv") {
+                    this.buildCsv(this.data);
+                } else {
+                    this.annualLeaveHeader.innerHTML = "Leave Balance <br> (as at " + this.payPeriodEndDate.format('%d-%b-%Y') + ")";
+                    if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+                        this.process(this.data);
+                    }
+                    this.leavePaginate();
+                }
+            }.bind(this)
+        });
+
+        this.leaveTypeRequest = new Request.JSON({
+            headers: { 'Pragma': 'no-cache' },
+            onSuccess: function (response) {
+                this.data = response.Data;
+                if (this.leaveConfigOptions == null && this.data.hasOwnProperty("LeaveCodes")) {
+                    this.leaveConfigOptions = this.data.LeaveCodes;
+                    this.populateLeaveFilters(this.leaveConfigOptions);
+                }
+            }.bind(this)
+        });
+        this.leaveTypeRequest.url = this.leaveTypeRequest.options.url = this.leaveTypesUrl;
+        this.leaveTypeRequest.get();
+        Affinity.uiDateCalendar.processNew();
+        this.teamBalancesBody.toggle();
+    },
+
+    refreshEmployeeSelector: function (selectedEmployeeNo) {
+        if (this.employeeSelector && this.managerConfig.Employees) {
+            this.employeeSelector.empty();
+            //add default
+            new Element('option', { 'value': '-1', 'class': 'grey-text', 'html': 'Select an employee' }).inject(this.employeeSelector, 'top');
+            new Element('option', { 'value': '-2', 'html': 'All Direct Employees' }).inject(this.employeeSelector);
+            new Element('option', { 'value': '-3', 'html': 'All Direct and Indirect Employees' }).inject(this.employeeSelector);
+
+            var selectedIndex = 0, currentIndex = 0;
+            //add employees
+            Array.each(this.managerConfig.Employees, function (emp, index) {
+                if (emp.IsDirect) { // direct or everything
+                    new Element('option', {
+                        'html': emp.EmployeeName + ' (' + emp.EmployeeNo + ')',
+                        'value': emp.EmployeeNo
+                    }).inject(this.employeeSelector);
+                    currentIndex++;
+                    if (selectedEmployeeNo == emp.EmployeeNo) {
+                        selectedIndex = currentIndex;
+                    }
+                }
+            }.bind(this));
+            this.employeeSelector.selectedIndex = selectedIndex;
+
+            if (this.employeeSelectorAutocomplete) {
+                this.employeeSelectorAutocomplete.revert();
+            }
+
+            this.employeeSelectorAutocomplete = new UIAutoCompleteWidget({
+                stopInitialChange: true,
+                selectElement: this.employeeSelector
+            });
+        }
+    },
+
+    getWording: function (value, singular) {
+        var ret = (value == 1 || value == -1) ? value + " " + singular : value + " " + singular + "s";
+        return ret;
+    },
+
+    buildCsv: function (data) {
+        if (data != null) {
+            //add to CSV array
+            var source = 'ProjectedLeave' in data ? data.ProjectedLeave : data;
+            let csvArr = this.csvContentArr;
+            var unitLabel = this.unitLabel;
+            Array.each(source, function (rowData, index) {
+                var csvRow = [];
+                switch (rowData.CalcUnit) {
+                    case "D":
+                        unitLabel = "Days";
+                        break;
+                    case "W":
+                        unitLabel = "Weeks";
+                        break;
+                    case "H":
+                    default:
+                        unitLabel = "Hours";
+                        break;
+                }
+                csvRow.push(rowData.EmployeeName + ' (' + rowData.EmployeeNo + ')',
+                    unitLabel,
+                    rowData.PpeEntitlement,
+                    rowData.PpeAccrual,
+                    rowData.LeaveBalance,
+                    rowData.ApprovedLeaveDisplay,
+                    rowData.PendingLeaveDisplay,
+                    rowData.AccruedProjectedLeave,
+                    rowData.TotalProjectedHours,
+                    rowData.TotalProjectedDays
+                );
+                csvArr.push(csvRow);
+            });
+            this.csvContentArr = csvArr;
+        }
+        if (this.totalRecords != 0) {
+            var numberOfRequests = Math.ceil(this.totalRecords / this.csvBatchSize);
+            var percentageIncrement = 100 / numberOfRequests;
+            var container = document.getElementById("loadingBarContainer");
+            container.style.display = "block";
+            this.incrementProgressBar(percentageIncrement, numberOfRequests);
+
+            if (this.csvOffset <= numberOfRequests) {
+                this.getBalances("csv");
+                this.csvOffset++;
+            } else {
+                if (this.csvContentArr.length > 0) {
+                    //Download CSV
+                    container.style.display = "none";
+                    var csvHeaders = ["Employee", "Units","Entitlement","Accrual", "Leave Balance (as at " + this.payPeriodEndDate.format('%d-%b-%Y') + ")", "Approved Leave", "Unapproved Leave", "Accrued Leave", "Available Leave (hours)", "Available Leave (days)"];
+                    this.csvContentArr.unshift(csvHeaders);
+                    let rows = this.csvContentArr;
+                    let csvContent = "";
+                    //Might need to be a recursive function...
+                    rows.forEach(function (rowArray) {
+                        let row = rowArray.join(",");
+                        csvContent += row + "\r\n";
+                    });
+
+                    if (navigator.msSaveBlob) { // IE 10+
+                        var filename = "TeamLeaveBalance.csv";
+                        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                        navigator.msSaveBlob(blob, filename);
+                    } else {
+                        csvContent = "data:text/csv;charset=utf-8," + csvContent;
+                        var encodedUri = encodeURI(csvContent);
+                        var link = document.createElement("a");
+                        link.setAttribute("href", encodedUri);
+                        link.setAttribute("download", "TeamLeaveBalance.csv");
+                        document.body.appendChild(link); // Required for FF
+                        link.click(); //Download the data file.
+                        link.parentNode.removeChild(link); //Remove link.
+                        this.csvContentArr = []; //Reset array.
+                        this.csvOffset = 1;
+                        document.getElementById("loadingBar").style.width = "0%";
+                    }
+                }
+            }
+        }
+    },
+    generateEalTableHtml: function (leaveInfo) {
+        console.log(leaveInfo)
+        var unitLabel = leaveInfo.calcUnit == "H" ? "Hours" : "Days";
+        var balDate = this.parseISOLocal(leaveInfo.balanceDate);
+        var formattedBalDate = balDate.getDate() + "/" + (balDate.getMonth() + 1) + "/" + balDate.getFullYear();
+        var storyHtml = "<div class='leftText ealTableTitle'>How " + leaveInfo.employeeFirstName +"'s Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
+            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.unitlessLeaveBalance) + "'>" + leaveInfo.unitlessLeaveBalance + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals) + "'>+" + +(leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals).toFixed(2) + "</td></tr>";
+        var totalAmount = leaveInfo.calcUnit == "H" ? leaveInfo.unitlessTotalProjectedHours : leaveInfo.unitlessTotalProjectedDays;
+        if (leaveInfo.leaveItems != null) {
+            for (var i = 0; i < leaveInfo.leaveItems.length; i++) {
+                var leaveDate = this.parseISOLocal(leaveInfo.leaveItems[i].DateFrom);
+                var formattedLeaveDate = leaveDate.getDate() + "/" + (leaveDate.getMonth() + 1) + "/" + leaveDate.getFullYear();
+                if (leaveInfo.leaveItems[i].Credit) {
+                    storyHtml += "<tr><td>Credit cancelled/declined leave booked on " + formattedLeaveDate + "</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.leaveItems[i].Units) + "'>+" + leaveInfo.leaveItems[i].Units + "</td></tr>"
+                } else {
+                    storyHtml += "<tr><td>Subtract leave booked on " + formattedLeaveDate + "</td><td class='centerText " + this.evaluateCssClassByValue(-leaveInfo.leaveItems[i].Units) + "'>-" + leaveInfo.leaveItems[i].Units + "</td></tr>"
+                }
+            }
+        }
+        storyHtml += "<tfoot><tr><th>Total estimated leave available on " + formattedBalDate + "</th><th class='centerText " + this.evaluateCssClassByValue(totalAmount) + "'>" + totalAmount + "</th></tr> </tfoot>";
+        storyHtml += "</table><br />";
+        return storyHtml;
+    },
+    parseISOLocal: function (s) {
+        var b = s.split(/\D/);
+        return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
+    },
+    evaluateCssClassByValue: function (value) {
+        if (value < 0) {
+            return "red";
+        }
+        return "";
+    },
+    incrementProgressBar: function (percentageIncrement, numberOfRequests) {
+        var progressBar = document.getElementById("loadingBar"),
+            progressBarContainer = document.getElementById("barProgress"),
+            percentageWidth = (progressBar.clientWidth / progressBarContainer.clientWidth) * 100
+        totalPercentage = percentageWidth + percentageIncrement
+        message = document.getElementById("loadingBarMessage");
+
+        progressBar.style.width = totalPercentage + '%';
+        if ((totalPercentage >= 100 - percentageIncrement && numberOfRequests > 2) || (numberOfRequests <= 2 && Math.round(totalPercentage) == 100)) {
+            message.innerText = "We're almost there..."
+        } else {
+            message.innerText = "Exporting. " + Math.round(totalPercentage) + "% complete. Don't navigate away from this page."
+        }
+    },
+    hide: function () {
+        this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
+        this.teamBalancesBody.dissolve();
+    },
+
+    show: function () {
+        this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
+        this.teamBalancesBody.reveal();
+    },
+
+    toggle: function () {
+        if (this.toggleButton.retrieve('state') === 'open') {
+            this.hide();
+        } else {
+            this.show();
+        }
+    },
+
+    getBalances: function (type) {
+        if (type.length) {
+            this.getBalancesType = type;
+        } else {
+            this.getBalancesType = "ui";
+        }
+        if (this.teamBalanceRequest && this.teamBalanceRequest.isRunning()) {
+            this.teamBalanceRequest.cancel();
+        }
+
+        if (this.balanceTable && this.getBalancesType != "csv") {
+            this.balanceTable.destroy();
+        }
+        if (this.getBalancesType == "ui") {
+            this.balanceTable = new Element('div', { 'class': 'team-balance-table' }).inject(this.tableContainer, 'bottom');
+            this._methodName = 'ui.managerBalances.js -> getBalances';
+            if (!this.validateInput()) {
+                return;
+            }
+        }
+
+        if (this.getBalancesType == "csv") {
+            this._api = this.getLeaveBalanceApiUrl(false);
+        } else {
+            this._api = this.getLeaveBalanceApiUrl(true);
+        }
+        this.teamBalanceRequest.url = this.teamBalanceRequest.options.url = this._api;
+        this.teamBalanceRequest.get();
+    },
+    validateInput: function () {
+        if (this.selection == -1) {
+            //Error - nothing was selected.
+            uialert({
+                message: 'Please select an employee to view.',
+                //showButtons: true,
+                noClose: false
+            });
+            return false;
+        }
+        this.dateTo = this.dateToFilter.getWidget().getRawDate();
+        if (this.dateTo && typeOf(this.dateTo) === 'date' && this.dateTo.isValid()) {
+            this.dateTo = this.dateTo.format('%d-%b-%Y');
+        } else {
+            this.dateTo = null;
+        }
+
+        if (this.dateTo == null) {
+            //Error - no date or date is invalid
+            uialert({
+                message: 'Date selection is invalid',
+                //showButtons: true,
+                noClose: false
+            });
+            return false;
+        } else {
+            var dateParsed = Date.parse(this.dateTo.replace(/-/g, ' '));
+            if (dateParsed.lessThan(new Date())) {
+                uialert({
+                    message: 'Past dates are invalid.',
+                    //showButtons: true,
+                    noClose: false
+                });
+                return false;
+            } else if (dateParsed.greaterThan(new Date(new Date().setFullYear(new Date().getFullYear() + 1)))) {
+                uialert({
+                    message: 'You can only estimate leave up to one year in advance.',
+                    //showButtons: true,
+                    noClose: false
+                });
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    process: function (data) {
+        var source = 'ProjectedLeave' in data ? data.ProjectedLeave : data;
+        if (!this.balanceTable)
+            return; //Not in table mode
+
+        this.balanceTable.empty();
+        var leaveTypes = {};
+        var employees = [];
+        Array.each(source, function (rowData, index) {
+            this.unitType = rowData.CalcUnit;
+            switch (this.unitType) {
+                case "D":
+                    this.unitLabel = "Day";
+                    break;
+                case "W":
+                    this.unitLabel = "Week";
+                    break;
+                case "H":
+                default:
+                    this.unitLabel = "Hour";
+                    break;
+            }
+
+            employees.push({
+                employee: rowData.EmployeeName + ' (' + rowData.EmployeeNo + ')',
+                employeeFirstName: !this.isEmptyOrSpaces(rowData.EmployeeFirstName) ? rowData.EmployeeFirstName : "this employee",
+                accruedProjectedLeave: this.getWording(rowData.AccruedProjectedLeave, this.unitLabel),
+                unitlessProjectedAccruals: rowData.AccruedProjectedLeave,
+                postProjectedAccruals: rowData.PostProjectedAccruals,
+                approvedNotPaidLeave: this.getWording(rowData.ApprovedLeaveDisplay + rowData.PostProjectedApprovedLeaveDisplay, this.unitLabel),
+                pendingApprovalLeave: this.getWording(rowData.PendingLeaveDisplay + rowData.PostProjectedPendingLeaveDisplay, this.unitLabel),
+                leaveBalance: this.getWording(rowData.LeaveBalance, this.unitLabel),
+                unitlessLeaveBalance: rowData.LeaveBalance,
+                totalProjectedHours: this.getWording(rowData.TotalProjectedHours, "Hour"),
+                totalProjectedDays: this.getWording(rowData.TotalProjectedDays, "Day"),
+                unitlessTotalProjectedHours: rowData.TotalProjectedHours,
+                unitlessTotalProjectedDays: rowData.TotalProjectedDays,
+                calcUnit: rowData.CalcUnit,
+                story: rowData.Story,
+                totalsStory: rowData.TotalStory,
+                balanceDate: rowData.BalanceDate,
+                leaveItems: rowData.LeaveItems
+            });
+        }.bind(this));
+
+        var row;
+        var types = Object.keys(leaveTypes);
+        types.sort();
+        var headerRow;
+        var tableBody;
+        this.tlbContent = new Element('table', { 'class': 'leave' }).adopt(
+            new Element('thead').adopt(
+                headerRow = new Element('tr').adopt(
+                    new Element('th', { 'class': 'active tooltip-view', 'html': 'Employee' }),
+                    new Element('th', { 'class': 'active full-view', 'html': 'Employee' }),
+                    new Element('th', { 'class': 'full-view active', 'html': '' }).adopt(this.annualLeaveHeader, this.annualLeaveTooltip),
+                    new Element('th', { 'class': 'full-view active', 'html': 'Approved Leave' }).adopt(this.approvedLeaveTooltip),
+                    new Element('th', { 'class': 'full-view active', 'html': 'Unapproved Leave' }).adopt(this.unapprovedLeaveTooltip),
+                    new Element('th', { 'class': 'full-view active', 'html': 'Accrued Leave' }).adopt(this.accruedLeaveTooltip),
+                    new Element('th', { 'class': 'full-view active', 'html': 'Available Leave (hours)' }).adopt(this.availableHoursLeaveTooltip),
+                    new Element('th', { 'class': 'full-view active', 'html': 'Available Leave (days)' }).adopt(this.availableDaysLeaveTooltip),
+                    new Element('th', { 'class': 'tooltip-view active', 'html': 'Available Leave' }).adopt(this.availableLeaveTooltip),
+                    new Element('th', { 'class': 'tooltip-view active', 'html': '' })
+                )
+            ),
+            tableBody = new Element('tbody', { 'class': 'teamLeaveBalancesTable' })
+        );
+        this.tlbContentWrap = new Element('div', { 'class': 'section-table summaryView' }).adopt(
+             this.tlbContent
+         ).inject(this.balanceTable);
+
+        Array.each(employees, function (employee, index) {
+            row = new Element('tr').inject(tableBody);
+            //TEMP. Will remove once the tooltip can follow the cursor.
+            new Element('td', {
+                'class': 'active tooltip-view col-id-employee indicate first', 'html': employee.employee
+             }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.employee }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.leaveBalance }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.approvedNotPaidLeave }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.pendingApprovalLeave }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.accruedProjectedLeave }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.totalProjectedHours }).inject(row);
+            new Element('td', { 'class': 'active full-view col-id-employee indicate first', 'html': employee.totalProjectedDays }).inject(row);
+            
+            var totalUnits = employee.totalProjectedHours;
+            if(employee.calcUnit == "D"){
+                totalUnits = employee.totalProjectedDays;
+            }
+            new Element('td', { 'class': 'tooltip-view active col-id-employee indicate', 'html': totalUnits }).inject(row);
+            new Element('td', {
+                'class': 'tooltip-view active col-id-employee indicate ui-has-tooltip', 'html': '<span class="button more w-icon"><span class="icon-info"></span><span>More Info</span></span>'
+            }).addEvent(Affinity.events.click, function (e) {
+             
+                var storyHtml = this.generateEalTableHtml(employee);
+                var hiddenInfo = "<div class='eal-ppeTotalStory'><div class='eal-ppeTotalStoryTitle'><b>Totals at last pay period</b></div> <div>" + employee.totalsStory + "</div></div>";
+                uialert({
+                    message: storyHtml,
+                    okText: "Close",
+                    okIcon: ' ',
+                    cssSelector: "tlbPrompt",
+                    showButtons: true,
+                    noClose: false,
+                    showHiddenInfo: true,
+                    hiddenInfoMessage: hiddenInfo,
+                    hiddenInfoButtonText: 'Totals at last pay period',
+                });
+
+
+            }.bind(this)).inject(row);
+
+        }.bind(this));
+        Affinity.tooltips.processNew();
+        var footerButtons = document.getElementsByClassName('footer-button');
+        for (var i = 0; i < footerButtons.length; i++) {
+            footerButtons[i].style.display = "inline-block";
+        }
+        document.getElementById('toggle-button-wording').innerText = "Detailed View";
+    },
+
+    reset: function (isParent) {
+        this.parent();
+
+        if (!isParent) {
+            if (this.teamBalanceRequest && this.teamBalanceRequest.isRunning()) {
+                this.teamBalanceRequest.cancel();
+            }
+            if (this.balanceTable) {
+                this.balanceTable.destroy();
+            }
+        }
+    },
+    isEmptyOrSpaces: function(str){
+        return str === null || str.match(/^ *$/) !== null;
+    },
+    toggleTableView: function () {
+        var tooltipRows = document.getElementsByClassName('tooltip-view'),
+            fullViewRows = document.getElementsByClassName('full-view'),
+            tooltipEl;
+
+        if (tooltipRows.length) {
+            tooltipEl = tooltipRows[0];
+        }
+        var tableDisplay = "table-cell";
+        var tooltipDisplay = "table-cell";
+        var buttonWording = "Summary View";
+        var tooltipElStyle = window.getComputedStyle(tooltipEl);
+        if (tooltipElStyle.display === 'none') {
+            //Tooltip view hidden;
+            tableDisplay = "none";
+            buttonWording = "Detailed View";
+            this.tlbContentWrap.addClass("summaryView");
+            ga('send', 'event', {
+                'eventCategory': 'EAL Manager Details',
+                'eventAction': 'Show Summary View',
+                'eventLabel': 'e: ' + Affinity.login.profile.employeeNumber + ' | c:' + Affinity.login.profile.companyNumber
+            });
+        } else {
+            tooltipDisplay = "none";
+            this.tlbContentWrap.removeClass("summaryView");
+            ga('send', 'event', {
+                'eventCategory': 'EAL Manager Details',
+                'eventAction': 'Show Detailed View',
+                'eventLabel': 'e: ' + Affinity.login.profile.employeeNumber + ' | c:' + Affinity.login.profile.companyNumber
+            });
+        }
+
+        for (var i = 0; i < fullViewRows.length; i++) {
+            fullViewRows[i].style.display = tableDisplay;
+        }
+
+        for (var i = 0; i < tooltipRows.length; i++) {
+            tooltipRows[i].style.display = tooltipDisplay;
+        }
+        document.getElementById('toggle-button-wording').innerText = buttonWording;
+        
+    },
+    getLeaveBalanceApiUrl: function (isUi) {
+        var api = this.balanceUrl;
+        api = this.addToApiUrl(api, 'dateTo=' + this.dateTo);
+        if (this.includeIndirect) {
+            api = this.addToApiUrl(api, 'includeIndirect=true');
+        } else {
+            api = this.addToApiUrl(api, 'includeIndirect=false');
+        }
+        api = this.addToApiUrl(api, 'employeeNo=' + this.employeeFromSearch);
+        var leaveCode = this.leaveTypeFilter[this.leaveTypeFilter.selectedIndex].get('id');
+        if (leaveCode.length) {
+            api = this.addToApiUrl(api, 'leaveCode=' + leaveCode);
+        }
+
+        if (isUi) {
+            api = this.addToApiUrl(api, 'pageNo=' + this.currentPage);
+        } else {
+            api = this.addToApiUrl(api, 'pageNo=' + this.csvOffset)
+            api = this.addToApiUrl(api, 'pageSize=' + this.csvBatchSize);
+        }
+
+        return api;
+    },
+    addToApiUrl: function (api, value) {
+        if (api.indexOf('?') > -1) {
+            api += '&';
+        } else {
+            api += '?';
+        }
+        api += value;
+        return api;
+    },
+    leavePaginate: function () {
+
+        if (typeOf(this.currentPage) === 'null' || !('currentPage' in this)) {
+            this.currentPage = 1;
+        }
+        this.clearPagination();
+        var pageCount = this.data.PageCount;
+
+        this.pageFirst = new Element('span', { 'class': 'pagination-first', 'html': 'First' }).inject(this.paginateBox);
+        this.pageBack = new Element('span', { 'class': 'pagination-back', 'html': 'Previous' }).inject(this.paginateBox);
+        this.pages = new Element('div', { 'class': 'pagination-pages' }).inject(this.paginateBox);
+        this.pageForward = new Element('span', { 'class': 'pagination-forward', 'html': 'Next' }).inject(this.paginateBox);
+        this.pageLast = new Element('span', { 'class': 'pagination-last', 'html': 'Last' }).inject(this.paginateBox);
+
+        var leaveBalanceCount = this.data.ProjectedLeave.length;
+
+        if (leaveBalanceCount > 0) {
+            var firstLeaveBalance = ((this.currentPage - 1) * 20) + 1;
+            var subText = 'showing ' + firstLeaveBalance + ' to ' + (firstLeaveBalance + leaveBalanceCount - 1) + ' of ' + this.data.Count;
+            this.pageSubText = new Element('div', { 'class': 'pagination-sub-text', 'html': subText }).inject(this.paginateBox);
+        }
+
+        var count = 0;
+        var page;
+        for (i = 1; i <= pageCount; i++) {
+            if (i > this.currentPage - 1 - (this.leavePagingCount / 2) && count <= this.leavePagingCount) {
+                count++;
+
+                if (i == this.currentPage) {
+                    page = new Element('input', {
+                        'type': 'text',
+                        'class': 'paginate-page-numbers data-hj-whitelist',
+                        'value': i
+                    }).inject(this.pages);
+                    (function (page) {
+                        page.addEvent('change', function (e) {
+                            var value = page.get('value');
+                            var index = parseInt(value);
+                            if (index == value && index > 0 && index <= pageCount) {
+                                this.currentPage = index;
+                                this.getBalances("ui");
+                            } else {
+                                uialert({
+                                    message: 'Unable to display page ' + value,
+                                    //showButtons: true,
+                                    noClose: false
+                                });
+                            }
+                        }.bind(this));
+                    }.bind(this))(page);
+                }
+                else {
+                    page = new Element('span', {
+                        'class': 'paginate-page-numbers',
+                        'html': i
+                    }).inject(this.pages);
+                    (function (page, index) {
+                        page.addEvent(Affinity.events.click, function (e) {
+                            this.currentPage = index;
+                            this.getBalances("ui");
+                        }.bind(this));
+                    }.bind(this))(page, i);
+                }
+            }
+            else if (i == 1 || i == pageCount) {
+                page = new Element('span', {
+                    'class': 'paginate-page-numbers not-clickable',
+                    'html': '...'
+                }).inject(this.pages);
+            }
+        }
+        this.totalRecords = this.data.Count;
+        if (pageCount > 0 && this.currentPage != 1) {
+            this.pageFirst.removeEvents();
+            this.pageFirst.addEvent(Affinity.events.click, function () {
+                this.currentPage = 1;
+                this.getBalances("ui");
+            }.bind(this));
+            this.pageBack.removeEvents();
+            this.pageBack.addEvent(Affinity.events.click, function () {
+                this.currentPage = this.currentPage - 1;
+                this.getBalances("ui");
+            }.bind(this));
+
+        } else {
+            this.pageFirst.addClass('not-active');
+            this.pageBack.addClass('not-active');
+        }
+
+        if (pageCount > 0 && this.currentPage != this.data.PageCount) {
+            this.pageLast.removeEvents();
+            this.pageLast.addEvent(Affinity.events.click, function () {
+                this.currentPage = this.data.PageCount;
+                this.getBalances("ui");
+            }.bind(this));
+            this.pageForward.removeEvents();
+            this.pageForward.addEvent(Affinity.events.click, function () {
+                this.currentPage = this.currentPage + 1;
+                this.getBalances("ui");
+            }.bind(this));
+
+        } else {
+            this.pageLast.addClass('not-active');
+            this.pageForward.addClass('not-active');
+        }
+
+    },
+    clearPagination: function () {
+        if (this.paginateBox) {
+            if (this.pageFirst)
+                this.pageFirst.removeEvents();
+            if (this.pageBack)
+                this.pageBack.removeEvents();
+            if (this.pageForward)
+                this.pageForward.removeEvents();
+            if (this.pageLast)
+                this.pageLast.removeEvents();
+            if (this.pages)
+                Array.each(this.pages.getElements('.paginate-page-numbers'), function (el) { el.removeEvents(); });
+            this.paginateBox.empty();
+        }
+    },
+    populateLeaveFilters: function (config) {
+        this.leaveTypeFilter.empty();
+        new Element('option', { 'value': '0', 'html': 'Annual Leave', 'id': '09' }).inject(this.leaveTypeFilter);
+        Array.each(config, function (code, index) {
+            if (code.Code != '09') {
+                var description = code.Description.split("Leave ");
+                var descriptionCharCheck = null;
+                if (description.length > 1) {
+                    descriptionCharCheck = description[1];
+                }
+                if (this.inArray(code.Code, this.availableLeaveCodes) && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
+                    new Element('option', {
+                        'html': code.Description,
+                        'id': code.Code,
+                        'value': config.index
+                    }).inject(this.leaveTypeFilter);
+                }
+            }
+        }.bind(this));
+    },
+    inArray: function (val, arr) {
+        return arr.indexOf(val) > -1;
+    },
+    destroy: function () {
+        this.reset();
+
+        if (this.employeeSelector) { this.employeeSelector.removeEvents(); }
+        if (this.employeeSelectorAutocomplete) { this.employeeSelectorAutocomplete.destroy(); }
+
+        if (this.section) {
+            Array.each(this.section.getElements('.button'), function (el) { el.removeEvents(); });
+            Array.each(this.section.getElements('.toggle-button'), function (el) { el.removeEvents(); });
+            this.section.empty();
+            this.section.destroy();
+        }
+        Object.each(this, function (val, key) {
+            this[key] = null;
+            delete this[key];
+        }.bind(this));
+    }
+});
+
+var EmployeeBalancesWidget = new Class({
+
+    Implements: [Options, Events],
+
+    Binds: [
+        'init',
+        'getData',
+        'buildPosition', 'updatePosition',
+        'updateInterface',
+        'refresh',
+        'reset', 'destroy'
+    ],
+
+    options: {
+        target: null,
+        employeeId: null,
+        managerId: null,
+        filter: false
+    },
+
+    initialize: function (options) {
+        this.setOptions(options);
+        this.target = this.options.target;
+        this.employeeId = this.options.employeeId;
+        this.managerId = this.options.managerId;
+        this.filter = this.options.filter;
+
+        /**/
+
+        this.box = new Element('div', { 'class': 'balance-box' });
+        this.table = new HtmlTable({
+            properties: {
+                'border': 0,
+                'cellspacing': 0,
+                'class': 'ui-none'
+            },
+            headers: ['', 'Total', Affinity.icons.ThumbsUp, Affinity.icons.Hourglass]
+        }).inject(this.box);
+        this.balanceDate = new Element('div', { 'class': 'balance-date' }).inject(this.box);
+        this.tbody = this.table.body;
+        this.thead = this.table.head;
+
+        if (typeOf(this.target) !== 'null' && !this.target.getElement('.balance-box')) {
+            this.box.inject(this.target);
+        }
+
+        /**/
+
+        this.balanceRequest = new Request.JSON({
+            onFailure: function (e) {
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName, true); // true param suppresses alerts
+            },
+            onSuccess: function (response) {
+                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) { // true param suppresses alerts
+                    this.updateInterface(response.Data);
+                }
+            }.bind(this)
+        });
+
+        /**/
+
+        if (typeOf(this.employeeId) !== 'null') {
+            this.refresh();
+        }
+
+    },
+
+    loading: false,
+    refresh: function () {
+        if (typeOf(this.employeeId) !== 'null') {
+            if (this.loading) { return; }
+            this.getData();
+        }
+    },
+
+    getDataDelay: false,
+    getData: function () {
+        if (typeOf(this.employeeId) !== 'null') {
+            this.box.addClass('hidden');
+            clearTimeout(this.getDataDelay);
+            if (this.loading) {
+                this.getDataDelay = this.getData.delay(1000, this);
+                return;
+            }
+            this.loading = true;
+
+            /**/
+
+            this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'EmployeeLeaveBalance/' + this.employeeId);
+            this._methodName = 'ui.employee.balances.widget.js -> getData';
+
+            if (this.balanceRequest && this.balanceRequest.isRunning()) {
+                this.balanceRequest.cancel();
+            }
+            this.balanceRequest.url = this.balanceRequest.options.url = this._api;
+            this.balanceRequest.get();
+
+            /**/
+
+        }
+    },
+
+    buildPosition: function (balanceData) {
+        //var box = new Element('div', { 'class': 'position-box position-' + balanceData.LeaveCode }).inject(this.box);
+        this.table.push(['','','',''], { 'class': 'position-' + balanceData.LeaveCode});
+        this.updatePosition(balanceData);
+    },
+
+    updatePosition: function (balanceData) {
+        var row;
+        if (this.tbody.getElement('tr.position-' + balanceData.LeaveCode)) {
+            row = this.tbody.getElement('tr.position-' + balanceData.LeaveCode);
+            var total = balanceData.TotalHours;
+            if (balanceData.UnitType === 'D') {
+                total = balanceData.TotalDays;
+            }
+            this.table.update(row, [
+                balanceData.CodeDescription,
+                parseFloat(total).format({ decimals: 2 }),
+                parseFloat(balanceData.ApprovedNotPaid).format({ decimals: 2 }),
+                parseFloat(balanceData.Unapproved).format({ decimals: 2 })
+            ]);
+            var subText = 'as at ' + Date.parse(balanceData.PeriodEndDate).format('%d %b %Y');
+            if (balanceData.IncludeFutureLeave) {
+                subText += ' (inc. future leave)';
+            }
+            else {
+                subText += ' (exc. future leave)';
+            }
+            this.balanceDate.set('html', subText);
+            this.box.removeClass('hidden');
+            //box.set('html', '<pre>' + JSON.stringify(balanceData, false, 2) + '</pre>');
+        } else {
+            this.buildPosition(balanceData);
+        }
+    },
+
+    updateInterface: function (data) {
+        Array.each(data.ComponentBalances, function (componentData) {
+            Array.each(componentData.CodeBalances, function (balanceData) {
+                if (typeOf(this.filter) !== 'boolean') {
+                    if (typeOf(this.filter) === 'array') {
+                        Array.each(this.filter, function (filteron) {
+                            if (typeOf(filteron) === 'string') {
+                                if (filteron.toLowerCase().indexOf((balanceData.CodeDescription.toLowerCase())) > -1) {
+                                    this.updatePosition(balanceData);
+                                }
+                            }
+                        });
+                    }
+                    if (typeOf(this.filter) === 'string') {
+                        if (this.filter.toLowerCase().indexOf((balanceData.CodeDescription.toLowerCase())) > -1){
+                            this.updatePosition(balanceData);
+                        }
+                    }
+                } else {
+                    this.updatePosition(balanceData);
+                }
+            }.bind(this));
+        }.bind(this));
+        if (typeOf(this.target) !== 'null' && !this.target.getElement('.balance-box')) {
+            this.box.inject(this.target);
+        }
+        this.loading = false;
+    }
+
+});
