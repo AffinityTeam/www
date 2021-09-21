@@ -1,0 +1,371 @@
+/* form elements */
+/* default sizes */
+/* overwritten by theme */
+/** ALIGNING TO NEW UI **/
+/** ALIGNING TO NEW UI **/
+.newui .section .default-form .form-row.ui-calendar-row input[type=text] {
+  width: 235px;
+}
+.newui .ui-calendar {
+  position: absolute;
+  min-width: 300px;
+  max-width: 300px;
+  background-color: white;
+  overflow: hidden;
+  -webkit-box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index: 99999999;
+  zoom: 1;
+}
+.newui .ui-calendar.inline {
+  position: relative;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.newui .ui-mobile-calendar-buttons {
+  position: absolute;
+  right: 3%;
+}
+.hide {
+  display: none;
+}
+.newui .ui-calendar-buttons {
+  display: inline-block;
+}
+.newui .ui-calendar-button.button {
+  width: 30px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
+}
+.newui .ui-calendar-button.button.w-icon-only span:first-child {
+  width: auto;
+  margin-left: -2px;
+}
+.newui .ui-calendar-button.button.blue {
+  -webkit-border-top-left-radius: 2px;
+  -moz-border-radius-topleft: 2px;
+  border-top-left-radius: 2px;
+  -webkit-border-top-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -moz-border-radius-bottomright: 0px;
+  border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 2px;
+  -moz-border-radius-bottomleft: 2px;
+  border-bottom-left-radius: 2px;
+}
+.newui .ui-calendar-button.button.green {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+.newui .ui-calendar-button.button.orange {
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-left-radius: 0px;
+  -webkit-border-top-right-radius: 2px;
+  -moz-border-radius-topright: 2px;
+  border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  -moz-border-radius-bottomright: 2px;
+  border-bottom-right-radius: 2px;
+  -webkit-border-bottom-left-radius: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  border-bottom-left-radius: 0px;
+}
+.newui .ui-calendar .ui-calendar-nextlast {
+  display: inline-block;
+  width: 42.857142857px;
+  color: black;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  margin: 0;
+}
+.newui .ui-calendar .ui-calendar-monthyear {
+  display: inline-block;
+  width: 214.285714286px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 18px;
+  color: #999999;
+  cursor: pointer;
+}
+.newui .ui-calendar .ui-calendar-monthyear span {
+  margin: 0 2px;
+}
+.newui .ui-calendar .ui-calendar-monthbox,
+.newui .ui-calendar .ui-calendar-yearbox {
+  padding: 5px;
+  text-align: center;
+  max-height: 240px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.newui .ui-calendar .ui-calendar-monthbox span,
+.newui .ui-calendar .ui-calendar-yearbox span {
+  display: inline-block;
+  height: 10px;
+  line-height: 10px;
+  padding: 5px 10px;
+  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background: #efefef;
+  color: #999999;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 5px;
+}
+.newui .ui-calendar .ui-calendar-monthbox span:hover,
+.newui .ui-calendar .ui-calendar-yearbox span:hover {
+  background: #44b5ec;
+  color: white;
+}
+.newui .ui-calendar .ui-calendar-monthbox span.active,
+.newui .ui-calendar .ui-calendar-yearbox span.active {
+  background: #44b5ec;
+  color: white;
+}
+.newui .ui-calendar .ui-calendar-monthbox span.today,
+.newui .ui-calendar .ui-calendar-yearbox span.today {
+  background: #ffbd00;
+  color: white;
+}
+.newui .ui-calendar .ui-calendar-daylabel {
+  display: inline-block;
+  width: 42.857142857px;
+  height: 30px;
+  color: black;
+  line-height: 30px;
+  text-align: center;
+}
+.newui .ui-calendar .ui-calendar-day {
+  position: relative;
+  display: inline-block;
+  width: 42.857142857px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: black;
+  -webkit-transition: all 100ms linear;
+  -moz-transition: all 100ms linear;
+  -o-transition: all 100ms linear;
+  -ms-transition: all 100ms linear;
+  transition: all 100ms linear;
+}
+.newui .ui-calendar .ui-calendar-day.active {
+  color: black;
+  background-color: white;
+  cursor: pointer;
+}
+.newui .ui-calendar .ui-calendar-day.active:hover {
+  color: white;
+  background-color: #ffbd00;
+}
+.newui .ui-calendar .ui-calendar-day.today {
+  color: white;
+  background-color: #44b5ec;
+}
+.newui .ui-calendar .ui-calendar-day.today:hover {
+  color: white;
+  background-color: #ffbd00;
+}
+.newui .ui-calendar .ui-calendar-day.selected {
+  color: white;
+  background-color: #ff6600;
+}
+.newui .ui-calendar .ui-calendar-day.selected:hover {
+  color: white;
+  background-color: #ffbd00;
+}
+/*
+.newui .ui-calendar .ui-calendar-time {
+	display: block;
+	text-align: center;
+    margin: auto;
+    padding: 10px;
+}
+	.newui .ui-calendar .ui-calendar-time select {
+		width: auto;
+		min-width: 10px;
+	}
+*/
+/* TIME PICKER */
+.newui .ui-calendar .ui-calendar-time {
+  position: relative;
+  width: 150px;
+  margin: 0 auto;
+  background: white;
+  padding: 10px;
+  text-align: center;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-container {
+  position: relative;
+  width: 150px;
+}
+.newui .ui-calendar .circle-center {
+  position: absolute;
+  background: #44b5ec;
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.newui .ui-calendar .circle-hover-marker {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background: white;
+  color: #999999;
+  font-size: 10px;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  -webkit-border-radius: 13px;
+  -moz-border-radius: 13px;
+  border-radius: 13px;
+  background: none;
+  border: 1px solid #44b5ec;
+}
+.newui .ui-calendar .circle-hover-marker:hover {
+  background: #44b5ec;
+  color: white;
+}
+.newui .ui-calendar .circle-hover-marker:hover {
+  background: none;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-display {
+  position: relative;
+  margin: 10px 0 10px 0;
+  text-align: center;
+  line-height: 20px;
+  font-size: 20px;
+  color: #999999;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-display span {
+  cursor: pointer;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-display span.active {
+  color: #44b5ec;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-circle-bg {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  background-color: #efefef;
+  -webkit-border-radius: 75px;
+  -moz-border-radius: 75px;
+  border-radius: 75px;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-circle .time-circle-tile {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background: white;
+  color: #999999;
+  font-size: 10px;
+  cursor: pointer;
+}
+.newui .ui-calendar .ui-calendar-time .ui-calendar-time-circle .time-circle-tile:hover {
+  background: #44b5ec;
+  color: white;
+}
+.newui .ui-calendar .ui-calendar-time .am,
+.newui .ui-calendar .ui-calendar-time .pm {
+  bottom: 40px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background: white;
+  color: #999999;
+  font-size: 10px;
+  cursor: pointer;
+  background: #efefef;
+}
+.newui .ui-calendar .ui-calendar-time .am:hover,
+.newui .ui-calendar .ui-calendar-time .pm:hover {
+  background: #44b5ec;
+  color: white;
+}
+.newui .ui-calendar .ui-calendar-time .am {
+  left: 10px;
+}
+.newui .ui-calendar .ui-calendar-time .pm {
+  right: 10px;
+}
+.newui.mobile .ui-calendar-display {
+  height: 30px;
+  line-height: 30px;
+}
+.newui.mobile .ui-calendar-buttons {
+  position: relative;
+  left: -33px;
+  width: 27px;
+  height: 27px;
+  line-height: 27px;
+  vertical-align: top;
+  margin: 2px -33px 0 0;
+}
+.newui.mobile .ui-calendar-buttons .button {
+  display: none;
+}
+.newui.mobile .ui-calendar-buttons .button:first-child {
+  display: block;
+  height: 25px;
+  line-height: 25px;
+  padding: 0;
+}
+.newui.mobile .ui-calendar .circle-hover-marker {
+  display: none;
+}
+.newui.mobile .ui-calendar .uimodalclose {
+  display: block;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  padding: 10px;
+  -webkit-border-bottom-left-radius: 50%;
+  -moz-border-radius-bottomleft: 50%;
+  border-bottom-left-radius: 50%;
+  transform-origin: top right;
+  background: #333333;
+  color: white;
+}
+.newui.mobile .ui-calendar .uimodalclose span {
+  color: white;
+  font-size: 1.5em;
+}
