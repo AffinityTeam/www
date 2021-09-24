@@ -2154,9 +2154,13 @@ var UILeaveApply = new Class({
         this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
         this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
 
+        this.leavePeriodGroupRow4.hide();
+        this.leavePeriodGroupRow5.hide();
+
         this.leavePeriodRequestPartDayLabel = new Element('label', {
-            'html': 'Part-Day Reason',
-            'class': 'leave-apply-group-column-label'
+            'html': 'Part Day - Start/Finish Times',
+            'class': 'leave-apply-group-column-label ui-has-tooltip',
+            'data-tooltip': "Add your intended Start/Finish times for days where your leave doesn't cover the entire day",
         }).inject(this.leavPeriodRequestPartDayLabelColumn2);
 
 
@@ -2183,12 +2187,14 @@ var UILeaveApply = new Class({
 
         this.leavePeriodDaysHoursTitle = new Element('label', {
             'html': 'Hours',
-            'class': 'leave-apply-leave-period-header-hours'
+            'class': 'leave-apply-leave-period-header-hours ui-has-tooltip',
+            'data-tooltip': "Number of hours you're applying for on this day. The value for 'Days' are auto-calculated",
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
         this.leavePeriodDaysHoursTitle = new Element('label', {
             'html': 'Scheduled',
-            'class': 'leave-apply-leave-period-header-scheduled'
+            'class': 'leave-apply-leave-period-header-scheduled ui-has-tooltip',
+            'data-tooltip': "Number of hours you're scheduled to work for on this day",
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
         // this.leavePeriodDaysContainer = new Element('div', { 'class': 'leave-apply-days-value-container' }).inject(this.leavePeriodDaysBox);
@@ -2662,10 +2668,15 @@ var UILeaveApply = new Class({
             Array.each(data.Days, function (day, index) {
                 this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer); 
                 this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header'}).inject(this.leavePeriodDaysBoxValueRow);
-                this.leavePeriodDaysDateColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDateColumnContainer = new Element('span', {class: 'leave-period-day-date-container'}).inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
-                this.leavePeriodDaysScheduledColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysScheduledColumnContainer = new Element('span',  {'attr': 'period-day-schedule-hours-container'}).inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysWarningColumnContainer = new Element('span',
+                  {'attr': 'period-day-warning-container',
+                   'id': 'period-dayexceeds-warning-' + index,
+                   'style': 'margin-left: 8px'}).inject(this.leavePeriodDaysBoxValueRow);
+               // this.leavePeriodDaysWarningColumnContainer.set('text', 'Hours exceeds Scheduled amount');
 
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
@@ -2747,6 +2758,11 @@ var UILeaveApply = new Class({
             }
 
             var totalString = 'Total [days] days / [hours] hours';
+            if (totalDaysAppliedFor < 1) {
+                this.leavePeriodGroupRow4.show();
+                this.leavePeriodGroupRow5.show();
+            }
+
             totalString = totalString.replace('[days]', this.roundDown(totalDaysAppliedFor,2).toFixed(2));
             totalString = totalString.replace('[hours]', this.roundDown(totalHoursAppliedFor,2).toFixed(2));
             this.totalPeriodDaysDetail = new Element('label', {
@@ -2777,7 +2793,7 @@ var UILeaveApply = new Class({
                 } else {
                     Affinity.leave.employee.leaveDetail.formatFields(this, this.data);
                 }
-                this.computeUnitTotals(vm)
+                this.computeUnitTotals(vm);
             }.bind(this));
 
             scheduledHoursField.removeEvents();
@@ -7944,7 +7960,7 @@ var UILeaveDetail = new Class({
         this.leavePeriodRequestPartDayInputColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow6); 
 
         this.leavePeriodRequestPartDayLabel = new Element('label', {
-            'html': 'Part-Day Reason',
+            'html': 'Part Day - Start/Finish Times',
             'class': 'leave-detail-group-column-label'
         }).inject(this.leavPeriodRequestPartDayLabelColumn2);
 
@@ -8027,8 +8043,6 @@ var UILeaveDetail = new Class({
         this.createLeaveTypeGroup(form);
         this.createLeavePeriodGroup(form);
         this.createLeaveDetailsGroup(form,this.isManager, leaveHeader);
-        
-        this.createButtons(form, false);
 
         Affinity.leave.populateLeaveActivity(form, leaveHeader.EmployeeNo, leaveHeader.TSGroupId);
 
@@ -8055,6 +8069,7 @@ var UILeaveDetail = new Class({
 
         var leaveModel = this.createLeaveModel(this.data);
         this.createDaysFields(leaveModel, null);
+        this.createButtons(form, false);
 
         this.currentlySavedLeaveInstance = this.getEditedLeaveInstance();
 
@@ -8300,7 +8315,11 @@ var UILeaveDetail = new Class({
                 this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysScheduledColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
-
+                this.leavePeriodDaysWarningColumnContainer = new Element('span',
+                {'attr': 'period-day-warning-container',
+                 'id': 'period-dayexceeds-warning-' + index,
+                 'style': 'margin-left: 8px'}).inject(this.leavePeriodDaysBoxValueRow);
+                 
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
                 var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
@@ -9184,7 +9203,26 @@ var UILeaveDetail = new Class({
                     }
 
                     this.approveButton.addEvent('click', function () {
+                        var hourExcessError = false;
+                        this.data.Components[0].Units.forEach(function(data, index) {
+                            var existWarning = this.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + index);
 
+                            if (existWarning.get('text') === 'Hours exceeds Scheduled amount') {
+                                hourExcessError = true;
+                            }
+                        }.bind(this))
+
+                        if (hourExcessError) {
+                            uialert({
+                                message: 'You must choose Leave hour same as Scheduled amount.',
+                                showLoader: false,
+                                showButtons: true,
+                                noClose: false
+                            });
+
+                            return;
+                        }
+    
                         setTimeout(function () {
                             if (this.validateAttachmentRequirement()) {
                                 var vm = this;
@@ -10032,9 +10070,12 @@ var UILeaveDetail = new Class({
             var scheduledHoursField = target.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
             var isPublicHolidayField = target.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
 
+            var warningField = target.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + i);
+
             var ruleParams = new Object();
             ruleParams.isManager = this.identifyIfManager(target);
             ruleParams.isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+            ruleParams.daysValue = parseFloat(daysField.value);
             ruleParams.isWeekEnds = this.identifyIfWeekends(dateField);
             ruleParams.hoursValue = parseFloat(hoursField.value);
             ruleParams.defaultScheduledHoursValue = parseFloat(defaultScheduledHoursField.value);
@@ -10042,12 +10083,14 @@ var UILeaveDetail = new Class({
             ruleParams.formEditMode = target.isInEditMode === undefined ? true : target.isInEditMode;
             ruleParams.canEditByDays = target.canEditByDays;
 
+           
+
             this.applyFormattingRule(daysField, daysFormattingRule, ruleParams);
             this.applyFormattingRule(hoursField, hoursFormattingRule, ruleParams);
             this.applyFormattingRule(scheduledHoursField, scheduledHoursFormattingRule, ruleParams);
             this.applyFormattingRule(dateField, dateFormattingRule, ruleParams);
-           
-         
+            this.applyWarningRule(warningField, dateFormattingRule, ruleParams);
+            this.applyHolidayIcon(dateField, ruleParams);
         }
     },
     identifyIfWeekends: function (dateField) {
@@ -10073,12 +10116,41 @@ var UILeaveDetail = new Class({
         formattingRule.formatToDefault(fieldElement, ruleParams);
        
         formattingRule.highlightInDarkShade(fieldElement, ruleParams);
-        formattingRule.highlightInYellow(fieldElement, ruleParams);
+        // formattingRule.highlightInYellow(fieldElement, ruleParams);
         formattingRule.setValueToZero(fieldElement, ruleParams);
         formattingRule.setValueBasedOnHours(fieldElement, ruleParams);
         formattingRule.formatToReadOnly(fieldElement, ruleParams);
         
     },
+
+    applyHolidayIcon: function(dateField, ruleParams) {
+        if (ruleParams.isPublicHoliday) {
+            var existingPlaneList = dateField.parentElement.getElementsByClassName('icon-plane');
+            if (existingPlaneList && existingPlaneList.length === 0) {
+                dateField.parentElement.grab(new Element('span', {class: 'icon-plane'}), 'top');
+            } 
+        } else {
+            var existingPlaneList = dateField.parentElement.getElementsByClassName('space-icon-plane');
+            if (existingPlaneList && existingPlaneList.length === 0) {
+                dateField.parentElement.grab(new Element('span', {class: 'space-icon-plane'}), 'top');
+            }
+            
+        }
+    },
+
+    applyWarningRule: function (fieldElement, formattingRule, ruleParams) {    
+        if (ruleParams.hoursValue > ruleParams.scheduledHoursValue) {
+            fieldElement.set('text', 'Hours exceeds Scheduled amount')
+            fieldElement.setStyle('color', 'red');
+        } else if (ruleParams.hoursValue < ruleParams.scheduledHoursValue) {
+            fieldElement.set('text', "Leave covers the day partially")
+            fieldElement.setStyle('color', 'orange');
+        } else {
+            fieldElement.set('text', '')
+            fieldElement.setStyle('color', '');
+        }
+    },
+
     formatToDefault: function (fieldElement, rulesParams) {
         fieldElement.set('readonly', false);
         fieldElement.set('style', 'background-color: white !important;');
@@ -10162,7 +10234,6 @@ var UILeaveDetail = new Class({
           
 
         }.bind(this);
-
 
         rulesObject.setValueToZero = function (fieldElement, rulesParams) {
          
@@ -10280,63 +10351,63 @@ var UILeaveDetail = new Class({
     toDarkBackground: function (fieldElement) {
         fieldElement.set('style', 'background-color: #C0C0C0 !important;');
     },
-    highlightUnitFieldsIfNotEqualToDefaultValue: function () {
-        var leaveUnits = this.getEditedLeaveInstance().leaveUnits;
+    // highlightUnitFieldsIfNotEqualToDefaultValue: function () {
+    //     var leaveUnits = this.getEditedLeaveInstance().leaveUnits;
 
-        for (var i = 0; i < leaveUnits.length; i++) {
+    //     for (var i = 0; i < leaveUnits.length; i++) {
 
-            var dateField = this.leavePeriodDaysContainer.getElementById('date-' + i);
-            var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
-            var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
-            var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
-            var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
-            var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+    //         var dateField = this.leavePeriodDaysContainer.getElementById('date-' + i);
+    //         var daysField = this.leavePeriodDaysContainer.getElementById('days-' + i);
+    //         var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
+    //         var defaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
+    //         var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
+    //         var isPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
 
-            hoursField.set('style', '');
-            daysField.set('style', '');
-            dateField.set('style', '');
-            scheduledHoursField.set('style','');
+    //         hoursField.set('style', '');
+    //         daysField.set('style', '');
+    //         dateField.set('style', '');
+    //         scheduledHoursField.set('style','');
 
-            var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+    //         var isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
 
-            if (isPublicHoliday) {
-                dateField.set('style', 'background-color: #C0C0C0 !important;');
-                daysField.set('style', 'background-color: #C0C0C0 !important;');
-                hoursField.set('style', 'background-color: #C0C0C0 !important;');
-                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
-            }
+    //         if (isPublicHoliday) {
+    //             dateField.set('style', 'background-color: #C0C0C0 !important;');
+    //             daysField.set('style', 'background-color: #C0C0C0 !important;');
+    //             hoursField.set('style', 'background-color: #C0C0C0 !important;');
+    //             scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+    //         }
 
-            if ((dateField.value.indexOf('aturday') !== -1) ||
-                (dateField.value.indexOf('unday') !== -1)) {
-                dateField.set('style', 'background-color: #C0C0C0 !important;');
-                daysField.set('style', 'background-color: #C0C0C0 !important;');
-                hoursField.set('style', 'background-color: #C0C0C0 !important;');
-                scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
-            }
+    //         if ((dateField.value.indexOf('aturday') !== -1) ||
+    //             (dateField.value.indexOf('unday') !== -1)) {
+    //             dateField.set('style', 'background-color: #C0C0C0 !important;');
+    //             daysField.set('style', 'background-color: #C0C0C0 !important;');
+    //             hoursField.set('style', 'background-color: #C0C0C0 !important;');
+    //             scheduledHoursField.set('style', 'background-color: #C0C0C0 !important;');
+    //         }
 
 
-            if (!isPublicHoliday) {
+    //         if (!isPublicHoliday) {
                
-                if (this.isInEditMode) {
-                    if (Affinity.leave.manager && this.isManager) {
-                        hoursField.set('style', '');
-                        scheduledHoursField.set('style', '');
-                    }
+    //             if (this.isInEditMode) {
+    //                 if (Affinity.leave.manager && this.isManager) {
+    //                     hoursField.set('style', '');
+    //                     scheduledHoursField.set('style', '');
+    //                 }
 
-                    if (Affinity.leave.employee && !this.isManager) {
-                        hoursField.set('style', '');
-                    }
-                }
+    //                 if (Affinity.leave.employee && !this.isManager) {
+    //                     hoursField.set('style', '');
+    //                 }
+    //             }
 
-                if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
-                    hoursField.set('style', 'background-color: yellow !important;'); 
-                    daysField.set('style', 'background-color: yellow !important;'); 
-                }
+    //             if (parseFloat(hoursField.value) !== parseFloat(defaultScheduledHoursField.value)) {
+    //                 hoursField.set('style', 'background-color: yellow !important;'); 
+    //                 daysField.set('style', 'background-color: yellow !important;'); 
+    //             }
               
-            } 
+    //         } 
             
-        }
-    },
+    //     }
+    // },
     getEditedLeaveInstance: function (excludeDaysWithNoScheduledHours) {
         var currentLeaveObject = this.data.LeaveHeader;
         var editedLeaveInstance = new Object();
