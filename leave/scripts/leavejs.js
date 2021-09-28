@@ -2131,7 +2131,7 @@ var UILeaveApply = new Class({
         this.leavePeriodGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
         this.leavePeriodGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
         // this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row period-days-table-container' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
 
@@ -2278,7 +2278,6 @@ var UILeaveApply = new Class({
         if (isManager) {
             this.employeeIndirect = new Element('div', { 'class': 'form-row leave-apply-indirect' }).inject(formData);
             new Element('label', { 'html': 'Include Indirect' }).inject(this.employeeIndirect);
-            console.log('is manager in create employee detail')
             this.employeeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
             this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
             this.employeeInputRow = new Element('div', { 'class': 'leave-apply-row' }).inject(this.employeeGroup);
@@ -3229,8 +3228,6 @@ var UILeaveApply = new Class({
         return "";
     },
     generateEalTableHtml: function (leaveInfo) {
-        console.log(leaveInfo)
-        console.log(this.isManager)
         var userPronoun = "Your";
         if (this.isManager) {
             userPronoun = leaveInfo.EmployeeFirstName + "'s";
@@ -4536,6 +4533,8 @@ var UILeaveApply = new Class({
     submit: function (statusCode) {
         var employeeNum;
 
+        // code 0 is submit
+        // code 3 is approveal
 
         if (!this.validateAttachmentRequirement()) {
             uialert({
@@ -4632,6 +4631,30 @@ var UILeaveApply = new Class({
             return;
         }
 
+        if (statusCode === 3) {
+            this.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-0')
+            var hourExcessError = false;
+    
+            for (var i=0; i < this.data.length; i++) {
+                var existWarning = this.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + i);
+                if (existWarning.get('text') === 'Hours exceeds Scheduled amount') {
+                    hourExcessError = true;
+                }
+            }
+    
+            if (hourExcessError) {
+                uialert({
+                    message: 'Leave Hours must be less than or equal to Scheduled Amount.',
+                    showLoader: false,
+                    showButtons: true,
+                    noClose: false
+                });
+    
+                return;
+            }
+        }
+        
+
         if (total == 0) {
 
             var action = 'save';
@@ -4653,6 +4676,7 @@ var UILeaveApply = new Class({
             return;
         }
 
+        
         var approvers = []; 
         var approverDropDowns = document.getElements('.leave-approver-selector');
         var hiddenApproverDropDowns = document.getElements('.leave-approver-selector.hidden');
@@ -7961,7 +7985,7 @@ var UILeaveDetail = new Class({
 
         this.leavePeriodRequestPartDayLabel = new Element('label', {
             'html': 'Part Day - Start/Finish Times',
-            'class': 'leave-detail-group-column-label'
+            'class': 'leave-detail-group-column-label 123123'
         }).inject(this.leavPeriodRequestPartDayLabelColumn2);
 
 
@@ -8451,7 +8475,13 @@ var UILeaveDetail = new Class({
         }
 
         this.commentBox.set('html', leave.Comment);
-        this.partDayReason.set('html', leave.PartDayReason);
+
+        if (!leave.PartDayReason) {
+            this.partDayReason.set('html', 'No Start/Finish Time info has been provided by the applicant');
+        } else {
+            this.partDayReason.set('html', leave.PartDayReason);
+        }
+        
         if (this.isManager) {
             this.managerCommentBox.set('html', leave.Reply);
         }
@@ -9338,7 +9368,13 @@ var UILeaveDetail = new Class({
                     this.disableButtonsWhileInputEditIsProcessing();
                 }.bind(this),
                 updateInput: function () {
+                    // todo: add error check here
                     //check if there is difference in leave units
+                    
+                    if (this.validateHoursAndScheduled() === true) {
+                        return;
+                    }
+                    
                     var oldLeaveUnits = app.currentlySavedLeaveInstance.leaveUnits;
                     var newLeaveUnits = app.getEditedLeaveInstance().leaveUnits;
 
@@ -9375,6 +9411,29 @@ var UILeaveDetail = new Class({
 
         
     },
+
+    validateHoursAndScheduled: function() {
+        var hourExcessError = false;
+        for (var i=0; i < this.data.Components[0].Units.length; i++) {
+            var existWarning = this.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + i);
+            if (existWarning.get('text') === 'Hours exceeds Scheduled amount') {
+                hourExcessError = true;
+            }
+        }
+
+        if (hourExcessError) {
+            uialert({
+                message: 'Leave Hours must be less than or equal to Scheduled Amount.',
+                showLoader: false,
+                showButtons: true,
+                noClose: false
+            });
+
+            return hourExcessError;
+        }
+
+    },
+
     displayEditMode: function () {
         this.generateCalendar(Affinity.leave.manager.config, this.data.LeaveHeader.DateFrom, this.data.LeaveHeader.DateTo, true);
 
@@ -10142,9 +10201,15 @@ var UILeaveDetail = new Class({
         if (ruleParams.hoursValue > ruleParams.scheduledHoursValue) {
             fieldElement.set('text', 'Hours exceeds Scheduled amount')
             fieldElement.setStyle('color', 'red');
+            fieldElement.setStyle('display', 'inline-block');
+            fieldElement.setStyle('width', '120px');
+            fieldElement.setStyle('vertical-align', 'middle');
         } else if (ruleParams.hoursValue < ruleParams.scheduledHoursValue) {
             fieldElement.set('text', "Leave covers the day partially")
             fieldElement.setStyle('color', 'orange');
+            fieldElement.setStyle('display', 'inline-block');
+            fieldElement.setStyle('width', '120px');
+            fieldElement.setStyle('vertical-align', 'middle');
         } else {
             fieldElement.set('text', '')
             fieldElement.setStyle('color', '');
@@ -10153,7 +10218,7 @@ var UILeaveDetail = new Class({
 
     formatToDefault: function (fieldElement, rulesParams) {
         fieldElement.set('readonly', false);
-        fieldElement.set('style', 'background-color: white !important;');
+        // fieldElement.set('style', 'background-color: transparent !important;');
         if (isNaN(parseFloat(fieldElement.value))) {
             fieldElement.value = parseFloat(0).toFixed(2);
         }
@@ -10215,7 +10280,7 @@ var UILeaveDetail = new Class({
                 fieldElement.removeClass('leave-detail-input-hours');
                 fieldElement.addClass('leave-detail-input-uneditable-hours');
             } else {
-                fieldElement.set('style', 'background-color: white !important;');
+                // fieldElement.set('style', 'background-color: transparent !important;');
                 fieldElement.set('readonly', false);
                 fieldElement.removeClass('leave-detail-input-uneditable-hours');
                 fieldElement.addClass('leave-detail-input-hours');
@@ -10224,9 +10289,9 @@ var UILeaveDetail = new Class({
         }.bind(this);
 
         rulesObject.highlightInDarkShade = function (fieldElement, rulesParams) {
-            if (rulesParams.isPublicHoliday || rulesParams.isWeekEnds) {
-                this.toDarkBackground(fieldElement);
-            }
+            // if (rulesParams.isPublicHoliday || rulesParams.isWeekEnds) {
+                // this.toDarkBackground(fieldElement);
+            // }
 
         }.bind(this);
 
@@ -10271,9 +10336,9 @@ var UILeaveDetail = new Class({
         }.bind(this);
 
         rulesObject.highlightInDarkShade = function (fieldElement, rulesParams) {
-            if (rulesParams.isPublicHoliday) {
-                this.toDarkBackground(fieldElement);
-            }
+            // if (rulesParams.isPublicHoliday) {
+            //     this.toDarkBackground(fieldElement);
+            // }
 
         }.bind(this);
 
@@ -10306,9 +10371,9 @@ var UILeaveDetail = new Class({
         }.bind(this);
 
         rulesObject.highlightInDarkShade = function (fieldElement, rulesParams) {
-            if (rulesParams.isPublicHoliday || rulesParams.isWeekEnds) {
-                this.toDarkBackground(fieldElement);
-            }
+            // if (rulesParams.isPublicHoliday || rulesParams.isWeekEnds) {
+            //     this.toDarkBackground(fieldElement);
+            // }
 
         }.bind(this);
 
