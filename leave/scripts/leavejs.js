@@ -9244,7 +9244,7 @@ var UILeaveDetail = new Class({
 
                         if (hourExcessError) {
                             uialert({
-                                message: 'You must choose Leave hour same as Scheduled amount.',
+                                message: 'Leave Hours must be less than or equal to Scheduled Amount.',
                                 showLoader: false,
                                 showButtons: true,
                                 noClose: false
@@ -10210,7 +10210,7 @@ var UILeaveDetail = new Class({
             fieldElement.setStyle('display', 'inline-block');
             fieldElement.setStyle('width', '120px');
             fieldElement.setStyle('vertical-align', 'middle');
-        } else if (ruleParams.hoursValue < ruleParams.scheduledHoursValue) {
+        } else if (ruleParams.hoursValue < ruleParams.scheduledHoursValue && ruleParams.hoursValue !== 0) {
             fieldElement.set('text', "Leave covers the day partially")
             fieldElement.setStyle('color', 'orange');
             fieldElement.setStyle('display', 'inline-block');
