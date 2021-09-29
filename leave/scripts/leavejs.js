@@ -8477,7 +8477,7 @@ var UILeaveDetail = new Class({
         this.commentBox.set('html', leave.Comment);
 
         if (!leave.PartDayReason) {
-            this.partDayReason.set('html', 'No Start/Finish Time info has been provided by the applicant');
+            this.partDayReason.set('html', 'No Start/Finish Time info has been provided.');
         } else {
             this.partDayReason.set('html', leave.PartDayReason);
         }
@@ -9414,6 +9414,12 @@ var UILeaveDetail = new Class({
 
     validateHoursAndScheduled: function() {
         var hourExcessError = false;
+
+        // is approved status
+        if (this.data.LeaveHeader.StatusCode !== 3 || this.isManager === false) {
+            return hourExcessError;
+        }
+        
         for (var i=0; i < this.data.Components[0].Units.length; i++) {
             var existWarning = this.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + i);
             if (existWarning.get('text') === 'Hours exceeds Scheduled amount') {
@@ -10274,8 +10280,7 @@ var UILeaveDetail = new Class({
             if (!rulesParams.formEditMode ||
                 rulesParams.isPublicHoliday ||
                 !rulesParams.canEditByDays ||
-                !rulesParams.isManager ||
-                parseFloat(rulesParams.hoursValue) === 0) {
+                !rulesParams.isManager ) {
                 fieldElement.set('readonly', true);
                 fieldElement.removeClass('leave-detail-input-hours');
                 fieldElement.addClass('leave-detail-input-uneditable-hours');
@@ -10302,10 +10307,10 @@ var UILeaveDetail = new Class({
 
         rulesObject.setValueToZero = function (fieldElement, rulesParams) {
          
-            if (parseFloat(rulesParams.hoursValue) === 0 && rulesParams.isManager) {
-                fieldElement.value = parseFloat(0).toFixed(2);
+            // if (parseFloat(rulesParams.hoursValue) === 0 && rulesParams.isManager) {
+            //     fieldElement.value = parseFloat(0).toFixed(2);
 
-            }
+            // }
 
         }.bind(this);
 
