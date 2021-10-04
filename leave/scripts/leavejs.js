@@ -2256,7 +2256,7 @@ var UILeaveApply = new Class({
         this.commentBox = new Element('textarea', { 'class': 'leave-apply-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.leaveDetailsRow2Column2);
 
 
-        new Element('label', {
+        this.attachmentLabel = new Element('label', {
             'html': 'Attachments',
             'class': 'leave-apply-group-title-label bold'
         }).inject(this.leaveDetailsRow3Column2);
@@ -3296,9 +3296,9 @@ var UILeaveApply = new Class({
             if (leaveCode.MandatoryReason) {
                 this.requiredReason = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.reasonLabel, 'bottom');
             }
-            if (leaveCode.MandatoryAttachment) {
-               // this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
-            }
+            // if (leaveCode.MandatoryAttachment) {
+                this.requiredAttachment = new Element('span', { 'class': 'required', 'html': '*required' }).inject(this.attachmentLabel, 'bottom');
+            // }
 
         } else {
             if (inlineProjectionInfo) {
