@@ -2760,6 +2760,9 @@ var UILeaveApply = new Class({
             if (totalDaysAppliedFor < 1) {
                 this.leavePeriodGroupRow4.show();
                 this.leavePeriodGroupRow5.show();
+            } else {
+                this.leavePeriodGroupRow4.hide();
+                this.leavePeriodGroupRow5.hide();
             }
 
             totalString = totalString.replace('[days]', this.roundDown(totalDaysAppliedFor,2).toFixed(2));
