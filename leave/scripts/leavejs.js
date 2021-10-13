@@ -48,9 +48,19 @@ var Leave = new Class({
 
         this.apiroot = this.options.apiroot;
         if (window.location.search){
-            var urlParams =new URLSearchParams(window.location.search);
-            this.isInitShowMy = urlParams.get("showMy") != null
-            this.initShowLeaveNo = urlParams.get("leaveId")
+            ////var urlParams =new URLSearchParams(window.location.search);
+            ////this.isInitShowMy = urlParams.get("showMy") != null
+            ////this.initShowLeaveNo = urlParams.get("leaveId")
+            
+            // IE11, guys please add good polyfill here
+            var qd = {};
+            if (location.search) location.search.substr(1).split("&").forEach(function(item) {var s = item.split("="), k = s[0], v = s[1] && decodeURIComponent(s[1]); (qd[k] = qd[k] || []).push(v)})
+            if (qd.showMy) {
+                this.isInitShowMy = qd.showMy[0] != null
+            }
+            if (qd.leaveId) {
+                this.initShowLeaveNo = qd.leaveId[0]
+            }
         }
     },
 
