@@ -47,7 +47,9 @@ var Leave = new Class({
         this.setOptions(options);
 
         this.apiroot = this.options.apiroot;
-
+        var urlParams =new URLSearchParams(window.location.search);
+        this.isInitShowMy = urlParams.get("showMy") != null
+        this.initShowLeaveNo = urlParams.get("leaveId")
     },
 
     init: function(){
@@ -142,7 +144,12 @@ var Leave = new Class({
 
         if (response && response.Data) {
             this.isManager = true;
-            this.switchToManagerView();
+            if (this.isInitShowMy) {
+                this.switchToEmployeeView();
+            }
+            else {
+                this.switchToManagerView();
+            }
         } else
         {
             this.switchToEmployeeView();
@@ -273,7 +280,7 @@ var Leave = new Class({
             tab.inject(this.tabBox);
         }.bind(this));
         this.tabBox.getElements('li').removeClass('selected');
-        if (!this.isAdmin && !this.isManager) {
+        if (this.isInitShowMy || (!this.isAdmin && !this.isManager)) {
             if (this.myTab) { this.myTab.addClass('selected'); }
         }
         else
@@ -295,7 +302,8 @@ var Leave = new Class({
             /**/
             if (!this.employee) {
                 this.employee = new EmployeeLeave({
-                    target: this.options.employeeTarget
+                    target: this.options.employeeTarget,
+                    initShowLeaveNo: this.initShowLeaveNo
                 });
             }
             /**/
@@ -1048,6 +1056,7 @@ var UILeaveHistory = new Class({
 
         this.target = this.options.target;
         this.isManager = this.options.isManager ? true : false;
+        this.initShowLeaveNo = this.options.initShowLeaveNo
 
         this.section = new Element('div', { 'class': 'section shadow' });
         this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
@@ -1307,6 +1316,15 @@ var UILeaveHistory = new Class({
         }
         else {
             path = 'MyLeaveHistory/' + employeeNum;
+            if (this.initShowLeaveNo) {
+                uriObj = new URI(Affinity.leave.apiroot + 'MyLeaveHistory/' + employeeNum);
+                var query = typeOf(uriObj.parsed.query) === 'null' ? {} : uriObj.parsed.query.parseQueryString();
+                console.log("I has been added")
+                console.log(this.initShowLeaveNo)
+                query.tsGroupId = this.initShowLeaveNo
+                uriObj.parsed.query = Object.toQueryString(query);
+                this.filteredHistoryUri = Affinity.GetCacheSafePath(uriObj.toString());
+            }
         }
 
         this._methodName = 'ui.leave.history.js -> getHistory';
@@ -1735,8 +1753,10 @@ var UILeaveHistory = new Class({
         }
         
 
-        row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
-        row.addEvent(Affinity.events.click, viewDetail);
+        // row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
+        // row.addEvent(Affinity.events.click, viewDetail);
+        row.addEvent('click', tryCreateAuditLogForImportedLeave);
+        row.addEvent('click', viewDetail);
         
         //var buttons = new Element('td', { 'class': 'active col-id-rowbutton' }).inject(row);
         //var detailsButton = new Element('span', { 'class': 'button blue w-icon-only ui-has-tooltip', 'data-tooltip': 'Details', 'data-tooltip-dir': 'left' }).adopt(
