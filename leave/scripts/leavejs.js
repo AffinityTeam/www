@@ -1755,8 +1755,10 @@ var UILeaveHistory = new Class({
         }
         
 
-        row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
-        row.addEvent(Affinity.events.click, viewDetail);
+        // row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
+        // row.addEvent(Affinity.events.click, viewDetail);
+        row.addEvent('click', tryCreateAuditLogForImportedLeave);
+        row.addEvent('click', viewDetail);
         
         //var buttons = new Element('td', { 'class': 'active col-id-rowbutton' }).inject(row);
         //var detailsButton = new Element('span', { 'class': 'button blue w-icon-only ui-has-tooltip', 'data-tooltip': 'Details', 'data-tooltip-dir': 'left' }).adopt(
@@ -10564,7 +10566,7 @@ var UILeaveDetail = new Class({
 
 
     },
-    acknowledgementModal: function (response, message, autoclose = false) {
+    acknowledgementModal: function (response, message, autoclose) {
         Affinity.modal.show();
         Affinity.modal.clear();
         Affinity.modal.position();
