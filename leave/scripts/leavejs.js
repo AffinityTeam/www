@@ -61,6 +61,9 @@ var Leave = new Class({
             if (qd.leaveId) {
                 this.initShowLeaveNo = qd.leaveId[0]
             }
+            if (qd.employeeNo) {
+                this.initEmployeeNo = qd.employeeNo[0]
+            }
         }
     },
 
@@ -315,7 +318,8 @@ var Leave = new Class({
             if (!this.employee) {
                 this.employee = new EmployeeLeave({
                     target: this.options.employeeTarget,
-                    initShowLeaveNo: this.initShowLeaveNo
+                    initShowLeaveNo: this.initShowLeaveNo,
+                    initEmployeeNo: this.initEmployeeNo
                 });
             }
             /**/
@@ -339,7 +343,9 @@ var Leave = new Class({
             /**/
             if (!this.manager) {
                 this.manager = new TeamLeave({
-                    target: this.options.managerTarget
+                    target: this.options.managerTarget,
+                    initShowLeaveNo: this.initShowLeaveNo,
+                    initEmployeeNo: this.initEmployeeNo
                 });
             }
             /**/
@@ -1069,6 +1075,7 @@ var UILeaveHistory = new Class({
         this.target = this.options.target;
         this.isManager = this.options.isManager ? true : false;
         this.initShowLeaveNo = this.options.initShowLeaveNo
+        this.initEmployeeNo = this.options.initEmployeeNo
 
         this.section = new Element('div', { 'class': 'section shadow' });
         this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
@@ -1325,14 +1332,19 @@ var UILeaveHistory = new Class({
         if (this.isManager) {
             var dateFrom = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).format('%d-%b-%Y');
             path = 'ManagerTeamLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+dateFrom+'&orderBy=DateSubmitted&isAscending=true';
+            if (this.initEmployeeNo) {
+                uriObj = new URI(Affinity.leave.apiroot + path);
+                var query = typeOf(uriObj.parsed.query) === 'null' ? {} : uriObj.parsed.query.parseQueryString();
+                query.EmployeeFilter = this.initEmployeeNo
+                uriObj.parsed.query = Object.toQueryString(query);
+                this.filteredHistoryUri = Affinity.GetCacheSafePath(uriObj.toString());
+            }
         }
         else {
             path = 'MyLeaveHistory/' + employeeNum;
             if (this.initShowLeaveNo) {
-                uriObj = new URI(Affinity.leave.apiroot + 'MyLeaveHistory/' + employeeNum);
+                uriObj = new URI(Affinity.leave.apiroot + path);
                 var query = typeOf(uriObj.parsed.query) === 'null' ? {} : uriObj.parsed.query.parseQueryString();
-                console.log("I has been added")
-                console.log(this.initShowLeaveNo)
                 query.tsGroupId = this.initShowLeaveNo
                 uriObj.parsed.query = Object.toQueryString(query);
                 this.filteredHistoryUri = Affinity.GetCacheSafePath(uriObj.toString());
@@ -1489,7 +1501,6 @@ var UILeaveHistory = new Class({
 
     updateEmployeeFilter: function (includeIndirect, selectedEmployeeNo) {
         if (this.employeeFilter && this.Employees) {
-
             //clear list
             this.employeeFilter.empty();
 
@@ -1541,7 +1552,7 @@ var UILeaveHistory = new Class({
         }.bind(this));
 
         this.Employees = data.Employees;
-        this.updateEmployeeFilter(false);
+        this.updateEmployeeFilter(false, this.initEmployeeNo);
 
         this.applyFilter.removeEvents();
         this.applyFilter.addEvent(Affinity.events.click, function () {

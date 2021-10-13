@@ -25,6 +25,8 @@ var TeamLeave = new Class({
     initialize: function (options) {
         this.setOptions(options);
         this.target = this.options.target;
+        this.initShowLeaveNo = this.options.initShowLeaveNo
+        this.initEmployeeNo = this.options.initEmployeeNo
     },
 
     configData: null,
@@ -205,7 +207,9 @@ var TeamLeave = new Class({
     managerHistory: function () {
         this.leaveHistory = new UILeaveHistory({
             target: this.target,
-            isManager: true
+            isManager: true,
+            initShowLeaveNo: this.initShowLeaveNo,
+            initEmployeeNo: this.initEmployeeNo
         });
         Affinity.leave.manager.history = this.leaveHistory;
     },

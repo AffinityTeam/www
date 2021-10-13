@@ -50,6 +50,7 @@ var EmployeeLeave = new Class({
         this.setOptions(options);
         this.target = this.options.target;
         this.initShowLeaveNo = this.options.initShowLeaveNo
+        this.initEmployeeNo = this.options.initEmployeeNo
     },
 
     configData: null,
