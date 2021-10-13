@@ -47,9 +47,11 @@ var Leave = new Class({
         this.setOptions(options);
 
         this.apiroot = this.options.apiroot;
-        var urlParams =new URLSearchParams(window.location.search);
-        this.isInitShowMy = urlParams.get("showMy") != null
-        this.initShowLeaveNo = urlParams.get("leaveId")
+        if (window.location.search){
+            var urlParams =new URLSearchParams(window.location.search);
+            this.isInitShowMy = urlParams.get("showMy") != null
+            this.initShowLeaveNo = urlParams.get("leaveId")
+        }
     },
 
     init: function(){
