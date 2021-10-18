@@ -47,24 +47,7 @@ var Leave = new Class({
         this.setOptions(options);
 
         this.apiroot = this.options.apiroot;
-        if (window.location.search){
-            ////var urlParams =new URLSearchParams(window.location.search);
-            ////this.isInitShowMy = urlParams.get("showMy") != null
-            ////this.initShowLeaveNo = urlParams.get("leaveId")
-            
-            // IE11, guys please add good polyfill here
-            var qd = {};
-            if (location.search) location.search.substr(1).split("&").forEach(function(item) {var s = item.split("="), k = s[0], v = s[1] && decodeURIComponent(s[1]); (qd[k] = qd[k] || []).push(v)})
-            if (qd.showMy) {
-                this.isInitShowMy = qd.showMy[0] != null
-            }
-            if (qd.leaveId) {
-                this.initShowLeaveNo = qd.leaveId[0]
-            }
-            if (qd.employeeNo) {
-                this.initEmployeeNo = qd.employeeNo[0]
-            }
-        }
+
     },
 
     init: function(){
@@ -159,12 +142,7 @@ var Leave = new Class({
 
         if (response && response.Data) {
             this.isManager = true;
-            if (this.isInitShowMy) {
-                this.switchToEmployeeView();
-            }
-            else {
-                this.switchToManagerView();
-            }
+            this.switchToManagerView();
         } else
         {
             this.switchToEmployeeView();
@@ -295,7 +273,7 @@ var Leave = new Class({
             tab.inject(this.tabBox);
         }.bind(this));
         this.tabBox.getElements('li').removeClass('selected');
-        if (this.isInitShowMy || (!this.isAdmin && !this.isManager)) {
+        if (!this.isAdmin && !this.isManager) {
             if (this.myTab) { this.myTab.addClass('selected'); }
         }
         else
@@ -317,9 +295,7 @@ var Leave = new Class({
             /**/
             if (!this.employee) {
                 this.employee = new EmployeeLeave({
-                    target: this.options.employeeTarget,
-                    initShowLeaveNo: this.initShowLeaveNo,
-                    initEmployeeNo: this.initEmployeeNo
+                    target: this.options.employeeTarget
                 });
             }
             /**/
@@ -343,9 +319,7 @@ var Leave = new Class({
             /**/
             if (!this.manager) {
                 this.manager = new TeamLeave({
-                    target: this.options.managerTarget,
-                    initShowLeaveNo: this.initShowLeaveNo,
-                    initEmployeeNo: this.initEmployeeNo
+                    target: this.options.managerTarget
                 });
             }
             /**/
@@ -1074,8 +1048,6 @@ var UILeaveHistory = new Class({
 
         this.target = this.options.target;
         this.isManager = this.options.isManager ? true : false;
-        this.initShowLeaveNo = this.options.initShowLeaveNo
-        this.initEmployeeNo = this.options.initEmployeeNo
 
         this.section = new Element('div', { 'class': 'section shadow' });
         this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
@@ -1332,23 +1304,9 @@ var UILeaveHistory = new Class({
         if (this.isManager) {
             var dateFrom = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).format('%d-%b-%Y');
             path = 'ManagerTeamLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+dateFrom+'&orderBy=DateSubmitted&isAscending=true';
-            if (this.initEmployeeNo) {
-                uriObj = new URI(Affinity.leave.apiroot + path);
-                var query = typeOf(uriObj.parsed.query) === 'null' ? {} : uriObj.parsed.query.parseQueryString();
-                query.EmployeeFilter = this.initEmployeeNo
-                uriObj.parsed.query = Object.toQueryString(query);
-                this.filteredHistoryUri = Affinity.GetCacheSafePath(uriObj.toString());
-            }
         }
         else {
             path = 'MyLeaveHistory/' + employeeNum;
-            if (this.initShowLeaveNo) {
-                uriObj = new URI(Affinity.leave.apiroot + path);
-                var query = typeOf(uriObj.parsed.query) === 'null' ? {} : uriObj.parsed.query.parseQueryString();
-                query.tsGroupId = this.initShowLeaveNo
-                uriObj.parsed.query = Object.toQueryString(query);
-                this.filteredHistoryUri = Affinity.GetCacheSafePath(uriObj.toString());
-            }
         }
 
         this._methodName = 'ui.leave.history.js -> getHistory';
@@ -1501,6 +1459,7 @@ var UILeaveHistory = new Class({
 
     updateEmployeeFilter: function (includeIndirect, selectedEmployeeNo) {
         if (this.employeeFilter && this.Employees) {
+
             //clear list
             this.employeeFilter.empty();
 
@@ -1552,7 +1511,7 @@ var UILeaveHistory = new Class({
         }.bind(this));
 
         this.Employees = data.Employees;
-        this.updateEmployeeFilter(false, this.initEmployeeNo);
+        this.updateEmployeeFilter(false);
 
         this.applyFilter.removeEvents();
         this.applyFilter.addEvent(Affinity.events.click, function () {
@@ -3280,13 +3239,8 @@ var UILeaveApply = new Class({
         var balDate = this.parseISOLocal(leaveInfo.BalanceDate);
         var formattedBalDate = balDate.getDate() + "/" + (balDate.getMonth() + 1) + "/" + balDate.getFullYear();
 
-        var operator = "+";
-        if (parseFloat((leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2)) < 0) {
-            operator = "";
-        }
-
-        var storyHtml = "<div class='ealStory'><div class='leftText ealTableTitle'>How " + userPronoun +" Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
-            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.Entitlement) + "'>" + leaveInfo.Entitlement + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual) + "'>" + operator + + +(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2) + "</td></tr>";
+        var storyHtml = "<div class='ealStory'><div class='leftText ealTableTitle'>How " + userPronoun + " Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
+            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.Entitlement) + "'>" + leaveInfo.Entitlement + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual) + "'>+" + +(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2) + "</td></tr>";
         var totalAmount = leaveInfo.UnitType == "H" ? leaveInfo.TotalHours : leaveInfo.TotalDays;
         if (leaveInfo.LeaveItems != null) {
             for (var i = 0; i < leaveInfo.LeaveItems.length; i++) {
@@ -7922,7 +7876,7 @@ var UILeaveDetail = new Class({
         }).inject(this.employeePosition);
     },
     createLeaveTypeGroup: function (form) {
-        this.leaveTypeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(form);
+        this.leaveTypeGroup = new Element('div', { 'class': 'leave-apply-group leave-group-row' }).inject(form);
         this.leaveType = new Element('div', { 'class': 'form-row' }).inject(this.leaveTypeGroup);
         this.leaveReason = new Element('div', { 'class': 'form-row' }).inject(this.leaveTypeGroup);
 
@@ -7935,10 +7889,10 @@ var UILeaveDetail = new Class({
         }).inject(this.leaveReason);
 
         this.leaveTypeSelector = new Element('select', { 'class': 'leave-detail-select leave-type-selector hidden' }).inject(this.leaveType);
-        this.selectedLeaveLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveType);
+        this.selectedLeaveLabel = new Element('div', { 'html': '----' }).inject(this.leaveType);
 
         this.leaveReasonSelector = new Element('select', { 'class': 'leave-detail-select hidden' }).inject(this.leaveReason);
-        this.selectedReasonLabel = new Element('div', { 'class': 'leave-detail-group-column-label-value', 'html': '----' }).inject(this.leaveReason);
+        this.selectedReasonLabel = new Element('div', { 'html': '----' }).inject(this.leaveReason);
     },
     createLeavePeriodGroup: function (form) {
         this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group margin-top-20' }).inject(form);
@@ -14560,14 +14514,8 @@ var UIEmployeeLeaveBalances = new Class({
         var unitLabel = leaveInfo.UnitType == "H" ? "Hours" : "Days";
         var balDate = this.parseISOLocal(leaveInfo.BalanceDate);
         var formattedBalDate = balDate.getDate() + "/" + (balDate.getMonth() + 1) + "/" + balDate.getFullYear();
-
-        var operator = "+";
-        if (parseFloat((leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2)) < 0) {
-            operator = "";
-        }
-
         var storyHtml = "<div class='leftText'>How Your Estimated Leave Is Calculated</div><br /><table class='ealTable'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
-            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.Entitlement) + "'>" + leaveInfo.Entitlement + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual) + "'>" + operator + + +(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2) + "</td></tr>";
+            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.Entitlement) + "'>" + leaveInfo.Entitlement + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual) + "'>+" + +(leaveInfo.PostProjectedAccruals + leaveInfo.Accrual).toFixed(2) + "</td></tr>";
         var totalAmount = leaveInfo.UnitType == "H" ? leaveInfo.TotalHours : leaveInfo.TotalDays;
         if (leaveInfo.LeaveItems != null) {
             for (var i = 0; i < leaveInfo.LeaveItems.length; i++) {

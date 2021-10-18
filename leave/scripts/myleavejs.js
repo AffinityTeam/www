@@ -49,8 +49,6 @@ var EmployeeLeave = new Class({
     initialize: function (options) {
         this.setOptions(options);
         this.target = this.options.target;
-        this.initShowLeaveNo = this.options.initShowLeaveNo
-        this.initEmployeeNo = this.options.initEmployeeNo
     },
 
     configData: null,
@@ -194,8 +192,7 @@ var EmployeeLeave = new Class({
     employeeHistory: function () {
         this.leaveHistory = new UILeaveHistory({
             target: this.target,
-            isManager: false,
-            initShowLeaveNo: this.initShowLeaveNo
+            isManager: false
         });
     },
 
