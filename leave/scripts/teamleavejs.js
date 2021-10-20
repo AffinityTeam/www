@@ -1217,8 +1217,14 @@ var UIManagerLeaveBalances = new Class({
         var unitLabel = leaveInfo.calcUnit == "H" ? "Hours" : "Days";
         var balDate = this.parseISOLocal(leaveInfo.balanceDate);
         var formattedBalDate = balDate.getDate() + "/" + (balDate.getMonth() + 1) + "/" + balDate.getFullYear();
+
+        var operator = "+";
+        if (parseFloat((leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals).toFixed(2)) < 0) {
+            operator = "";
+        }
+
         var storyHtml = "<div class='leftText ealTableTitle'>How " + leaveInfo.employeeFirstName +"'s Estimated Leave Is Calculated</div> <br /><table class='ealTable popup'><thead><tr><th>Breakdown</th><th class='centerText'>" + unitLabel + "</th></tr></thead>" +
-            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.unitlessLeaveBalance) + "'>" + leaveInfo.unitlessLeaveBalance + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals) + "'>+" + +(leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals).toFixed(2) + "</td></tr>";
+            "<tbody><tr><td>Leave balance at last period end</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.unitlessLeaveBalance) + "'>" + leaveInfo.unitlessLeaveBalance + "</td></tr><tr><td>Add leave accruals</td><td class='centerText " + this.evaluateCssClassByValue(leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals) + "'>" + operator + + +(leaveInfo.postProjectedAccruals + leaveInfo.unitlessProjectedAccruals).toFixed(2) + "</td></tr>";
         var totalAmount = leaveInfo.calcUnit == "H" ? leaveInfo.unitlessTotalProjectedHours : leaveInfo.unitlessTotalProjectedDays;
         if (leaveInfo.leaveItems != null) {
             for (var i = 0; i < leaveInfo.leaveItems.length; i++) {
