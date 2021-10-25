@@ -1004,27 +1004,27 @@ var Leave = new Class({
 
 });
 var UILeaveHistory = new Class({
-
     Implements: [Options, Events],
 
     Binds: [
-        'hide',
-        'show',
-        'toggle',
-        'getHistory',
-        'leaveHistoryFilters',
-        'teamLeaveHistoryFilters',
-        'refreshHistory',
-        'applyFilters',
-        'generateHistoryRow',
-        'generateHistoryRows',
-        'clearFilters',
-        'clearHistoryRows',
-        'historyPaginate',
-        'clearPagination',
-        'updateEmployeeFilter',
+        "hide",
+        "show",
+        "toggle",
+        "getHistory",
+        "leaveHistoryFilters",
+        "teamLeaveHistoryFilters",
+        "refreshHistory",
+        "applyFilters",
+        "generateHistoryRow",
+        "generateHistoryRows",
+        "clearFilters",
+        "clearHistoryRows",
+        "historyPaginate",
+        "clearPagination",
+        "updateEmployeeFilter",
         //'acknowledgementModal',
-        'reset', 'destroy',
+        "reset",
+        "destroy",
 
         //employee functions
         //'submitSaved', 'resubmitLeave',
@@ -1033,7 +1033,7 @@ var UILeaveHistory = new Class({
     options: {
         target: null,
         //configData: null,
-        isManager: false
+        isManager: false,
     },
 
     initialize: function (options) {
@@ -1049,249 +1049,463 @@ var UILeaveHistory = new Class({
         this.target = this.options.target;
         this.isManager = this.options.isManager ? true : false;
 
-        this.section = new Element('div', { 'class': 'section shadow' });
-        this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
-        this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
+        this.section = new Element("div", { class: "section shadow" });
+        this.sectionBody = new Element("div", { class: "section-body" }).inject(
+            this.section
+        );
+        this.form = new Element("div", { class: "default-form" }).inject(
+            this.sectionBody
+        );
 
-        this.leaveHistory = new Element('div', { 'class': 'leave-history' }).inject(this.form)
+        this.leaveHistory = new Element("div", {
+            class: "leave-history",
+        }).inject(this.form);
         //this.teamHistory = new Element('div', { 'class': 'team-leave-history' }).inject(this.form)
 
         var title;
         if (this.isManager) {
-            title = 'Team Leave History';
+            title = "Team Leave History";
         } else {
-            title = 'View Leave History';
+            title = "View Leave History";
         }
-        this.titlebar = new Element('div', { 'class': 'section-title leave-history-title ui-has-tooltip', 'html': title, 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
+        this.titlebar = new Element("div", {
+            class: "section-title leave-history-title ui-has-tooltip",
+            html: title,
+            "data-tooltip": "Open / Close",
+            "data-tooltip-dir": "top",
+        })
             .addEvent(Affinity.events.click, this.toggle)
             .inject(this.leaveHistory);
         //this.titlebar = new Element('div', { 'class': 'section-title team-leave-history-title ui-has-tooltip', 'html': 'Team Leave History', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.teamHistory);
 
-        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown })
-            .store('state', 'closed')
+        this.toggleButton = new Element("div", {
+            class: "toggle-button",
+            html: Affinity.icons.ArrowLineSmallDown,
+        })
+            .store("state", "closed")
             .inject(this.titlebar);
-        //this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.titlebar);     
+        //this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.titlebar);
 
-        this.leaveHistoryBox = new Element('div', { 'class': 'history-table', 'style': 'display: block;' }).inject(this.leaveHistory);
+        this.leaveHistoryBox = new Element("div", {
+            class: "history-table",
+            style: "display: block;",
+        }).inject(this.leaveHistory);
 
         //        this.historyTableBox = new Element('div', { 'class': 'team-leave-history-table', 'style': 'display: block;' })
-        this.filterBox = new Element('div', { 'class': 'history-filter-box form-row' }).inject(this.leaveHistoryBox);
+        this.filterBox = new Element("div", {
+            class: "history-filter-box form-row",
+        }).inject(this.leaveHistoryBox);
 
         if (this.isManager) {
-            this.filterBox.addClass('history-filter-box-manager')
+            this.filterBox.addClass("history-filter-box-manager");
         }
-        this.noHistoryMessage = new Element('div', { 'class': 'hidden', 'style': 'padding: 10px;', 'html': 'There are no leave applications to show.' });
+        this.noHistoryMessage = new Element("div", {
+            class: "hidden",
+            style: "padding: 10px;",
+            html: "There are no leave applications to show.",
+        });
 
-        this.leaveHistoryTable = new Element('table', { 'class': 'leave hide-submitted-date' }).adopt(
-           new Element('thead').adopt(
-               this.tableHeaderRow = new Element('tr')
-           ),
-           this.historyTableBody = new Element('tbody', { 'class': 'history-table-body' })
-        ),
-
-        new Element('th', { 'class': 'active first', 'html': 'Status' }).inject(this.tableHeaderRow);
+        (this.leaveHistoryTable = new Element("table", {
+            class: "leave hide-submitted-date",
+        }).adopt(
+            new Element("thead").adopt(
+                (this.tableHeaderRow = new Element("tr"))
+            ),
+            (this.historyTableBody = new Element("tbody", {
+                class: "history-table-body",
+            }))
+        )),
+            new Element("th", { class: "active first", html: "Status" }).inject(
+                this.tableHeaderRow
+            );
         if (this.isManager)
-            new Element('th', { 'class': 'active', 'html': 'Employee' }).inject(this.tableHeaderRow);
-        new Element('th', { 'class': 'active', 'html': 'Leave Type' }).inject(this.tableHeaderRow);
-        new Element('th', { 'class': 'active', 'html': 'Start Date' }).inject(this.tableHeaderRow);
-        new Element('th', { 'class': 'active', 'html': 'End Date' }).inject(this.tableHeaderRow);
-        new Element('th', { 'class': 'active', 'html': 'Units' }).inject(this.tableHeaderRow);
+            new Element("th", { class: "active", html: "Employee" }).inject(
+                this.tableHeaderRow
+            );
+        new Element("th", { class: "active", html: "Leave Type" }).inject(
+            this.tableHeaderRow
+        );
+        new Element("th", { class: "active", html: "Start Date" }).inject(
+            this.tableHeaderRow
+        );
+        new Element("th", { class: "active", html: "End Date" }).inject(
+            this.tableHeaderRow
+        );
+        new Element("th", { class: "active", html: "Units" }).inject(
+            this.tableHeaderRow
+        );
         if (!this.isManager) {
-            new Element('th', { 'class': 'active', 'html': 'Authoriser' }).inject(this.tableHeaderRow);
-        }
-        else {
-            new Element('th', { 'class': 'active submitted-date', 'html': 'Submitted Date' }).inject(this.tableHeaderRow);
+            new Element("th", { class: "active", html: "Authoriser" }).inject(
+                this.tableHeaderRow
+            );
+        } else {
+            new Element("th", {
+                class: "active submitted-date",
+                html: "Submitted Date",
+            }).inject(this.tableHeaderRow);
         }
 
-        this.tableSection = new Element('div', { 'class': 'section-table' })
-            .adopt(this.noHistoryMessage, this.leaveHistoryTable).inject(this.leaveHistoryBox);
+        this.tableSection = new Element("div", { class: "section-table" })
+            .adopt(this.noHistoryMessage, this.leaveHistoryTable)
+            .inject(this.leaveHistoryBox);
 
-        this.paginateBox = new Element('div', { 'class': 'paginate-box pagination' }).inject(this.leaveHistoryBox);
-        this.groupStatusType = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
-        this.groupDates = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
-        this.groupEmployee = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
+        this.paginateBox = new Element("div", {
+            class: "paginate-box pagination",
+        }).inject(this.leaveHistoryBox);
+        this.groupStatusType = new Element("div", {
+            class: "filter-group-box",
+        }).inject(this.filterBox);
+        this.groupDates = new Element("div", {
+            class: "filter-group-box",
+        }).inject(this.filterBox);
+        this.groupEmployee = new Element("div", {
+            class: "filter-group-box",
+        }).inject(this.filterBox);
         if (this.isManager)
-            this.groupSubmittedDate = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
+            this.groupSubmittedDate = new Element("div", {
+                class: "filter-group-box",
+            }).inject(this.filterBox);
         //this.groupOrder = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
-        this.groupOrderButtons = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
-        this.panelStatus = new Element('div', { 'class': 'filter-item' }).inject(this.groupStatusType);
-        this.panelType = new Element('div', { 'class': 'filter-item' }).inject(this.groupStatusType);
-        this.panelDateTo = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
-        this.panelDateFrom = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
-        this.panelEmployee = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-       
+        this.groupOrderButtons = new Element("div", {
+            class: "filter-group-box",
+        }).inject(this.filterBox);
+        this.panelStatus = new Element("div", { class: "filter-item" }).inject(
+            this.groupStatusType
+        );
+        this.panelType = new Element("div", { class: "filter-item" }).inject(
+            this.groupStatusType
+        );
+        this.panelDateTo = new Element("div", { class: "filter-item" }).inject(
+            this.groupDates
+        );
+        this.panelDateFrom = new Element("div", {
+            class: "filter-item",
+        }).inject(this.groupDates);
+        this.panelEmployee = new Element("div", {
+            class: "filter-item",
+        }).inject(this.groupEmployee);
+
         if (this.isManager) {
-            this.panelIndirect = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-            this.panelShares = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-            this.panelSubmittedDate = new Element('div', { 'class': 'filter-item' }).inject(this.groupSubmittedDate);
+            this.panelIndirect = new Element("div", {
+                class: "filter-item",
+            }).inject(this.groupEmployee);
+            this.panelShares = new Element("div", {
+                class: "filter-item",
+            }).inject(this.groupEmployee);
+            this.panelSubmittedDate = new Element("div", {
+                class: "filter-item",
+            }).inject(this.groupSubmittedDate);
         }
-            
-        this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrderButtons);
-        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupOrderButtons);
-        this.panelButtonWrapper = new Element('div', {class: 'filter-buttons-box'}).inject(this.panelButtons);
 
-        new Element('span', { 'class': 'filter-label', 'html': 'Status' }).inject(this.panelStatus);
-        this.leaveStatusFilter = new Element('select', { 'class': 'history-filter-select status-filter inline' }).adopt(
-            new Element('option', { 'value': '0', 'html': 'All', 'id': null }),
-            new Element('option', { 'value': '1', 'html': 'Approved', 'id': '3' }),
-            new Element('option', { 'value': '2', 'html': 'Declined', 'id': '2' }),
-            new Element('option', { 'value': '3', 'html': 'Pending', 'id': '0' }),
-            new Element('option', { 'value': '4', 'html': 'Cancelled', 'id': '6' })
-        ).inject(this.panelStatus);
+        this.panelOrder = new Element("div", { class: "filter-item" }).inject(
+            this.groupOrderButtons
+        );
+        this.panelButtons = new Element("div", {
+            class: "filter-item ",
+        }).inject(this.groupOrderButtons);
+        this.panelButtonWrapper = new Element("div", {
+            class: "filter-buttons-box",
+        }).inject(this.panelButtons);
+
+        new Element("span", { class: "filter-label", html: "Status" }).inject(
+            this.panelStatus
+        );
+        this.leaveStatusFilter = new Element("select", {
+            class: "history-filter-select status-filter inline",
+        })
+            .adopt(
+                new Element("option", { value: "0", html: "All", id: null }),
+                new Element("option", {
+                    value: "1",
+                    html: "Approved",
+                    id: "3",
+                }),
+                new Element("option", {
+                    value: "2",
+                    html: "Declined",
+                    id: "2",
+                }),
+                new Element("option", { value: "3", html: "Pending", id: "0" }),
+                new Element("option", {
+                    value: "4",
+                    html: "Cancelled",
+                    id: "6",
+                })
+            )
+            .inject(this.panelStatus);
 
         if (this.isManager) {
-            new Element('span', { 'class': 'filter-label', 'html': 'Employee' }).inject(this.panelEmployee);
-            this.employeeFilter = new Element('select', { 'class': 'history-filter-select data-hj-whitelist leave-employee-filter' }).inject(this.panelEmployee);
-            new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Include Indirect' }).inject(this.panelIndirect);
-            new Element('span', { 'class': 'filter-label leave-action-filter', 'html': 'Leave to Action' }).inject(this.panelShares);
+            new Element("span", {
+                class: "filter-label",
+                html: "Employee",
+            }).inject(this.panelEmployee);
+            this.employeeFilter = new Element("select", {
+                class: "history-filter-select data-hj-whitelist leave-employee-filter",
+            }).inject(this.panelEmployee);
+            new Element("span", {
+                class: "filter-label include-indirect-filter",
+                html: "Include Indirect",
+            }).inject(this.panelIndirect);
+            new Element("span", {
+                class: "filter-label leave-action-filter",
+                html: "Leave to Action",
+            }).inject(this.panelShares);
 
-            this.includeIndirectWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelIndirect);
-            this.includeIndirect = new Element('input', { 'type': 'checkbox', 'class': 'include-indirect-filter', 'value': 'includeIndirect' }).inject(this.includeIndirectWrapper);
-            this.includeIndirect.addEvent('change', function (e) {
-                if (this.employeeFilter) {
-                    this.updateEmployeeFilter(this.includeIndirect.checked, this.employeeFilter[this.employeeFilter.selectedIndex].get('id'));
-                }   
-            }.bind(this));
+            this.includeIndirectWrapper = new Element("div", {
+                class: "input-wrapper",
+            }).inject(this.panelIndirect);
+            this.includeIndirect = new Element("input", {
+                type: "checkbox",
+                class: "include-indirect-filter",
+                value: "includeIndirect",
+            }).inject(this.includeIndirectWrapper);
+            this.includeIndirect.addEvent(
+                "change",
+                function (e) {
+                    if (this.employeeFilter) {
+                        this.updateEmployeeFilter(
+                            this.includeIndirect.checked,
+                            this.employeeFilter[
+                                this.employeeFilter.selectedIndex
+                            ].get("id")
+                        );
+                    }
+                }.bind(this)
+            );
 
-            this.excludeNonApproversWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelShares);
-            this.excludeNonApprovers = new Element('input', { 'type': 'checkbox', 'class': 'leave-action-filter-checkbox', 'value': 'excludeNonApprovers' }).inject(this.excludeNonApproversWrapper);
-            
+            this.excludeNonApproversWrapper = new Element("div", {
+                class: "input-wrapper",
+            }).inject(this.panelShares);
+            this.excludeNonApprovers = new Element("input", {
+                type: "checkbox",
+                class: "leave-action-filter-checkbox",
+                value: "excludeNonApprovers",
+            }).inject(this.excludeNonApproversWrapper);
+
             if (this.isManager) {
-                new Element('span', { 'class': 'filter-label show-submitted-date', 'html': 'Show Submitted Date' }).inject(this.panelSubmittedDate);
-                this.includeSubmittedDateWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelSubmittedDate);
-                this.includeSubmittedDate = new Element('input', { 'type': 'checkbox', 'class': 'show-submitted-date', 'value': 'showSubmittedDate' }).inject(this.includeSubmittedDateWrapper);
+                new Element("span", {
+                    class: "filter-label show-submitted-date",
+                    html: "Show Submitted Date",
+                }).inject(this.panelSubmittedDate);
+                this.includeSubmittedDateWrapper = new Element("div", {
+                    class: "input-wrapper",
+                }).inject(this.panelSubmittedDate);
+                this.includeSubmittedDate = new Element("input", {
+                    type: "checkbox",
+                    class: "show-submitted-date",
+                    value: "showSubmittedDate",
+                }).inject(this.includeSubmittedDateWrapper);
             }
             this.includeSubmittedDateValue = false;
-            this.includeSubmittedDate.addEvent('change', function (e) {
-                this.includeSubmittedDateValue = e.target.checked;
-                if (this.includeSubmittedDateValue) {
-                    this.leaveHistoryTable.removeClass('hide-submitted-date');
-                }
-                else {
-                    this.leaveHistoryTable.addClass('hide-submitted-date');
-                }
-                
-            }.bind(this));
-            
+            this.includeSubmittedDate.addEvent(
+                "change",
+                function (e) {
+                    this.includeSubmittedDateValue = e.target.checked;
+                    if (this.includeSubmittedDateValue) {
+                        this.leaveHistoryTable.removeClass(
+                            "hide-submitted-date"
+                        );
+                    } else {
+                        this.leaveHistoryTable.addClass("hide-submitted-date");
+                    }
+                }.bind(this)
+            );
+
             var multiPositionCompanies = [2593, 6593, 5000];
-            if (multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) > 0) { //multi position comps only
+            if (
+                multiPositionCompanies.indexOf(
+                    Affinity.login.profile.companyNumber
+                ) > 0
+            ) {
+                //multi position comps only
                 this.panelShares.hide();
             }
-        }
-        else {
+        } else {
             //new Element('option', { 'value': '4', 'html': 'Saved', 'id': '-01' }).inject(this.leaveStatusFilter);
 
-            new Element('span', { 'class': 'filter-label', 'html': 'Submitted To' }).inject(this.panelEmployee);
-            this.leaveSubmittedToFilter = new Element('select', { 'class': 'history-filter-select data-hj-whitelist submitted-to-filter inline' }).adopt(
-                new Element('option', { 'value': '0', 'html': 'All', 'id': null })
-            ).inject(this.panelEmployee);
+            new Element("span", {
+                class: "filter-label",
+                html: "Submitted To",
+            }).inject(this.panelEmployee);
+            this.leaveSubmittedToFilter = new Element("select", {
+                class: "history-filter-select data-hj-whitelist submitted-to-filter inline",
+            })
+                .adopt(
+                    new Element("option", { value: "0", html: "All", id: null })
+                )
+                .inject(this.panelEmployee);
         }
 
-        new Element('span', { 'class': 'filter-label', 'html': 'Leave Type' }).inject(this.panelType);
-        this.leaveTypeFilter = new Element('select', { 'class': 'history-filter-select data-hj-whitelist leave-type-filter inline' }).adopt(
-            new Element('option', { 'value': '0', 'html': 'All', 'id': null })
-        ).inject(this.panelType);
+        new Element("span", {
+            class: "filter-label",
+            html: "Leave Type",
+        }).inject(this.panelType);
+        this.leaveTypeFilter = new Element("select", {
+            class: "history-filter-select data-hj-whitelist leave-type-filter inline",
+        })
+            .adopt(new Element("option", { value: "0", html: "All", id: null }))
+            .inject(this.panelType);
 
-        new Element('span', { 'class': 'filter-label', 'html': 'Date From' }).inject(this.panelDateTo);
-        new Element('span', { 'class': 'form-row inline' }).adopt(
-            this.dateFromFilter = new Element('input', { 'type': 'text', 'id': 'history-date-from', 'class': 'data-hj-whitelist history-filter-date-from leave-filter-date inline uidate-calendar', 'data-calendar-display-format': '%d/%m/%y', 'data-calendar-return-format': '%d/%m/%Y', 'data-start-date': 'none', 'data-calendar-nullable': 'true', 'value': null })
-        ).inject(this.panelDateTo);
+        new Element("span", {
+            class: "filter-label",
+            html: "Date From",
+        }).inject(this.panelDateTo);
+        new Element("span", { class: "form-row inline" })
+            .adopt(
+                (this.dateFromFilter = new Element("input", {
+                    type: "text",
+                    id: "history-date-from",
+                    class: "data-hj-whitelist history-filter-date-from leave-filter-date inline uidate-calendar",
+                    "data-calendar-display-format": "%d/%m/%y",
+                    "data-calendar-return-format": "%d/%m/%Y",
+                    "data-start-date": "none",
+                    "data-calendar-nullable": "true",
+                    value: null,
+                }))
+            )
+            .inject(this.panelDateTo);
 
-        new Element('span', { 'class': 'filter-label', 'html': 'Date to' }).inject(this.panelDateFrom);
-        new Element('span', { 'class': 'form-row inline' }).adopt(
-            this.dateToFilter = new Element('input', { 'type': 'text', 'id': 'history-date-to', 'class': 'data-hj-whitelist history-filter-date-to leave-filter-date inline uidate-calendar', 'data-calendar-display-format': '%d/%m/%y', 'data-calendar-return-format': '%d/%m/%Y', 'data-start-date': 'none', 'data-calendar-nullable': 'true', 'value': null })
-        ).inject(this.panelDateFrom);
+        new Element("span", { class: "filter-label", html: "Date to" }).inject(
+            this.panelDateFrom
+        );
+        new Element("span", { class: "form-row inline" })
+            .adopt(
+                (this.dateToFilter = new Element("input", {
+                    type: "text",
+                    id: "history-date-to",
+                    class: "data-hj-whitelist history-filter-date-to leave-filter-date inline uidate-calendar",
+                    "data-calendar-display-format": "%d/%m/%y",
+                    "data-calendar-return-format": "%d/%m/%Y",
+                    "data-start-date": "none",
+                    "data-calendar-nullable": "true",
+                    value: null,
+                }))
+            )
+            .inject(this.panelDateFrom);
 
-        if(this.isManager){
-            this.dateSubmittedOption =  new Element('option', { 'value': '4', 'html': 'Submitted Date', 'id': 'DateSubmitted' });
-        }else{
+        if (this.isManager) {
+            this.dateSubmittedOption = new Element("option", {
+                value: "4",
+                html: "Submitted Date",
+                id: "DateSubmitted",
+            });
+        } else {
             this.dateSubmittedOption = null;
         }
 
-        new Element('span', { 'class': 'filter-label', 'html': 'Order By' }).inject(this.panelOrder);
-        this.leaveOrderFilter = new Element('select', { 'class': 'history-filter-select order-filter inline', 'value' :  '3' }).adopt(
-            new Element('option', { 'value': '0', 'html': ' ', 'id': null }),
-            new Element('option', { 'value': '1', 'html': 'Start Date', 'id': 'DateFrom' }),
-            new Element('option', { 'value': '2', 'html': 'End Date', 'id': 'DateTo' }),
-            new Element('option', { 'value': '3', 'html': 'Units', 'id': 'Hours' }),
-            this.dateSubmittedOption
-        ).inject(this.panelOrder);
-        this.leaveOrderFilter.value = this.isManager ? '4' : '1'
+        new Element("span", { class: "filter-label", html: "Order By" }).inject(
+            this.panelOrder
+        );
+        this.leaveOrderFilter = new Element("select", {
+            class: "history-filter-select order-filter inline",
+        })
+            .adopt(
+                new Element("option", { value: "0", html: " ", id: null }),
+                new Element("option", {
+                    value: "1",
+                    html: "Start Date",
+                    id: "DateFrom",
+                }),
+                new Element("option", {
+                    value: "2",
+                    html: "End Date",
+                    id: "DateTo",
+                }),
+                new Element("option", {
+                    value: "3",
+                    html: "Units",
+                    id: "Hours",
+                }),
+                this.dateSubmittedOption
+            )
+            .inject(this.panelOrder);
 
-        this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
-            new Element('span', { 'html': 'Filter' })
-        ).inject(this.panelButtonWrapper);
+        this.applyFilter = new Element("span", {
+            class: "history-filter-apply button blue",
+        })
+            .adopt(new Element("span", { html: "Filter" }))
+            .inject(this.panelButtonWrapper);
 
-        this.clearFilter = new Element('span', { 'class': 'history-filter-clear button grey ml-4' }).adopt(
-            new Element('span', { 'html': 'Clear' })
-        ).inject(this.panelButtonWrapper);
+        this.clearFilter = new Element("span", {
+            class: "history-filter-clear button grey ml-4",
+        })
+            .adopt(new Element("span", { html: "Clear" }))
+            .inject(this.panelButtonWrapper);
 
         //Push it to DOM
         this.section.inject(this.target);
 
         /*   REQUESTS         */
         this.getHistoryRequest = new Request.JSON({
-            headers: { 'Pragma': 'no-cache' },
+            headers: { Pragma: "no-cache" },
             onRequest: function () {
-                Affinity.leave.lockui('leaveHistory-getHistoryRequest');
+                Affinity.leave.lockui("leaveHistory-getHistoryRequest");
                 if (!this._noAlerts) {
                     uialert({
-                        message: 'Loading History',
+                        message: "Loading History",
                         showLoader: true,
                         showButtons: false,
-                        noClose: true
+                        noClose: true,
                     });
                 }
             }.bind(this),
             onFailure: function (e) {
-                Affinity.leave.unlockui('leaveHistory-getHistoryRequest');
+                Affinity.leave.unlockui("leaveHistory-getHistoryRequest");
                 if (!this._noAlerts) {
                     prompts.hide();
                 }
                 Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
             }.bind(this),
             onException: function () {
-                Affinity.leave.unlockui('leaveHistory-getHistoryRequest');
+                Affinity.leave.unlockui("leaveHistory-getHistoryRequest");
             },
             onCancel: function () {
-                Affinity.leave.unlockui('leaveHistory-getHistoryRequest');
+                Affinity.leave.unlockui("leaveHistory-getHistoryRequest");
                 if (!this._noAlerts) {
                     prompts.hide();
                 }
             },
             onSuccess: function (response) {
-                Affinity.leave.unlockui('leaveHistory-getHistoryRequest');
+                Affinity.leave.unlockui("leaveHistory-getHistoryRequest");
                 if (!this._noAlerts) {
                     prompts.hide();
                 }
-                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+                if (
+                    !Affinity.leave.isErrorInJson(
+                        response,
+                        this._api,
+                        this._methodName
+                    )
+                ) {
                     this.data = response.Data;
                     if (this.isManager && Affinity.leave.manager) {
-                        Affinity.leave.manager.applyTeamConfig(this.generateHistoryRows);
-                    }
-                    else if (Affinity.leave.employee) {
-                        Affinity.leave.employee.applyConfig(this.generateHistoryRows);
+                        Affinity.leave.manager.applyTeamConfig(
+                            this.generateHistoryRows
+                        );
+                    } else if (Affinity.leave.employee) {
+                        Affinity.leave.employee.applyConfig(
+                            this.generateHistoryRows
+                        );
                     }
                 }
-            }.bind(this)
+            }.bind(this),
         });
 
         Affinity.uiDateCalendar.processNew();
 
         if (this.isManager) {
-            Affinity.leave.manager.applyTeamConfig(this.teamLeaveHistoryFilters);
-        }
-        else {
+            Affinity.leave.manager.applyTeamConfig(
+                this.teamLeaveHistoryFilters
+            );
+        } else {
             Affinity.leave.employee.applyConfig(this.leaveHistoryFilters);
         }
 
-
         /**/
 
-        window.addEvent('DeleteLeaveSuccess', this.refreshHistory);
+        window.addEvent("DeleteLeaveSuccess", this.refreshHistory);
 
         /**/
-
 
         this.getHistory();
 
@@ -1302,48 +1516,70 @@ var UILeaveHistory = new Class({
         var employeeNum = Affinity.login.profile.employeeNumber;
         var path;
         if (this.isManager) {
-            var dateFrom = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).format('%d-%b-%Y');
-            path = 'ManagerTeamLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+dateFrom+'&orderBy=DateSubmitted&isAscending=true';
-        }
-        else {
-            path = 'MyLeaveHistory/' + employeeNum;
+            var dateFrom = new Date(
+                new Date().setFullYear(new Date().getFullYear() - 1)
+            ).format("%d-%b-%Y");
+            path =
+                "ManagerTeamLeaveHistory/" +
+                employeeNum +
+                "?StatusCode=0&dateFrom=" +
+                dateFrom +
+                "&orderBy=DateSubmitted&isAscending=true";
+        } else {
+            path = "MyLeaveHistory/" + employeeNum;
         }
 
-        this._methodName = 'ui.leave.history.js -> getHistory';
+        this._methodName = "ui.leave.history.js -> getHistory";
 
-        this._api = this.filteredHistoryUri ? this.filteredHistoryUri : Affinity.GetCacheSafePath(Affinity.leave.apiroot + path);
+        this._api = this.filteredHistoryUri
+            ? this.filteredHistoryUri
+            : Affinity.GetCacheSafePath(Affinity.leave.apiroot + path);
 
         if (this.getHistoryRequest && this.getHistoryRequest.isRunning()) {
             this.getHistoryRequest.cancel();
         }
-        this.getHistoryRequest.url = this.getHistoryRequest.options.url = this._api;
+        this.getHistoryRequest.url = this.getHistoryRequest.options.url =
+            this._api;
         this.getHistoryRequest.get();
     },
 
     applyFilters: function (pageNo) {
-
         var employeeNum = Affinity.login.profile.employeeNumber;
 
         var uriObj;
 
         if (this.isManager) {
-            uriObj = new URI(Affinity.leave.apiroot + 'ManagerTeamLeaveHistory/' + employeeNum);
-        }
-        else {
-            uriObj = new URI(Affinity.leave.apiroot + 'MyLeaveHistory/' + employeeNum);
+            uriObj = new URI(
+                Affinity.leave.apiroot +
+                    "ManagerTeamLeaveHistory/" +
+                    employeeNum
+            );
+        } else {
+            uriObj = new URI(
+                Affinity.leave.apiroot + "MyLeaveHistory/" + employeeNum
+            );
         }
 
-        var query = typeOf(uriObj.parsed.query) === 'null' ? {} : uriObj.parsed.query.parseQueryString();
+        var query =
+            typeOf(uriObj.parsed.query) === "null"
+                ? {}
+                : uriObj.parsed.query.parseQueryString();
 
         query.PageNo = pageNo;
 
-        var status = this.leaveStatusFilter[this.leaveStatusFilter.selectedIndex].get('id');
+        var status =
+            this.leaveStatusFilter[this.leaveStatusFilter.selectedIndex].get(
+                "id"
+            );
         if (status !== null) {
             query.StatusCode = status;
         }
 
         if (this.isManager) {
-            var employee = this.employeeFilter[this.employeeFilter.selectedIndex].get('id');
+            var employee =
+                this.employeeFilter[this.employeeFilter.selectedIndex].get(
+                    "id"
+                );
             if (employee) {
                 //query.EmployeeNo = employee;
                 query.EmployeeFilter = employee;
@@ -1357,13 +1593,17 @@ var UILeaveHistory = new Class({
                 query.excludeNonApprovers = true;
             }
         } else {
-            var submittedTo = this.leaveSubmittedToFilter[this.leaveSubmittedToFilter.selectedIndex].get('id');
+            var submittedTo =
+                this.leaveSubmittedToFilter[
+                    this.leaveSubmittedToFilter.selectedIndex
+                ].get("id");
             if (submittedTo !== null) {
                 query.submittedTo = submittedTo;
             }
         }
 
-        var type = this.leaveTypeFilter[this.leaveTypeFilter.selectedIndex].get('id');
+        var type =
+            this.leaveTypeFilter[this.leaveTypeFilter.selectedIndex].get("id");
         if (type !== null) {
             query.LeaveCode = type;
         }
@@ -1371,27 +1611,30 @@ var UILeaveHistory = new Class({
         var d;
         var dateFrom = this.dateFromFilter.getWidget().getRawDate();
         var dateTo = this.dateToFilter.getWidget().getRawDate();
-        if (dateFrom && typeOf(dateFrom) === 'date' && dateFrom.isValid()) {
-            d = dateFrom.format('%d-%b-%Y');
+        if (dateFrom && typeOf(dateFrom) === "date" && dateFrom.isValid()) {
+            d = dateFrom.format("%d-%b-%Y");
             query.DateFrom = d;
         }
-        if (dateTo && typeOf(dateTo) === 'date' && dateTo.isValid()) {
-            d = dateTo.format('%d-%b-%Y');
+        if (dateTo && typeOf(dateTo) === "date" && dateTo.isValid()) {
+            d = dateTo.format("%d-%b-%Y");
             query.DateTo = d;
         }
 
-        var orderBy = this.leaveOrderFilter[this.leaveOrderFilter.selectedIndex].get('id');
+        var orderBy =
+            this.leaveOrderFilter[this.leaveOrderFilter.selectedIndex].get(
+                "id"
+            );
         if (orderBy !== null) {
             query.orderBy = orderBy;
         } else {
             if (this.isManager) {
                 query.orderBy = "DateSubmitted";
-                query.isAscending = true;
             }
         }
+        query.isAscending = true;
         uriObj.parsed.query = Object.toQueryString(query);
 
-        this._methodName = 'ui.leave.history.js -> applyFilters';
+        this._methodName = "ui.leave.history.js -> applyFilters";
 
         this._api = Affinity.GetCacheSafePath(uriObj.toString());
         this.filteredHistoryUri = this._api;
@@ -1399,88 +1642,108 @@ var UILeaveHistory = new Class({
         if (this.getHistoryRequest && this.getHistoryRequest.isRunning()) {
             this.getHistoryRequest.cancel();
         }
-        this.getHistoryRequest.url = this.getHistoryRequest.options.url = this._api;
+        this.getHistoryRequest.url = this.getHistoryRequest.options.url =
+            this._api;
         this.getHistoryRequest.get();
-
     },
 
     refreshHistory: function (noAlerts) {
-        this._noAlerts = typeOf(noAlerts) === 'null' ? false : noAlerts;
+        this._noAlerts = typeOf(noAlerts) === "null" ? false : noAlerts;
         this.getHistory();
     },
 
     leaveHistoryFilters: function (config) {
         this.leaveTypeFilter.empty();
-        new Element('option', { 'value': '0', 'html': 'All', 'id': null }).inject(this.leaveTypeFilter);
+        new Element("option", { value: "0", html: "All", id: null }).inject(
+            this.leaveTypeFilter
+        );
 
-        Array.each(config.LeaveCodes, function (code, index) {
-
-            new Element('option', {
-                'html': code.Description,
-                'id': code.LeaveCode,
-                'value': index
-            }).inject(this.leaveTypeFilter);
-
-        }.bind(this));
+        Array.each(
+            config.LeaveCodes,
+            function (code, index) {
+                new Element("option", {
+                    html: code.Description,
+                    id: code.LeaveCode,
+                    value: index,
+                }).inject(this.leaveTypeFilter);
+            }.bind(this)
+        );
 
         this.leaveSubmittedToFilter.empty();
-        new Element('option', { 'value': '0', 'html': 'All', 'id': null }).inject(this.leaveSubmittedToFilter);
+        new Element("option", { value: "0", html: "All", id: null }).inject(
+            this.leaveSubmittedToFilter
+        );
 
-        Array.each(config.Positions, function (position, index) {
-
-            Array.each(position.SubmittedTos, function (approver, index) {
-
-                new Element('option', {
-                    'html': approver.EmployeeName + ' (' + approver.EmployeeNo + ')',
-                    'id': approver.EmployeeNo,
-                    'value': index
-                }).inject(this.leaveSubmittedToFilter);
-
-            }.bind(this));
-
-        }.bind(this));
+        Array.each(
+            config.Positions,
+            function (position, index) {
+                Array.each(
+                    position.SubmittedTos,
+                    function (approver, index) {
+                        new Element("option", {
+                            html:
+                                approver.EmployeeName +
+                                " (" +
+                                approver.EmployeeNo +
+                                ")",
+                            id: approver.EmployeeNo,
+                            value: index,
+                        }).inject(this.leaveSubmittedToFilter);
+                    }.bind(this)
+                );
+            }.bind(this)
+        );
 
         this.applyFilter.removeEvents();
-        this.applyFilter.addEvent(Affinity.events.click, function () {
-
-            this.applyFilters(1);
-            this.historyCurrentPage = 1;
-        }.bind(this));
+        this.applyFilter.addEvent(
+            Affinity.events.click,
+            function () {
+                this.applyFilters(1);
+                this.historyCurrentPage = 1;
+            }.bind(this)
+        );
 
         this.clearFilter.removeEvents();
-        this.clearFilter.addEvent(Affinity.events.click, function () {
-
-            this.reset();
-            this.getHistory();
-
-        }.bind(this));
-
+        this.clearFilter.addEvent(
+            Affinity.events.click,
+            function () {
+                this.reset();
+                this.getHistory();
+            }.bind(this)
+        );
     },
 
     updateEmployeeFilter: function (includeIndirect, selectedEmployeeNo) {
         if (this.employeeFilter && this.Employees) {
-
             //clear list
             this.employeeFilter.empty();
 
             //add default
-            new Element('option', { 'value': '0', 'html': 'All', 'id': null }).inject(this.employeeFilter);
+            new Element("option", { value: "0", html: "All", id: null }).inject(
+                this.employeeFilter
+            );
 
-            var selectedIndex = 0, currentIndex = 0;
+            var selectedIndex = 0,
+                currentIndex = 0;
             //add employees
-            Array.each(this.Employees, function (emp, index) {               
-                if (includeIndirect || emp.IsDirect) { // direct or everything
-                    new Element('option', {
-                        'html': emp.EmployeeName + ' (' + emp.EmployeeNo + ')',
-                        'id': emp.EmployeeNo,
-                        'value': index + 1
-                    }).inject(this.employeeFilter);
-                    currentIndex++;
-                    if (selectedEmployeeNo == emp.EmployeeNo) {
-                        selectedIndex = currentIndex;
+            Array.each(
+                this.Employees,
+                function (emp, index) {
+                    if (includeIndirect || emp.IsDirect) {
+                        // direct or everything
+                        new Element("option", {
+                            html:
+                                emp.EmployeeName + " (" + emp.EmployeeNo + ")",
+                            id: emp.EmployeeNo,
+                            value: index + 1,
+                        }).inject(this.employeeFilter);
+                        currentIndex++;
+                        if (selectedEmployeeNo == emp.EmployeeNo) {
+                            selectedIndex = currentIndex;
+                        }
                     }
-                }
-            }.bind(this));
+                }.bind(this)
+            );
 
             this.employeeFilter.selectedIndex = selectedIndex;
 
@@ -1490,44 +1753,50 @@ var UILeaveHistory = new Class({
 
             this.employeeFilterAutocomplete = new UIAutoCompleteWidget({
                 stopInitialChange: true,
-                selectElement: this.employeeFilter
+                selectElement: this.employeeFilter,
             });
         }
     },
 
     teamLeaveHistoryFilters: function (data) {
-
         this.leaveStatusFilter.selectedIndex = 3;
-        this.dateFromFilter.getWidget().setDate(new Date(new Date().setFullYear(new Date().getFullYear() - 1)));
+        this.dateFromFilter
+            .getWidget()
+            .setDate(
+                new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+            );
 
-        Array.each(data.AllCompanyLeaveCodes, function (code, index) {
-
-            new Element('option', {
-                'html': code.Description,
-                'id': code.LeaveCode,
-                'value': index
-            }).inject(this.leaveTypeFilter);
-
-        }.bind(this));
+        Array.each(
+            data.AllCompanyLeaveCodes,
+            function (code, index) {
+                new Element("option", {
+                    html: code.Description,
+                    id: code.LeaveCode,
+                    value: index,
+                }).inject(this.leaveTypeFilter);
+            }.bind(this)
+        );
 
         this.Employees = data.Employees;
         this.updateEmployeeFilter(false);
 
         this.applyFilter.removeEvents();
-        this.applyFilter.addEvent(Affinity.events.click, function () {
-
-            this.applyFilters(1);
-            this.historyCurrentPage = 1;
-        }.bind(this));
+        this.applyFilter.addEvent(
+            Affinity.events.click,
+            function () {
+                this.applyFilters(1);
+                this.historyCurrentPage = 1;
+            }.bind(this)
+        );
 
         this.clearFilter.removeEvents();
-        this.clearFilter.addEvent(Affinity.events.click, function () {
-
-            this.reset();
-            this.getHistory();
-
-        }.bind(this));
-
+        this.clearFilter.addEvent(
+            Affinity.events.click,
+            function () {
+                this.reset();
+                this.getHistory();
+            }.bind(this)
+        );
     },
 
     generateHistoryRows: function (config) {
@@ -1535,22 +1804,19 @@ var UILeaveHistory = new Class({
 
         var rows = this.data.History;
 
-        Array.each(this.data.History, function (rowData, index) {
-
-            this.generateHistoryRow(rowData, config);
-
-        }.bind(this));
+        Array.each(
+            this.data.History,
+            function (rowData, index) {
+                this.generateHistoryRow(rowData, config);
+            }.bind(this)
+        );
 
         if (rows.length > 0) {
-
-            this.leaveHistoryTable.removeClass('hidden');
-            this.noHistoryMessage.addClass('hidden');
-
+            this.leaveHistoryTable.removeClass("hidden");
+            this.noHistoryMessage.addClass("hidden");
         } else {
-
-            this.leaveHistoryTable.addClass('hidden');
-            this.noHistoryMessage.removeClass('hidden');
-
+            this.leaveHistoryTable.addClass("hidden");
+            this.noHistoryMessage.removeClass("hidden");
         }
 
         Affinity.tooltips.processNew();
@@ -1558,188 +1824,238 @@ var UILeaveHistory = new Class({
     },
 
     generateHistoryRow: function (rowData, config) {
-        var row = new Element('tr', { 'id': rowData.TSGroupId, 'class': '' });
+        var row = new Element("tr", { id: rowData.TSGroupId, class: "" });
         var partialApproved = false;
 
         var bossData;
         if (this.isManager) {
-            if (!rowData.AdminView && rowData.Authorisations && rowData.Authorisations.length > 0) {
+            if (
+                !rowData.AdminView &&
+                rowData.Authorisations &&
+                rowData.Authorisations.length > 0
+            ) {
                 bossData = rowData.Authorisations[0];
-            }
-            else {
+            } else {
                 bossData = {
                     AuthorisationId: -1,
-                    StatusCode: rowData.StatusCode
+                    StatusCode: rowData.StatusCode,
                 };
             }
         }
 
-        var icon = '';
-        var color = 'grey';
-        var iconColor = 'grey';
-        var tooltip = '';
+        var icon = "";
+        var color = "grey";
+        var iconColor = "grey";
+        var tooltip = "";
         switch (rowData.StatusCode) {
             case -1:
                 //status.set('html', '<div class="message-icon orange print-hidden ui-has-tooltip" data-tooltip="">' + Affinity.icons.Save + '</div>');
                 //status.addClass('orange');
-                icon = Affinity.icons.Save
-                iconColor = 'orange';
-                color = 'orange';
-                tooltip = 'Leave has been saved';
+                icon = Affinity.icons.Save;
+                iconColor = "orange";
+                color = "orange";
+                tooltip = "Leave has been saved";
                 break;
             case 0:
-                iconColor = 'blue';
+                iconColor = "blue";
 
                 Array.each(rowData.Authorisations, function (approver, index) {
                     if (approver.StatusCode == 3) {
-                        partialApproved = true
+                        partialApproved = true;
                     }
                 });
 
                 if (partialApproved) {
                     icon = Affinity.icons.ThumbsUp;
-                    color = 'green-blue';
-                    iconColor = 'yellow';
-                    tooltip = 'Leave has been partially approved but still pending';
-                }
-                else {
+                    color = "green-blue";
+                    iconColor = "yellow";
+                    tooltip =
+                        "Leave has been partially approved but still pending";
+                } else {
                     icon = Affinity.icons.Hourglass;
-                    color = 'blue';
-                    tooltip = 'Leave is pending approval';
+                    color = "blue";
+                    tooltip = "Leave is pending approval";
                 }
                 break;
             case 2:
                 icon = Affinity.icons.ThumbsDown;
-                color = 'red';
-                iconColor = 'red';
-                tooltip = 'Leave has been declined';
+                color = "red";
+                iconColor = "red";
+                tooltip = "Leave has been declined";
                 break;
             case 3:
-                color = 'green';
-                iconColor = 'green';
+                color = "green";
+                iconColor = "green";
                 if (rowData.Status.test(/external/gi)) {
                     icon = Affinity.icons.ThumbsUp;
-                    tooltip = 'Leave has been approved';
-                    var color = 'grey';
-                    var iconColor = 'grey';
+                    tooltip = "Leave has been approved";
+                    var color = "grey";
+                    var iconColor = "grey";
                 } else if (rowData.Status.test(/paid/gi)) {
                     icon = Affinity.icons.ThumbsUp;
-                    tooltip = 'Leave has been approved';
+                    tooltip = "Leave has been approved";
                 } else {
                     icon = Affinity.icons.ThumbsUp;
-                    tooltip = 'Leave has been approved';
+                    tooltip = "Leave has been approved";
                 }
                 break;
             case 6:
                 icon = Affinity.icons.Cancel;
-                color = 'grey';
-                iconColor = 'grey';
-                tooltip = 'Leave has been cancelled';
+                color = "grey";
+                iconColor = "grey";
+                tooltip = "Leave has been cancelled";
                 break;
             case 7:
                 icon = Affinity.icons.Cancel;
-                color = 'blue';
-                iconColor = 'blue';
-                tooltip = 'Leave cancellation is pending approval';
+                color = "blue";
+                iconColor = "blue";
+                tooltip = "Leave cancellation is pending approval";
                 break;
         }
 
-        var status = new Element('td', { 'class': 'active col-id-status indicate first ' + color, 'html': '<div class="message-icon ' + iconColor + ' print-hidden ui-has-tooltip" data-tooltip="' + tooltip + '">' + icon + '</div>' }).inject(row);
+        var status = new Element("td", {
+            class: "active col-id-status indicate first " + color,
+            html:
+                '<div class="message-icon ' +
+                iconColor +
+                ' print-hidden ui-has-tooltip" data-tooltip="' +
+                tooltip +
+                '">' +
+                icon +
+                "</div>",
+        }).inject(row);
 
         if (this.isManager) {
-            var employee = new Element('td', { 'class': 'active col-id-employee indicate first', 'html': rowData.EmployeeName + ' (' + rowData.EmployeeNo + ')' }).inject(row);
+            var employee = new Element("td", {
+                class: "active col-id-employee indicate first",
+                html: rowData.EmployeeName + " (" + rowData.EmployeeNo + ")",
+            }).inject(row);
         }
 
-        var type = new Element('td', { 'class': 'active col-id-type', 'html': rowData.CodeDescription }).inject(row);
-        var startDate = new Element('td', { 'class': 'active col-id-startdate', 'html': Date.parse(rowData.DateFrom).format('%d-%b-%Y') }).inject(row);
-        var endDate = new Element('td', { 'class': 'active col-id-enddate', 'html': Date.parse(rowData.DateTo).format('%d-%b-%Y') }).inject(row);
+        var type = new Element("td", {
+            class: "active col-id-type",
+            html: rowData.CodeDescription,
+        }).inject(row);
+        var startDate = new Element("td", {
+            class: "active col-id-startdate",
+            html: Date.parse(rowData.DateFrom).format("%d-%b-%Y"),
+        }).inject(row);
+        var endDate = new Element("td", {
+            class: "active col-id-enddate",
+            html: Date.parse(rowData.DateTo).format("%d-%b-%Y"),
+        }).inject(row);
 
-        var unitLabel = ' hours';
+        var unitLabel = " hours";
         var totalUnits = rowData.TotalHours;
-        
-        if (rowData.UnitType === 'D') {
-            unitLabel = ' days';
+
+        if (rowData.UnitType === "D") {
+            unitLabel = " days";
             totalUnits = rowData.TotalDays;
-        } else if (rowData.UnitType === 'W') {
-            unitLabel = ' weeks';
+        } else if (rowData.UnitType === "W") {
+            unitLabel = " weeks";
             totalUnits = rowData.TotalWeeks;
         }
 
         var unitString = Affinity.leave.toFixed(totalUnits, 2) + unitLabel;
-        var units = new Element('td', { 'class': 'active col-id-units', 'html': unitString }).inject(row);
+        var units = new Element("td", {
+            class: "active col-id-units",
+            html: unitString,
+        }).inject(row);
 
         if (!this.isManager) {
-            var nameList = ''
+            var nameList = "";
             Array.each(rowData.Authorisations, function (bossMan, index) {
                 if (bossMan.ApprovedBy) {
                     if (bossMan.ApprovedBy == -100) {
                         nameList += rowData.ApprovedByName;
                     } else {
-                        nameList += bossMan.ApprovedByName + ' (' + bossMan.ApprovedBy + ')';
+                        nameList +=
+                            bossMan.ApprovedByName +
+                            " (" +
+                            bossMan.ApprovedBy +
+                            ")";
                     }
-                }
-                else {                   
+                } else {
                     if (bossMan.SubmittedTo == -100) {
                         nameList += rowData.SubmittedToName;
                     } else {
-                        nameList += bossMan.SubmittedToName + ' (' + bossMan.SubmittedTo + ')';
+                        nameList +=
+                            bossMan.SubmittedToName +
+                            " (" +
+                            bossMan.SubmittedTo +
+                            ")";
                     }
                 }
                 if (index < rowData.Authorisations.length - 1) {
-                    nameList += ', ';
+                    nameList += ", ";
                 }
             });
 
-            this.submittedTo = new Element('td', {
-                'class': 'active col-id-authoriserid',
-                'html': nameList
+            this.submittedTo = new Element("td", {
+                class: "active col-id-authoriserid",
+                html: nameList,
             }).inject(row);
-        }
-        else {
-            this.submittedDate = new Element('td', {
-                'class': 'active col-id-submitted-date',
-                'html': rowData.TimeSubmitted ? Date.parse(rowData.TimeSubmitted).format('%d-%b-%Y %X') : ''
+        } else {
+            this.submittedDate = new Element("td", {
+                class: "active col-id-submitted-date",
+                html: rowData.TimeSubmitted
+                    ? Date.parse(rowData.TimeSubmitted).format("%d-%b-%Y %X")
+                    : "",
             }).inject(row);
         }
         /* Buttons */
         var viewDetail = function () {
             if (this.isManager) {
-                Affinity.leave.manager.leaveDetail.getDetail(rowData.EmployeeNo, rowData.TSGroupId, bossData);
-            }
-            else {
-                Affinity.leave.employee.leaveDetail.getDetail(rowData.EmployeeNo, rowData.TSGroupId, bossData);
+                Affinity.leave.manager.leaveDetail.getDetail(
+                    rowData.EmployeeNo,
+                    rowData.TSGroupId,
+                    bossData
+                );
+            } else {
+                Affinity.leave.employee.leaveDetail.getDetail(
+                    rowData.EmployeeNo,
+                    rowData.TSGroupId,
+                    bossData
+                );
             }
             //Affinity.leave.leaveDetailData(rowData.EmployeeNo, rowData.TSGroupId, bossData);
         }.bind(this);
 
-        
-
         if (this.isManager) {
             var tryCreateAuditLogForImportedLeave = function () {
-                if (Affinity.leave.manager !== undefined &&
+                if (
+                    Affinity.leave.manager !== undefined &&
                     Affinity.leave.manager !== null &&
                     Affinity.leave.manager.leaveDetail !== undefined &&
-                    Affinity.leave.manager.leaveDetail !== null) {
-                    Affinity.leave.manager.leaveDetail.tryCreateAuditLogForImportedLeave(rowData.EmployeeNo, rowData.TSGroupId);
+                    Affinity.leave.manager.leaveDetail !== null
+                ) {
+                    Affinity.leave.manager.leaveDetail.tryCreateAuditLogForImportedLeave(
+                        rowData.EmployeeNo,
+                        rowData.TSGroupId
+                    );
                 }
             }.bind(this);
         } else {
             var tryCreateAuditLogForImportedLeave = function () {
-                if (Affinity.leave.employee !== undefined &&
+                if (
+                    Affinity.leave.employee !== undefined &&
                     Affinity.leave.employee !== null &&
                     Affinity.leave.employee.leaveDetail !== undefined &&
-                    Affinity.leave.employee.leaveDetail !== null) {
-                    Affinity.leave.employee.leaveDetail.tryCreateAuditLogForImportedLeave(rowData.EmployeeNo, rowData.TSGroupId);
+                    Affinity.leave.employee.leaveDetail !== null
+                ) {
+                    Affinity.leave.employee.leaveDetail.tryCreateAuditLogForImportedLeave(
+                        rowData.EmployeeNo,
+                        rowData.TSGroupId
+                    );
                 }
             }.bind(this);
         }
-        
 
         // row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
         // row.addEvent(Affinity.events.click, viewDetail);
-        row.addEvent('click', tryCreateAuditLogForImportedLeave);
-        row.addEvent('click', viewDetail);
-        
+        row.addEvent("click", tryCreateAuditLogForImportedLeave);
+        row.addEvent("click", viewDetail);
+
         //var buttons = new Element('td', { 'class': 'active col-id-rowbutton' }).inject(row);
         //var detailsButton = new Element('span', { 'class': 'button blue w-icon-only ui-has-tooltip', 'data-tooltip': 'Details', 'data-tooltip-dir': 'left' }).adopt(
         //    new Element('span', { 'html': Affinity.icons.Browser })
@@ -1748,117 +2064,162 @@ var UILeaveHistory = new Class({
     },
 
     historyPaginate: function () {
-
-        if (typeOf(this.historyCurrentPage) === 'null' || !('historyCurrentPage' in this)) {
+        if (
+            typeOf(this.historyCurrentPage) === "null" ||
+            !("historyCurrentPage" in this)
+        ) {
             this.historyCurrentPage = 1;
         }
         this.clearPagination();
         var pageCount = this.data.PageCount;
 
-        this.pageFirst = new Element('span', { 'class': 'pagination-first', 'html': 'First' }).inject(this.paginateBox);
-        this.pageBack = new Element('span', { 'class': 'pagination-back', 'html': 'Previous' }).inject(this.paginateBox);
-        this.pages = new Element('div', { 'class': 'pagination-pages' }).inject(this.paginateBox);
-        this.pageForward = new Element('span', { 'class': 'pagination-forward', 'html': 'Next' }).inject(this.paginateBox);
-        this.pageLast = new Element('span', { 'class': 'pagination-last', 'html': 'Last' }).inject(this.paginateBox);
+        this.pageFirst = new Element("span", {
+            class: "pagination-first",
+            html: "First",
+        }).inject(this.paginateBox);
+        this.pageBack = new Element("span", {
+            class: "pagination-back",
+            html: "Previous",
+        }).inject(this.paginateBox);
+        this.pages = new Element("div", { class: "pagination-pages" }).inject(
+            this.paginateBox
+        );
+        this.pageForward = new Element("span", {
+            class: "pagination-forward",
+            html: "Next",
+        }).inject(this.paginateBox);
+        this.pageLast = new Element("span", {
+            class: "pagination-last",
+            html: "Last",
+        }).inject(this.paginateBox);
         var historyCount = this.data.History.length;
         if (historyCount > 0) {
-            var firstHistory = ((this.historyCurrentPage - 1) * 15) + 1;
-            var subText = 'showing ' + firstHistory + ' to ' + (firstHistory + historyCount - 1) + ' of ' + this.data.Count;
-            this.pageSubText = new Element('div', { 'class': 'pagination-sub-text', 'html': subText }).inject(this.paginateBox);
+            var firstHistory = (this.historyCurrentPage - 1) * 15 + 1;
+            var subText =
+                "showing " +
+                firstHistory +
+                " to " +
+                (firstHistory + historyCount - 1) +
+                " of " +
+                this.data.Count;
+            this.pageSubText = new Element("div", {
+                class: "pagination-sub-text",
+                html: subText,
+            }).inject(this.paginateBox);
         }
 
         var count = 0;
         var page;
         for (i = 1; i <= pageCount; i++) {
-            if (i > this.historyCurrentPage - 1 - (this.historyPagingCount / 2) && count <= this.historyPagingCount) {
+            if (
+                i > this.historyCurrentPage - 1 - this.historyPagingCount / 2 &&
+                count <= this.historyPagingCount
+            ) {
                 count++;
 
                 if (i == this.historyCurrentPage) {
-                    page = new Element('input', {
-                        'type': 'text',
-                        'class': 'paginate-page-numbers data-hj-whitelist',
-                        'value': i
+                    page = new Element("input", {
+                        type: "text",
+                        class: "paginate-page-numbers data-hj-whitelist",
+                        value: i,
                     }).inject(this.pages);
                     (function (page) {
                         //if (index == this.historyCurrentPage)
                         //    page.addClass('selected');
-                        page.addEvent('change', function (e) {
-                            var value = page.get('value');
-                            var index = parseInt(value);
-                            if (index == value && index > 0 && index <= pageCount) {
-                                this.applyFilters(index);
-                                this.historyCurrentPage = index;
-                            } else {
-                                uialert({
-                                    message: 'Unable to display page ' + value,
-                                    //showButtons: true,
-                                    noClose: false
-                                });
-                            }
-                        }.bind(this));
-                    }.bind(this))(page);
-                }
-                else {
-                    page = new Element('span', {
-                        'class': 'paginate-page-numbers',
-                        'html': i
+                        page.addEvent(
+                            "change",
+                            function (e) {
+                                var value = page.get("value");
+                                var index = parseInt(value);
+                                if (
+                                    index == value &&
+                                    index > 0 &&
+                                    index <= pageCount
+                                ) {
+                                    this.applyFilters(index);
+                                    this.historyCurrentPage = index;
+                                } else {
+                                    uialert({
+                                        message:
+                                            "Unable to display page " + value,
+                                        //showButtons: true,
+                                        noClose: false,
+                                    });
+                                }
+                            }.bind(this)
+                        );
+                    }.bind(this)(page));
+                } else {
+                    page = new Element("span", {
+                        class: "paginate-page-numbers",
+                        html: i,
                     }).inject(this.pages);
                     (function (page, index) {
                         //if (index == this.historyCurrentPage)
                         //    page.addClass('selected');
-                        page.addEvent(Affinity.events.click, function (e) {
-                            this.applyFilters(index);
-                            this.historyCurrentPage = index;
-                        }.bind(this));
-                    }.bind(this))(page, i);
+                        page.addEvent(
+                            Affinity.events.click,
+                            function (e) {
+                                this.applyFilters(index);
+                                this.historyCurrentPage = index;
+                            }.bind(this)
+                        );
+                    }.bind(this)(page, i));
                 }
-            }
-            else if (i == 1 || i == pageCount) {
-                page = new Element('span', {
-                    'class': 'paginate-page-numbers not-clickable',
-                    'html': '...'
+            } else if (i == 1 || i == pageCount) {
+                page = new Element("span", {
+                    class: "paginate-page-numbers not-clickable",
+                    html: "...",
                 }).inject(this.pages);
             }
         }
 
         if (pageCount > 0 && this.historyCurrentPage != 1) {
             this.pageFirst.removeEvents();
-            this.pageFirst.addEvent(Affinity.events.click, function () {
-                this.applyFilters(1);
-                this.historyCurrentPage = 1;
-            }.bind(this));
+            this.pageFirst.addEvent(
+                Affinity.events.click,
+                function () {
+                    this.applyFilters(1);
+                    this.historyCurrentPage = 1;
+                }.bind(this)
+            );
             this.pageBack.removeEvents();
-            this.pageBack.addEvent(Affinity.events.click, function () {
-                this.applyFilters(this.historyCurrentPage - 1);
-                this.historyCurrentPage = this.historyCurrentPage - 1;
-            }.bind(this));
-
+            this.pageBack.addEvent(
+                Affinity.events.click,
+                function () {
+                    this.applyFilters(this.historyCurrentPage - 1);
+                    this.historyCurrentPage = this.historyCurrentPage - 1;
+                }.bind(this)
+            );
         } else {
-            this.pageFirst.addClass('not-active');
-            this.pageBack.addClass('not-active');
+            this.pageFirst.addClass("not-active");
+            this.pageBack.addClass("not-active");
         }
 
         if (pageCount > 0 && this.historyCurrentPage != this.data.PageCount) {
             this.pageLast.removeEvents();
-            this.pageLast.addEvent(Affinity.events.click, function () {
-                this.applyFilters(this.data.PageCount);
-                this.historyCurrentPage = this.data.PageCount;
-            }.bind(this));
+            this.pageLast.addEvent(
+                Affinity.events.click,
+                function () {
+                    this.applyFilters(this.data.PageCount);
+                    this.historyCurrentPage = this.data.PageCount;
+                }.bind(this)
+            );
             this.pageForward.removeEvents();
-            this.pageForward.addEvent(Affinity.events.click, function () {
-                this.applyFilters(this.historyCurrentPage + 1);
-                this.historyCurrentPage = this.historyCurrentPage + 1;
-            }.bind(this));
-
+            this.pageForward.addEvent(
+                Affinity.events.click,
+                function () {
+                    this.applyFilters(this.historyCurrentPage + 1);
+                    this.historyCurrentPage = this.historyCurrentPage + 1;
+                }.bind(this)
+            );
         } else {
-            this.pageLast.addClass('not-active');
-            this.pageForward.addClass('not-active');
+            this.pageLast.addClass("not-active");
+            this.pageForward.addClass("not-active");
         }
-
     },
 
     clearFilters: function () {
-
         if (this.isManager) {
             if (this.leaveStatusFilter) {
                 this.leaveStatusFilter.selectedIndex = 3;
@@ -1871,14 +2232,13 @@ var UILeaveHistory = new Class({
             }
 
             if (this.employeeFilterAutocomplete) {
-                this.employeeFilterAutocomplete.setValue('0');
+                this.employeeFilterAutocomplete.setValue("0");
             }
 
             if (this.includeIndirect) {
                 this.includeIndirect.checked = false;
             }
-        }
-        else {
+        } else {
             if (this.leaveSubmittedToFilter) {
                 this.leaveSubmittedToFilter.selectedIndex = 0;
                 //this.leaveSubmittedToFiler.value = '0';
@@ -1903,16 +2263,16 @@ var UILeaveHistory = new Class({
             this.dateToFilter.value = null;
         }
 
-        if (this.dateFromFilter && 'getWidget' in this.dateFromFilter) {
+        if (this.dateFromFilter && "getWidget" in this.dateFromFilter) {
             try {
                 this.dateFromFilter.getWidget().setNone();
-            } catch (e) { }
+            } catch (e) {}
         }
 
-        if (this.dateToFilter && 'getWidget' in this.dateToFilter) {
+        if (this.dateToFilter && "getWidget" in this.dateToFilter) {
             try {
                 this.dateToFilter.getWidget().setNone();
-            } catch (e) { }
+            } catch (e) {}
         }
 
         if (this.leaveOrderFilter) {
@@ -1925,42 +2285,49 @@ var UILeaveHistory = new Class({
 
     clearPagination: function () {
         if (this.paginateBox) {
-            if (this.pageFirst)
-                this.pageFirst.removeEvents();
-            if (this.pageBack)
-                this.pageBack.removeEvents();
-            if (this.pageForward)
-                this.pageForward.removeEvents();
-            if (this.pageLast)
-                this.pageLast.removeEvents();
+            if (this.pageFirst) this.pageFirst.removeEvents();
+            if (this.pageBack) this.pageBack.removeEvents();
+            if (this.pageForward) this.pageForward.removeEvents();
+            if (this.pageLast) this.pageLast.removeEvents();
             if (this.pages)
-                Array.each(this.pages.getElements('.paginate-page-numbers'), function (el) { el.removeEvents(); });
+                Array.each(
+                    this.pages.getElements(".paginate-page-numbers"),
+                    function (el) {
+                        el.removeEvents();
+                    }
+                );
             this.paginateBox.empty();
         }
     },
 
     clearHistoryRows: function () {
         if (this.leaveHistoryTable && this.historyTableBody) {
-            Array.each(this.historyTableBody.getElements('.button'), function (el) { el.removeEvents(); });
+            Array.each(
+                this.historyTableBody.getElements(".button"),
+                function (el) {
+                    el.removeEvents();
+                }
+            );
             this.historyTableBody.empty();
         }
     },
 
     hide: function () {
-
-        this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
+        this.toggleButton
+            .set("html", Affinity.icons.ArrowLineSmallDown)
+            .store("state", "closed");
         this.leaveHistoryBox.dissolve();
-
     },
 
     show: function () {
-        this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
+        this.toggleButton
+            .set("html", Affinity.icons.ArrowLineSmallUp)
+            .store("state", "open");
         this.leaveHistoryBox.reveal();
-
     },
 
     toggle: function () {
-        if (this.toggleButton.retrieve('state') === 'open') {
+        if (this.toggleButton.retrieve("state") === "open") {
             this.hide();
         } else {
             this.show();
@@ -1980,23 +2347,41 @@ var UILeaveHistory = new Class({
     },
 
     destroy: function () {
-        window.removeEvent('DeleteLeaveSuccess', this.refreshHistory);
+        window.removeEvent("DeleteLeaveSuccess", this.refreshHistory);
         this.reset();
-        if (this.applyFilter) { this.applyFilter.removeEvents(); }
-        if (this.clearFilter) { this.clearFilter.removeEvents(); }
-        if (this.IsManager && this.employeeFilterAutocomplete) { this.employeeFilterAutocomplete.destroy(); }
+        if (this.applyFilter) {
+            this.applyFilter.removeEvents();
+        }
+        if (this.clearFilter) {
+            this.clearFilter.removeEvents();
+        }
+        if (this.IsManager && this.employeeFilterAutocomplete) {
+            this.employeeFilterAutocomplete.destroy();
+        }
         if (this.section) {
-            try { this.titlebar.removeEvents(); } catch (e) { }
-            Array.each(this.section.getElements('.button'), function (el) { el.removeEvents(); });
-            Array.each(this.section.getElements('.ui-calendar-display'), function (el) { el.getWidget().destroy(); });
+            try {
+                this.titlebar.removeEvents();
+            } catch (e) {}
+            Array.each(this.section.getElements(".button"), function (el) {
+                el.removeEvents();
+            });
+            Array.each(
+                this.section.getElements(".ui-calendar-display"),
+                function (el) {
+                    el.getWidget().destroy();
+                }
+            );
             this.section.empty();
             this.section.destroy();
         }
-        Object.each(this, function (val, key) {
-            this[key] = null;
-            delete this[key];
-        }.bind(this));
-    }
+        Object.each(
+            this,
+            function (val, key) {
+                this[key] = null;
+                delete this[key];
+            }.bind(this)
+        );
+    },
 });
 
 var UILeaveApply = new Class({
