@@ -1038,7 +1038,7 @@ var UILeaveHistory = new Class({
 
     initialize: function (options) {
         this.setOptions(options);
-
+        Affinity.mobile = false; // Force property to false to load JS for desktop
         this.filteredHistoryUri = false;
 
         this.historyCurrentPage = 1;
@@ -3152,10 +3152,11 @@ var UILeaveApply = new Class({
 
             totalString = totalString.replace('[days]', this.roundDown(totalDaysAppliedFor,2).toFixed(2));
             totalString = totalString.replace('[hours]', this.roundDown(totalHoursAppliedFor,2).toFixed(2));
-            this.totalPeriodDaysDetail = new Element('label', {
+            this.totalPeriodDaysDetail = new Element('div', {
                 'html': totalString,
                 'class': 'leave-apply-total-period-days-detail'
-            }).inject(this.leavePeriodDaysBox);
+            }).inject(this.leavePeriodGroupRow3);
+            // }).inject(this.leavePeriodDaysBox);
         }
     },
     roundDown: function (num, decimalPlaces) {
