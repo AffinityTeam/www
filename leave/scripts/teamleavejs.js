@@ -451,6 +451,10 @@ var UIManagerLeaveCalendar = new Class({
         } else {
             this.historyFrame.scrollLeft = this.scrollPosition;
         }
+        var _offset = this.toggleButton.offsetParent.getOffsets();
+        setTimeout(function() {
+            window.scrollTo({ top: _offset.y })
+        }, 500)
     },
 
     toggle: function () {
