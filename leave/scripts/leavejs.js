@@ -1038,6 +1038,7 @@ var UILeaveHistory = new Class({
 
     initialize: function (options) {
         this.setOptions(options);
+        Affinity.mobile = false; // Force property to false to load JS for desktop
 
         this.filteredHistoryUri = false;
 
@@ -1209,13 +1210,14 @@ var UILeaveHistory = new Class({
         }
 
         new Element('span', { 'class': 'filter-label', 'html': 'Order By' }).inject(this.panelOrder);
-        this.leaveOrderFilter = new Element('select', { 'class': 'history-filter-select order-filter inline' }).adopt(
+        this.leaveOrderFilter = new Element('select', { 'class': 'history-filter-select order-filter inline', 'value' :  '3' }).adopt(
             new Element('option', { 'value': '0', 'html': ' ', 'id': null }),
             new Element('option', { 'value': '1', 'html': 'Start Date', 'id': 'DateFrom' }),
             new Element('option', { 'value': '2', 'html': 'End Date', 'id': 'DateTo' }),
             new Element('option', { 'value': '3', 'html': 'Units', 'id': 'Hours' }),
             this.dateSubmittedOption
         ).inject(this.panelOrder);
+        this.leaveOrderFilter.value = this.isManager ? '4' : '1'
 
         this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
             new Element('span', { 'html': 'Filter' })
@@ -2374,7 +2376,7 @@ var UILeaveApply = new Class({
                     Affinity.leave.postAttachements(response.Data.EmployeeNo, response.Data.TSGroupId, function (response) {
                         Affinity.leave.unlockui('leaveApply-sendApplicationRequest');
                         prompts.hide();
-                        vm.acknowledgementModal(requestResponse);
+                        vm.acknowledgementModal(requestResponse, true);
                     }.bind(this));
 
 
@@ -2391,7 +2393,7 @@ var UILeaveApply = new Class({
                 else {
                     Affinity.leave.unlockui('leaveApply-sendApplicationRequest');
                     prompts.hide();
-                    this.acknowledgementModal(response);
+                    this.acknowledgementModal(response, true);
                 }
             }.bind(this)
         });
@@ -3974,7 +3976,7 @@ var UILeaveApply = new Class({
         }
     },
 
-    acknowledgementModal: function (response) {
+    acknowledgementModal: function (response, autoclose) {
         Affinity.modal.show();
         Affinity.modal.clear();
         Affinity.modal.position();
@@ -4000,6 +4002,35 @@ var UILeaveApply = new Class({
                     errors.addClass('ackfnowledgement-errors');
                 }
             });
+        }
+
+        if (autoclose) {
+            var autoCloseTimer = null;
+            var autoCloseCounter = 5;
+            var bntWrap = new Element('div', { 'class': 'modal-button-ok' }).inject(modalData);
+            var closeAcknowledgePrompt = function () {
+                Affinity.modal.clear();
+                Affinity.modal.hide();
+                clearInterval(autoCloseTimer);
+                autoCloseTimer = null;
+            }
+            var btnOk = new Element('span', {
+                'class': 'button blue',
+                'html': 'OK (' + autoCloseCounter + ')',
+                'events': {
+                    'click': function(){
+                        closeAcknowledgePrompt();
+                    }
+                }
+            });
+            btnOk.inject(bntWrap);
+            autoCloseTimer = window.setInterval(function () {
+                autoCloseCounter -= 1;
+                if (autoCloseCounter == 0) {
+                    closeAcknowledgePrompt();
+                }
+                btnOk.textContent = 'OK (' + autoCloseCounter + ')';
+            }, 1000)
         }
 
         if (response.Exception != null) {
@@ -4561,6 +4592,7 @@ var UILeaveDetail = new Class({
                 onSuccess: function (response) {
                     Affinity.leave.unlockui('leaveDetail-bossResponseRequest');
                     prompts.hide();
+
                     if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
                         //Affinity.modal.closeButtonCloser();
                         if (!response.Response) {
@@ -4584,7 +4616,7 @@ var UILeaveDetail = new Class({
                                 noClose: false
                             });
                         } else {
-                            this.acknowledgementModal(response);
+                            this.acknowledgementModal(response, null, true);
                             Affinity.leave.manager.refreshAll();
                         }
                         
@@ -7835,7 +7867,7 @@ var UILeaveDetail = new Class({
 
         }
     },
-    acknowledgementModal: function (response, message) {
+    acknowledgementModal: function (response, message, autoclose) {
         Affinity.modal.show();
         Affinity.modal.clear();
         Affinity.modal.position();
@@ -7866,6 +7898,35 @@ var UILeaveDetail = new Class({
                     errors.addClass('acknowledgement-errors');
                 }
             });
+        }
+
+        if (autoclose) {
+            var autoCloseTimer = null;
+            var autoCloseCounter = 5;
+            var bntWrap = new Element('div', { 'class': 'modal-button-ok' }).inject(modalData);
+            var closeAcknowledgePrompt = function () {
+                Affinity.modal.clear();
+                Affinity.modal.hide();
+                clearInterval(autoCloseTimer);
+                autoCloseTimer = null;
+            }
+            var btnOk = new Element('span', {
+                'class': 'button blue',
+                'html': 'OK (' + autoCloseCounter + ')',
+                'events': {
+                    'click': function(){
+                        closeAcknowledgePrompt();
+                    }
+                }
+            });
+            btnOk.inject(bntWrap);
+            autoCloseTimer = window.setInterval(function () {
+                autoCloseCounter -= 1;
+                if (autoCloseCounter == 0) {
+                    closeAcknowledgePrompt();
+                }
+                btnOk.textContent = 'OK (' + autoCloseCounter + ')';
+            }, 1000)
         }
 
         if (response.Exception != null) {
