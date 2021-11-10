@@ -7986,6 +7986,7 @@ var UIEmployeeLeaveBalances = new Class({
         target: null
     },
     initialize: function (options, isChild) {
+
         if (!isChild) {
             this.setOptions(options);
             /* BUILD HTML */
@@ -8306,7 +8307,8 @@ var UIEmployeeLeaveBalances = new Class({
         this.infoDetailsBoxes = document.getElements('.details-box');
         Array.each(this.infoTileBoxes, function (infoTileBox, index) {
             this.detailsButton = new Element('div', {
-                'class': 'tooltip-view ui-has-tooltip more-button tile-more-button', 'html': '<span class="button more w-icon"><span class="icon-info"></span><span class="btn-tag tile-more">More</span></span>'
+                'class': 'tooltip-view ui-has-tooltip more-button tile-more-button', 
+                'html': '<span class="button more w-icon"><span class="icon-info"></span><span class="btn-tag tile-more">More</span></span>'
             }).store('state', 'closed').inject(infoTileBox);
 
             var details = this.infoDetailsBoxes[index];
@@ -8334,9 +8336,10 @@ var UIEmployeeLeaveBalances = new Class({
                     ppeButton.style.display = "block";
                 }.bind(this));
             }
-            this.detailsButton.addEvent(Affinity.events.start, function (e) {
-                e.stop();
-            }.bind(this));
+            // this.detailsButton.addEvent(Affinity.events.start, function (e) {
+            //     e.stop();
+            // }.bind(this));
+
             this.detailsButton.addEvent(Affinity.events.click, function (e) {
                 this.button = e.getTarget('more-button');
                 var leavePanel = this.button.closest(".leave-info-panel");

@@ -319,7 +319,6 @@ var UIManagerLeaveCalendar = new Class({
     },
 
     initialize: function (options) {
-
         this.setOptions(options);
 
         /**/
@@ -365,10 +364,11 @@ var UIManagerLeaveCalendar = new Class({
         this.hiddenBox = new Element('div', { 'class': 'manager-calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
         this.box = new Element('div', { 'class': 'manager-calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
+		this.managerBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
 
-        this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.box, 'top');
+        this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.managerBoxWrap, 'top');
 
-        this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.box);
+        this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.managerBoxWrap);
         
         this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.calendarForm);
         this.filters = new Element('div', { 'class': 'calendar-filters form-row' }).inject(this.sectionBody);
@@ -696,9 +696,9 @@ var UIManagerLeaveCalendar = new Class({
             this.histroryFrameSize = this.historyFrame.measure(function () { return this.getSize(); });
 
             //This is a haunted function to fix overscrolling on calendar
-            // if (!Affinity.mobile) {
+            if (!Affinity.mobile) {
                 this.histroryFrameSize.x -= (Affinity.scrollBarSize * 1.5);
-            // }
+            }
 
             this.keyScale = this.histroryFrameSize.x / this.totalWidth;
 

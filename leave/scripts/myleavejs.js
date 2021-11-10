@@ -1195,10 +1195,11 @@ var UILeaveCalendar = new Class({
         this.hiddenBox = new Element('div', { 'class': 'calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
         this.box = new Element('div', { 'class': 'calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
+		this.employeeBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
 
-        this.leaveTypes = new Element('div', { 'class': 'leave-types', 'style': 'padding-top: 26px;' }).setStyle('width', '8%').inject(this.box, 'top');
+        this.leaveTypes = new Element('div', { 'class': 'leave-types', 'style': 'padding-top: 26px;' }).setStyle('width', '8%').inject(this.employeeBoxWrap, 'top');
 
-        this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block;' }).setStyle('width', this.visibleWidth).inject(this.box);
+        this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block;' }).setStyle('width', this.visibleWidth).inject(this.employeeBoxWrap);
 
         this.historyFrame = new Element('div', { 'class': 'calendar-history-frame' }).setStyle('width', '100%').inject(this.historyContainer);
 
@@ -1866,10 +1867,11 @@ var UITeamLeaveCalendar = new Class({
 		this.hiddenBox = new Element('div', { 'class': 'team-calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
 		this.box = new Element('div', { 'class': 'team-calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
+		this.teamBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
 
-		this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.box, 'top');
+		this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.teamBoxWrap, 'top');
 
-		this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.box);
+		this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.teamBoxWrap);
 
 		this.historyFrame = new Element('div', { 'class': 'calendar-history-frame' }).setStyle('width', '100%').inject(this.historyContainer);
 
@@ -2157,9 +2159,9 @@ var UITeamLeaveCalendar = new Class({
 			this.histroryFrameSize = this.historyFrame.measure(function () { return this.getSize(); });
 
 			//This is a haunted function to fix overscrolling on calendar
-			// if (!Affinity.mobile) {
+			if (!Affinity.mobile) {
 				this.histroryFrameSize.x -= (Affinity.scrollBarSize * 1.5);
-			// }
+			}
 
 			this.keyScale = this.histroryFrameSize.x / this.totalWidth;
 
@@ -2262,6 +2264,7 @@ var UITeamLeaveCalendar = new Class({
 	positionKeyMarker: function (e) {
 		var pos = (e.client.x - this.keyButton.getPosition(this.historyContainer).x) - (this.keyMarkerWidth / 2);
 		pos = pos < 0 ? 0 : pos > this.histroryFrameSize.x - this.keyMarkerWidth ? this.histroryFrameSize.x - this.keyMarkerWidth : pos
+		console.log("positionKeyMarker");
 		this.keyButtonMarker.setStyle('margin-left', pos);
 		this.scrollFromMarker();
 		delete pos;
