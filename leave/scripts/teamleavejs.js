@@ -696,9 +696,9 @@ var UIManagerLeaveCalendar = new Class({
             this.histroryFrameSize = this.historyFrame.measure(function () { return this.getSize(); });
 
             //This is a haunted function to fix overscrolling on calendar
-            if (!Affinity.mobile) {
+            // if (!Affinity.mobile) {
                 this.histroryFrameSize.x -= (Affinity.scrollBarSize * 1.5);
-            }
+            // }
 
             this.keyScale = this.histroryFrameSize.x / this.totalWidth;
 
