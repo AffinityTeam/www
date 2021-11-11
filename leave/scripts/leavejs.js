@@ -1038,7 +1038,6 @@ var UILeaveHistory = new Class({
 
     initialize: function (options) {
         this.setOptions(options);
-        Affinity.mobile = false; // Force property to false to load JS for desktop
 
         this.filteredHistoryUri = false;
 
@@ -1210,14 +1209,13 @@ var UILeaveHistory = new Class({
         }
 
         new Element('span', { 'class': 'filter-label', 'html': 'Order By' }).inject(this.panelOrder);
-        this.leaveOrderFilter = new Element('select', { 'class': 'history-filter-select order-filter inline', 'value' :  '3' }).adopt(
+        this.leaveOrderFilter = new Element('select', { 'class': 'history-filter-select order-filter inline' }).adopt(
             new Element('option', { 'value': '0', 'html': ' ', 'id': null }),
             new Element('option', { 'value': '1', 'html': 'Start Date', 'id': 'DateFrom' }),
             new Element('option', { 'value': '2', 'html': 'End Date', 'id': 'DateTo' }),
             new Element('option', { 'value': '3', 'html': 'Units', 'id': 'Hours' }),
             this.dateSubmittedOption
         ).inject(this.panelOrder);
-        this.leaveOrderFilter.value = this.isManager ? '4' : '1'
 
         this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
             new Element('span', { 'html': 'Filter' })
@@ -1736,10 +1734,8 @@ var UILeaveHistory = new Class({
         }
         
 
-        // row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
-        // row.addEvent(Affinity.events.click, viewDetail);
-        row.addEvent("click", tryCreateAuditLogForImportedLeave);
-        row.addEvent("click", viewDetail);
+        row.addEvent(Affinity.events.click, tryCreateAuditLogForImportedLeave);
+        row.addEvent(Affinity.events.click, viewDetail);
         
         //var buttons = new Element('td', { 'class': 'active col-id-rowbutton' }).inject(row);
         //var detailsButton = new Element('span', { 'class': 'button blue w-icon-only ui-has-tooltip', 'data-tooltip': 'Details', 'data-tooltip-dir': 'left' }).adopt(
@@ -2378,7 +2374,7 @@ var UILeaveApply = new Class({
                     Affinity.leave.postAttachements(response.Data.EmployeeNo, response.Data.TSGroupId, function (response) {
                         Affinity.leave.unlockui('leaveApply-sendApplicationRequest');
                         prompts.hide();
-                        vm.acknowledgementModal(requestResponse, true);
+                        vm.acknowledgementModal(requestResponse);
                     }.bind(this));
 
 
@@ -2395,7 +2391,7 @@ var UILeaveApply = new Class({
                 else {
                     Affinity.leave.unlockui('leaveApply-sendApplicationRequest');
                     prompts.hide();
-                    this.acknowledgementModal(response, true);
+                    this.acknowledgementModal(response);
                 }
             }.bind(this)
         });
@@ -3978,7 +3974,7 @@ var UILeaveApply = new Class({
         }
     },
 
-    acknowledgementModal: function (response, autoclose) {
+    acknowledgementModal: function (response) {
         Affinity.modal.show();
         Affinity.modal.clear();
         Affinity.modal.position();
@@ -4004,35 +4000,6 @@ var UILeaveApply = new Class({
                     errors.addClass('ackfnowledgement-errors');
                 }
             });
-        }
-
-        if (autoclose) {
-            var autoCloseTimer = null;
-            var autoCloseCounter = 5;
-            var bntWrap = new Element('div', { 'class': 'modal-button-ok' }).inject(modalData);
-            var closeAcknowledgePrompt = function () {
-                Affinity.modal.clear();
-                Affinity.modal.hide();
-                clearInterval(autoCloseTimer);
-                autoCloseTimer = null;
-            }
-            var btnOk = new Element('span', {
-                'class': 'button blue',
-                'html': 'OK (' + autoCloseCounter + ')',
-                'events': {
-                    'click': function(){
-                        closeAcknowledgePrompt();
-                    }
-                }
-            });
-            btnOk.inject(bntWrap);
-            autoCloseTimer = window.setInterval(function () {
-                autoCloseCounter -= 1;
-                if (autoCloseCounter == 0) {
-                    closeAcknowledgePrompt();
-                }
-                btnOk.textContent = 'OK (' + autoCloseCounter + ')';
-            }, 1000)
         }
 
         if (response.Exception != null) {
@@ -4594,7 +4561,6 @@ var UILeaveDetail = new Class({
                 onSuccess: function (response) {
                     Affinity.leave.unlockui('leaveDetail-bossResponseRequest');
                     prompts.hide();
-
                     if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
                         //Affinity.modal.closeButtonCloser();
                         if (!response.Response) {
@@ -4618,7 +4584,7 @@ var UILeaveDetail = new Class({
                                 noClose: false
                             });
                         } else {
-                            this.acknowledgementModal(response, null, true);
+                            this.acknowledgementModal(response);
                             Affinity.leave.manager.refreshAll();
                         }
                         
@@ -7869,7 +7835,7 @@ var UILeaveDetail = new Class({
 
         }
     },
-    acknowledgementModal: function (response, message, autoclose) {
+    acknowledgementModal: function (response, message) {
         Affinity.modal.show();
         Affinity.modal.clear();
         Affinity.modal.position();
@@ -7900,35 +7866,6 @@ var UILeaveDetail = new Class({
                     errors.addClass('acknowledgement-errors');
                 }
             });
-        }
-
-        if (autoclose) {
-            var autoCloseTimer = null;
-            var autoCloseCounter = 5;
-            var bntWrap = new Element('div', { 'class': 'modal-button-ok' }).inject(modalData);
-            var closeAcknowledgePrompt = function () {
-                Affinity.modal.clear();
-                Affinity.modal.hide();
-                clearInterval(autoCloseTimer);
-                autoCloseTimer = null;
-            }
-            var btnOk = new Element('span', {
-                'class': 'button blue',
-                'html': 'OK (' + autoCloseCounter + ')',
-                'events': {
-                    'click': function(){
-                        closeAcknowledgePrompt();
-                    }
-                }
-            });
-            btnOk.inject(bntWrap);
-            autoCloseTimer = window.setInterval(function () {
-                autoCloseCounter -= 1;
-                if (autoCloseCounter == 0) {
-                    closeAcknowledgePrompt();
-                }
-                btnOk.textContent = 'OK (' + autoCloseCounter + ')';
-            }, 1000)
         }
 
         if (response.Exception != null) {
@@ -7986,7 +7923,6 @@ var UIEmployeeLeaveBalances = new Class({
         target: null
     },
     initialize: function (options, isChild) {
-
         if (!isChild) {
             this.setOptions(options);
             /* BUILD HTML */
@@ -8307,8 +8243,7 @@ var UIEmployeeLeaveBalances = new Class({
         this.infoDetailsBoxes = document.getElements('.details-box');
         Array.each(this.infoTileBoxes, function (infoTileBox, index) {
             this.detailsButton = new Element('div', {
-                'class': 'tooltip-view ui-has-tooltip more-button tile-more-button', 
-                'html': '<span class="button more w-icon"><span class="icon-info"></span><span class="btn-tag tile-more">More</span></span>'
+                'class': 'tooltip-view ui-has-tooltip more-button tile-more-button', 'html': '<span class="button more w-icon"><span class="icon-info"></span><span class="btn-tag tile-more">More</span></span>'
             }).store('state', 'closed').inject(infoTileBox);
 
             var details = this.infoDetailsBoxes[index];
@@ -8336,10 +8271,9 @@ var UIEmployeeLeaveBalances = new Class({
                     ppeButton.style.display = "block";
                 }.bind(this));
             }
-            // this.detailsButton.addEvent(Affinity.events.start, function (e) {
-            //     e.stop();
-            // }.bind(this));
-
+            this.detailsButton.addEvent(Affinity.events.start, function (e) {
+                e.stop();
+            }.bind(this));
             this.detailsButton.addEvent(Affinity.events.click, function (e) {
                 this.button = e.getTarget('more-button');
                 var leavePanel = this.button.closest(".leave-info-panel");
