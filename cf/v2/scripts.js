@@ -19887,7 +19887,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
   SetFormRow (target)
   {
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Value, 'check-' + this.Config.Name, this.Config.Details.Label);
+    var val = this.Config.Details.Value;
+    var checked = $a.isString(val) && val.toLowerCase().trim() == 'true' ? 'checked' : '';
+
+    var html = this.HtmlRowTemplate.format(
+        val,
+        'check-' + this.Config.Name,
+        this.Config.Details.Label,
+        checked
+    );
+    
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
@@ -19947,7 +19956,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     this.HtmlRowTemplate = `
     <div class="form-row">
       <div class="check-label-pair">
-        <input type="checkbox" value="{0}" id="{1}" /><label for="{1}" class="right">{2}</label>
+        <input type="checkbox" value="{0}" id="{1}" {3}/><label for="{1}" class="right">{2}</label>
       </div>
     </div>
     `;
