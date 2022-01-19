@@ -73,13 +73,24 @@
       float: none;
       margin-top: 20px; }
   .newui .ui-inbox .ui-inbox-labels ul li {
-    margin-right: 12px; }
+    margin-right: 12px;
+    padding-bottom: 24px;
+    position: relative;
+    min-width: 64px; }
     .newui .ui-inbox .ui-inbox-labels ul li .boxicon {
-      font-size: 24px;
+      font-size: 26px;
       width: 24px;
-      margin-right: 8px; }
+      margin-left: 6px; }
     .newui .ui-inbox .ui-inbox-labels ul li .label {
-      display: none; }
+      display: block;
+      width: 100%;
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      margin: 0;
+      font-size: 10px;
+      text-align: center;
+      text-transform: uppercase; }
   .cf-widget .item {
     display: block;
     height: auto;
