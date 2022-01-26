@@ -10506,10 +10506,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
     if (this.TopNode.querySelector('input.form-name').value.trim() !== '')
     {
-      //<link rel="icon" href="https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico" type="image/x-icon">
-      var favIcon = document.querySelector('link[rel="icon"]').href;
-      console.log(favIcon);
       document.title = 'Design ' + this.TopNode.querySelector('input.form-name').value.trim();
+      if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
     }
   }
 
@@ -14382,7 +14380,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (this.ViewType === 'ViewOnly') this._loadInstance();
 
       if (document.querySelector('input.form-name') && document.querySelector('input.form-name').value.trim() !== '')
+      {
         document.title = 'Edit ' + document.querySelector('input.form-name').value.trim();
+        document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
+      }
     }
     else
     {
@@ -14942,6 +14943,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
       document.querySelector('.form-name').innerHTML = nameStr;
       document.title = 'Edit ' + titleStr;
+      if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
       if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
     }
 
