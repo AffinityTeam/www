@@ -24977,7 +24977,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
       'IsValid',
 
-      '_customListSelectWidgetReady'
+      '_customListSelectWidgetReady',
+
+      '_checkRequiredForBlankRow', '_listSourceChangedForBlankRow'
 
     ].bindEach(this);
 
@@ -25030,6 +25032,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             inserter = null;
           }.bind(this);
           window.addEventListener('ListBuilderRendered', inserter);
+        }
+
+        if (listBuilder)
+        {
+          if (this.EditNode.querySelector('select.list-source'))
+          {
+            this.EditNode.querySelector('select.list-source').removeEventListener('change', this._listSourceChangedForBlankRow);
+            this.EditNode.querySelector('select.list-source').addEventListener('change', this._listSourceChangedForBlankRow);
+          }
         }
       }
 
@@ -25296,6 +25307,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               select.dataset.defaultValue = this.Config.Details.Value;
             }
 
+            // If Details.ItemSource.ItemSourceType == Affinity, obey CleverFroms.InsertLookupEmptyOption, and if tru, insert blank
+            if (
+              this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
+              && this.CleverForms.InsertLookupEmptyOption
+              && !this.Config.Details.Required
+            )
+            {
+              optionNode = document.createElement('option');
+              optionNode.value = this.CleverForms.InsertLookupEmptyValue;
+              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyDisplay;
+              select.appendChild(optionNode);
+            }
+
             keys = Object.keys(this.Config.Details.ItemSource.Items[0]);
             dataList = this.Config.Details.ItemSource.Items;
             selected = false;
@@ -25387,6 +25411,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       this._customListSelectWidgetValue = null;
       delete this['_customListSelectWidgetValue'];
     }
+  }
+
+  _checkRequiredForBlankRow()
+  {
+    var editNode = false;
+    var listBuilder = false;
+    var requiredNode = this.EditNode.querySelector('#-required');
+    if (this.EditNode && this.EditNode.querySelector('.list-builder') && this.EditNode.querySelector('.edit-template.form'))
+    {
+      editNode = this.EditNode.querySelector('.edit-template.form');
+      listBuilder = editNode.widgets.ListBuilder;
+    }
+    if (listBuilder)
+    {
+      if (requiredNode.checked) listBuilder.RemoveLockedBlankRow();
+      if (!requiredNode.checked) listBuilder.InsertLockedBlankRow();
+    }
+  }
+
+  _listSourceChangedForBlankRow()
+  {
+    window.removeEventListener('ListBuilderRendered', this._checkRequiredForBlankRow);
+    window.addEventListener('ListBuilderRendered', this._checkRequiredForBlankRow);
   }
 
   /**/
@@ -35340,7 +35387,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
     this.AutoIncrement = 0;
 
-    this.StepOverDuplicates = false;  // if true, do not add duplicate values
+    this.StepOverDuplicates = false; // if true, do not add duplicate values
     this.ModifyDuplicates = true // if this.StepOverDuplicates is flase, and this is true, modify duplicates
   }
 
@@ -35454,7 +35501,16 @@ Affinity2018.Classes.Plugins.ListBuilder = class
           data = this._isRowDataGood(this.data[i]);
           if (data && !this._isDataLockedBlankRow(data))
           {
-            if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
+            if (this.StepOverDuplicates)
+            {
+              if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
+              {
+                gotone = true;
+                insertedKeys.push(data[this.KeyNames.KeyName]);
+                this._insertRow(data);
+              }
+            }
+            else
             {
               gotone = true;
               insertedKeys.push(data[this.KeyNames.KeyName]);
@@ -35473,11 +35529,23 @@ Affinity2018.Classes.Plugins.ListBuilder = class
           {
             data[this.KeyNames.KeyName] = key.trim();
             data[this.KeyNames.ValueName] = this.data[key].trim();
-            if (!this._isDataLockedBlankRow(data) && !insertedKeys.contains(data[this.KeyNames.KeyName]))
+            if (!this._isDataLockedBlankRow(data))// && !insertedKeys.contains(data[this.KeyNames.KeyName]))
             {
-              gotone = true;
-              insertedKeys.push(data[this.KeyNames.KeyName]);
-              this._insertRow(data);
+              if (this.StepOverDuplicates)
+              {
+                if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
+                {
+                  gotone = true;
+                  insertedKeys.push(data[this.KeyNames.KeyName]);
+                  this._insertRow(data);
+                }
+              }
+              else
+              {
+                gotone = true;
+                insertedKeys.push(data[this.KeyNames.KeyName]);
+                this._insertRow(data);
+              }
             }
           }
         }
@@ -35544,6 +35612,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
   InsertLockedBlankRow()
   {
+    if (this.HasLockedBlankRow()) return;
     var data = {};
     data[this.KeyNames.KeyName] = this.CleverForms.InsertLookupEmptyValue;
     data[this.KeyNames.ValueName] = this.CleverForms.InsertLookupEmptyDisplay;
@@ -35857,12 +35926,16 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     //if (JSON.stringify(this.data) !== JSON.stringify(this._updateData()))
     if (JSON.stringify(compareData) !== JSON.stringify(compareGrid))
     {
-      //console.groupCollapsed('compareer found diff:');
-      //console.log('local data:');
-      //console.log(this.data);
-      //console.log('updated data:');
-      //console.log(this._updateData());
-      //console.groupEnd();
+      console.groupCollapsed('comparer found diff:');
+      console.log('local keys:');
+      console.log(compareData);
+      console.log('grid keys:');
+      console.log(compareGrid);
+      console.log('local data:');
+      console.log(this.data);
+      console.log('grid data:');
+      console.log(this._updateData());
+      console.groupEnd();
       this.IsModified = true;
       if (this.NewRender)
       {
