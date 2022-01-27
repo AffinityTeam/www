@@ -7582,17 +7582,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
-    * Description.    Add empty option to non-required lookup lists.
-    * @public
-    */
-    this.InsertLookupEmptyOption = true;
-    this.InsertLookupEmptyValue = 'null';
-    this.InsertLookupEmptyDisplay = 'None';
-
-
-
-
-    /**
     * Description.    Default configuration. Updated by designer.js via constructor parameter.
     * @type {Object}
     * @public
@@ -10505,10 +10494,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     this._insertFormElements();
 
     if (this.TopNode.querySelector('input.form-name').value.trim() !== '')
-    {
       document.title = 'Design ' + this.TopNode.querySelector('input.form-name').value.trim();
-      if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
-    }
   }
 
 
@@ -11722,7 +11708,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (this.TemplateData.length === 1)
         {
           var sectionConfig = this.TemplateData[0];
-          //console.info(sectionConfig);
+          console.info(sectionConfig);
           if (
             sectionConfig.hasOwnProperty('Elements')
             && $a.isArray(sectionConfig.Elements)
@@ -11957,12 +11943,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     sectionConfig.Details.Label = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
     sectionConfig.Details.Title = $a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name');
 
-    //console.info("Lang Check:");
-    //console.info("Method: '_injectDefaultSection'");
-    //console.info("Set confgi label to value of lang path 'app.cf.designer.default_form_section_name'.");
-    //console.info($a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name'));
-    //console.info(sectionConfig);
-    //console.info('');
+    console.info("Lang Check:");
+    console.info("Method: '_injectDefaultSection'");
+    console.info("Set confgi label to value of lang path 'app.cf.designer.default_form_section_name'.");
+    console.info($a.Lang.ReturnPath('application.cleverfroms.designer.default_form_section_name'));
+    console.info(sectionConfig);
+    console.info('');
 
     // config, autoEdit, targetNode, position, referenceNode
     this.Add(sectionConfig, false, this.RightListNode, 'top');
@@ -14380,10 +14366,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (this.ViewType === 'ViewOnly') this._loadInstance();
 
       if (document.querySelector('input.form-name') && document.querySelector('input.form-name').value.trim() !== '')
-      {
         document.title = 'Edit ' + document.querySelector('input.form-name').value.trim();
-        document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
-      }
     }
     else
     {
@@ -14943,7 +14926,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
       document.querySelector('.form-name').innerHTML = nameStr;
       document.title = 'Edit ' + titleStr;
-      if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
       if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
     }
 
@@ -16383,7 +16365,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.DesignerNode = false;
     this.FormRowNode = false;
     this.FormNode = false;
-    this.EditNode = false;
 
     this.BlankLabelSetToDefault = false;
 
@@ -16738,8 +16719,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         Affinity2018.Apps.Plugins.ListBuilder.SetBackup([]);
       }
 
-      this.ListBuilt = false;
-
       Affinity2018.Apps.Plugins.ListBuilder.Render(this.TemplateNode, this.customList, function ()
       {
         // do this when list builder has rendered ...
@@ -16747,7 +16726,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         this.ListSourceSelectNode.addEventListener('change', this._listSourceChanged);
         Affinity2018.Apps.Plugins.ListBuilder.ModifiedCallback = this._listBuilderModified;
         if (this.Config.Details.ItemSourceType !== 1 /* 1 = custom */) this._listSourceChanged();
-        this.ListBuilt = true;
       }.bind(this));
 
       this.PopupNode.classList.add('large', 'has-list');
@@ -24979,9 +24957,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
       'IsValid',
 
-      '_customListSelectWidgetReady',
-
-      '_checkRequiredForBlankRow', '_listSourceChangedForBlankRow'
+      '_customListSelectWidgetReady'
 
     ].bindEach(this);
 
@@ -24998,53 +24974,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (super.SetDesignEditor())
     {
       // set special html / values
-
-      if (this.CleverForms.InsertLookupEmptyOption)
-      {
-
-        var editNode, listBuilder = false;
-
-        if (this.EditNode && this.EditNode.querySelector('.list-builder') && this.EditNode.querySelector('.edit-template.form'))
-        {
-          editNode = this.EditNode.querySelector('.edit-template.form');
-          listBuilder = editNode.widgets.ListBuilder;
-        }
-
-        if (listBuilder)
-        {
-          var requiredNode = this.EditNode.querySelector('#-required');
-          if (!requiredNode.classList.contains('listenting'))
-          {
-            requiredNode.classList.add('listenting');
-            requiredNode.addEventListener('click', function (e)
-            {
-              var required = e.target.checked;
-              if (required && listBuilder.HasLockedBlankRow()) listBuilder.RemoveLockedBlankRow();
-              if (!required && !listBuilder.HasLockedBlankRow()) listBuilder.InsertLockedBlankRow();
-            });
-          }
-        }
-
-        if (!this.Config.Details.Required && listBuilder)
-        {
-          var inserter = function ()
-          {
-            listBuilder.InsertLockedBlankRow();
-            window.removeEventListener('ListBuilderRendered', inserter);
-            inserter = null;
-          }.bind(this);
-          window.addEventListener('ListBuilderRendered', inserter);
-        }
-
-        if (listBuilder)
-        {
-          if (this.EditNode.querySelector('select.list-source'))
-          {
-            this.EditNode.querySelector('select.list-source').removeEventListener('change', this._listSourceChangedForBlankRow);
-            this.EditNode.querySelector('select.list-source').addEventListener('change', this._listSourceChangedForBlankRow);
-          }
-        }
-      }
 
       return true;
     }
@@ -25227,9 +25156,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             DataKey: 'Value',
             DisplayKey: 'Key',
             IncludeDataInDisplay: true,
-            AddEmpty: this.CleverForms.InsertLookupEmptyOption,
-            EmptyKey: this.CleverForms.InsertLookupEmptyValue,
-            EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
+            AddEmpty: true,
+            EmptyKey: null,
+            EmptyDisplay: 'None',
             Value: null
           };
           
@@ -25277,9 +25206,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             DataKey: 'Value',
             DisplayKey: 'Key',
             IncludeDataInDisplay: true,
-            AddEmpty: this.CleverForms.InsertLookupEmptyOption,
-            EmptyKey: this.CleverForms.InsertLookupEmptyValue,
-            EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
+            AddEmpty: true,
+            EmptyKey: null,
+            EmptyDisplay: 'None',
             Value: null
           };
 
@@ -25307,19 +25236,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             {
               selectConfig = this.Config.Details.Value;
               select.dataset.defaultValue = this.Config.Details.Value;
-            }
-
-            // If Details.ItemSource.ItemSourceType == Affinity, obey CleverFroms.InsertLookupEmptyOption, and if tru, insert blank
-            if (
-              this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
-              && this.CleverForms.InsertLookupEmptyOption
-              && !this.Config.Details.Required
-            )
-            {
-              optionNode = document.createElement('option');
-              optionNode.value = this.CleverForms.InsertLookupEmptyValue;
-              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyDisplay;
-              select.appendChild(optionNode);
             }
 
             keys = Object.keys(this.Config.Details.ItemSource.Items[0]);
@@ -25413,29 +25329,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       this._customListSelectWidgetValue = null;
       delete this['_customListSelectWidgetValue'];
     }
-  }
-
-  _checkRequiredForBlankRow()
-  {
-    var editNode = false;
-    var listBuilder = false;
-    var requiredNode = this.EditNode.querySelector('#-required');
-    if (this.EditNode && this.EditNode.querySelector('.list-builder') && this.EditNode.querySelector('.edit-template.form'))
-    {
-      editNode = this.EditNode.querySelector('.edit-template.form');
-      listBuilder = editNode.widgets.ListBuilder;
-    }
-    if (listBuilder)
-    {
-      if (requiredNode.checked) listBuilder.RemoveLockedBlankRow();
-      if (!requiredNode.checked) listBuilder.InsertLockedBlankRow();
-    }
-  }
-
-  _listSourceChangedForBlankRow()
-  {
-    window.removeEventListener('ListBuilderRendered', this._checkRequiredForBlankRow);
-    window.addEventListener('ListBuilderRendered', this._checkRequiredForBlankRow);
   }
 
   /**/
@@ -29500,7 +29393,6 @@ function returnSelectOptions (data, searchFor, ismobile, filter)
 
 function returnListItem (data)
 {
-  if (data.html.indexOf('(null)') > 0) data.html = data.html.replace('(null)', '').trim();
   var li = '<li';
   if (data.hasOwnProperty('uuid')) li += ' id="' + data.uuid + '-li-' + data.originalIndex + '"';
   else if (data.hasOwnProperty('id')) li += ' id="' + data.id + '"';
@@ -31664,8 +31556,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.row = null;
     this.date = false;
     this.__uiDate = false;
-
-    this.Valid = false;
   }
 
   constructor (targetNode, uuid)
@@ -31675,8 +31565,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     [
 
       '_init',
-
-      'IsValid',
 
       'getValue', 'getDisplayValue',
       'setTime', 'setDate', 'setToday', 'setNone', 'setTimeFromWidget',
@@ -32050,14 +31938,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  IsValid()
-  {
-    this.Valid = Affinity2018.isDateValid(this.getRawDate());
-    return this.Valid;
-  }
-
-  /**/
-
   getValue ()
   {
     return this.date.toString(this.displayFormat);
@@ -32080,8 +31960,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   getDateObject ()
   {
-    //if (!this.nullable)
-    //{
+    if (!this.nullable)
+    {
       if (this.date)
       {
         return this.date;
@@ -32090,7 +31970,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         return this.__uiDate;
       }
-    //}
+    }
     return false;
   }
 
@@ -32342,7 +32222,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.dateFormat);
     this.dateDisplayNode.innerHTML = dateStr;
     this._setDisplay(false);
-    this.IsValid();
   }
   _setTime()
   {
@@ -32350,7 +32229,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if(this.date && Affinity2018.isDate(this.date)) timeStr = this.date.toString(this.timeFormat);
     this.timeDisplayNode.innerHTML = timeStr;
     this._setDisplay(false);
-    this.IsValid();
   }
   _setDisplay (fromBlur)
   {
@@ -32374,7 +32252,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         if (!fromBlur) this.displayNode.value = dateStr;
       }
     }
-    this.IsValid();
   }
   _setReturn (fromBlur)
   {
@@ -32382,7 +32259,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
     if(this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.outputFormat);
     if (output) this.targetNode.value = dateStr;
-    this.IsValid();
   }
 
   _setDateFromStr(attemptStr, returnResult)
@@ -35390,7 +35266,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
     this.AutoIncrement = 0;
 
-    this.StepOverDuplicates = false; // if true, do not add duplicate values
+    this.StepOverDuplicates = false;  // if true, do not add duplicate values
     this.ModifyDuplicates = true // if this.StepOverDuplicates is flase, and this is true, modify duplicates
   }
 
@@ -35404,7 +35280,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       'Backup',
       'SetBackup', 'GetBackup',
       'RestoreBackup',
-      'InsertBlankRow', 'HasLockedBlankRow', 'InsertLockedBlankRow', 'RemoveLockedBlankRow',
+      'InsertBlankRow',
       'SanatiseData',
       'ResetModified',
       'Clear',
@@ -35426,8 +35302,6 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
     ].bindEach(this);
     this.templates();
-
-    this.CleverForms = Affinity2018.Apps.CleverForms.Default;
 
     if (targetNode) this.targetNode = targetNode;
     if (typeof data === 'object' && Array.isArray(data)) this.data = data;
@@ -35494,7 +35368,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       this.uploadFileNode.addEventListener('change', this._uploadCSV);
 
       this.NewRender = true;
-      
+
       var gotone = false, insertedKeys = [], data, i = 0, key;
       if (Affinity2018.isArray(this.data))
       {
@@ -35502,18 +35376,9 @@ Affinity2018.Classes.Plugins.ListBuilder = class
         for ( ; i < this.data.length; i++)
         {
           data = this._isRowDataGood(this.data[i]);
-          if (data && !this._isDataLockedBlankRow(data))
+          if (data)
           {
-            if (this.StepOverDuplicates)
-            {
-              if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
-              {
-                gotone = true;
-                insertedKeys.push(data[this.KeyNames.KeyName]);
-                this._insertRow(data);
-              }
-            }
-            else
+            if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
             {
               gotone = true;
               insertedKeys.push(data[this.KeyNames.KeyName]);
@@ -35532,23 +35397,11 @@ Affinity2018.Classes.Plugins.ListBuilder = class
           {
             data[this.KeyNames.KeyName] = key.trim();
             data[this.KeyNames.ValueName] = this.data[key].trim();
-            if (!this._isDataLockedBlankRow(data))// && !insertedKeys.contains(data[this.KeyNames.KeyName]))
+            if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
             {
-              if (this.StepOverDuplicates)
-              {
-                if (!insertedKeys.contains(data[this.KeyNames.KeyName]))
-                {
-                  gotone = true;
-                  insertedKeys.push(data[this.KeyNames.KeyName]);
-                  this._insertRow(data);
-                }
-              }
-              else
-              {
-                gotone = true;
-                insertedKeys.push(data[this.KeyNames.KeyName]);
-                this._insertRow(data);
-              }
+              gotone = true;
+              insertedKeys.push(data[this.KeyNames.KeyName]);
+              this._insertRow(data);
             }
           }
         }
@@ -35570,9 +35423,6 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       Affinity2018.Apps.Plugins.Tooltips.Apply();
 
       if (renderedCallback && Affinity2018.isFunction(renderedCallback)) renderedCallback();
-
-      window.dispatchEvent(new Event('ListBuilderRendered'));
-
     }
   }
 
@@ -35605,29 +35455,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
   InsertBlankRow ()
   {
-    this._insertRow(this._returnEmptyData());
-  }
-
-  HasLockedBlankRow()
-  {
-    return this.gridBodyNode.querySelector('tr.locked-null') ? true : false;
-  }
-
-  InsertLockedBlankRow()
-  {
-    if (this.HasLockedBlankRow()) return;
-    var data = {};
-    data[this.KeyNames.KeyName] = this.CleverForms.InsertLookupEmptyValue;
-    data[this.KeyNames.ValueName] = this.CleverForms.InsertLookupEmptyDisplay;
-    this._insertRow(data);
-  }
-
-  RemoveLockedBlankRow()
-  {
-    if (this.HasLockedBlankRow())
-    {
-      this.gridBodyNode.removeChild(this.gridBodyNode.querySelector('tr.locked-null'));
-    }
+    this._insertRow(this._returnEmptyData())
   }
 
   SanatiseData(data)
@@ -35650,13 +35478,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
           rowData = {};
           rowData[keyNames.KeyName] = data[d][keyNames.KeyName];
           rowData[keyNames.ValueName] = autoIncrement.toString().padLeft('0', 4);
-          if (!this._isDataLockedBlankRow(rowData))
-          {
-            newData.push(rowData);
-            autoIncrement++;
-            key = 'key-' + data[d][keyNames.ValueName];
-            keys[key] = 0;
-          }
+          newData.push(rowData);
+          autoIncrement++;
+          key = 'key-' + data[d][keyNames.ValueName];
+          keys[key] = 0;
         }
         else
         {
@@ -35666,11 +35491,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
             rowData = {};
             rowData[keyNames.KeyName] = data[d][keyNames.KeyName];
             rowData[keyNames.ValueName] = data[d][keyNames.ValueName].trim();
-            if (!this._isDataLockedBlankRow(rowData))
-            {
-              newData.push(rowData);
-              keys[key] = 0;
-            }
+            newData.push(rowData);
+            keys[key] = 0;
           }
           else // is duplicate
           {
@@ -35681,7 +35503,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
               rowData[keyNames.KeyName] = data[d][keyNames.KeyName];
               if (this.ModifyDuplicates) rowData[keyNames.ValueName] = data[d][keyNames.ValueName].trim() + '-dup-' + keys[key].toString().padLeft('0', 4);
               else rowData[keyNames.ValueName] = data[d][keyNames.ValueName].trim();
-              if (!this._isDataLockedBlankRow(rowData)) newData.push(rowData);
+              newData.push(rowData);
             }
           }
         }
@@ -35740,16 +35562,6 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     return false;
   }
 
-  _isDataLockedBlankRow(data)
-  {
-    var key = data[this.KeyNames.KeyName].trim();
-    var value = data[this.KeyNames.ValueName].trim();
-    var islocked = false;
-    if (key === this.CleverForms.InsertLookupEmptyDisplay && value === this.CleverForms.InsertLookupEmptyValue) islocked = true;
-    if (key === this.CleverForms.InsertLookupEmptyValue && value === this.CleverForms.InsertLookupEmptyDisplay) islocked = true;
-    return islocked;
-  }
-
   _returnEmptyData ()
   {
     var data = {};
@@ -35784,8 +35596,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     data = this._isRowDataGood(data);
     if (data)
     {
-      var locked = this._isDataLockedBlankRow(data);
-      if (!locked && data[this.KeyNames.ValueName].toString().trim() === '')
+      if (data[this.KeyNames.ValueName].toString().trim() === '')
       {
         data[this.KeyNames.ValueName] = this.AutoIncrement;
         this.AutoIncrement++;
@@ -35795,22 +35606,9 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       rowNode.innerHTML = this.listRowTemplate;
       rowNode.querySelector('input.description').value = data[this.KeyNames.KeyName];
       rowNode.querySelector('input.code').value = data[this.KeyNames.ValueName];
-      if (!locked)
-      {
-        rowNode.querySelector('input.description').addEventListener('keyup', this._cellKeyUp);
-        rowNode.querySelector('input.code').addEventListener('keyup', this._cellKeyUp);
-        this.gridBodyNode.appendChild(rowNode);
-      }
-      else
-      {
-        rowNode.querySelector('input.description').value = this.CleverForms.InsertLookupEmptyDisplay;
-        rowNode.querySelector('input.code').value = this.CleverForms.InsertLookupEmptyValue;
-        rowNode.querySelector('.button[data-do="up"]').classList.add('disabled');
-        rowNode.querySelector('.button[data-do="down"]').classList.add('disabled');
-        rowNode.querySelector('.button[data-do="delete"]').classList.add('disabled');
-        rowNode.classList.add('locked-null');
-        this.gridBodyNode.insertBefore(rowNode, this.gridBodyNode.querySelector('tr'));
-      }
+      rowNode.querySelector('input.description').addEventListener('keyup', this._cellKeyUp);
+      rowNode.querySelector('input.code').addEventListener('keyup', this._cellKeyUp);
+      this.gridBodyNode.appendChild(rowNode);
       this._compare();
       return rowNode;
     }
@@ -35903,15 +35701,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       data = {};
       data[this.KeyNames.KeyName] = key;
       data[this.KeyNames.ValueName] = value;
-      var canPush = key.trim() + value.trim() !== '';
-      if (this._isDataLockedBlankRow(data))
+      if (key.trim() + value.trim() !== '')
       {
-        canPush = false;
-        //console.groupCollapsed('data update found locked row');
-        //console.log(this.data);
-        //console.groupEnd();
+        allData.push(data);
       }
-      if (canPush) allData.push(data);
     }.bind(this));
     return allData;
   }
@@ -35924,21 +35717,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
   _doCompare ()
   {
-    let compareData = this.data.map(item => item[this.KeyNames.ValueName]);
-    let compareGrid = this._updateData().map(item => item[this.KeyNames.ValueName]);
-    //if (JSON.stringify(this.data) !== JSON.stringify(this._updateData()))
-    if (JSON.stringify(compareData) !== JSON.stringify(compareGrid))
+    if (JSON.stringify(this.data) !== JSON.stringify(this._updateData()))
     {
-      console.groupCollapsed('comparer found diff:');
-      console.log('local keys:');
-      console.log(compareData);
-      console.log('grid keys:');
-      console.log(compareGrid);
-      console.log('local data:');
-      console.log(this.data);
-      console.log('grid data:');
-      console.log(this._updateData());
-      console.groupEnd();
       this.IsModified = true;
       if (this.NewRender)
       {
