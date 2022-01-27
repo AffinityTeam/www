@@ -29500,6 +29500,7 @@ function returnSelectOptions (data, searchFor, ismobile, filter)
 
 function returnListItem (data)
 {
+  if (data.html.indexOf('(null)') > 0) data.html = data.html.replace('(null)', '').trim();
   var li = '<li';
   if (data.hasOwnProperty('uuid')) li += ' id="' + data.uuid + '-li-' + data.originalIndex + '"';
   else if (data.hasOwnProperty('id')) li += ' id="' + data.id + '"';
