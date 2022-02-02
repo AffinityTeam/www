@@ -6037,7 +6037,7 @@
       if (!document.querySelector('style.scrollbars'))
       {
         this.scrollStyleNode = document.createElement('style');
-        this.scrollStyleNode.nonce = 'testnonce==';
+        this.scrollStyleNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
         document.body.appendChild(this.scrollStyleNode);
       }
       Affinity2018.DarkMode = document.body.classList.contains('dark') ? true : false;
@@ -6210,7 +6210,7 @@
       let script = document.createElement('script'), body = document.querySelector('body');
       script.type = 'text/javascript';
       script.src = '/' + '/wurfl.io/wurfl.js'
-      script.nonce = 'testnonce==';
+      script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       script.onload = function()
       {
         Affinity2018.MobileChecked = true;
@@ -6382,7 +6382,7 @@
       {
         Affinity2018.SupportsElementScrollTo = false;
         var script = document.createElement('script');
-        script.nonce = 'testnonce==';
+        script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
         script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.scroll%2CElement.prototype.scrollIntoView%2CElement.prototype.scrollBy';
         script.onerror = function ()
         {
@@ -6676,7 +6676,7 @@
           Affinity2018.ResourcePreloader.Resources.Scripts.Injected++;
           let tag = document.createElement('script');
           tag.setAttribute('src', path);
-          tag.setAttribute('nonce', 'testnonce==');
+          tag.setAttribute('nonce', 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==');
           tag.dataset.group = 'Scripts';
           tag.onload = Affinity2018.ResourcePreloader.ResourceLoaded;
           tag.onerror = Affinity2018.ResourcePreloader.ResourceFailed;
@@ -6698,7 +6698,7 @@
           Affinity2018.ResourcePreloader.Resources.Extentions.Injected++;
           let tag = document.createElement('script');
           tag.setAttribute('src', path);
-          tag.setAttribute('nonce', 'testnonce==');
+          tag.setAttribute('nonce', 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==');
           tag.dataset.group = 'Extentions';
           tag.onload = Affinity2018.ResourcePreloader.ResourceLoaded;
           tag.onerror = Affinity2018.ResourcePreloader.ResourceFailed;
@@ -6721,7 +6721,7 @@
           let tag = document.createElement('link');
           tag.setAttribute('href', path);
           tag.setAttribute('rel', 'stylesheet');
-          tag.setAttribute('nonce', 'testnonce==');
+          tag.setAttribute('nonce', 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==');
           tag.dataset.group = 'Styles';
           tag.onload = Affinity2018.ResourcePreloader.ResourceLoaded;
           tag.onerror = Affinity2018.ResourcePreloader.ResourceFailed;
