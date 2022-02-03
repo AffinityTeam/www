@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2700,32-37): run-time error JS1195: Expected expression: class
-(3237,32-37): run-time error JS1195: Expected expression: class
-(3250,20-21): run-time error JS1004: Expected ';': {
-(3321,27-28): run-time error JS1004: Expected ';': {
-(3325,29-30): run-time error JS1004: Expected ';': {
+(2701,32-37): run-time error JS1195: Expected expression: class
+(3238,32-37): run-time error JS1195: Expected expression: class
+(3251,20-21): run-time error JS1004: Expected ';': {
+(3322,27-28): run-time error JS1004: Expected ';': {
 (3326,29-30): run-time error JS1004: Expected ';': {
 (3327,29-30): run-time error JS1004: Expected ';': {
 (3328,29-30): run-time error JS1004: Expected ';': {
-(3329,13-14): run-time error JS1004: Expected ';': {
-(3348,15-16): run-time error JS1004: Expected ';': {
-(3366,12-13): run-time error JS1004: Expected ';': {
-(3371,12-13): run-time error JS1004: Expected ';': {
-(3374,17-18): run-time error JS1004: Expected ';': {
-(3964,36-41): run-time error JS1195: Expected expression: class
-(4077,30-35): run-time error JS1195: Expected expression: class
-(4182,31-36): run-time error JS1195: Expected expression: class
-(4421,35-40): run-time error JS1195: Expected expression: class
-(4549,33-38): run-time error JS1195: Expected expression: class
-(4760,39-40): run-time error JS1014: Invalid character: `
-(4760,40-41): run-time error JS1195: Expected expression: <
-(4760,100-101): run-time error JS1014: Invalid character: `
-(4779,43-44): run-time error JS1014: Invalid character: `
-(4779,44-45): run-time error JS1195: Expected expression: <
-(4779,108-109): run-time error JS1014: Invalid character: `
-(4847,33-38): run-time error JS1195: Expected expression: class
-(5143,32-37): run-time error JS1195: Expected expression: class
-(5509,33-38): run-time error JS1195: Expected expression: class
-(5587,37-42): run-time error JS1195: Expected expression: class
-(5588,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3329,29-30): run-time error JS1004: Expected ';': {
+(3330,13-14): run-time error JS1004: Expected ';': {
+(3349,15-16): run-time error JS1004: Expected ';': {
+(3367,12-13): run-time error JS1004: Expected ';': {
+(3372,12-13): run-time error JS1004: Expected ';': {
+(3375,17-18): run-time error JS1004: Expected ';': {
+(3965,36-41): run-time error JS1195: Expected expression: class
+(4078,30-35): run-time error JS1195: Expected expression: class
+(4183,31-36): run-time error JS1195: Expected expression: class
+(4422,35-40): run-time error JS1195: Expected expression: class
+(4550,33-38): run-time error JS1195: Expected expression: class
+(4761,39-40): run-time error JS1014: Invalid character: `
+(4761,40-41): run-time error JS1195: Expected expression: <
+(4761,100-101): run-time error JS1014: Invalid character: `
+(4780,43-44): run-time error JS1014: Invalid character: `
+(4780,44-45): run-time error JS1195: Expected expression: <
+(4780,108-109): run-time error JS1014: Invalid character: `
+(4848,33-38): run-time error JS1195: Expected expression: class
+(5144,32-37): run-time error JS1195: Expected expression: class
+(5510,33-38): run-time error JS1195: Expected expression: class
+(5588,37-42): run-time error JS1195: Expected expression: class
+(5589,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5589,5-16): run-time error JS1006: Expected ')': constructor
-(5658,3-4): run-time error JS1002: Syntax error: }
-(5658,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5602,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5590,5-16): run-time error JS1006: Expected ')': constructor
+(5659,3-4): run-time error JS1002: Syntax error: }
+(5659,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5603,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -61,9 +61,9 @@
   Affinity2018.Id = 'ui.2018';
   Affinity2018.Version = '0.0.6';
   Affinity2018.Language = 'english';
-  if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = '//cdn.source63.com/affinity/beta1';
-  if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = '//cdn.source63.com/affinity/beta1';
-  if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = '//cdn.source63.com/affinity/beta1/scripts/plugins/';
+  if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
+  if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
+  if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = document.location.protocol + '//cdn.source63.com/affinity/beta1/scripts/plugins/';
   if (!Affinity2018.hasOwnProperty('HideAllTemplates')) Affinity2018.HideAllTemplates = false;
   if (!Affinity2018.hasOwnProperty('DisablePlugins')) Affinity2018.DisablePlugins = [];
   
@@ -1957,11 +1957,12 @@
     Affinity2018.getHrefData = function (url)
     {
       var a = document.createElement("a"), r;
-      if (!url.toLowerCase().trim().startsWith('http') && !url.toLowerCase().trim().startsWith('ftp')) url = 'http://' + url;
+      if (!url.toLowerCase().trim().startsWith('http:') && !url.toLowerCase().trim().startsWith('ftp')) url = 'http://' + url;
+      if (!url.toLowerCase().trim().startsWith('https:') && !url.toLowerCase().trim().startsWith('ftp')) url = 'https://' + url;
       a.href = url;
       r = {
         original: url,
-        protocol: a.protocol, // => "http:"
+        protocol: a.protocol, // => "https:"
         hostname: a.hostname, // => "example.com"
         port:     a.port,     // => "3000"
         pathname: a.pathname, // => "/pathname/"
