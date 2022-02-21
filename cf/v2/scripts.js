@@ -18672,6 +18672,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               url: Affinity2018.Path + 'Inbox/Create/?templateAndWorkflowIds=' + linkId + ';' + workflowId,
               label: linkName + ' - ' + workflowName
             });
+            linkBoxNode.querySelector('a').addEventListener('click', function (ev) { ev.target.closest('form').submit(); });
             this.FormRowNode.appendChild(linkBoxNode);
           }
         }.bind(this), function () { }); // api, onSuccess, onFail, priority
@@ -19307,7 +19308,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.HTMLLinkFormTemplate = `
     <form action="{url}" method="post" target="_blank">
-      Start form <a href="#" onclick="this.parentNode.submit();return false;">{label}</a>
+      Start form <a href="#">{label}</a>
     </form>
     `;
 
