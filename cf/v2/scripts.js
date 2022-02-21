@@ -8653,10 +8653,11 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     )
     {
       Affinity2018.UserProfile = {};
-      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString();
-      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString();
+      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString().trim();
+      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString().trim();
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       window.dispatchEvent(new Event('GotUserData'));
+      window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
       this.OnInit();
     }
     else
