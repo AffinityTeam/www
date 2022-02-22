@@ -19431,15 +19431,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   SetFormRow (target)
   {
-    var html, link
+    var label, html, link;
     if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
       html = this.HtmlRowTemplate.format(this.Config.Details.Label, '#');
     }
     else
     {
+      label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
-      html = this.HtmlRowTemplate.format(this.Config.Details.Label, link);
+      html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
       axios({
         method: 'GET',
@@ -19452,8 +19453,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
           && $a.isPropObject(response.data, 'data')
         )
         {
-          if (response.data.data.hasOwnProperty(''))
-            this._setLink(response.data.data[this.Config.Details.FileId], link);
+          if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
         }
       }.bind(this)).catch(function () { });
     }
@@ -19493,17 +19493,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   /**/
 
-  _setLink (name, link)
+  _setLink (name, link, label)
   {
+    label = label ? label : this.Config.Details.Label;
     this.FormRowNode.innerHTML = this.HtmlRowLinkTemplate.format({
-      label: this.Config.Details.Label,
+      label: label,
       link: link,
       name: name
     });
-    if (link == '#')
-    {
-      this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
-    }
+    //if (link == '#')
+    //{
+    //  this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
+    //}
   }
 
   /**/
