@@ -24,15 +24,15 @@
 (4780,44-45): run-time error JS1195: Expected expression: <
 (4780,108-109): run-time error JS1014: Invalid character: `
 (4848,33-38): run-time error JS1195: Expected expression: class
-(5144,32-37): run-time error JS1195: Expected expression: class
-(5510,33-38): run-time error JS1195: Expected expression: class
-(5588,37-42): run-time error JS1195: Expected expression: class
-(5589,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(5146,32-37): run-time error JS1195: Expected expression: class
+(5512,33-38): run-time error JS1195: Expected expression: class
+(5590,37-42): run-time error JS1195: Expected expression: class
+(5591,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5590,5-16): run-time error JS1006: Expected ')': constructor
-(5659,3-4): run-time error JS1002: Syntax error: }
-(5659,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5603,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5592,5-16): run-time error JS1006: Expected ')': constructor
+(5661,3-4): run-time error JS1002: Syntax error: }
+(5661,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5605,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -5008,7 +5008,9 @@
             style = document.createElement('link');
         style.setAttribute('href', 'https:/' + '/cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.6/cropper.min.css');
         style.setAttribute('rel', 'stylesheet');
+        style.setAttribute('nonce', 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==');
         script.setAttribute('src', 'https:/' + '/cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.6/cropper.min.js');
+        script.setAttribute('nonce', 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==');
         script.onload = function ()
         {
           Affinity2018.HidePageLoader();
@@ -6183,7 +6185,7 @@
 
       let script = document.createElement('script');
       script.type = 'text/javascript';
-
+      script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       if (script.readyState)
       {
         script.onreadystatechange = function ()
@@ -6210,7 +6212,7 @@
     {
       let script = document.createElement('script'), body = document.querySelector('body');
       script.type = 'text/javascript';
-      script.src = '/' + '/wurfl.io/wurfl.js'
+      script.src = document.location.protocol + '//wurfl.io/wurfl.js'
       script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       script.onload = function()
       {
@@ -7090,6 +7092,7 @@
     if (Affinity2018.HideAllTemplates)
     {
       var style = document.createElement('style');
+      style.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       style.innerHTML = `
         #affinity-login,
         #dialog-bg,
@@ -8653,10 +8656,11 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     )
     {
       Affinity2018.UserProfile = {};
-      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString();
-      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString();
+      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString().trim();
+      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString().trim();
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       window.dispatchEvent(new Event('GotUserData'));
+      window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
       this.OnInit();
     }
     else
@@ -18671,6 +18675,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               url: Affinity2018.Path + 'Inbox/Create/?templateAndWorkflowIds=' + linkId + ';' + workflowId,
               label: linkName + ' - ' + workflowName
             });
+            linkBoxNode.querySelector('a').addEventListener('click', function (ev) { ev.target.closest('form').submit(); });
             this.FormRowNode.appendChild(linkBoxNode);
           }
         }.bind(this), function () { }); // api, onSuccess, onFail, priority
@@ -19306,7 +19311,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.HTMLLinkFormTemplate = `
     <form action="{url}" method="post" target="_blank">
-      Start form <a href="#" onclick="this.parentNode.submit();return false;">{label}</a>
+      Start form <a href="#">{label}</a>
     </form>
     `;
 
@@ -19429,15 +19434,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   SetFormRow (target)
   {
-    var html, link
+    var label, html, link;
     if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
       html = this.HtmlRowTemplate.format(this.Config.Details.Label, '#');
     }
     else
     {
+      label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
-      html = this.HtmlRowTemplate.format(this.Config.Details.Label, link);
+      html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
       axios({
         method: 'GET',
@@ -19450,8 +19456,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
           && $a.isPropObject(response.data, 'data')
         )
         {
-          if (response.data.data.hasOwnProperty(''))
-            this._setLink(response.data.data[this.Config.Details.FileId], link);
+          if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
         }
       }.bind(this)).catch(function () { });
     }
@@ -19491,17 +19496,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   /**/
 
-  _setLink (name, link)
+  _setLink (name, link, label)
   {
+    label = label ? label : this.Config.Details.Label;
     this.FormRowNode.innerHTML = this.HtmlRowLinkTemplate.format({
-      label: this.Config.Details.Label,
+      label: label,
       link: link,
       name: name
     });
-    if (link == '#')
-    {
-      this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
-    }
+    //if (link == '#')
+    //{
+    //  this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
+    //}
   }
 
   /**/
@@ -26940,6 +26946,7 @@ Affinity2018.Classes.Plugins.Address = class
     this.scriptNode.onload = this._scriptLoaded;
     this.scriptNode.type = 'text/javascript';
     this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places';
+    this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
     document.head.appendChild(this.scriptNode);
     this._loadScriptFailTimer = setTimeout(function ()
     {
