@@ -8653,11 +8653,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     )
     {
       Affinity2018.UserProfile = {};
-      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString().trim();
-      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString().trim();
+      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString();
+      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString();
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       window.dispatchEvent(new Event('GotUserData'));
-      window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
       this.OnInit();
     }
     else
@@ -18672,7 +18671,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               url: Affinity2018.Path + 'Inbox/Create/?templateAndWorkflowIds=' + linkId + ';' + workflowId,
               label: linkName + ' - ' + workflowName
             });
-            linkBoxNode.querySelector('a').addEventListener('click', function (ev) { ev.target.closest('form').submit(); });
             this.FormRowNode.appendChild(linkBoxNode);
           }
         }.bind(this), function () { }); // api, onSuccess, onFail, priority
@@ -19308,7 +19306,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.HTMLLinkFormTemplate = `
     <form action="{url}" method="post" target="_blank">
-      Start form <a href="#">{label}</a>
+      Start form <a href="#" onclick="this.parentNode.submit();return false;">{label}</a>
     </form>
     `;
 
@@ -19431,16 +19429,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   SetFormRow (target)
   {
-    var label, html, link;
+    var html, link
     if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
       html = this.HtmlRowTemplate.format(this.Config.Details.Label, '#');
     }
     else
     {
-      label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
-      html = this.HtmlRowTemplate.format(label, link);
+      html = this.HtmlRowTemplate.format(this.Config.Details.Label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
       axios({
         method: 'GET',
@@ -19453,7 +19450,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
           && $a.isPropObject(response.data, 'data')
         )
         {
-          if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
+          if (response.data.data.hasOwnProperty(''))
+            this._setLink(response.data.data[this.Config.Details.FileId], link);
         }
       }.bind(this)).catch(function () { });
     }
@@ -19493,18 +19491,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   /**/
 
-  _setLink (name, link, label)
+  _setLink (name, link)
   {
-    label = label ? label : this.Config.Details.Label;
     this.FormRowNode.innerHTML = this.HtmlRowLinkTemplate.format({
-      label: label,
+      label: this.Config.Details.Label,
       link: link,
       name: name
     });
-    //if (link == '#')
-    //{
-    //  this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
-    //}
+    if (link == '#')
+    {
+      this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
+    }
   }
 
   /**/
