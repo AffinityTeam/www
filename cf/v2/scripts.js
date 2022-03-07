@@ -32903,7 +32903,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     this._gotoMins();
   }
 
-  /*
+  /**/
   
   hide ()
   {
