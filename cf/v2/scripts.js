@@ -10165,7 +10165,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     </div>
     <div class="buttons">
       <div class="button grey cancel"><span class="icon-cross"></span>{cancelLabel}</div>
-      <div class="button blue back hidden"><span class="icon-arrow-left"></span>{searchLabel}</div>
+      <div class="button blue back hidden"><span class="icon-back"></span>{searchLabel}</div>
       <div class="button green ok disabled"><span class="icon-tick"></span>{okLabel}</div>
     </div>
     `;
@@ -18677,7 +18677,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             });
             linkBoxNode.querySelector('a').addEventListener('click', function (ev) { ev.target.closest('form').submit(); });
             this.FormRowNode.appendChild(linkBoxNode);
-            Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
           }
         }.bind(this), function () { }); // api, onSuccess, onFail, priority
       }
@@ -27726,37 +27725,27 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.autocompleteNode.classList.add('ui-autocomplete-container');
     this.autocompleteNode.innerHTML = this.autocompleteTemplate;
 
-    this.RowNode = this.targetNode.parentNode.parentNode;
-
     if (this.targetNode.parentNode.classList.contains('select'))
     {
-      if (this.RowNode.querySelector('label'))
+      if (this.targetNode.parentNode.parentNode.querySelector('label'))
       {
-        if (this.RowNode.querySelector('label').nextSibling)
+        if (this.targetNode.parentNode.parentNode.querySelector('label').nextSibling)
         {
-          if (this.RowNode.querySelector('.help') || this.RowNode.querySelector('.required'))
-          {
-            this.RowNode.appendChild(this.autocompleteNode);
-          }
-          else
-          {
-            this.RowNode.insertBefore(this.autocompleteNode, this.RowNode.querySelector('label').nextSibling);
-          }
+          this.targetNode.parentNode.parentNode.insertBefore(this.autocompleteNode, this.targetNode.parentNode.parentNode.querySelector('label').nextSibling);
         }
         else
         {
-          this.RowNode.appendChild(this.autocompleteNode);
+          this.targetNode.parentNode.parentNode.appendChild(this.autocompleteNode);
         }
       }
       else
       {
-        this.RowNode.insertBefore(this.autocompleteNode, this.targetNode.parentNode.nextSibling);
+        this.targetNode.parentNode.parentNode.insertBefore(this.autocompleteNode, this.targetNode.parentNode.nextSibling);
       }
     }
     else
     {
-      //this.targetNode.parentNode.insertBefore(this.autocompleteNode, this.targetNode.nextSibling);
-      this.RowNode.appendChild(this.autocompleteNode);
+      this.targetNode.parentNode.insertBefore(this.autocompleteNode, this.targetNode.nextSibling);
     }
 
     this.displayNode = this.autocompleteNode.querySelector('input');
