@@ -33407,6 +33407,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
     if (formRowNode)
     {
+      if (document.body.classList.contains('cform')) canvasWidth = formRowNode.getBoundingClientRect().width;
       formRowNode.appendChild(this.InnerNode);
       formRowNode.classList.add('draw-panel');
       this.InitNode.classList.add('hidden');

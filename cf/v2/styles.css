@@ -1,10 +1,10 @@
 /* Minification failed. Returning unminified contents.
-(3805,80): run-time error CSS1030: Expected identifier, found ','
-(3805,222): run-time error CSS1031: Expected selector, found ')'
-(3805,222): run-time error CSS1025: Expected comma or open brace, found ')'
-(4535,119): run-time error CSS1030: Expected identifier, found ','
-(4535,131): run-time error CSS1031: Expected selector, found ')'
-(4535,131): run-time error CSS1025: Expected comma or open brace, found ')'
+(3811,80): run-time error CSS1030: Expected identifier, found ','
+(3811,222): run-time error CSS1031: Expected selector, found ')'
+(3811,222): run-time error CSS1025: Expected comma or open brace, found ')'
+(4582,119): run-time error CSS1030: Expected identifier, found ','
+(4582,131): run-time error CSS1031: Expected selector, found ')'
+(4582,131): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -3706,6 +3706,11 @@ body.ui2018.cform.dashboard div.pagewrapper div.content div.section.shadow {
 body.ui2018.cform.dashboard div.pagewrapper div.content div.section.shadow:last-child {
   margin-bottom: 30px;
 }
+body.ui2018.cform .content form,
+body.ui2018.cform .content .form,
+body.ui2018.cform .content .default-form {
+  font-family: Arial;
+}
 body.ui2018.cform .content form .form-row,
 body.ui2018.cform .content .form .form-row,
 body.ui2018.cform .content .default-form .form-row {
@@ -3767,7 +3772,7 @@ body.ui2018.cform .content .default-form .form-row label:not(.ui-file) {
   font-size: 14px;
   height: 16px;
   line-height: 16px;
-  margin: 0 0 10px 0;
+  margin: 0 0 5px 0;
   padding: 0;
   color: black;
   overflow: hidden;
@@ -3783,6 +3788,7 @@ body.ui2018.cform .content .form .form-row .required,
 body.ui2018.cform .content .default-form .form-row .required {
   height: 16px;
   line-height: 16px;
+  margin: 0 0 5px 0;
 }
 body.ui2018.cform .content form .form-row input[type="text"],
 body.ui2018.cform .content .form .form-row input[type="text"],
@@ -4246,15 +4252,20 @@ body.ui2018.cform .content .default-form .form-row .taxnumber-box input.tax3 {
 body.ui2018.cform .content form .form-row .draw-panel-box,
 body.ui2018.cform .content .form .form-row .draw-panel-box,
 body.ui2018.cform .content .default-form .form-row .draw-panel-box {
+  width: 680px;
   display: block;
 }
 body.ui2018.cform .content form .form-row .draw-panel-box canvas,
 body.ui2018.cform .content .form .form-row .draw-panel-box canvas,
 body.ui2018.cform .content .default-form .form-row .draw-panel-box canvas {
+  width: 100%;
+  margin: 0 0 10px 0;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
   -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
   -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  margin: 0 0 10px 0;
 }
 body.ui2018.cform .content form .form-row.row-attachinstructions,
 body.ui2018.cform .content .form .form-row.row-attachinstructions,
@@ -4340,6 +4351,8 @@ body.ui2018.cform .content form .form-row.row-fileuploadmulti .required,
 body.ui2018.cform .content .form .form-row.row-fileuploadmulti .required,
 body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti .required {
   position: relative;
+  height: 44px;
+  line-height: 44px;
   z-index: 2;
 }
 body.ui2018.cform .content form .form-row.row-fileuploadmulti label,
@@ -4373,6 +4386,40 @@ body.ui2018.cform .content form .form-row.row-fileuploadmulti label.ui-file div.
 body.ui2018.cform .content .form .form-row.row-fileuploadmulti label.ui-file div.button,
 body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-file div.button {
   margin-top: 7px;
+  color: #16c1f3;
+  font-size: 14px;
+  text-decoration: underline;
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+body.ui2018.cform .content form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
+body.ui2018.cform .content .form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
+body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+body.ui2018.cform .content form .form-row.row-fileuploadmulti label.ui-file div.button span,
+body.ui2018.cform .content .form .form-row.row-fileuploadmulti label.ui-file div.button span,
+body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-file div.button span {
+  display: none;
+}
+body.ui2018.cform .content form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
+body.ui2018.cform .content .form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
+body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover {
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+body.ui2018.cform .content form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
+body.ui2018.cform .content .form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
+body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 body.ui2018.cform .content form .form-row.row-fileuploadmulti div.ui-file-list,
 body.ui2018.cform .content .form .form-row.row-fileuploadmulti div.ui-file-list,
@@ -4389,7 +4436,7 @@ body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti div.ui-fi
 body.ui2018.cform .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid,
 body.ui2018.cform .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid,
 body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid {
-  margin-top: -10px;
+  margin-top: -25px;
   border-collapse: separate;
   border-spacing: 0 10px;
 }
@@ -4570,7 +4617,7 @@ body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti div.ui-fi
 body.ui2018.cform .content form .form-row.calendar:after,
 body.ui2018.cform .content .form .form-row.calendar:after,
 body.ui2018.cform .content .default-form .form-row.calendar:after {
-  top: 26px;
+  top: 21px;
   left: unset;
   right: 0;
   width: 44px;
@@ -4582,7 +4629,7 @@ body.ui2018.cform .content .default-form .form-row.calendar:after {
 body.ui2018.cform .content form .form-row.calendar .ui-calendar-container,
 body.ui2018.cform .content .form .form-row.calendar .ui-calendar-container,
 body.ui2018.cform .content .default-form .form-row.calendar .ui-calendar-container {
-  top: 70px;
+  top: 65px;
   left: 320px;
   width: 360px;
   -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
