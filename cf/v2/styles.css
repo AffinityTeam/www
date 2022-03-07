@@ -3774,7 +3774,7 @@ body.ui2018.cform .content .default-form .form-row label:not(.ui-file) {
   line-height: 16px;
   margin: 0 0 5px 0;
   padding: 0;
-  color: black;
+  color: #636e7c;
   overflow: hidden;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -3916,9 +3916,9 @@ body.ui2018.cform .content .default-form .form-row textarea {
   display: block;
   width: 660px;
   min-height: 88px;
-  padding: 0 15px;
+  padding: 15px;
   font-size: 16px;
-  color: black;
+  color: #636e7c;
   background: #f7f9fe;
   border: 2px solid #e3e8ed;
   -webkit-transition: unset;
@@ -4258,7 +4258,6 @@ body.ui2018.cform .content .default-form .form-row .draw-panel-box {
 body.ui2018.cform .content form .form-row .draw-panel-box canvas,
 body.ui2018.cform .content .form .form-row .draw-panel-box canvas,
 body.ui2018.cform .content .default-form .form-row .draw-panel-box canvas {
-  width: 100%;
   margin: 0 0 10px 0;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -4388,6 +4387,7 @@ body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-
   margin-top: 7px;
   color: #16c1f3;
   font-size: 14px;
+  font-weight: normal;
   text-decoration: underline;
   background: none;
   -webkit-box-shadow: none;
