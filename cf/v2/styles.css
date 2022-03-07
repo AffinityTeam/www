@@ -2,9 +2,9 @@
 (3805,80): run-time error CSS1030: Expected identifier, found ','
 (3805,222): run-time error CSS1031: Expected selector, found ')'
 (3805,222): run-time error CSS1025: Expected comma or open brace, found ')'
-(4526,119): run-time error CSS1030: Expected identifier, found ','
-(4526,131): run-time error CSS1031: Expected selector, found ')'
-(4526,131): run-time error CSS1025: Expected comma or open brace, found ')'
+(4535,119): run-time error CSS1030: Expected identifier, found ','
+(4535,131): run-time error CSS1031: Expected selector, found ')'
+(4535,131): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -4333,6 +4333,15 @@ body.ui2018.cform .content .default-form .form-row .ui-address-fields .address-i
   line-height: 44px;
   font-size: 16px;
 }
+body.ui2018.cform .content form .form-row.row-fileuploadmulti .help,
+body.ui2018.cform .content .form .form-row.row-fileuploadmulti .help,
+body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti .help,
+body.ui2018.cform .content form .form-row.row-fileuploadmulti .required,
+body.ui2018.cform .content .form .form-row.row-fileuploadmulti .required,
+body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti .required {
+  position: relative;
+  z-index: 2;
+}
 body.ui2018.cform .content form .form-row.row-fileuploadmulti label,
 body.ui2018.cform .content .form .form-row.row-fileuploadmulti label,
 body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label {
@@ -4346,7 +4355,7 @@ body.ui2018.cform .content .default-form .form-row.row-fileuploadmulti label.ui-
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100% !important;
   height: 44px;
   line-height: 44px;
   text-align: right;
