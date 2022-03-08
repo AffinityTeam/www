@@ -14314,7 +14314,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.ViewType = window.location.href.toString().toLowerCase().contains('/viewonly') ? 'ViewOnly' : this.ViewType;
     this.CleverForms.ViewType = this.ViewType;
 
-    document.body.classList.add('cform');
+    document.body.classList.add('cform', 'v2');
 
     /** If global RequestQueue does not yet exist, create it. */
     if (!Affinity2018.hasOwnProperty('RequestQueue'))
