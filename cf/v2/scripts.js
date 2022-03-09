@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2701,32-37): run-time error JS1195: Expected expression: class
-(3238,32-37): run-time error JS1195: Expected expression: class
-(3251,20-21): run-time error JS1004: Expected ';': {
-(3322,27-28): run-time error JS1004: Expected ';': {
-(3326,29-30): run-time error JS1004: Expected ';': {
-(3327,29-30): run-time error JS1004: Expected ';': {
-(3328,29-30): run-time error JS1004: Expected ';': {
-(3329,29-30): run-time error JS1004: Expected ';': {
-(3330,13-14): run-time error JS1004: Expected ';': {
-(3349,15-16): run-time error JS1004: Expected ';': {
-(3367,12-13): run-time error JS1004: Expected ';': {
-(3372,12-13): run-time error JS1004: Expected ';': {
-(3375,17-18): run-time error JS1004: Expected ';': {
-(3965,36-41): run-time error JS1195: Expected expression: class
-(4078,30-35): run-time error JS1195: Expected expression: class
-(4183,31-36): run-time error JS1195: Expected expression: class
-(4422,35-40): run-time error JS1195: Expected expression: class
-(4550,33-38): run-time error JS1195: Expected expression: class
-(4761,39-40): run-time error JS1014: Invalid character: `
-(4761,40-41): run-time error JS1195: Expected expression: <
-(4761,100-101): run-time error JS1014: Invalid character: `
-(4780,43-44): run-time error JS1014: Invalid character: `
-(4780,44-45): run-time error JS1195: Expected expression: <
-(4780,108-109): run-time error JS1014: Invalid character: `
-(4848,33-38): run-time error JS1195: Expected expression: class
-(5146,32-37): run-time error JS1195: Expected expression: class
-(5512,33-38): run-time error JS1195: Expected expression: class
-(5590,37-42): run-time error JS1195: Expected expression: class
-(5591,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2717,32-37): run-time error JS1195: Expected expression: class
+(3254,32-37): run-time error JS1195: Expected expression: class
+(3267,20-21): run-time error JS1004: Expected ';': {
+(3338,27-28): run-time error JS1004: Expected ';': {
+(3342,29-30): run-time error JS1004: Expected ';': {
+(3343,29-30): run-time error JS1004: Expected ';': {
+(3344,29-30): run-time error JS1004: Expected ';': {
+(3345,29-30): run-time error JS1004: Expected ';': {
+(3346,13-14): run-time error JS1004: Expected ';': {
+(3365,15-16): run-time error JS1004: Expected ';': {
+(3383,12-13): run-time error JS1004: Expected ';': {
+(3388,12-13): run-time error JS1004: Expected ';': {
+(3391,17-18): run-time error JS1004: Expected ';': {
+(3981,36-41): run-time error JS1195: Expected expression: class
+(4094,30-35): run-time error JS1195: Expected expression: class
+(4199,31-36): run-time error JS1195: Expected expression: class
+(4438,35-40): run-time error JS1195: Expected expression: class
+(4566,33-38): run-time error JS1195: Expected expression: class
+(4777,39-40): run-time error JS1014: Invalid character: `
+(4777,40-41): run-time error JS1195: Expected expression: <
+(4777,100-101): run-time error JS1014: Invalid character: `
+(4796,43-44): run-time error JS1014: Invalid character: `
+(4796,44-45): run-time error JS1195: Expected expression: <
+(4796,108-109): run-time error JS1014: Invalid character: `
+(4864,33-38): run-time error JS1195: Expected expression: class
+(5162,32-37): run-time error JS1195: Expected expression: class
+(5528,33-38): run-time error JS1195: Expected expression: class
+(5606,37-42): run-time error JS1195: Expected expression: class
+(5607,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5592,5-16): run-time error JS1006: Expected ')': constructor
-(5661,3-4): run-time error JS1002: Syntax error: }
-(5661,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5605,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5608,5-16): run-time error JS1006: Expected ')': constructor
+(5677,3-4): run-time error JS1002: Syntax error: }
+(5677,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5621,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1956,9 +1956,24 @@
   {
     Affinity2018.getHrefData = function (url)
     {
-      var a = document.createElement("a"), r;
-      if (!url.toLowerCase().trim().startsWith('http:') && !url.toLowerCase().trim().startsWith('ftp')) url = 'http://' + url;
-      if (!url.toLowerCase().trim().startsWith('https:') && !url.toLowerCase().trim().startsWith('ftp')) url = 'https://' + url;
+      var url = url.trim().toLowerCase(), a = document.createElement("a"), p = false, r;
+      if (url != 'null')
+      {
+        var ps = ['http', 'https', 'ftp', 'sftp', 'mailto', 'callto'];
+        ps.forEach(function (pp) { if (url.toLowerCase().startsWith(pp + '://')) p = pp + '://'; });
+        if (!p)
+        {
+          if (new RegExp('^[a-z:]+\/\/', 'i').test(url)) url = url.replace(new RegExp('^([a-z:]+\/\/).*?', 'i'), '');
+          ps.forEach(function (pp) { if (url.startsWith(pp + ':')) url = url.substring(pp.length + 1); });
+          ps.forEach(function (pp) { if (url.startsWith(pp + '//')) url = url.substring(pp.length + 2); });
+          ps.forEach(function (pp) { if (url.startsWith(pp + '/')) url = url.substring(pp.length + 1); });
+          ps.forEach(function (pp) { if (url.startsWith(pp)) url = url.substring(pp.length); });
+          url = url.startsWith(':') ? url.substring(1) : url;
+          url = url.startsWith('/') ? url.substring(1) : url;
+          url = url.startsWith('/') ? url.substring(1) : url;
+          url = 'https://' + url;
+        }
+      }
       a.href = url;
       r = {
         original: url,
@@ -1996,10 +2011,11 @@
     Affinity2018.returnFormattedUrl = function (urlString)
     {
       var urlData = $a.getUrlData(urlString),
-          port = urlData.port !== '' ? ':' + urlData.port : '',
-          search = urlData.search !== '' ? (urlData.search.charAt(0) === '?' ? '' : '?') + urlData.search : '',
-          hash = urlData.hash !== '' ? (urlData.hash.charAt(0) === '#' ? '' : '#') + urlData.hash : '';
-          newUrl = '{0}//{1}{2}{3}{4}{5}'.format(urlData.protocol, urlData.hostname, port, urlData.pathname, search, hash);
+        port = urlData.port !== '' ? ':' + urlData.port : '',
+        search = urlData.search !== '' ? (urlData.search.charAt(0) === '?' ? '' : '?') + urlData.search : '',
+        hash = urlData.hash !== '' ? (urlData.hash.charAt(0) === '#' ? '' : '#') + urlData.hash : '',
+        host = urlData.hostname;
+      newUrl = '{0}//{1}{2}{3}{4}{5}'.format(urlData.protocol, host, port, urlData.pathname, search, hash);
       newUrl = newUrl.charAt(newUrl.length - 1) === '/' ? newUrl.substring(0, newUrl.length - 1) : newUrl;
       return newUrl;
     }
