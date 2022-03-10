@@ -1956,7 +1956,7 @@
   {
     Affinity2018.getHrefData = function (url)
     {
-      var url = url.trim().toLowerCase(), a = document.createElement("a"), p = false, r;
+      var url = url.trim(), a = document.createElement("a"), p = false, r;
       if (url != 'null')
       {
         var ps = ['http', 'https', 'ftp', 'sftp', 'mailto', 'callto'];
@@ -17894,7 +17894,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       addressObject = $a.stringToObject(address);
       address = '';
     }
-
+    if (addressObject == null)
+    {
+      addressObject = {};
+      address = '';
+    }
     if (this.IsReadOnly)
     {
       var strings = [];
