@@ -5,9 +5,9 @@
 (6815,122): run-time error CSS1030: Expected identifier, found ','
 (6815,134): run-time error CSS1031: Expected selector, found ')'
 (6815,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7048,108): run-time error CSS1030: Expected identifier, found ','
-(7048,250): run-time error CSS1031: Expected selector, found ')'
-(7048,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(7440,108): run-time error CSS1030: Expected identifier, found ','
+(7440,250): run-time error CSS1031: Expected selector, found ')'
+(7440,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6298,9 +6298,9 @@ body.ui2018.cform.v2 .content .default-form .form-row .select select {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.cform.v2 .content form .form-row .select select opton,
-body.ui2018.cform.v2 .content .form .form-row .select select opton,
-body.ui2018.cform.v2 .content .default-form .form-row .select select opton {
+body.ui2018.cform.v2 .content form .form-row .select select option,
+body.ui2018.cform.v2 .content .form .form-row .select select option,
+body.ui2018.cform.v2 .content .default-form .form-row .select select option {
   color: black;
 }
 body.ui2018.cform.v2 .content form .form-row .radio-label-pair,
@@ -6868,6 +6868,8 @@ body.ui2018.cform.v2 .content .default-form .form-row.calendar .ui-calendar-cont
   top: 65px;
   left: 320px;
   width: 360px;
+  min-width: 360px;
+  max-width: 360px;
   -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
   -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
@@ -7036,6 +7038,396 @@ body.ui2018.cform.v2 .content .form .form-row select:-webkit-autofill,
 body.ui2018.cform.v2 .content .default-form .form-row select:-webkit-autofill {
   color: #1a1a1a !important;
   -webkit-text-fill-color: 0% !important;
+}
+body.ui2018.cform.v2 .content .section#buttons .comments {
+  width: 680px;
+  height: 110px;
+}
+body.ui2018.cform.v2 .content .section#buttons .comments.hide {
+  height: 0px;
+}
+body.ui2018.cform.v2 .content .section#buttons .comments label {
+  width: auto !important;
+  font-size: 14px;
+  height: 16px;
+  line-height: 16px;
+  margin: 0 0 5px 0;
+  padding: 0;
+  color: #636e7c;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.cform.v2 .content .section#buttons .comments textarea {
+  display: block;
+  width: 680px;
+  min-height: 88px;
+  padding: 15px;
+  font-size: 16px;
+  color: #636e7c;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-transition: unset;
+  -moz-transition: unset;
+  -o-transition: unset;
+  transition: unset;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.cform.v2 .content .section#buttons .comments textarea:focus::-webkit-resizer,
+body.ui2018.cform.v2 .content .section#buttons .comments textarea:hover::-webkit-resizer {
+  border-top: 10px solid transparent;
+  border-right: 10px solid #e3e8ed;
+  border-bottom: 10px solid #e3e8ed;
+  border-left: 10px solid transparent;
+}
+body.ui2018.cform.v2 .content .section#buttons .comments textarea:disabled {
+  background: #e2e6eb !important;
+  border: 2px solid #c8d1db !important;
+  color: rgba(0, 0, 0, 0.5);
+}
+body.ui2018.cform.v2 .content .section#buttons .comments textarea::-webkit-resizer {
+  outline: none;
+  background-color: transparent;
+  border-top: 10px solid transparent;
+  border-right: 10px solid #e3e8ed;
+  border-bottom: 10px solid #e3e8ed;
+  border-left: 10px solid transparent;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-transition: border-color 250ms;
+  -moz-transition: border-color 250ms;
+  -o-transition: border-color 250ms;
+  transition: border-color 250ms;
+}
+body.ui2018.cform.v2 .content .section#buttons .workflow-buttons {
+  width: 100%;
+  height: unset;
+  min-height: 50px;
+  line-height: 50px;
+  padding: 0 200px 0 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.cform.v2 .content .section#buttons .workflow-buttons .splitter {
+  min-height: 40px;
+}
+body.ui2018.cform.v2.dark.dashboard div.pagewrapper div.content {
+  background: none;
+}
+body.ui2018.cform.v2.dark.dashboard div.pagewrapper div.content div.section {
+  background: #222222;
+}
+body.ui2018.cform.v2.dark.dashboard div.pagewrapper div.content div.section.shadow {
+  background: #222222;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.cform.v2.dark.dashboard div.pagewrapper div.content div.section,
+body.ui2018.cform.v2.dark.dashboard div.pagewrapper div.content div.section.shadow {
+  background: #222222;
+}
+body.ui2018.cform.v2.dark .content form .form-row label:not(.ui-file),
+body.ui2018.cform.v2.dark .content .form .form-row label:not(.ui-file),
+body.ui2018.cform.v2.dark .content .default-form .form-row label:not(.ui-file) {
+  color: #cccccc;
+}
+body.ui2018.cform.v2.dark .content form .form-row input[type="text"],
+body.ui2018.cform.v2.dark .content .form .form-row input[type="text"],
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="text"],
+body.ui2018.cform.v2.dark .content form .form-row input[type="number"],
+body.ui2018.cform.v2.dark .content .form .form-row input[type="number"],
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="number"],
+body.ui2018.cform.v2.dark .content form .form-row input[type="password"],
+body.ui2018.cform.v2.dark .content .form .form-row input[type="password"],
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="password"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row input[type="text"]:disabled,
+body.ui2018.cform.v2.dark .content .form .form-row input[type="text"]:disabled,
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="text"]:disabled,
+body.ui2018.cform.v2.dark .content form .form-row input[type="number"]:disabled,
+body.ui2018.cform.v2.dark .content .form .form-row input[type="number"]:disabled,
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="number"]:disabled,
+body.ui2018.cform.v2.dark .content form .form-row input[type="password"]:disabled,
+body.ui2018.cform.v2.dark .content .form .form-row input[type="password"]:disabled,
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="password"]:disabled {
+  background: #161616 !important;
+  border: 2px solid #2c2c2c !important;
+  color: rgba(255, 255, 255, 0.5);
+}
+body.ui2018.cform.v2.dark .content form .form-row textarea,
+body.ui2018.cform.v2.dark .content .form .form-row textarea,
+body.ui2018.cform.v2.dark .content .default-form .form-row textarea {
+  color: #cccccc;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row textarea:focus::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .form .form-row textarea:focus::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .default-form .form-row textarea:focus::-webkit-resizer,
+body.ui2018.cform.v2.dark .content form .form-row textarea:hover::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .form .form-row textarea:hover::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .default-form .form-row textarea:hover::-webkit-resizer {
+  border-right: 10px solid #444444;
+  border-bottom: 10px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row textarea:disabled,
+body.ui2018.cform.v2.dark .content .form .form-row textarea:disabled,
+body.ui2018.cform.v2.dark .content .default-form .form-row textarea:disabled {
+  background: #161616 !important;
+  border: 2px solid #2c2c2c !important;
+  color: rgba(255, 255, 255, 0.5);
+}
+body.ui2018.cform.v2.dark .content form .form-row textarea::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .form .form-row textarea::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .default-form .form-row textarea::-webkit-resizer {
+  border-right: 10px solid #444444;
+  border-bottom: 10px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row .select,
+body.ui2018.cform.v2.dark .content .form .form-row .select,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select {
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row .select:focus,
+body.ui2018.cform.v2.dark .content .form .form-row .select:focus,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select:focus,
+body.ui2018.cform.v2.dark .content form .form-row .select:hover,
+body.ui2018.cform.v2.dark .content .form .form-row .select:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select:hover {
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row .select:after,
+body.ui2018.cform.v2.dark .content .form .form-row .select:after,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select:after {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row .select.working:after,
+body.ui2018.cform.v2.dark .content .form .form-row .select.working:after,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select.working:after {
+  background-image: url(data:image/gif;base64,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);
+}
+body.ui2018.cform.v2.dark .content form .form-row .select select,
+body.ui2018.cform.v2.dark .content .form .form-row .select select,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select select {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row .select select option,
+body.ui2018.cform.v2.dark .content .form .form-row .select select option,
+body.ui2018.cform.v2.dark .content .default-form .form-row .select select option {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row.row-currency .currencybox .symbol,
+body.ui2018.cform.v2.dark .content .form .form-row.row-currency .currencybox .symbol,
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-currency .currencybox .symbol,
+body.ui2018.cform.v2.dark .content form .form-row.row-affinityfield .currencybox .symbol,
+body.ui2018.cform.v2.dark .content .form .form-row.row-affinityfield .currencybox .symbol,
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-affinityfield .currencybox .symbol {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td,
+body.ui2018.cform.v2.dark .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td,
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td {
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.cform.v2.dark .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td div.button,
+body.ui2018.cform.v2.dark .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td div.button,
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td div.button {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(odd),
+body.ui2018.cform.v2.dark .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(odd),
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(odd),
+body.ui2018.cform.v2.dark .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(even),
+body.ui2018.cform.v2.dark .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(even),
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(even) {
+  background: #333333;
+}
+body.ui2018.cform.v2.dark .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(odd) td,
+body.ui2018.cform.v2.dark .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(odd) td,
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(odd) td,
+body.ui2018.cform.v2.dark .content form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(even) td,
+body.ui2018.cform.v2.dark .content .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(even) td,
+body.ui2018.cform.v2.dark .content .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr:nth-child(even) td {
+  background: #333333;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar:after,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar:after,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar:after {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container {
+  background-color: #111111;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover {
+  color: white;
+  background: #106eb6;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover {
+  color: white;
+  background: #106eb6;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span {
+  color: #666666;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover {
+  color: white;
+  background: #106eb6;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected {
+  color: white;
+  background: #106eb6;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell {
+  color: white;
+  background: #111111;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today {
+  background: #148ae5;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected {
+  background: #106eb6;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:hover,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:hover,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:hover {
+  color: white;
+  background: #106eb6;
+}
+body.ui2018.cform.v2.dark .content form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell,
+body.ui2018.cform.v2.dark .content .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell,
+body.ui2018.cform.v2.dark .content .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell {
+  background: #111111;
+}
+body.ui2018.cform.v2.dark .content form .form-row .ui-autocomplete-container .ui-ac-display-icon,
+body.ui2018.cform.v2.dark .content .form .form-row .ui-autocomplete-container .ui-ac-display-icon,
+body.ui2018.cform.v2.dark .content .default-form .form-row .ui-autocomplete-container .ui-ac-display-icon {
+  color: white;
+}
+body.ui2018.cform.v2.dark .content form .form-row .ui-autocomplete-container .ui-autocomplete-list,
+body.ui2018.cform.v2.dark .content .form .form-row .ui-autocomplete-container .ui-autocomplete-list,
+body.ui2018.cform.v2.dark .content .default-form .form-row .ui-autocomplete-container .ui-autocomplete-list {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.cform.v2.dark .content form .form-row .draw-panel-box canvas,
+body.ui2018.cform.v2.dark .content .form .form-row .draw-panel-box canvas,
+body.ui2018.cform.v2.dark .content .default-form .form-row .draw-panel-box canvas {
+  background: white;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.cform.v2.dark .content form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .default-form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.cform.v2.dark .content form .form-row textarea:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .form .form-row textarea:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .default-form .form-row textarea:-webkit-autofill,
+body.ui2018.cform.v2.dark .content form .form-row select:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .form .form-row select:-webkit-autofill,
+body.ui2018.cform.v2.dark .content .default-form .form-row select:-webkit-autofill {
+  color: white !important;
+  -webkit-text-fill-color: 100% !important;
+}
+body.ui2018.cform.v2.dark .content .section#buttons .comments label {
+  color: #cccccc;
+}
+body.ui2018.cform.v2.dark .content .section#buttons .comments textarea {
+  color: #cccccc;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.cform.v2.dark .content .section#buttons .comments textarea:focus::-webkit-resizer,
+body.ui2018.cform.v2.dark .content .section#buttons .comments textarea:hover::-webkit-resizer {
+  border-top: 10px solid transparent;
+  border-right: 10px solid #444444;
+  border-bottom: 10px solid #444444;
+  border-left: 10px solid transparent;
+}
+body.ui2018.cform.v2.dark .content .section#buttons .comments textarea:disabled {
+  background: #161616 !important;
+  border: 2px solid #2c2c2c !important;
+  color: rgba(255, 255, 255, 0.5);
+}
+body.ui2018.cform.v2.dark .content .section#buttons .comments textarea::-webkit-resizer {
+  border-top: 10px solid transparent;
+  border-right: 10px solid #444444;
+  border-bottom: 10px solid #444444;
+  border-left: 10px solid transparent;
 }
 @media print {
   body.ui2018.cform.v2 .content .section.collapsable .collapser {
