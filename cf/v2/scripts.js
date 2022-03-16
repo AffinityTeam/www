@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2717,32-37): run-time error JS1195: Expected expression: class
-(3254,32-37): run-time error JS1195: Expected expression: class
-(3267,20-21): run-time error JS1004: Expected ';': {
-(3338,27-28): run-time error JS1004: Expected ';': {
-(3342,29-30): run-time error JS1004: Expected ';': {
+(2718,32-37): run-time error JS1195: Expected expression: class
+(3255,32-37): run-time error JS1195: Expected expression: class
+(3268,20-21): run-time error JS1004: Expected ';': {
+(3339,27-28): run-time error JS1004: Expected ';': {
 (3343,29-30): run-time error JS1004: Expected ';': {
 (3344,29-30): run-time error JS1004: Expected ';': {
 (3345,29-30): run-time error JS1004: Expected ';': {
-(3346,13-14): run-time error JS1004: Expected ';': {
-(3365,15-16): run-time error JS1004: Expected ';': {
-(3383,12-13): run-time error JS1004: Expected ';': {
-(3388,12-13): run-time error JS1004: Expected ';': {
-(3391,17-18): run-time error JS1004: Expected ';': {
-(3981,36-41): run-time error JS1195: Expected expression: class
-(4094,30-35): run-time error JS1195: Expected expression: class
-(4199,31-36): run-time error JS1195: Expected expression: class
-(4438,35-40): run-time error JS1195: Expected expression: class
-(4566,33-38): run-time error JS1195: Expected expression: class
-(4777,39-40): run-time error JS1014: Invalid character: `
-(4777,40-41): run-time error JS1195: Expected expression: <
-(4777,100-101): run-time error JS1014: Invalid character: `
-(4796,43-44): run-time error JS1014: Invalid character: `
-(4796,44-45): run-time error JS1195: Expected expression: <
-(4796,108-109): run-time error JS1014: Invalid character: `
-(4864,33-38): run-time error JS1195: Expected expression: class
-(5162,32-37): run-time error JS1195: Expected expression: class
-(5528,33-38): run-time error JS1195: Expected expression: class
-(5606,37-42): run-time error JS1195: Expected expression: class
-(5607,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3346,29-30): run-time error JS1004: Expected ';': {
+(3347,13-14): run-time error JS1004: Expected ';': {
+(3366,15-16): run-time error JS1004: Expected ';': {
+(3384,12-13): run-time error JS1004: Expected ';': {
+(3389,12-13): run-time error JS1004: Expected ';': {
+(3392,17-18): run-time error JS1004: Expected ';': {
+(3982,36-41): run-time error JS1195: Expected expression: class
+(4095,30-35): run-time error JS1195: Expected expression: class
+(4200,31-36): run-time error JS1195: Expected expression: class
+(4439,35-40): run-time error JS1195: Expected expression: class
+(4567,33-38): run-time error JS1195: Expected expression: class
+(4778,39-40): run-time error JS1014: Invalid character: `
+(4778,40-41): run-time error JS1195: Expected expression: <
+(4778,100-101): run-time error JS1014: Invalid character: `
+(4797,43-44): run-time error JS1014: Invalid character: `
+(4797,44-45): run-time error JS1195: Expected expression: <
+(4797,108-109): run-time error JS1014: Invalid character: `
+(4865,33-38): run-time error JS1195: Expected expression: class
+(5163,32-37): run-time error JS1195: Expected expression: class
+(5529,33-38): run-time error JS1195: Expected expression: class
+(5607,37-42): run-time error JS1195: Expected expression: class
+(5608,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5608,5-16): run-time error JS1006: Expected ')': constructor
-(5677,3-4): run-time error JS1002: Syntax error: }
-(5677,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5621,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5609,5-16): run-time error JS1006: Expected ')': constructor
+(5678,3-4): run-time error JS1002: Syntax error: }
+(5678,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5622,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1853,16 +1853,20 @@
   {
     Affinity2018.setObjectToDataset = function (node, datasetName, data)
     {
-      if (Affinity2018.isObject(data))
+      try
       {
-        node.dataset[datasetName] = window.btoa(JSON.stringify(data));
-        return node.dataset[datasetName];
-      }
-      if (Affinity2018.isString(data) && Affinity2018.isStringifiedObject(data))
-      {
-        node.dataset[datasetName] = window.btoa(data);
-        return node.dataset[datasetName];
-      }
+        if (Affinity2018.isObject(data))
+        {
+          //node.dataset[datasetName] = window.btoa(JSON.stringify(data));
+          node.dataset[datasetName] = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+          return node.dataset[datasetName];
+        }
+        if (Affinity2018.isString(data) && Affinity2018.isStringifiedObject(data))
+        {
+          node.dataset[datasetName] = btoa(unescape(encodeURIComponent(data)));
+          return node.dataset[datasetName];
+        }
+      } catch (err) { console.warn(err); }
       return null;
     };
   }
@@ -1885,12 +1889,9 @@
     {
       if (node.dataset[datasetName])
       {
-        var objectCheck = null;
         try
         {
-          var str = node.dataset[datasetName];
-          var decoded = window.atob(str);
-          objectCheck = JSON.parse(decoded);
+          var objectCheck = JSON.parse(decodeURIComponent(escape(atob(node.dataset[datasetName]))));
           if (Affinity2018.isObject(objectCheck))
           {
             return objectCheck;
@@ -25662,8 +25663,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
           }.bind(this));
-          if (isInline) this.FormRowNode.querySelector('label').classList.remove('solo');
-
+          if (isInline)
+          {
+            this.FormRowNode.querySelector('label').classList.remove('solo');
+            this.FormRowNode.querySelector('label').classList.add('block');
+          }
         }
         else
         {
@@ -25720,7 +25724,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
           }.bind(this));
-          if (isInline) this.FormRowNode.querySelector('label').classList.remove('solo');
+          if (isInline)
+          {
+            this.FormRowNode.querySelector('label').classList.remove('solo');
+            this.FormRowNode.querySelector('label').classList.add('block');
+          }
         }
 
       }
@@ -27302,7 +27310,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       var addressStrings = [];
       if (this.StartAddressObject.hasOwnProperty('Street')) addressStrings.push(this.StartAddressObject.Street);
       if (this.StartAddressObject.hasOwnProperty('Suburb')) addressStrings.push(this.StartAddressObject.Suburb);
-      if (this.StartAddressObject.hasOwnProperty('City')) addressStrings.push(this.StartAddressObject.city);
+      if (this.StartAddressObject.hasOwnProperty('City')) addressStrings.push(this.StartAddressObject.City);
       if (this.StartAddressObject.hasOwnProperty('State')) addressStrings.push(this.StartAddressObject.State);
       if (this.StartAddressObject.hasOwnProperty('Country')) addressStrings.push(this.StartAddressObject.Country);
       if (this.StartAddressObject.hasOwnProperty('Postcode')) addressStrings.push(this.StartAddressObject.Postcode);
@@ -33412,7 +33420,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
     var canvasWidth = this.MinWidth, canvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
 
-    var formRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
+    this.FormRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
 
     /*
     if (this.BgImageData.length > 0)
@@ -33425,11 +33433,11 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
     this.InnerNode = document.createElement('div');
     this.InnerNode.classList.add('draw-panel-box');
 
-    if (formRowNode)
+    if (this.FormRowNode)
     {
-      if (document.body.classList.contains('cform')) canvasWidth = formRowNode.getBoundingClientRect().width;
-      formRowNode.appendChild(this.InnerNode);
-      formRowNode.classList.add('draw-panel');
+      if (document.body.classList.contains('cform')) canvasWidth = this.FormRowNode.getBoundingClientRect().width;
+      this.FormRowNode.appendChild(this.InnerNode);
+      this.FormRowNode.classList.add('draw-panel');
       this.InitNode.classList.add('hidden');
     }
     else
@@ -33711,10 +33719,12 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
   {
     if (!$a.isObject(imageData))
     {
+      var canvasWidth = this.MinWidth, canvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
+      if (this.FormRowNode && document.body.classList.contains('cform')) canvasWidth = this.FormRowNode.getBoundingClientRect().width;
       imageData = {
         name: '',
-        width: this.MinWidth,
-        height: Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight,
+        width: canvasWidth,
+        height: canvasHeight,
         image: null
       };
     }

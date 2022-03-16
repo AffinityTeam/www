@@ -1,13 +1,13 @@
 /* Minification failed. Returning unminified contents.
-(6026,83): run-time error CSS1030: Expected identifier, found ','
-(6026,225): run-time error CSS1031: Expected selector, found ')'
-(6026,225): run-time error CSS1025: Expected comma or open brace, found ')'
-(6804,122): run-time error CSS1030: Expected identifier, found ','
-(6804,134): run-time error CSS1031: Expected selector, found ')'
-(6804,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7037,108): run-time error CSS1030: Expected identifier, found ','
-(7037,250): run-time error CSS1031: Expected selector, found ')'
-(7037,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6031,83): run-time error CSS1030: Expected identifier, found ','
+(6031,225): run-time error CSS1031: Expected selector, found ')'
+(6031,225): run-time error CSS1025: Expected comma or open brace, found ')'
+(6815,122): run-time error CSS1030: Expected identifier, found ','
+(6815,134): run-time error CSS1031: Expected selector, found ')'
+(6815,134): run-time error CSS1025: Expected comma or open brace, found ')'
+(7048,108): run-time error CSS1030: Expected identifier, found ','
+(7048,250): run-time error CSS1031: Expected selector, found ')'
+(7048,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -5998,6 +5998,11 @@ body.ui2018.cform.v2 .content .default-form .form-row label:not(.ui-file) {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+body.ui2018.cform.v2 .content form .form-row label:not(.ui-file).block,
+body.ui2018.cform.v2 .content .form .form-row label:not(.ui-file).block,
+body.ui2018.cform.v2 .content .default-form .form-row label:not(.ui-file).block {
+  display: block;
+}
 body.ui2018.cform.v2 .content form .form-row .help,
 body.ui2018.cform.v2 .content .form .form-row .help,
 body.ui2018.cform.v2 .content .default-form .form-row .help,
@@ -6188,6 +6193,8 @@ body.ui2018.cform.v2 .content .default-form .form-row textarea::-webkit-resizer 
 body.ui2018.cform.v2 .content form .form-row .select,
 body.ui2018.cform.v2 .content .form .form-row .select,
 body.ui2018.cform.v2 .content .default-form .form-row .select {
+  display: block;
+  width: 680px;
   height: 44px;
   background: #f7f9fe;
   border: 2px solid #e3e8ed;
@@ -6266,12 +6273,14 @@ body.ui2018.cform.v2 .content .default-form .form-row .select.working:after {
 body.ui2018.cform.v2 .content form .form-row .select select,
 body.ui2018.cform.v2 .content .form .form-row .select select,
 body.ui2018.cform.v2 .content .default-form .form-row .select select {
+  width: 100% !important;
   height: 44px;
   line-height: 44px;
   padding: 0 30px 0 10px;
   color: black;
   font-size: 16px;
   background: none;
+  border: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -6407,6 +6416,7 @@ body.ui2018.cform.v2 .content .default-form .form-row .banknumber-box {
 body.ui2018.cform.v2 .content form .form-row .banknumber-box .select,
 body.ui2018.cform.v2 .content .form .form-row .banknumber-box .select,
 body.ui2018.cform.v2 .content .default-form .form-row .banknumber-box .select {
+  display: inline-block;
   width: 70px !important;
 }
 body.ui2018.cform.v2 .content form .form-row .banknumber-box span,
@@ -6451,6 +6461,7 @@ body.ui2018.cform.v2 .content .default-form .form-row .taxnumber-box {
 body.ui2018.cform.v2 .content form .form-row .taxnumber-box .select,
 body.ui2018.cform.v2 .content .form .form-row .taxnumber-box .select,
 body.ui2018.cform.v2 .content .default-form .form-row .taxnumber-box .select {
+  display: inline-block;
   width: 70px !important;
 }
 body.ui2018.cform.v2 .content form .form-row .taxnumber-box span,
