@@ -15320,6 +15320,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       placeHolder = null;
       this.ButtonsNode.classList.remove('hidden');
       this._checkIdentitySelects();
+
+      var workflowButtonsNode = this.ButtonsNode.querySelector('.section-body .workflow-buttons');
+      var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
+
+      var worflowButtonMargin = Math.round(formButtonsNode.getBoundingClientRect().width) + 20;
+      workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
     }
     this._ready();
   }
