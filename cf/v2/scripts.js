@@ -9032,7 +9032,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         throw new Error('Node was not found because config has no Name');
       }
-      throw new Error('Node was not found');
+      throw new Error('Node was not found');s
     }
 
     if (config.ViewType === 'Section') postType = controller.Delete ? 'delete-section' : controller.Saved ? 'edit-section' : 'create-section';
@@ -9260,7 +9260,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  _options ()
+  _options()
   {
 
 
@@ -9414,7 +9414,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @since       09.09.2019
    * @access      private
    */
-  _init ()
+  _init()
   {
 
     this.body = document.querySelector('body');
@@ -9465,7 +9465,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.FilterModeWrapperHidden = this.FilterRadiosBoxNode.querySelector('.mode-hidden-wrapper');
 
     this.ListSourceSelectNode = false;
-    
+
     this.BackButtonNode = this.SettingsNode.querySelector('.button.back');
     this.CancelButtonNode = this.SettingsNode.querySelector('.button.cancel');
     this.OkButtonNode = this.SettingsNode.querySelector('.button.ok');
@@ -9568,7 +9568,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @param {Object}      data      Form Element Data
    * @param {DomElement}  dragNode  The element dragged into the form designer to edit
    */
-  Set (config, dragNode)
+  Set(config, dragNode)
   {
     this.Config = config;
     if (dragNode) this.DragNode = dragNode;
@@ -9590,7 +9590,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  JumpSearch ()
+  JumpSearch()
   {
     this.Search.Reset();
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
@@ -9607,7 +9607,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  GotoSearch ()
+  GotoSearch()
   {
     this.Search.Reset();
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
@@ -9624,7 +9624,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  JumpSettings ()
+  JumpSettings()
   {
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
     this.PopupNode.classList.add('settings');
@@ -9638,7 +9638,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  GotoSettings ()
+  GotoSettings()
   {
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
     this.PopupNode.classList.add('goto-settings');
@@ -9652,7 +9652,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  Show ()
+  Show()
   {
     this.PopupNode.classList.add('show');
     Affinity2018.lockBodyScroll();
@@ -9665,7 +9665,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  Hide ()
+  Hide()
   {
     clearTimeout(this._resetOnHideTimer);
 
@@ -9698,8 +9698,24 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  Cancel ()
+  Cancel(ev)
   {
+    console.log('cancel - designer.edit');
+
+    // check for uploads to auto-delete on new elements
+    if (
+      this.DragNode
+      && this.DragNode.controller
+      && this.DragNode.controller.Saved
+      && this.DragNode.controller.IsNewElement
+      && this.DragNode.controller.FileWidget
+      && this.DragNode.controller.FileWidget.FileIds.length > 0
+    )
+    {
+      this.DragNode.controller.FileWidget.DeleteFiles();
+      this.Designer.SetElementForDelete(this.DragNode);
+    }
+
     this._close();
   }
 
@@ -9764,9 +9780,10 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     {
       this.plugins.forEach(function (plugin)
       {
-          if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin)) {
-              Affinity2018.Apps.Plugins[plugin].Apply();
-         }
+        if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin))
+        {
+          Affinity2018.Apps.Plugins[plugin].Apply();
+        }
       });
     }.bind(this), 600);
   }
@@ -9948,6 +9965,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
   {
     if (this.DragNode)
     {
+      if (this.DragNode.controller && this.DragNode.controller.IsNewElement) this.DragNode.controller.IsNewElement = false;
       if (this.DragNode.controller.BackupConfig())
       {
         if (this.DragNode.controller.GetFromDesignEditor(false))
@@ -10409,6 +10427,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       // public
 
       'Add',
+      'SetElementForDelete',
 
       'LockAffinityNonMasterFileSection',
 
@@ -10645,6 +10664,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     }
 
     return false;
+  }
+
+
+
+
+  SetElementForDelete(node)
+  {
+    if ($a.isNode(node) && node.hasOwnProperty('controller')) this._setElementForDelete(node);
   }
 
 
@@ -16409,6 +16436,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.Changed = true;
     this.Changes = [];
     this.Delete = false;
+    this.IsNewElement = this.IsNewElement || false;
 
     this.Ready = false;
 
@@ -16494,12 +16522,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       this.UniqueName = this.Config.Name;
       this.Name = this.Config.Name;
+      this.IsNewElement = false;
     }
     else
     {
       this.UniqueName = this.Type + '-' + $a.uuid();
       this.Name = this.UniqueName;
       this.Config.Name = this.Name;
+      this.IsNewElement = true;
     }
 
     if (this.Type === 'Section') this.SectionName = this.Name;
@@ -20696,7 +20726,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   SetDesignEditor()
   {
-
     this.HtmlEditTemplate = this.HtmlEditTemplate.format({
       templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label')
     });
@@ -20775,9 +20804,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   SetFormRow (target)
   {
+    var status = '';
+    var statusClass = ' hidden';
+    switch (this.Config.Details.Value.SignatureRequestStatus)
+    {
+      case 1:
+        status = $a.Lang.ReturnPath('app.cf.design_items.docsign_status_pending');
+        statusClass = '';
+        break;
+      case 2:
+        status = $a.Lang.ReturnPath('app.cf.design_items.docsign_status_completed');
+        statusClass = '';
+        break;
+      case 4:
+        status = $a.Lang.ReturnPath('app.cf.design_items.docsign_status_declined');
+        statusClass = '';
+        break;
+    }
+
     var html = this.HtmlRowTemplate.format({
       templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
       recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
+      status: status,
+      statusClass: statusClass,
       required: this.Config.Details.Required ? '<span class="required icon-star-full"></span>' : '',
       cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
       sendLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
@@ -21683,6 +21732,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     <div class="form-row">
       <label>{0}</label>
       <div class="docsign-fields">
+        <div class="docsign-status{statusClass}">{status}</div>
         <div class="docsign-row">
           <label>{templateLabel}</label>
           <div class="select">
@@ -34439,6 +34489,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     [
 
       'GetFiles', 'GetFileIds',
+      'DeleteFiles',
 
       'HasFiles',
       'HasSavedFiles',
@@ -34716,10 +34767,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   DeleteFiles()
   {
-    if (this.Files.length > 0)
-    {
-      this._deleteMissingFiles();
-    }
+    this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
+    //if (this.Files.length > 0)
+    //{
+    //  this._deleteMissingFiles();
+    //}
   }
 
   /**/

@@ -2,12 +2,12 @@
 (6031,83): run-time error CSS1030: Expected identifier, found ','
 (6031,225): run-time error CSS1031: Expected selector, found ')'
 (6031,225): run-time error CSS1025: Expected comma or open brace, found ')'
-(6815,122): run-time error CSS1030: Expected identifier, found ','
-(6815,134): run-time error CSS1031: Expected selector, found ')'
-(6815,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7440,108): run-time error CSS1030: Expected identifier, found ','
-(7440,250): run-time error CSS1031: Expected selector, found ')'
-(7440,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6843,122): run-time error CSS1030: Expected identifier, found ','
+(6843,134): run-time error CSS1031: Expected selector, found ')'
+(6843,134): run-time error CSS1025: Expected comma or open brace, found ')'
+(7468,108): run-time error CSS1030: Expected identifier, found ','
+(7468,250): run-time error CSS1031: Expected selector, found ')'
+(7468,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6324,12 +6324,28 @@ body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair label {
   height: 44px;
   line-height: 44px;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning,
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent,
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent {
   margin: 0 0 44px 0;
   width: 680px;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-status,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-status,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-status,
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-status,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-status,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-status {
+  min-height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+}
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-fields,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-fields,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-fields,
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-fields,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-fields,
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-fields {
@@ -6337,26 +6353,41 @@ body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent
   width: 636px;
   max-width: 636px;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-fields .docsign-row div.ui-autocomplete-container,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-fields .docsign-row div.ui-autocomplete-container,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.ui-autocomplete-container,
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.ui-autocomplete-container,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.ui-autocomplete-container,
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.ui-autocomplete-container {
   width: 100%;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-fields .docsign-row div.ui-autocomplete-container input[type="text"].ui-ac-display,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-fields .docsign-row div.ui-autocomplete-container input[type="text"].ui-ac-display,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.ui-autocomplete-container input[type="text"].ui-ac-display,
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.ui-autocomplete-container input[type="text"].ui-ac-display,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.ui-autocomplete-container input[type="text"].ui-ac-display,
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.ui-autocomplete-container input[type="text"].ui-ac-display {
   width: 100%;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-fields .docsign-row input[type="text"],
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-fields .docsign-row input[type="text"],
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-fields .docsign-row input[type="text"],
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-fields .docsign-row input[type="text"],
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row input[type="text"],
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row input[type="text"] {
   width: 100%;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons,
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons,
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons {
   width: 100%;
 }
+body.ui2018.cform.v2 .content form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button,
+body.ui2018.cform.v2 .content .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button,
+body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button,
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button,
 body.ui2018.cform.v2 .content .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button {
@@ -6505,30 +6536,27 @@ body.ui2018.cform.v2 .content .default-form .form-row .draw-panel-box canvas {
 body.ui2018.cform.v2 .content form .form-row.row-attachinstructions,
 body.ui2018.cform.v2 .content .form .form-row.row-attachinstructions,
 body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions {
-  height: 44px;
-  line-height: 44px;
+  min-height: 44px;
+  line-height: 20px;
+  margin: 0 0 24px 0;
 }
 body.ui2018.cform.v2 .content form .form-row.row-attachinstructions div.edit-row,
 body.ui2018.cform.v2 .content .form .form-row.row-attachinstructions div.edit-row,
 body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div.edit-row {
-  height: 44px;
-  line-height: 44px;
+  line-height: 20px;
 }
 body.ui2018.cform.v2 .content form .form-row.row-attachinstructions div.edit-row label,
 body.ui2018.cform.v2 .content .form .form-row.row-attachinstructions div.edit-row label,
 body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div.edit-row label {
-  height: 44px;
-  line-height: 44px;
-  margin: 0;
+  min-height: 24px;
+  line-height: 20px;
   padding: 0;
 }
 body.ui2018.cform.v2 .content form .form-row.row-attachinstructions div.edit-row div.row-content,
 body.ui2018.cform.v2 .content .form .form-row.row-attachinstructions div.edit-row div.row-content,
 body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div.edit-row div.row-content {
   position: relative;
-  height: 44px;
-  line-height: 44px;
-  margin: 0;
+  line-height: 20px;
   padding: 0 0 0 34px;
 }
 body.ui2018.cform.v2 .content form .form-row.row-attachinstructions div.edit-row div.row-content:after,
@@ -6540,8 +6568,8 @@ body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div
   top: 0;
   left: 0;
   width: 34px;
-  height: 44px;
-  line-height: 44px;
+  height: 20px;
+  line-height: 20px;
   text-align: center;
   font-family: 'icons' !important;
   speak: none;
@@ -10835,6 +10863,15 @@ body.ui2018 .example-template .preview .form .form-row.row-documentsigning.solo,
 body.ui2018.cform .default-form .form-row.row-documentsigning.solo,
 body.ui2018 .example-template .preview .default-form .form-row.row-documentsigning.solo {
   margin: 0;
+}
+body.ui2018.cform form .form-row.row-documentsigning .docsign-status,
+body.ui2018 .example-template .preview form .form-row.row-documentsigning .docsign-status,
+body.ui2018.cform .form .form-row.row-documentsigning .docsign-status,
+body.ui2018 .example-template .preview .form .form-row.row-documentsigning .docsign-status,
+body.ui2018.cform .default-form .form-row.row-documentsigning .docsign-status,
+body.ui2018 .example-template .preview .default-form .form-row.row-documentsigning .docsign-status {
+  line-height: 20px;
+  font-size: 12px;
 }
 body.ui2018.cform form .form-row.row-documentsigning .docsign-fields,
 body.ui2018 .example-template .preview form .form-row.row-documentsigning .docsign-fields,
