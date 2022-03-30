@@ -2,12 +2,12 @@
 (6031,83): run-time error CSS1030: Expected identifier, found ','
 (6031,225): run-time error CSS1031: Expected selector, found ')'
 (6031,225): run-time error CSS1025: Expected comma or open brace, found ')'
-(6843,122): run-time error CSS1030: Expected identifier, found ','
-(6843,134): run-time error CSS1031: Expected selector, found ')'
-(6843,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7468,108): run-time error CSS1030: Expected identifier, found ','
-(7468,250): run-time error CSS1031: Expected selector, found ')'
-(7468,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6845,122): run-time error CSS1030: Expected identifier, found ','
+(6845,134): run-time error CSS1031: Expected selector, found ')'
+(6845,134): run-time error CSS1025: Expected comma or open brace, found ')'
+(7470,108): run-time error CSS1030: Expected identifier, found ','
+(7470,250): run-time error CSS1031: Expected selector, found ')'
+(7470,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6548,6 +6548,7 @@ body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div
 body.ui2018.cform.v2 .content form .form-row.row-attachinstructions div.edit-row label,
 body.ui2018.cform.v2 .content .form .form-row.row-attachinstructions div.edit-row label,
 body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div.edit-row label {
+  height: auto;
   min-height: 24px;
   line-height: 20px;
   padding: 0;
@@ -6556,6 +6557,7 @@ body.ui2018.cform.v2 .content form .form-row.row-attachinstructions div.edit-row
 body.ui2018.cform.v2 .content .form .form-row.row-attachinstructions div.edit-row div.row-content,
 body.ui2018.cform.v2 .content .default-form .form-row.row-attachinstructions div.edit-row div.row-content {
   position: relative;
+  width: auto;
   line-height: 20px;
   padding: 0 0 0 34px;
 }

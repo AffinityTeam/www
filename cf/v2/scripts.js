@@ -21107,16 +21107,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _idsFailed(error)
   {
-    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
-
-    var error = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
-    var subbedError = this._returnBackendErrors(error); // TODO: add error messgae string here
-    if (subbedError !== error) error = subbedError;
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
+    var errorStr = '';
+    if (this.CleverForms.IsErrorPage(error)) errorStr = this.CleverForms.GetDetailsFromErrorPage(error).Description;
+    else errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : errorStr;
+    message = this._returnBackendErrors(errorStr, message);
 
     if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
     this.DocSignSelectWrapperNode.classList.add('hidden');
     this.DocSignErrorNode.classList.remove('hidden');
-    this.DocSignErrorNode.innerHTML = error;
+    this.DocSignErrorNode.innerHTML = message;
     $a.HidePageLoader();
   }
 
@@ -21242,11 +21242,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if ($a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '') message = response.data.ErrorMessage;
-        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
-        
-        var subbedError = this._returnBackendErrors(message); // add error messgae string here
-        if (subbedError !== message) message = subbedError;
+        var errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : '';
+        message = this._returnBackendErrors(errorStr, $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error'));
 
         if (
           response.data.hasOwnProperty('MissingCustomFields')
@@ -21262,11 +21259,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
     else
     {
-      // TODO: Check and process errors
       message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
-      var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-      if (subbedError !== message) message = subbedError;
-
       this.CanSend = true;
     }
     
@@ -21285,19 +21278,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocError(error)
   {
-    if (this.CleverForms.IsErrorPage(error))
-    {
-      console.error('Post DocSign Error (_postDocError)\nError:\n{0}\n '.format( this.CleverForms.GetErrorPageOutputString(error)));
-    }
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+    var errorStr = '';
+    if (this.CleverForms.IsErrorPage(error)) errorStr = this.CleverForms.GetDetailsFromErrorPage(error).Description;
+    else errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : errorStr;
+    message = this._returnBackendErrors(errorStr, message);
 
     $a.HidePageLoader();
 
     this.CanSend = true;
 
-    // TODO: Check and process errors
-    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
-    var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-    if (subbedError !== message) message = subbedError;
 
     $a.Dialog.Show({
       message: message,
@@ -21362,12 +21352,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if (response.data.hasOwnProperty('ErrorMessage') && response.data.ErrorMessage.trim() === '') message = response.data.ErrorMessage;
-        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
-
-        // TODO: Check and process errors
-        var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-        if (subbedError !== message) message = subbedError;
+        var errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : '';
+        message = this._returnBackendErrors(errorStr, $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error'));
 
         if (
           response.data.hasOwnProperty('MissingCustomFields')
@@ -21383,10 +21369,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     else
     {
       message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
-
-      // TODO: Check and process errors
-      var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-      if (subbedError !== message) message = subbedError;
 
       this.CanSend = false;
     }
@@ -21418,12 +21400,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     $a.HidePageLoader();
 
     this.CanSend = false;
-
-    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
-
-    // TODO: Check and process errors
-    var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-    if (subbedError !== message) message = subbedError;
+    
+    debugger;
+    console.log(error); // TODO: add error messgae string here
+    var errorStr = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+    var message = this._returnBackendErrors(errorStr); // TODO: add error messgae string here
 
     $a.Dialog.Show({
       message: message,
@@ -21535,15 +21516,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     return message;
   }
 
-  _returnBackendErrors(error)
+  _returnBackendErrors(error, fallback)
   {
-    var errorStr = error, langPath, num, max;
-    error = error.toLowerCase().trim();
+    var errorStr = $a.isString(error) ? error : '';
+    var errorCheck = errorStr.toLowerCase().trim();
+    var num, max, langPath;
 
     if (
-      error == 'send error'
-      || error.contains('Error while sending signature request') // og
-      || error.contains('send your request. Please try again later') // jody
+      errorCheck == 'send error'
+      || errorCheck.contains('Error while sending signature request') // og
+      || errorCheck.contains('send your request. Please try again later') // jody
     )
     {
       langPath = 'app.cf.backend_sub_errors.send_error';
@@ -21551,9 +21533,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
 
     if (
-      error == 'deleted'
-      || error.contains('This resource has been deleted') // og
-      || error.contains('already been cancelled') // jody
+      errorCheck == 'deleted'
+      || errorCheck.contains('This resource has been deleted') // og
+      || errorCheck.contains('already been cancelled') // jody
     )
     {
       langPath = 'app.cf.backend_sub_errors.deleted';
@@ -21561,9 +21543,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
 
     if (
-      error == 'cancel error: already completed'
-      || error.contains('???') // og
-      || error.contains('???') // jody
+      errorCheck == 'cancel error: already completed'
+      || errorCheck.contains('???') // og
+      || errorCheck.contains('???') // jody
     )
     {
       langPath = 'app.cf.backend_sub_errors.cancel_error_already_completed';
@@ -21571,30 +21553,35 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
 
     if (
-      error.startsWith('not enough recipients. required:')
-      || error.contains('you need to provide ') // og
-      //|| error.contains('???') // jody
+      errorCheck.startsWith('not enough recipients. required:')
+      || errorCheck.contains('you need to provide ') // og
+      //|| errorCheck.contains('???') // jody
     )
     {
       num = 1;
-      if (!isNaN(parseInt(error.replace(/\D/g, '')))) num = parseInt(error.replace(/\D/g, ''));
-      if (error.contains(':')) num = parseInt(error.split(':')[1]);
+      if (!isNaN(parseInt(errorCheck.replace(/\D/g, '')))) num = parseInt(errorCheck.replace(/\D/g, ''));
+      if (errorCheck.contains(':')) num = parseInt(errorCheck.split(':')[1]);
       langPath = 'app.cf.backend_sub_errors.not_enough_recipients';
       errorStr = $a.Lang.ReturnPath(langPath, { num: num });
     }
 
     if (
-      error.startsWith('too many recipients. max required:')
-      || error.contains('you have entered more than the required') // og
-      || error.contains('please remove the extra signatories') // jody
+      errorCheck.startsWith('too many recipients. max required:')
+      || errorCheck.contains('you have entered more than the required') // og
+      || errorCheck.contains('please remove the extra signatories') // jody
     )
     {
       max = 1;
-      if (!isNaN(parseInt(error.replace(/\D/g, '')))) max = parseInt(error.replace(/\D/g, ''));
-      if (error.contains(':')) max = parseInt(error.split(':')[1]);
+      if (!isNaN(parseInt(errorCheck.replace(/\D/g, '')))) max = parseInt(errorCheck.replace(/\D/g, ''));
+      if (errorCheck.contains(':')) max = parseInt(errorCheck.split(':')[1]);
       langPath = 'app.cf.backend_sub_errors.too_many_recipients_1_required';
       if (max > 1) langPath = 'app.cf.backend_sub_errors.too_many_recipients_n_required';
       errorStr = $a.Lang.ReturnPath(langPath, { max: max });
+    }
+
+    if ($a.isString(error) && errorStr === error && $a.isString(fallback))
+    {
+      errorStr = fallback;
     }
 
     return errorStr;
