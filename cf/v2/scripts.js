@@ -9032,7 +9032,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         throw new Error('Node was not found because config has no Name');
       }
-      throw new Error('Node was not found');
+      throw new Error('Node was not found');s
     }
 
     if (config.ViewType === 'Section') postType = controller.Delete ? 'delete-section' : controller.Saved ? 'edit-section' : 'create-section';
@@ -9260,7 +9260,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  _options ()
+  _options()
   {
 
 
@@ -9414,7 +9414,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @since       09.09.2019
    * @access      private
    */
-  _init ()
+  _init()
   {
 
     this.body = document.querySelector('body');
@@ -9465,7 +9465,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.FilterModeWrapperHidden = this.FilterRadiosBoxNode.querySelector('.mode-hidden-wrapper');
 
     this.ListSourceSelectNode = false;
-    
+
     this.BackButtonNode = this.SettingsNode.querySelector('.button.back');
     this.CancelButtonNode = this.SettingsNode.querySelector('.button.cancel');
     this.OkButtonNode = this.SettingsNode.querySelector('.button.ok');
@@ -9568,7 +9568,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @param {Object}      data      Form Element Data
    * @param {DomElement}  dragNode  The element dragged into the form designer to edit
    */
-  Set (config, dragNode)
+  Set(config, dragNode)
   {
     this.Config = config;
     if (dragNode) this.DragNode = dragNode;
@@ -9590,7 +9590,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  JumpSearch ()
+  JumpSearch()
   {
     this.Search.Reset();
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
@@ -9607,7 +9607,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  GotoSearch ()
+  GotoSearch()
   {
     this.Search.Reset();
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
@@ -9624,7 +9624,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  JumpSettings ()
+  JumpSettings()
   {
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
     this.PopupNode.classList.add('settings');
@@ -9638,7 +9638,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  GotoSettings ()
+  GotoSettings()
   {
     this.PopupNode.classList.remove('goto-settings', 'settings', 'goto-search', 'search');
     this.PopupNode.classList.add('goto-settings');
@@ -9652,7 +9652,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  Show ()
+  Show()
   {
     this.PopupNode.classList.add('show');
     Affinity2018.lockBodyScroll();
@@ -9665,7 +9665,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  Hide ()
+  Hide()
   {
     clearTimeout(this._resetOnHideTimer);
 
@@ -9698,8 +9698,24 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  Cancel ()
+  Cancel(ev)
   {
+    console.log('cancel - designer.edit');
+
+    // check for uploads to auto-delete on new elements
+    if (
+      this.DragNode
+      && this.DragNode.controller
+      && this.DragNode.controller.Saved
+      && this.DragNode.controller.IsNewElement
+      && this.DragNode.controller.FileWidget
+      && this.DragNode.controller.FileWidget.FileIds.length > 0
+    )
+    {
+      this.DragNode.controller.FileWidget.DeleteFiles();
+      this.Designer.SetElementForDelete(this.DragNode);
+    }
+
     this._close();
   }
 
@@ -9764,9 +9780,10 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     {
       this.plugins.forEach(function (plugin)
       {
-          if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin)) {
-              Affinity2018.Apps.Plugins[plugin].Apply();
-         }
+        if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin))
+        {
+          Affinity2018.Apps.Plugins[plugin].Apply();
+        }
       });
     }.bind(this), 600);
   }
@@ -9948,6 +9965,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
   {
     if (this.DragNode)
     {
+      if (this.DragNode.controller && this.DragNode.controller.IsNewElement) this.DragNode.controller.IsNewElement = false;
       if (this.DragNode.controller.BackupConfig())
       {
         if (this.DragNode.controller.GetFromDesignEditor(false))
@@ -10409,6 +10427,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       // public
 
       'Add',
+      'SetElementForDelete',
 
       'LockAffinityNonMasterFileSection',
 
@@ -10645,6 +10664,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     }
 
     return false;
+  }
+
+
+
+
+  SetElementForDelete(node)
+  {
+    if ($a.isNode(node) && node.hasOwnProperty('controller')) this._setElementForDelete(node);
   }
 
 
@@ -16409,6 +16436,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.Changed = true;
     this.Changes = [];
     this.Delete = false;
+    this.IsNewElement = this.IsNewElement || false;
 
     this.Ready = false;
 
@@ -16494,12 +16522,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       this.UniqueName = this.Config.Name;
       this.Name = this.Config.Name;
+      this.IsNewElement = false;
     }
     else
     {
       this.UniqueName = this.Type + '-' + $a.uuid();
       this.Name = this.UniqueName;
       this.Config.Name = this.Name;
+      this.IsNewElement = true;
     }
 
     if (this.Type === 'Section') this.SectionName = this.Name;
@@ -20696,7 +20726,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   SetDesignEditor()
   {
-
     this.HtmlEditTemplate = this.HtmlEditTemplate.format({
       templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label')
     });
@@ -20775,9 +20804,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   SetFormRow (target)
   {
+    var status = '';
+    var statusClass = ' hidden';
+    switch (this.Config.Details.Value.SignatureRequestStatus)
+    {
+      case 1:
+        status = $a.Lang.ReturnPath('app.cf.design_items.docsign_status_pending');
+        statusClass = '';
+        break;
+      case 2:
+        status = $a.Lang.ReturnPath('app.cf.design_items.docsign_status_completed');
+        statusClass = '';
+        break;
+      case 4:
+        status = $a.Lang.ReturnPath('app.cf.design_items.docsign_status_declined');
+        statusClass = '';
+        break;
+    }
+
     var html = this.HtmlRowTemplate.format({
       templateLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_template_label'),
       recipientLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_recipient_label'),
+      status: status,
+      statusClass: statusClass,
       required: this.Config.Details.Required ? '<span class="required icon-star-full"></span>' : '',
       cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_cancel_label'),
       sendLabel: $a.Lang.ReturnPath('app.cf.design_items.docsign_send_label')
@@ -21058,16 +21107,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _idsFailed(error)
   {
-    if (this.CleverForms.IsErrorPage(error)) error = this.CleverForms.GetDetailsFromErrorPage(error);
-
-    var error = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
-    var subbedError = this._returnBackendErrors(error); // TODO: add error messgae string here
-    if (subbedError !== error) error = subbedError;
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_load_failed');
+    var errorStr = '';
+    if (this.CleverForms.IsErrorPage(error)) errorStr = this.CleverForms.GetDetailsFromErrorPage(error).Description;
+    else errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : errorStr;
+    message = this._returnBackendErrors(errorStr, message);
 
     if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
     this.DocSignSelectWrapperNode.classList.add('hidden');
     this.DocSignErrorNode.classList.remove('hidden');
-    this.DocSignErrorNode.innerHTML = error;
+    this.DocSignErrorNode.innerHTML = message;
     $a.HidePageLoader();
   }
 
@@ -21193,11 +21242,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if ($a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '') message = response.data.ErrorMessage;
-        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
-        
-        var subbedError = this._returnBackendErrors(message); // add error messgae string here
-        if (subbedError !== message) message = subbedError;
+        var errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : '';
+        message = this._returnBackendErrors(errorStr, $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error'));
 
         if (
           response.data.hasOwnProperty('MissingCustomFields')
@@ -21213,11 +21259,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
     else
     {
-      // TODO: Check and process errors
       message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
-      var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-      if (subbedError !== message) message = subbedError;
-
       this.CanSend = true;
     }
     
@@ -21236,19 +21278,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   _postDocError(error)
   {
-    if (this.CleverForms.IsErrorPage(error))
-    {
-      console.error('Post DocSign Error (_postDocError)\nError:\n{0}\n '.format( this.CleverForms.GetErrorPageOutputString(error)));
-    }
+    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
+    var errorStr = '';
+    if (this.CleverForms.IsErrorPage(error)) errorStr = this.CleverForms.GetDetailsFromErrorPage(error).Description;
+    else errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : errorStr;
+    message = this._returnBackendErrors(errorStr, message);
 
     $a.HidePageLoader();
 
     this.CanSend = true;
 
-    // TODO: Check and process errors
-    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
-    var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-    if (subbedError !== message) message = subbedError;
 
     $a.Dialog.Show({
       message: message,
@@ -21313,12 +21352,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
       else
       {
-        if (response.data.hasOwnProperty('ErrorMessage') && response.data.ErrorMessage.trim() === '') message = response.data.ErrorMessage;
-        else message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
-
-        // TODO: Check and process errors
-        var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-        if (subbedError !== message) message = subbedError;
+        var errorStr = $a.isPropString(response.data, 'ErrorMessage') && response.data.ErrorMessage.trim() !== '' ? response.data.ErrorMessage : '';
+        message = this._returnBackendErrors(errorStr, $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error'));
 
         if (
           response.data.hasOwnProperty('MissingCustomFields')
@@ -21334,10 +21369,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     else
     {
       message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
-
-      // TODO: Check and process errors
-      var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-      if (subbedError !== message) message = subbedError;
 
       this.CanSend = false;
     }
@@ -21369,12 +21400,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     $a.HidePageLoader();
 
     this.CanSend = false;
-
-    var message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
-
-    // TODO: Check and process errors
-    var subbedError = this._returnBackendErrors(message); // TODO: add error messgae string here
-    if (subbedError !== message) message = subbedError;
+    
+    debugger;
+    console.log(error); // TODO: add error messgae string here
+    var errorStr = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
+    var message = this._returnBackendErrors(errorStr); // TODO: add error messgae string here
 
     $a.Dialog.Show({
       message: message,
@@ -21486,15 +21516,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     return message;
   }
 
-  _returnBackendErrors(error)
+  _returnBackendErrors(error, fallback)
   {
-    var errorStr = error, langPath, num, max;
-    error = error.toLowerCase().trim();
+    var errorStr = $a.isString(error) ? error : '';
+    var errorCheck = errorStr.toLowerCase().trim();
+    var num, max, langPath;
 
     if (
-      error == 'send error'
-      || error.contains('Error while sending signature request') // og
-      || error.contains('send your request. Please try again later') // jody
+      errorCheck == 'send error'
+      || errorCheck.contains('Error while sending signature request') // og
+      || errorCheck.contains('send your request. Please try again later') // jody
     )
     {
       langPath = 'app.cf.backend_sub_errors.send_error';
@@ -21502,9 +21533,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
 
     if (
-      error == 'deleted'
-      || error.contains('This resource has been deleted') // og
-      || error.contains('already been cancelled') // jody
+      errorCheck == 'deleted'
+      || errorCheck.contains('This resource has been deleted') // og
+      || errorCheck.contains('already been cancelled') // jody
     )
     {
       langPath = 'app.cf.backend_sub_errors.deleted';
@@ -21512,9 +21543,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
 
     if (
-      error == 'cancel error: already completed'
-      || error.contains('???') // og
-      || error.contains('???') // jody
+      errorCheck == 'cancel error: already completed'
+      || errorCheck.contains('???') // og
+      || errorCheck.contains('???') // jody
     )
     {
       langPath = 'app.cf.backend_sub_errors.cancel_error_already_completed';
@@ -21522,30 +21553,35 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     }
 
     if (
-      error.startsWith('not enough recipients. required:')
-      || error.contains('you need to provide ') // og
-      //|| error.contains('???') // jody
+      errorCheck.startsWith('not enough recipients. required:')
+      || errorCheck.contains('you need to provide ') // og
+      //|| errorCheck.contains('???') // jody
     )
     {
       num = 1;
-      if (!isNaN(parseInt(error.replace(/\D/g, '')))) num = parseInt(error.replace(/\D/g, ''));
-      if (error.contains(':')) num = parseInt(error.split(':')[1]);
+      if (!isNaN(parseInt(errorCheck.replace(/\D/g, '')))) num = parseInt(errorCheck.replace(/\D/g, ''));
+      if (errorCheck.contains(':')) num = parseInt(errorCheck.split(':')[1]);
       langPath = 'app.cf.backend_sub_errors.not_enough_recipients';
       errorStr = $a.Lang.ReturnPath(langPath, { num: num });
     }
 
     if (
-      error.startsWith('too many recipients. max required:')
-      || error.contains('you have entered more than the required') // og
-      || error.contains('please remove the extra signatories') // jody
+      errorCheck.startsWith('too many recipients. max required:')
+      || errorCheck.contains('you have entered more than the required') // og
+      || errorCheck.contains('please remove the extra signatories') // jody
     )
     {
       max = 1;
-      if (!isNaN(parseInt(error.replace(/\D/g, '')))) max = parseInt(error.replace(/\D/g, ''));
-      if (error.contains(':')) max = parseInt(error.split(':')[1]);
+      if (!isNaN(parseInt(errorCheck.replace(/\D/g, '')))) max = parseInt(errorCheck.replace(/\D/g, ''));
+      if (errorCheck.contains(':')) max = parseInt(errorCheck.split(':')[1]);
       langPath = 'app.cf.backend_sub_errors.too_many_recipients_1_required';
       if (max > 1) langPath = 'app.cf.backend_sub_errors.too_many_recipients_n_required';
       errorStr = $a.Lang.ReturnPath(langPath, { max: max });
+    }
+
+    if ($a.isString(error) && errorStr === error && $a.isString(fallback))
+    {
+      errorStr = fallback;
     }
 
     return errorStr;
@@ -21683,6 +21719,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     <div class="form-row">
       <label>{0}</label>
       <div class="docsign-fields">
+        <div class="docsign-status{statusClass}">{status}</div>
         <div class="docsign-row">
           <label>{templateLabel}</label>
           <div class="select">
@@ -34439,6 +34476,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     [
 
       'GetFiles', 'GetFileIds',
+      'DeleteFiles',
 
       'HasFiles',
       'HasSavedFiles',
@@ -34716,10 +34754,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   DeleteFiles()
   {
-    if (this.Files.length > 0)
-    {
-      this._deleteMissingFiles();
-    }
+    this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
+    //if (this.Files.length > 0)
+    //{
+    //  this._deleteMissingFiles();
+    //}
   }
 
   /**/
