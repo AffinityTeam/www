@@ -2,12 +2,12 @@
 (6031,83): run-time error CSS1030: Expected identifier, found ','
 (6031,225): run-time error CSS1031: Expected selector, found ')'
 (6031,225): run-time error CSS1025: Expected comma or open brace, found ')'
-(6845,122): run-time error CSS1030: Expected identifier, found ','
-(6845,134): run-time error CSS1031: Expected selector, found ')'
-(6845,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7470,108): run-time error CSS1030: Expected identifier, found ','
-(7470,250): run-time error CSS1031: Expected selector, found ')'
-(7470,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6883,122): run-time error CSS1030: Expected identifier, found ','
+(6883,134): run-time error CSS1031: Expected selector, found ')'
+(6883,134): run-time error CSS1025: Expected comma or open brace, found ')'
+(7519,108): run-time error CSS1030: Expected identifier, found ','
+(7519,250): run-time error CSS1031: Expected selector, found ')'
+(7519,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6305,24 +6305,62 @@ body.ui2018.cform.v2 .content .default-form .form-row .select select option {
 }
 body.ui2018.cform.v2 .content form .form-row .radio-label-pair,
 body.ui2018.cform.v2 .content .form .form-row .radio-label-pair,
-body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair {
+body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair,
+body.ui2018.cform.v2 .content form .form-row .check-label-pair,
+body.ui2018.cform.v2 .content .form .form-row .check-label-pair,
+body.ui2018.cform.v2 .content .default-form .form-row .check-label-pair {
   height: 44px;
   line-height: 44px;
 }
 body.ui2018.cform.v2 .content form .form-row .radio-label-pair input,
 body.ui2018.cform.v2 .content .form .form-row .radio-label-pair input,
-body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair input {
+body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair input,
+body.ui2018.cform.v2 .content form .form-row .check-label-pair input,
+body.ui2018.cform.v2 .content .form .form-row .check-label-pair input,
+body.ui2018.cform.v2 .content .default-form .form-row .check-label-pair input {
   vertical-align: top;
   margin-top: 7px;
 }
 body.ui2018.cform.v2 .content form .form-row .radio-label-pair label,
 body.ui2018.cform.v2 .content .form .form-row .radio-label-pair label,
-body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair label {
+body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair label,
+body.ui2018.cform.v2 .content form .form-row .check-label-pair label,
+body.ui2018.cform.v2 .content .form .form-row .check-label-pair label,
+body.ui2018.cform.v2 .content .default-form .form-row .check-label-pair label {
   vertical-align: top;
   margin: 0;
   padding: 0;
   height: 44px;
   line-height: 44px;
+}
+body.ui2018.cform.v2 .content form .form-row.row-checkbox .required,
+body.ui2018.cform.v2 .content .form .form-row.row-checkbox .required,
+body.ui2018.cform.v2 .content .default-form .form-row.row-checkbox .required {
+  height: 44px;
+  line-height: 44px;
+}
+body.ui2018.cform.v2 .content form .form-row.row-singleselectradio.error,
+body.ui2018.cform.v2 .content .form .form-row.row-singleselectradio.error,
+body.ui2018.cform.v2 .content .default-form .form-row.row-singleselectradio.error,
+body.ui2018.cform.v2 .content form .form-row.row-multiselect.error,
+body.ui2018.cform.v2 .content .form .form-row.row-multiselect.error,
+body.ui2018.cform.v2 .content .default-form .form-row.row-multiselect.error,
+body.ui2018.cform.v2 .content form .form-row.row-checkbox.error,
+body.ui2018.cform.v2 .content .form .form-row.row-checkbox.error,
+body.ui2018.cform.v2 .content .default-form .form-row.row-checkbox.error {
+  margin: 0 0 50px 0;
+}
+body.ui2018.cform.v2 .content form .form-row.row-singleselectradio.error .ui-form-error,
+body.ui2018.cform.v2 .content .form .form-row.row-singleselectradio.error .ui-form-error,
+body.ui2018.cform.v2 .content .default-form .form-row.row-singleselectradio.error .ui-form-error,
+body.ui2018.cform.v2 .content form .form-row.row-multiselect.error .ui-form-error,
+body.ui2018.cform.v2 .content .form .form-row.row-multiselect.error .ui-form-error,
+body.ui2018.cform.v2 .content .default-form .form-row.row-multiselect.error .ui-form-error,
+body.ui2018.cform.v2 .content form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.cform.v2 .content .form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.cform.v2 .content .default-form .form-row.row-checkbox.error .ui-form-error {
+  right: unset;
+  left: 0;
 }
 body.ui2018.cform.v2 .content form .form-row.row-documentsigning,
 body.ui2018.cform.v2 .content .form .form-row.row-documentsigning,
@@ -7458,6 +7496,17 @@ body.ui2018.cform.v2.dark .content .section#buttons .comments textarea::-webkit-
   border-right: 10px solid #444444;
   border-bottom: 10px solid #444444;
   border-left: 10px solid transparent;
+}
+@-webkit-keyframes flash-error {
+  0% {
+    border-color: #e33100;
+  }
+  50% {
+    border-color: #e3e8ed;
+  }
+  100% {
+    border-color: #e33100;
+  }
 }
 @media print {
   body.ui2018.cform.v2 .content .section.collapsable .collapser {

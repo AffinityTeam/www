@@ -15461,6 +15461,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       rowNode.classList.remove('error', 'flash-error');
     });
 
+
     document.querySelectorAll('.form-row.required').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
@@ -15522,25 +15523,37 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
-        else
+
+        /**/
+
+        if (!setError && $a.isMethod(rowNode.controller.IsValid))
         {
-          if ($a.isMethod(rowNode.controller.IsValid))
+          var valid = rowNode.controller.IsValid();
+          var reason = $a.isMethod(rowNode.controller.InvalidReason) ? rowNode.controller.InvalidReason() : '';
+          if (!valid)
           {
-            var valid = rowNode.controller.IsValid();
-            if (!valid)
+            setError = true;
+            rowNode.classList.add('error');
+            if (rowNode.closest('.section').classList.contains('collapsed'))
             {
-              setError = true;
-              rowNode.classList.add('error');
-              if (rowNode.closest('.section').classList.contains('collapsed'))
+              rowNode.closest('.section').classList.remove('collapsed');
+              scrollDelay = 0.250;
+            }
+            if (reason.trim() !== '')
+            {
+              var errorNode = rowNode.querySelector('.ui-form-error');
+              if (!errorNode)
               {
-                rowNode.closest('.section').classList.remove('collapsed');
-                scrollDelay = 0.250;
+                errorNode = document.createElement('div');
+                errorNode.classList.add('ui-form-error', 'show');
+                rowNode.appendChild(errorNode);
               }
-              if (!firstErrorRow.row)
-              {
-                firstErrorRow.row = rowNode;
-                firstErrorRow.index = rowIndex;
-              }
+              errorNode.innerHTML = reason.trim();
+            }
+            if (!firstErrorRow.row)
+            {
+              firstErrorRow.row = rowNode;
+              firstErrorRow.index = rowIndex;
             }
           }
         }
@@ -15631,6 +15644,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
+
       }
     });
 
@@ -19914,7 +19928,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'CheckValid'
 
     ].bindEach(this);
 
@@ -19982,15 +19996,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   {
     var val = this.Config.Details.Value;
     var checked = $a.isString(val) && val.toLowerCase().trim() == 'true' ? 'checked' : '';
-
     var html = this.HtmlRowTemplate.format(
-        val,
-        'check-' + this.Config.Name,
-        this.Config.Details.Label,
-        checked
+      val,
+      'check-' + this.Config.Name,
+      this.Config.Details.Label,
+      checked
     );
-    
     this.FormRowNode = super.SetFormRow(target, html);
+    if (this.Config.Details.Required) this.FormRowNode.querySelector('input').addEventListener('change', this.CheckValid);
+
     if (this.FormRowNode)
     {
 
@@ -20024,6 +20038,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     if (!this.Config.Details.Required) return true;
     var inputNode = this.FormRowNode.querySelector('input[type="checkbox"]');
     return inputNode.checked;
+  }
+
+  InvalidReason()
+  {
+    if (!this.IsValid())
+    {
+      return '\'' + this.Config.Details.Label + '\' must be ticked.';
+    }
+    return '';
+  }
+
+  CheckValid()
+  {
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+    {
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+    }
   }
 
   /**/
@@ -20660,6 +20691,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+      'IsValid', 'InvalidReason', 'CheckValid',
 
       'GetSigningTemplateId', 'GetSigningRecipients',
 
@@ -20896,6 +20928,41 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
     }
     return false;
+  }
+
+  InvalidReason()
+  {
+    if (!this.IsValid())
+    {
+      var error = this.Config.Details.Label + ' is required';
+      if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
+      {
+        if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
+        {
+          if (!this.Config.Details.Value.hasOwnProperty('CanSend'))
+          {
+            error = $a.Lang.ReturnPath('app.cf.design_items.docsign_validation_not_sent');
+          }
+          else
+          {
+            if (this.Config.Details.Value.CanSend)
+            {
+              error = $a.Lang.ReturnPath('app.cf.design_items.docsign_validation_not_sent');
+            }
+          }
+        }
+      }
+      return error;
+    }
+    return '';
+  }
+
+  CheckValid()
+  {
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+    {
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+    }
   }
 
   /**/
@@ -21401,7 +21468,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     this.CanSend = false;
     
-    debugger;
     console.log(error); // TODO: add error messgae string here
     var errorStr = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
     var message = this._returnBackendErrors(errorStr); // TODO: add error messgae string here
@@ -24096,7 +24162,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
 
     ].bindEach(this);
 
@@ -24207,6 +24273,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
               disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
           });
           this.FormRowNode.appendChild(checkRow);
+          if (this.Config.Details.Required) checkRow.querySelector('input').addEventListener('change', this.CheckValid);
         }.bind(this));
 
       }
@@ -24233,6 +24300,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
               disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
             this.FormRowNode.appendChild(checkRow);
+            if (this.Config.Details.Required) checkRow.querySelector('input').addEventListener('change', this.CheckValid);
           }.bind(this));
           valueData = $a.stringToObject(this.Config.Details.Value);
           if ($a.isArray(valueData))
@@ -24319,6 +24387,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     if (!this.Config.Details.Required) return true;
     var inputNode = this.FormRowNode.querySelector('input[type="checkbox"]:checked');
     return inputNode != null;
+  }
+
+  InvalidReason()
+  {
+    if (!this.IsValid())
+    {
+      return '\'' + this.Config.Details.Label + '\' must have at least one option ticked.';
+    }
+    return '';
+  }
+
+  CheckValid()
+  {
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+    {
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+    }
   }
 
   /**/
@@ -25055,7 +25140,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid',
+      'IsValid', 'InvalidReason', 'CheckValid',
 
       '_customListSelectWidgetReady',
 
@@ -25425,7 +25510,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         }
 
       }
-
+      if (select && this.Config.Details.Required) select.addEventListener('change', this.CheckValid);
       return this.FormRowNode;
     }
   }
@@ -25475,9 +25560,35 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (required)
     {
       value = this.FormRowNode.querySelector('div.select.hidden select').value;
-      if (value.toLowerCase().trim() === 'null') return false;
+      if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === '') return false;
     }
     return true;
+  }
+
+  InvalidReason()
+  {
+    if (!this.IsValid())
+    {
+      var error = this.Config.Details.Label + ' is required';
+      var select = this.FormRowNode.querySelector('div.select.hidden select');
+      select.querySelectorAll('option').forEach(function (option)
+      {
+        if (option.value === select.value)
+        {
+          error = '\'' + this.Config.Details.Label + '\' can not be ' + option.innerHTML.trim();
+        }
+      }.bind(this));
+      return error;
+    }
+    return '';
+  }
+
+  CheckValid()
+  {
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+    {
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+    }
   }
 
   /**/
@@ -25601,7 +25712,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
 
     ].bindEach(this);
 
@@ -25705,6 +25816,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             });
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
+            if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
           }.bind(this));
           if (isInline)
           {
@@ -25732,6 +25844,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
               label: listItem[keys[0]],
               disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
+            if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
             this.FormRowNode.appendChild(selectRow);
           }.bind(this));
 
@@ -25766,6 +25879,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             });
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
+            if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
           }.bind(this));
           if (isInline)
           {
@@ -25827,6 +25941,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     if (!this.Config.Details.Required) return true;
     var inputNode = this.FormRowNode.querySelector('input[type="radio"]:checked');
     return inputNode != null;
+  }
+
+  InvalidReason()
+  {
+    if (!this.IsValid())
+    {
+      return '\'' + this.Config.Details.Label + '\' must have one option ticked.';
+    }
+    return '';
+  }
+
+  CheckValid()
+  {
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+    {
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+    }
   }
 
   /**/
