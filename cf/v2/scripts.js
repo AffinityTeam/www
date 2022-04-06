@@ -17959,7 +17959,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     else if ($a.isStringifiedObject(address))
     {
       addressObject = $a.stringToObject(address);
-      address = '';
+      address = this._objectToAdressString(addressObject);
     }
     if (addressObject == null)
     {
@@ -17968,18 +17968,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     }
     if (this.IsReadOnly)
     {
-      var strings = [];
-      var keys = Object.keys(addressObject);
-      for (var k = 0; k < keys.length; k++)
-      {
-        if (addressObject.hasOwnProperty(keys[k]) && (addressObject[keys[k]] + '').trim() !== '')
-        {
-          strings.push((addressObject[keys[k]] + '').trim());
-        }
-      }
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
-        value: strings.join(', ')
+        value: this._objectToAdressString(addressObject)
       });
     }
     else
@@ -18066,6 +18057,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+  }
+
+  /**/
+
+  _objectToAdressString(addressObject)
+  {
+    var strings = [];
+    var keys = Object.keys(addressObject);
+    for (var k = 0; k < keys.length; k++)
+    {
+      if (addressObject.hasOwnProperty(keys[k]) && (addressObject[keys[k]] + '').trim() !== '')
+      {
+        strings.push((addressObject[keys[k]] + '').trim());
+      }
+    }
+    return strings.join(', ');
   }
 
   /**/
