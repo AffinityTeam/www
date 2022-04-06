@@ -17152,8 +17152,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     value = !$a.isString(value) ? value.toString() : value.trim();
     if (this.FormRowNode)
     {
-      if (this.FormRowNode.querySelector('input[type="text"]'))  this.FormRowNode.querySelector('input[type="text"]').value = value;
-      if (this.FormRowNode.querySelector('input[type="number"]'))  this.FormRowNode.querySelector('input[type="number"]').value = value;
+      var input = false;
+      if (this.FormRowNode.querySelector('input[type="text"]')) input = this.FormRowNode.querySelector('input[type="text"]');
+      if (this.FormRowNode.querySelector('input[type="number"]')) input = this.FormRowNode.querySelector('input[type="number"]');
+      if (input)
+      {
+        input.value = value;
+        var widgets = input.hasOwnProperty('widgets') ? input.widgets : false;
+        var widget = false;
+        widget = widgets && widgets.hasOwnProperty('Number') ? widgets.Number : widget;
+        widget = widgets && widgets.hasOwnProperty('String') ? widgets.String : widget;
+        if (widget)
+        {
+          widget.IsValid();
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }
+      }
     }
   }
 
@@ -17864,7 +17878,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+      'IsValid', 'InvalidReason', 'CheckValid',
 
     ].bindEach(this);
 
@@ -18024,6 +18039,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
         inputWidget.SetAddress(value);
       }
     }
+  }
+
+  IsValid()
+  {
+    var required = this.Config.Details.Required, value = false;
+    if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
+    if (required)
+    {
+      var inputNode = this.FormRowNode.querySelector('input.ui-address');
+      var inputWidget = inputNode.widgets.Address;
+      return inputWidget.IsValid();
+    }
+    return true;
+  }
+
+  InvalidReason()
+  {
+    return '';
+  }
+
+  CheckValid()
+  {
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+    {
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+    }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -18703,6 +18745,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     if (this.FormRowNode)
     {
+
+      if (displayType) this.FormRowNode.classList.add('row-' + displayType.toLowerCase().trim().replace(/ /g, '-'));
 
       /* form link select */
       
@@ -19797,6 +19841,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
         inputWidget.Set('');
       }
       else inputWidget.Set(value);
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
   }
 
@@ -20031,7 +20076,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
   SetFromValue (value)
   {
-
+    this.CheckValid();
   }
 
   IsValid()
@@ -20056,6 +20101,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -24351,7 +24397,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
 
   SetFromValue (value)
   {
-
     if ($a.isString(value) && $a.isStringifiedObject(value)) value = $a.stringToObject(value);
     if ($a.isString(value) && value.isNullOrEmpty())
     {
@@ -24360,7 +24405,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
         node.checked = false;
       });
     }
-
     if (
       $a.isArray(value)
       && value.length > 0
@@ -24381,6 +24425,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
         }
       }.bind(this));
     }
+    this.CheckValid();
   }
 
   IsValid()
@@ -25551,6 +25596,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         this.FormRowNode.querySelector('select').value = value;
       }
+      this.CheckValid();
     }
   }
 
@@ -25590,6 +25636,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -25935,6 +25982,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
         this.FormRowNode.querySelector('input[type="radio"]:checked').checked = false;
       }
     }
+    this.CheckValid();
   }
 
   IsValid()
@@ -25959,6 +26007,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -26187,6 +26236,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
         inputWidget.Set('');
       }
       else inputWidget.Set(value);
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
     setTimeout(function () { this.DisableDepnedancy = false; }.bind(this), 250);
   }
@@ -26525,10 +26575,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   SetFromValue (value)
   {
-    if (this.FormRowNode.querySelector('input'))
-    {
-      this.FormRowNode.querySelector('input').value = value;
-    }
+    super.SetFromValue(value);
   }
 
   /**/
@@ -27239,6 +27286,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     };
 
+    this.IsRequired = false;
+
     this.StartAddressObject = null;
     
     this.Valid = false;
@@ -27276,6 +27325,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     this.lookupNode = targetNode;
     this.lookupNode.classList.add('ui-address-lookup');
+    if (this.lookupNode.parentNode.classList.contains('form-row') && this.lookupNode.parentNode.classList.contains('required')) this.IsRequired = true;
 
     var startData = Affinity2018.getObjectFromDataset(this.lookupNode, 'address');
     if (Affinity2018.isObject(startData)) this.StartAddressObject = startData;
@@ -27312,6 +27362,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   IsValid ()
   {
+    this._checkAddress();
     return this.Valid;
   }
 
@@ -27336,13 +27387,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.iconNode.classList.remove('valid', 'icon-tick');
-        this.iconNode.classList.add('invalid', 'icon-cross');
+        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+        this.iconNode.classList.add('invalid', 'icon-cross-round');
       }
       else
       {
         this.lookupNode.value = strings.join(',');
         google.maps.event.trigger(this.Autocomplete, 'place_changed');
+        this._checkAddress();
       }
     }
     else if ($a.type(value) === 'string')
@@ -27357,6 +27409,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         }
         this.lookupNode.value = value;
         google.maps.event.trigger(this.Autocomplete, 'place_changed');
+        this._checkAddress();
       }
       catch (err)
       {
@@ -27367,9 +27420,9 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.lookupNode.value = strings.join('');
-        this.iconNode.classList.remove('valid', 'icon-tick');
-        this.iconNode.classList.add('invalid', 'icon-cross');
+        this.lookupNode.value = value;
+        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+        this.iconNode.classList.add('invalid', 'icon-cross-round');
       }
     }
   }
@@ -27525,13 +27578,11 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       {
         if (response.data.results.length > 0) this._fillAddress(response.data.results[0]);
         else this._fillAddress();
-
       }
     }.bind(this))
     .catch(function (error)
     {
       this._fillAddress();
-
     }.bind(this));
   }
 
@@ -27557,8 +27608,11 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _fillAddress (place)
   {
     place = place || this.Autocomplete.getPlace();
-    if (place === null || place === undefined) return;
-
+    if (place === null || place === undefined)
+    {
+      if (this.IsRequired) this.SetAddress('');
+      return;
+    }
     var countryCode = this._getCountryFromPLace(place),
         formComponents = this.formComponents[countryCode] ? this.formComponents[countryCode] : this.formComponents.Default,
         unitnum = false,
@@ -27568,7 +27622,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         component, types, addresstype, val;
     for (component in formComponents)
     {
-
       if(this.addressNode.querySelector('.' + formComponents[component].formMap))
       {
         this.addressNode.querySelector('.' + formComponents[component].formMap).value = '';
@@ -27626,15 +27679,15 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
 
       this.lookupNode.value = this.GetAddress();
-      this.iconNode.classList.remove('invalid', 'icon-cross');
-      this.iconNode.classList.add('valid', 'icon-tick');
+      this.iconNode.classList.remove('invalid', 'icon-blocked', 'icon-cross-round');
+      this.iconNode.classList.add('valid', 'icon-tick-round');
       this.Valid = true;
 
     }
     else
     {
-      this.iconNode.classList.remove('valid', 'icon-tick');
-      this.iconNode.classList.add('invalid', 'icon-cross');
+      this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+      this.iconNode.classList.add('invalid', 'icon-cross-round');
       this.Valid = false;
     }
 
@@ -27682,7 +27735,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _templates ()
   {
     this.addressTemplate = `
-    <div class="address-indicator invalid icon-cross"></div>
+    <div class="address-indicator icon-blocked"></div>
     <div class="address-fields-row steet-fields">
       <input type="text" class="field street_number" placeholder="Number" />
       <input type="text" class="field street" placeholder="Street"/>
@@ -30659,6 +30712,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.initInputNode.value = value;
     this.SetCountry(countryCode);
     this._stringToNodes();
+    this._validate();
   }
 
   SetCountry (value)
@@ -38558,6 +38612,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.SetCountry(countryCode);
       this._stringToNodes(value);
       if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = value;
+      this._validate();
     }
     else
     {
@@ -38565,6 +38620,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.SetCountry(countryCode);
       this._stringToNodes('');
       if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = '';
+      this._validate();
     }
   }
 
