@@ -15490,6 +15490,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                 if (widget.hasOwnProperty('Valid') && $a.isBool(widget.Valid))
                 {
                   if (widget.hasOwnProperty('IsValid') && $a.isMethod(widget.IsValid)) widget.IsValid();
+                  if (widget.hasOwnProperty('Check') && $a.isMethod(widget.Check)) widget.Check();
                   if (!widget.Valid)
                   {
                     setError = true;
@@ -15545,9 +15546,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               if (!errorNode)
               {
                 errorNode = document.createElement('div');
-                errorNode.classList.add('ui-form-error', 'show');
                 rowNode.appendChild(errorNode);
               }
+              errorNode.classList.add('ui-form-error', 'show');
               errorNode.innerHTML = reason.trim();
             }
             if (!firstErrorRow.row)
@@ -15694,7 +15695,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           scrollTarget.classList.add('flash-error');
           TweenLite.to(window, 0.5, {
-            scrollTo: $a.getPosition(scrollTarget).top - 30
+            scrollTo: $a.getPosition(scrollTarget).top - 70
           });
         }, scrollDelay);
       }
@@ -30500,6 +30501,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       'N': 'NZ'
     };
 
+    this.FirstLoad = true;
+
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -30511,7 +30514,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this._options();
     [
 
-      'Get', 'GetData', 'Set',
+      'Get', 'GetData', 'Set', 'Check', 'Clear',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -30611,9 +30614,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     //this._setupCountry();
     //if (this.initInputNode.value.trim() !== '') this._stringToNodes();
-    if(this.initInputNode.value.trim() !== '') this.Set(this.initInputNode.value.trim());
+    if (this.initInputNode.value.trim() !== '')
+    {
+      this.Set(this.initInputNode.value.trim());
+      this.FirstLoad = false;
+    }
     else this._validate();
-
   }
 
   Get ()
@@ -30662,6 +30668,17 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.countrySelectNode.value = value;
       this._setupCountry();
     }
+  }
+
+  Check ()
+  {
+    this.FirstLoad = false;
+    this._validate();
+  }
+
+  Clear ()
+  {
+    this._clear();
   }
 
   /**/
@@ -30796,14 +30813,16 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green','icon-tick','red','icon-cross','grey','icon-blocked');
+    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
     switch (state)
     {
       case 'valid':
-        this.iconNode.classList.add('green','icon-tick');
+        //this.iconNode.classList.add('green','icon-tick');
+        this.iconNode.classList.add('green', 'icon-tick-round');
         break;
       case 'invalid':
-        this.iconNode.classList.add('red','icon-cross');
+        //this.iconNode.classList.add('red','icon-cross');
+        this.iconNode.classList.add('red', 'icon-cross-round');
         break;
       case 'reset':
       default:
@@ -30930,7 +30949,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   _validated (data)
   {
-    this._setIcon(this.Valid);
+    if (this.FirstLoad) this._setIcon();
+    else this._setIcon(this.Valid);
     if (
       typeof data === 'object'
       && data.hasOwnProperty('bankName')
@@ -30946,6 +30966,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       if (this.branchNameNode.innerText.trim() == '') this.branchNameNode.classList.add('hidden');
       else this.branchNameNode.classList.remove('hidden');
     }
+    this.FirstLoad = false;
   }
 
   /**/
@@ -38378,6 +38399,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       AU: ''
     };
 
+    this.FirstLoad = true;
+
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -38389,7 +38412,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this._options();
     [
 
-      'Get', 'GetData', 'Set', 'SetCountry', 'Clear',
+      'Get', 'GetData', 'Set', 'SetCountry', 'Check', 'Clear',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -38480,7 +38503,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     /**/
 
-    if (value !== '') this.Set(value);
+    if (value !== '')
+    {
+      this.Set(value);
+      this.FirstLoad = false;
+    }
     else this._validate();
 
     this.initInputNode.dispatchEvent(new CustomEvent('widgetReady'));
@@ -38553,6 +38580,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.countrySelectNode.value = this.CountryCodeMap[value];
       this._setupCountry();
     }
+  }
+
+  Check ()
+  {
+    this.FirstLoad = false;
+    this._validate();
   }
 
   Clear ()
@@ -38662,14 +38695,16 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green','icon-tick','red','icon-cross','grey','icon-blocked');
+    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
     switch (state)
     {
       case 'valid':
-        this.iconNode.classList.add('green','icon-tick');
+        //this.iconNode.classList.add('green','icon-tick');
+        this.iconNode.classList.add('green', 'icon-tick-round');
         break;
       case 'invalid':
-        this.iconNode.classList.add('red','icon-cross');
+        //this.iconNode.classList.add('red', 'icon-cross');
+        this.iconNode.classList.add('red', 'icon-cross-round');
         break;
       case 'reset':
       default:
@@ -38795,7 +38830,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _validated (data)
   {
-    this._setIcon(this.Valid);
+    if (this.FirstLoad) this._setIcon();
+    else this._setIcon(this.Valid);
     if (
       typeof data === 'object'
       && data.hasOwnProperty('bankName')
@@ -38805,6 +38841,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.bankNameNode.innerHTML = data.bankName !== 'failed' ? data.bankName : '';
       this.branchNameNode.innerHTML = data.branchName !== 'failed' ? data.branchName : '';
     }
+    this.FirstLoad = false;
   }
 
   /**/
