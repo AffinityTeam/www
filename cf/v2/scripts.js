@@ -15461,7 +15461,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       rowNode.classList.remove('error', 'flash-error');
     });
 
-
     document.querySelectorAll('.form-row.required').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
@@ -15490,7 +15489,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                 if (widget.hasOwnProperty('Valid') && $a.isBool(widget.Valid))
                 {
                   if (widget.hasOwnProperty('IsValid') && $a.isMethod(widget.IsValid)) widget.IsValid();
-                  if (widget.hasOwnProperty('Check') && $a.isMethod(widget.Check)) widget.Check();
                   if (!widget.Valid)
                   {
                     setError = true;
@@ -15524,37 +15522,25 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
-
-        /**/
-
-        if (!setError && $a.isMethod(rowNode.controller.IsValid))
+        else
         {
-          var valid = rowNode.controller.IsValid();
-          var reason = $a.isMethod(rowNode.controller.InvalidReason) ? rowNode.controller.InvalidReason() : '';
-          if (!valid)
+          if ($a.isMethod(rowNode.controller.IsValid))
           {
-            setError = true;
-            rowNode.classList.add('error');
-            if (rowNode.closest('.section').classList.contains('collapsed'))
+            var valid = rowNode.controller.IsValid();
+            if (!valid)
             {
-              rowNode.closest('.section').classList.remove('collapsed');
-              scrollDelay = 0.250;
-            }
-            if (reason.trim() !== '')
-            {
-              var errorNode = rowNode.querySelector('.ui-form-error');
-              if (!errorNode)
+              setError = true;
+              rowNode.classList.add('error');
+              if (rowNode.closest('.section').classList.contains('collapsed'))
               {
-                errorNode = document.createElement('div');
-                rowNode.appendChild(errorNode);
+                rowNode.closest('.section').classList.remove('collapsed');
+                scrollDelay = 0.250;
               }
-              errorNode.classList.add('ui-form-error', 'show');
-              errorNode.innerHTML = reason.trim();
-            }
-            if (!firstErrorRow.row)
-            {
-              firstErrorRow.row = rowNode;
-              firstErrorRow.index = rowIndex;
+              if (!firstErrorRow.row)
+              {
+                firstErrorRow.row = rowNode;
+                firstErrorRow.index = rowIndex;
+              }
             }
           }
         }
@@ -15645,7 +15631,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
-
       }
     });
 
@@ -15695,7 +15680,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           scrollTarget.classList.add('flash-error');
           TweenLite.to(window, 0.5, {
-            scrollTo: $a.getPosition(scrollTarget).top - 70
+            scrollTo: $a.getPosition(scrollTarget).top - 30
           });
         }, scrollDelay);
       }
@@ -17152,22 +17137,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     value = !$a.isString(value) ? value.toString() : value.trim();
     if (this.FormRowNode)
     {
-      var input = false;
-      if (this.FormRowNode.querySelector('input[type="text"]')) input = this.FormRowNode.querySelector('input[type="text"]');
-      if (this.FormRowNode.querySelector('input[type="number"]')) input = this.FormRowNode.querySelector('input[type="number"]');
-      if (input)
-      {
-        input.value = value;
-        var widgets = input.hasOwnProperty('widgets') ? input.widgets : false;
-        var widget = false;
-        widget = widgets && widgets.hasOwnProperty('Number') ? widgets.Number : widget;
-        widget = widgets && widgets.hasOwnProperty('String') ? widgets.String : widget;
-        if (widget)
-        {
-          widget.IsValid();
-          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
-        }
-      }
+      if (this.FormRowNode.querySelector('input[type="text"]'))  this.FormRowNode.querySelector('input[type="text"]').value = value;
+      if (this.FormRowNode.querySelector('input[type="number"]'))  this.FormRowNode.querySelector('input[type="number"]').value = value;
     }
   }
 
@@ -17878,8 +17849,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid', 'InvalidReason', 'CheckValid',
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue'
 
     ].bindEach(this);
 
@@ -17959,7 +17929,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     else if ($a.isStringifiedObject(address))
     {
       addressObject = $a.stringToObject(address);
-      address = this._objectToAdressString(addressObject);
+      address = '';
     }
     if (addressObject == null)
     {
@@ -17968,9 +17938,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     }
     if (this.IsReadOnly)
     {
+      var strings = [];
+      var keys = Object.keys(addressObject);
+      for (var k = 0; k < keys.length; k++)
+      {
+        if (addressObject.hasOwnProperty(keys[k]) && (addressObject[keys[k]] + '').trim() !== '')
+        {
+          strings.push((addressObject[keys[k]] + '').trim());
+        }
+      }
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
-        value: this._objectToAdressString(addressObject)
+        value: strings.join(', ')
       });
     }
     else
@@ -18030,49 +18009,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
         inputWidget.SetAddress(value);
       }
     }
-  }
-
-  IsValid()
-  {
-    var required = this.Config.Details.Required, value = false;
-    if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
-    if (required)
-    {
-      var inputNode = this.FormRowNode.querySelector('input.ui-address');
-      var inputWidget = inputNode.widgets.Address;
-      return inputWidget.IsValid();
-    }
-    return true;
-  }
-
-  InvalidReason()
-  {
-    return '';
-  }
-
-  CheckValid()
-  {
-    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    {
-      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    }
-    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
-  }
-
-  /**/
-
-  _objectToAdressString(addressObject)
-  {
-    var strings = [];
-    var keys = Object.keys(addressObject);
-    for (var k = 0; k < keys.length; k++)
-    {
-      if (addressObject.hasOwnProperty(keys[k]) && (addressObject[keys[k]] + '').trim() !== '')
-      {
-        strings.push((addressObject[keys[k]] + '').trim());
-      }
-    }
-    return strings.join(', ');
   }
 
   /**/
@@ -18752,8 +18688,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     if (this.FormRowNode)
     {
-
-      if (displayType) this.FormRowNode.classList.add('row-' + displayType.toLowerCase().trim().replace(/ /g, '-'));
 
       /* form link select */
       
@@ -19848,7 +19782,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
         inputWidget.Set('');
       }
       else inputWidget.Set(value);
-      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
   }
 
@@ -19981,7 +19914,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
 
     ].bindEach(this);
 
@@ -20049,15 +19982,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   {
     var val = this.Config.Details.Value;
     var checked = $a.isString(val) && val.toLowerCase().trim() == 'true' ? 'checked' : '';
-    var html = this.HtmlRowTemplate.format(
-      val,
-      'check-' + this.Config.Name,
-      this.Config.Details.Label,
-      checked
-    );
-    this.FormRowNode = super.SetFormRow(target, html);
-    if (this.Config.Details.Required) this.FormRowNode.querySelector('input').addEventListener('change', this.CheckValid);
 
+    var html = this.HtmlRowTemplate.format(
+        val,
+        'check-' + this.Config.Name,
+        this.Config.Details.Label,
+        checked
+    );
+    
+    this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
 
@@ -20083,7 +20016,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
   SetFromValue (value)
   {
-    this.CheckValid();
+
   }
 
   IsValid()
@@ -20091,24 +20024,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     if (!this.Config.Details.Required) return true;
     var inputNode = this.FormRowNode.querySelector('input[type="checkbox"]');
     return inputNode.checked;
-  }
-
-  InvalidReason()
-  {
-    if (!this.IsValid())
-    {
-      return '\'' + this.Config.Details.Label + '\' must be ticked.';
-    }
-    return '';
-  }
-
-  CheckValid()
-  {
-    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    {
-      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    }
-    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -20745,7 +20660,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid', 'InvalidReason', 'CheckValid',
 
       'GetSigningTemplateId', 'GetSigningRecipients',
 
@@ -20982,41 +20896,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       }
     }
     return false;
-  }
-
-  InvalidReason()
-  {
-    if (!this.IsValid())
-    {
-      var error = this.Config.Details.Label + ' is required';
-      if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
-      {
-        if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
-        {
-          if (!this.Config.Details.Value.hasOwnProperty('CanSend'))
-          {
-            error = $a.Lang.ReturnPath('app.cf.design_items.docsign_validation_not_sent');
-          }
-          else
-          {
-            if (this.Config.Details.Value.CanSend)
-            {
-              error = $a.Lang.ReturnPath('app.cf.design_items.docsign_validation_not_sent');
-            }
-          }
-        }
-      }
-      return error;
-    }
-    return '';
-  }
-
-  CheckValid()
-  {
-    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    {
-      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    }
   }
 
   /**/
@@ -21522,6 +21401,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
     this.CanSend = false;
     
+    debugger;
     console.log(error); // TODO: add error messgae string here
     var errorStr = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_cancel_error');
     var message = this._returnBackendErrors(errorStr); // TODO: add error messgae string here
@@ -24216,7 +24096,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
 
     ].bindEach(this);
 
@@ -24327,7 +24207,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
               disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
           });
           this.FormRowNode.appendChild(checkRow);
-          if (this.Config.Details.Required) checkRow.querySelector('input').addEventListener('change', this.CheckValid);
         }.bind(this));
 
       }
@@ -24354,7 +24233,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
               disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
             this.FormRowNode.appendChild(checkRow);
-            if (this.Config.Details.Required) checkRow.querySelector('input').addEventListener('change', this.CheckValid);
           }.bind(this));
           valueData = $a.stringToObject(this.Config.Details.Value);
           if ($a.isArray(valueData))
@@ -24404,6 +24282,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
 
   SetFromValue (value)
   {
+
     if ($a.isString(value) && $a.isStringifiedObject(value)) value = $a.stringToObject(value);
     if ($a.isString(value) && value.isNullOrEmpty())
     {
@@ -24412,6 +24291,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
         node.checked = false;
       });
     }
+
     if (
       $a.isArray(value)
       && value.length > 0
@@ -24432,7 +24312,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
         }
       }.bind(this));
     }
-    this.CheckValid();
   }
 
   IsValid()
@@ -24440,23 +24319,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     if (!this.Config.Details.Required) return true;
     var inputNode = this.FormRowNode.querySelector('input[type="checkbox"]:checked');
     return inputNode != null;
-  }
-
-  InvalidReason()
-  {
-    if (!this.IsValid())
-    {
-      return '\'' + this.Config.Details.Label + '\' must have at least one option ticked.';
-    }
-    return '';
-  }
-
-  CheckValid()
-  {
-    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    {
-      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    }
   }
 
   /**/
@@ -25193,7 +25055,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid', 'InvalidReason', 'CheckValid',
+      'IsValid',
 
       '_customListSelectWidgetReady',
 
@@ -25563,7 +25425,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         }
 
       }
-      if (select && this.Config.Details.Required) select.addEventListener('change', this.CheckValid);
+
       return this.FormRowNode;
     }
   }
@@ -25603,7 +25465,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         this.FormRowNode.querySelector('select').value = value;
       }
-      this.CheckValid();
     }
   }
 
@@ -25614,36 +25475,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (required)
     {
       value = this.FormRowNode.querySelector('div.select.hidden select').value;
-      if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === '') return false;
+      if (value.toLowerCase().trim() === 'null') return false;
     }
     return true;
-  }
-
-  InvalidReason()
-  {
-    if (!this.IsValid())
-    {
-      var error = this.Config.Details.Label + ' is required';
-      var select = this.FormRowNode.querySelector('div.select.hidden select');
-      select.querySelectorAll('option').forEach(function (option)
-      {
-        if (option.value === select.value)
-        {
-          error = '\'' + this.Config.Details.Label + '\' can not be ' + option.innerHTML.trim();
-        }
-      }.bind(this));
-      return error;
-    }
-    return '';
-  }
-
-  CheckValid()
-  {
-    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    {
-      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    }
-    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -25767,7 +25601,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid'
 
     ].bindEach(this);
 
@@ -25871,7 +25705,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             });
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
-            if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
           }.bind(this));
           if (isInline)
           {
@@ -25899,7 +25732,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
               label: listItem[keys[0]],
               disabled: this.CleverForms.ViewType === 'ViewOnly' ? 'disabled' : ''
             });
-            if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
             this.FormRowNode.appendChild(selectRow);
           }.bind(this));
 
@@ -25934,7 +25766,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             });
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
-            if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
           }.bind(this));
           if (isInline)
           {
@@ -25989,7 +25820,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
         this.FormRowNode.querySelector('input[type="radio"]:checked').checked = false;
       }
     }
-    this.CheckValid();
   }
 
   IsValid()
@@ -25997,24 +25827,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     if (!this.Config.Details.Required) return true;
     var inputNode = this.FormRowNode.querySelector('input[type="radio"]:checked');
     return inputNode != null;
-  }
-
-  InvalidReason()
-  {
-    if (!this.IsValid())
-    {
-      return '\'' + this.Config.Details.Label + '\' must have one option ticked.';
-    }
-    return '';
-  }
-
-  CheckValid()
-  {
-    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    {
-      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    }
-    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -26243,7 +26055,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
         inputWidget.Set('');
       }
       else inputWidget.Set(value);
-      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
     setTimeout(function () { this.DisableDepnedancy = false; }.bind(this), 250);
   }
@@ -26582,7 +26393,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   SetFromValue (value)
   {
-    super.SetFromValue(value);
+    if (this.FormRowNode.querySelector('input'))
+    {
+      this.FormRowNode.querySelector('input').value = value;
+    }
   }
 
   /**/
@@ -27293,8 +27107,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     };
 
-    this.IsRequired = false;
-
     this.StartAddressObject = null;
     
     this.Valid = false;
@@ -27332,7 +27144,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     this.lookupNode = targetNode;
     this.lookupNode.classList.add('ui-address-lookup');
-    if (this.lookupNode.parentNode.classList.contains('form-row') && this.lookupNode.parentNode.classList.contains('required')) this.IsRequired = true;
 
     var startData = Affinity2018.getObjectFromDataset(this.lookupNode, 'address');
     if (Affinity2018.isObject(startData)) this.StartAddressObject = startData;
@@ -27369,7 +27180,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   IsValid ()
   {
-    this._checkAddress();
     return this.Valid;
   }
 
@@ -27394,14 +27204,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
-        this.iconNode.classList.add('invalid', 'icon-cross-round');
+        this.iconNode.classList.remove('valid', 'icon-tick');
+        this.iconNode.classList.add('invalid', 'icon-cross');
       }
       else
       {
         this.lookupNode.value = strings.join(',');
         google.maps.event.trigger(this.Autocomplete, 'place_changed');
-        this._checkAddress();
       }
     }
     else if ($a.type(value) === 'string')
@@ -27416,7 +27225,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         }
         this.lookupNode.value = value;
         google.maps.event.trigger(this.Autocomplete, 'place_changed');
-        this._checkAddress();
       }
       catch (err)
       {
@@ -27427,9 +27235,9 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.lookupNode.value = value;
-        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
-        this.iconNode.classList.add('invalid', 'icon-cross-round');
+        this.lookupNode.value = strings.join('');
+        this.iconNode.classList.remove('valid', 'icon-tick');
+        this.iconNode.classList.add('invalid', 'icon-cross');
       }
     }
   }
@@ -27585,11 +27393,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       {
         if (response.data.results.length > 0) this._fillAddress(response.data.results[0]);
         else this._fillAddress();
+
       }
     }.bind(this))
     .catch(function (error)
     {
       this._fillAddress();
+
     }.bind(this));
   }
 
@@ -27615,11 +27425,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _fillAddress (place)
   {
     place = place || this.Autocomplete.getPlace();
-    if (place === null || place === undefined)
-    {
-      if (this.IsRequired) this.SetAddress('');
-      return;
-    }
+    if (place === null || place === undefined) return;
+
     var countryCode = this._getCountryFromPLace(place),
         formComponents = this.formComponents[countryCode] ? this.formComponents[countryCode] : this.formComponents.Default,
         unitnum = false,
@@ -27629,6 +27436,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         component, types, addresstype, val;
     for (component in formComponents)
     {
+
       if(this.addressNode.querySelector('.' + formComponents[component].formMap))
       {
         this.addressNode.querySelector('.' + formComponents[component].formMap).value = '';
@@ -27686,15 +27494,15 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
 
       this.lookupNode.value = this.GetAddress();
-      this.iconNode.classList.remove('invalid', 'icon-blocked', 'icon-cross-round');
-      this.iconNode.classList.add('valid', 'icon-tick-round');
+      this.iconNode.classList.remove('invalid', 'icon-cross');
+      this.iconNode.classList.add('valid', 'icon-tick');
       this.Valid = true;
 
     }
     else
     {
-      this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
-      this.iconNode.classList.add('invalid', 'icon-cross-round');
+      this.iconNode.classList.remove('valid', 'icon-tick');
+      this.iconNode.classList.add('invalid', 'icon-cross');
       this.Valid = false;
     }
 
@@ -27742,7 +27550,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _templates ()
   {
     this.addressTemplate = `
-    <div class="address-indicator icon-blocked"></div>
+    <div class="address-indicator invalid icon-cross"></div>
     <div class="address-fields-row steet-fields">
       <input type="text" class="field street_number" placeholder="Number" />
       <input type="text" class="field street" placeholder="Street"/>
@@ -30561,8 +30369,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       'N': 'NZ'
     };
 
-    this.FirstLoad = true;
-
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -30574,7 +30380,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this._options();
     [
 
-      'Get', 'GetData', 'Set', 'Check', 'Clear',
+      'Get', 'GetData', 'Set',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -30674,12 +30480,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     //this._setupCountry();
     //if (this.initInputNode.value.trim() !== '') this._stringToNodes();
-    if (this.initInputNode.value.trim() !== '')
-    {
-      this.Set(this.initInputNode.value.trim());
-      this.FirstLoad = false;
-    }
+    if(this.initInputNode.value.trim() !== '') this.Set(this.initInputNode.value.trim());
     else this._validate();
+
   }
 
   Get ()
@@ -30719,7 +30522,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.initInputNode.value = value;
     this.SetCountry(countryCode);
     this._stringToNodes();
-    this._validate();
   }
 
   SetCountry (value)
@@ -30729,17 +30531,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.countrySelectNode.value = value;
       this._setupCountry();
     }
-  }
-
-  Check ()
-  {
-    this.FirstLoad = false;
-    this._validate();
-  }
-
-  Clear ()
-  {
-    this._clear();
   }
 
   /**/
@@ -30874,16 +30665,14 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
+    this.iconNode.classList.remove('green','icon-tick','red','icon-cross','grey','icon-blocked');
     switch (state)
     {
       case 'valid':
-        //this.iconNode.classList.add('green','icon-tick');
-        this.iconNode.classList.add('green', 'icon-tick-round');
+        this.iconNode.classList.add('green','icon-tick');
         break;
       case 'invalid':
-        //this.iconNode.classList.add('red','icon-cross');
-        this.iconNode.classList.add('red', 'icon-cross-round');
+        this.iconNode.classList.add('red','icon-cross');
         break;
       case 'reset':
       default:
@@ -31010,8 +30799,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   _validated (data)
   {
-    if (this.FirstLoad) this._setIcon();
-    else this._setIcon(this.Valid);
+    this._setIcon(this.Valid);
     if (
       typeof data === 'object'
       && data.hasOwnProperty('bankName')
@@ -31027,7 +30815,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       if (this.branchNameNode.innerText.trim() == '') this.branchNameNode.classList.add('hidden');
       else this.branchNameNode.classList.remove('hidden');
     }
-    this.FirstLoad = false;
   }
 
   /**/
@@ -38460,8 +38247,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       AU: ''
     };
 
-    this.FirstLoad = true;
-
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -38473,7 +38258,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this._options();
     [
 
-      'Get', 'GetData', 'Set', 'SetCountry', 'Check', 'Clear',
+      'Get', 'GetData', 'Set', 'SetCountry', 'Clear',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -38564,11 +38349,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     /**/
 
-    if (value !== '')
-    {
-      this.Set(value);
-      this.FirstLoad = false;
-    }
+    if (value !== '') this.Set(value);
     else this._validate();
 
     this.initInputNode.dispatchEvent(new CustomEvent('widgetReady'));
@@ -38619,7 +38400,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.SetCountry(countryCode);
       this._stringToNodes(value);
       if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = value;
-      this._validate();
     }
     else
     {
@@ -38627,7 +38407,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.SetCountry(countryCode);
       this._stringToNodes('');
       if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = '';
-      this._validate();
     }
   }
 
@@ -38643,12 +38422,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.countrySelectNode.value = this.CountryCodeMap[value];
       this._setupCountry();
     }
-  }
-
-  Check ()
-  {
-    this.FirstLoad = false;
-    this._validate();
   }
 
   Clear ()
@@ -38758,16 +38531,14 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
+    this.iconNode.classList.remove('green','icon-tick','red','icon-cross','grey','icon-blocked');
     switch (state)
     {
       case 'valid':
-        //this.iconNode.classList.add('green','icon-tick');
-        this.iconNode.classList.add('green', 'icon-tick-round');
+        this.iconNode.classList.add('green','icon-tick');
         break;
       case 'invalid':
-        //this.iconNode.classList.add('red', 'icon-cross');
-        this.iconNode.classList.add('red', 'icon-cross-round');
+        this.iconNode.classList.add('red','icon-cross');
         break;
       case 'reset':
       default:
@@ -38893,8 +38664,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _validated (data)
   {
-    if (this.FirstLoad) this._setIcon();
-    else this._setIcon(this.Valid);
+    this._setIcon(this.Valid);
     if (
       typeof data === 'object'
       && data.hasOwnProperty('bankName')
@@ -38904,7 +38674,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.bankNameNode.innerHTML = data.bankName !== 'failed' ? data.bankName : '';
       this.branchNameNode.innerHTML = data.branchName !== 'failed' ? data.branchName : '';
     }
-    this.FirstLoad = false;
   }
 
   /**/
