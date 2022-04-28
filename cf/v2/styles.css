@@ -1,13 +1,13 @@
 /* Minification failed. Returning unminified contents.
-(6040,83): run-time error CSS1030: Expected identifier, found ','
-(6040,225): run-time error CSS1031: Expected selector, found ')'
-(6040,225): run-time error CSS1025: Expected comma or open brace, found ')'
-(6914,122): run-time error CSS1030: Expected identifier, found ','
-(6914,134): run-time error CSS1031: Expected selector, found ')'
-(6914,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7550,108): run-time error CSS1030: Expected identifier, found ','
-(7550,250): run-time error CSS1031: Expected selector, found ')'
-(7550,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6045,83): run-time error CSS1030: Expected identifier, found ','
+(6045,225): run-time error CSS1031: Expected selector, found ')'
+(6045,225): run-time error CSS1025: Expected comma or open brace, found ')'
+(6919,122): run-time error CSS1030: Expected identifier, found ','
+(6919,134): run-time error CSS1031: Expected selector, found ')'
+(6919,134): run-time error CSS1025: Expected comma or open brace, found ')'
+(7555,108): run-time error CSS1030: Expected identifier, found ','
+(7555,250): run-time error CSS1031: Expected selector, found ')'
+(7555,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -5089,6 +5089,11 @@ body.ui2018 #loading-toast.show {
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
+}
+body.ui2018.dashboard #loading-toast {
+  top: 10px;
+  right: 10px;
+  z-index: 9001;
 }
 @keyframes loadingToastAnimation {
   0% {
