@@ -34648,6 +34648,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this.Ready = false;
 
     this.MaxFileSize = 20; // in MB (not mb or Mb)
+    this.ByteMultiplyer = 1000000; // 1048576;
 
     this.AllowMultiple = true;
 
@@ -34987,7 +34988,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   _sizeOk(size)
   {
-    if (size > this.MaxFileSize * 1048576) return false;
+    if (size > this.MaxFileSize * this.ByteMultiplyer) return false;
     return true;
   }
 
@@ -35075,7 +35076,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         file = this.fileNode.files[f];
         typeData = $a.GetDocFileData(file.name);
         errors = [];
-        if (!this._sizeOk(file.size)) errors.push('<strong><em>' + file.name + '</em></strong> is to big. Files can not be larger than ' + this.MaxFileSize + 'MB');
+        if (!this._sizeOk(file.size)) errors.push('<strong><em>' + file.name + '</em></strong> is too big. Files can not be larger than ' + this.MaxFileSize + 'MB');
         if (!this._fileTypeOk(file.name)) errors.push('We can\'t upload <strong><em>' + file.name + '</em></strong>. <span style="text-transform: capitalize">' + typeData.type + '</span> files can not be uploaded.');
 
         if (errors.length > 0)
