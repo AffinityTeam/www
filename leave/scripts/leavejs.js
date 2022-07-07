@@ -1174,7 +1174,7 @@ var UILeaveHistory = new Class({
                 
             }.bind(this));
             
-            var multiPositionCompanies = [2593, 6593, 5000];
+            var multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
             if (multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) > 0) { //multi position comps only
                 this.panelShares.hide();
             }
@@ -2729,7 +2729,7 @@ var UILeaveApply = new Class({
         this.typeSelector.addEvent('change', function () {
             this.typeSelectorChanged();
         }.bind(this));
-        var multiPositionCompanies = [2593, 6593, 5000];
+        var multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
         if (multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) < 0) { //non-multi position comps only
             
             this.label = new Element('br').inject(this.type);
@@ -8002,7 +8002,7 @@ var UIEmployeeLeaveBalances = new Class({
             this.title = new Element('div', { 'class': 'section-title', 'html': 'Estimated Leave' }).inject(this.form);
             this.panels = new Element('div', { 'class': 'leave-info-panels' }).inject(this.form);
             this.employeeNumber = Affinity.login.profile.employeeNumber;
-            this.multiPositionCompanies = [2593, 6593, 5000];
+            this.multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
 
         }
         this.employeeBalanceRequest = new Request.JSON({
