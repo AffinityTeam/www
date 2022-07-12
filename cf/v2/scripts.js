@@ -8464,7 +8464,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           detail: {
             FieldKey: value,
             Model: model,
-            Data: response.data
+            Data: response.data,
+            NullOnly: true
           }
         });
         window.dispatchEvent(event);
@@ -19422,7 +19423,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       detail: {
         FieldKey: this.FormRowNode.querySelector('select').value,
         Model: this.Config.Details.AffinityField.ModelName,
-        Data: data
+        Data: data,
+        NullOnly: false
       }
     });
     $a.HidePageLoader();
@@ -19453,6 +19455,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var model = ev.detail.Model;
     var data = ev.detail.Data;
     var key = ev.detail.FieldKey;
+    var nullOnly = ev.detail.NullOnly;
+    var value = this.ElementController.GetFromFormRow().Value;
+    var isNull = value === null || value.toString().trim() === '';
+    if (nullOnly && !isNull) return;
     if (this.Config.Details.AffinityField.ModelName === model && Object.keys(data).contains(this.Config.Name))
     {
       if (data[this.Config.Name] !== null)
@@ -19465,8 +19471,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           Type: this.ElementControllerType,
           Value: data[this.Config.Name]
         });
-        console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        console.log(data);
         this.ElementController.SetFromValue(data[this.Config.Name]);
       }
       else
@@ -19488,11 +19492,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           FieldName: this.Config.Details.AffinityField.FieldName,
           Type: this.ElementControllerType
         });
-        console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        console.log(data);
         if (key === '') this.ElementController.SetFromValue('');
         else this.ElementController.SetFromValue('');
       }
+      console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
+      console.log(data);
       console.groupEnd();
     }
   }
@@ -25689,7 +25693,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       var select = this.FormRowNode.querySelector('select');
-      var checkValid = this.CheckValid();
+      var checkValid = this.CheckValid;
       if (
         select.widgets
         && select.widgets.hasOwnProperty('Autocomplete')
