@@ -7667,6 +7667,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       '_loadHtmlTemplates', '_templatesLoaded', '_loadHtmlTemplatesError',
 
       'IsGlobalKey', 'IsPseudoGlobalKey', 'IsKey', 'IsReadOnly', 'IskeyWithNoRequiredKeys', 'IsMasterFile', 'IsLookup', 'SelectDefaultModeOnFieldSearch',
+      'IsGlobalKeyExists', 'GetGlobalKey',
+      'CheckGlobalKeyReTrigger', 'GlobalKeyReTrigger',
 
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_G_G_G_GET_DATA_UNTIL_GET_DATA_MATCHES_NEW_STRUCTURE',
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_P_P_P_POST_DATA_UNTIL_POST_DATA_MATCHES_NEW_STRUCTURE'
@@ -8394,7 +8396,81 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     return config;
   }
 
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  IsGlobalKeyExists()
+  {
+    return document.querySelector('.form-row.is-global-key') ? true : false;
+  }
 
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetGlobalKey()
+  {
+    if (this.IsGlobalKeyExists())
+    {
+      return document.querySelector('.form-row.is-global-key').controller;
+    }
+    return null;
+  }
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  CheckGlobalKeyReTrigger(config)
+  {
+    if (
+      this.IsGlobalKeyExists()
+      && config.Details.hasOwnProperty('Value')
+      && (config.Details.Value == null || config.Details.Value.trim() == '')
+    )
+    {
+      var globalKey = this.GetGlobalKey();
+      if (globalKey)
+      {
+        clearTimeout(this.GlobalKeyReTriggerTimer);
+        this.GlobalKeyReTriggerTimer = setTimeout(this.GlobalKeyReTrigger, 250);
+      }
+    }
+  }
+  GlobalKeyReTrigger()
+  {
+    if (this.IsGlobalKeyExists())
+    {
+      clearTimeout(this.GlobalKeyReTriggerTimer);
+      var config = this.GetGlobalKey().Config;
+      var model = config.Details.AffinityField.ModelName;
+      var value = config.Details.Value;
+      var api = '{api}?modelName={modelName}&key={key}&instanceId={instanceId}'.format({
+        api: this.GetModelApi,
+        modelName: model,
+        key: value,
+        instanceId: this.GetInstanceGuid()
+      });
+      axios({
+        method: 'get',
+        url: api
+      }).then(function (response)
+      {
+        var event = new CustomEvent('ModelLookupChanged', {
+          detail: {
+            FieldKey: value,
+            Model: model,
+            Data: response.data
+          }
+        });
+        window.dispatchEvent(event);
+      });
+    }
+  }
 
   /**
    * Summary. ?
@@ -16497,7 +16573,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
       'InsertRow',
       'InsertEditForm', 'InsertEditExample', 'InsertFormRow',
-
+      
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
 
       'SetPosted',
@@ -17000,13 +17076,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    * @access  private
    */
   SetFormRow(target, html)
-  {
-    
+  {   
     var isReadOnly = this.Config.Details.IsReadOnly;
     var isHidden = false;
-    if (this.Config.Type === 'AffinityField' && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum) isReadOnly = true;
-    if (this.Config.Type === 'AffinityField' && this.Config.Disabled ) isReadOnly = true;
-    if (this.Config.Type === 'AffinityField' && this.Config.Hidden) isHidden = true;
+    var isAffintyField = this.Config.Type === 'AffinityField';
+    if (isAffintyField && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum) isReadOnly = true;
+    if (isAffintyField && this.Config.Disabled ) isReadOnly = true;
+    if (isAffintyField && this.Config.Hidden) isHidden = true;
 
     this.IsReadOnly = isReadOnly;
     this.IsHidden = isHidden;
@@ -17114,6 +17190,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     }
 
     /**/
+
+    if (this.FormRowNode)
+    {
+      if (this.Config.Details.hasOwnProperty('AffinityField'))
+      {
+        if (Affinity2018.Apps.CleverForms.Default.IsKey(this.Config))
+        {
+          this.FormRowNode.classList.add('is-key');
+        }
+        if (Affinity2018.Apps.CleverForms.Default.IsGlobalKey(this.Config))
+        {
+          this.FormRowNode.classList.add('is-global-key');
+        }
+      }
+    }
+
+    if (isAffintyField) Affinity2018.Apps.CleverForms.Default.CheckGlobalKeyReTrigger(this.Config);
 
     return this.FormRowNode;
   }
@@ -25595,15 +25688,44 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
-      if (this.FormRowNode.querySelector('select').widgets)
+      var select = this.FormRowNode.querySelector('select');
+      var checkValid = this.CheckValid();
+      if (
+        select.widgets
+        && select.widgets.hasOwnProperty('Autocomplete')
+      )
       {
-        this.FormRowNode.querySelector('select').widgets.Autocomplete.setValue(value, false);
+        var autocomplete = select.widgets.Autocomplete;
+        if (autocomplete.Ready)
+        {
+          autocomplete.setValue(value, false);
+          checkValid();
+        }
+        else
+        {
+          select.addEventListener('ready', function ()
+          {
+            select.widgets.Autocomplete.setValue(value, false);
+            checkValid();
+          });
+        }
       }
       else
       {
-        this.FormRowNode.querySelector('select').value = value;
+        if ('ui-has-autocomplete')
+        {
+          select.addEventListener('ready', function ()
+          {
+            select.widgets.Autocomplete.setValue(value, false);
+            checkValid();
+          });
+        }
+        else
+        {
+          select.value = value;
+          checkValid();
+        }
       }
-      this.CheckValid();
     }
   }
 
