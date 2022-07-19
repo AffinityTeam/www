@@ -36660,6 +36660,8 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     }
 
     this.InputNode = targetNode;
+    this.RowNode = Affinity2018.getParent(this.InputNode, '.form-row');
+    this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
 
     if (this.InputNode.classList.contains('ui-has-integer'))
     {
@@ -36681,7 +36683,6 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       this.type = this.WidgetType;
       this.InputNode.classList.remove('ui-has-currency');
     }
-
 
     if (this.InputNode.classList.contains('ui-has-version'))
     {
@@ -36910,14 +36911,15 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   _validate (ev)
   {
     var value = this.InputNode.value.trim(),
-        parentRow = Affinity2018.getParent(this.InputNode, '.form-row'),
         isValid = true,
         warning;
 
     this.Valid = true;
     this.HideError();
     this.InputNode.classList.remove('error');
-    if (parentRow) parentRow.classList.remove('error');
+    if (this.RowNode) this.RowNode.classList.remove('error');
+
+    if (value === '' && !this.IsRequired) return;
 
     if (isNaN(parseFloat(value)))
     {
@@ -36952,10 +36954,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     if (!isValid)
     {
       this.InputNode.classList.add('error');
-      if (parentRow) parentRow.classList.add('error');
+      if (this.RowNode) this.RowNode.classList.add('error');
       this.ShowError(warning);
       this.Valid = false;
     }
+
+    return this.Valid;
   }
 
   /**/
@@ -38138,6 +38142,8 @@ Affinity2018.Classes.Plugins.StringWidget = class
     }
 
     this.InputNode = targetNode;
+    this.RowNode = Affinity2018.getParent(this.InputNode, '.form-row');
+    this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
 
     if (this.InputNode.classList.contains('ui-has-string'))
     {
@@ -38246,7 +38252,6 @@ Affinity2018.Classes.Plugins.StringWidget = class
   _validate(ev)
   {
     var value = this.InputNode.value.trim(),
-        parentRow = Affinity2018.getParent(this.InputNode, '.form-row'),
         event = ev && ev.type === 'keyup' ? 'keyboard' : 'none',
         extraspace = false,
         required = this._isRequired(),
@@ -38255,7 +38260,9 @@ Affinity2018.Classes.Plugins.StringWidget = class
     this.Valid = true;
     this.HideError();
     this.InputNode.classList.remove('error');
-    if (parentRow) parentRow.classList.remove('error', 'error2');
+    if (this.RowNode) this.RowNode.classList.remove('error', 'error2');
+
+    if (value === '' && !this.IsRequired) return;
 
     switch (this.type)
     {
@@ -38319,8 +38326,8 @@ Affinity2018.Classes.Plugins.StringWidget = class
     if (!isValid)
     {
       this.InputNode.classList.add('error');
-      if (parentRow && !this.InputNode.classList.contains('no-row-error')) parentRow.classList.add('error');
-      if (parentRow && !this.InputNode.classList.contains('no-row-error') && extraspace) parentRow.classList.add('error2');
+      if (this.RowNode && !this.InputNode.classList.contains('no-row-error')) this.RowNode.classList.add('error');
+      if (this.RowNode && !this.InputNode.classList.contains('no-row-error') && extraspace) this.RowNode.classList.add('error2');
       this.ShowError(warning);
       this.Valid = false;
     }
