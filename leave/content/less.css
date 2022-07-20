@@ -7528,6 +7528,9 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
   border: 0;
   border-bottom: 1px solid #c8d1db;
 }
+.newui .section table tr td {
+  border: 0;
+}
 .ui-calendar-buttons {
   font-size: 14px;
 }
@@ -7571,6 +7574,7 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
 .newui .section .default-form .form-row input[type="password"],
 .newui .section .default-form .form-row select,
 .newui .section .default-form .form-row textarea {
+  height: 32px;
   border-radius: 5px;
   background: #f7f9fe;
   border: 1px solid #c8d1db;
@@ -7581,6 +7585,49 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
   padding: 8px 16px;
   margin-bottom: 0;
   border-radius: 20px;
+}
+body.newui .dashboard .pagecontent .section .section-header {
+  background: #1268b3;
+  padding: 10px;
+  border-radius: 10px;
+}
+body.newui .dashboard .pagecontent .section .section-header .section-title {
+  font-weight: bold;
+}
+body.newui .dashboard .pagecontent .section .section-header .section-nav ul li.u-blue {
+  background: transparent;
+  border: none;
+  color: white;
+}
+body.newui .dashboard .pagecontent .section .section-header .section-nav ul li.selected {
+  background: transparent;
+  border-bottom: 1px solid #c8d1db;
+}
+.newui #uimodal {
+  background: white;
+}
+.newui .uimodal {
+  background: white;
+}
+.newui #uimodal .uimodalbody {
+  background: white;
+}
+.newui #uimodal .uimodalbody .section {
+  background: white;
+}
+body.newui #uimodal .uimodalbody .modal-data .details-buttons-box span {
+  vertical-align: middle;
+}
+body.newui #uimodal .uimodalbody .modal-data .details-buttons-box button,
+body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
+  border-radius: 30px;
+  padding: 8px 16px;
+}
+.section .toggle-button {
+  background: white;
+  color: #c8d1db;
+  font-size: 30px;
+  margin: 0;
 }
 .leave-time-inputs {
   overflow: hidden;
