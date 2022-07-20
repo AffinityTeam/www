@@ -5,9 +5,9 @@
 (7134,113): run-time error CSS1030: Expected identifier, found ','
 (7134,125): run-time error CSS1031: Expected selector, found ')'
 (7134,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(8026,108): run-time error CSS1030: Expected identifier, found ','
-(8026,250): run-time error CSS1031: Expected selector, found ')'
-(8026,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(8150,108): run-time error CSS1030: Expected identifier, found ','
+(8150,250): run-time error CSS1031: Expected selector, found ')'
+(8150,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -8003,6 +8003,130 @@ body.ui2018.uiupdate .cf-designer-element-popup .close {
   background: white;
   color: #333333;
   font-size: 20px;
+}
+body.ui2018.uiupdate.dark {
+  background: #111111;
+  color: #cccccc;
+}
+body.ui2018.uiupdate.dark a {
+  color: #16c1f3;
+}
+body.ui2018.uiupdate.dark a:hover {
+  color: #106eb6;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-header .section-title {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-header .section-title a {
+  color: #16c1f3;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-header .section-title a:hover {
+  color: #106eb6;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element {
+  background: #222222 !important;
+  border-color: #222222 !important;
+  -webkit-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element .main-icon {
+  color: white;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element .main-icon.grey {
+  background: #bbbbbb;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element .main-icon.blue {
+  background: #47cef5;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element .main-icon.green {
+  background: #a4d55d;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element .main-icon.yellow {
+  background: #ffc548;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element .drag-handle {
+  color: white;
+  background: #111111;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element ul {
+  background: #333333 !important;
+  border: 2px dashed #555555 !important;
+}
+body.ui2018.uiupdate.dark li.cf-designer-element ul:before {
+  color: #555555 !important;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-top {
+  background: #222222;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-top .cf-d2-top-row input {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom {
+  background: #222222;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom ul {
+  font-size: 12px;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom .cf-d2-bottom-left h3,
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom .cf-d2-bottom-right h3 {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom .cf-d2-bottom-left ul:before,
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom .cf-d2-bottom-right ul:before {
+  color: #555555 !important;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom .cf-d2-bottom-left .droppable,
+body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom .cf-d2-bottom-right .droppable {
+  background: #333333 !important;
+  border: 2px dashed #555555 !important;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner {
+  background: #222222;
+  border-color: #222222;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .example-template .preview {
+  background: #222222;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .worflow-states-list-wrapper {
+  background-color: #efefef;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list {
+  background-color: #efefef;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody {
+  background: white;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(odd) {
+  background-color: rgba(239, 239, 239, 0);
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even) {
+  background-color: rgba(239, 239, 239, 0.5);
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings label {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings input[type="text"],
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings input[type="number"],
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings input[type="password"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .close {
+  background: #222222 !important;
+  color: #cccccc !important;
 }
 @-webkit-keyframes flash-error {
   0% {
