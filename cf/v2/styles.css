@@ -1,13 +1,13 @@
 /* Minification failed. Returning unminified contents.
-(6219,74): run-time error CSS1030: Expected identifier, found ','
-(6219,216): run-time error CSS1031: Expected selector, found ')'
-(6219,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7110,113): run-time error CSS1030: Expected identifier, found ','
-(7110,125): run-time error CSS1031: Expected selector, found ')'
-(7110,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(7993,108): run-time error CSS1030: Expected identifier, found ','
-(7993,250): run-time error CSS1031: Expected selector, found ')'
-(7993,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6243,74): run-time error CSS1030: Expected identifier, found ','
+(6243,216): run-time error CSS1031: Expected selector, found ')'
+(6243,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7134,113): run-time error CSS1030: Expected identifier, found ','
+(7134,125): run-time error CSS1031: Expected selector, found ')'
+(7134,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(8026,108): run-time error CSS1030: Expected identifier, found ','
+(8026,250): run-time error CSS1031: Expected selector, found ')'
+(8026,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -5976,6 +5976,30 @@ body.ui2018.uiupdate.ss-dashboard-wrapper #dashWrapper,
 body.ui2018.uiupdate.ss-dashboard-wrapper #dashFooter {
   display: none;
 }
+body.ui2018.uiupdate.ss-dashboard-wrapper.dark #SS-DashboardWrapper .ss-dashboard-wrap-main-header {
+  background: #222222;
+  color: #cccccc;
+  border-bottom: 1px solid #222222;
+}
+body.ui2018.uiupdate.ss-dashboard-wrapper.dark #SS-DashboardWrapper .ss-dashboard-wrap-main-header h1 {
+  padding: 10px;
+  background: white;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+body.ui2018.uiupdate.ss-dashboard-wrapper.dark #SS-DashboardWrapper .ss-dashboard-wrap-main-header svg path {
+  stroke: #cccccc;
+}
+body.ui2018.uiupdate.ss-dashboard-wrapper.dark #SS-DashboardWrapper .app-wrapper {
+  background-color: transparent !important;
+}
+body.ui2018.uiupdate.ss-dashboard-wrapper.dark #SS-DashboardWrapper .app-wrapper:before {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+body.ui2018.uiupdate.ss-dashboard-wrapper.dark div.pagecontent div.header .title {
+  color: #cccccc;
+}
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button),
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) {
   height: 36px;
@@ -7890,6 +7914,15 @@ body.ui2018.uiupdate .section.shadow:hover {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+body.ui2018.uiupdate .section .section-body .workflow-buttons .button-list .ui-autocomplete-container {
+  display: inline-block;
+}
+body.ui2018.uiupdate .section .section-body .workflow-buttons .button-list .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  margin: 2px 0 0 -42px !important;
 }
 body.ui2018.uiupdate .header {
   height: unset;

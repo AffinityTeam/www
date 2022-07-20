@@ -38293,6 +38293,13 @@ Affinity2018.Classes.Plugins.StringWidget = class
         break;
     }
 
+    if (value === '' && this.IsRequired)
+    {
+      pattern = /(.|\s)*\S(.|\s)*/gi;
+      warning = $a.Lang.ReturnPath('generic.validation.strings.notempty');
+      extraspace = false;
+    }
+
     var isValid = true;
 
     if (this['_' + this.type + 'Test'] && typeof this['_' + this.type + 'Test'] === 'function')
