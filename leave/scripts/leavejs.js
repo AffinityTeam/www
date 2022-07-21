@@ -1050,7 +1050,7 @@ var UILeaveHistory = new Class({
         this.target = this.options.target;
         this.isManager = this.options.isManager ? true : false;
 
-        this.section = new Element('div', { 'class': 'section' });
+        this.section = new Element('div', { 'class': 'section shadow' });
         this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
         this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
 
@@ -2099,10 +2099,10 @@ var UILeaveApply = new Class({
         this.target = this.options.target;
         this.isManager = this.options.isManager ? true : false;
 
-        this.section = new Element('div', { 'class': 'section' }).inject(this.target);
+        this.section = new Element('div', { 'class': 'section shadow' }).inject(this.target);
         this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
 
-        this.form = new Element('div', { 'class': 'default-form create-leave-form' }).inject(this.sectionBody);
+        this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
         this.ealInfo = null;
         var sTitle;
         if (this.isManager) {
@@ -7996,7 +7996,7 @@ var UIEmployeeLeaveBalances = new Class({
             this.setOptions(options);
             /* BUILD HTML */
             this.target = this.options.target;
-            this.section = new Element('div', { 'class': 'section' }).inject(this.target);
+            this.section = new Element('div', { 'class': 'section shadow' }).inject(this.target);
             this.sectionBody = new Element('div', { 'class': 'section-body' }).inject(this.section);
             this.form = new Element('div', { 'class': 'default-form' }).inject(this.sectionBody);
             this.title = new Element('div', { 'class': 'section-title', 'html': 'Estimated Leave' }).inject(this.form);
