@@ -3928,7 +3928,7 @@
      String.format = function()
      {
        var args = [].slice.call(arguments);
-       return Source63.FormatString(this, args);
+       return Affinity2018.FormatString(this, args);
      };
    }
    /* old
