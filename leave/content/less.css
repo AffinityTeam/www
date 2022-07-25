@@ -7518,7 +7518,6 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
 }
 .newui .section .section-table {
   border: none;
-  box-shadow: 0 5px 10px #00378033;
   padding: 10px;
   border-radius: 10px;
   background: white;
@@ -9244,7 +9243,6 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
 .newui .section .leave-history .history-table .history-filter-box {
   margin: 5px 0 10px;
   padding: 10px 0;
-  box-shadow: 0 5px 10px #00378033;
   background: white;
   border-radius: 10px;
   /*.filter-buttons-box {
@@ -10191,16 +10189,6 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   .newui .section .balance-box .balance-date {
     margin-right: 0 !important;
   }
-  .newui .button,
-  .newui button {
-    min-width: 32px;
-    height: 32px;
-    line-height: 22px !important;
-  }
-  .newui .button > *,
-  .newui button > * {
-    vertical-align: middle !important;
-  }
   .newui .ui-autocomplete-display,
   .newui .ui-autocomplete-display-icon {
     height: 32px;
@@ -10296,7 +10284,6 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
     display: none;
   }
   .newui .displayname {
-    display: block;
     margin-bottom: 5px;
     margin-left: 0 !important;
   }
