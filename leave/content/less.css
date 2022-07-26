@@ -8370,16 +8370,16 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   border-bottom-left-radius: 10px;
 }
 .calendar-history-frame .calendar-history-item.approved {
-  background: #00BB00;
+  background: #00bb00;
 }
 .calendar-history-frame .calendar-history-item.declined {
-  background: #FF0000;
+  background: #ff0000;
 }
 .calendar-history-frame .calendar-history-item.pending {
-  background: #FF7200;
+  background: #ff7200;
 }
 .calendar-history-frame .calendar-history-item.submitted {
-  background: #8BCFF1;
+  background: #8bcff1;
 }
 .history-key-button,
 .history-key-button-marker {
@@ -8401,10 +8401,10 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   line-height: 16px;
   width: 100%;
   color: #fff;
-  font-family: 'ui-font-icons';
+  font-family: "ui-font-icons";
   text-align: center;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
-  content: '\e0e0';
+  content: "\e0e0";
   background: #ccc;
   border: 1px solid #ccc;
   border-bottom-left-radius: 10px;
