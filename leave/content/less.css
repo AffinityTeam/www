@@ -7512,7 +7512,6 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
 .newui .section .leave-calendar-form {
   border: none;
   box-shadow: 0 5px 20px #00378033;
-  padding-bottom: 20px;
   border-radius: 10px;
   background: white;
 }
@@ -7739,7 +7738,7 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
 .tlbPrompt .ealTable.popup th {
   padding: 15px !important;
 }
-.newui .section .default-form input[type=text].ui-calendar-display {
+.newui .section .default-form input[type="text"].ui-calendar-display {
   width: 85px;
   height: 32px;
 }
@@ -7811,7 +7810,7 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
 .newui .section .team-leave-balance .loadingBarContainer .loadingBar {
   width: 0%;
   height: 10px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   border-radius: 10px;
 }
 .newui .section .team-leave-balance input.paginate-page-numbers {
@@ -7836,7 +7835,7 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
   margin-bottom: 20px;
 }
 .newui .section .team-leave-balance .team-balance-table .leave .teamLeaveBalancesTable tr:nth-child(even) td {
-  background-color: #EDEDED;
+  background-color: #ededed;
 }
 .newui .section .team-leave-balance .leave-filter-select {
   margin-left: 10px !important;
@@ -7852,7 +7851,8 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
   width: 100px;
 }
 .newui .section .team-leave-balance .team-balance-selector {
-  margin: 10px 20px;
+  margin: 0;
+  padding: 20px;
 }
 .newui .section .team-leave-balance .team-balance-selector .ui-autocomplete-display-icon {
   margin-right: 20px;
@@ -7863,7 +7863,7 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
 .newui .section .team-leave-balance .team-balance-selector .button {
   color: #fff;
 }
-.newui .section .team-leave-balance .team-balance-selector .ui-calendar-row input[type=text] {
+.newui .section .team-leave-balance .team-balance-selector .ui-calendar-row input[type="text"] {
   width: 85px;
 }
 .newui .section .team-leave-balance .right-float {
@@ -9204,11 +9204,11 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
   color: #fff !important;
 }
 .newui .section .leave-history .history-table .section-table .leave .history-table-body tr:nth-child(even) td {
-  background-color: #EDEDED;
+  background-color: #ededed;
 }
 .newui .section .leave-history .history-table .paginate-box {
-  text-align: center;
-  margin-top: 10px;
+  margin-top: 12px;
+  padding-bottom: 20px;
 }
 .newui .section .leave-history .history-table .paginate-box span {
   cursor: pointer;
@@ -9325,7 +9325,7 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
   margin-right: 5px;
 }
 .newui #managerLeave .section .leave-history .history-table .section-table .leave .history-table-body tr:nth-child(even) td {
-  background-color: #EDEDED;
+  background-color: #ededed;
 }
 .newui #managerLeave .section .leave-history .history-table .section-table .leave.hide-submitted-date th.submitted-date {
   display: none;
@@ -9999,12 +9999,6 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   .newui .section .section-title {
     margin-top: -10px;
   }
-  .newui .section .section-body {
-    padding: 20px !important;
-  }
-  .newui .section .leave-history .history-table {
-    padding-bottom: 20px;
-  }
   .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .input-wrapper {
     width: auto !important;
   }
@@ -10059,6 +10053,9 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   .newui .section .configSelection .configActions {
     width: 170px;
   }
+  .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .filter-buttons-box {
+    width: 100%;
+  }
   .leave-apply-group > .form-row > label {
     margin-bottom: 5px;
   }
@@ -10095,7 +10092,7 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
     padding: 20px 0 0;
   }
   .newui .section .default-form .form-row {
-    margin: 0 auto 20px !important;
+    padding: 16px !important;
   }
   .newui .section .default-form .form-row label:first-child {
     margin-bottom: 5px !important;
@@ -10156,6 +10153,9 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   .newui .section .default-form .form-row br {
     display: none;
   }
+  .newui .section .default-form .form-row.history-filter-box {
+    padding: 0 !important;
+  }
   .newui .section .default-form input[type="text"].ui-calendar-display {
     height: 32px;
     padding: 0 8px;
@@ -10165,6 +10165,7 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   }
   .newui .section .filter-group-box {
     display: block !important;
+    padding: 16px;
   }
   .newui .section .filter-group-box > .filter-item {
     display: block !important;
@@ -10181,6 +10182,16 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   }
   .newui .section .balance-box .balance-date {
     margin-right: 0 !important;
+  }
+  .newui .section .leave-apply-form {
+    padding: 0 !important;
+  }
+  .newui .section .form-row.apply-buttons {
+    margin-bottom: 0 !important;
+  }
+  .newui .section .form-row.apply-buttons .button {
+    display: block;
+    margin: 0 auto 12px !important;
   }
   .newui .ui-autocomplete-display,
   .newui .ui-autocomplete-display-icon {
@@ -10216,7 +10227,7 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
     margin-left: 0 !important;
   }
   .newui .manager-leave-calendar-form .section-body {
-    padding: 20px 0 0 !important;
+    padding: 16px !important;
   }
   .newui #uimodal {
     top: 10px !important;
@@ -10287,6 +10298,7 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   }
   .calendarbox-wrapper {
     display: flex !important;
+    padding: 16px;
   }
   .calendarbox-wrapper .leave-types {
     width: 70px !important;
