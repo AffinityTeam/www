@@ -7512,14 +7512,13 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
 .newui .section .leave-calendar-form {
   border: none;
   box-shadow: 0 5px 20px #00378033;
-  padding: 10px;
+  padding-bottom: 20px;
   border-radius: 10px;
   background: white;
 }
 .newui .section .section-table {
   border: none;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px 20px;
   background: white;
 }
 .newui .section table tr th {
@@ -8530,9 +8529,6 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
 body.newui.dashboard .pagecontent {
   min-height: 100% !important;
 }
-body.newui.dashboard .pagecontent .leaveDataSection .section:first-child {
-  border-bottom: 1px solid #aaa;
-}
 .leave-details {
   position: relative;
   display: inline-block;
@@ -9389,7 +9385,7 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
     border: 1px solid red !important;
 }*/
 
-.newui table.leave input[type=text],
+.newui table.leave input[type="text"],
 .newui table.leave select,
 .newui table.leave textarea {
   -webkit-box-sizing: border-box;
@@ -9398,7 +9394,7 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
   width: 100% !important;
   margin: 0 !important;
 }
-.newui table.leave tr.odd input[type=text],
+.newui table.leave tr.odd input[type="text"],
 .newui table.leave tr.odd select,
 .newui table.leave tr.odd textarea,
 .newui table.leave tr.odd .ui-autocomplete-display-icon {
@@ -9418,7 +9414,7 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
 .newui table.leave select {
   min-width: 50px;
 }
-.newui table.leave input[type=text].has-message-icon,
+.newui table.leave input[type="text"].has-message-icon,
 .newui table.leave select.has-message-icon,
 .newui table.leave textarea.has-message-icon {
   -webkit-box-sizing: border-box;
@@ -9433,7 +9429,7 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
 }
 .message-icon {
   display: inline-block;
-  font-family: 'ui-font-icons';
+  font-family: "ui-font-icons";
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -9814,8 +9810,8 @@ td.indicate .message-icon {
 .newui .section .default-form.leave-form .form-row label {
   width: 200px;
 }
-.newui .section .default-form.leave-form .form-row input[type=text],
-.newui .section .default-form.leave-form .form-row input[type=password],
+.newui .section .default-form.leave-form .form-row input[type="text"],
+.newui .section .default-form.leave-form .form-row input[type="password"],
 .newui .section .default-form.leave-form .form-row .fake-input,
 .newui .section .default-form.leave-form .form-row select {
   width: 415px;
@@ -9863,7 +9859,7 @@ td.indicate .message-icon {
   margin: 0;
   clear: both;
   float: none;
-  padding: 10px 0;
+  padding: 16px 20px;
 }
 .newui .section .default-form .leave-history .form-row.ui-calendar-row {
   margin: 0;
@@ -9875,7 +9871,7 @@ td.indicate .message-icon {
 .newui .section .default-form .leave-history .form-row .subhidden {
   display: inline-block !important;
 }
-.newui .section .default-form .leave-history .form-row input[type=text].ui-calendar-display,
+.newui .section .default-form .leave-history .form-row input[type="text"].ui-calendar-display,
 .newui .section .default-form .leave-history .form-row .ui-calendar-display {
   width: 80px;
   -webkit-box-sizing: border-box;
@@ -9883,7 +9879,7 @@ td.indicate .message-icon {
   box-sizing: border-box;
 }
 .newui .fake-input.inline,
-.newui .section .default-form .form-row input[type=text].inline,
+.newui .section .default-form .form-row input[type="text"].inline,
 .newui .section .default-form .form-row select.inline,
 .newui .section .default-form .form-row textarea.inline {
   width: auto;
@@ -9926,9 +9922,6 @@ td.indicate .message-icon {
 
 body.newui .dashboard .pagecontent {
   min-height: 100% !important;
-}
-body.newui .dashboard .pagecontent .leaveDataSection .section:first-child {
-  border-bottom: 1px solid #aaa;
 }
 body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help {
   margin-top: -1px;

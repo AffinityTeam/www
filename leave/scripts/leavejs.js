@@ -2118,7 +2118,7 @@ var UILeaveApply = new Class({
         this.title = new Element('div', { 'class': 'section-title leave-apply-title ui-has-tooltip', 'html': sTitle, 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
             .addEvent(Affinity.events.click, this.toggle).inject(this.form);
         this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.title);
-        this.applyForm = new Element('div', { 'class': 'leave-apply-form', 'style': 'display:block;' }).inject(this.form);
+        this.applyForm = new Element('div', { 'class': 'leave-apply-form', 'style': 'display:block; padding: 20px;' }).inject(this.form);
         this.leaveData = new Element('div', { 'class': 'leave-form default-form' }).inject(this.applyForm);
         this.formData = new Element('form').inject(this.leaveData);
         if (this.isManager) {
