@@ -3928,7 +3928,7 @@
      String.format = function()
      {
        var args = [].slice.call(arguments);
-       return Affinity2018.FormatString(this, args);
+       return Source63.FormatString(this, args);
      };
    }
    /* old
@@ -36110,18 +36110,18 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       var rowNode;
       rowNode = document.createElement('tr');
       rowNode.innerHTML = this.listRowTemplate;
-      rowNode.querySelector('textarea.description').value = data[this.KeyNames.KeyName];
-      rowNode.querySelector('textarea.code').value = data[this.KeyNames.ValueName];
+      rowNode.querySelector('input.description').value = data[this.KeyNames.KeyName];
+      rowNode.querySelector('input.code').value = data[this.KeyNames.ValueName];
       if (!locked)
       {
-        rowNode.querySelector('textarea.description').addEventListener('keyup', this._cellKeyUp);
-        rowNode.querySelector('textarea.code').addEventListener('keyup', this._cellKeyUp);
+        rowNode.querySelector('input.description').addEventListener('keyup', this._cellKeyUp);
+        rowNode.querySelector('input.code').addEventListener('keyup', this._cellKeyUp);
         this.gridBodyNode.appendChild(rowNode);
       }
       else
       {
-        rowNode.querySelector('textarea.description').value = this.CleverForms.InsertLookupEmptyDisplay;
-        rowNode.querySelector('textarea.code').value = this.CleverForms.InsertLookupEmptyValue;
+        rowNode.querySelector('input.description').value = this.CleverForms.InsertLookupEmptyDisplay;
+        rowNode.querySelector('input.code').value = this.CleverForms.InsertLookupEmptyValue;
         rowNode.querySelector('.button[data-do="up"]').classList.add('disabled');
         rowNode.querySelector('.button[data-do="down"]').classList.add('disabled');
         rowNode.querySelector('.button[data-do="delete"]').classList.add('disabled');
@@ -36172,8 +36172,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
   _deleteRow (rowNode)
   {
-    rowNode.querySelector('textarea.description').removeEventListener('keyup', this._cellKeyUp);
-    rowNode.querySelector('textarea.code').removeEventListener('keyup', this._cellKeyUp);
+    rowNode.querySelector('input.description').removeEventListener('keyup', this._cellKeyUp);
+    rowNode.querySelector('input.code').removeEventListener('keyup', this._cellKeyUp);
     rowNode.parentNode.removeChild(rowNode);
     if(!this.gridBodyNode.querySelector('tr'))
     {
@@ -36215,8 +36215,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     var allData = [], key, value, data;
     this.gridBodyNode.querySelectorAll('tr').forEach(function (rowNode)
     {
-      key = rowNode.querySelector('textarea.description').value.trim();
-      value = rowNode.querySelector('textarea.code').value.trim();
+      key = rowNode.querySelector('input.description').value.trim();
+      value = rowNode.querySelector('input.code').value.trim();
       data = {};
       data[this.KeyNames.KeyName] = key;
       data[this.KeyNames.ValueName] = value;
@@ -36296,8 +36296,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     {
       this.gridBodyNode.querySelectorAll('tr').forEach(function (rowNode)
       {
-        if (rowNode.querySelector('textarea.description')) rowNode.querySelector('textarea.description').removeEventListener('keyup', this._cellKeyUp);
-        if (rowNode.querySelector('textarea.code')) rowNode.querySelector('textarea.code').removeEventListener('keyup', this._cellKeyUp);
+        if (rowNode.querySelector('input.description')) rowNode.querySelector('input.description').removeEventListener('keyup', this._cellKeyUp);
+        if (rowNode.querySelector('input.code')) rowNode.querySelector('input.code').removeEventListener('keyup', this._cellKeyUp);
       }.bind(this));
       this.gridBodyNode.innerHTML = '';
       if (insertBlankRow)
@@ -36512,10 +36512,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
     this.listRowTemplate = `
     <td>
-      <textarea class="description" type="text" placeholder="{descPlaceholder}"></textarea>
+      <input class="description" type="text" placeholder="{descPlaceholder}" />
     </td>
     <td>
-      <textarea class="code" type="text" placeholder="{codePlaceholder}"></textarea>
+      <input class="code" type="text" placeholder="{codePlaceholder}" />
     </td>
     <td>
       <div class="button blue icon-arrow-up" data-do="up"></div>
