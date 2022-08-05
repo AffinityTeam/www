@@ -2,12 +2,12 @@
 (6045,83): run-time error CSS1030: Expected identifier, found ','
 (6045,225): run-time error CSS1031: Expected selector, found ')'
 (6045,225): run-time error CSS1025: Expected comma or open brace, found ')'
-(6919,122): run-time error CSS1030: Expected identifier, found ','
-(6919,134): run-time error CSS1031: Expected selector, found ')'
-(6919,134): run-time error CSS1025: Expected comma or open brace, found ')'
-(7555,108): run-time error CSS1030: Expected identifier, found ','
-(7555,250): run-time error CSS1031: Expected selector, found ')'
-(7555,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6920,122): run-time error CSS1030: Expected identifier, found ','
+(6920,134): run-time error CSS1031: Expected selector, found ')'
+(6920,134): run-time error CSS1025: Expected comma or open brace, found ')'
+(7556,108): run-time error CSS1030: Expected identifier, found ','
+(7556,250): run-time error CSS1031: Expected selector, found ')'
+(7556,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6323,7 +6323,7 @@ body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair,
 body.ui2018.cform.v2 .content form .form-row .check-label-pair,
 body.ui2018.cform.v2 .content .form .form-row .check-label-pair,
 body.ui2018.cform.v2 .content .default-form .form-row .check-label-pair {
-  height: 44px;
+  min-height: 44px;
   line-height: 44px;
 }
 body.ui2018.cform.v2 .content form .form-row .radio-label-pair input,
@@ -6342,10 +6342,11 @@ body.ui2018.cform.v2 .content form .form-row .check-label-pair label,
 body.ui2018.cform.v2 .content .form .form-row .check-label-pair label,
 body.ui2018.cform.v2 .content .default-form .form-row .check-label-pair label {
   vertical-align: top;
-  margin: 0;
+  margin: 11px 0 0 0;
   padding: 0;
-  height: 44px;
-  line-height: 44px;
+  height: unset;
+  min-height: 44px;
+  line-height: 22px;
 }
 body.ui2018.cform.v2 .content form .form-row.row-checkbox .required,
 body.ui2018.cform.v2 .content .form .form-row.row-checkbox .required,
@@ -13708,6 +13709,64 @@ li.cf-designer-element.disabled * {
 }
 .cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr:hover td {
   background-color: rgba(16, 110, 182, 0.1);
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea {
+  height: 38px;
+  min-height: 38px;
+  line-height: 38px;
+  padding: 0;
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  resize: none;
+  border-color: transparent !important;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-scrollbar-track {
+  width: 8px;
+  height: 8px;
+  background: #d6d6d6;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-scrollbar-thumb {
+  width: 6px;
+  height: 6px;
+  border: 2px solid #d6d6d6;
+  background: #16c1f3;
+  cursor: pointer;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -moz-transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -o-transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-scrollbar-thumb:hover {
+  background: #106eb6;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-scrollbar-thumb:active {
+  background: #106eb6;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-scrollbar-corner {
+  background: transparent;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr td textarea::-webkit-resizer {
+  background: #f5fafe;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr:nth-child(even) td textarea::-webkit-scrollbar-track {
+  background: #c8c8c8;
+}
+.cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr:nth-child(even) td textarea::-webkit-scrollbar-thumb {
+  border: 2px solid #c8c8c8;
 }
 .cf-designer-element-popup .inner .settings .youtube-embed {
   padding: 20px 0 0 0;
