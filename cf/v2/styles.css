@@ -6323,7 +6323,7 @@ body.ui2018.cform.v2 .content .default-form .form-row .radio-label-pair,
 body.ui2018.cform.v2 .content form .form-row .check-label-pair,
 body.ui2018.cform.v2 .content .form .form-row .check-label-pair,
 body.ui2018.cform.v2 .content .default-form .form-row .check-label-pair {
-  height: 44px;
+  min-height: 44px;
   line-height: 44px;
 }
 body.ui2018.cform.v2 .content form .form-row .radio-label-pair input,
