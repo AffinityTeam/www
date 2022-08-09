@@ -1,16 +1,16 @@
 /* Minification failed. Returning unminified contents.
-(6384,74): run-time error CSS1030: Expected identifier, found ','
-(6384,216): run-time error CSS1031: Expected selector, found ')'
-(6384,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7874,113): run-time error CSS1030: Expected identifier, found ','
-(7874,125): run-time error CSS1031: Expected selector, found ')'
-(7874,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9080,133): run-time error CSS1030: Expected identifier, found ','
-(9080,274): run-time error CSS1031: Expected selector, found ')'
-(9080,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9615,108): run-time error CSS1030: Expected identifier, found ','
-(9615,250): run-time error CSS1031: Expected selector, found ')'
-(9615,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6421,74): run-time error CSS1030: Expected identifier, found ','
+(6421,216): run-time error CSS1031: Expected selector, found ')'
+(6421,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7911,113): run-time error CSS1030: Expected identifier, found ','
+(7911,125): run-time error CSS1031: Expected selector, found ')'
+(7911,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9117,133): run-time error CSS1030: Expected identifier, found ','
+(9117,274): run-time error CSS1031: Expected selector, found ')'
+(9117,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9696,108): run-time error CSS1030: Expected identifier, found ','
+(9696,250): run-time error CSS1031: Expected selector, found ')'
+(9696,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -5914,6 +5914,7 @@ body.ui2018.uiupdate.cform {
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper #uimodalbg,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodalbg {
+  position: fixed;
   top: 0;
   left: 0 !important;
   margin-left: 225px;
@@ -5921,23 +5922,33 @@ body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodalbg {
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper #uimodal,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodal {
-  position: fixed;
+  position: absolute;
   margin-left: 112.5px;
   z-index: 999999 !important;
 }
+body.ui2018.uiupdate.ss-dashboard-wrapper #UIPromtBoxBG,
+body.ui2018.uiupdate.cform.ss-dashboard-wrapper #UIPromtBoxBG,
 body.ui2018.uiupdate.ss-dashboard-wrapper .UIPromtBoxBG,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper .UIPromtBoxBG {
+  position: fixed;
   top: 0;
   left: 0 !important;
   z-index: 9999999 !important;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper .UIPromtBox,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper .UIPromtBox {
+  position: absolute;
   z-index: 10000000 !important;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper .helpBubble,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper .helpBubble {
+  position: absolute;
   z-index: 9999997;
+}
+body.ui2018.uiupdate.ss-dashboard-wrapper .mobile-wrap,
+body.ui2018.uiupdate.cform.ss-dashboard-wrapper .mobile-wrap {
+  z-index: unset;
+  position: unset;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper div.pagecontent,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper div.pagecontent {
@@ -6040,6 +6051,17 @@ body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-butto
   -webkit-border-radius: 18px;
   -moz-border-radius: 18px;
   border-radius: 18px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button):hover,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button):hover,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button):hover,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button):hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span,
 body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span,
@@ -6048,11 +6070,14 @@ body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-butto
   height: 36px;
   line-height: 36px;
 }
-body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
-body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
-body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child {
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1),
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1),
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1),
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1) {
+  width: 18px;
   margin: 0 5px 0 0;
+  padding: 0;
+  text-align: center;
   font-size: 16px;
 }
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button).icononly,
@@ -6076,6 +6101,18 @@ body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child,
 body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child {
   margin: 0;
+}
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) icon,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) icon,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) icon,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) icon {
+  width: 18px;
+  height: 36px;
+  line-height: 36px;
+  margin: 0 5px 0 0;
+  padding: 0;
+  text-align: center;
+  font-size: 16px;
 }
 body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button),
 body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button),
@@ -9355,13 +9392,57 @@ body.ui2018.uiupdate.cform.dark {
   background: #111111;
   color: #cccccc;
 }
-body.ui2018.uiupdate.dark a,
-body.ui2018.uiupdate.cform.dark a {
+body.ui2018.uiupdate.dark #uimodal,
+body.ui2018.uiupdate.cform.dark #uimodal {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark #uimodal .uimodalbody,
+body.ui2018.uiupdate.cform.dark #uimodal .uimodalbody {
+  background: white;
+}
+body.ui2018.uiupdate.dark .UIPromtBox,
+body.ui2018.uiupdate.cform.dark .UIPromtBox {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark .helpBubble,
+body.ui2018.uiupdate.cform.dark .helpBubble {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark .ui-autocomplete-list,
+body.ui2018.uiupdate.cform.dark .ui-autocomplete-list {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.uiupdate.dark #uimodalbg,
+body.ui2018.uiupdate.cform.dark #uimodalbg,
+body.ui2018.uiupdate.dark #UIPromtBoxBG,
+body.ui2018.uiupdate.cform.dark #UIPromtBoxBG,
+body.ui2018.uiupdate.dark .UIPromtBoxBG,
+body.ui2018.uiupdate.cform.dark .UIPromtBoxBG {
+  background: rgba(0, 0, 0, 0.8);
+}
+body.ui2018.uiupdate.dark a:not(.button),
+body.ui2018.uiupdate.cform.dark a:not(.button) {
   color: #16c1f3;
 }
-body.ui2018.uiupdate.dark a:hover,
-body.ui2018.uiupdate.cform.dark a:hover {
+body.ui2018.uiupdate.dark a:not(.button):hover,
+body.ui2018.uiupdate.cform.dark a:not(.button):hover {
   color: #106eb6;
+}
+body.ui2018.uiupdate.dark .pagewrapper,
+body.ui2018.uiupdate.cform.dark .pagewrapper {
+  background: #111111;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent {
+  background: none !important;
 }
 body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-header .section-title,
 body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .section .section-header .section-title {

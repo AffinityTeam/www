@@ -19817,6 +19817,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
 
       // set any special elements
 
+      if (this.FormRowNode.querySelector('input'))
+      {
+        this.FormRowNode.querySelector('input').addEventListener('validated', function ()
+        {
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this));
+      }
+
       return this.FormRowNode;
     }
   }
@@ -31029,6 +31037,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
+    this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
   /**/
