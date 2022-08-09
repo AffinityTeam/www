@@ -8928,7 +8928,7 @@ body.newui #uimodal .uimodalbody .modal-data .details-positions-box .details-pos
   line-height: 20px;
   margin: 1px 1px 0 0;
   text-align: center;
-  border: none;
+  border: 1px solid #c8d1db;
   -webkit-border-top-left-radius: 5px;
   -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
