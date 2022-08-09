@@ -1,16 +1,16 @@
 /* Minification failed. Returning unminified contents.
-(6360,74): run-time error CSS1030: Expected identifier, found ','
-(6360,216): run-time error CSS1031: Expected selector, found ')'
-(6360,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7849,113): run-time error CSS1030: Expected identifier, found ','
-(7849,125): run-time error CSS1031: Expected selector, found ')'
-(7849,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9055,133): run-time error CSS1030: Expected identifier, found ','
-(9055,274): run-time error CSS1031: Expected selector, found ')'
-(9055,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9590,108): run-time error CSS1030: Expected identifier, found ','
-(9590,250): run-time error CSS1031: Expected selector, found ')'
-(9590,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6384,74): run-time error CSS1030: Expected identifier, found ','
+(6384,216): run-time error CSS1031: Expected selector, found ')'
+(6384,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7874,113): run-time error CSS1030: Expected identifier, found ','
+(7874,125): run-time error CSS1031: Expected selector, found ')'
+(7874,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9080,133): run-time error CSS1030: Expected identifier, found ','
+(9080,274): run-time error CSS1031: Expected selector, found ')'
+(9080,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9615,108): run-time error CSS1030: Expected identifier, found ','
+(9615,250): run-time error CSS1031: Expected selector, found ')'
+(9615,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6278,13 +6278,13 @@ body.ui2018.uiupdate .default-form .form-row label:not(.ui-file),
 body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file) {
   display: inline-block;
   width: auto !important;
+  max-width: 100%;
   font-size: 14px !important;
-  height: 16px;
-  line-height: 16px;
+  min-height: 16px;
+  line-height: 22px;
   margin: 0 0 5px 0;
   padding: 0;
   color: #636e7c;
-  overflow: hidden;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -6295,8 +6295,8 @@ body.ui2018.uiupdate .form .form-row label:not(.ui-file) .required,
 body.ui2018.uiupdate.cform .form .form-row label:not(.ui-file) .required,
 body.ui2018.uiupdate .default-form .form-row label:not(.ui-file) .required,
 body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file) .required {
-  height: 16px;
-  line-height: 16px;
+  min-height: 16px;
+  line-height: 22px;
   margin: 0 0 5px 0;
   padding-left: 5px;
 }
@@ -6320,6 +6320,30 @@ body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file):nth-child
   text-overflow: ellipsis;
   overflow: hidden;
 }
+body.ui2018.uiupdate form .form-row.hashelp label:not(.ui-file),
+body.ui2018.uiupdate.cform form .form-row.hashelp label:not(.ui-file),
+body.ui2018.uiupdate .form .form-row.hashelp label:not(.ui-file),
+body.ui2018.uiupdate.cform .form .form-row.hashelp label:not(.ui-file),
+body.ui2018.uiupdate .default-form .form-row.hashelp label:not(.ui-file),
+body.ui2018.uiupdate.cform .default-form .form-row.hashelp label:not(.ui-file) {
+  max-width: calc(100% - 30px);
+}
+body.ui2018.uiupdate form .form-row.required label:not(.ui-file),
+body.ui2018.uiupdate.cform form .form-row.required label:not(.ui-file),
+body.ui2018.uiupdate .form .form-row.required label:not(.ui-file),
+body.ui2018.uiupdate.cform .form .form-row.required label:not(.ui-file),
+body.ui2018.uiupdate .default-form .form-row.required label:not(.ui-file),
+body.ui2018.uiupdate.cform .default-form .form-row.required label:not(.ui-file) {
+  max-width: calc(100% - 20px);
+}
+body.ui2018.uiupdate form .form-row.hashelp.required label:not(.ui-file),
+body.ui2018.uiupdate.cform form .form-row.hashelp.required label:not(.ui-file),
+body.ui2018.uiupdate .form .form-row.hashelp.required label:not(.ui-file),
+body.ui2018.uiupdate.cform .form .form-row.hashelp.required label:not(.ui-file),
+body.ui2018.uiupdate .default-form .form-row.hashelp.required label:not(.ui-file),
+body.ui2018.uiupdate.cform .default-form .form-row.hashelp.required label:not(.ui-file) {
+  max-width: calc(100% - 40px);
+}
 body.ui2018.uiupdate form .form-row .help,
 body.ui2018.uiupdate.cform form .form-row .help,
 body.ui2018.uiupdate .form .form-row .help,
@@ -6332,8 +6356,8 @@ body.ui2018.uiupdate .form .form-row .required,
 body.ui2018.uiupdate.cform .form .form-row .required,
 body.ui2018.uiupdate .default-form .form-row .required,
 body.ui2018.uiupdate.cform .default-form .form-row .required {
-  height: 16px !important;
-  line-height: 16px !important;
+  min-height: 16px !important;
+  line-height: 22px !important;
   margin: 0 0 5px 0 !important;
 }
 body.ui2018.uiupdate form .form-row input[type="text"],
@@ -6990,7 +7014,7 @@ body.ui2018.uiupdate .form .form-row.check-label-pair,
 body.ui2018.uiupdate.cform .form .form-row.check-label-pair,
 body.ui2018.uiupdate .default-form .form-row.check-label-pair,
 body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair {
-  height: 44px;
+  min-height: 44px;
   line-height: 44px;
 }
 body.ui2018.uiupdate form .form-row .radio-label-pair input,
@@ -7048,6 +7072,7 @@ body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair label {
   margin: 11px 0 0 0;
   padding: 0;
   height: unset;
+  max-width: calc(100% - 44px);
   min-height: 44px;
   line-height: 22px;
 }
