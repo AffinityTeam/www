@@ -29560,7 +29560,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _mouseLeave (ev)
   {
     var unlockScroll = true;
-    if (ev && $a.isEvent(ev) && $a.isNode(ev.target) && ev.target.closest('.popup')) unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
+    if (ev && $a.isEvent(ev) && $a.isNode(ev.target))
+    {
+      if (Affinity2018.getParent(ev.target, '.popup') || Affinity2018.getParent(ev.target, '.UIPromtBox') || Affinity2018.getParent(ev.target, '.uimodalbody'))
+      {
+        debugger;
+        unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
+      }
+    }
     if (unlockScroll) Affinity2018.unlockBodyScroll();
   }
 

@@ -1,19 +1,28 @@
 /* Minification failed. Returning unminified contents.
-(6365,74): run-time error CSS1030: Expected identifier, found ','
-(6365,216): run-time error CSS1031: Expected selector, found ')'
-(6365,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7854,113): run-time error CSS1030: Expected identifier, found ','
-(7854,125): run-time error CSS1031: Expected selector, found ')'
-(7854,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9060,133): run-time error CSS1030: Expected identifier, found ','
-(9060,274): run-time error CSS1031: Expected selector, found ')'
-(9060,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9599,167): run-time error CSS1030: Expected identifier, found ','
-(9599,309): run-time error CSS1031: Expected selector, found ')'
-(9599,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(9813,108): run-time error CSS1030: Expected identifier, found ','
-(9813,250): run-time error CSS1031: Expected selector, found ')'
-(9813,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6347,64): run-time error CSS1030: Expected identifier, found ','
+(6347,71): run-time error CSS1031: Expected selector, found ')'
+(6347,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6355,63): run-time error CSS1030: Expected identifier, found ','
+(6355,70): run-time error CSS1031: Expected selector, found ')'
+(6355,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6363,72): run-time error CSS1030: Expected identifier, found ','
+(6363,79): run-time error CSS1031: Expected selector, found ')'
+(6363,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6422,74): run-time error CSS1030: Expected identifier, found ','
+(6422,216): run-time error CSS1031: Expected selector, found ')'
+(6422,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7981,113): run-time error CSS1030: Expected identifier, found ','
+(7981,125): run-time error CSS1031: Expected selector, found ')'
+(7981,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9194,133): run-time error CSS1030: Expected identifier, found ','
+(9194,274): run-time error CSS1031: Expected selector, found ')'
+(9194,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9737,167): run-time error CSS1030: Expected identifier, found ','
+(9737,309): run-time error CSS1031: Expected selector, found ')'
+(9737,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(9951,108): run-time error CSS1030: Expected identifier, found ','
+(9951,250): run-time error CSS1031: Expected selector, found ')'
+(9951,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6047,14 +6056,22 @@ body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-butto
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span,
 body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span,
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) span,
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span {
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span,
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) icon,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) icon,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) icon,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) icon {
   height: 36px;
   line-height: 36px;
 }
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
 body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child {
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) icon:first-child,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) icon:first-child,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) icon:first-child,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) icon:first-child {
   margin: 0 5px 0 0;
   font-size: 16px;
 }
@@ -6077,7 +6094,15 @@ body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-butto
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child,
 body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child,
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child,
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child {
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child,
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only icon:first-child,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only icon:first-child,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only icon:first-child,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only icon:first-child {
   margin: 0;
 }
 body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button),
@@ -6096,14 +6121,22 @@ body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) {
 body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button) span,
 body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button) span,
 body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button) span,
-body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) span {
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) span,
+body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button) icon,
+body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button) icon,
+body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button) icon,
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) icon {
   height: 36px;
   line-height: 36px;
 }
 body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button) span:first-child,
 body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button) span:first-child,
 body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button) span:first-child,
-body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) span:first-child {
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) span:first-child,
+body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button) icon:first-child,
+body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button) icon:first-child,
+body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button) icon:first-child,
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button) icon:first-child {
   margin: 0 5px 0 0;
   font-size: 16px;
 }
@@ -6126,7 +6159,15 @@ body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button).ico
 body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button).w-icon-only span:first-child,
 body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button).w-icon-only span:first-child,
 body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button).w-icon-only span:first-child,
-body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button).w-icon-only span:first-child {
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button).w-icon-only span:first-child,
+body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button).icononly icon:first-child,
+body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button).w-icon-only icon:first-child,
+body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button).w-icon-only icon:first-child,
+body.ui2018.uiupdate .button.timesheet-button:not(.ui-calendar-button).w-icon-only icon:first-child,
+body.ui2018.uiupdate.cform .button.timesheet-button:not(.ui-calendar-button).w-icon-only icon:first-child {
   margin: 0;
 }
 body.ui2018.uiupdate .ui-autocomplete-container,
@@ -6286,6 +6327,7 @@ body.ui2018.uiupdate .default-form .form-row label:not(.ui-file),
 body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file) {
   display: inline-block;
   width: auto !important;
+  max-width: 680px;
   font-size: 14px !important;
   height: 16px;
   line-height: 16px;
@@ -6327,6 +6369,30 @@ body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file):nth-child
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+body.ui2018.uiupdate form .form-row.required label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform form .form-row.required label:not(.ui-file,.right),
+body.ui2018.uiupdate .form .form-row.required label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform .form .form-row.required label:not(.ui-file,.right),
+body.ui2018.uiupdate .default-form .form-row.required label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform .default-form .form-row.required label:not(.ui-file,.right) {
+  max-width: 660px;
+}
+body.ui2018.uiupdate form .form-row.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform form .form-row.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate .form .form-row.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform .form .form-row.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate .default-form .form-row.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform .default-form .form-row.hashelp label:not(.ui-file,.right) {
+  max-width: 655px;
+}
+body.ui2018.uiupdate form .form-row.required.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform form .form-row.required.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate .form .form-row.required.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform .form .form-row.required.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate .default-form .form-row.required.hashelp label:not(.ui-file,.right),
+body.ui2018.uiupdate.cform .default-form .form-row.required.hashelp label:not(.ui-file,.right) {
+  max-width: 640px;
 }
 body.ui2018.uiupdate form .form-row .help,
 body.ui2018.uiupdate.cform form .form-row .help,
@@ -7053,6 +7119,7 @@ body.ui2018.uiupdate.cform .form .form-row.check-label-pair label,
 body.ui2018.uiupdate .default-form .form-row.check-label-pair label,
 body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair label {
   vertical-align: top;
+  max-width: 630px;
   margin: 11px 0 0 0;
   padding: 0;
   height: unset;
@@ -7226,6 +7293,60 @@ body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign
 body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button {
   height: 30px;
   line-height: 30px;
+  padding: 0 10px;
+}
+body.ui2018.uiupdate form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon,
+body.ui2018.uiupdate form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span {
+  height: 30px;
+  line-height: 30px;
+}
+body.ui2018.uiupdate form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button icon:first-child,
+body.ui2018.uiupdate form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child {
+  margin: 0 2px 0 0;
 }
 body.ui2018.uiupdate form .form-row.row-currency,
 body.ui2018.uiupdate.cform form .form-row.row-currency,
@@ -7506,6 +7627,11 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-attachinstructions div.ed
   min-height: 24px;
   line-height: 20px;
   padding: 0;
+  white-space: unset !important;
+  -ms-text-overflow: unset !important;
+  -o-text-overflow: unset !important;
+  text-overflow: unset !important;
+  overflow: unset !important;
 }
 body.ui2018.uiupdate form .form-row.row-attachinstructions div.edit-row div.row-content,
 body.ui2018.uiupdate.cform form .form-row.row-attachinstructions div.edit-row div.row-content,
@@ -7570,8 +7696,17 @@ body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label,
 body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label {
-  height: 44px;
-  line-height: 44px;
+  display: inline-block;
+  height: unset;
+  max-width: 585px;
+  min-height: 44px;
+  line-height: 22px;
+  vertical-align: top;
+  white-space: unset !important;
+  -ms-text-overflow: unset !important;
+  -o-text-overflow: unset !important;
+  text-overflow: unset !important;
+  overflow: unset !important;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file,
@@ -7579,13 +7714,9 @@ body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200px;
+  width: 95px;
   height: 44px;
-  line-height: 44px;
+  max-width: unset;
   text-align: right;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file input,
@@ -7606,7 +7737,11 @@ body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file div.butto
 body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file div.button,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file div.button,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file div.button {
-  color: #16c1f3;
+  height: 44px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0 2px;
+  color: #106eb6;
   font-size: 14px;
   font-weight: normal;
   text-decoration: underline;
@@ -7639,6 +7774,7 @@ body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file div.butto
 body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover {
+  color: #16c1f3;
   background: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -8104,6 +8240,9 @@ body.ui2018.uiupdate .form .form-row .start-link,
 body.ui2018.uiupdate.cform .form .form-row .start-link,
 body.ui2018.uiupdate .default-form .form-row .start-link,
 body.ui2018.uiupdate.cform .default-form .form-row .start-link {
+  width: 100%;
+  max-width: unset;
+  min-width: unset;
   margin: 0px 0 20px 0;
   height: 44px;
   line-height: 44px;
@@ -8114,6 +8253,9 @@ body.ui2018.uiupdate .form .form-row .start-link form,
 body.ui2018.uiupdate.cform .form .form-row .start-link form,
 body.ui2018.uiupdate .default-form .form-row .start-link form,
 body.ui2018.uiupdate.cform .default-form .form-row .start-link form {
+  width: 100%;
+  max-width: unset !important;
+  min-width: unset !important;
   height: 44px;
   line-height: 44px;
   padding: 0;
@@ -8168,6 +8310,7 @@ body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content div.se
 body.ui2018.uiupdate.cform.v2.dashboard div.pagewrapper div.content div.section div.section-header .section-title,
 body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content div.section div.section-header .section-title {
   font-style: normal;
+  max-width: 680px;
 }
 body.ui2018.uiupdate.cform.v2.dashboard div.pagewrapper div.content div.section.shadow,
 body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content div.section.shadow {
@@ -9345,6 +9488,10 @@ body.ui2018.uiupdate.cform.dark a {
 body.ui2018.uiupdate.dark a:hover,
 body.ui2018.uiupdate.cform.dark a:hover {
   color: #106eb6;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent {
+  background: none;
 }
 body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-header .section-title,
 body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .section .section-header .section-title {
