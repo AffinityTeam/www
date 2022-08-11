@@ -6730,6 +6730,20 @@ li {
 body.newui {
   overflow-y: auto;
 }
+body.newui > .pagewrapper {
+  padding: 32px 24px;
+  width: auto;
+}
+body.newui > .pagewrapper > .section {
+  margin: -32px -24px 24px;
+  border-radius: 0;
+}
+body.newui .section {
+  box-shadow: 0 5px 20px #00378033;
+  border-radius: 10px;
+  background: white;
+  margin: 0 auto 24px;
+}
 body.newui .section .section-header .icon {
   display: none;
 }
@@ -6793,12 +6807,6 @@ body.newui .dashboard .pagecontent {
   -moz-border-radius-bottomleft: 5px;
   border-bottom-left-radius: 5px;
   transition: padding-left ease-in-out 0.2s;
-}
-body.newui .dashboard .pagecontent .section {
-  box-shadow: 0 5px 20px #00378033;
-  border-radius: 10px;
-  background: white;
-  margin: 0 auto 24px;
 }
 body.newui .dashboard .pagecontent .section .section-body {
   margin: 0;
