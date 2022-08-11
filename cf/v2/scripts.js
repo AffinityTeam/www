@@ -3928,7 +3928,7 @@
      String.format = function()
      {
        var args = [].slice.call(arguments);
-       return Source63.FormatString(this, args);
+       return Affinity2018.FormatString(this, args);
      };
    }
    /* old
@@ -15352,7 +15352,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
 
       var worflowButtonMargin = Math.round(formButtonsNode.getBoundingClientRect().width) + 20;
-      workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
+      if (!Affinity2018.IsMobile) workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
     }
     this._ready();
   }
@@ -19816,6 +19816,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     {
 
       // set any special elements
+
+      if (this.FormRowNode.querySelector('input'))
+      {
+        this.FormRowNode.querySelector('input').addEventListener('validated', function ()
+        {
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this));
+      }
 
       return this.FormRowNode;
     }
@@ -31029,6 +31037,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
+    this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
   /**/
@@ -31172,6 +31181,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
     this.templateNode.classList.add('affinity2018', 'search-form-container');
     this.templateNode.innerHTML = this.template;
 
+    this.searchFormNode = this.templateNode.querySelector('.search-form');
     this.checkFilterBoxNode = this.templateNode.querySelector('.search-form-check-filters');
     this.selectFilterBoxNode = this.templateNode.querySelector('.search-form-select-filters');
 
@@ -31682,6 +31692,13 @@ Affinity2018.Classes.Plugins.BigSearch = class
           this.paginationNode.dataset.pages = pages;
           this.paginationNode.classList.remove('hidden');
 
+          var paginationHeight = this.paginationNode.getBoundingClientRect().height;
+          var searchFormHeight = this.searchFormNode.getBoundingClientRect().height;
+          var regionHeight = this.templateNode.getBoundingClientRect().height;
+          var searchHeight = Math.floor(regionHeight - paginationHeight - searchFormHeight - 30);
+
+          this.searchResultsNode.style.height = searchHeight + 'px';
+
         }
 
       }
@@ -31692,7 +31709,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
   _paginationClicked (ev)
   {
     var target = ev.target.tagName.toLowerCase() === 'a' ? ev.target : ev.target.closest('a');
-    if(!target.classList.contains('disabled'))
+    if (target && !target.classList.contains('disabled'))
     {
       var pages = parseInt(this.paginationNode.dataset.pages),
           current = parseInt(this.paginationNode.querySelector('.current').dataset.page) + 1,
@@ -36512,10 +36529,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
     this.listRowTemplate = `
     <td>
-      <textarea class="description" placeholder="{descPlaceholder}"></textarea>
+      <textarea class="description" type="text" placeholder="{descPlaceholder}"></textarea>
     </td>
     <td>
-      <textarea class="code" placeholder="{codePlaceholder}"></textarea>
+      <textarea class="code" type="text" placeholder="{codePlaceholder}"></textarea>
     </td>
     <td>
       <div class="button blue icon-arrow-up" data-do="up"></div>
