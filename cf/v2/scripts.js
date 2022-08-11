@@ -15352,7 +15352,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
 
       var worflowButtonMargin = Math.round(formButtonsNode.getBoundingClientRect().width) + 20;
-      workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
+      if (!Affinity2018.IsMobile) workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
     }
     this._ready();
   }

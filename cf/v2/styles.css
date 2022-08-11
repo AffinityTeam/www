@@ -1,16 +1,19 @@
 /* Minification failed. Returning unminified contents.
-(6421,74): run-time error CSS1030: Expected identifier, found ','
-(6421,216): run-time error CSS1031: Expected selector, found ')'
-(6421,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7911,113): run-time error CSS1030: Expected identifier, found ','
-(7911,125): run-time error CSS1031: Expected selector, found ')'
-(7911,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9117,133): run-time error CSS1030: Expected identifier, found ','
-(9117,274): run-time error CSS1031: Expected selector, found ')'
-(9117,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9696,108): run-time error CSS1030: Expected identifier, found ','
-(9696,250): run-time error CSS1031: Expected selector, found ')'
-(9696,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6365,74): run-time error CSS1030: Expected identifier, found ','
+(6365,216): run-time error CSS1031: Expected selector, found ')'
+(6365,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7854,113): run-time error CSS1030: Expected identifier, found ','
+(7854,125): run-time error CSS1031: Expected selector, found ')'
+(7854,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9060,133): run-time error CSS1030: Expected identifier, found ','
+(9060,274): run-time error CSS1031: Expected selector, found ')'
+(9060,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9599,167): run-time error CSS1030: Expected identifier, found ','
+(9599,309): run-time error CSS1031: Expected selector, found ')'
+(9599,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(9813,108): run-time error CSS1030: Expected identifier, found ','
+(9813,250): run-time error CSS1031: Expected selector, found ')'
+(9813,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -5914,7 +5917,6 @@ body.ui2018.uiupdate.cform {
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper #uimodalbg,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodalbg {
-  position: fixed;
   top: 0;
   left: 0 !important;
   margin-left: 225px;
@@ -5922,33 +5924,23 @@ body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodalbg {
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper #uimodal,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodal {
-  position: absolute;
+  position: fixed;
   margin-left: 112.5px;
   z-index: 999999 !important;
 }
-body.ui2018.uiupdate.ss-dashboard-wrapper #UIPromtBoxBG,
-body.ui2018.uiupdate.cform.ss-dashboard-wrapper #UIPromtBoxBG,
 body.ui2018.uiupdate.ss-dashboard-wrapper .UIPromtBoxBG,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper .UIPromtBoxBG {
-  position: fixed;
   top: 0;
   left: 0 !important;
   z-index: 9999999 !important;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper .UIPromtBox,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper .UIPromtBox {
-  position: absolute;
   z-index: 10000000 !important;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper .helpBubble,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper .helpBubble {
-  position: absolute;
   z-index: 9999997;
-}
-body.ui2018.uiupdate.ss-dashboard-wrapper .mobile-wrap,
-body.ui2018.uiupdate.cform.ss-dashboard-wrapper .mobile-wrap {
-  z-index: unset;
-  position: unset;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper div.pagecontent,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper div.pagecontent {
@@ -6051,17 +6043,6 @@ body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-butto
   -webkit-border-radius: 18px;
   -moz-border-radius: 18px;
   border-radius: 18px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button):hover,
-body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button):hover,
-body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button):hover,
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button):hover {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
 }
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span,
 body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span,
@@ -6070,14 +6051,11 @@ body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-butto
   height: 36px;
   line-height: 36px;
 }
-body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1),
-body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1),
-body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1),
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span:nth-child(1) {
-  width: 18px;
+body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
+body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
+body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child,
+body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) span:first-child {
   margin: 0 5px 0 0;
-  padding: 0;
-  text-align: center;
   font-size: 16px;
 }
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button).icononly,
@@ -6101,18 +6079,6 @@ body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child,
 body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button).w-icon-only span:first-child {
   margin: 0;
-}
-body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button) icon,
-body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button) icon,
-body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button) icon,
-body.ui2018.uiupdate.cform .button:not(.timesheet-button):not(.ui-calendar-button) icon {
-  width: 18px;
-  height: 36px;
-  line-height: 36px;
-  margin: 0 5px 0 0;
-  padding: 0;
-  text-align: center;
-  font-size: 16px;
 }
 body.ui2018.uiupdate button.timesheet-button:not(.ui-calendar-button),
 body.ui2018.uiupdate.cform button.timesheet-button:not(.ui-calendar-button),
@@ -6171,11 +6137,16 @@ body.ui2018.uiupdate.cform .ui-autocomplete-container {
 body.ui2018.uiupdate .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display,
 body.ui2018.uiupdate.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display {
   height: 44px;
-  padding: 0 44px 0 15px;
+  padding: 0 39px 0 15px !important;
   font-size: 16px;
   color: black;
   background: #f7f9fe;
   border: 2px solid #e3e8ed;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
   -webkit-transition: unset;
   -moz-transition: unset;
   -o-transition: unset;
@@ -6315,13 +6286,13 @@ body.ui2018.uiupdate .default-form .form-row label:not(.ui-file),
 body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file) {
   display: inline-block;
   width: auto !important;
-  max-width: 100%;
   font-size: 14px !important;
-  min-height: 16px;
-  line-height: 22px;
+  height: 16px;
+  line-height: 16px;
   margin: 0 0 5px 0;
   padding: 0;
   color: #636e7c;
+  overflow: hidden;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -6332,8 +6303,8 @@ body.ui2018.uiupdate .form .form-row label:not(.ui-file) .required,
 body.ui2018.uiupdate.cform .form .form-row label:not(.ui-file) .required,
 body.ui2018.uiupdate .default-form .form-row label:not(.ui-file) .required,
 body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file) .required {
-  min-height: 16px;
-  line-height: 22px;
+  height: 16px;
+  line-height: 16px;
   margin: 0 0 5px 0;
   padding-left: 5px;
 }
@@ -6357,30 +6328,6 @@ body.ui2018.uiupdate.cform .default-form .form-row label:not(.ui-file):nth-child
   text-overflow: ellipsis;
   overflow: hidden;
 }
-body.ui2018.uiupdate form .form-row.hashelp label:not(.ui-file),
-body.ui2018.uiupdate.cform form .form-row.hashelp label:not(.ui-file),
-body.ui2018.uiupdate .form .form-row.hashelp label:not(.ui-file),
-body.ui2018.uiupdate.cform .form .form-row.hashelp label:not(.ui-file),
-body.ui2018.uiupdate .default-form .form-row.hashelp label:not(.ui-file),
-body.ui2018.uiupdate.cform .default-form .form-row.hashelp label:not(.ui-file) {
-  max-width: calc(100% - 30px);
-}
-body.ui2018.uiupdate form .form-row.required label:not(.ui-file),
-body.ui2018.uiupdate.cform form .form-row.required label:not(.ui-file),
-body.ui2018.uiupdate .form .form-row.required label:not(.ui-file),
-body.ui2018.uiupdate.cform .form .form-row.required label:not(.ui-file),
-body.ui2018.uiupdate .default-form .form-row.required label:not(.ui-file),
-body.ui2018.uiupdate.cform .default-form .form-row.required label:not(.ui-file) {
-  max-width: calc(100% - 20px);
-}
-body.ui2018.uiupdate form .form-row.hashelp.required label:not(.ui-file),
-body.ui2018.uiupdate.cform form .form-row.hashelp.required label:not(.ui-file),
-body.ui2018.uiupdate .form .form-row.hashelp.required label:not(.ui-file),
-body.ui2018.uiupdate.cform .form .form-row.hashelp.required label:not(.ui-file),
-body.ui2018.uiupdate .default-form .form-row.hashelp.required label:not(.ui-file),
-body.ui2018.uiupdate.cform .default-form .form-row.hashelp.required label:not(.ui-file) {
-  max-width: calc(100% - 40px);
-}
 body.ui2018.uiupdate form .form-row .help,
 body.ui2018.uiupdate.cform form .form-row .help,
 body.ui2018.uiupdate .form .form-row .help,
@@ -6393,8 +6340,8 @@ body.ui2018.uiupdate .form .form-row .required,
 body.ui2018.uiupdate.cform .form .form-row .required,
 body.ui2018.uiupdate .default-form .form-row .required,
 body.ui2018.uiupdate.cform .default-form .form-row .required {
-  min-height: 16px !important;
-  line-height: 22px !important;
+  height: 16px !important;
+  line-height: 16px !important;
   margin: 0 0 5px 0 !important;
 }
 body.ui2018.uiupdate form .form-row input[type="text"],
@@ -7109,7 +7056,6 @@ body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair label {
   margin: 11px 0 0 0;
   padding: 0;
   height: unset;
-  max-width: calc(100% - 44px);
   min-height: 44px;
   line-height: 22px;
 }
@@ -9392,57 +9338,13 @@ body.ui2018.uiupdate.cform.dark {
   background: #111111;
   color: #cccccc;
 }
-body.ui2018.uiupdate.dark #uimodal,
-body.ui2018.uiupdate.cform.dark #uimodal {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-}
-body.ui2018.uiupdate.dark #uimodal .uimodalbody,
-body.ui2018.uiupdate.cform.dark #uimodal .uimodalbody {
-  background: white;
-}
-body.ui2018.uiupdate.dark .UIPromtBox,
-body.ui2018.uiupdate.cform.dark .UIPromtBox {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-}
-body.ui2018.uiupdate.dark .helpBubble,
-body.ui2018.uiupdate.cform.dark .helpBubble {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-}
-body.ui2018.uiupdate.dark .ui-autocomplete-list,
-body.ui2018.uiupdate.cform.dark .ui-autocomplete-list {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-}
-body.ui2018.uiupdate.dark #uimodalbg,
-body.ui2018.uiupdate.cform.dark #uimodalbg,
-body.ui2018.uiupdate.dark #UIPromtBoxBG,
-body.ui2018.uiupdate.cform.dark #UIPromtBoxBG,
-body.ui2018.uiupdate.dark .UIPromtBoxBG,
-body.ui2018.uiupdate.cform.dark .UIPromtBoxBG {
-  background: rgba(0, 0, 0, 0.8);
-}
-body.ui2018.uiupdate.dark a:not(.button),
-body.ui2018.uiupdate.cform.dark a:not(.button) {
+body.ui2018.uiupdate.dark a,
+body.ui2018.uiupdate.cform.dark a {
   color: #16c1f3;
 }
-body.ui2018.uiupdate.dark a:not(.button):hover,
-body.ui2018.uiupdate.cform.dark a:not(.button):hover {
+body.ui2018.uiupdate.dark a:hover,
+body.ui2018.uiupdate.cform.dark a:hover {
   color: #106eb6;
-}
-body.ui2018.uiupdate.dark .pagewrapper,
-body.ui2018.uiupdate.cform.dark .pagewrapper {
-  background: #111111;
-}
-body.ui2018.uiupdate.dark .pagewrapper .pagecontent,
-body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent {
-  background: none !important;
 }
 body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-header .section-title,
 body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .section .section-header .section-title {
@@ -9660,6 +9562,224 @@ body.ui2018.uiupdate.dark .cf-designer-element-popup .close,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .close {
   background: #222222 !important;
   color: #cccccc !important;
+}
+body.ui2018.uiupdate.mobile,
+body.ui2018.uiupdate.cform.mobile {
+  width: 100vw;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper {
+  width: 100vw;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent {
+  width: 100vw;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.header,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.header {
+  margin-top: 55px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content {
+  width: 100vw;
+  padding: 10px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form {
+  width: 100%;
+  min-width: 100% !important;
+  max-width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row label,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row label {
+  height: unset;
+  min-height: 16px;
+  max-width: 100%;
+  white-space: unset;
+  -ms-text-overflow: unset;
+  -o-text-overflow: unset;
+  text-overflow: unset;
+  overflow: unset;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row input[type="text"]:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, .bank, .branch, .account, .suffix, .tax1, .tax2, .tax2, .tax3, .tax4 ),
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row input[type="text"]:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, .bank, .branch, .account, .suffix, .tax1, .tax2, .tax2, .tax3, .tax4 ),
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row input[type="number"]:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, .bank, .branch, .account, .suffix, .tax1, .tax2, .tax2, .tax3, .tax4 ),
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row input[type="number"]:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, .bank, .branch, .account, .suffix, .tax1, .tax2, .tax2, .tax3, .tax4 ) {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row textarea,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row textarea {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row div.ui-autocomplete-container,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row div.ui-autocomplete-container {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-date div.ui-calendar-container,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-date div.ui-calendar-container {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields {
+  width: calc(100% - 20px);
+  min-width: calc(100% - 20px);
+  max-width: calc(100% - 20px);
+  margin: 10px 0 0 20px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.suburb,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.suburb,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.city,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.city,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.state,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.state {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-explanation div.help-bubble,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-explanation div.help-bubble {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-currency div.currencybox,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-currency div.currencybox {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-currency div.currencybox input,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-currency div.currencybox input {
+  width: calc(100% - 22px);
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box div.select,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box div.select {
+  display: block;
+  margin: 0 0 10px 0 !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input {
+  padding: 0 10px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.bank,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.bank {
+  width: 60px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.branch,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.branch {
+  width: 70px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.account,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.account {
+  width: 170px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input {
+  padding: 0 10px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.bank,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.bank {
+  width: 60px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.branch,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.branch {
+  width: 70px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.account,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.account {
+  width: 95px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.suffix,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.suffix {
+  width: 65px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box div.select,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box div.select {
+  display: block;
+  margin: 0 0 10px 0 !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input {
+  padding: 0 10px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax1,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax1 {
+  width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax2,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax2 {
+  width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax3,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax3 {
+  width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input {
+  padding: 0 10px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax1,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax1 {
+  width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax2,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax2 {
+  width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3 {
+  width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons {
+  padding: 0 !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons div.button-list.identity,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons div.button-list.identity {
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons div.buttons,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons div.buttons {
+  position: relative;
+  right: unset;
+}
+body.ui2018.uiupdate.mobile #loader,
+body.ui2018.uiupdate.cform.mobile #loader {
+  top: 50vh;
+  left: 50vw;
+  margin: 0;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 @media print {
   body.ui2018.uiupdate #SS-DashboardWrapper,
