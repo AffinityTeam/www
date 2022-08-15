@@ -7615,7 +7615,11 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
   overflow: hidden;
   vertical-align: bottom;
   line-height: 25px;
-  float: right;
+}
+@media screen and (min-width: 640px) {
+  .leave-time-inputs {
+    float: right;
+  }
 }
 .leave-time-inputs span.title {
   display: inline-block;
@@ -7636,6 +7640,11 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
 .leave-time-inputs .edit-time {
   float: right;
   margin-top: 15px;
+}
+@media screen and (min-width: 640px) {
+  .leave-time-button {
+    text-align: right;
+  }
 }
 #employeeLeave .section.leave-balance {
   box-shadow: none;
