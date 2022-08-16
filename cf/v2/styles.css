@@ -1,28 +1,28 @@
 /* Minification failed. Returning unminified contents.
-(6326,64): run-time error CSS1030: Expected identifier, found ','
-(6326,71): run-time error CSS1031: Expected selector, found ')'
-(6326,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6334,63): run-time error CSS1030: Expected identifier, found ','
-(6334,70): run-time error CSS1031: Expected selector, found ')'
-(6334,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6342,72): run-time error CSS1030: Expected identifier, found ','
-(6342,79): run-time error CSS1031: Expected selector, found ')'
-(6342,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6401,74): run-time error CSS1030: Expected identifier, found ','
-(6401,216): run-time error CSS1031: Expected selector, found ')'
-(6401,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7966,113): run-time error CSS1030: Expected identifier, found ','
-(7966,125): run-time error CSS1031: Expected selector, found ')'
-(7966,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9180,133): run-time error CSS1030: Expected identifier, found ','
-(9180,274): run-time error CSS1031: Expected selector, found ')'
-(9180,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9744,167): run-time error CSS1030: Expected identifier, found ','
-(9744,309): run-time error CSS1031: Expected selector, found ')'
-(9744,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(9958,108): run-time error CSS1030: Expected identifier, found ','
-(9958,250): run-time error CSS1031: Expected selector, found ')'
-(9958,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6342,64): run-time error CSS1030: Expected identifier, found ','
+(6342,71): run-time error CSS1031: Expected selector, found ')'
+(6342,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6350,63): run-time error CSS1030: Expected identifier, found ','
+(6350,70): run-time error CSS1031: Expected selector, found ')'
+(6350,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6358,72): run-time error CSS1030: Expected identifier, found ','
+(6358,79): run-time error CSS1031: Expected selector, found ')'
+(6358,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6417,74): run-time error CSS1030: Expected identifier, found ','
+(6417,216): run-time error CSS1031: Expected selector, found ')'
+(6417,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7982,113): run-time error CSS1030: Expected identifier, found ','
+(7982,125): run-time error CSS1031: Expected selector, found ')'
+(7982,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9178,133): run-time error CSS1030: Expected identifier, found ','
+(9178,274): run-time error CSS1031: Expected selector, found ')'
+(9178,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9742,167): run-time error CSS1030: Expected identifier, found ','
+(9742,309): run-time error CSS1031: Expected selector, found ')'
+(9742,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(9956,108): run-time error CSS1030: Expected identifier, found ','
+(9956,250): run-time error CSS1031: Expected selector, found ')'
+(9956,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6019,6 +6019,22 @@ body.ui2018.uiupdate #tooltip,
 body.ui2018.uiupdate.cform #tooltip {
   max-width: 680px;
 }
+body.ui2018.uiupdate p,
+body.ui2018.uiupdate.cform p {
+  font-size: 16px;
+}
+body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content,
+body.ui2018.uiupdate.cform div.pagewrapper div.pagecontent div.content {
+  background: none;
+}
+body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section,
+body.ui2018.uiupdate.cform div.pagewrapper div.pagecontent div.content div.section,
+body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section.shadow,
+body.ui2018.uiupdate.cform div.pagewrapper div.pagecontent div.content div.section.shadow {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+  box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+}
 body.ui2018.uiupdate button:not(.timesheet-button):not(.ui-calendar-button),
 body.ui2018.uiupdate.cform button:not(.timesheet-button):not(.ui-calendar-button),
 body.ui2018.uiupdate .button:not(.timesheet-button):not(.ui-calendar-button),
@@ -7699,7 +7715,7 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-
   max-width: 95px;
   height: 44px;
   text-align: right;
-  float: right;
+  float: left;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file input,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file input,
@@ -8418,12 +8434,6 @@ body.ui2018.uiupdate.cform.cform.v2.dark.dashboard div.pagewrapper div.content d
   -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
 }
-body.ui2018.uiupdate.cform.v2.dark.dashboard div.pagewrapper div.content div.section,
-body.ui2018.uiupdate.cform.cform.v2.dark.dashboard div.pagewrapper div.content div.section,
-body.ui2018.uiupdate.cform.v2.dark.dashboard div.pagewrapper div.content div.section.shadow,
-body.ui2018.uiupdate.cform.cform.v2.dark.dashboard div.pagewrapper div.content div.section.shadow {
-  background: #222222;
-}
 body.ui2018.uiupdate.cform.v2.dark form .form-row label:not(.ui-file),
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row label:not(.ui-file),
 body.ui2018.uiupdate.cform.v2.dark .form .form-row label:not(.ui-file),
@@ -9090,18 +9100,6 @@ body.ui2018.uiupdate.cform .content.designer .cf-d2-bottom .cf-d2-bottom-right .
 body.ui2018.uiupdate .section,
 body.ui2018.uiupdate.cform .section {
   background: none;
-}
-body.ui2018.uiupdate .section.shadow,
-body.ui2018.uiupdate.cform .section.shadow {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-body.ui2018.uiupdate .section.shadow:hover,
-body.ui2018.uiupdate.cform .section.shadow:hover {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
 }
 body.ui2018.uiupdate .section .section-body .workflow-buttons .button-list .ui-autocomplete-container,
 body.ui2018.uiupdate.cform .section .section-body .workflow-buttons .button-list .ui-autocomplete-container {
