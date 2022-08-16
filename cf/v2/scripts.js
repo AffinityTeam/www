@@ -34953,6 +34953,9 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.initNode.parentNode.insertBefore(this.gridNode, this.initNode.nextSibling);
     }
 
+    var breaker = document.createElement('br');
+    this.gridNode.parentNode.insertBefore(breaker, this.gridNode);
+
     this.gridBody = this.gridNode.querySelector('tbody');
 
     this.fileNode.addEventListener('change', this._addFile);

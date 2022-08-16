@@ -11,18 +11,18 @@
 (6401,74): run-time error CSS1030: Expected identifier, found ','
 (6401,216): run-time error CSS1031: Expected selector, found ')'
 (6401,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7953,113): run-time error CSS1030: Expected identifier, found ','
-(7953,125): run-time error CSS1031: Expected selector, found ')'
-(7953,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9166,133): run-time error CSS1030: Expected identifier, found ','
-(9166,274): run-time error CSS1031: Expected selector, found ')'
-(9166,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9709,167): run-time error CSS1030: Expected identifier, found ','
-(9709,309): run-time error CSS1031: Expected selector, found ')'
-(9709,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(9923,108): run-time error CSS1030: Expected identifier, found ','
-(9923,250): run-time error CSS1031: Expected selector, found ')'
-(9923,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(7966,113): run-time error CSS1030: Expected identifier, found ','
+(7966,125): run-time error CSS1031: Expected selector, found ')'
+(7966,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9180,133): run-time error CSS1030: Expected identifier, found ','
+(9180,274): run-time error CSS1031: Expected selector, found ')'
+(9180,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9744,167): run-time error CSS1030: Expected identifier, found ','
+(9744,309): run-time error CSS1031: Expected selector, found ')'
+(9744,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(9958,108): run-time error CSS1030: Expected identifier, found ','
+(9958,250): run-time error CSS1031: Expected selector, found ')'
+(9958,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -7625,7 +7625,7 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-attachinstructions div.ed
   content: "\e2bc";
   display: block;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 34px;
   height: 20px;
@@ -7668,7 +7668,7 @@ body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label,
 body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label {
-  display: inline-block;
+  display: block;
   height: unset;
   max-width: 585px;
   min-height: 44px;
@@ -7680,6 +7680,14 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label {
   text-overflow: unset !important;
   overflow: unset !important;
 }
+body.ui2018.uiupdate form .form-row.row-fileuploadmulti label:not(.ui-file),
+body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label:not(.ui-file),
+body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label:not(.ui-file),
+body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label:not(.ui-file),
+body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label:not(.ui-file),
+body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label:not(.ui-file) {
+  float: left;
+}
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file,
@@ -7687,9 +7695,11 @@ body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file {
   width: 95px;
+  min-width: 95px;
+  max-width: 95px;
   height: 44px;
-  max-width: unset;
   text-align: right;
+  float: right;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file input,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file input,
@@ -7773,6 +7783,8 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti div.ui-fi
   margin: 0 0 20px 0 !important;
   padding: 0;
   background: none;
+  float: none;
+  clear: both;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -7852,6 +7864,7 @@ body.ui2018.uiupdate .form .form-row.row-fileuploadmulti div.ui-file-list table.
 body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td.file,
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td.file,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td.file {
+  position: relative;
   padding-left: 34px;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti div.ui-file-list table.grid tbody tr td.file a,
@@ -7871,7 +7884,7 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti div.ui-fi
   content: "\e2bc";
   display: block;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 34px;
   height: 44px;
@@ -8027,7 +8040,8 @@ body.ui2018.uiupdate .form .form-row.calendar:after,
 body.ui2018.uiupdate.cform .form .form-row.calendar:after,
 body.ui2018.uiupdate .default-form .form-row.calendar:after,
 body.ui2018.uiupdate.cform .default-form .form-row.calendar:after {
-  top: 21px;
+  top: unset;
+  bottom: 0;
   left: unset;
   right: 0;
   width: 44px;
@@ -9709,6 +9723,19 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
   min-width: 100%;
   max-width: 100%;
 }
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title {
+  font-size: 18px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title div,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title div,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title span,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title span,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title p,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title p {
+  font-size: 18px !important;
+  line-height: 24px !important;
+}
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form {
   width: 100%;
@@ -9721,11 +9748,19 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
   min-width: 100%;
   max-width: 100%;
 }
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row p,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row p,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row label,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row label,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row .explain,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row .explain {
+  font-size: 16px !important;
+  line-height: 24px !important;
+}
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row label,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row label {
   height: unset;
   min-height: 16px;
-  max-width: 100%;
   white-space: unset;
   -ms-text-overflow: unset;
   -o-text-overflow: unset;
