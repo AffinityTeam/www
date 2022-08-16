@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2718,32-37): run-time error JS1195: Expected expression: class
-(3255,32-37): run-time error JS1195: Expected expression: class
-(3268,20-21): run-time error JS1004: Expected ';': {
-(3339,27-28): run-time error JS1004: Expected ';': {
+(2716,32-37): run-time error JS1195: Expected expression: class
+(3253,32-37): run-time error JS1195: Expected expression: class
+(3266,20-21): run-time error JS1004: Expected ';': {
+(3337,27-28): run-time error JS1004: Expected ';': {
+(3341,29-30): run-time error JS1004: Expected ';': {
+(3342,29-30): run-time error JS1004: Expected ';': {
 (3343,29-30): run-time error JS1004: Expected ';': {
 (3344,29-30): run-time error JS1004: Expected ';': {
-(3345,29-30): run-time error JS1004: Expected ';': {
-(3346,29-30): run-time error JS1004: Expected ';': {
-(3347,13-14): run-time error JS1004: Expected ';': {
-(3366,15-16): run-time error JS1004: Expected ';': {
-(3384,12-13): run-time error JS1004: Expected ';': {
-(3389,12-13): run-time error JS1004: Expected ';': {
-(3392,17-18): run-time error JS1004: Expected ';': {
-(3982,36-41): run-time error JS1195: Expected expression: class
-(4095,30-35): run-time error JS1195: Expected expression: class
-(4200,31-36): run-time error JS1195: Expected expression: class
-(4439,35-40): run-time error JS1195: Expected expression: class
-(4567,33-38): run-time error JS1195: Expected expression: class
-(4778,39-40): run-time error JS1014: Invalid character: `
-(4778,40-41): run-time error JS1195: Expected expression: <
-(4778,100-101): run-time error JS1014: Invalid character: `
-(4797,43-44): run-time error JS1014: Invalid character: `
-(4797,44-45): run-time error JS1195: Expected expression: <
-(4797,108-109): run-time error JS1014: Invalid character: `
-(4865,33-38): run-time error JS1195: Expected expression: class
-(5163,32-37): run-time error JS1195: Expected expression: class
-(5529,33-38): run-time error JS1195: Expected expression: class
-(5607,37-42): run-time error JS1195: Expected expression: class
-(5608,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3345,13-14): run-time error JS1004: Expected ';': {
+(3364,15-16): run-time error JS1004: Expected ';': {
+(3382,12-13): run-time error JS1004: Expected ';': {
+(3387,12-13): run-time error JS1004: Expected ';': {
+(3390,17-18): run-time error JS1004: Expected ';': {
+(3980,36-41): run-time error JS1195: Expected expression: class
+(4093,30-35): run-time error JS1195: Expected expression: class
+(4198,31-36): run-time error JS1195: Expected expression: class
+(4437,35-40): run-time error JS1195: Expected expression: class
+(4565,33-38): run-time error JS1195: Expected expression: class
+(4776,39-40): run-time error JS1014: Invalid character: `
+(4776,40-41): run-time error JS1195: Expected expression: <
+(4776,100-101): run-time error JS1014: Invalid character: `
+(4795,43-44): run-time error JS1014: Invalid character: `
+(4795,44-45): run-time error JS1195: Expected expression: <
+(4795,108-109): run-time error JS1014: Invalid character: `
+(4863,33-38): run-time error JS1195: Expected expression: class
+(5161,32-37): run-time error JS1195: Expected expression: class
+(5527,33-38): run-time error JS1195: Expected expression: class
+(5605,37-42): run-time error JS1195: Expected expression: class
+(5606,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5609,5-16): run-time error JS1006: Expected ')': constructor
-(5678,3-4): run-time error JS1002: Syntax error: }
-(5678,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5622,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5607,5-16): run-time error JS1006: Expected ')': constructor
+(5676,3-4): run-time error JS1002: Syntax error: }
+(5676,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5620,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -2687,8 +2687,6 @@
   /**
    * Affinity2018.lockBodyScroll()
    * Locks Body Scroll so that other HTMLElements can have scroll focus without scrolling Body
-   * Affinity2018.unlockBodyScroll()
-   * Reset Body Scroll
    * 
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
    * 
@@ -27902,6 +27900,7 @@ Affinity2018.Classes.Plugins.Autocompletes = class
         }
       }
     }
+    Affinity2018.unlockBodyScroll();
   }
 
   /**/
@@ -29534,6 +29533,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
+      if (Affinity2018.hasOwnProperty('unlockBodyScroll') && document.body.classList.contains('disable-scroll')) Affinity2018.unlockBodyScroll();
     }
   }
 
@@ -29596,9 +29596,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     var unlockScroll = true;
     if (ev && $a.isEvent(ev) && $a.isNode(ev.target))
     {
-      if (Affinity2018.getParent(ev.target, '.popup') || Affinity2018.getParent(ev.target, '.UIPromtBox') || Affinity2018.getParent(ev.target, '.uimodalbody'))
+      if (
+        Affinity2018.getParent(ev.target, '.popup')
+        || Affinity2018.getParent(ev.target, '.UIPromtBox')
+        || Affinity2018.getParent(ev.target, '.uimodalbody')
+      )
       {
-        debugger;
+        console.warn('Autocomplete -> _mouseLeave -> do not unlock body scroll as parent is popup, and popup will unlock on close.');
         unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
       }
     }
@@ -29643,6 +29647,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         delete this[key];
       }
     }
+    Affinity2018.unlockBodyScroll();
     return true;
   }
 
