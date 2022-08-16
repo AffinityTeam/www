@@ -1,28 +1,28 @@
 /* Minification failed. Returning unminified contents.
-(6347,64): run-time error CSS1030: Expected identifier, found ','
-(6347,71): run-time error CSS1031: Expected selector, found ')'
-(6347,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6355,63): run-time error CSS1030: Expected identifier, found ','
-(6355,70): run-time error CSS1031: Expected selector, found ')'
-(6355,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6363,72): run-time error CSS1030: Expected identifier, found ','
-(6363,79): run-time error CSS1031: Expected selector, found ')'
-(6363,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6422,74): run-time error CSS1030: Expected identifier, found ','
-(6422,216): run-time error CSS1031: Expected selector, found ')'
-(6422,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7981,113): run-time error CSS1030: Expected identifier, found ','
-(7981,125): run-time error CSS1031: Expected selector, found ')'
-(7981,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9194,133): run-time error CSS1030: Expected identifier, found ','
-(9194,274): run-time error CSS1031: Expected selector, found ')'
-(9194,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9737,167): run-time error CSS1030: Expected identifier, found ','
-(9737,309): run-time error CSS1031: Expected selector, found ')'
-(9737,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(9951,108): run-time error CSS1030: Expected identifier, found ','
-(9951,250): run-time error CSS1031: Expected selector, found ')'
-(9951,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6326,64): run-time error CSS1030: Expected identifier, found ','
+(6326,71): run-time error CSS1031: Expected selector, found ')'
+(6326,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6334,63): run-time error CSS1030: Expected identifier, found ','
+(6334,70): run-time error CSS1031: Expected selector, found ')'
+(6334,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6342,72): run-time error CSS1030: Expected identifier, found ','
+(6342,79): run-time error CSS1031: Expected selector, found ')'
+(6342,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6401,74): run-time error CSS1030: Expected identifier, found ','
+(6401,216): run-time error CSS1031: Expected selector, found ')'
+(6401,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(7953,113): run-time error CSS1030: Expected identifier, found ','
+(7953,125): run-time error CSS1031: Expected selector, found ')'
+(7953,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9166,133): run-time error CSS1030: Expected identifier, found ','
+(9166,274): run-time error CSS1031: Expected selector, found ')'
+(9166,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9709,167): run-time error CSS1030: Expected identifier, found ','
+(9709,309): run-time error CSS1031: Expected selector, found ')'
+(9709,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(9923,108): run-time error CSS1030: Expected identifier, found ','
+(9923,250): run-time error CSS1031: Expected selector, found ')'
+(9923,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -2979,13 +2979,6 @@ body.ui2018 textarea {
   font-weight: 400;
   font-size: 13px;
   color: #333333;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
   outline: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -3139,13 +3132,6 @@ body.ui2018 input[type="radio"] {
   width: 30px;
   height: 30px;
   margin: 0 5px 0 0;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
   outline: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -3306,13 +3292,6 @@ body.ui2018 .select select {
   color: #333333;
   font-size: 12px;
   background: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
   outline: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -6807,13 +6786,6 @@ body.ui2018.uiupdate.cform .default-form .form-row .select select {
   font-size: 16px;
   background: none;
   border: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
   outline: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -10431,13 +10403,6 @@ body.ui2018.uiupdate.cform.mobile #loader {
   font-weight: 400;
   font-size: 12px;
   color: #333333;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
   outline: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;

@@ -16821,7 +16821,7 @@ var CFInbox = new Class({
     clearTimeout(this.scrollMessageAutoClose);
     window.removeEventListener(Affinity.events.click, this.mobileIndicateScrollHide);
     if (this.scrollMessage) this.scrollMessage.classList.remove('show');
-  },
+  }
 
 });;
 var CFMulitFileUploaders = new Class({
