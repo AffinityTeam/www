@@ -14,15 +14,15 @@
 (7987,113): run-time error CSS1030: Expected identifier, found ','
 (7987,125): run-time error CSS1031: Expected selector, found ')'
 (7987,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9183,133): run-time error CSS1030: Expected identifier, found ','
-(9183,274): run-time error CSS1031: Expected selector, found ')'
-(9183,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9747,167): run-time error CSS1030: Expected identifier, found ','
-(9747,309): run-time error CSS1031: Expected selector, found ')'
-(9747,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(9961,108): run-time error CSS1030: Expected identifier, found ','
-(9961,250): run-time error CSS1031: Expected selector, found ')'
-(9961,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9184,133): run-time error CSS1030: Expected identifier, found ','
+(9184,274): run-time error CSS1031: Expected selector, found ')'
+(9184,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9748,167): run-time error CSS1030: Expected identifier, found ','
+(9748,309): run-time error CSS1031: Expected selector, found ')'
+(9748,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(9962,108): run-time error CSS1030: Expected identifier, found ','
+(9962,250): run-time error CSS1031: Expected selector, found ')'
+(9962,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -9187,6 +9187,7 @@ body.ui2018.uiupdate .cf-designer-element-popup .inner .settings p,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings p {
   width: 100%;
   max-width: 100%;
+  font-size: 14px;
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .example-template .preview,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .example-template .preview {
