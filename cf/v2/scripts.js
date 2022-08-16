@@ -6250,6 +6250,12 @@
         body.classList.remove('mobile', 'tablet', 'desktop', 'edge', 'ie', 'firefox', 'mac');
         body.classList.add(Affinity2018.IsMobile ? 'mobile' : 'desktop');
         Affinity2018.Browser.istablet = istablet;
+        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+        {
+          Affinity2018.IsMobile = true;
+          Affinity2018.Browser.ismac = true;
+          if (istablet) Affinity2018.Browser.isipad = true;
+        }
         if (Affinity2018.Browser.istablet) body.classList.add('tablet');
         if (Affinity2018.Browser.isie) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
         if (Affinity2018.Browser.isie && !isNaN(parseInt(Affinity2018.Browser.major))) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
