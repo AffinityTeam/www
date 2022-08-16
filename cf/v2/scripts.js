@@ -6196,7 +6196,7 @@
         if (Affinity2018.Browser.platform.toLowerCase().contains('android')) Affinity2018.Browser.isandroid = true;
         if (Affinity2018.Browser.platform.toLowerCase().contains('mac')) Affinity2018.Browser.ismac = true;
         if (Affinity2018.Browser.platform.toLowerCase().contains('ios')) Affinity2018.Browser.ismac = true;
-        if (result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
+        if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
         if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
         Affinity2018.MobileDetect.getWurfl();
       };
