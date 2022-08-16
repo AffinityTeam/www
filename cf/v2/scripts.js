@@ -6241,37 +6241,38 @@
         var body = document.body;
         var istablet = false;
         if (Affinity2018.Browser.platform.toLowerCase().contains('ios') || Affinity2018.Browser.platform.toLowerCase().contains('android')) Affinity2018.IsMobile = true;
+        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+        {
+          Affinity2018.IsMobile = true;
+          Affinity2018.Browser.ismac = true;
+        }
         if (Affinity2018.IsMobile)
         {
           var viewport = { width: window.innerWidth, height: window.innerHeight };
           if (viewport.height > viewport.width && viewport.height > 1000) istablet = true;
           if (viewport.width > viewport.height && viewport.width > 1000) istablet = true;
+          Affinity2018.Browser.istablet = istablet;
         }
+        if (Affinity2018.Browser.ismac && Affinity2018.Browser.istablet) Affinity2018.Browser.isipad = true;
         body.classList.remove('mobile', 'tablet', 'desktop', 'edge', 'ie', 'firefox', 'mac');
         body.classList.add(Affinity2018.IsMobile ? 'mobile' : 'desktop');
-        Affinity2018.Browser.istablet = istablet;
-        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-        {
-          Affinity2018.IsMobile = true;
-          Affinity2018.Browser.ismac = true;
-          if (istablet) Affinity2018.Browser.isipad = true;
-        }
         if (Affinity2018.Browser.istablet) body.classList.add('tablet');
-        if (Affinity2018.Browser.isie) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
+        if (Affinity2018.Browser.ismac) body.classList.add('mac');
+        if (Affinity2018.Browser.isipad) body.classList.add('ipad');
         if (Affinity2018.Browser.isie && !isNaN(parseInt(Affinity2018.Browser.major))) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
         if (Affinity2018.Browser.isedge) body.classList.add('edge');
         if (Affinity2018.Browser.isfirefox) body.classList.add('firefox');
-        if (Affinity2018.Browser.ismac) body.classList.add('mac');
-        if (Affinity2018.Browser.isipad) body.classList.add('ipad');
         window.dispatchEvent(new Event('MobileChecked'));
         if (Affinity2018.IsMobile && (window.location.host.contains('localhost') || window.location.host.contains('.test')))
         {
           var testNode = document.createElement('div');
           testNode.classList.add('test-device-info');
           document.body.appendChild(testNode);
-          var os = Affinity2018.Browser.isandroid ? 'Android' : Affinity2018.Browser.ismac ? 'iOS' : 'unknown';
-          var device = Affinity2018.Browser.isipad ? 'iPad' : Affinity2018.Browser.renderer;
-          testNode.innerHTML = 'Type: ' + (Affinity2018.Browser.istablet ? 'tablet' : 'phone') + ', OS: ' + os + ', Device: ' + device;
+          var type = Affinity2018.Browser.istablet ? 'tablet' : 'phone';
+          var os = Affinity2018.Browser.isandroid ? 'android' : Affinity2018.Browser.ismac ? 'iOS' : 'unknown';
+          var device = Affinity2018.Browser.isipad ? 'ipad' : Affinity2018.Browser.renderer;
+          var dims = viewport.width + ' x ' + viewport.height;
+          testNode.innerHTML = 'Type: ' + type + ', OS: ' + os + ', Device: ' + device + ', Dims: ' + dims;
         }
       };
       script.onload = function()
