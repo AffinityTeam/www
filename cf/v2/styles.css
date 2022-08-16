@@ -10031,6 +10031,16 @@ body.ui2018.uiupdate.cform.mobile #loader {
     display: block !important;
   }
 }
+body div.test-device-info {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 10px;
+  background: black;
+  color: white;
+  font-family: Courier New, Courier, monospace;
+  z-index: 9999999999;
+}
 /***************************************************************************************************************************************************/
 
 /***************************************************************************************************************************************************/
