@@ -28321,7 +28321,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   _fuzzyWorkerComplete (returnedData)
   {
-
     var workerData = returnedData.data;
 
     if (this.debug)
@@ -28635,6 +28634,21 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         else
         {
           this.defaultSelected({ target: this.listNode.querySelector('li') });
+        }
+      }
+
+      // TODO: NOT where this shoudl live, but hey, it will do for now ..
+      var formRowNode = null;
+      if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('form-row'))
+      {
+        formRowNode = this.targetNode.parentNode;
+        if (formRowNode && formRowNode.querySelector('.start-link'))
+        {
+          var startLinkNode = formRowNode.querySelector('.start-link');
+          if (startLinkNode)
+          {
+            formRowNode.appendChild(startLinkNode);
+          }
         }
       }
 
@@ -29817,7 +29831,7 @@ function distance (stringA, stringB)
 
 function returnSelectOptions (data, searchFor, ismobile, filter)
 {
-  var i, dataPair, addItem, option, options = "";
+  var i, dataPair, addItem, option, options = "", selected = false;
   for (i = 0; i < data.length; i++)
   {
     dataPair = data[i];
@@ -29830,7 +29844,18 @@ function returnSelectOptions (data, searchFor, ismobile, filter)
         option = "<option value=\"" + dataPair.Key + "\">" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
         if (dataPair.Value === searchFor)
         {
+          selected = true;
           option = "<option value=\"" + dataPair.Key + "\" selected>" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
+        }
+        if (!selected && searchFor.contains(','))
+        {
+          var forStr = (dataPair.Key + '').trim();
+          var withStr = (searchFor + '').trim().split(',')[0];
+          if (forStr === withStr)
+          {
+            selected = true;
+            option = "<option value=\"" + dataPair.Key + "\" selected>" + cleanDisplay(dataPair.Value, dataPair.Key) + "</option>";
+          }
         }
         options += option;
       }
@@ -29867,7 +29892,10 @@ function returnList (uuid, html, defaultValue, filter)
       },
       finalHtml = '',
       i = 0, j = 0,
+      selected = false,
       klass, html, ogvalue, display, value, li, wordsArr, soundexArr;
+  //var test = 'Fire Prevention (23) Officer edit (103)';
+  //options[1] = '<option value="' + test + '">' + test;
   for (; i < options.length; i++)
   {
     html = options[i];
@@ -29878,12 +29906,35 @@ function returnList (uuid, html, defaultValue, filter)
       display = cleanDisplay(ogvalue.replace(/\, /g, ' - '));
       value = new RegExp('value="', 'gi').test(html) ? html.substring(html.indexOf('value="') + 7, html.indexOf('"', html.indexOf('value="') + 7)) : '';
       klass = 'visible';
+
       if (new RegExp('selected', 'gi').test(html) || (value + '') === (defaultValue + ''))
       {
         klass += ' selected';
         returndata.defaultID = uuid + '-li-' + i;
         initialSelected = uuid + '-li-' + i;
+        selected = true;
       }
+
+      if (!selected && defaultValue.indexOf(',') > -1)
+      {
+        //if (ogvalue.indexOf('Fire Prevention') > -1) debugger;
+        var forStr = ogvalue.trim();
+        var reg = new RegExp('\(([0-9]{1,10})\)', 'g');
+        if (reg.test(ogvalue))
+        {
+          var match = ogvalue.match(reg);
+          if (match != null) forStr = match[match.length - 1];
+        }
+        var withStr = (defaultValue + '').trim().split(',')[0];
+        if (forStr === withStr)
+        {
+          klass += ' selected';
+          returndata.defaultID = uuid + '-li-' + i;
+          initialSelected = uuid + '-li-' + i;
+          selected = true;
+        }
+      }
+
       if (new RegExp('data-filter-css="', 'gi').test(html))
       {
         var cutFrom = html.indexOf('data-filter-css="') + 17;
