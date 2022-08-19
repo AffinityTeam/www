@@ -7695,11 +7695,11 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label {
   min-height: 44px;
   line-height: 22px;
   vertical-align: top;
-  white-space: unset !important;
-  -ms-text-overflow: unset !important;
-  -o-text-overflow: unset !important;
-  text-overflow: unset !important;
-  overflow: unset !important;
+  white-space: unset;
+  -ms-text-overflow: unset;
+  -o-text-overflow: unset;
+  text-overflow: unset;
+  overflow: unset;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label:not(.ui-file),
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label:not(.ui-file),
@@ -7721,6 +7721,28 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-
   height: 44px;
   text-align: right;
   float: left;
+}
+body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file:hover div.button,
+body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file:hover div.button,
+body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file:hover div.button,
+body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file:hover div.button,
+body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file:hover div.button,
+body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file:hover div.button {
+  color: #16c1f3;
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file:hover div.button:hover,
+body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file:hover div.button:hover,
+body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file:hover div.button:hover,
+body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file:hover div.button:hover,
+body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file:hover div.button:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file:hover div.button:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file input,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file input,
@@ -7770,28 +7792,6 @@ body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file div
 body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file div.button span,
 body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file div.button span {
   display: none;
-}
-body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
-body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
-body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
-body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
-body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover {
-  color: #16c1f3;
-  background: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-body.ui2018.uiupdate form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
-body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
-body.ui2018.uiupdate .form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
-body.ui2018.uiupdate.cform .form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
-body.ui2018.uiupdate .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.row-fileuploadmulti label.ui-file div.button:hover:hover {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti div.ui-file-list,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti div.ui-file-list,
@@ -12485,50 +12485,44 @@ body.ui2018.dark .draw-panel .draw-panel-box canvas {
 
 
 body.ui2018 .default-form .form-row label.ui-file {
-  position: relative;
-  width: auto;
   padding: 0;
-  cursor: pointer !important;
-}
-body.ui2018 .default-form .form-row label.ui-file input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 200%;
-  height: 200%;
-  cursor: pointer !important;
-  -moz-opacity: 0.001;
-  -khtml-opacity: 0.001;
-  opacity: 0.001;
-}
-body.ui2018 .default-form .form-row label.ui-file input * {
-  cursor: pointer !important;
-}
-body.ui2018 .default-form .form-row label.ui-file:hover .button {
-  background-color: #5fd4f7;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  overflow: hidden !important;
 }
 body.ui2018 label.ui-file {
   position: relative;
   width: auto;
   padding: 0;
   cursor: pointer !important;
+  overflow: hidden !important;
 }
 body.ui2018 label.ui-file input {
   position: absolute;
   top: 0;
   right: 0;
-  width: 200%;
-  height: 200%;
+  bottom: unset !important;
+  left: unset !important;
+  width: unset !important;
+  height: unset !important;
   cursor: pointer !important;
+  -webkit-transform: scale(2);
+  -ms-transform: scale(2);
+  transform: scale(2);
   -moz-opacity: 0.001;
   -khtml-opacity: 0.001;
   opacity: 0.001;
 }
 body.ui2018 label.ui-file input * {
   cursor: pointer !important;
+}
+body.ui2018 label.ui-file button,
+body.ui2018 label.ui-file .button {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 label.ui-file button *,
+body.ui2018 label.ui-file .button * {
+  touch-action: none;
+  pointer-events: none;
 }
 body.ui2018 label.ui-file:hover .button {
   background-color: #5fd4f7;
@@ -13796,7 +13790,7 @@ body.ui2018.dark .example-template .preview .content {
 }
 body.ui2018.dark.cform .content .section,
 body.ui2018.dark .example-template .preview .content .section {
-  background-color: #222222;
+  background-color: #222222 !important;
 }
 body.ui2018.dark.cform .content .section .section-header,
 body.ui2018.dark .example-template .preview .content .section .section-header {
