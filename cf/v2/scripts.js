@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2718,32-37): run-time error JS1195: Expected expression: class
-(3255,32-37): run-time error JS1195: Expected expression: class
-(3268,20-21): run-time error JS1004: Expected ';': {
-(3339,27-28): run-time error JS1004: Expected ';': {
+(2716,32-37): run-time error JS1195: Expected expression: class
+(3253,32-37): run-time error JS1195: Expected expression: class
+(3266,20-21): run-time error JS1004: Expected ';': {
+(3337,27-28): run-time error JS1004: Expected ';': {
+(3341,29-30): run-time error JS1004: Expected ';': {
+(3342,29-30): run-time error JS1004: Expected ';': {
 (3343,29-30): run-time error JS1004: Expected ';': {
 (3344,29-30): run-time error JS1004: Expected ';': {
-(3345,29-30): run-time error JS1004: Expected ';': {
-(3346,29-30): run-time error JS1004: Expected ';': {
-(3347,13-14): run-time error JS1004: Expected ';': {
-(3366,15-16): run-time error JS1004: Expected ';': {
-(3384,12-13): run-time error JS1004: Expected ';': {
-(3389,12-13): run-time error JS1004: Expected ';': {
-(3392,17-18): run-time error JS1004: Expected ';': {
-(3982,36-41): run-time error JS1195: Expected expression: class
-(4095,30-35): run-time error JS1195: Expected expression: class
-(4200,31-36): run-time error JS1195: Expected expression: class
-(4439,35-40): run-time error JS1195: Expected expression: class
-(4567,33-38): run-time error JS1195: Expected expression: class
-(4778,39-40): run-time error JS1014: Invalid character: `
-(4778,40-41): run-time error JS1195: Expected expression: <
-(4778,100-101): run-time error JS1014: Invalid character: `
-(4797,43-44): run-time error JS1014: Invalid character: `
-(4797,44-45): run-time error JS1195: Expected expression: <
-(4797,108-109): run-time error JS1014: Invalid character: `
-(4865,33-38): run-time error JS1195: Expected expression: class
-(5163,32-37): run-time error JS1195: Expected expression: class
-(5529,33-38): run-time error JS1195: Expected expression: class
-(5607,37-42): run-time error JS1195: Expected expression: class
-(5608,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3345,13-14): run-time error JS1004: Expected ';': {
+(3364,15-16): run-time error JS1004: Expected ';': {
+(3382,12-13): run-time error JS1004: Expected ';': {
+(3387,12-13): run-time error JS1004: Expected ';': {
+(3390,17-18): run-time error JS1004: Expected ';': {
+(3980,36-41): run-time error JS1195: Expected expression: class
+(4093,30-35): run-time error JS1195: Expected expression: class
+(4198,31-36): run-time error JS1195: Expected expression: class
+(4437,35-40): run-time error JS1195: Expected expression: class
+(4565,33-38): run-time error JS1195: Expected expression: class
+(4776,39-40): run-time error JS1014: Invalid character: `
+(4776,40-41): run-time error JS1195: Expected expression: <
+(4776,100-101): run-time error JS1014: Invalid character: `
+(4795,43-44): run-time error JS1014: Invalid character: `
+(4795,44-45): run-time error JS1195: Expected expression: <
+(4795,108-109): run-time error JS1014: Invalid character: `
+(4863,33-38): run-time error JS1195: Expected expression: class
+(5161,32-37): run-time error JS1195: Expected expression: class
+(5527,33-38): run-time error JS1195: Expected expression: class
+(5605,37-42): run-time error JS1195: Expected expression: class
+(5606,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5609,5-16): run-time error JS1006: Expected ')': constructor
-(5678,3-4): run-time error JS1002: Syntax error: }
-(5678,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5622,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5607,5-16): run-time error JS1006: Expected ')': constructor
+(5676,3-4): run-time error JS1002: Syntax error: }
+(5676,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5620,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -2687,8 +2687,6 @@
   /**
    * Affinity2018.lockBodyScroll()
    * Locks Body Scroll so that other HTMLElements can have scroll focus without scrolling Body
-   * Affinity2018.unlockBodyScroll()
-   * Reset Body Scroll
    * 
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
    * 
@@ -3928,7 +3926,7 @@
      String.format = function()
      {
        var args = [].slice.call(arguments);
-       return Source63.FormatString(this, args);
+       return Affinity2018.FormatString(this, args);
      };
    }
    /* old
@@ -6158,7 +6156,10 @@
         isfirefox: false,
         issafari: false,
         ischrome: false,
-        ismac: false
+        isandroid: false,
+        ismac: false,
+        isipad: false,
+        istablet: false
       };
       if (document.querySelector('body')) this.getBrowser();
       else setTimeout(this.checkBody, 10);
@@ -6190,7 +6191,11 @@
         if (Affinity2018.Browser.name.toLowerCase().contains('chrome')) Affinity2018.Browser.ischrome = true;
         if (Affinity2018.Browser.name.toLowerCase().contains('safari')) Affinity2018.Browser.issafari = true;
         if (Affinity2018.Browser.name.toLowerCase().contains('firefox')) Affinity2018.Browser.isfirefox = true;
+        if (Affinity2018.Browser.platform.toLowerCase().contains('android')) Affinity2018.Browser.isandroid = true;
         if (Affinity2018.Browser.platform.toLowerCase().contains('mac')) Affinity2018.Browser.ismac = true;
+        if (Affinity2018.Browser.platform.toLowerCase().contains('ios')) Affinity2018.Browser.ismac = true;
+        if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
+        if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
         Affinity2018.MobileDetect.getWurfl();
       };
       let error = function (err)
@@ -6199,7 +6204,6 @@
         console.warn(err);
         Affinity2018.MobileDetect.getWurfl();
       };
-
       let script = document.createElement('script');
       script.type = 'text/javascript';
       script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
@@ -6222,7 +6226,6 @@
       }
       script.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js');
       document.head.appendChild(script);
-
     }
 
     getWurfl ()
@@ -6231,33 +6234,62 @@
       script.type = 'text/javascript';
       script.src = document.location.protocol + '//wurfl.io/wurfl.js'
       script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
+      var scriptProcessed = function ()
+      {
+        var body = document.body;
+        var istablet = false;
+        if (Affinity2018.Browser.platform.toLowerCase().contains('ios') || Affinity2018.Browser.platform.toLowerCase().contains('android')) Affinity2018.IsMobile = true;
+        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+        {
+          Affinity2018.IsMobile = true;
+          Affinity2018.Browser.ismac = true;
+        }
+        if (Affinity2018.IsMobile)
+        {
+          var viewport = { width: window.innerWidth, height: window.innerHeight };
+          if (viewport.height > viewport.width && viewport.height > 1000) istablet = true;
+          if (viewport.width > viewport.height && viewport.width > 1000) istablet = true;
+          Affinity2018.Browser.istablet = istablet;
+        }
+        if (Affinity2018.Browser.ismac && Affinity2018.Browser.istablet) Affinity2018.Browser.isipad = true;
+        body.classList.remove('mobile', 'tablet', 'desktop', 'edge', 'ie', 'firefox', 'mac');
+        body.classList.add(Affinity2018.IsMobile ? 'mobile' : 'desktop');
+        if (Affinity2018.Browser.istablet) body.classList.add('tablet');
+        if (Affinity2018.Browser.ismac) body.classList.add('mac');
+        if (Affinity2018.Browser.isipad) body.classList.add('ipad');
+        if (Affinity2018.Browser.isie && !isNaN(parseInt(Affinity2018.Browser.major))) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
+        if (Affinity2018.Browser.isedge) body.classList.add('edge');
+        if (Affinity2018.Browser.isfirefox) body.classList.add('firefox');
+        window.dispatchEvent(new Event('MobileChecked'));
+        if (Affinity2018.IsMobile && (window.location.host.contains('localhost') || window.location.host.contains('.test')))
+        {
+          var testNode = document.createElement('div');
+          testNode.classList.add('test-device-info');
+          document.body.appendChild(testNode);
+          var type = Affinity2018.Browser.istablet ? 'tablet' : 'phone';
+          var os = Affinity2018.Browser.isandroid ? 'android' : Affinity2018.Browser.ismac ? 'iOS' : 'unknown';
+          var device = Affinity2018.Browser.isipad ? 'ipad' : Affinity2018.Browser.renderer;
+          var dims = viewport.width + ' x ' + viewport.height;
+          testNode.innerHTML = 'Type: ' + type + ', OS: ' + os + ', Device: ' + device + ', Dims: ' + dims;
+        }
+      };
       script.onload = function()
       {
         Affinity2018.MobileChecked = true;
         Affinity2018.IsMobile = WURFL.is_mobile;
         Affinity2018.Device = WURFL.form_factor.toLowerCase();
-        body.classList.remove('mobile', 'tablet', 'desktop', 'edge', 'ie', 'firefox', 'mac');
-        body.classList.add(Affinity2018.IsMobile ? 'mobile' : 'desktop');
-        if(Affinity2018.Browser.isie) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
-        if(Affinity2018.Browser.isie && !isNaN(parseInt(Affinity2018.Browser.major))) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
-        if(Affinity2018.Browser.isedge) body.classList.add('edge');
-        if(Affinity2018.Browser.isfirefox) body.classList.add('firefox');
-        if(Affinity2018.Browser.ismac) body.classList.add('mac');
-        window.dispatchEvent(new Event('MobileChecked'));
-      };
+        scriptProcessed();
+      }
       script.onerror = function()
       {
         console.error('WURFL failed to load');
         Affinity2018.MobileChecked = true;
         Affinity2018.IsMobile = false;
         Affinity2018.Device = 'unknown';
-        body.classList.remove('mobile', 'tablet', 'desktop', 'edge', 'ie', 'firefox', 'mac');
-        body.classList.add('desktop');
-        window.dispatchEvent(new Event('MobileChecked'));
+        scriptProcessed();
       };
       body.appendChild(script);
     }
-
   };
 
 
@@ -15352,7 +15384,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
 
       var worflowButtonMargin = Math.round(formButtonsNode.getBoundingClientRect().width) + 20;
-      workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
+      if (!Affinity2018.IsMobile) workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
     }
     this._ready();
   }
@@ -19816,6 +19848,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     {
 
       // set any special elements
+
+      if (this.FormRowNode.querySelector('input'))
+      {
+        this.FormRowNode.querySelector('input').addEventListener('validated', function ()
+        {
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this));
+      }
 
       return this.FormRowNode;
     }
@@ -27860,6 +27900,7 @@ Affinity2018.Classes.Plugins.Autocompletes = class
         }
       }
     }
+    Affinity2018.unlockBodyScroll();
   }
 
   /**/
@@ -29506,6 +29547,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
+      if (Affinity2018.hasOwnProperty('unlockBodyScroll') && document.body.classList.contains('disable-scroll')) Affinity2018.unlockBodyScroll();
     }
   }
 
@@ -29566,7 +29608,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _mouseLeave (ev)
   {
     var unlockScroll = true;
-    if (ev && $a.isEvent(ev) && $a.isNode(ev.target) && ev.target.closest('.popup')) unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
+    if (ev && $a.isEvent(ev) && $a.isNode(ev.target))
+    {
+      if (
+        Affinity2018.getParent(ev.target, '.popup')
+        || Affinity2018.getParent(ev.target, '.UIPromtBox')
+        || Affinity2018.getParent(ev.target, '.uimodalbody')
+      )
+      {
+        console.warn('Autocomplete -> _mouseLeave -> do not unlock body scroll as parent is popup, and popup will unlock on close.');
+        unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
+      }
+    }
     if (unlockScroll) Affinity2018.unlockBodyScroll();
   }
 
@@ -29608,6 +29661,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         delete this[key];
       }
     }
+    Affinity2018.unlockBodyScroll();
     return true;
   }
 
@@ -31080,6 +31134,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
+    this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
   /**/
@@ -31223,6 +31278,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
     this.templateNode.classList.add('affinity2018', 'search-form-container');
     this.templateNode.innerHTML = this.template;
 
+    this.searchFormNode = this.templateNode.querySelector('.search-form');
     this.checkFilterBoxNode = this.templateNode.querySelector('.search-form-check-filters');
     this.selectFilterBoxNode = this.templateNode.querySelector('.search-form-select-filters');
 
@@ -31733,6 +31789,13 @@ Affinity2018.Classes.Plugins.BigSearch = class
           this.paginationNode.dataset.pages = pages;
           this.paginationNode.classList.remove('hidden');
 
+          var paginationHeight = this.paginationNode.getBoundingClientRect().height;
+          var searchFormHeight = this.searchFormNode.getBoundingClientRect().height;
+          var regionHeight = this.templateNode.getBoundingClientRect().height;
+          var searchHeight = Math.floor(regionHeight - paginationHeight - searchFormHeight - 30);
+
+          this.searchResultsNode.style.height = searchHeight + 'px';
+
         }
 
       }
@@ -31743,7 +31806,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
   _paginationClicked (ev)
   {
     var target = ev.target.tagName.toLowerCase() === 'a' ? ev.target : ev.target.closest('a');
-    if(!target.classList.contains('disabled'))
+    if (target && !target.classList.contains('disabled'))
     {
       var pages = parseInt(this.paginationNode.dataset.pages),
           current = parseInt(this.paginationNode.querySelector('.current').dataset.page) + 1,
@@ -34941,6 +35004,9 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.initNode.parentNode.insertBefore(this.gridNode, this.initNode.nextSibling);
     }
 
+    var breaker = document.createElement('br');
+    this.gridNode.parentNode.insertBefore(breaker, this.gridNode);
+
     this.gridBody = this.gridNode.querySelector('tbody');
 
     this.fileNode.addEventListener('change', this._addFile);
@@ -36563,10 +36629,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
     this.listRowTemplate = `
     <td>
-      <textarea class="description" placeholder="{descPlaceholder}"></textarea>
+      <textarea class="description" type="text" placeholder="{descPlaceholder}"></textarea>
     </td>
     <td>
-      <textarea class="code" placeholder="{codePlaceholder}"></textarea>
+      <textarea class="code" type="text" placeholder="{codePlaceholder}"></textarea>
     </td>
     <td>
       <div class="button blue icon-arrow-up" data-do="up"></div>
