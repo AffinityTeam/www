@@ -20,9 +20,9 @@
 (9748,167): run-time error CSS1030: Expected identifier, found ','
 (9748,309): run-time error CSS1031: Expected selector, found ')'
 (9748,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(9962,108): run-time error CSS1030: Expected identifier, found ','
-(9962,250): run-time error CSS1031: Expected selector, found ')'
-(9962,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9999,108): run-time error CSS1030: Expected identifier, found ','
+(9999,250): run-time error CSS1031: Expected selector, found ')'
+(9999,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -9792,11 +9792,17 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
   width: 100%;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-date div.ui-calendar-container,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-date div.ui-calendar-container {
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-date div.ui-calendar-container,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.calendar div.ui-calendar-container,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.calendar div.ui-calendar-container {
   left: 50%;
   -webkit-transform: translate(-50%, 0);
   -ms-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-affinityfield .select,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-affinityfield .select {
+  width: 100%;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields {
@@ -9805,13 +9811,36 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
   max-width: calc(100% - 20px);
   margin: 10px 0 0 20px;
 }
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.suburb,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.suburb,
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.city,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.city,
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.state,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input.state {
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input[type="text"].suburb,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input[type="text"].suburb,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input[type="text"].city,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input[type="text"].city,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input[type="text"].state,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields div.address-fields-row input[type="text"].state {
   width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning.indent,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning.indent {
+  margin: 0 0 44px 0;
+  width: calc(100% - 20px);
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning .docsign-status,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning .docsign-status,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning.indent .docsign-status,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning.indent .docsign-status {
+  min-height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning .docsign-fields,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning .docsign-fields,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning.indent .docsign-fields,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-documentsigning.indent .docsign-fields {
+  margin: 10px 0 0 44px;
+  width: calc(100% - 20px - 44px);
+  max-width: calc(100% - 20px - 44px);
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-explanation div.help-bubble,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-explanation div.help-bubble {
@@ -9912,6 +9941,14 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3 {
   width: 100px !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel {
+  width: calc(100% - 20px);
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel .draw-panel-box,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel .draw-panel-box {
+  width: 100%;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons {
@@ -10071,14 +10108,22 @@ body.ui2018.uiupdate.cform.mobile #loader {
   }
 }
 body div.test-device-info {
+  display: none;
   position: fixed;
   top: 10px;
   left: 10px;
+  max-width: calc(100vw - 40px);
   padding: 10px;
-  background: black;
+  background: rgba(0, 0, 0, 0.75);
   color: white;
   font-family: Courier New, Courier, monospace;
   z-index: 9999999999;
+  touch-action: none;
+  pointer-events: none;
+}
+body div.test-device-info * {
+  touch-action: none;
+  pointer-events: none;
 }
 /***************************************************************************************************************************************************/
 
@@ -12286,6 +12331,18 @@ body.ui2018.dark .ui-calendar-container:not(.inline):hover {
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.49), 0 6px 6px rgba(0, 0, 0, 0.83);
   -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.49), 0 6px 6px rgba(0, 0, 0, 0.83);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.49), 0 6px 6px rgba(0, 0, 0, 0.83);
+}
+body.ui2018.mobile .ui-calendar-container {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+body.ui2018.mobile .form-row.calendar .ui-calendar-container {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 
 

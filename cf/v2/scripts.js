@@ -6247,8 +6247,8 @@
         if (Affinity2018.IsMobile)
         {
           var viewport = { width: window.innerWidth, height: window.innerHeight };
-          if (viewport.height > viewport.width && viewport.height > 1000) istablet = true;
-          if (viewport.width > viewport.height && viewport.width > 1000) istablet = true;
+          if (viewport.height > viewport.width && viewport.height > 1024 && viewport.width > 760) istablet = true;
+          if (viewport.width > viewport.height && viewport.width > 1024 && viewport.height > 760) istablet = true;
           Affinity2018.Browser.istablet = istablet;
         }
         if (Affinity2018.Browser.ismac && Affinity2018.Browser.istablet) Affinity2018.Browser.isipad = true;
@@ -19206,7 +19206,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         }
         if (addedCount > 0)
         {
-          this.GenericGroupSelectNode.classList.add('ui-has-autocomplete', 'ui-autocomplete-force-top');
+          this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
+          if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
           Affinity2018.Autocompletes.Apply(this.GenericGroupSelectNode);
           this.GenericGroupNode.classList.remove('hidden');
           if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Select.Enum)
@@ -19303,7 +19304,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (addedCount > 0)
         {
           this.FormLinkNode.classList.remove('hidden');
-          this.FormLinkSelectNode.classList.add('ui-has-autocomplete', 'ui-autocomplete-force-top');
+          this.FormLinkSelectNode.classList.add('ui-has-autocomplete');
+          if (!Affinity2018.IsMobile) this.FormLinkSelectNode.classList.add('ui-autocomplete-force-top');
           Affinity2018.Autocompletes.Apply(this.FormLinkSelectNode);
         }
         else
@@ -25391,7 +25393,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         select.classList.remove('ui-has-lookup', 'do-autocomplete');
         select.classList.add('ui-has-autocomplete');
-        if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
+        //if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
 
         if (
           $a.isPropObject(this.Config.Details, 'ItemSource')
@@ -27976,7 +27978,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_itemClicked',
       '_restoreSelectedList', '_clearList',
 
-      '_scrolled',
+      '_scrolled', '_scrollIntoView',
       '_position', '_setPosition',
 
       '_cleanDisplay',
@@ -29358,12 +29360,20 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this._position(null, 'scroll');
   }
 
+  _scrollIntoView()
+  {
+    var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+    this.listNode.scrollIntoView({ behavior: 'auto', block: 'start' });
+    window.scrollTo(window.scrollX, window.scrollY - offset - 10);
+  }
+
   _position (delay, calledFrom)
   {
     clearTimeout(this._positionDelay);
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
+      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
       return;
     }
     delay = typeof delay === 'number' ? delay : 100;
@@ -29376,6 +29386,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
+      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
       return;
     }
     if (
@@ -29393,6 +29404,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       {
         this.listNode.classList.add('above');
       }
+      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
     }
   }
 
@@ -33003,6 +33015,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       if (calendarBottom > windwSize.height)
       {
         this.calendarNode.classList.add('above');
+      }
+      if (Affinity2018.mobile || Affinity2018.IsMobile)
+      {
+        var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+        this.calendarNode.scrollIntoView({ behavior: 'auto', block: 'start' });
+        window.scrollTo(window.scrollX, window.scrollY - offset - 10);
       }
     }
   }
