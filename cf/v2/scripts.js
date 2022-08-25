@@ -45,7 +45,7 @@
     return;
   }
 
-
+  if (!window.hasOwnProperty('Affinity')) window.Affinity = {};
   if (!window.hasOwnProperty('Affinity2018')) window.Affinity2018 = {};
   if (!Affinity2018.hasOwnProperty('Classes')) Affinity2018.Classes = {};
   if (!Affinity2018.Classes.hasOwnProperty('Plugins')) Affinity2018.Classes.Plugins = {};
@@ -55,7 +55,7 @@
   if (!Affinity2018.hasOwnProperty('ApiEndpoints')) Affinity2018.ApiEndpoints = {};
   if (!Affinity2018.hasOwnProperty('UserProfile')) Affinity2018.UserProfile = {};
 
-  
+  Affinity.app = "CleverForms";
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
