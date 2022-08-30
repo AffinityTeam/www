@@ -7752,11 +7752,6 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
 .ealTable.popup td {
   border: none !important;
 }
-.tlbPrompt .ealTable.popup,
-.ealTable.popup td.red,
-.ealTable.popup th.red {
-  color: white !important;
-}
 .tlbPrompt .ealTable.popup td {
   padding: 3px 15px !important;
 }
