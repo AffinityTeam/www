@@ -35,7 +35,6 @@
 }
 .newui .ui-calendar-button.button.w-icon-only span:first-child {
   width: auto;
-  margin-left: -2px;
 }
 .newui .ui-calendar-button.button.blue {
   -webkit-border-top-left-radius: 2px;
@@ -586,14 +585,10 @@ html[xmlns] .newui .clearfix {
 /* SHADOWS */
 
 .newui .light-shadow {
-  -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 20px #00378033;
 }
 .newui .shadow {
-  -webkit-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 5px 20px #00378033;
 }
 /* DRAG */
 
@@ -935,12 +930,12 @@ html[xmlns] .newui .clearfix {
 .newui button,
 .newui .button {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 8px 16px;
   margin: 0 0 4px 0;
   border: 1px solid #aaa;
   background: #ccc;
   color: #fff;
-  font-size: 1em;
+  font-size: 12px;
   font-style: normal;
   font-weight: normal;
   text-decoration: none !important;
@@ -952,12 +947,17 @@ html[xmlns] .newui .clearfix {
   -webkit-writing-mode: horizontal-tb;
   -webkit-font-smoothing: none;
   box-sizing: border-box;
+  border-radius: 20px;
   cursor: pointer;
 }
 .newui button.large,
 .newui .button.large {
   padding: 10px 20px;
   font-size: 1.2em;
+}
+.newui button > *,
+.newui .button > * {
+  vertical-align: middle;
 }
 .newui button[disabled="disabled"],
 .newui .button.disabled,
@@ -1037,22 +1037,22 @@ html[xmlns] .newui .clearfix {
 .newui .section .section-header .section-nav button.w-icon-only span:first-child {
   display: inline-block;
   margin: 0 3px 0 0;
-  font-size: 1em;
+  font-size: 12px;
   font-family: "ui-font-icons";
   vertical-align: bottom;
 }
 .newui .button.w-icon-only span:first-child,
 .newui button.w-icon-only span:first-child {
   margin: 0;
-  width: 1em;
+  width: 12px;
   text-align: center;
   overflow: hidden;
 }
 .newui button.green,
 .newui .button.green {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   background-color: #7abd2d;
   border: none;
 }
@@ -1088,9 +1088,9 @@ html[xmlns] .newui .clearfix {
 }
 .newui button.blue,
 .newui .button.blue {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   background-color: #44b5ec;
   border: none;
 }
@@ -1126,9 +1126,9 @@ html[xmlns] .newui .clearfix {
 }
 .newui button.orange,
 .newui .button.orange {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   background-color: #ff6600;
   border: none;
 }
@@ -1164,9 +1164,9 @@ html[xmlns] .newui .clearfix {
 }
 .newui button.yellow,
 .newui .button.yellow {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   background-color: #ffbd00;
   border: none;
 }
@@ -1202,9 +1202,9 @@ html[xmlns] .newui .clearfix {
 }
 .newui button.red,
 .newui .button.red {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   background-color: #ff0000;
   border: none;
 }
@@ -1361,7 +1361,7 @@ html[xmlns] .newui .clearfix {
   border: 1px solid #aaa;
   background: #ccc;
   color: #fff;
-  font-size: 1em;
+  font-size: 12px;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -1451,7 +1451,7 @@ html[xmlns] .newui .clearfix {
 .newui tag.w-icon span:first-child {
   display: inline-block;
   margin: 0 3px 0 0;
-  font-size: 1em;
+  font-size: 12px;
   font-family: "ui-font-icons";
   vertical-align: bottom;
 }
@@ -5594,20 +5594,31 @@ body.mobile .login-underlay .login-underlay-footer p {
   top: 50%;
   padding: 10px;
   max-width: 500px;
-  background: #333;
-  color: #fff;
+  background: #fff;
+  color: #000;
   text-align: center;
   line-height: 16px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px #00378033;
   z-index: 10000000;
 }
 .newui .UIPromtBox.master {
   z-index: 99999999;
+}
+.newui .UIPromtBox.loader {
+  padding: 24px;
+}
+.newui .UIPromtBox.loader > * {
+  vertical-align: middle;
+}
+.newui .UIPromtBox.loader .blue-ico-loader {
+  margin-left: 12px;
+  animation: spin 500ms linear infinite;
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 .newui.mobile .UIPromtBox {
   position: fixed;
@@ -5659,7 +5670,7 @@ body.mobile .login-underlay .login-underlay-footer p {
   width: 90%;
   border: none !important;
   padding: 5px;
-  color: #fff !important;
+  color: #000 !important;
   background-color: #666 !important;
 }
 .newui .UIPromtBox .promptButtons {
@@ -7522,23 +7533,15 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
 .ui-calendar-buttons {
   font-size: 14px;
 }
-.newui .ui-calendar-button.button.blue {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  margin-left: 4px;
-}
-.newui .ui-calendar-button.button.green {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  margin-left: 4px;
-}
+.newui .ui-calendar-button.button.blue,
+.newui .ui-calendar-button.button.green,
 .newui .ui-calendar-button.button.orange {
   height: 30px;
   width: 30px;
   border-radius: 50%;
   margin-left: 4px;
+  padding: 4px 0;
+  line-height: 22px;
 }
 .newui .leaveDataSection .section .leave-info-panels .leave-info-panel input {
   border-radius: 5px;
@@ -7752,11 +7755,6 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
 .ealTable.popup td {
   border: none !important;
 }
-.tlbPrompt .ealTable.popup,
-.ealTable.popup td.red,
-.ealTable.popup th.red {
-  color: white !important;
-}
 .tlbPrompt .ealTable.popup td {
   padding: 3px 15px !important;
 }
@@ -7814,10 +7812,10 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
   padding-right: 15px;
 }
 .newui .section .team-leave-balance .team-balance-body .tooltip-view .button {
-  margin-left: 0;
+  margin-right: 0;
 }
 .newui .section .team-leave-balance .team-balance-body .button.detailed-view {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 .newui .section .team-leave-balance .team-balance-body .footer-button {
   display: none;
