@@ -35,7 +35,6 @@
 }
 .newui .ui-calendar-button.button.w-icon-only span:first-child {
   width: auto;
-  margin-left: -2px;
 }
 .newui .ui-calendar-button.button.blue {
   -webkit-border-top-left-radius: 2px;
@@ -7542,6 +7541,7 @@ body.newui .dashboard.show-nav #dash-nav.accordion {
   border-radius: 50%;
   margin-left: 4px;
   padding: 4px 0;
+  line-height: 22px;
 }
 .newui .leaveDataSection .section .leave-info-panels .leave-info-panel input {
   border-radius: 5px;
