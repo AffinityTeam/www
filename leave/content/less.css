@@ -347,8 +347,8 @@ html {
 }
 body.newui {
   background: #f5fafe;
+  font-family: Montserrat, Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
   font-size: 12px;
-  font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
   overflow-y: scroll;
   margin: 0;
   padding: 0;
@@ -5537,20 +5537,17 @@ body.mobile .login-underlay .login-underlay-footer p {
 .newui #uimodal .uimodalclose,
 .newui .uimodal .uimodalclose {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 8px;
+  right: 8px;
   margin: 0;
-  background: #333;
   padding: 5px;
   cursor: pointer;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-radius-bottomleft: 10px;
-  border-bottom-left-radius: 10px;
   z-index: 1;
 }
 .newui #uimodal .uimodalclose span,
 .newui .uimodal .uimodalclose span {
-  color: #fff;
+  font-size: 20px;
+  color: #333;
 }
 .newui #UIPromtBox .ui-autocomplete-display-icon {
   color: #000;
@@ -8440,9 +8437,10 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
 .newui .section-heading {
   font-size: 16px;
   font-weight: bold;
-}
-.newui .companyConfig.button {
-  float: right;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 #leaveConfig .section-body {
   padding: 24px;
@@ -8527,7 +8525,7 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
 }
 body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig {
   padding: 12px;
-  width: 800px;
+  width: 640px;
 }
 body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section {
   margin-bottom: 0;
