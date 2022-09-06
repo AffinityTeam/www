@@ -15193,6 +15193,44 @@ html.print body.ui2018 .example-template .preview div.content div.section .secti
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel button {
   display: none !important;
 }
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.cform div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark.cform div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.uiupdate div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark.uiupdate div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.cform.uiupdate div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018 .example-template .preview div.content div#form div.section:nth-child(n+2),
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section:nth-child(n+2) {
+  display: grid;
+  break-inside: avoid;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.cform div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
+  display: grid;
+  break-inside: avoid;
+}
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content .section#buttons,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content .section#buttons,
 html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
@@ -16568,6 +16606,44 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel button,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel button {
     display: none !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
+  body.ui2018.cform div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark.cform div.content div#form div.section:nth-child(n+2),
+  body.ui2018.uiupdate div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark.uiupdate div.content div#form div.section:nth-child(n+2),
+  body.ui2018.cform.uiupdate div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section:nth-child(n+2),
+  body.ui2018 .example-template .preview div.content div#form div.section:nth-child(n+2),
+  body.ui2018.dark .example-template .preview div.content div#form div.section:nth-child(n+2) {
+    display: grid;
+    break-inside: avoid;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.cform div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
+  body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
+    display: grid;
+    break-inside: avoid;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content .section#buttons,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content .section#buttons,
