@@ -8437,8 +8437,15 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
-.newui .section .companyConfig.button {
+.newui .section-heading {
+  font-size: 16px;
+  font-weight: bold;
+}
+.newui .companyConfig.button {
   float: right;
+}
+#leaveConfig .section-body {
+  padding: 24px;
 }
 .newui .section .configSelection {
   width: 1200px;
@@ -8465,8 +8472,6 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   background-color: lightskyblue;
 }
 .newui .section .configSelection .configHeaders {
-  margin-top: 20px;
-  margin-bottom: 10px;
   font-weight: bold;
   font-size: small;
 }
@@ -8520,21 +8525,21 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   width: 100px;
   margin-right: 2px;
 }
-.modal-data.leaveCompanyConfig {
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig {
+  padding: 12px;
   width: 800px;
 }
-.modal-data.leaveCompanyConfig .section .section-body {
-  padding-bottom: 40px;
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section {
+  margin-bottom: 0;
 }
-.modal-data.leaveCompanyConfig .section .section-body .section-title {
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body {
+  padding: 0;
+}
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .section-title {
   margin-bottom: 30px;
 }
-.modal-data.leaveCompanyConfig .section .section-body label {
-  margin-left: 80px;
-}
-.modal-data.leaveCompanyConfig .section .section-body span,
-.modal-data.leaveCompanyConfig .section .section-body input,
-.modal-data.leaveCompanyConfig .section .section-body select {
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body input,
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body select {
   display: inline-block;
   width: 300px;
   box-sizing: border-box;
@@ -8543,7 +8548,24 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   padding-left: 20px;
   padding-right: 20px;
 }
-.modal-data.leaveCompanyConfig .section .section-body .button {
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .form-row > label,
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .form-row > span {
+  padding: 0;
+}
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .form-row > label {
+  margin-right: 12px;
+  width: 35%;
+}
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .form-row > span {
+  width: 65%;
+  padding-left: 12px;
+}
+body.newui #uimodal .uimodalbody .modal-data.leaveCompanyConfig .section .section-body .button {
   width: 100px;
   float: right;
   margin: 5px 2px 0 2px;
