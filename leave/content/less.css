@@ -935,7 +935,7 @@ html[xmlns] .newui .clearfix {
   border: 1px solid #aaa;
   background: #ccc;
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
   text-decoration: none !important;
@@ -1037,14 +1037,14 @@ html[xmlns] .newui .clearfix {
 .newui .section .section-header .section-nav button.w-icon-only span:first-child {
   display: inline-block;
   margin: 0 3px 0 0;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "ui-font-icons";
   vertical-align: bottom;
 }
 .newui .button.w-icon-only span:first-child,
 .newui button.w-icon-only span:first-child {
   margin: 0;
-  width: 12px;
+  width: 14px;
   text-align: center;
   overflow: hidden;
 }
@@ -1361,7 +1361,7 @@ html[xmlns] .newui .clearfix {
   border: 1px solid #aaa;
   background: #ccc;
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -1451,7 +1451,7 @@ html[xmlns] .newui .clearfix {
 .newui tag.w-icon span:first-child {
   display: inline-block;
   margin: 0 3px 0 0;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "ui-font-icons";
   vertical-align: bottom;
 }
