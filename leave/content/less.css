@@ -5606,6 +5606,7 @@ body.mobile .login-underlay .login-underlay-footer p {
 }
 .newui .UIPromtBox.loader {
   padding: 24px;
+  font-size: 14px;
 }
 .newui .UIPromtBox.loader > * {
   vertical-align: middle;
@@ -5613,6 +5614,7 @@ body.mobile .login-underlay .login-underlay-footer p {
 .newui .UIPromtBox.loader .blue-ico-loader {
   margin-left: 12px;
   animation: spin 500ms linear infinite;
+  height: 24px;
 }
 @keyframes spin {
   100% {
