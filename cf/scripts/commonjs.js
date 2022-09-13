@@ -5845,7 +5845,7 @@ var UIBankNumberWidget = new Class({
         {
             if (this.options.hasPayPoint) this.dropdown.addClass('subhidden');
             else this.dropdown.removeClass('subhidden');
-            if (location.trim() !== '') this.countrySelectEl.value = location;
+            if (location.trim() !== '') this.dropdown.value = location;
         }
 
         if (this.disabled) {
@@ -12292,7 +12292,7 @@ var UITaxNumberWidget = new Class({
         {
             if (this.options.hasPayPoint) this.dropdown.addClass('subhidden');
             else this.dropdown.removeClass('subhidden');
-            if (location.trim() !== '') this.countrySelectEl.value = location;
+            if (location.trim() !== '') this.dropdown.value = location;
         }
 
         if (this.disabled) {
