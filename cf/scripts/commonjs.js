@@ -5835,17 +5835,17 @@ var UIBankNumberWidget = new Class({
             'value': 'NZ',
         }).inject(this.dropdownoption2, 'after');
 
-        this.dropdown.value = this.originalElement.get('data-country');
+        var location = this.originalElement.get('data-country');
 
         if (Affinity.CF.hasOwnProperty('hasPayPoint') && typeof Affinity.CF.hasPayPoint == 'boolean') this.options.hasPayPoint = Affinity.CF.hasPayPoint;
-        var location = this.currentLocation();
+        if (location !== 'AU' && location !== 'NZ') location = this.currentLocation();
         if (location.trim() === '') this.options.hasPayPoint = false;
 
         if (this.dropdown)
         {
             if (this.options.hasPayPoint) this.dropdown.addClass('subhidden');
             else this.dropdown.removeClass('subhidden');
-            if (location.trim() !== '') this.dropdown.value = location;
+            this.dropdown.value = location;
         }
 
         if (this.disabled) {
@@ -12282,17 +12282,17 @@ var UITaxNumberWidget = new Class({
             'value': 'NZ',
         }).inject(this.dropdownoption2, 'after');
 
-        this.dropdown.value = this.originalElement.get('data-country');
+        var location = this.originalElement.get('data-country');
 
         if (Affinity.CF.hasOwnProperty('hasPayPoint') && typeof Affinity.CF.hasPayPoint == 'boolean') this.options.hasPayPoint = Affinity.CF.hasPayPoint;
-        var location = this.currentLocation();
+        if (location !== 'AU' && location !== 'NZ') location = this.currentLocation();
         if (location.trim() === '') this.options.hasPayPoint = false;
 
         if (this.dropdown)
         {
             if (this.options.hasPayPoint) this.dropdown.addClass('subhidden');
             else this.dropdown.removeClass('subhidden');
-            if (location.trim() !== '') this.dropdown.value = location;
+            this.dropdown.value = location;
         }
 
         if (this.disabled) {
