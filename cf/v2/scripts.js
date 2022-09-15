@@ -18746,11 +18746,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     // check for rates and use Float with 5 decimal places
 
-    if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName))
+    //if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName))
+    if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName) || /( Rate [1-9]{1})/gi.test(this.Config.Details.Label))
     {
-      displayType = 'Float';
-      this.Config.Details.DecimalNumber = 5;
-      this.Config.Details.Rounding = 'round';
+      if (!this.Config.Details.hasOwnProperty('DecimalNumber'))
+      {
+        displayType = 'Float';
+        this.Config.Details.DecimalNumber = 5;
+        this.Config.Details.Rounding = 'round';
+      }
     }
 
     /////////////////////////////////////////////////////////

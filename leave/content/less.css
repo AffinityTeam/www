@@ -5606,6 +5606,7 @@ body.mobile .login-underlay .login-underlay-footer p {
 }
 .newui .UIPromtBox.loader {
   padding: 24px;
+  font-size: 14px;
 }
 .newui .UIPromtBox.loader > * {
   vertical-align: middle;
@@ -5613,6 +5614,7 @@ body.mobile .login-underlay .login-underlay-footer p {
 .newui .UIPromtBox.loader .blue-ico-loader {
   margin-left: 12px;
   animation: spin 500ms linear infinite;
+  height: 24px;
 }
 @keyframes spin {
   100% {
@@ -8481,7 +8483,7 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
 .newui .section .configSelection .configActions {
   padding-left: 0px;
   padding-right: 0px;
-  width: 150px;
+  width: 160px;
   box-sizing: border-box;
 }
 .newui .section .configSelection .configActions .button {
@@ -9286,11 +9288,21 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
   margin-top: 5px;
   text-align: right;
 }
+@media screen and (max-width: 992px) {
+  .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item {
+    width: 285px;
+  }
+}
 .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .filter-buttons-box {
   display: inline-block;
   margin-left: 0;
   width: 170px;
   text-align: left;
+}
+@media screen and (max-width: 992px) {
+  .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .filter-buttons-box {
+    margin-left: 20px;
+  }
 }
 .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .filter-label {
   display: inline-block;
@@ -9302,12 +9314,12 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
 }
 .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .input-wrapper {
   display: inline-block;
-  width: 170px;
+  width: 182px;
   text-align: left;
 }
 .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item select,
 .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item input {
-  width: 170px;
+  width: 182px;
   max-width: none;
   padding: 6px 12px 6px 6px;
   border-radius: 5px;
