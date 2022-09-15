@@ -9288,6 +9288,11 @@ body.newui #uimodal .uimodalbody .modal-data .activity-content .activity-events 
   margin-top: 5px;
   text-align: right;
 }
+@media screen and (max-width: 992px) {
+  .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item {
+    width: 285px;
+  }
+}
 .newui .section .leave-history .history-table .history-filter-box .filter-group-box .filter-item .filter-buttons-box {
   display: inline-block;
   margin-left: 0;
