@@ -27313,7 +27313,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         route:                        { type: 'long_name',  formMap: 'street' },
         locality:                     { type: 'long_name',  formMap: 'suburb' },
         administrative_area_level_2:  { type: 'long_name',  formMap: 'city' },
-        administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
+        administrative_area_level_1:  { type: 'short_name', formMap: 'state' },
         country:                      { type: 'long_name',  formMap: 'country' },
         postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
       },
