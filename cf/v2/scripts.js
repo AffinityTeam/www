@@ -18757,7 +18757,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         displayType = 'Float';
         this.Config.Details.AffinityField.FieldDecimal = 5;
-        this.Config.Details.AffinityField.FieldPrecision = 'round';
+        this.Config.Details.AffinityField.FieldPrecision = 5;
       }
     }
 
