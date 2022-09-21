@@ -20294,16 +20294,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
     // update special values
 
-    if (this.Config.Details.hasOwnProperty('DecimalNumber') && this.TemplateNode.querySelector('select.DecimalNumber'))
+    if (this.TemplateNode.querySelector('select.DecimalNumber'))
     {
-      this.Config.Details.DecimalNumber = !isNaN(parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value)) ? parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value) : 2;
+      var decimals = !isNaN(parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value)) ? parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value) : 2;
+      if (this.Config.Details.hasOwnProperty('AffinityField'))
+      {
+        this.Config.Details.AffinityField.FieldDecimal = decimals;
+      }
+      if (this.Config.Details.hasOwnProperty('DecimalNumber'))
+      {
+        this.Config.Details.DecimalNumber = decimals;
+      }
     }
 
-    if (this.Config.Details.hasOwnProperty('AffinityField') && this.TemplateNode.querySelector('select.DecimalNumber'))
-    {
-      this.Config.Details.AffinityField.FieldDecimal = !isNaN(parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value)) ? parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value) : 2;
-    }
-    
     this.CheckChanges(true);
 
     return this.Config;
@@ -20331,7 +20334,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     //var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
 
     var fieldDecimal = 2;
-    var fieldPrecision = 'round';
+    var fieldPrecision = 2;
     if (this.Config.Details.hasOwnProperty('DecimalNumber'))
     {
       fieldDecimal = this.Config.Details.DecimalNumber;
@@ -20339,12 +20342,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
       fieldDecimal = this.Config.Details.AffinityField.FieldDecimal;
-      fieldPrecision = this.Config.Details.AffinityField.FieldPrecision;
+      fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
     }
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
-      rounding: fieldPrecision,
+      rounding: precisionInt > 0 ? 'round' : 'none',
       value: this.Config.Details.Value
     });
 
@@ -23633,14 +23636,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
     // update special values
 
-    if (this.Config.Details.hasOwnProperty('DecimalNumber') && this.TemplateNode.querySelector('select.DecimalNumber'))
+    if (this.TemplateNode.querySelector('select.DecimalNumber'))
     {
-      this.Config.Details.DecimalNumber = !isNaN(parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value)) ? parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value) : 2;
-    }
-
-    if (this.Config.Details.hasOwnProperty('AffinityField') && this.TemplateNode.querySelector('select.DecimalNumber'))
-    {
-      this.Config.Details.AffinityField.FieldDecimal = !isNaN(parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value)) ? parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value) : 2;
+      var decimals = !isNaN(parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value)) ? parseInt(this.TemplateNode.querySelector('select.DecimalNumber').value) : 2;
+      if (this.Config.Details.hasOwnProperty('AffinityField'))
+      {
+        this.Config.Details.AffinityField.FieldDecimal = decimals;
+      }
+      if (this.Config.Details.hasOwnProperty('DecimalNumber'))
+      {
+        this.Config.Details.DecimalNumber = decimals;
+      }
     }
 
     this.CheckChanges(true);
@@ -23668,7 +23674,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
   SetFormRow (target)
   {
     var fieldDecimal = 2;
-    var fieldPrecision = 'round';
+    var fieldPrecision = 2;
     if (this.Config.Details.hasOwnProperty('DecimalNumber'))
     {
       fieldDecimal = this.Config.Details.DecimalNumber;
@@ -23676,14 +23682,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
       fieldDecimal = this.Config.Details.AffinityField.FieldDecimal;
-      fieldPrecision = this.Config.Details.AffinityField.FieldPrecision;
+      fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
     }
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
-      rounding: fieldPrecision,
+      rounding: precisionInt > 0 ? 'round' : 'none',
       value: this.Config.Details.Value
     });
+    
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
