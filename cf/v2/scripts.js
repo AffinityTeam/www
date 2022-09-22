@@ -18749,11 +18749,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
 
     // check for rates and use Float with 5 decimal places
-
     //if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName))
     if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName) || /( Rate [1-9]{1})/gi.test(this.Config.Details.Label))
     {
-      if (!this.Config.Details.AffinityField.hasOwnProperty('FieldDecimal'))
+      if (!this.Config.Details.AffinityField.hasOwnProperty('FieldDecimal') || this.Config.Details.AffinityField.FieldDecimal === null)
       {
         displayType = 'Float';
         this.Config.Details.AffinityField.FieldDecimal = 5;
@@ -20341,13 +20340,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     }
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
-      fieldDecimal = this.Config.Details.AffinityField.FieldDecimal;
+      fieldDecimal = this.Config.Details.AffinityField.FieldDecimal ? this.Config.Details.AffinityField.FieldDecimal : fieldDecimal;
       fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
     }
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
-      rounding: precisionInt > 0 ? 'round' : 'none',
+      rounding: fieldPrecision > 0 ? 'round' : 'none',
       value: this.Config.Details.Value
     });
 
@@ -23681,13 +23680,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     }
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
-      fieldDecimal = this.Config.Details.AffinityField.FieldDecimal;
+      fieldDecimal = this.Config.Details.AffinityField.FieldDecimal ? this.Config.Details.AffinityField.FieldDecimal : fieldDecimal;
       fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
     }
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
-      rounding: precisionInt > 0 ? 'round' : 'none',
+      rounding: fieldPrecision > 0 ? 'round' : 'none',
       value: this.Config.Details.Value
     });
     
@@ -37030,10 +37029,25 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       this.CutPasteOperration = true;
       return true;
     }
-    this.CutpasteOperration = false;
+    this.CutPasteOperration = false;
 
-    if ((keyCode >= 48 && keyCode <= 57) && !shiftDown && !ctrlDown) return true; // keyboard numbers
-    if ((keyCode >= 96 && keyCode <= 105) && !shiftDown && !ctrlDown) return true; // nampad numbers
+    //                 keyboard number char codes          nampad number char codes
+    var isNumberKey = (keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105);
+
+    if (!this.CutPasteOperration)
+    {
+      if (['float', 'decimal', 'currency'].contains(this.type) && this.decimals > 0 && this.InputNode.value.contains('.'))
+      {
+        // check decimal precision when a number is pressed and prevent typing too many decimals:
+        if (isNumberKey && !shiftDown && !ctrlDown)
+        {
+          let decimalStr = (this.InputNode.value.trim() + String.fromCharCode(keyCode)).trim().split('.')[1].trim();
+          if (decimalStr.length > this.decimals) return false;
+        }
+      }
+    }
+
+    if (isNumberKey && !shiftDown && !ctrlDown) return true;
 
     switch (keyCode)
     {
@@ -37177,6 +37191,17 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       if (this.RowNode) this.RowNode.classList.add('error');
       this.ShowError(warning);
       this.Valid = false;
+    }
+
+    if (['float', 'decimal', 'currency'].contains(this.type) && this.decimals > 0)
+    {
+      if (!this.InputNode.value.contains('.')) this.InputNode.value = this.InputNode.value.trim() + '.';
+      let decimalStr = this.InputNode.value.trim().split('.')[1].trim();
+      if (decimalStr.length < this.decimals)
+      {
+        var paddedInput = Affinity2018.padRight(this.InputNode.value.trim(), '0', this.decimals + (this.InputNode.value.trim().length - decimalStr.length));
+        this.InputNode.value = paddedInput;
+      }
     }
 
     return this.Valid;
