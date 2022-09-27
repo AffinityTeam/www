@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2716,32-37): run-time error JS1195: Expected expression: class
-(3253,32-37): run-time error JS1195: Expected expression: class
-(3266,20-21): run-time error JS1004: Expected ';': {
-(3337,27-28): run-time error JS1004: Expected ';': {
-(3341,29-30): run-time error JS1004: Expected ';': {
-(3342,29-30): run-time error JS1004: Expected ';': {
-(3343,29-30): run-time error JS1004: Expected ';': {
-(3344,29-30): run-time error JS1004: Expected ';': {
-(3345,13-14): run-time error JS1004: Expected ';': {
-(3364,15-16): run-time error JS1004: Expected ';': {
-(3382,12-13): run-time error JS1004: Expected ';': {
-(3387,12-13): run-time error JS1004: Expected ';': {
-(3390,17-18): run-time error JS1004: Expected ';': {
-(3980,36-41): run-time error JS1195: Expected expression: class
-(4093,30-35): run-time error JS1195: Expected expression: class
-(4198,31-36): run-time error JS1195: Expected expression: class
-(4437,35-40): run-time error JS1195: Expected expression: class
-(4565,33-38): run-time error JS1195: Expected expression: class
-(4776,39-40): run-time error JS1014: Invalid character: `
-(4776,40-41): run-time error JS1195: Expected expression: <
-(4776,100-101): run-time error JS1014: Invalid character: `
-(4795,43-44): run-time error JS1014: Invalid character: `
-(4795,44-45): run-time error JS1195: Expected expression: <
-(4795,108-109): run-time error JS1014: Invalid character: `
-(4863,33-38): run-time error JS1195: Expected expression: class
-(5161,32-37): run-time error JS1195: Expected expression: class
-(5527,33-38): run-time error JS1195: Expected expression: class
-(5605,37-42): run-time error JS1195: Expected expression: class
-(5606,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2780,32-37): run-time error JS1195: Expected expression: class
+(3317,32-37): run-time error JS1195: Expected expression: class
+(3330,20-21): run-time error JS1004: Expected ';': {
+(3401,27-28): run-time error JS1004: Expected ';': {
+(3405,29-30): run-time error JS1004: Expected ';': {
+(3406,29-30): run-time error JS1004: Expected ';': {
+(3407,29-30): run-time error JS1004: Expected ';': {
+(3408,29-30): run-time error JS1004: Expected ';': {
+(3409,13-14): run-time error JS1004: Expected ';': {
+(3428,15-16): run-time error JS1004: Expected ';': {
+(3446,12-13): run-time error JS1004: Expected ';': {
+(3451,12-13): run-time error JS1004: Expected ';': {
+(3454,17-18): run-time error JS1004: Expected ';': {
+(4044,36-41): run-time error JS1195: Expected expression: class
+(4157,30-35): run-time error JS1195: Expected expression: class
+(4262,31-36): run-time error JS1195: Expected expression: class
+(4501,35-40): run-time error JS1195: Expected expression: class
+(4629,33-38): run-time error JS1195: Expected expression: class
+(4840,39-40): run-time error JS1014: Invalid character: `
+(4840,40-41): run-time error JS1195: Expected expression: <
+(4840,100-101): run-time error JS1014: Invalid character: `
+(4859,43-44): run-time error JS1014: Invalid character: `
+(4859,44-45): run-time error JS1195: Expected expression: <
+(4859,108-109): run-time error JS1014: Invalid character: `
+(4927,33-38): run-time error JS1195: Expected expression: class
+(5225,32-37): run-time error JS1195: Expected expression: class
+(5591,33-38): run-time error JS1195: Expected expression: class
+(5669,37-42): run-time error JS1195: Expected expression: class
+(5670,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5607,5-16): run-time error JS1006: Expected ')': constructor
-(5676,3-4): run-time error JS1002: Syntax error: }
-(5676,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5620,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5671,5-16): run-time error JS1006: Expected ')': constructor
+(5740,3-4): run-time error JS1002: Syntax error: }
+(5740,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5684,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1706,22 +1706,60 @@
 
 
   /**
-   * Affinity2018.getDate()
-   * Attempts to return date from mixed
-   *
-   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
-   *
-   * @param {string} mixed
-   *
-   * @returns {Date|String}
-   */
+  * Affinity2018.getDate()
+  * Attempts to return date from mixed
+  *
+  * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+  *
+  * @param {string} mixed
+  *
+  * @returns {Date|String}
+  */
+  //Affinity2018.DateLog = function (methodName, input, parsed, format, output, color1, color2)
+  //{
+  //  methodName = methodName.toString().padRight(' ', 15);
+  //  input = input.toString().trim()
+  //    .replace('(New Zealand Standard Time)', '(NZST)')
+  //    .replace('(New Zealand Daylight Time)', '(NZDT)')
+  //    .replace('GMT+1200', '+12')
+  //    .replace('GMT+1300', '+13')
+  //    .padRight(' ', 37);
+  //  parsed = parsed.toString().trim()
+  //    .replace('(New Zealand Standard Time)', '(NZST)')
+  //    .replace('(New Zealand Daylight Time)', '(NZDT)')
+  //    .replace('GMT+1200', '+12')
+  //    .replace('GMT+1300', '+13')
+  //    .padRight(' ', 37);
+  //  format = format.toString().padRight(' ', 22);
+  //  color1 = color1 || '#106eb6';
+  //  color2 = color2 || '#16c1f3';
+  //  console.info("%c:: DATE :: Method : " + '%c' + methodName +
+  //    "%cInput : %c" + input +
+  //    "%cParsed : %c" + parsed +
+  //    "%cFormat : %c" + format +
+  //    "%cOutput :",
+  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+  //    'color:' + color1 + ';',
+  //    output
+  //  );
+  //  //console.info("%c:: DATE :: Method: " + methodName, '' + "Input: " + input + "Parsed: " + parsed + "Format: " + format + "Output:   ", 'color: ' + color + ';',  output);
+  //};
   Affinity2018.getDate = function (mixed, format)
   {
+    var date;
     format = Affinity2018.paramOrDefault(format, false, 'string');
     if (Affinity2018.isDate(mixed))
     {
-      if (format) return luxon.DateTime.fromJSDate(mixed).toFormat(format);
-      return mixed;
+      date = mixed;
+      if (format)
+      {
+        date = luxon.DateTime.fromJSDate(mixed).toFormat(format);
+      }
+      //Affinity2018.DateLog('getDate', mixed, '', format, date);
+      return date;
     }
     // strings
     var dateStr, timestamp, luxonDate;
@@ -1729,25 +1767,46 @@
     {
       if (mixed.startsWith('/Date(') && mixed.endsWith(')/'))
       {
-        dateStr = mixed.slice(6, -2);
+        dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
         timestamp = parseInt(dateStr);
         luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: 'utc' });
-        if (format) return luxonDate.toLocal().toFormat(format);
-        return luxonDate.toLocal().toJSDate();
+        date = luxonDate.toLocal().toJSDate();
+        if (format)
+        {
+          date = luxonDate.toLocal().toFormat(format);
+        }
+        //Affinity2018.DateLog('getDate', mixed, timestamp, format, date);
+        return date
       }
       else
       {
-        luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: 'local' });
+        if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
+        {
+          if (mixed.countString('/') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd/MM/yyyy HH:mm:ss', { zone: 'local' });
+          if (mixed.countString('\\') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd\\MM\\yyyy HH:mm:ss', { zone: 'local' });
+          if (mixed.countString('-') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd-MM-yyyy HH:mm:ss', { zone: 'local' });
+          if (mixed.countString('.') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd.MM.yyyy HH:mm:ss', { zone: 'local' });
+        }
+        else
+        {
+          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: 'local' });
+        }
         if (luxonDate.isValid)
         {
-          if (format) return luxonDate.toFormat(format);
-          return luxonDate.toJSDate();
+          date = luxonDate.toJSDate();
+          if (format)
+          {
+            date = luxonDate.toFormat(format);
+          }
+          //Affinity2018.DateLog('getDate', mixed, '', format, date);
+          return date
         }
       }
     }
     //
-    if (format) return luxon.DateTime.local().toFormat(format);
-    return new Date();
+    date = new Date();
+    if (format) date = luxon.DateTime.local().toFormat(format);
+    return date;
   };
 
 
@@ -1772,16 +1831,22 @@
       if (dateStr.length > 10 && !dateStr.startsWith('/Date('))
       {
         dateStr = dateStr.replace('st', '').replace('nd', '').replace('rd', '').replace(',', '');
-        if (Affinity2018.isDateValid(Date.parse(dateStr)))
+        var testDate = Affinity2018.getDate(dateStr);
+        if (Affinity2018.isDateValid(testDate))
         {
-          return Date.parse(dateStr);
+          return testDate;
         }
         return failReturn;
       }
 
       dateStr = dateStr.replace(/\s+/g, '');
 
-      if (dateStr.startsWith('/Date(')) return new Date(parseInt(dateStr.replace(/\/Date\((-?\d+)\)\//, '$1')));
+      if (dateStr.startsWith('/Date('))
+      {
+        var returnDate = new Date(parseInt(dateStr.replace(/\/Date\((-?\d+)\)\//, '$1').trim()));
+        //Affinity2018.DateLog('stringToDate', dateStr, parseInt(dateStr.replace(/\/Date\((-?\d+)\)\//, '$1').trim()), '', returnDate);
+        return returnDate;
+      }
 
       if (dateStr.countString('/') === 2 || dateStr.countString('\\') === 2 || dateStr.countString('-') === 2 || dateStr.countString('.') === 2) dateStr = dateStr.replace(/[^0-9]/g, '-');
 
@@ -1802,9 +1867,8 @@
       if (month > 12 && day <= 12) parts = [month, day, year];
 
       var date = new Date(parts[2], parts[1] - 1, parts[0], 0, 0, 0);
-
+      //Affinity2018.DateLog('stringToDate', dateStr, parts[2] + ', ' + (parts[1] - 1) + ', ' + parts[0] + ', 0, 0, 0', '', date);
       if (date.isValid()) return date;
-
       return failReturn;
     };
   }
@@ -7073,6 +7137,8 @@
 
       Affinity2018.HidePageLoader();
       Affinity2018.UiReady = true;
+
+      console.clear();
 
       window.dispatchEvent(new Event('MainInit'));
     }
@@ -20571,7 +20637,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if (showDate && !showTime) this.Config.Details.DateTimeType = 'date';
     if (!showDate && showTime) this.Config.Details.DateTimeType = 'time';
 
-    this.Config.Details.SetDefaultValue = this.DefaultValueNode.checked
+    this.Config.Details.SetDefaultValue = this.DefaultValueNode.checked;
 
     this.CheckChanges(true);
 
@@ -20612,20 +20678,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if (
       ($a.isPropString(this.Config.Details, 'SetDefaultValue') && this.Config.Details.SetDefaultValue.toLowerCase().trim() === 'true')
       || ($a.isPropBool(this.Config.Details, 'SetDefaultValue') && this.Config.Details.SetDefaultValue === true)
-    ) date = Date.today();
+    )
+    {
+      //date = Date.today();
+      date = new Date(2022, 2, 4, 10, 30, 0, 0); // (month is index 0, date is index 1) 4th march
+    }
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.stringToDate(this.Config.Details.Value); 
 
+    var originalDate = date;
+    var dateObj = Affinity2018.getDate(date);
+    var dateStr = Affinity2018.getDate(dateObj, format);
+    var value = '';
 
     if (this.IsReadOnly)
     {
-      var value = '';
       if (date !== null)
       {
         format = '';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' -';
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' h:mm:ss tt';
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' - ';
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss tt';
+
+        dateStr = Affinity2018.getDate(dateObj, format);
+
         value = date.toString(format);
+
       }
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -20636,14 +20713,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     {
       format = '';
       if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dd/MM/yyyy';
+      //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'yyyy-MM-dd';
       if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' HH:mm:ss';
 
       if (format.trim() !== '') dataset += ' data-calendar-return-format="' + format + '"';
 
       if (date !== null)
       {
-        dataset += ' data-start-date="' + date.toString(format) + '"';
-        date = date.toString(format);
+        dateStr = Affinity2018.getDate(dateObj, format);
+        value = date.toString(format);
+        dataset += ' data-start-date="' + value + '"';
+        date = value;
       }
 
       dataset += ' data-calendar-nullable="true"';
@@ -20658,6 +20738,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       );
 
     }
+
+    // methodName, input, parsed, format, output, color1, color2
+    //Affinity2018.DateLog('SetFormRow', this.Config.Details.Value || 'null', originalDate || 'null', format, value || 'null');
 
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -20688,6 +20771,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
       if (inputNode.value.trim() !== '' && date !== false) this.FormData.Value = date.toString(inputWidget.outputFormat);
       else this.FormData.Value = '';
+
+      // methodName, input, parsed, format, output, color1, color2
+      //Affinity2018.DateLog('GetFromFormRow', date, date, inputWidget.outputFormat, this.FormData.Value);
+
       return this.FormData;
     }
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
@@ -20695,6 +20782,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
   SetFromValue (value)
   {
+    var originalValue = value;
     var format = '';
     var inputNode = this.IsReadOnly ? this.FormRowNode.querySelector('input') : this.FormRowNode.querySelector('input.ui-calendar');
     var inputWidget = this.IsReadOnly ? false : inputNode.widgets.DateTime;
@@ -20728,6 +20816,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         else inputNode.value = '';
       }
     }
+
+    // methodName, input, parsed, format, output, color1, color2
+    //Affinity2018.DateLog('SetFromValue', originalValue, value || '', format, inputNode.value);
+
   }
 
   /**/
@@ -32308,18 +32400,26 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     /**/
 
-    var attemptStr = this.targetNode.hasOwnProperty('data-start-date') ? this.targetNode.dataset.startDate.trim() : '';
+    this.startDate = 'none';
+    this.hasStartDate = false;
+    this.showStartDate = false;
+
+    var attemptStr = this.targetNode.dataset.hasOwnProperty('startDate') ? this.targetNode.dataset.startDate.trim() : '';
     if (attemptStr !== '')
     {
-      if (attemptStr.countString('/') === 2 || attemptStr.countString('\\') === 2 || attemptStr.countString('-') === 2 || attemptStr.countString('.') === 2)
-      {
-        this.startDate = this._processStandardDateStr(attemptStr);
-        if (this.startDate === null) this.startDate = Date.parse(attemptStr);
-      }
-      else
-      {
-        this.startDate = Date.parse(attemptStr).isValid() ? Date.parse(attemptStr) : false;
-      }
+      //if (attemptStr.countString('/') === 2 || attemptStr.countString('\\') === 2 || attemptStr.countString('-') === 2 || attemptStr.countString('.') === 2)
+      //{
+      //  this.startDate = $a.getDate(attemptStr);
+      //  if (this.startDate === null) this.startDate = Date.parse(attemptStr);
+      //}
+      //else
+      //{
+      //  this.startDate = Date.parse(attemptStr).isValid() ? Date.parse(attemptStr) : false;
+      //}
+
+      this.startDate = $a.getDate(attemptStr);
+      if (this.startDate === null) this.startDate = Date.parse(attemptStr);
+
       if (this.startDate && Affinity2018.isDate(this.startDate) && this.startDate.isValid())
       {
         this.hasStartDate = true;
@@ -32337,9 +32437,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.postName = this.targetNode.name || '';
     this.postId = this.targetNode.id || '';
-    this.hasStartDate = this.targetNode.dataset.startDate ? Date.parse(this.targetNode.dataset.startDate).isValid() ? true : false : false;
-    this.showStartDate = this.hasStartDate ? true : false;
-    this.startDate = this.hasStartDate ? Affinity2018.stringToDate(this.targetNode.dataset.startDate, 'none') : 'none';
     this.validationMethods = this.targetNode.dataset.validateMethod || '';
     this.validationErrorStr = this.targetNode.dataset.validateErrorStr || '';
     this.showInline = this.targetNode.classList.contains('show-inline') ? true : false; // TODO: depricated
@@ -32480,7 +32577,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     else if (this.startDate && today.contains(this.startDate.toLowerCase))
     {
       this.date = new Date();
-      this.startDate = this.date.toString(this.outputFormat);
+      this.startDate = $a.getDate(this.date, this.outputFormat);
     }
     else
     {
