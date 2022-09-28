@@ -20680,8 +20680,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       || ($a.isPropBool(this.Config.Details, 'SetDefaultValue') && this.Config.Details.SetDefaultValue === true)
     )
     {
-      //date = Date.today();
-      date = new Date(2022, 2, 4, 10, 30, 0, 0); // (month is index 0, date is index 1) 4th march
+      date = Date.today();
+      //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.stringToDate(this.Config.Details.Value); 
 
