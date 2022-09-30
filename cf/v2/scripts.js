@@ -32448,10 +32448,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hasStartDate = false;
     this.showStartDate = false;
 
-
     var attemptStr = this.targetNode ? this.targetNode.value.trim() : '';
     if (attemptStr === '') attemptStr = this.targetNode.dataset.hasOwnProperty('startDate') ? this.targetNode.dataset.startDate.trim() : '';
-    if (attemptStr !== '')
+    if (attemptStr !== '' && attemptStr !== 'null')
     {
       this.startDate = $a.getDate(attemptStr);
       if (this.startDate === null) this.startDate = Date.parse(attemptStr);
