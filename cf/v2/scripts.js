@@ -1,40 +1,33 @@
 /* Minification failed. Returning unminified contents.
-(2792,32-37): run-time error JS1195: Expected expression: class
-(3329,32-37): run-time error JS1195: Expected expression: class
-(3342,20-21): run-time error JS1004: Expected ';': {
-(3413,27-28): run-time error JS1004: Expected ';': {
-(3417,29-30): run-time error JS1004: Expected ';': {
-(3418,29-30): run-time error JS1004: Expected ';': {
-(3419,29-30): run-time error JS1004: Expected ';': {
-(3420,29-30): run-time error JS1004: Expected ';': {
-(3421,13-14): run-time error JS1004: Expected ';': {
-(3440,15-16): run-time error JS1004: Expected ';': {
-(3458,12-13): run-time error JS1004: Expected ';': {
-(3463,12-13): run-time error JS1004: Expected ';': {
-(3466,17-18): run-time error JS1004: Expected ';': {
-(4056,36-41): run-time error JS1195: Expected expression: class
-(4169,30-35): run-time error JS1195: Expected expression: class
-(4274,31-36): run-time error JS1195: Expected expression: class
-(4513,35-40): run-time error JS1195: Expected expression: class
-(4641,33-38): run-time error JS1195: Expected expression: class
-(4852,39-40): run-time error JS1014: Invalid character: `
-(4852,40-41): run-time error JS1195: Expected expression: <
-(4852,100-101): run-time error JS1014: Invalid character: `
-(4871,43-44): run-time error JS1014: Invalid character: `
-(4871,44-45): run-time error JS1195: Expected expression: <
-(4871,108-109): run-time error JS1014: Invalid character: `
-(4939,33-38): run-time error JS1195: Expected expression: class
-(5237,32-37): run-time error JS1195: Expected expression: class
-(5603,33-38): run-time error JS1195: Expected expression: class
-(5681,37-42): run-time error JS1195: Expected expression: class
-(5682,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
-(1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5683,5-16): run-time error JS1006: Expected ')': constructor
-(5752,3-4): run-time error JS1002: Syntax error: }
-(5752,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5696,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(2795,32-37): run-time error JS1195: Expected expression: class
+(3334,32-37): run-time error JS1195: Expected expression: class
+(3426,29-30): run-time error JS1004: Expected ';': {
+(3427,29-30): run-time error JS1004: Expected ';': {
+(3428,29-30): run-time error JS1004: Expected ';': {
+(3429,29-30): run-time error JS1004: Expected ';': {
+(4074,36-41): run-time error JS1195: Expected expression: class
+(4187,30-35): run-time error JS1195: Expected expression: class
+(4292,31-36): run-time error JS1195: Expected expression: class
+(4532,35-40): run-time error JS1195: Expected expression: class
+(4660,33-38): run-time error JS1195: Expected expression: class
+(4871,39-40): run-time error JS1014: Invalid character: `
+(4871,40-41): run-time error JS1195: Expected expression: <
+(4871,100-101): run-time error JS1014: Invalid character: `
+(4890,43-44): run-time error JS1014: Invalid character: `
+(4890,44-45): run-time error JS1195: Expected expression: <
+(4890,108-109): run-time error JS1014: Invalid character: `
+(4958,33-38): run-time error JS1195: Expected expression: class
+(5258,32-37): run-time error JS1195: Expected expression: class
+(5630,33-38): run-time error JS1195: Expected expression: class
+(5712,37-42): run-time error JS1195: Expected expression: class
+(5713,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
+(5714,5-16): run-time error JS1006: Expected ')': constructor
+(5785,3-4): run-time error JS1002: Syntax error: }
+(5785,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5727,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
-(function()
+(function ()
 {
   var ieVersion = -1;
   var ieVersionData = ((navigator.userAgent.match(/(?:MSIE |Trident.*rv:|Edge\/)(\d+(\.\d+)?)/)) || []);
@@ -66,7 +59,7 @@
   if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = document.location.protocol + '//cdn.source63.com/affinity/beta1/scripts/plugins/';
   if (!Affinity2018.hasOwnProperty('HideAllTemplates')) Affinity2018.HideAllTemplates = false;
   if (!Affinity2018.hasOwnProperty('DisablePlugins')) Affinity2018.DisablePlugins = [];
-  
+
   /* config */
 
   Affinity2018.UiReady = false;
@@ -713,11 +706,11 @@
   {
     Array.prototype.removeDuplicates = function ()
     {
-      var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+      var prims = { "boolean": {}, "number": {}, "string": {} }, objs = [];
       return this.filter(function (item)
       {
         var type = typeof item;
-        if(type in prims) return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+        if (type in prims) return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
         else return objs.indexOf(item) >= 0 ? false : objs.push(item);
       });
     };
@@ -728,19 +721,19 @@
    * @this    NodeList
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
    */
-   if (window.NodeList && !NodeList.prototype.forEach && Array.prototype.forEach)
-   {
-     NodeList.prototype.forEach = Array.prototype.forEach;
-   }
+  if (window.NodeList && !NodeList.prototype.forEach && Array.prototype.forEach)
+  {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
 
   /**
    * Node.hasAttribute() polyfill
    * @this    DomElement
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
    */
-  (function(prototype)
+  (function (prototype)
   {
-    prototype.hasAttribute = prototype.hasAttribute || function(name)
+    prototype.hasAttribute = prototype.hasAttribute || function (name)
     {
       return !!(this.attributes[name] && this.attributes[name].specified);
     }
@@ -795,7 +788,7 @@
       };
     }
   }
-    
+
 
   /**
    * String.startsWith() polyfill
@@ -805,15 +798,15 @@
   if (!String.prototype.startsWith)
   {
     Object.defineProperty(String.prototype, 'startsWith',
-    {
-      value: function(search, rawPos)
       {
-        var pos = rawPos > 0 ? rawPos|0 : 0;
-        return this.substring(pos, pos + search.length) === search;
-      }
-    });
+        value: function (search, rawPos)
+        {
+          var pos = rawPos > 0 ? rawPos | 0 : 0;
+          return this.substring(pos, pos + search.length) === search;
+        }
+      });
   }
-    
+
 
   /**
    * String.endsWith() polyfill
@@ -826,10 +819,10 @@
     {
       if (this_len === undefined || this_len > this.length)
       {
-			  this_len = this.length;
-		  }
-		  return this.substring(this_len - search.length, this_len) === search;
-	  };
+        this_len = this.length;
+      }
+      return this.substring(this_len - search.length, this_len) === search;
+    };
   }
 
   /***************************************************************************************************************************************************/
@@ -843,7 +836,7 @@
   /***                                                                                                                               *****************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************** Source63 *** affinity toolbox ***/
-  
+
 
   /**
    * Affinity2018.type()
@@ -855,21 +848,21 @@
    * 
    * @returns {string}
    */
-  if(!Affinity2018.hasOwnProperty('type'))
+  if (!Affinity2018.hasOwnProperty('type'))
   {
     Affinity2018.ClasstTypes = {};
-    'Boolean Number String Function Array Date RegExp Object Error Event CustomEvent HTMLElement'.split(' ').forEach(function(name, i)
+    'Boolean Number String Function Array Date RegExp Object Error Event CustomEvent HTMLElement'.split(' ').forEach(function (name, i)
     {
-    	Affinity2018.ClasstTypes['[object ' + name + ']'] = name.toLowerCase();
+      Affinity2018.ClasstTypes['[object ' + name + ']'] = name.toLowerCase();
     });
-    Affinity2018.type = function(obj)
+    Affinity2018.type = function (obj)
     {
       if (obj == null) return obj + '';
       return typeof obj === 'object' || typeof obj === 'function' ? obj instanceof HTMLElement ? 'HTMLElement' : Affinity2018.ClasstTypes[toString.call(obj)] || 'object' : typeof obj;
     };
     Affinity2018.Type = Affinity2018.type;
   }
-  
+
 
   /**
    * Affinity2018.uuid()
@@ -879,14 +872,14 @@
    * 
    * @returns {string}
    */
-  if(!Affinity2018.hasOwnProperty('uuid'))
+  if (!Affinity2018.hasOwnProperty('uuid'))
   {
     Affinity2018.uuid = function ()
     {
       return String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.round(Math.random() * 52)) + Math.random().toString(36).substr(2, 9);
     };
   }
-  
+
 
   /**
    * Affinity2018.isNull()
@@ -898,14 +891,14 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isNull'))
+  if (!Affinity2018.hasOwnProperty('isNull'))
   {
     Affinity2018.isNull = function (obj)
     {
       return obj === null || obj === undefined ? true : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isDomElement()
@@ -919,7 +912,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isDomElement'))
+  if (!Affinity2018.hasOwnProperty('isDomElement'))
   {
     Affinity2018.isDomElement = function (obj)
     {
@@ -932,13 +925,13 @@
         return (typeof obj === "object") && (obj.nodeType === 1) && (typeof obj.style === "object") && (typeof obj.ownerDocument === "object");
       }
     };
-    Affinity2018.isDomElementReturn = function(obj)
+    Affinity2018.isDomElementReturn = function (obj)
     {
-    	return Affinity2018.isDomElement(obj) ? obj : false;
+      return Affinity2018.isDomElement(obj) ? obj : false;
     };
     Affinity2018.isNode = Affinity2018.isElement = Affinity2018.isDomElement;
   }
-  
+
 
   /**
    * Affinity2018.isArray()
@@ -950,18 +943,18 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isArray'))
+  if (!Affinity2018.hasOwnProperty('isArray'))
   {
-    Affinity2018.isArray = function(obj)
+    Affinity2018.isArray = function (obj)
     {
-    	return Array.isArray(obj);
+      return Array.isArray(obj);
     };
-    Affinity2018.isArrayReturn = function(obj)
+    Affinity2018.isArrayReturn = function (obj)
     {
-    	return Affinity2018.isArray(obj) ? obj : false;
+      return Affinity2018.isArray(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isNumeric()
@@ -973,18 +966,18 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isNumeric'))
+  if (!Affinity2018.hasOwnProperty('isNumeric'))
   {
-    Affinity2018.isNumeric = function(obj)
+    Affinity2018.isNumeric = function (obj)
     {
       return !isNaN(parseFloat(obj));
     };
-    Affinity2018.isNumericReturn = function(obj)
+    Affinity2018.isNumericReturn = function (obj)
     {
-    	return Affinity2018.isNumeric(obj) ? obj : false;
+      return Affinity2018.isNumeric(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isInt()
@@ -996,18 +989,18 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isInt'))
+  if (!Affinity2018.hasOwnProperty('isInt'))
   {
-    Affinity2018.isInt = function(obj)
+    Affinity2018.isInt = function (obj)
     {
-    	return Affinity2018.isNumeric(obj) && !obj.toString().contains('.');
+      return Affinity2018.isNumeric(obj) && !obj.toString().contains('.');
     };
-    Affinity2018.isIntReturn = function(obj)
+    Affinity2018.isIntReturn = function (obj)
     {
-    	return Affinity2018.isInt(obj) ? obj : false;
+      return Affinity2018.isInt(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isFunction()
@@ -1020,9 +1013,9 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isFunction'))
+  if (!Affinity2018.hasOwnProperty('isFunction'))
   {
-    Affinity2018.isFunction = function(obj)
+    Affinity2018.isFunction = function (obj)
     {
       return typeof obj === "function" ? obj : false;
     };
@@ -1033,7 +1026,7 @@
     Affinity2018.isMethod = Affinity2018.isFunction;
     Affinity2018.isMethodReturn = Affinity2018.isFunctionReturn;
   }
-  
+
 
   /**
    * Affinity2018.isDate()
@@ -1045,7 +1038,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isDate'))
+  if (!Affinity2018.hasOwnProperty('isDate'))
   {
     Affinity2018.isDate = function (obj)
     {
@@ -1056,7 +1049,7 @@
       return Affinity2018.isDate(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isDateValid()
@@ -1068,7 +1061,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isDateValid'))
+  if (!Affinity2018.hasOwnProperty('isDateValid'))
   {
     Affinity2018.isDateValid = function (obj)
     {
@@ -1076,7 +1069,7 @@
       return Affinity2018.isDate(obj) && obj.isValid();
     };
   }
-  
+
 
   /**
    * Affinity2018.isBool()
@@ -1088,7 +1081,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isBool'))
+  if (!Affinity2018.hasOwnProperty('isBool'))
   {
     Affinity2018.isBool = function (obj)
     {
@@ -1099,7 +1092,7 @@
       return Affinity2018.isBool(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isWindow()
@@ -1111,9 +1104,9 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isWindow'))
+  if (!Affinity2018.hasOwnProperty('isWindow'))
   {
-    Affinity2018.isWindow = function(obj)
+    Affinity2018.isWindow = function (obj)
     {
       return obj != null && obj === obj.window;
     };
@@ -1122,7 +1115,7 @@
       return Affinity2018.isWindow(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isClass()
@@ -1134,14 +1127,14 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isClass'))
+  if (!Affinity2018.hasOwnProperty('isClass'))
   {
     Affinity2018.isClass = function (obj)
     {
       return obj && obj instanceof Object && obj.constructor && obj.constructor.name && (Affinity2018.Classes.contains(obj.constructor.name) || Affinity2018.Classes.Plugins.contains(obj.constructor.name));
     };
   }
-  
+
 
   /**
    * Affinity2018.isObject()
@@ -1153,7 +1146,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isObject'))
+  if (!Affinity2018.hasOwnProperty('isObject'))
   {
     Affinity2018.isObject = function (obj)
     {
@@ -1175,7 +1168,7 @@
       return Affinity2018.isObject(obj) ? obj : false;
     };
   }
-  
+
 
   /**
    * Affinity2018.isStringifiedObject()
@@ -1187,7 +1180,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isStringifiedObject'))
+  if (!Affinity2018.hasOwnProperty('isStringifiedObject'))
   {
     Affinity2018.isStringifiedObject = function (objectString)
     {
@@ -1206,8 +1199,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isUrl()
    * Determines if passed string is a valid url
@@ -1218,9 +1211,9 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isUrl'))
+  if (!Affinity2018.hasOwnProperty('isUrl'))
   {
-    Affinity2018.isUrl = function(url)
+    Affinity2018.isUrl = function (url)
     {
       if (typeof url !== 'string') return false;
       if (url.trim() === '') return false;
@@ -1243,8 +1236,8 @@
       return Affinity2018.isUrl(url) ? url : false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isEmptyObject()
    * Determines if passed object is empty (has no keys)
@@ -1255,19 +1248,19 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isEmptyObject'))
+  if (!Affinity2018.hasOwnProperty('isEmptyObject'))
   {
-    Affinity2018.isEmptyObject = function(obj)
+    Affinity2018.isEmptyObject = function (obj)
     {
-    	for (var n in obj)
+      for (var n in obj)
       {
-    		return false;
-    	}
-    	return true;
+        return false;
+      }
+      return true;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isString()
    * Determines if passed object is a string
@@ -1278,15 +1271,15 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isString'))
+  if (!Affinity2018.hasOwnProperty('isString'))
   {
     Affinity2018.isString = function (obj)
     {
       return typeof obj === 'string';
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isEvent()
    * Determines if passed object is an Event or CustomEvent
@@ -1297,7 +1290,7 @@
    * 
    * @returns {boolean}
    */
-  if(!Affinity2018.hasOwnProperty('isEvent'))
+  if (!Affinity2018.hasOwnProperty('isEvent'))
   {
     Affinity2018.isEvent = function (ev)
     {
@@ -1308,8 +1301,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isPropString()
    * Determines if passed prop is a string belonging to the passed object
@@ -1321,7 +1314,7 @@
    * 
    * @returns {boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('isPropString')))
+  if (!(Affinity2018.hasOwnProperty('isPropString')))
   {
     Affinity2018.isPropString = function (obj, prop)
     {
@@ -1338,8 +1331,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isPropInt()
    * Determines if passed prop is an Int belonging to the passed object
@@ -1351,7 +1344,7 @@
    * 
    * @returns {boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('isPropInt')))
+  if (!(Affinity2018.hasOwnProperty('isPropInt')))
   {
     Affinity2018.isPropInt = function (obj, prop)
     {
@@ -1366,8 +1359,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isPropBool()
    * Determines if passed prop is a Boolean belonging to the passed object
@@ -1379,7 +1372,7 @@
    * 
    * @returns {boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('isPropBool')))
+  if (!(Affinity2018.hasOwnProperty('isPropBool')))
   {
     Affinity2018.isPropBool = function (obj, prop)
     {
@@ -1394,8 +1387,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isPropArray()
    * Determines if passed prop is an Array belonging to the passed object
@@ -1407,7 +1400,7 @@
    * 
    * @returns {boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('isPropArray')))
+  if (!(Affinity2018.hasOwnProperty('isPropArray')))
   {
     Affinity2018.isPropArray = function (obj, prop)
     {
@@ -1422,8 +1415,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isPropObject()
    * Determines if passed prop is an Object belonging to the passed object
@@ -1435,7 +1428,7 @@
    * 
    * @returns {boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('isPropObject')))
+  if (!(Affinity2018.hasOwnProperty('isPropObject')))
   {
     Affinity2018.isPropObject = function (obj, prop)
     {
@@ -1450,8 +1443,8 @@
       return false;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.isPropFunction()
    * Determines if passed prop is an Object belonging to the passed object
@@ -1463,7 +1456,7 @@
    * 
    * @returns {boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('isPropFunction')))
+  if (!(Affinity2018.hasOwnProperty('isPropFunction')))
   {
     Affinity2018.isPropFunction = function (obj, prop)
     {
@@ -1479,8 +1472,8 @@
     };
     Affinity2018.isPropMethod = Affinity2018.isPropFunction;
   }
-  
-  
+
+
   /**
   * Affinity2018.PadLeft(Int, String, Int)
   * Pads the start of a string with a character to length
@@ -1491,7 +1484,7 @@
   * @param {string} pad     Character to pad with
   * @param {int}    length  Length of padded string
   */
-  if(!(Affinity2018.hasOwnProperty('padLeft')))
+  if (!(Affinity2018.hasOwnProperty('padLeft')))
   {
     Affinity2018.padLeft = function (str, pad, length)
     {
@@ -1513,7 +1506,7 @@
   * @param {string} pad     Character to pad with
   * @param {int}    length  Length of padded string
   */
-  if(!(Affinity2018.hasOwnProperty('padRight')))
+  if (!(Affinity2018.hasOwnProperty('padRight')))
   {
     Affinity2018.padRight = function (str, pad, length)
     {
@@ -1523,8 +1516,8 @@
     };
     Affinity2018.PadRight = Affinity2018.padRight;
   }
-  
-  
+
+
   /**
    * Affinity2018.getPosition()
    * Gets the position of the passed DOM Node relevant to the window
@@ -1537,18 +1530,18 @@
    * @returns {float} object.top
    * @returns {float} object.left
    */
-  if(!(Affinity2018.hasOwnProperty('getPosition')))
+  if (!(Affinity2018.hasOwnProperty('getPosition')))
   {
     Affinity2018.getPosition = function (node)
     {
       let rect = node.getBoundingClientRect(),
-          scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.getSize()
    * Gets the size of the passed DOM Node
@@ -1561,7 +1554,7 @@
    * @returns {float} object.width
    * @returns {float} object.height
    */
-  if(!(Affinity2018.hasOwnProperty('getSize')))
+  if (!(Affinity2018.hasOwnProperty('getSize')))
   {
     Affinity2018.getSize = function (node)
     {
@@ -1569,8 +1562,8 @@
       return { width: rect.width, height: rect.height };
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.getOffsetRect()
    * Gets the Rectangle of the passed DOM Node relevant to it's parent
@@ -1589,14 +1582,14 @@
    * @returns {float} object.x
    * @returns {float} object.y
    */
-  if(!(Affinity2018.hasOwnProperty('getOffsetRect')))
+  if (!(Affinity2018.hasOwnProperty('getOffsetRect')))
   {
     Affinity2018.getOffsetRect = function (node)
     {
       let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-          scrollTop = window.pageYOffset || document.documentElement.scrollTop,
-          parentRect = node.parentNode.getBoundingClientRect(),
-          nodeRect = node.getBoundingClientRect();
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop,
+        parentRect = node.parentNode.getBoundingClientRect(),
+        nodeRect = node.getBoundingClientRect();
       return {
         width: nodeRect.width,
         height: nodeRect.height,
@@ -1609,8 +1602,8 @@
       };
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.getWindowSize()
    * Gets the size of view excluding scroll (view port)
@@ -1625,7 +1618,7 @@
    * @returns {float} size.width
    * @returns {float} size.height
    */
-  if(!(Affinity2018.hasOwnProperty('getWindowSize')))
+  if (!(Affinity2018.hasOwnProperty('getWindowSize')))
   {
     Affinity2018.getWindowSize = function ()
     {
@@ -1638,8 +1631,8 @@
       return size;
     }
   }
-  
-  
+
+
   /**
    * Affinity2018.getPageSize()
    * Gets the size of view including scroll
@@ -1667,8 +1660,8 @@
       return size;
     }
   }
-  
-  
+
+
   /**
    * Affinity2018.getParent()
    * Gets the first parent DOM Element matching the arguments
@@ -1681,7 +1674,7 @@
    * 
    * @returns {DOMElement|Boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('getParent')))
+  if (!(Affinity2018.hasOwnProperty('getParent')))
   {
     Affinity2018.getParent = function (node, className, parentDepth)
     {
@@ -1689,12 +1682,12 @@
       parentDepth = !isNaN(parseInt(parentDepth)) ? parseInt(parentDepth) : 5;
       className = className.replace('.', '').replace('#', '').trim();
       if (!node || !className || className.trim() === '') return false;
-      if (node.className.split(' ').filter(function(i){return i}).contains(className)) return node;
+      if (node.className.split(' ').filter(function (i) { return i }).contains(className)) return node;
       if (node.tagName.toLowerCase() === className.trim().toLowerCase()) return node;
       if (node.id.toLowerCase() === className.trim().toLowerCase()) return node;
       while (node.parentElement)
       {
-        if (node.parentElement.className.split(' ').filter(function(i){return i}).contains(className)) return node.parentElement;
+        if (node.parentElement.className.split(' ').filter(function (i) { return i }).contains(className)) return node.parentElement;
         if (node.parentElement.tagName.toLowerCase() === className.trim().toLowerCase()) return node.parentElement;
         node = node.parentElement;
         depth++;
@@ -1747,19 +1740,16 @@
   //  );
   //  //console.info("%c:: DATE :: Method: " + methodName, '' + "Input: " + input + "Parsed: " + parsed + "Format: " + format + "Output:   ", 'color: ' + color + ';',  output);
   //};
-  Affinity2018.getDate = function (mixed, format, timeZone)
+  Affinity2018.getDate = function (mixed, format, zone)
   {
-    var zone = (timeZone || 'utc').trim().toLowerCase(); // local
     var date;
     format = Affinity2018.paramOrDefault(format, false, 'string');
-    if (format && format.trim() === '') fromat = false;
     if (Affinity2018.isDate(mixed))
     {
       date = mixed;
       if (format)
       {
-        date = luxon.DateTime.fromJSDate(mixed).toUTC().toFormat(format);
-        try { date = luxon.DateTime.fromJSDate(mixed).local().setZone(zone); } catch (er) { }
+        date = luxon.DateTime.fromJSDate(mixed).toFormat(format);
       }
       //Affinity2018.DateLog('getDate', mixed, '', format, date);
       return date;
@@ -1772,10 +1762,13 @@
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
         timestamp = parseInt(dateStr);
-        luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: zone });
+        //luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: 'utc' });
+        //date = luxonDate.toLocal().toJSDate();
+        luxonDate = luxon.DateTime.fromMillis(timestamp);
         date = luxonDate.toJSDate();
         if (format)
         {
+          //date = luxonDate.toLocal().toFormat(format);
           date = luxonDate.toFormat(format);
         }
         //Affinity2018.DateLog('getDate', mixed, timestamp, format, date);
@@ -1790,21 +1783,22 @@
             mixed.countString('\\') === 2 ? 'dd\\MM\\yyyy' :
             mixed.countString('-') === 2 ? 'dd-MM-yyyy' :
             mixed.countString('.') === 2 ? 'dd.MM.yyyy' :
-                    'dd/MM/yyyy';
+            'dd/MM/yyyy';
           if (mixed.countString(':') === 1) parserFormat += ' HH:mm';
           if (mixed.countString(':') === 2) parserFormat += ' HH:mm:ss';
           if (mixed.countString(':') === 2 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
           if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss:S';
-          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
+          //luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
+          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
         }
         else
         {
-          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: zone });
+          //luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: 'local' });
+          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
         }
         if (luxonDate.isValid)
         {
-          //date = luxonDate.toJSDate();
-          date = new Date(luxonDate.c.year, luxonDate.c.month - 1, luxonDate.c.day, luxonDate.c.hour, luxonDate.c.minute, luxonDate.c.second, luxonDate.c.millisecond);
+          date = luxonDate.toJSDate();
           if (format)
           {
             date = luxonDate.toFormat(format);
@@ -1815,9 +1809,9 @@
       }
     }
     //
-    date = luxon.DateTime.local().toUTC().toJSDate();
-    try { date = luxon.DateTime.local().setZone(zone).toJSDate(); } catch (er) { }
-    if (format) date = luxon.DateTime.fromJSDate(date).toFormat(format);
+    date = new Date();
+    //if (format) date = luxon.DateTime.local().toFormat(format);
+    if (format) date = luxon.DateTime.toFormat(format);
     return date;
   };
 
@@ -1977,8 +1971,8 @@
       return null;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.stopEvent()
    * Event.stop(), CustomEvent.stop()
@@ -2008,8 +2002,8 @@
     if (!Event.prototype.stop) Event.prototype.stop = function () { Affinity2018.StopEvent(this); };
     if (!CustomEvent.prototype.stop) CustomEvent.prototype.stop = function () { Affinity2018.StopEvent(this); };
   }
-  
-  
+
+
   /**
    * Affinity2018.getUrlData()
    * Gets the first parent DOM Element matching the arguments
@@ -2029,7 +2023,7 @@
    * @returns {string} object.host      The url host name (domian name without subdomains)
    * @returns {string} object.current   The current page host
    */
-  if(!Affinity2018.hasOwnProperty('getUrlData'))
+  if (!Affinity2018.hasOwnProperty('getUrlData'))
   {
     Affinity2018.getHrefData = function (url)
     {
@@ -2056,16 +2050,16 @@
         original: url,
         protocol: a.protocol, // => "https:"
         hostname: a.hostname, // => "example.com"
-        port:     a.port,     // => "3000"
+        port: a.port,     // => "3000"
         pathname: a.pathname, // => "/pathname/"
-        search:   a.search,   // => "?search=test"
-        hash:     a.hash,     // => "#hash"
-        host:     a.host,     // => "example.com:3000"
+        search: a.search,   // => "?search=test"
+        hash: a.hash,     // => "#hash"
+        host: a.host,     // => "example.com:3000"
       };
       a = null;
       return r;
     };
-    Affinity2018.getUrlData = function(url)
+    Affinity2018.getUrlData = function (url)
     {
       var returnData = Affinity2018.getHrefData(url), baseData = Affinity2018.getHrefData('null');
       baseData.pathname = baseData.pathname.replace('null', '');
@@ -2097,8 +2091,8 @@
       return newUrl;
     }
   }
-  
-  
+
+
   /**
    * Affinity2018.getBaseUrl()
    * Gets the base url of the current page
@@ -2120,8 +2114,8 @@
     }
     Affinity2018.GetBaseUrl = Affinity2018.getBaseUrl;
   }
-  
-  
+
+
   /**
    * Affinity2018.localiseUrl()
    * Converts url to local url host
@@ -2146,8 +2140,8 @@
     }
     Affinity2018.LocaliseUrl = Affinity2018.localiseUrl;
   }
-  
-  
+
+
   /**
    * Affinity2018.jsonCloneObject()
    * Clones basic objects using JSON
@@ -2158,7 +2152,7 @@
    * 
    * @returns {object|array}
    */
-  if(!(Affinity2018.hasOwnProperty('jsonCloneObject')))
+  if (!(Affinity2018.hasOwnProperty('jsonCloneObject')))
   {
     Affinity2018.jsonCloneObject = function (mixed)
     {
@@ -2170,12 +2164,12 @@
       {
         return JSON.parse(JSON.stringify(mixed));
       }
-      catch (e) {}
+      catch (e) { }
       return mixed;
     }
   }
-  
-  
+
+
   /**
    * Affinity2018.objectDeepMerge()
    * Creates a Deep copy of each object passed in and compiles a new merged object from each
@@ -2186,9 +2180,9 @@
    * 
    * @returns {Object}
    */
-  if(!(Affinity2018.hasOwnProperty('objectDeepMerge')))
+  if (!(Affinity2018.hasOwnProperty('objectDeepMerge')))
   {
-    Affinity2018.objectDeepMerge = function(objArray)
+    Affinity2018.objectDeepMerge = function (objArray)
     {
       // a little expensive, but a true "deep merge".
       // result is guranteed to be all props of all param objects as deep copies
@@ -2213,7 +2207,8 @@
       function defaultArrayMerge(target, source, optionsArgument)
       {
         var destination = target.slice()
-        source.forEach(function (e, i) {
+        source.forEach(function (e, i)
+        {
           if (typeof destination[i] === 'undefined')
           {
             destination[i] = cloneIfNecessary(e, optionsArgument)
@@ -2279,7 +2274,7 @@
       }
       /**/
       var objects = [], i;
-      if(Array.isArray(arguments[0]) && arguments.length === 1)
+      if (Array.isArray(arguments[0]) && arguments.length === 1)
       {
         for (i = 0; i < arguments[0].length; i++) objects.push(arguments[0][i]);
       }
@@ -2304,7 +2299,7 @@
    *
    * @returns {DOMElement|Boolean}
    */
-  if(!(Affinity2018.hasOwnProperty('getParent')))
+  if (!(Affinity2018.hasOwnProperty('getParent')))
   {
     Affinity2018.getParent = function (node, className, parentDepth)
     {
@@ -2314,12 +2309,12 @@
       parentDepth = !isNaN(parseInt(parentDepth)) ? parseInt(parentDepth) : 5;
       className = className.replace('.', '').replace('#', '').trim();
       if (!node || !className || className.trim() === '') return false;
-      if (node.className.split(' ').filter(function(i){return i}).contains(className)) return node;
+      if (node.className.split(' ').filter(function (i) { return i }).contains(className)) return node;
       if (node.tagName.toLowerCase() === className.trim().toLowerCase()) return node;
       if (node.id.toLowerCase() === className.trim().toLowerCase()) return node;
       while (node.parentElement)
       {
-        if (node.parentElement.className.split(' ').filter(function(i){return i}).contains(className)) return node.parentElement;
+        if (node.parentElement.className.split(' ').filter(function (i) { return i }).contains(className)) return node.parentElement;
         if (node.parentElement.tagName.toLowerCase() === className.trim().toLowerCase()) return node.parentElement;
         node = node.parentElement;
         depth++;
@@ -2340,9 +2335,9 @@
   * @param {Event}  event     Event object
   * @param {string} className Class name to match
   */
-  if(!Affinity2018.hasOwnProperty('getEventNode'))
+  if (!Affinity2018.hasOwnProperty('getEventNode'))
   {
-    Affinity2018.getEventNode = function(event, className)
+    Affinity2018.getEventNode = function (event, className)
     {
       if (event && 'target' in event && Affinity2018.isNode(event.target)) return Affinity2018.getParent(event.target, className, 10);
       else return false;
@@ -2360,9 +2355,9 @@
   * @param {Event}  event     Event object
   * @param {string} className Class name to match
   */
-  if(!Affinity2018.hasOwnProperty('isNullOrEmpty'))
+  if (!Affinity2018.hasOwnProperty('isNullOrEmpty'))
   {
-    Affinity2018.isNullOrEmpty = function(str)
+    Affinity2018.isNullOrEmpty = function (str)
     {
       if (str === null) return true;
       if (typeof str === 'string' && str.trim() === '') return true;
@@ -2392,7 +2387,8 @@
     {
       if (typeof string === 'object')
       {
-        string = Object.keys(string).map(function (key) {
+        string = Object.keys(string).map(function (key)
+        {
           return string[key]
         }).join('')
       }
@@ -2410,15 +2406,15 @@
       }
       else
       {
-        return string.replace(/{(\d+)}/g, function(match, number)
+        return string.replace(/{(\d+)}/g, function (match, number)
         {
           return typeof args[number] != 'undefined' ? args[number] : match;
         });
       }
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.LogError()
    * Creates a verbose error object in dev tools Console.
@@ -2434,11 +2430,11 @@
   {
     Affinity2018.Trace = function (name, infoArray, type)
     {
-      function getErrorObject() { try { throw Error('') } catch(err) { return err; } };
+      function getErrorObject() { try { throw Error('') } catch (err) { return err; } };
       var err = getErrorObject(),
-          caller_lines = 'stack' in err && typeof err.stack === 'string' ? err.stack.split("\n") : [],
-          caller_line = caller_lines.length > 3 ? caller_lines[3].toString() : caller_lines.length > 0 ? caller_lines[caller_lines.length - 1].toString() : '',
-          method = '', link = '', line = '';
+        caller_lines = 'stack' in err && typeof err.stack === 'string' ? err.stack.split("\n") : [],
+        caller_line = caller_lines.length > 3 ? caller_lines[3].toString() : caller_lines.length > 0 ? caller_lines[caller_lines.length - 1].toString() : '',
+        method = '', link = '', line = '';
 
       if (caller_line.trim().startsWith('at '))
       {
@@ -2488,8 +2484,8 @@
       console.groupEnd();
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.LogError()
    * Creates a verbose error object in dev tools Console.
@@ -2554,8 +2550,8 @@
       console.groupEnd();
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.ThrowError()
    * Throws a verbose error object in dev tools Console.
@@ -2607,8 +2603,8 @@
       };
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.ForceSectionTop()
    * Forces a page section to the top of the z-index stack
@@ -2644,8 +2640,8 @@
       }
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.valueOrDefault()
    * Returns value if exists, else default value
@@ -2680,8 +2676,8 @@
       return defaultValue;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.paramOrDefault()
    * Returns value if exists, else default value
@@ -2706,8 +2702,8 @@
       return defaultValue;
     };
   }
-  
-  
+
+
   /**
    * Affinity2018.toBoolean()
    * Returns string 'true' / 'false' as boolean true / false
@@ -2733,8 +2729,8 @@
       return true;
     }
   }
-  
-  
+
+
   /**
    * Affinity2018.decodeHTML()
    * Returns a decoded html string
@@ -2758,8 +2754,8 @@
       return string;
     }
   }
-  
-  
+
+
   /**
    * Affinity2018.lockBodyScroll()
    * Locks Body Scroll so that other HTMLElements can have scroll focus without scrolling Body
@@ -2767,7 +2763,7 @@
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
    * 
    */
-  if(!(Affinity2018.hasOwnProperty('lockBodyScroll')))
+  if (!(Affinity2018.hasOwnProperty('lockBodyScroll')))
   {
     Affinity2018.lockBodyScroll = function ()
     {
@@ -2823,15 +2819,16 @@
    *
    * @public
    */
-  if(!(Affinity2018.hasOwnProperty('ClassEvents')))
+  if (!(Affinity2018.hasOwnProperty('ClassEvents')))
   {
-    Affinity2018.ClassEvents = class {
-      constructor ()
+    Affinity2018.ClassEvents = class
+    {
+      constructor()
       {
-        ['addEventListener','removeEventListener','dispatchEvent'].bindEach(this);
+        ['addEventListener', 'removeEventListener', 'dispatchEvent'].bindEach(this);
         this.eventListerners = {};
       }
-      addEventListener (type, callback)
+      addEventListener(type, callback)
       {
         if (typeof type === 'string' && typeof callback === 'function')
         {
@@ -2842,7 +2839,7 @@
           }
         }
       }
-      removeEventListener (type, callback)
+      removeEventListener(type, callback)
       {
         if (typeof type === 'string' && typeof callback === 'function')
         {
@@ -2856,14 +2853,14 @@
               if (this.eventListerners[type.toLowerCase()][l] === callback)
               {
                 this.eventListerners[type.toLowerCase()][l] = null;
-                this.eventListerners[type.toLowerCase()].splice(l ,1);
+                this.eventListerners[type.toLowerCase()].splice(l, 1);
                 break;
               }
             }
           }
         }
       }
-      dispatchEvent (ev)
+      dispatchEvent(ev)
       {
         if (ev instanceof Event && this.eventListerners.hasOwnProperty(ev.type.toLowerCase()))
         {
@@ -2920,7 +2917,8 @@
         IconClass: 'icon-file-excel-black',
         TypeData: [
           {
-            Types: ['xl', 'xls', 'xlsx', 'xll'], Mime: 'application/excel' },
+            Types: ['xl', 'xls', 'xlsx', 'xll'], Mime: 'application/excel'
+          },
           { Types: ['csv'], Mime: 'application/vnd.ms-excel' }
         ]
       },
@@ -3087,7 +3085,7 @@
         }
       }
     }
-  
+
     /**
      * Affinity2018.GetMimeType()
      * Returns the MIME type information of the passed in file extension.
@@ -3204,7 +3202,7 @@
   /***                                                                                                ************************************************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
-  
+
 
   /**
    * Affinity2018.StringDistance()
@@ -3221,9 +3219,9 @@
   Affinity2018.StringDistance = function (stringA, stringB)
   {
     var a = stringA.toLowerCase(),
-        b = stringB.toLowerCase(),
-        matrix = [],
-        i, j;
+      b = stringB.toLowerCase(),
+      matrix = [],
+      i, j;
     if (a.length === 0) return b.length;
     if (b.length === 0) return a.length;
     for (i = 0; i <= b.length; i++)
@@ -3245,8 +3243,8 @@
         else
         {
           matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, // substitution
-          Math.min(matrix[i][j - 1] + 1, // insertion
-          matrix[i - 1][j] + 1)); // deletion
+            Math.min(matrix[i][j - 1] + 1, // insertion
+              matrix[i - 1][j] + 1)); // deletion
         }
       }
     }
@@ -3264,7 +3262,7 @@
   /***                                                                 *******************************************************************************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
-    
+
 
   /**
    * Affinity2018.StringDistance()
@@ -3280,8 +3278,8 @@
   Affinity2018.Soundex = function (wordString)
   {
     var soundExLen = 5,
-        wordStr = "",
-        tmpStr, curChar, lastChar, wsLen, firstLetter, i;
+      wordStr = "",
+      tmpStr, curChar, lastChar, wsLen, firstLetter, i;
     wordString = wordString.toUpperCase();
     wordStr = wordString;
     wordStr = wordStr.replace(/[^A-Z]/gi, " ");
@@ -3367,86 +3365,90 @@
     constructor()
     {
       this.hex_chr = '0123456789abcdef'.split('');
-      if (this.md5('hello') !== '5d41402abc4b2a76b9719d911017c592') {
-        this.add32 = function (x, y) {
+      if (this.md5('hello') !== '5d41402abc4b2a76b9719d911017c592')
+      {
+        this.add32 = function (x, y)
+        {
           var lsw = (x & 0xFFFF) + (y & 0xFFFF),
-          msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+            msw = (x >> 16) + (y >> 16) + (lsw >> 16);
           return (msw << 16) | (lsw & 0xFFFF);
         };
       }
     }
-    md5cycle(x, k) {
+    md5cycle(x, k)
+    {
       var a = x[0], b = x[1], c = x[2], d = x[3];
       a = this.ff(a, b, c, d, k[0], 7, -680876936);
       d = this.ff(d, a, b, c, k[1], 12, -389564586);
-      c = this.ff(c, d, a, b, k[2], 17,  606105819);
+      c = this.ff(c, d, a, b, k[2], 17, 606105819);
       b = this.ff(b, c, d, a, k[3], 22, -1044525330);
       a = this.ff(a, b, c, d, k[4], 7, -176418897);
-      d = this.ff(d, a, b, c, k[5], 12,  1200080426);
+      d = this.ff(d, a, b, c, k[5], 12, 1200080426);
       c = this.ff(c, d, a, b, k[6], 17, -1473231341);
       b = this.ff(b, c, d, a, k[7], 22, -45705983);
-      a = this.ff(a, b, c, d, k[8], 7,  1770035416);
+      a = this.ff(a, b, c, d, k[8], 7, 1770035416);
       d = this.ff(d, a, b, c, k[9], 12, -1958414417);
       c = this.ff(c, d, a, b, k[10], 17, -42063);
       b = this.ff(b, c, d, a, k[11], 22, -1990404162);
-      a = this.ff(a, b, c, d, k[12], 7,  1804603682);
+      a = this.ff(a, b, c, d, k[12], 7, 1804603682);
       d = this.ff(d, a, b, c, k[13], 12, -40341101);
       c = this.ff(c, d, a, b, k[14], 17, -1502002290);
-      b = this.ff(b, c, d, a, k[15], 22,  1236535329);
+      b = this.ff(b, c, d, a, k[15], 22, 1236535329);
       a = this.gg(a, b, c, d, k[1], 5, -165796510);
       d = this.gg(d, a, b, c, k[6], 9, -1069501632);
-      c = this.gg(c, d, a, b, k[11], 14,  643717713);
+      c = this.gg(c, d, a, b, k[11], 14, 643717713);
       b = this.gg(b, c, d, a, k[0], 20, -373897302);
       a = this.gg(a, b, c, d, k[5], 5, -701558691);
-      d = this.gg(d, a, b, c, k[10], 9,  38016083);
+      d = this.gg(d, a, b, c, k[10], 9, 38016083);
       c = this.gg(c, d, a, b, k[15], 14, -660478335);
       b = this.gg(b, c, d, a, k[4], 20, -405537848);
-      a = this.gg(a, b, c, d, k[9], 5,  568446438);
+      a = this.gg(a, b, c, d, k[9], 5, 568446438);
       d = this.gg(d, a, b, c, k[14], 9, -1019803690);
       c = this.gg(c, d, a, b, k[3], 14, -187363961);
-      b = this.gg(b, c, d, a, k[8], 20,  1163531501);
+      b = this.gg(b, c, d, a, k[8], 20, 1163531501);
       a = this.gg(a, b, c, d, k[13], 5, -1444681467);
       d = this.gg(d, a, b, c, k[2], 9, -51403784);
-      c = this.gg(c, d, a, b, k[7], 14,  1735328473);
+      c = this.gg(c, d, a, b, k[7], 14, 1735328473);
       b = this.gg(b, c, d, a, k[12], 20, -1926607734);
       a = this.hh(a, b, c, d, k[5], 4, -378558);
       d = this.hh(d, a, b, c, k[8], 11, -2022574463);
-      c = this.hh(c, d, a, b, k[11], 16,  1839030562);
+      c = this.hh(c, d, a, b, k[11], 16, 1839030562);
       b = this.hh(b, c, d, a, k[14], 23, -35309556);
       a = this.hh(a, b, c, d, k[1], 4, -1530992060);
-      d = this.hh(d, a, b, c, k[4], 11,  1272893353);
+      d = this.hh(d, a, b, c, k[4], 11, 1272893353);
       c = this.hh(c, d, a, b, k[7], 16, -155497632);
       b = this.hh(b, c, d, a, k[10], 23, -1094730640);
-      a = this.hh(a, b, c, d, k[13], 4,  681279174);
+      a = this.hh(a, b, c, d, k[13], 4, 681279174);
       d = this.hh(d, a, b, c, k[0], 11, -358537222);
       c = this.hh(c, d, a, b, k[3], 16, -722521979);
-      b = this.hh(b, c, d, a, k[6], 23,  76029189);
+      b = this.hh(b, c, d, a, k[6], 23, 76029189);
       a = this.hh(a, b, c, d, k[9], 4, -640364487);
       d = this.hh(d, a, b, c, k[12], 11, -421815835);
-      c = this.hh(c, d, a, b, k[15], 16,  530742520);
+      c = this.hh(c, d, a, b, k[15], 16, 530742520);
       b = this.hh(b, c, d, a, k[2], 23, -995338651);
       a = this.ii(a, b, c, d, k[0], 6, -198630844);
-      d = this.ii(d, a, b, c, k[7], 10,  1126891415);
+      d = this.ii(d, a, b, c, k[7], 10, 1126891415);
       c = this.ii(c, d, a, b, k[14], 15, -1416354905);
       b = this.ii(b, c, d, a, k[5], 21, -57434055);
-      a = this.ii(a, b, c, d, k[12], 6,  1700485571);
+      a = this.ii(a, b, c, d, k[12], 6, 1700485571);
       d = this.ii(d, a, b, c, k[3], 10, -1894986606);
       c = this.ii(c, d, a, b, k[10], 15, -1051523);
       b = this.ii(b, c, d, a, k[1], 21, -2054922799);
-      a = this.ii(a, b, c, d, k[8], 6,  1873313359);
+      a = this.ii(a, b, c, d, k[8], 6, 1873313359);
       d = this.ii(d, a, b, c, k[15], 10, -30611744);
       c = this.ii(c, d, a, b, k[6], 15, -1560198380);
-      b = this.ii(b, c, d, a, k[13], 21,  1309151649);
+      b = this.ii(b, c, d, a, k[13], 21, 1309151649);
       a = this.ii(a, b, c, d, k[4], 6, -145523070);
       d = this.ii(d, a, b, c, k[11], 10, -1120210379);
-      c = this.ii(c, d, a, b, k[2], 15,  718787259);
+      c = this.ii(c, d, a, b, k[2], 15, 718787259);
       b = this.ii(b, c, d, a, k[9], 21, -343485551);
       x[0] = this.add32(a, x[0]);
       x[1] = this.add32(b, x[1]);
       x[2] = this.add32(c, x[2]);
       x[3] = this.add32(d, x[3]);
     }
-    cmn(q, a, b, x, s, t) {
+    cmn(q, a, b, x, s, t)
+    {
       a = this.add32(this.add32(a, q), this.add32(x, t));
       return this.add32((a << s) | (a >>> (32 - s)), b);
     }
@@ -3454,52 +3456,60 @@
     gg(a, b, c, d, x, s, t) { return this.cmn((b & d) | (c & (~d)), a, b, x, s, t); }
     hh(a, b, c, d, x, s, t) { return this.cmn(b ^ c ^ d, a, b, x, s, t); }
     ii(a, b, c, d, x, s, t) { return this.cmn(c ^ (b | (~d)), a, b, x, s, t); }
-    md51(s) {
+    md51(s)
+    {
       var n = s.length,
-      state = [1732584193, -271733879, -1732584194, 271733878], i;
-      for (i=64; i<=s.length; i+=64) {
-        this.md5cycle(state, this.md5blk(s.substring(i-64, i)));
+        state = [1732584193, -271733879, -1732584194, 271733878], i;
+      for (i = 64; i <= s.length; i += 64)
+      {
+        this.md5cycle(state, this.md5blk(s.substring(i - 64, i)));
       }
-      s = s.substring(i-64);
-      var tail = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
-      for (i=0; i<s.length; i++)
-        tail[i>>2] |= s.charCodeAt(i) << ((i%4) << 3);
-      tail[i>>2] |= 0x80 << ((i%4) << 3);
-      if (i > 55) {
+      s = s.substring(i - 64);
+      var tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for (i = 0; i < s.length; i++)
+        tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3);
+      tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+      if (i > 55)
+      {
         this.md5cycle(state, tail);
-        for (i=0; i<16; i++) tail[i] = 0;
+        for (i = 0; i < 16; i++) tail[i] = 0;
       }
-      tail[14] = n*8;
+      tail[14] = n * 8;
       this.md5cycle(state, tail);
       return state;
     }
-    md5blk(s) {
+    md5blk(s)
+    {
       var md5blks = [], i;
-      for (i=0; i<64; i+=4) {
-        md5blks[i>>2] = s.charCodeAt(i)
-        + (s.charCodeAt(i+1) << 8)
-        + (s.charCodeAt(i+2) << 16)
-        + (s.charCodeAt(i+3) << 24);
+      for (i = 0; i < 64; i += 4)
+      {
+        md5blks[i >> 2] = s.charCodeAt(i)
+          + (s.charCodeAt(i + 1) << 8)
+          + (s.charCodeAt(i + 2) << 16)
+          + (s.charCodeAt(i + 3) << 24);
       }
       return md5blks;
     }
     rhex(n)
     {
-      var s='', j=0;
-      for(; j<4; j++)
+      var s = '', j = 0;
+      for (; j < 4; j++)
         s += this.hex_chr[(n >> (j * 8 + 4)) & 0x0F]
-        + this.hex_chr[(n >> (j * 8)) & 0x0F];
+          + this.hex_chr[(n >> (j * 8)) & 0x0F];
       return s;
     }
-    hex(x) {
-      for (var i=0; i<x.length; i++)
+    hex(x)
+    {
+      for (var i = 0; i < x.length; i++)
         x[i] = this.rhex(x[i]);
       return x.join('');
     }
-    md5(s) {
+    md5(s)
+    {
       return this.hex(this.md51(s));
     }
-    add32(a, b) {
+    add32(a, b)
+    {
       return (a + b) & 0xFFFFFFFF;
     }
   };
@@ -3529,7 +3539,7 @@
   /***                                                                                                                                      **********/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************** Source63 *** proto extentions ***/
-  
+
 
   /**
    * NodeList.indexOf()
@@ -3550,7 +3560,7 @@
       return Array.prototype.indexOf.call(this, node);
     };
   }
-  
+
 
   /**
    * Array.unique()
@@ -3584,7 +3594,7 @@
     };
   }
   */
-  
+
 
   /**
    * Array.diff()
@@ -3600,10 +3610,10 @@
   {
     Array.prototype.diff = function (array)
     {
-      return this.filter(function(i) {return array.indexOf(i) < 0;});
+      return this.filter(function (i) { return array.indexOf(i) < 0; });
     };
   }
-  
+
 
   /**
    * Array.contains()
@@ -3622,7 +3632,7 @@
       return this.indexOf(mixed) !== -1;
     };
   }
-  
+
 
   /**
    * Array.includes()
@@ -3635,7 +3645,7 @@
    * @returns {boolean}
    */
   if (!Array.prototype.includes) Array.prototype.includes = Array.prototype.contains;
-  
+
 
   /**
    * Array.bindEachToClassScope()
@@ -3661,7 +3671,7 @@
       }.bind(bindto));
     };
   }
-  
+
 
   /**
    * Array.bindEach()
@@ -3687,7 +3697,8 @@
    */
   if (!String.prototype.includes)
   {
-    String.prototype.includes = function(search, start) {
+    String.prototype.includes = function (search, start)
+    {
       'use strict';
       if (typeof start !== 'number') start = 0;
       if (start + search.length > this.length) { return false; } else { return this.indexOf(search, start) !== -1; }
@@ -3717,7 +3728,7 @@
       return false;
     };
   }
-  
+
 
   /**
    * String.contains()
@@ -3755,7 +3766,7 @@
     String.prototype.padLeft = function (padChar, length)
     {
       return Affinity2018.padLeft(this, padChar, length);
-	  };
+    };
   }
 
 
@@ -3775,9 +3786,9 @@
     String.prototype.padRight = function (padChar, length)
     {
       return Affinity2018.padRight(this, padChar, length);
-	  };
+    };
   }
-  
+
 
   /**
    * String.toCamelCase()
@@ -3809,7 +3820,7 @@
     String.prototype.toTitleCase = function ()
     {
       //return this.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
-      return this.replace(/\b\w+/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+      return this.replace(/\b\w+/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     };
   }
 
@@ -3846,7 +3857,7 @@
     String.prototype.splitCamelCase = function ()
     {
       if (this.trim() !== '')
-        return this.trim().charAt(0).toUpperCase() + this.trim().slice(1).replace(/([A-Z])/g, " $1" );
+        return this.trim().charAt(0).toUpperCase() + this.trim().slice(1).replace(/([A-Z])/g, " $1");
       return this;
     };
   }
@@ -3902,8 +3913,8 @@
       return this.replace(/  /g, ' ').split(' ')[this.split(' ').length - 1];
     };
   }
-  
-  
+
+
   /**
    * String.escapeRegExp()
    * Escapes strings to regex safe srtings
@@ -3912,7 +3923,7 @@
    * 
    * @returns {string}
    */
-  if(!('escapeRegExp' in String))
+  if (!('escapeRegExp' in String))
   {
     String.prototype.escapeRegExp = function ()
     {
@@ -3938,7 +3949,7 @@
       return this.replace(regex, '\\$&');
     };
   }
-  
+
 
   /**
    * String.isNullOrEmpty()
@@ -3955,7 +3966,7 @@
       return Affinity2018.isNullOrEmpty(this);
     };
   }
-  
+
 
   /**
    * String.format()
@@ -3968,24 +3979,24 @@
    */
   if (!String.prototype.format)
   {
-    String.prototype.format = function()
+    String.prototype.format = function ()
     {
       var args = [].slice.call(arguments);
       return Affinity2018.FormatString(this, args);
     };
   }
-   /* old
-  if (!String.prototype.format)
-  {
-    String.prototype.format = function()
-    {
-      return this.replace(/{(\d+)}/g, function(match, number)
-      {
-        return typeof args[number] != 'undefined' ? args[number] : match;
-      });
-    };
-  }
-  */
+  /* old
+ if (!String.prototype.format)
+ {
+   String.prototype.format = function()
+   {
+     return this.replace(/{(\d+)}/g, function(match, number)
+     {
+       return typeof args[number] != 'undefined' ? args[number] : match;
+     });
+   };
+ }
+ */
 
 
   /**
@@ -3997,28 +4008,28 @@
    *
    * @returns {boolean}
    */
-   if (!String.format)
-   {
-     String.format = function()
-     {
-       var args = [].slice.call(arguments);
-       return Affinity2018.FormatString(this, args);
-     };
-   }
-   /* old
   if (!String.format)
   {
-    String.format = function()
+    String.format = function ()
     {
-      var args = [].slice.call(arguments), str = args.length > 0 ? args[0] : ''; args = args.length > 1 ? args.slice(1) : [];
-      return str.replace(/{(\d+)}/g, function(match, number)
-      {
-        return typeof args[number] != 'undefined' ? args[number] : match;
-      });
+      var args = [].slice.call(arguments);
+      return Affinity2018.FormatString(this, args);
     };
   }
-  */
-  
+  /* old
+ if (!String.format)
+ {
+   String.format = function()
+   {
+     var args = [].slice.call(arguments), str = args.length > 0 ? args[0] : ''; args = args.length > 1 ? args.slice(1) : [];
+     return str.replace(/{(\d+)}/g, function(match, number)
+     {
+       return typeof args[number] != 'undefined' ? args[number] : match;
+     });
+   };
+ }
+ */
+
 
   /**
    * String.soundex()
@@ -4032,7 +4043,7 @@
   {
     return Affinity2018.Soundex(this);
   };
-  
+
 
   /**
    * String.distance()
@@ -4052,7 +4063,7 @@
     }
     return Affinity2018.StringDistance(this, compareStr);
   };
-  
+
 
   /**
    * String.md5()
@@ -4063,7 +4074,7 @@
    * @returns {string}
    */
   String.prototype.md5 = function () { return Affinity2018.Md5Object.md5(this); };
-  
+
 
   /**
    * Number.md5()
@@ -4098,7 +4109,7 @@
         '_exists'
       ].bindEach(this);
     }
-    Read (cookiename)
+    Read(cookiename)
     {
       if (this._exists(cookiename))
       {
@@ -4116,12 +4127,12 @@
         })(value);
       }
     }
-    Write (cookiename, data, expires)
+    Write(cookiename, data, expires)
     {
       var domain = window.location.host,
-          dateNow = new Date(),
-          dateExpires, dateExpiresStr;
-      if(typeof data === 'object') data = JSON.stringify(data);
+        dateNow = new Date(),
+        dateExpires, dateExpiresStr;
+      if (typeof data === 'object') data = JSON.stringify(data);
       data = escape(data);
       try
       {
@@ -4148,7 +4159,7 @@
       catch (e) { console.error(e); }
       return null;
     }
-    Delete (cookiename)
+    Delete(cookiename)
     {
       if (this._exists(cookiename))
       {
@@ -4161,9 +4172,9 @@
       }
       return false;
     }
-    _exists (cookiename)
+    _exists(cookiename)
     {
-      if (document.cookie.split(';').filter(function(item) { return item.trim().indexOf(cookiename + '=') == 0 }).length)
+      if (document.cookie.split(';').filter(function (item) { return item.trim().indexOf(cookiename + '=') == 0 }).length)
       {
         return true;
       }
@@ -4218,11 +4229,11 @@
       this.Local.Del = this.DelLocal;
     }
     /**/
-    HasSession (name)
+    HasSession(name)
     {
       return window.sessionStorage.getItem(name) !== null;
     }
-    GetSession (name)
+    GetSession(name)
     {
       let data = window.sessionStorage.getItem(name);
       if (data !== null)
@@ -4249,21 +4260,21 @@
       }
       return false;
     }
-    SetSession (name, data)
+    SetSession(name, data)
     {
       if (!Affinity2018.isString(data)) data = JSON.stringify(data);
       window.sessionStorage.setItem(name, escape(data));
     }
-    DelSession (name)
+    DelSession(name)
     {
       window.sessionStorage.removeItem(name);
     }
     /**/
-    HasLocal (name)
+    HasLocal(name)
     {
       return window.localStorage.getItem(name) !== null;
     }
-    GetLocal (name)
+    GetLocal(name)
     {
       let data = window.localStorage.getItem(name);
       if (data !== null)
@@ -4277,12 +4288,12 @@
       }
       return false;
     }
-    SetLocal (name, data)
+    SetLocal(name, data)
     {
       if (!Affinity2018.isString(data)) data = JSON.stringify(data);
       window.localStorage.setItem(name, escape(data));
     }
-    DelLocal (name)
+    DelLocal(name)
     {
       window.localStorage.removeItem(name);
     }
@@ -4381,12 +4392,12 @@
       }.bind(this));
     }
 
-    CheckPath (pathStr)
+    CheckPath(pathStr)
     {
-      var path = Affinity2018.languages.english, 
-          patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
-          p = 0,
-          segment;
+      var path = Affinity2018.languages.english,
+        patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
+        p = 0,
+        segment;
       for (; p < patharray.length; p++)
       {
         segment = patharray[p];
@@ -4401,7 +4412,7 @@
       return false;
     }
 
-    ReturnPath (pathStr, variables)
+    ReturnPath(pathStr, variables)
     {
       var path = Affinity2018.languages.english,
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
@@ -4427,23 +4438,23 @@
       return null;
     }
 
-    _returnIcon (str, pathStr)
+    _returnIcon(str, pathStr)
     {
       var path = window,
         patharray = pathStr.replace('i:', '').split('.'),
         p = 0;
-      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
+      for (; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
       if (path !== null && path !== undefined && typeof path === 'string') return str.replace('{{' + pathStr + '}}', path);
       return str;
     }
 
-    _returnLabel (str, pathStr)
+    _returnLabel(str, pathStr)
     {
       var path = Affinity2018.languages.english,
         joinArray = pathStr.contains('join:'),
         patharray = pathStr.replace('l:', '').replace('join:', '').split('.'),
         p = 0;
-      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
+      for (; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
       if (path !== null && path !== undefined)
       {
         if (joinArray && Array.isArray(path)) return str.replace('{{' + pathStr + '}}', path.join(' '));
@@ -4452,17 +4463,17 @@
       return str;
     }
 
-    _retuenMethodRef (str, pathStr)
+    _retuenMethodRef(str, pathStr)
     {
       var path = window,
         patharray = pathStr.replace('m:', '').split('.'),
         p = 0;
-      for ( ; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
+      for (; p < patharray.length; p++) if (path.hasOwnProperty(patharray[p])) path = path[patharray[p]];
       if (path !== null && path !== undefined && typeof path === 'function') return path;
       return function () { };
     }
 
-    _processString (str, variables)
+    _processString(str, variables)
     {
       if (str.contains('{{') && str.contains('}}'))
       {
@@ -4503,7 +4514,7 @@
       return str;
     }
 
-    _check (obj)
+    _check(obj)
     {
       if (typeof obj === 'object')
       {
@@ -4516,9 +4527,10 @@
       return obj;
     }
 
-    _process (json)
+    _process(json)
     {
-      if (json.hasOwnProperty('languages') && json.languages.hasOwnProperty('english')) {
+      if (json.hasOwnProperty('languages') && json.languages.hasOwnProperty('english'))
+      {
         if (typeof json.languages.english === 'object')
         {
           Affinity2018.languages.english = Affinity2018.objectDeepMerge([Affinity2018.languages.english, json.languages.english]);
@@ -4605,11 +4617,11 @@
     {
       if (!this.enabled) return false;
       let el = Affinity2018.getParent(e.target, 'tt'),
-          id = el.dataset.ttid,
-          data = id && this.references.hasOwnProperty(id) ? this.references[id] : false,
-          pos = data ? Affinity2018.getPosition(data.el) : false,
-          size = data ? Affinity2018.getSize(data.el) : false,
-          ttsize, top, left;
+        id = el.dataset.ttid,
+        data = id && this.references.hasOwnProperty(id) ? this.references[id] : false,
+        pos = data ? Affinity2018.getPosition(data.el) : false,
+        size = data ? Affinity2018.getSize(data.el) : false,
+        ttsize, top, left;
 
       if (data)
       {
@@ -4751,8 +4763,8 @@
     {
       if (!this.enabled) return false;
       let size = Affinity2018.getSize(this.dialogEl),
-          left = 0 - (size.width / 2),
-          top = 0 - (size.height / 2);
+        left = 0 - (size.width / 2),
+        top = 0 - (size.height / 2);
       this.dialogEl.style.marginLeft = left + 'px';
       this.dialogEl.style.marginTop = top + 'px';
     }
@@ -4766,7 +4778,7 @@
       this.data = Affinity2018.objectDeepMerge({}, this.default);
     }
 
-    Set (mixed)
+    Set(mixed)
     {
       if (!this.enabled) return false;
       clearTimeout(this.resetTimout);
@@ -4782,7 +4794,7 @@
       }
     }
 
-    Show (data)
+    Show(data)
     {
       if (!this.enabled) return false;
       this.Reset();
@@ -4792,9 +4804,9 @@
         this.data = Affinity2018.objectDeepMerge(this.default, data);
       else
         this.data = Affinity2018.objectDeepMerge({}, this.default);
-      this.data.onOk = function () {};
-      this.data.onCancel = function () {};
-      this.data.onClose = function () {};
+      this.data.onOk = function () { };
+      this.data.onCancel = function () { };
+      this.data.onClose = function () { };
       if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onOk)) this.data.onOk = data.onOk;
       if (data.hasOwnProperty('onCancel') && Affinity2018.isFunction(data.onCancel)) this.data.onCancel = data.onCancel;
       if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
@@ -4830,7 +4842,7 @@
       this.inputEl.classList.add('hidden');
       this.inputBox.classList.add('hidden');
       this.textareaBox.classList.add('hidden');
-      if(
+      if (
         this.data.hasOwnProperty('input')
         && Affinity2018.isPropObject(this.data, 'input')
         && Affinity2018.isPropBool(this.data.input, 'show')
@@ -4877,7 +4889,7 @@
       var gotOk = false, gotCancel = false;
       if (this.data.buttons)
       {
-        if(this.data.buttons.ok)
+        if (this.data.buttons.ok)
         {
           if (
             this.data.buttons.ok.hasOwnProperty('show')
@@ -5002,10 +5014,10 @@
       this.avatarEditButton.addEventListener('click', this._editClicked);
       this.avatarEditFileInput.addEventListener('change', this._imageAdded);
 
-      if(Affinity2018.Tooltips) Affinity2018.Tooltips.Apply();
+      if (Affinity2018.Tooltips) Affinity2018.Tooltips.Apply();
     }
 
-    Reset ()
+    Reset()
     {
       if (!this.enabled) return false;
       let avatarDisplays = document.getElementsByClassName('avatar-image'), a = 0, el, editEl;
@@ -5042,7 +5054,7 @@
       */
     }
 
-    Set (imageData)
+    Set(imageData)
     {
       if (!this.enabled) return false;
       let avatarDisplays = document.getElementsByClassName('avatar-image'), a = 0, el, editEl;
@@ -5077,14 +5089,14 @@
       if (this.crooperObj) this.crooperObj.destroy();
     }
 
-    _editClicked ()
+    _editClicked()
     {
       if (!this.enabled) return false;
       Affinity2018.ShowPageLoader();
       let editEl = document.createElement('div'),
-          introEl = document.createElement('div'),
-          dragEl = document.createElement('div'),
-          fileEl = this.avatarEditFileInput;
+        introEl = document.createElement('div'),
+        dragEl = document.createElement('div'),
+        fileEl = this.avatarEditFileInput;
       introEl.innerHTML = 'Drag an image below';
       dragEl.classList.add('drag-box');
       fileEl.type = 'file';
@@ -5096,7 +5108,7 @@
       if (!window.hasOwnProperty('Cropper'))
       {
         let script = document.createElement('script'),
-            style = document.createElement('link');
+          style = document.createElement('link');
         style.setAttribute('href', 'https:/' + '/cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.6/cropper.min.css');
         style.setAttribute('rel', 'stylesheet');
         style.setAttribute('nonce', 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==');
@@ -5123,19 +5135,19 @@
       }
     }
 
-    _imageAdded ()
+    _imageAdded()
     {
 
       let container = document.createElement('div'),
-          cropper = document.createElement('div'),
-          preview = document.createElement('div'),
-          previewImg = document.createElement('img'),
-          image = document.createElement('img'),
-          reader = new FileReader(),
-          file = this.avatarEditFileInput.files[0],
-          ext = file.type.replace('image/', '').toLowerCase(),
-          testReader = new FileReader(),
-          testImage = new Image();
+        cropper = document.createElement('div'),
+        preview = document.createElement('div'),
+        previewImg = document.createElement('img'),
+        image = document.createElement('img'),
+        reader = new FileReader(),
+        file = this.avatarEditFileInput.files[0],
+        ext = file.type.replace('image/', '').toLowerCase(),
+        testReader = new FileReader(),
+        testImage = new Image();
 
       if (!this.supportedExt.includes(ext))
       {
@@ -5161,7 +5173,7 @@
       {
         testImage.onload = function ()
         {
-          if(testImage.width > this.maxWidth || testImage.height > this.maxHeight)
+          if (testImage.width > this.maxWidth || testImage.height > this.maxHeight)
           {
             Affinity2018.Dialog.Show({
               message: 'Your image can be no larger than ' + this.maxWidth + 'x' + this.maxHeight + '. Yours is ' + testImage.width + 'x' + testImage.height + '.',
@@ -5226,22 +5238,24 @@
     _setNewImage()
     {
       let cropCanvas = this.crooperObj.getCroppedCanvas(),
-          finalData = cropCanvas.toDataURL(),
-          container = document.createElement('div'),
-          text = document.createElement('div'),
-          image = new Image();
+        finalData = cropCanvas.toDataURL(),
+        container = document.createElement('div'),
+        text = document.createElement('div'),
+        image = new Image();
       container.appendChild(text);
       container.appendChild(image);
       text.innerHTML = 'Save this image as your avatar?<br /><br />';
       image.width = 100;
       image.height = 100;
-      image.onload = function () {
+      image.onload = function ()
+      {
         this._clearFile();
         Affinity2018.Dialog.Show({
           message: container,
-          onOk: function () {
+          onOk: function ()
+          {
             let canvas = document.createElement('canvas'),
-                context = canvas.getContext('2d');
+              context = canvas.getContext('2d');
             canvas.width = 100;
             canvas.height = 100;
             context.drawImage(image, 0, 0, 100, 100);
@@ -5382,7 +5396,7 @@
       this.userBox.addEventListener('keyup', this.checkEnterLogin);
       this.passBox.addEventListener('keyup', this.checkEnterLogin);
 
-      if(Affinity2018.Tooltips) Affinity2018.Tooltips.Apply();
+      if (Affinity2018.Tooltips) Affinity2018.Tooltips.Apply();
     }
 
     showLogin()
@@ -5390,7 +5404,7 @@
       if (!this.enabled) return false;
       window.removeEventListener('keyup', this.loginCaptureEscape);
       window.addEventListener('keyup', this.loginCaptureEscape);
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.loginPanel.classList.add('enabled');
       this.loginInnerPanel.classList.add('show');
     }
@@ -5398,8 +5412,10 @@
     checkEnterLogin(ev)
     {
       if (!this.enabled) return false;
-      if ('key' in ev && ev.key.toLowerCase() === 'enter') {
-        if (this.userBox.value.length > 0 && this.passBox.value.length > 0) {
+      if ('key' in ev && ev.key.toLowerCase() === 'enter')
+      {
+        if (this.userBox.value.length > 0 && this.passBox.value.length > 0)
+        {
           this.doLogin();
         }
       }
@@ -5409,8 +5425,10 @@
     {
       if (!this.enabled) return false;
       let userDisplays = document.getElementsByClassName('user-display'), u = 0;
-      if (userDisplays.length > 0) {
-        for (; u < userDisplays.length; u++) {
+      if (userDisplays.length > 0)
+      {
+        for (; u < userDisplays.length; u++)
+        {
           userDisplays[u].innerHTML = '';
         }
       }
@@ -5421,8 +5439,10 @@
     {
       if (!this.enabled) return false;
       let userDisplays = document.getElementsByClassName('user-display'), u = 0;
-      if (userDisplays.length > 0) {
-        for (; u < userDisplays.length; u++) {
+      if (userDisplays.length > 0)
+      {
+        for (; u < userDisplays.length; u++)
+        {
           userDisplays[u].innerHTML = userName;
         }
       }
@@ -5485,7 +5505,7 @@
     hideLogin()
     {
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       window.removeEventListener('keyup', this.loginCaptureEscape);
       this.userBox.value = '';
       this.passBox.value = '';
@@ -5496,26 +5516,26 @@
     {
       if (!this.enabled) return false;
       this.resetUserDisplay();
-      if(this.loginButton) this.loginButton.classList.remove('hidden');
-      if(this.mobileLoginButton) this.mobileLoginButton.classList.remove('hidden');
-      if(this.logoutButton) this.logoutButton.classList.add('hidden');
-      if(this.mobileLogoutButton) this.mobileLogoutButton.classList.add('hidden');
+      if (this.loginButton) this.loginButton.classList.remove('hidden');
+      if (this.mobileLoginButton) this.mobileLoginButton.classList.remove('hidden');
+      if (this.logoutButton) this.logoutButton.classList.add('hidden');
+      if (this.mobileLogoutButton) this.mobileLogoutButton.classList.add('hidden');
       Affinity2018.Avatar.Reset();
-      if(!this.IsOverriden) window.dispatchEvent(new Event('loggedout'));
+      if (!this.IsOverriden) window.dispatchEvent(new Event('loggedout'));
     }
 
     preventLinkEvent(ev)
     {
-      if(typeof ev === 'object' && ev.target && ev.target.tagName)
+      if (typeof ev === 'object' && ev.target && ev.target.tagName)
       {
-        if(ev.target.tagName.toLowerCase() === 'a')
+        if (ev.target.tagName.toLowerCase() === 'a')
         {
           ev.preventDefault();
           ev.stopPropagation();
         }
         else
         {
-          if(Affinity2018.getParent(ev.target, 'a'))
+          if (Affinity2018.getParent(ev.target, 'a'))
           {
             ev.preventDefault();
             ev.stopPropagation();
@@ -5524,83 +5544,83 @@
       }
     }
 
-    showOptions (ev)
+    showOptions(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.optionsInnerPanel.classList.add('show');
     }
 
-    showQuestions (ev)
+    showQuestions(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.questionsInnerPanel.classList.add('show');
     }
 
-    showEmail (ev)
+    showEmail(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.emailInnerPanel.classList.add('show');
     }
 
-    showEmailSent (ev)
+    showEmailSent(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.emailSentInnerPanel.classList.add('show');
     }
 
-    showSms (ev)
+    showSms(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.smsInnerPanel.classList.add('show');
     }
 
-    showSmsSent (ev)
+    showSmsSent(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.smsSentInnerPanel.classList.add('show');
     }
 
-    showReset (ev)
+    showReset(ev)
     {
       this.preventLinkEvent(ev);
       if (!this.enabled) return false;
-      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function(flowNode) { flowNode.classList.remove('show'); } );
+      this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
       this.resetInnerPanel.classList.add('show');
     }
 
-    disableClose ()
+    disableClose()
     {
       this.loginPanelCloseButton.classList.add('hidden');
     }
 
-    enableClose ()
+    enableClose()
     {
       this.loginPanelCloseButton.classList.remove('hidden');
     }
 
-    disableLogin ()
+    disableLogin()
     {
       this.loginPanelCloseButton.classList.add('hidden');
     }
 
-    enableLogin ()
+    enableLogin()
     {
       this.loginPanelCloseButton.classList.remove('hidden');
     }
 
-    getUsername ()
+    getUsername()
     {
       return this.userBox.value.trim();
     }
@@ -5612,7 +5632,7 @@
 
     overrideAction(method)
     {
-      if(method && typeof method === 'function')
+      if (method && typeof method === 'function')
       {
         this.loginPanelLoginButton.removeEventListener('click', this.doLogin);
         this.loginPanelLoginButton.addEventListener('click', method);
@@ -5657,20 +5677,22 @@
       this.rateIcons = Array.prototype.slice.call(this.rateIconBox.getElementsByClassName('rate-sentiment'));
       this.rateBars = Array.prototype.slice.call(this.rateResultBox.getElementsByClassName('rate-result'));
       let r = 0, iconEl;
-      if (this.rateIcons && this.rateIcons.length > 0) {
-        for (; r < this.rateIcons.length; r++) {
+      if (this.rateIcons && this.rateIcons.length > 0)
+      {
+        for (; r < this.rateIcons.length; r++)
+        {
           iconEl = this.rateIcons[r];
           iconEl.addEventListener('click', this.rate);
         }
       }
-      if(Affinity2018.Tooltips) Affinity2018.Tooltips.Apply();
+      if (Affinity2018.Tooltips) Affinity2018.Tooltips.Apply();
     }
 
     rate(e)
     {
       if (!this.enabled) return false;
       let target = Affinity2018.getParent(e.target, 'rate-sentiment'),
-          index = this.rateIcons.indexOf(target);
+        index = this.rateIcons.indexOf(target);
       if (target && index > -1 && index < this.ratings.length) this.ratings[index]++;
       this.results();
     }
@@ -5679,12 +5701,14 @@
     {
       if (!this.enabled) return false;
       let r = 0,
-          max = Math.max.apply(null, this.ratings),
-          //total = this.ratings.reduce((a, b) => a + b, 0),
-          total = this.ratings.reduce(function (a, b) { return a + b; }, 0),
-          per, barPer, barEl;
-      if (this.rateBars && this.rateIcons.length > 0) {
-        for (; r < this.rateBars.length; r++) {
+        max = Math.max.apply(null, this.ratings),
+        //total = this.ratings.reduce((a, b) => a + b, 0),
+        total = this.ratings.reduce(function (a, b) { return a + b; }, 0),
+        per, barPer, barEl;
+      if (this.rateBars && this.rateIcons.length > 0)
+      {
+        for (; r < this.rateBars.length; r++)
+        {
           per = ((this.ratings[r] / total) * 100);
           barPer = ((this.ratings[r] / max) * 100);
           barEl = this.rateBars[r].getElementsByClassName('bar')[0];
@@ -5742,19 +5766,20 @@
 
     _applyTo(el)
     {
-      if(Affinity2018.isDomElement(el) && el.hasAttribute('data-pages-total'))
+      if (Affinity2018.isDomElement(el) && el.hasAttribute('data-pages-total'))
       {
         let id, data, exists = false;
-        for (id in this.paginationControllers) {
+        for (id in this.paginationControllers)
+        {
           data = this.paginationControllers[id];
-          if(data.el === el)
+          if (data.el === el)
           {
             exists = true;
             data.controller.Update();
             break;
           }
         }
-        if(!exists)
+        if (!exists)
         {
           let data = {
             id: 'pg' + Affinity2018.uuid(),
@@ -5768,14 +5793,15 @@
       }
     }
 
-    Remove (el)
+    Remove(el)
     {
-      if(Affinity2018.isDomElement(el))
+      if (Affinity2018.isDomElement(el))
       {
         let id, data;
-        for (id in this.paginationControllers) {
+        for (id in this.paginationControllers)
+        {
           data = this.paginationControllers[id];
-          if(data.el === el)
+          if (data.el === el)
           {
             data.controller.Destroy();
             this.paginationControllers[data.id] = null;
@@ -5792,7 +5818,7 @@
 
     constructor(target)
     {
-      if(!Affinity2018.isDomElement(target)) return;
+      if (!Affinity2018.isDomElement(target)) return;
       target.classList.remove('ui-pagination');
       target.classList.add('pg');
 
@@ -5801,13 +5827,13 @@
         'Back',
         'Forward',
         'JumpPage',
-        '_goPage','_moreBack','_moreForward','_resetPages',
+        '_goPage', '_moreBack', '_moreForward', '_resetPages',
         'Destroy'
       ].bindEach(this);
 
       this.container = target;
 
-      let pageEls =  this.container.querySelectorAll('a.page, a.current');
+      let pageEls = this.container.querySelectorAll('a.page, a.current');
       this.totalPages = parseInt(this.container.dataset.pagesTotal);
       this.currentPage = parseInt(this.container.dataset.pagesCurrent);
 
@@ -5828,13 +5854,13 @@
         el.addEventListener('click', this._goPage, false);
       }.bind(this));
 
-      if(this.backEl) this.backEl.addEventListener('click', this.Back, false);
-      if(this.quickBackEl) this.quickBackEl.addEventListener('click', this._goPage, false);
-      if(this.moreBackEl) this.moreBackEl.addEventListener('click', this._moreBack, false);
+      if (this.backEl) this.backEl.addEventListener('click', this.Back, false);
+      if (this.quickBackEl) this.quickBackEl.addEventListener('click', this._goPage, false);
+      if (this.moreBackEl) this.moreBackEl.addEventListener('click', this._moreBack, false);
 
-      if(this.moreFormardEl) this.moreFormardEl.addEventListener('click', this._moreForward, false);
-      if(this.quickFormardEl) this.quickFormardEl.addEventListener('click', this._goPage, false);
-      if(this.forwardEl) this.forwardEl.addEventListener('click', this.Forward, false);
+      if (this.moreFormardEl) this.moreFormardEl.addEventListener('click', this._moreForward, false);
+      if (this.quickFormardEl) this.quickFormardEl.addEventListener('click', this._goPage, false);
+      if (this.forwardEl) this.forwardEl.addEventListener('click', this.Forward, false);
 
       [
         this.backEl,
@@ -5845,34 +5871,34 @@
         this.forwardEl
       ].forEach(function (el)
       {
-        if(el) el.addEventListener('mousedown', this._preventEvent, false);
-        if(el) el.addEventListener('dblclick', this._preventSelection, false);
+        if (el) el.addEventListener('mousedown', this._preventEvent, false);
+        if (el) el.addEventListener('dblclick', this._preventSelection, false);
       }.bind(this));
 
-      if(this.currentPage !== 1)
+      if (this.currentPage !== 1)
       {
         this.JumpPage(this.currentPage);
       }
 
     }
 
-    Update ()
+    Update()
     {
 
     }
 
-    Back (ev)
+    Back(ev)
     {
       let button = ev.target, pageNum = this.currentPage - 1 < 1 ? 1 : this.currentPage - 1;
-      if(!button.classList.contains('disabled')) this._resetPages(pageNum);
-      if(ev) this._preventEvent(ev);
+      if (!button.classList.contains('disabled')) this._resetPages(pageNum);
+      if (ev) this._preventEvent(ev);
     }
 
-    Forward (ev)
+    Forward(ev)
     {
       let button = ev.target, pageNum = this.currentPage + 1 > this.totalPages ? this.totalPages : this.currentPage + 1;
-      if(!button.classList.contains('disabled')) this._resetPages(pageNum);
-      if(ev) this._preventEvent(ev);
+      if (!button.classList.contains('disabled')) this._resetPages(pageNum);
+      if (ev) this._preventEvent(ev);
     }
 
     JumpPage(pageNum)
@@ -5880,58 +5906,59 @@
       this._resetPages(pageNum);
     }
 
-    _preventEvent (ev)
+    _preventEvent(ev)
     {
       ev.stopPropagation();
       ev.preventDefault();
     }
 
-    _preventSelection (ev)
+    _preventSelection(ev)
     {
       if (window.getSelection) window.getSelection().removeAllRanges();
       else if (document.selection) document.selection.empty();
     }
 
-    _goPage (ev)
+    _goPage(ev)
     {
       let pageEl = ev.target, pageNum = parseInt(pageEl.innerHTML);
-      if(!pageEl.classList.contains('current')) this._resetPages(pageNum);
-      if(ev) this._preventEvent(ev);
+      if (!pageEl.classList.contains('current')) this._resetPages(pageNum);
+      if (ev) this._preventEvent(ev);
     }
 
-    _moreForward (ev)
+    _moreForward(ev)
     {
       let pageNum = this.currentPage + 4 > this.totalPages ? this.totalPages : this.currentPage + 4;
       this._resetPages(pageNum);
-      if(ev) this._preventEvent(ev);
+      if (ev) this._preventEvent(ev);
     }
 
-    _moreBack (ev)
+    _moreBack(ev)
     {
       let pageNum = this.currentPage - 4 > 0 ? this.currentPage - 4 : 1;
       this._resetPages(pageNum);
-      if(ev) this._preventEvent(ev);
+      if (ev) this._preventEvent(ev);
     }
 
-    _resetPages (pageNum)
+    _resetPages(pageNum)
     {
       let changed = this.currentPage !== pageNum ? true : false,
-          count = pageNum + 0;
+        count = pageNum + 0;
 
       this.currentPage = pageNum;
       this.backEl.classList.add('disabled');
       this.forwardEl.classList.add('disabled');
 
-      if(pageNum > 1) this.backEl.classList.remove('disabled');
-      if(pageNum < this.totalPages) this.forwardEl.classList.remove('disabled');
-      if(pageNum < 4) count = 1;
-      if(pageNum > 3) count = pageNum - 2;
-      if(pageNum + 4 >= this.totalPages) count = this.totalPages - 4;
+      if (pageNum > 1) this.backEl.classList.remove('disabled');
+      if (pageNum < this.totalPages) this.forwardEl.classList.remove('disabled');
+      if (pageNum < 4) count = 1;
+      if (pageNum > 3) count = pageNum - 2;
+      if (pageNum + 4 >= this.totalPages) count = this.totalPages - 4;
 
-      this.container.querySelectorAll('a.page, a.current').forEach(function(el){
+      this.container.querySelectorAll('a.page, a.current').forEach(function (el)
+      {
         el.classList.add('page');
         el.classList.remove('current');
-        if(count === pageNum)
+        if (count === pageNum)
         {
           el.classList.remove('page');
           el.classList.add('current');
@@ -5942,7 +5969,7 @@
       this.quickBackEl.innerHTML = 1;
       this.quickFormardEl.innerHTML = this.totalPages;
 
-      if(pageNum < 4)
+      if (pageNum < 4)
       {
         this.moreBackEl.classList.add('hide');
         this.quickBackEl.classList.add('hide');
@@ -5953,7 +5980,7 @@
         this.quickBackEl.classList.remove('hide');
       }
 
-      if(count > this.totalPages)
+      if (count > this.totalPages)
       {
         this.moreFormardEl.classList.add('hide');
         this.quickFormardEl.classList.add('hide');
@@ -5965,13 +5992,13 @@
       }
 
       this._preventSelection();
-      if(changed)
+      if (changed)
       {
         this.container.dispatchEvent(new CustomEvent('change', { detail: pageNum }));
       }
     }
 
-    Destroy ()
+    Destroy()
     {
       this.enabled = false;
 
@@ -5979,19 +6006,20 @@
       this.container.classList.remove('pg');
       this.container.Controller = null;
 
-      this.container.querySelectorAll('a.page, a.current').forEach(function(el){
+      this.container.querySelectorAll('a.page, a.current').forEach(function (el)
+      {
         el.removeEventListener('click', this._goPage, false);
         el.removeEventListener('mousedown', this._preventEvent, false);
         el.removeEventListener('dblclick', this._preventSelection, false);
         el = null;
       }.bind(this));
 
-      if(this.backEl) this.backEl.removeEventListener('click', this.Back, false);
-      if(this.quickBackEl) this.quickBackEl.removeEventListener('click', this._goPage, false);
-      if(this.moreBackEl) this.moreBackEl.removeEventListener('click', this._moreBack, false);
-      if(this.moreFormardEl) this.moreFormardEl.removeEventListener('click', this._moreForward, false);
-      if(this.quickFormardEl) this.quickFormardEl.removeEventListener('click', this._goPage, false);
-      if(this.forwardEl) this.forwardEl.removeEventListener('click', this.Forward, false);
+      if (this.backEl) this.backEl.removeEventListener('click', this.Back, false);
+      if (this.quickBackEl) this.quickBackEl.removeEventListener('click', this._goPage, false);
+      if (this.moreBackEl) this.moreBackEl.removeEventListener('click', this._moreBack, false);
+      if (this.moreFormardEl) this.moreFormardEl.removeEventListener('click', this._moreForward, false);
+      if (this.quickFormardEl) this.quickFormardEl.removeEventListener('click', this._goPage, false);
+      if (this.forwardEl) this.forwardEl.removeEventListener('click', this.Forward, false);
 
       [
         this.backEl,
@@ -6002,8 +6030,8 @@
         this.forwardEl
       ].forEach(function (el)
       {
-        if(el) el.removeEventListener('mousedown', this._preventEvent, false);
-        if(el) el.removeEventListener('dblclick', this._preventSelection, false);
+        if (el) el.removeEventListener('mousedown', this._preventEvent, false);
+        if (el) el.removeEventListener('dblclick', this._preventSelection, false);
         el = null;
       }.bind(this));
 
@@ -6016,7 +6044,7 @@
 
       this.container.innerHTML = false;
       delete this.container['Controller'];
-      if(Affinity2018.Pagination) Affinity2018.Pagination.Remove(this.container);
+      if (Affinity2018.Pagination) Affinity2018.Pagination.Remove(this.container);
       this.container = null;
 
       delete this['container'];
@@ -6040,11 +6068,11 @@
 
   Affinity2018.Classes.UserInfo = class
   {
-    options ()
+    options()
     {
     }
 
-    constructor ()
+    constructor()
     {
       this.options();
       [
@@ -6053,7 +6081,7 @@
       this.Apply();
     }
 
-    Apply ()
+    Apply()
     {
     }
 
@@ -6073,12 +6101,12 @@
 
   Affinity2018.Classes.HelpLinks = class
   {
-    options ()
+    options()
     {
       this.link = Affinity2018.Lang.ReturnPath('generic.contact.email');
     }
 
-    constructor ()
+    constructor()
     {
       this.options();
       [
@@ -6088,12 +6116,12 @@
       this.Apply();
     }
 
-    Apply ()
+    Apply()
     {
       this.link = Affinity2018.Lang.ReturnPath('generic.contact.email');
       if (Affinity2018.isString(this.link))
       {
-        document.querySelectorAll('a.help-link').forEach(function(el, index)
+        document.querySelectorAll('a.help-link').forEach(function (el, index)
         {
           el.setAttribute('href', 'mailto:' + this.link);
           el.innerHTML = this.link;
@@ -6117,12 +6145,12 @@
 
   new class
   {
-    constructor ()
+    constructor()
     {
-      ['init','onkey','set'].bindEach(this);
+      ['init', 'onkey', 'set'].bindEach(this);
       this.scrollStyleNode = false;
       Affinity2018.DarkMode = false;
-      if(!document.body) document.addEventListener("DOMContentLoaded", this.init);
+      if (!document.body) document.addEventListener("DOMContentLoaded", this.init);
       else this.init();
     }
 
@@ -6146,7 +6174,7 @@
       Affinity2018.CheckDarkMode = this.set;
     }
 
-    onkey (ev)
+    onkey(ev)
     {
       if (ev.ctrlKey && ev.altKey && (ev.key === "d" || ev.key === "D"))
       {
@@ -6156,7 +6184,7 @@
       }
     }
 
-    set ()
+    set()
     {
       if (Affinity2018.DarkMode)
       {
@@ -6241,13 +6269,13 @@
       else setTimeout(this.checkBody, 10);
     }
 
-    checkBody ()
+    checkBody()
     {
       if (document.querySelector('body')) Affinity2018.MobileDetect.getBrowser();
       else setTimeout(Affinity2018.MobileDetect.checkBody, 10);
     }
 
-    getBrowser ()
+    getBrowser()
     {
       /* github.com/faisalman/ua-parser-js */
       let loaded = function ()
@@ -6304,7 +6332,7 @@
       document.head.appendChild(script);
     }
 
-    getWurfl ()
+    getWurfl()
     {
       let script = document.createElement('script'), body = document.querySelector('body');
       script.type = 'text/javascript';
@@ -6349,14 +6377,14 @@
           testNode.innerHTML = 'Type: ' + type + ', OS: ' + os + ', Device: ' + device + ', Dims: ' + dims;
         }
       };
-      script.onload = function()
+      script.onload = function ()
       {
         Affinity2018.MobileChecked = true;
         Affinity2018.IsMobile = WURFL.is_mobile;
         Affinity2018.Device = WURFL.form_factor.toLowerCase();
         scriptProcessed();
       }
-      script.onerror = function()
+      script.onerror = function ()
       {
         console.error('WURFL failed to load');
         Affinity2018.MobileChecked = true;
@@ -6420,7 +6448,8 @@
     DataListTest: function ()
     {
       var testEl = document.createElement('datalist');
-      if (testEl && 'options' in testEl) {
+      if (testEl && 'options' in testEl)
+      {
         Affinity2018.SupportsDatalist = true;
       }
       testEl = null;
@@ -6435,7 +6464,7 @@
       var passivetest = false;
       try { document.addEventListener("test", null, { get passive() { passivetest = true } }); } catch (e) { }
       Affinity2018.SupportsPassiveEvents = passivetest;
-      Affinity2018.PassiveEventProp = Affinity2018.SupportsPassiveEvents ? { passive: true} : false;
+      Affinity2018.PassiveEventProp = Affinity2018.SupportsPassiveEvents ? { passive: true } : false;
     },
 
     /**
@@ -6456,7 +6485,7 @@
      */
     CheckCanvas: function ()
     {
-      Affinity2018.SupportsCanvas = !! window.CanvasRenderingContext2D;
+      Affinity2018.SupportsCanvas = !!window.CanvasRenderingContext2D;
     },
 
     /**
@@ -6471,17 +6500,17 @@
       try
       {
         canvas = document.createElement('canvas');
-        Affinity2018.SupportsWebGL = !! (window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+        Affinity2018.SupportsWebGL = !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
         canvas = null;
       }
-      catch ( err ) { }
+      catch (err) { }
       try
       {
         canvas = document.createElement('canvas');
-        Affinity2018.SupportsWebGL2 = !! (window.WebGL2RenderingContext && (canvas.getContext('webgl2')));
+        Affinity2018.SupportsWebGL2 = !!(window.WebGL2RenderingContext && (canvas.getContext('webgl2')));
         canvas = null;
       }
-      catch ( err ) { }
+      catch (err) { }
     },
 
     /**
@@ -6581,7 +6610,7 @@
           eval('async () => {}');
           Affinity2018.SupportsAsync = true;
         }
-        catch (err) {}
+        catch (err) { }
       }
     },
 
@@ -6591,7 +6620,7 @@
      */
     CheckES6: function ()
     {
-      Affinity2018.SupportsES6 = function() { try { new Function("(a = 0) => a"); return true; } catch (err) { return false; } }();
+      Affinity2018.SupportsES6 = function () { try { new Function("(a = 0) => a"); return true; } catch (err) { return false; } }();
       if (Affinity2018.ES6Only && !Affinity2018.SupportsES6)
       {
         // window.href.location = "./unsupported.html";
@@ -6607,9 +6636,9 @@
     DashboardWrapper: function ()
     {
       var checkKeys = ['Dashboard', 'dashboard', 'IsDashboard', 'isDashboard', 'isdashboard', 'HasDashboard', 'hasDashboard', 'hasdashboard'],
-          hasDashboard = false,
-          i = 0,
-          key;
+        hasDashboard = false,
+        i = 0,
+        key;
       for (; i < checkKeys.length; i++)
       {
         key = checkKeys[i];
@@ -6645,7 +6674,7 @@
 
   Affinity2018.Classes.ResourcePreloader = class
   {
-    options ()
+    options()
     {
       this.Total = 0;
       this.Loaded = 0;
@@ -6697,54 +6726,54 @@
         else window.dispatchEvent(new CustomEvent('ResourecePreloaderReady'));
       }
     }
-    Start ()
+    Start()
     {
       this.Progress();
       this.LoadScripts();
     }
-    AddScript (path)
+    AddScript(path)
     {
       if (path.trim() === '') return;
       this.Resources.Scripts.Total++;
       this.Resources.Scripts.Paths.push(path.trim());
       this.Total++;
     }
-    AddExtention (path)
+    AddExtention(path)
     {
       if (path.trim() === '') return;
       this.Resources.Extentions.Total++;
       this.Resources.Extentions.Paths.push(path.trim());
       this.Total++;
     }
-    AddStyle (path)
+    AddStyle(path)
     {
       if (path.trim() === '') return;
       this.Resources.Styles.Total++;
       this.Resources.Styles.Paths.push(path.trim());
       this.Total++;
     }
-    AddFont (path)
+    AddFont(path)
     {
       if (path.trim() === '') return;
       this.Resources.Fonts.Total++;
       this.Resources.Fonts.Paths.push(path.trim());
       this.Total++;
     }
-    AddImage (path)
+    AddImage(path)
     {
       if (path.trim() === '') return;
       this.Resources.Images.Total++;
       this.Resources.Images.Paths.push(path.trim());
       this.Total++;
     }
-    AddAudio (path)
+    AddAudio(path)
     {
       if (path.trim() === '') return;
       this.Resources.Audio.Total++;
       this.Resources.Audio.Paths.push(path);
       this.Total++;
     }
-    AddVideo (path)
+    AddVideo(path)
     {
       if (path.trim() === '') return;
       this.Resources.Video.Total++;
@@ -6752,7 +6781,7 @@
       this.Total++;
     }
     /**/
-    Complete ()
+    Complete()
     {
       this.Progress();
       document.querySelectorAll('.image-preloader,.audio-preloader,.video-preloader').forEach(function (node) { domNode.parentNode.removeChild(node); });
@@ -6760,18 +6789,18 @@
       delete Affinity2018.ResourcePreloader;
       Affinity2018.MainStarter = new Affinity2018.Classes.MainStarter();
     }
-    Progress ()
+    Progress()
     {
       window.dispatchEvent(new CustomEvent('ResourecePreloaderProgress',
-      {
-        detail: {
-          total: this.Total,
-          progress: this.Loaded,
-          per: this.Loaded / this.Total
-        }
-      }));
+        {
+          detail: {
+            total: this.Total,
+            progress: this.Loaded,
+            per: this.Loaded / this.Total
+          }
+        }));
     }
-    ResourceLoaded (ev)
+    ResourceLoaded(ev)
     {
       let key = 'target' in ev && 'dataset' in ev.target ? ev.target.dataset.group : 'family' in ev && typeof ev.family === 'string' ? 'Fonts' : '';
       if (this.Resources.hasOwnProperty(key))
@@ -6785,12 +6814,12 @@
         this.Progress();
       }
     }
-    ResourceFailed (ev)
+    ResourceFailed(ev)
     {
       this.ResourceLoaded(ev);
     }
     /**/
-    LoadScripts ()
+    LoadScripts()
     {
       if (this.Resources.Scripts.Loaded === this.Resources.Scripts.Total)
       {
@@ -6812,7 +6841,7 @@
         });
       }
     }
-    LoadExtentions ()
+    LoadExtentions()
     {
       if (this.Resources.Extentions.Loaded === this.Resources.Extentions.Total)
       {
@@ -6834,7 +6863,7 @@
         });
       }
     }
-    LoadStyles ()
+    LoadStyles()
     {
       if (this.Resources.Styles.Loaded === this.Resources.Styles.Total)
       {
@@ -6857,7 +6886,7 @@
         });
       }
     }
-    LoadFonts ()
+    LoadFonts()
     {
       if (this.Resources.Fonts.Loaded === this.Resources.Fonts.Total)
       {
@@ -6870,13 +6899,13 @@
         {
           Affinity2018.ResourcePreloader.Resources.Fonts.Injected++;
           new FontFaceObserver(path)
-          .load()
-          .then(Affinity2018.ResourcePreloader.ResourceLoaded)
-          .catch(Affinity2018.ResourcePreloader.ResourceFailed);
+            .load()
+            .then(Affinity2018.ResourcePreloader.ResourceLoaded)
+            .catch(Affinity2018.ResourcePreloader.ResourceFailed);
         });
       }
     }
-    LoadImages ()
+    LoadImages()
     {
       if (this.Resources.Images.Loaded === this.Resources.Images.Total)
       {
@@ -6898,7 +6927,7 @@
         });
       }
     }
-    LoadAudio ()
+    LoadAudio()
     {
       if (this.Resources.Audio.Loaded === this.Resources.Audio.Total)
       {
@@ -6914,13 +6943,13 @@
           tag.setAttribute('src', path);
           tag.classList.add('obscured audio-preloader');
           tag.dataset.group = 'Audio';
-          if (Affinity2018.iOS) Affinity2018.ResourcePreloader.ResourceLoaded( { target: tag });
+          if (Affinity2018.iOS) Affinity2018.ResourcePreloader.ResourceLoaded({ target: tag });
           else tag.addEventListener('canplaythrough', Affinity2018.ResourcePreloader.ResourceLoaded, true);
           Affinity2018.Body.appendChild(tag);
         });
       }
     }
-    LoadVideo ()
+    LoadVideo()
     {
       if (this.Resources.Video.Loaded === this.Resources.Video.Total)
       {
@@ -6936,7 +6965,7 @@
           tag.setAttribute('src', path);
           tag.classList.add('obscured video-preloader');
           tag.dataset.group = 'Video';
-          if (Affinity2018.iOS) Affinity2018.ResourcePreloader.ResourceLoaded( { target: tag });
+          if (Affinity2018.iOS) Affinity2018.ResourcePreloader.ResourceLoaded({ target: tag });
           else tag.addEventListener('canplaythrough', Affinity2018.ResourcePreloader.ResourceLoaded, true);
           Affinity2018.Body.appendChild(tag);
         });
@@ -7025,15 +7054,15 @@
         // axios.get('https:/'+'/cdn.source63.com/' + Affinity2018.Domain + '/' + Affinity2018.Id + '.' + Affinity2018.Version + '.min.html')
         // In the mean time, use Affinity2018.TemplatesPath + current app location
         axios.get(Affinity2018.TemplatesPath + 'templates.html')
-        .then(function (response)
-        {
-          this.templatesHtml = response.data;
-          this.checkMobile();
-        }.bind(this))
-        .catch(function (ex)
-        {
-          console.log(ex);
-        });
+          .then(function (response)
+          {
+            this.templatesHtml = response.data;
+            this.checkMobile();
+          }.bind(this))
+          .catch(function (ex)
+          {
+            console.log(ex);
+          });
       }
       else
       {
@@ -7042,13 +7071,13 @@
 
     }
 
-    checkMobile ()
+    checkMobile()
     {
       if (Affinity2018.MobileChecked) this.setupPlugins();
       else window.addEventListener('MobileChecked', this.setupPlugins, false);
     }
 
-    setupPlugins ()
+    setupPlugins()
     {
       window.removeEventListener('MobileChecked', this.setupPlugins, false);
 
@@ -7078,7 +7107,7 @@
 
       /**/
 
-      if(document.getElementsByClassName('tabs').length > 0)
+      if (document.getElementsByClassName('tabs').length > 0)
       {
         let t = 0, tab;
         if (document.getElementsByClassName('tabs')) this.tabbox = document.getElementsByClassName('tabs')[0];
@@ -7095,7 +7124,7 @@
 
       /**/
 
-      if(document.getElementById('mobile-menu-button') && document.getElementById('mobile-menu-bg'))
+      if (document.getElementById('mobile-menu-button') && document.getElementById('mobile-menu-bg'))
       {
         this.mobileMenuButton = document.getElementById('mobile-menu-button');
         this.mobileMenuBg = document.getElementById('mobile-menu-bg');
@@ -7105,7 +7134,7 @@
 
       /**/
 
-      if(document.getElementById('avatar-menu') && document.getElementById('tabs'))
+      if (document.getElementById('avatar-menu') && document.getElementById('tabs'))
       {
         var items = Array.prototype.slice.call(document.getElementById('avatar-menu').getElementsByTagName('a'));
         items.forEach(this.setloadLocToElementClick);
@@ -7128,16 +7157,16 @@
     {
       window.removeEventListener('LangComplete', this.completeSetup, false);
 
-      this.showLogin = function(){};
-      this.hideLogin = function(){};
-      if(document.getElementById('affinity-login'))
+      this.showLogin = function () { };
+      this.hideLogin = function () { };
+      if (document.getElementById('affinity-login'))
       {
         Affinity2018.Login = new Affinity2018.Classes.Login();
         this.showLogin = Affinity2018.Login.showLogin;
         this.hideLogin = Affinity2018.Login.hideLogin;
       }
-      if(document.getElementById('affinity-login') && document.getElementById('avatar')) Affinity2018.Avatar = new Affinity2018.Classes.Avatar();
-      if(document.getElementById('content')) Affinity2018.RateUs = new Affinity2018.Classes.RateUs();
+      if (document.getElementById('affinity-login') && document.getElementById('avatar')) Affinity2018.Avatar = new Affinity2018.Classes.Avatar();
+      if (document.getElementById('content')) Affinity2018.RateUs = new Affinity2018.Classes.RateUs();
 
       if (Affinity2018.hasOwnProperty('Tooltips')) Affinity2018.Tooltips.Apply();
       if (Affinity2018.hasOwnProperty('Pagination')) Affinity2018.Pagination.Apply();
@@ -7186,7 +7215,7 @@
       node.addEventListener('click', Affinity2018.ShowPageLoader);
     }
 
-    showMobileMenu ()
+    showMobileMenu()
     {
       if (!this.enabled) return false;
       document.body.classList.add('menu');
@@ -7214,7 +7243,7 @@
   /**************************************************************************************************************************** Source63 *** start ***/
 
 
-  let globalinit = function()
+  let globalinit = function ()
   {
     if (Affinity2018.HideAllTemplates)
     {
@@ -20699,11 +20728,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       || ($a.isPropBool(this.Config.Details, 'SetDefaultValue') && this.Config.Details.SetDefaultValue === true)
     )
     {
-      date = new Date().clearTime();
-      //date = Date.today();
+      date = Date.today().clearTime();
       //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
-
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value); 
 
     //var originalDate = date;
@@ -20719,8 +20746,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dddd d LLL, yyyy'; // luxon format
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' - ';
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss a';
-        dateStr = Affinity2018.getDate(dateObj, format);
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss tt';
+        //dateStr = Affinity2018.getDate(dateObj, format);
+        dateStr = dateObj.toString(format);
         value = dateStr;
         //value = date.toString(format);
       }
@@ -20738,7 +20766,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
       if (date !== null)
       {
-        dateStr = Affinity2018.getDate(dateObj, format);
+        //dateStr = Affinity2018.getDate(dateObj, format);
+        dateStr = dateObj.toString(format);
         value = dateStr
         dataset += ' data-start-date="' + value + '"';
         date = value;
@@ -32145,21 +32174,21 @@ Affinity2018.Classes.Plugins.BigSearch = class
 /***************************************************************************************************************************************************/
 /************************************************************************************************************************* Source63 *** calendar ***/
 
-if(!('Affinity2018' in window)) Affinity2018 = {};
-if(!('Classes' in Affinity2018)) Affinity2018.Classes = {};
-if(!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
 
-if(!('Apps' in Affinity2018)) Affinity2018.Apps = {};
-if(!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
+if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if (!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
 
 Affinity2018.Classes.Plugins.Calendars = class
 {
-  _options ()
+  _options()
   {
     this.widgets = [];
   }
 
-  constructor ()
+  constructor()
   {
     this._options();
     [
@@ -32177,7 +32206,7 @@ Affinity2018.Classes.Plugins.Calendars = class
     // else window.addEventListener('MainInit', this.Apply);
   }
 
-  Apply (node)
+  Apply(node)
   {
     var temp = [];
     if (node !== undefined && node !== null)
@@ -32197,7 +32226,7 @@ Affinity2018.Classes.Plugins.Calendars = class
     }
   }
 
-  Remove (node)
+  Remove(node)
   {
     if (
       node.classList.contains('ui-calendar')
@@ -32210,7 +32239,7 @@ Affinity2018.Classes.Plugins.Calendars = class
     }
   }
 
-  HideAll (except)
+  HideAll(except)
   {
     var key, widget;
     for (key in this.widgets)
@@ -32232,7 +32261,7 @@ Affinity2018.Classes.Plugins.Calendars = class
 
   /**/
 
-  _apply (node)
+  _apply(node)
   {
     if (Affinity2018.isDomElement(node))
     {
@@ -32246,7 +32275,7 @@ Affinity2018.Classes.Plugins.Calendars = class
 
 Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEvents
 {
-  _options ()
+  _options()
   {
     this.WidgetName = 'Calendar';
 
@@ -32259,14 +32288,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.outputFormat = 'dd/MM/yyyy';
 
-    //this.dateFormat = 'ddd dS MMM, yyyy';
-    this.dateFormat = 'ccc d MMM, yyyy'; // luxon format
-    this.timeFormat = 'h:mm a';
+    this.dateFormat = 'ddd dS MMM, yyyy';
+    this.timeFormat = 'h:mm tt';
     this.displayFormat = this.dateFormat + ' ' + this.timeFormat;
 
     this.showCalendar = true;
     this.showTime = false;
-    
+
     this.startDate = 'none';
     this.hasStartDate = false;
     this.showStartDate = false;
@@ -32299,7 +32327,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.Valid = false;
   }
 
-  constructor (targetNode, uuid)
+  constructor(targetNode, uuid)
   {
     super();
     this._options();
@@ -32326,7 +32354,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       '_monthsClicked', '_yearsClicked',
       '_timeClicked',
 
-      '_clearShowHideEvents','_setHideShowEvents',
+      '_clearShowHideEvents', '_setHideShowEvents',
       '_scrolled', '_position', '_setPosition',
       '_stopEvents',
       '_windowClicked',
@@ -32377,20 +32405,20 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.timeDisplayNode = this.calendarNode.querySelector('.ui-cal-display-time');
 
     var rowNode = this.datesNode.querySelector('.ui-cal-cells-row'),
-        monthNode = this.calendarNode.querySelector('.ui-cal-months'),
-        yearNode = this.calendarNode.querySelector('.ui-cal-years'),
-        r = 0,
-        m = 0,
-        y = new Date().getFullYear() - 100,
-        newRow, d, newMonth, newYear;
-    for ( ; r < 6; r++)
+      monthNode = this.calendarNode.querySelector('.ui-cal-months'),
+      yearNode = this.calendarNode.querySelector('.ui-cal-years'),
+      r = 0,
+      m = 0,
+      y = new Date().getFullYear() - 100,
+      newRow, d, newMonth, newYear;
+    for (; r < 6; r++)
     {
       newRow = document.createElement('div');
       newRow.classList.add('ui-cal-cells-row', 'date-cells');
       newRow.innerHTML = rowNode.innerHTML + '';
       rowNode.parentNode.appendChild(newRow);
     }
-    for ( ; m < 12; m++)
+    for (; m < 12; m++)
     {
       d = new Date();
       d.setMonth(m);
@@ -32400,7 +32428,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       newMonth.classList.add('m-' + m);
       monthNode.appendChild(newMonth);
     }
-    for ( ; y < new Date().getFullYear() + 51; y++)
+    for (; y < new Date().getFullYear() + 51; y++)
     {
       newYear = document.createElement('span');
       newYear.innerHTML = y;
@@ -32419,17 +32447,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     /**/
 
-    this.originalDate = 'none';
-
     this.startDate = 'none';
     this.hasStartDate = false;
     this.showStartDate = false;
 
-    var attemptStr = this.targetNode.value.trim();
+
+    var attemptStr = this.targetNode ? this.targetNode.value.trim() : '';
     if (attemptStr === '') attemptStr = this.targetNode.dataset.hasOwnProperty('startDate') ? this.targetNode.dataset.startDate.trim() : '';
     if (attemptStr !== '')
     {
-      this.originalDate = attemptStr;
       this.startDate = $a.getDate(attemptStr);
       if (this.startDate === null) this.startDate = Date.parse(attemptStr);
 
@@ -32445,7 +32471,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         this.showStartDate = false;
       }
     }
-    
+
     /**/
 
     this.postName = this.targetNode.name || '';
@@ -32558,60 +32584,64 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   }
 
-  _init ()
+  _init()
   {
+
     var today = ['now', 'today'];
 
     this.showDefault = this.startDate === 'none' ? false : true;
 
     if (this.startDate === 'none')
     {
+
       if (this.target && 'value' in this.targetNode && this.targetNode.value.trim() !== '')
       {
-        this.originalDate = this.targetNode.value.trim();
-        this.startDate = $a.getDate(this.targetNode.value.trim(), this.outputFormat);
-        this.date = $a.getDate(this.startDate.trim());
-        this.showDefault = date.isValid();
+        var attempt = this._setDateFromStr(this.targetNode.value.trim(), true);
+        if ($a.isDate(attempt) && attempt.isValid())
+        {
+          this.startDate = attempt.toString(this.outputFormat);
+          this.date = attempt;
+          this.showDefault = true;
+        }
+        else
+        {
+          this.showDefault = false;
+        }
       }
       else
       {
         this.showDefault = false;
       }
     }
-    else if (this.startDate && $a.isString(this.startDate) && today.contains(this.startDate.toLowerCase()))
+    else if (this.startDate && today.contains(this.startDate.toLowerCase))
     {
-      this.date = new Date().clearTime();
+      this.date = new Date();
       this.startDate = $a.getDate(this.date, this.outputFormat);
     }
     else
     {
       if ($a.isString(this.startDate))
       {
-        this.startDate = $a.getDate(this.startDate.trim(), this.outputFormat);
-        this.date = $a.getDate(this.startDate.trim());
+        var attempt = this._setDateFromStr(this.startDate.trim(), true);
+        if ($a.isDate(attempt) && attempt.isValid())
+        {
+          this.startDate = attempt.toString(this.outputFormat);
+          this.date = attempt;
+        }
       }
     }
 
     if (!$a.isDateValid(this.date))
     {
       if ($a.isDateValid(this.startDate)) this.date = this.startDate;
-      else this.date = this.showTime ? $a.getDate(new Date()) : $a.getDate(new Date().clearTime());
+      else this.date = new Date();
     }
 
     this.watchOutput = this.targetNode.classList.contains('uidate-watch') ? true : this.watchOutput;
     if (this.watchOutput) this.watchTimer = setInterval(this.watchOutputChanges, 500);
 
     if (this.date) this.__uiDate = this.date;
-    else this.__uiDate = this.showTime ? $a.getDate(new Date()) : $a.getDate(new Date().clearTime());
-
-    //console.group("RAKI!! -> ");
-    //console.log('Original Date:');
-    //console.log(this.originalDate);
-    //console.log('Start Date:');
-    //console.log(this.startDate);
-    //console.log('Parsed Date:');
-    //console.log(this.date);
-    //console.groupEnd();
+    else this.__uiDate = new Date();
 
     /**/
 
@@ -32628,14 +32658,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.showTime)
     {
       this.timeWidget = new Affinity2018.Classes.Plugins.TimeWidget(
-      {
-        targetNode: this.calendarNode.querySelector('.ui-cal-time'),
-        uuid: this.uuid,
-        date: this.__uiDate.clone(),
-        setCallback: this.setTimeFromWidget,
-        hasCalendar: this.showCalendar,
-        hideMethod: this.hide
-      });
+        {
+          targetNode: this.calendarNode.querySelector('.ui-cal-time'),
+          uuid: this.uuid,
+          date: this.__uiDate.clone(),
+          setCallback: this.setTimeFromWidget,
+          hasCalendar: this.showCalendar,
+          hideMethod: this.hide
+        });
     }
 
     /**/
@@ -32670,7 +32700,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       document.addEventListener('scroll', this._scrolled, false);
       document.addEventListener('resize', this._position, false);
     }
-    
+
     this.Ready = true;
   }
 
@@ -32684,44 +32714,43 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  getValue ()
+  getValue()
   {
-    return this._formatDate(this.date, this.displayFormat);
+    return this.date.toString(this.displayFormat);
   }
 
-  getDisplayValue ()
+  getDisplayValue()
   {
-    return this._formatDate(this.date, this.outputFormat);
+    return this.date.toString(this.outputFormat);
   }
 
-  getDate ()
+  getDate()
   {
     var date = this.getDateObject();
     if (date)
     {
-      //return date.toString(this.outputFormat);
-      return $a.getDate(date, this.outputFormat);
+      return date.toString(this.outputFormat);
     }
     return false;
   }
 
-  getDateObject ()
+  getDateObject()
   {
     //if (!this.nullable)
     //{
-      if (this.date)
-      {
-        return this.date;
-      }
-      if (this.__uiDate)
-      {
-        return this.__uiDate;
-      }
+    if (this.date)
+    {
+      return this.date;
+    }
+    if (this.__uiDate)
+    {
+      return this.__uiDate;
+    }
     //}
     return false;
   }
 
-  getRawDate ()
+  getRawDate()
   {
     if (this.displayNode.value.trim() === '' && this.nullable) return false;
     if ($a.stringToDate(this.displayNode.value.trim()) !== null) return $a.stringToDate(this.displayNode.value.trim());
@@ -32732,7 +32761,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  setTime (dateTime)
+  setTime(dateTime)
   {
     var date = this.date ? this.date.clone() : this.__uiDate.clone();
     date.setHours(dateTime.getHours());
@@ -32742,16 +32771,16 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.setDate(date);
   }
 
-  setDate (passedDate, doEvent, preventTimeWigdetSet)
+  setDate(passedDate, doEvent, preventTimeWigdetSet)
   {
     doEvent = typeof doEvent === 'boolean' ? doEvent : true;
     preventTimeWigdetSet = typeof preventTimeWigdetSet === 'boolean' ? preventTimeWigdetSet : false;
-    if(Affinity2018.isDate(passedDate)) this.date = passedDate.clone();
+    if (Affinity2018.isDate(passedDate)) this.date = passedDate.clone();
     else this.date = this.nullable ? false : this.date;
     this.__uiDate = this.date ? this.date : this.__uiDate;
     this._setAll();
     this._buildCalendar();
-    if(doEvent) this._fireDateEvents();
+    if (doEvent) this._fireDateEvents();
     if (this.showTime && this.timeWidget && !preventTimeWigdetSet)
     {
       if (this.date) this.timeWidget.setTime(this.date);
@@ -32759,7 +32788,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  setToday ()
+  setToday()
   {
     this.date = new Date();
     this.__uiDate = this.date.clone();
@@ -32773,7 +32802,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  setNone ()
+  setNone()
   {
     this.date = this.__uiDate = new Date();
     this._setAll();
@@ -32788,7 +32817,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.targetNode.dispatchEvent(new Event('change'));
   }
 
-  setTimeFromWidget (dateTime)
+  setTimeFromWidget(dateTime)
   {
     var date = this.date ? this.date.clone() : this.__uiDate.clone();
     date.setHours(dateTime.getHours());
@@ -32798,7 +32827,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.setDate(date, true, true);
   }
 
-  watchOutputChanges ()
+  watchOutputChanges()
   {
     var value = this.targetNode.value;
     var attempt = Date.parse(value);
@@ -32810,7 +32839,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  show ()
+  show()
   {
     if (this.showInline) return;
     if (!this.showInline && Affinity2018.Calendars) Affinity2018.Calendars.HideAll(this);
@@ -32824,7 +32853,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
   }
 
-  hide (ev)
+  hide(ev)
   {
     this._clearShowHideEvents();
     if (this.showInline) return;
@@ -32841,29 +32870,23 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  _formatDate(date, format)
+  _buildCalendar(date)
   {
-    var test = luxon.DateTime.fromJSDate(date).toFormat(format);
-    console.log(date, format, test);
-    return test;
-  }
 
-  _buildCalendar (date)
-  {
     date = Affinity2018.isDate(date) ? date : Affinity2018.isDate(this.date) ? this.date : this.__uiDate;
     var currentMonth = this.calendarNode.querySelector('.ui-cal-cells').dataset.month,
-        currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
-        dateMonth = date.toString('MMM'),
-        dateYear = date.toString('yyyy');
+      currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
+      dateMonth = date.toString('MMM'),
+      dateYear = date.toString('yyyy');
     if (currentMonth + currentYear !== dateMonth + dateYear)
     {
       var cellNodes = this.datesNode.querySelectorAll('.ui-cal-cells-row.date-cells .ui-cal-cell'),
-          today = Date.today().clearTime(),
-          firstDay = date.clone().moveToFirstDayOfMonth(),
-          calDay = firstDay.clone().clearTime(),
-          daysInMonth = Date.getDaysInMonth(firstDay.getFullYear(), firstDay.getMonth()),
-          startCell = firstDay.getDay() - (this.startDay),
-          d = 0, dCount = 1;
+        today = Date.today().clearTime(),
+        firstDay = date.clone().moveToFirstDayOfMonth(),
+        calDay = firstDay.clone().clearTime(),
+        daysInMonth = Date.getDaysInMonth(firstDay.getFullYear(), firstDay.getMonth()),
+        startCell = firstDay.getDay() - (this.startDay),
+        d = 0, dCount = 1;
 
       if (startCell < 0) startCell += 7;
 
@@ -32890,7 +32913,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           cellNodes[d].innerHTML = dCount;
           cellNodes[d].dataset.date = calDay.toString("d-MMM-yyyy HH:mm");
           cellNodes[d].classList.add('active', 'date-' + calDay.toString("d-MMM-yyyy"));
-          calDay.add({days: 1});
+          calDay.add({ days: 1 });
           dCount++;
         }
       }
@@ -32903,7 +32926,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this.datesNode.querySelector('.date-' + Date.today().clearTime().toString("d-MMM-yyyy")).classList.add('today');
     }
 
-    if(this.date && this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")))
+    if (this.date && this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")))
     {
       this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")).classList.add('selected');
     }
@@ -32929,13 +32952,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  _cellClicked (ev)
+  _cellClicked(ev)
   {
-    var selectedCells = this.datesNode.querySelectorAll('.ui-cal-cell.selected');
-    for (var s = 0; s < selectedCells.length; s++)
-    {
-      selectedCells[s].classList.remove('selected');
-    }
+    if (this.datesNode.querySelector('.ui-cal-cell.selected')) this.datesNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
     var cellNode = ev.target.closest('.ui-cal-cell.active'), cellDate;
     if (cellNode)
     {
@@ -32946,7 +32965,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _displayKeyUp (ev)
+  _displayKeyUp(ev)
   {
     if (
       ev.keyCode === 13 // enter
@@ -32959,13 +32978,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _displayBlur ()
+  _displayBlur()
   {
     if (this.nullable && this.displayNode.value.trim() === '') return;
     this._setDateFromStr(this.displayNode.value.trim());
   }
 
-  _setAll ()
+  _setAll()
   {
     this._setDate();
     this._setTime();
@@ -32973,10 +32992,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this._setReturn();
   }
 
-  _setDate ()
+  _setDate()
   {
     var dateStr = '';
-    if (this.date && Affinity2018.isDate(this.date)) dateStr = this._formatDate(this.date, this.dateFormat);
+    if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.dateFormat);
     this.dateDisplayNode.innerHTML = dateStr;
     this._setDisplay(false);
     this.IsValid();
@@ -32984,20 +33003,20 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setTime()
   {
     var timeStr = '';
-    if(this.date && Affinity2018.isDate(this.date)) timeStr = this._formatDate(this.date, this.timeFormat);
+    if (this.date && Affinity2018.isDate(this.date)) timeStr = this.date.toString(this.timeFormat);
     this.timeDisplayNode.innerHTML = timeStr;
     this._setDisplay(false);
     this.IsValid();
   }
-  _setDisplay (fromBlur)
+  _setDisplay(fromBlur)
   {
     var dateStr = '', output = fromBlur && this.nullable ? false : true;
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
-    if(this.date && Affinity2018.isDate(this.date))
+    if (this.date && Affinity2018.isDate(this.date))
     {
-      if (this.showCalendar) dateStr += this._formatDate(this.date, this.dateFormat);
+      if (this.showCalendar) dateStr += this.date.toString(this.dateFormat);
       if (this.showCalendar && this.showTime) dateStr += ' ';
-      if (this.showTime) dateStr += this._formatDate(this.date, this.timeFormat);
+      if (this.showTime) dateStr += this.date.toString(this.timeFormat);
     }
     if (!this.Ready)
     {
@@ -33013,11 +33032,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
     this.IsValid();
   }
-  _setReturn (fromBlur)
+  _setReturn(fromBlur)
   {
     var dateStr = '', output = fromBlur && this.nullable ? false : true;
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
-    if(this.date && Affinity2018.isDate(this.date)) dateStr = this._formatDate(this.date, this.outputFormat);
+    if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.outputFormat);
     if (output) this.targetNode.value = dateStr;
     this.IsValid();
   }
@@ -33075,35 +33094,35 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _fireDateEvents()
   {
-    if(this.date && Affinity2018.isDate(this.date))
+    if (this.date && Affinity2018.isDate(this.date))
     {
-      this.dispatchEvent(new CustomEvent('dateClicked', { detail: { dispatchObject: this.date }}));
-      this.dispatchEvent(new CustomEvent('dateChanged', { detail: { dispatchObject: this.date }}));
+      this.dispatchEvent(new CustomEvent('dateClicked', { detail: { dispatchObject: this.date } }));
+      this.dispatchEvent(new CustomEvent('dateChanged', { detail: { dispatchObject: this.date } }));
       this.targetNode.dispatchEvent(new Event('change'));
     }
   }
 
   /**/
 
-  _clearShowHideEvents ()
+  _clearShowHideEvents()
   {
     clearTimeout(this.bgEventListenerDelay);
     window.removeEventListener('click', this._windowClicked);
     this.displayNode.removeEventListener('click', this._stopEvents);
     this.calendarNode.removeEventListener('click', this._stopEvents);
   }
-  _setHideShowEvents ()
+  _setHideShowEvents()
   {
     clearTimeout(this.bgEventListenerDelay);
     this._clearShowHideEvents();
-    this.bgEventListenerDelay = setTimeout(function() { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
+    this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
     this.displayNode.addEventListener('click', this._stopEvents);
     this.calendarNode.addEventListener('click', this._stopEvents);
   }
 
   /**/
 
-  _monthBackClicked ()
+  _monthBackClicked()
   {
     clearTimeout(this.hideDelay);
     if (this.date) this.date.add({ months: -1 });
@@ -33118,13 +33137,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this._buildCalendar();
   }
 
-  _monthClicked ()
+  _monthClicked()
   {
     clearTimeout(this.hideDelay);
     this.calendarNode.querySelector('.ui-cal-years').classList.remove('show');
     this.calendarNode.querySelector('.ui-cal-months').classList.add('show');
   }
-  _monthsClicked (ev)
+  _monthsClicked(ev)
   {
     clearTimeout(this.hideDelay);
     var node = ev.target.tagName.toLowerCase() === 'span' ? ev.target : false;
@@ -33139,12 +33158,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _yearClicked ()
+  _yearClicked()
   {
     clearTimeout(this.hideDelay);
     var y = this.date ? this.date.getFullYear() : new Date().getFullYear(),
-        node = this.calendarNode.querySelector('.ui-cal-years .y-' + y),
-        nodeRect;
+      node = this.calendarNode.querySelector('.ui-cal-years .y-' + y),
+      nodeRect;
     if (node)
     {
       node.parentNode.scrollTo(0, 0);
@@ -33154,7 +33173,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       node.parentNode.scrollTo(0, (nodeRect.y + (nodeRect.height / 2)) - (node.parentNode.offsetHeight / 2));
     }
   }
-  _yearsClicked (ev)
+  _yearsClicked(ev)
   {
     clearTimeout(this.hideDelay);
     var node = ev.target.tagName.toLowerCase() === 'span' ? ev.target : false;
@@ -33169,7 +33188,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _timeClicked ()
+  _timeClicked()
   {
     clearTimeout(this.hideDelay);
     if (!this.showTime) return;
@@ -33178,29 +33197,29 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  _reveal ()
+  _reveal()
   {
     this.calendarNode.classList.remove('hidden');
   }
-  _obscure ()
+  _obscure()
   {
     this.calendarNode.classList.add('hidden');
   }
 
-  _scrolled (ev)
+  _scrolled(ev)
   {
     this._stopEvents(ev);
     this._position(null, 'scroll');
   }
 
-  _position (delay, calledFrom)
+  _position(delay, calledFrom)
   {
     clearTimeout(this._positionDelay);
     delay = typeof delay === 'number' ? delay : 100;
     this._positionDelay = setTimeout(this._setPosition, delay, calledFrom);
   }
 
-  _setPosition (calledFrom)
+  _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
     if (
@@ -33210,9 +33229,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.calendarNode.classList.remove('above');
       var calendarRect = this.calendarNode.getBoundingClientRect(),
-          windwSize = Affinity2018.getWindowSize(),
-          scroll = document.body.scrollTop || 0,
-          calendarBottom = parseFloat(calendarRect.top) + parseFloat(calendarRect.height) + scroll;
+        windwSize = Affinity2018.getWindowSize(),
+        scroll = document.body.scrollTop || 0,
+        calendarBottom = parseFloat(calendarRect.top) + parseFloat(calendarRect.height) + scroll;
       if (calendarBottom > windwSize.height)
       {
         this.calendarNode.classList.add('above');
@@ -33226,7 +33245,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _stopEvents (ev)
+  _stopEvents(ev)
   {
     if (ev)
     {
@@ -33235,7 +33254,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _windowClicked (ev)
+  _windowClicked(ev)
   {
     if (document.activeElement !== this.displayNode)
     {
@@ -33245,7 +33264,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  Destroy ()
+  Destroy()
   {
     this._clearShowHideEvents();
     clearTimeout(this.watchTimer);
@@ -33269,7 +33288,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (Affinity2018.supportsPassiveEvents) document.removeEventListener('resize', this._position, { passive: true });
     if (!Affinity2018.supportsPassiveEvents) document.removeEventListener('scroll', this._scrolled, false);
     if (!Affinity2018.supportsPassiveEvents) document.removeEventListener('resize', this._position, false);
-		this.targetNode.classList.remove('ui-calendar');
+    this.targetNode.classList.remove('ui-calendar');
     this.targetNode.classList.remove('hidden');
     this.timeWidget.Destroy();
     this.displayNode.innerHTML = '';
@@ -33290,7 +33309,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
-  _templates ()
+  _templates()
   {
     this.calendarTemplate = `
     <div class="ui-cal-inner">
@@ -33329,7 +33348,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 Affinity2018.Classes.Plugins.TimeWidget = class
 {
 
-  _options ()
+  _options()
   {
     this.dialsize = 200;
 
@@ -33345,7 +33364,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
   }
 
   //constructor (targetNode, uuid, date, setCallback, hasCalendar, hideMethod)
-  constructor (options)
+  constructor(options)
   {
     this._options();
     [
@@ -33354,7 +33373,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
       'getTime', 'setTime',
       'showHours', 'showMins',
 
-      'hide', 'show', 
+      'hide', 'show',
 
       '_setDisplay', '_gotoHours', '_gotoMins',
       '_amClicked', '_pmClicked',
@@ -33384,9 +33403,9 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     this.date = this.data.date.clone();
     this.date.setSeconds(0);
     this.date.setMilliseconds(0);
-    this.callback = typeof this.data.setCallback === 'function' ? this.data.setCallback : function () {};
+    this.callback = typeof this.data.setCallback === 'function' ? this.data.setCallback : function () { };
     this.hasCalendar = typeof this.data.hasCalendar === 'boolean' ? this.data.hasCalendar : false;
-    this.parentHide = typeof this.data.hideMethod === 'function' ? this.data.hideMethod : function () {};
+    this.parentHide = typeof this.data.hideMethod === 'function' ? this.data.hideMethod : function () { };
 
     this.targetNode.innerHTML = this.timeTemplate;
 
@@ -33472,7 +33491,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
 
   }
 
-  _init ()
+  _init()
   {
     this._gotoHours();
 
@@ -33494,7 +33513,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     this.cancelNode.addEventListener('click', this._cancelClicked);
   }
 
-  getTime ()
+  getTime()
   {
     if (Affinity2018.isDate(this.date))
     {
@@ -33502,7 +33521,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  setTime (dateTime)
+  setTime(dateTime)
   {
     if (Affinity2018.isDate(dateTime))
     {
@@ -33512,7 +33531,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  showHours ()
+  showHours()
   {
     this._gotoHours();
   }
@@ -33522,29 +33541,22 @@ Affinity2018.Classes.Plugins.TimeWidget = class
   }
 
   /**/
-  
-  hide ()
+
+  hide()
   {
     this._hideEdit();
     this.targetNode.classList.remove('show');
     if (!this.hasCalendar) this.parentHide();
   }
 
-  show ()
+  show()
   {
     this.targetNode.classList.add('show');
   }
 
   /**/
 
-  _formatDate(date, format)
-  {
-    var test = luxon.DateTime.fromJSDate(date).toFormat(format);
-    console.log(date, format, test);
-    return test;
-  }
-
-  _setDisplay ()
+  _setDisplay()
   {
     this.hour = this.date.toString('h');
     this.minunte = this.date.toString('mm');
@@ -33577,7 +33589,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     this.editInputNode.value = this.date.toString('h:mm tt');
   }
 
-  _gotoHours ()
+  _gotoHours()
   {
     this.state = 'hours';
     this.minsFaceNode.classList.remove('show');
@@ -33585,7 +33597,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     this._setDisplay();
   }
 
-  _gotoMins ()
+  _gotoMins()
   {
     this.state = 'mins';
     this.hoursFaceNode.classList.remove('show');
@@ -33593,39 +33605,39 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     this._setDisplay();
   }
 
-  _amClicked ()
+  _amClicked()
   {
     var hour = parseInt(this.date.toString('H'));
     if (hour > 12) this.date.setHours(hour - 12);
     this._setDisplay();
   }
-  _pmClicked ()
+  _pmClicked()
   {
     var hour = parseInt(this.date.toString('H'));
     if (hour < 12) this.date.setHours(hour + 12);
     this._setDisplay();
   }
 
-  _hourClicked ()
+  _hourClicked()
   {
     // if (this.state === 'hours') this._showEdit();
     // else this._gotoHours();
     this._gotoHours();
   }
-  _minClicked ()
+  _minClicked()
   {
     // if (this.state === 'mins') this._showEdit();
     // else this._gotoMins();
     this._gotoMins();
   }
 
-  _showEdit ()
+  _showEdit()
   {
     this.editNode.classList.add('show');
     this.editInputNode.focus();
     this.editInputNode.select();
   }
-  _attemptEdit ()
+  _attemptEdit()
   {
     var attempt, parse, attemptStr = this.editInputNode.value;
     attemptStr = attemptStr.replace(/the/gi, '');
@@ -33642,7 +33654,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
       if (this.showCalendar && !this.showTime) this.hide();
     }
   }
-  _editKeyUp (ev)
+  _editKeyUp(ev)
   {
     switch (ev.keyCode)
     {
@@ -33656,12 +33668,12 @@ Affinity2018.Classes.Plugins.TimeWidget = class
         break;
     }
   }
-  _hideEdit ()
+  _hideEdit()
   {
     this.editNode.classList.remove('show');
   }
 
-  _dialLineTo (node, color)
+  _dialLineTo(node, color)
   {
     var dial, canvas, ctx, rect, start, end;
     if (node)
@@ -33676,7 +33688,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
         start = { x: rect.x + (rect.width / 2), y: rect.y + (rect.height / 2) };
         rect = Affinity2018.getOffsetRect(node);
         end = { x: parseInt(node.style.left) + (rect.width / 2), y: parseInt(node.style.top) + (rect.height / 2) };
-        if(!Affinity2018.ismobile)
+        if (!Affinity2018.ismobile)
         {
           ctx.beginPath();
           ctx.strokeStyle = color || '#5fd4f7';
@@ -33688,12 +33700,12 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  _dialLabelOver (ev)
+  _dialLabelOver(ev)
   {
     var node = ev.target.classList.contains('dial-label') ? ev.target : false;
     if (node) this._dialLineTo(node, '#5fd4f7');
   }
-  _dialLabelOut (ev)
+  _dialLabelOut(ev)
   {
     var node = ev.target.classList.contains('dial-label') ? ev.target : false
     if (node)
@@ -33703,7 +33715,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  _hoursFaceClicked (ev)
+  _hoursFaceClicked(ev)
   {
     var node = ev.target.classList.contains('dial-label') ? ev.target : false;
     if (node)
@@ -33714,7 +33726,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  _minsFaceClicked (ev)
+  _minsFaceClicked(ev)
   {
     var node = ev.target.classList.contains('dial-label') ? ev.target : false;
     if (node)
@@ -33724,7 +33736,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  _okClicked ()
+  _okClicked()
   {
     if (this.editNode.classList.contains('show'))
     {
@@ -33737,14 +33749,14 @@ Affinity2018.Classes.Plugins.TimeWidget = class
     }
   }
 
-  _cancelClicked ()
+  _cancelClicked()
   {
     this.hide();
   }
 
   /**/
 
-  Destroy ()
+  Destroy()
   {
     this.hoursDialNode.querySelectorAll('div').forEach(function (node)
     {
@@ -33756,7 +33768,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
       node.removeEventListener('mouseover', this._dialLabelOver);
       node.removeEventListener('mouseout', this._dialLabelOut);
     }.bind(this));
-		this.amNode.removeEventListener('click', this._amClicked);
+    this.amNode.removeEventListener('click', this._amClicked);
     this.pmNode.removeEventListener('click', this._pmClicked);
     this.currentHourNode.removeEventListener('click', this._hourClicked);
     this.currentMinNode.removeEventListener('click', this._minClicked);
@@ -33779,7 +33791,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
 
   /**/
 
-  _templates ()
+  _templates()
   {
     this.timeTemplate = `
     <div class="ui-cal-time-display">
