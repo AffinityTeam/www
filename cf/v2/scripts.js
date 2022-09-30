@@ -32424,16 +32424,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (attemptStr !== '')
     {
       this.originalDate = attemptStr;
-      //if (attemptStr.countString('/') === 2 || attemptStr.countString('\\') === 2 || attemptStr.countString('-') === 2 || attemptStr.countString('.') === 2)
-      //{
-      //  this.startDate = $a.getDate(attemptStr);
-      //  if (this.startDate === null) this.startDate = Date.parse(attemptStr);
-      //}
-      //else
-      //{
-      //  this.startDate = Date.parse(attemptStr).isValid() ? Date.parse(attemptStr) : false;
-      //}
-
       this.startDate = $a.getDate(attemptStr);
       if (this.startDate === null) this.startDate = Date.parse(attemptStr);
 
@@ -32576,19 +32566,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         this.startDate = $a.getDate(this.targetNode.value.trim(), this.outputFormat);
         this.date = $a.getDate(this.startDate.trim());
         this.showDefault = date.isValid();
-        /*
-        var attempt = this._setDateFromStr(this.targetNode.value.trim(), true);
-        if ($a.isDate(attempt) && attempt.isValid())
-        {
-          this.startDate = attempt.toString(this.outputFormat);
-          this.date = attempt;
-          this.showDefault = true;
-        }
-        else
-        {
-          this.showDefault = false;
-        }
-        */
       }
       else
       {
@@ -32606,14 +32583,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         this.startDate = $a.getDate(this.startDate.trim(), this.outputFormat);
         this.date = $a.getDate(this.startDate.trim());
-        /*
-        var attempt = this._setDateFromStr(this.startDate.trim(), true);
-        if ($a.isDate(attempt) && attempt.isValid())
-        {
-          this.startDate = attempt.toString(this.outputFormat);
-          this.date = attempt;
-        }
-        */
       }
     }
 
@@ -32629,14 +32598,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.date) this.__uiDate = this.date;
     else this.__uiDate = this.showTime ? $a.getDate(new Date()) : $a.getDate(new Date().clearTime());
 
-    console.group("RAKI!! -> ");
-    console.log('Original Date:');
-    console.log(this.originalDate);
-    console.log('Start Date:');
-    console.log(this.startDate);
-    console.log('Parsed Date:');
-    console.log(this.date);
-    console.groupEnd();
+    //console.group("RAKI!! -> ");
+    //console.log('Original Date:');
+    //console.log(this.originalDate);
+    //console.log('Start Date:');
+    //console.log(this.startDate);
+    //console.log('Parsed Date:');
+    //console.log(this.date);
+    //console.groupEnd();
 
     /**/
 
