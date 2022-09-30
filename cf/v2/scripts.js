@@ -20743,14 +20743,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       if (date !== null)
       {
         format = '';
-        //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dddd d LLL, yyyy'; // luxon format
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' - ';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss tt';
         //dateStr = Affinity2018.getDate(dateObj, format);
         dateStr = dateObj.toString(format);
         value = dateStr;
-        //value = date.toString(format);
       }
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -20854,8 +20852,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       if (inputWidget) inputWidget.setDate(value);
       else
       {
-        //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy';
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dddd d LLL, yyyy'; // luxon format
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' -';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' h:mm a';
         if (format.trim() !== '') inputNode.value = Affinity2018.getDate(value, format);
