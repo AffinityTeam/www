@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2791,32-37): run-time error JS1195: Expected expression: class
-(3328,32-37): run-time error JS1195: Expected expression: class
-(3341,20-21): run-time error JS1004: Expected ';': {
-(3412,27-28): run-time error JS1004: Expected ';': {
-(3416,29-30): run-time error JS1004: Expected ';': {
+(2792,32-37): run-time error JS1195: Expected expression: class
+(3329,32-37): run-time error JS1195: Expected expression: class
+(3342,20-21): run-time error JS1004: Expected ';': {
+(3413,27-28): run-time error JS1004: Expected ';': {
 (3417,29-30): run-time error JS1004: Expected ';': {
 (3418,29-30): run-time error JS1004: Expected ';': {
 (3419,29-30): run-time error JS1004: Expected ';': {
-(3420,13-14): run-time error JS1004: Expected ';': {
-(3439,15-16): run-time error JS1004: Expected ';': {
-(3457,12-13): run-time error JS1004: Expected ';': {
-(3462,12-13): run-time error JS1004: Expected ';': {
-(3465,17-18): run-time error JS1004: Expected ';': {
-(4055,36-41): run-time error JS1195: Expected expression: class
-(4168,30-35): run-time error JS1195: Expected expression: class
-(4273,31-36): run-time error JS1195: Expected expression: class
-(4512,35-40): run-time error JS1195: Expected expression: class
-(4640,33-38): run-time error JS1195: Expected expression: class
-(4851,39-40): run-time error JS1014: Invalid character: `
-(4851,40-41): run-time error JS1195: Expected expression: <
-(4851,100-101): run-time error JS1014: Invalid character: `
-(4870,43-44): run-time error JS1014: Invalid character: `
-(4870,44-45): run-time error JS1195: Expected expression: <
-(4870,108-109): run-time error JS1014: Invalid character: `
-(4938,33-38): run-time error JS1195: Expected expression: class
-(5236,32-37): run-time error JS1195: Expected expression: class
-(5602,33-38): run-time error JS1195: Expected expression: class
-(5680,37-42): run-time error JS1195: Expected expression: class
-(5681,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3420,29-30): run-time error JS1004: Expected ';': {
+(3421,13-14): run-time error JS1004: Expected ';': {
+(3440,15-16): run-time error JS1004: Expected ';': {
+(3458,12-13): run-time error JS1004: Expected ';': {
+(3463,12-13): run-time error JS1004: Expected ';': {
+(3466,17-18): run-time error JS1004: Expected ';': {
+(4056,36-41): run-time error JS1195: Expected expression: class
+(4169,30-35): run-time error JS1195: Expected expression: class
+(4274,31-36): run-time error JS1195: Expected expression: class
+(4513,35-40): run-time error JS1195: Expected expression: class
+(4641,33-38): run-time error JS1195: Expected expression: class
+(4852,39-40): run-time error JS1014: Invalid character: `
+(4852,40-41): run-time error JS1195: Expected expression: <
+(4852,100-101): run-time error JS1014: Invalid character: `
+(4871,43-44): run-time error JS1014: Invalid character: `
+(4871,44-45): run-time error JS1195: Expected expression: <
+(4871,108-109): run-time error JS1014: Invalid character: `
+(4939,33-38): run-time error JS1195: Expected expression: class
+(5237,32-37): run-time error JS1195: Expected expression: class
+(5603,33-38): run-time error JS1195: Expected expression: class
+(5681,37-42): run-time error JS1195: Expected expression: class
+(5682,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5682,5-16): run-time error JS1006: Expected ')': constructor
-(5751,3-4): run-time error JS1002: Syntax error: }
-(5751,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5695,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5683,5-16): run-time error JS1006: Expected ')': constructor
+(5752,3-4): run-time error JS1002: Syntax error: }
+(5752,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5696,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1747,17 +1747,19 @@
   //  );
   //  //console.info("%c:: DATE :: Method: " + methodName, '' + "Input: " + input + "Parsed: " + parsed + "Format: " + format + "Output:   ", 'color: ' + color + ';',  output);
   //};
-  Affinity2018.getDate = function (mixed, format)
+  Affinity2018.getDate = function (mixed, format, timeZone)
   {
-    var zone = 'utc'; // local
+    var zone = (timeZone || 'utc').trim().toLowerCase(); // local
     var date;
     format = Affinity2018.paramOrDefault(format, false, 'string');
+    if (format && format.trim() === '') fromat = false;
     if (Affinity2018.isDate(mixed))
     {
       date = mixed;
       if (format)
       {
         date = luxon.DateTime.fromJSDate(mixed).toUTC().toFormat(format);
+        try { date = luxon.DateTime.fromJSDate(mixed).local().setZone(zone); } catch (er) { }
       }
       //Affinity2018.DateLog('getDate', mixed, '', format, date);
       return date;
@@ -1771,12 +1773,10 @@
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
         timestamp = parseInt(dateStr);
         luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: zone });
-        //date = luxonDate.toLocal().toJSDate();
-        date = luxonDate.toUTC().toJSDate();
+        date = luxonDate.toJSDate();
         if (format)
         {
-          //date = luxonDate.toLocal().toFormat(format);
-          date = luxonDate.toUTC().toFormat(format);
+          date = luxonDate.toFormat(format);
         }
         //Affinity2018.DateLog('getDate', mixed, timestamp, format, date);
         return date
@@ -1790,11 +1790,11 @@
             mixed.countString('\\') === 2 ? 'dd\\MM\\yyyy' :
             mixed.countString('-') === 2 ? 'dd-MM-yyyy' :
             mixed.countString('.') === 2 ? 'dd.MM.yyyy' :
-            'dd/MM/yyyy';
-          if (mixed.countString(':') === 2) parserFormat += ' HH:mm';
-          if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss';
-          if (mixed.countString(':') === 3 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
-          if (mixed.countString(':') === 4) parserFormat += ' HH:mm:ss:S';
+                    'dd/MM/yyyy';
+          if (mixed.countString(':') === 1) parserFormat += ' HH:mm';
+          if (mixed.countString(':') === 2) parserFormat += ' HH:mm:ss';
+          if (mixed.countString(':') === 2 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
+          if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss:S';
           luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
         }
         else
@@ -1803,7 +1803,8 @@
         }
         if (luxonDate.isValid)
         {
-          date = luxonDate.toJSDate();
+          //date = luxonDate.toJSDate();
+          date = new Date(luxonDate.c.year, luxonDate.c.month - 1, luxonDate.c.day, luxonDate.c.hour, luxonDate.c.minute, luxonDate.c.second, luxonDate.c.millisecond);
           if (format)
           {
             date = luxonDate.toFormat(format);
@@ -1814,9 +1815,9 @@
       }
     }
     //
-    date = new Date();
-    //if (format) date = luxon.DateTime.local().toFormat(format);
-    if (format) date = luxon.DateTime.fromJSDate(new Date()).toUTC().toFormat(format);
+    date = luxon.DateTime.local().toUTC().toJSDate();
+    try { date = luxon.DateTime.local().setZone(zone).toJSDate(); } catch (er) { }
+    if (format) date = luxon.DateTime.fromJSDate(date).toFormat(format);
     return date;
   };
 
@@ -20702,6 +20703,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       //date = Date.today();
       //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
+
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value); 
 
     //var originalDate = date;
@@ -20714,9 +20716,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       if (date !== null)
       {
         format = '';
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
+        //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dddd d LLL, yyyy'; // luxon format
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' - ';
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss tt';
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss a';
         dateStr = Affinity2018.getDate(dateObj, format);
         value = dateStr;
         //value = date.toString(format);
@@ -20822,10 +20825,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       if (inputWidget) inputWidget.setDate(value);
       else
       {
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy';
+        //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy';
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dddd d LLL, yyyy'; // luxon format
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' -';
-        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' h:mm tt';
-        if (format.trim() !== '')  inputNode.value = value.toString(format);
+        if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' h:mm a';
+        if (format.trim() !== '') inputNode.value = Affinity2018.getDate(value, format);
         else inputNode.value = '';
       }
     }
@@ -32255,8 +32259,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.outputFormat = 'dd/MM/yyyy';
 
-    this.dateFormat = 'ddd dS MMM, yyyy';
-    this.timeFormat = 'h:mm tt';
+    //this.dateFormat = 'ddd dS MMM, yyyy';
+    this.dateFormat = 'ccc d MMM, yyyy'; // luxon format
+    this.timeFormat = 'h:mm a';
     this.displayFormat = this.dateFormat + ' ' + this.timeFormat;
 
     this.showCalendar = true;
@@ -32420,7 +32425,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hasStartDate = false;
     this.showStartDate = false;
 
-    var attemptStr = this.targetNode.dataset.hasOwnProperty('startDate') ? this.targetNode.dataset.startDate.trim() : '';
+    var attemptStr = this.targetNode.value.trim();
+    if (attemptStr === '') attemptStr = this.targetNode.dataset.hasOwnProperty('startDate') ? this.targetNode.dataset.startDate.trim() : '';
     if (attemptStr !== '')
     {
       this.originalDate = attemptStr;
@@ -32680,12 +32686,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   getValue ()
   {
-    return this.date.toString(this.displayFormat);
+    return this._formatDate(this.date, this.displayFormat);
   }
 
   getDisplayValue ()
   {
-    return this.date.toString(this.outputFormat);
+    return this._formatDate(this.date, this.outputFormat);
   }
 
   getDate ()
@@ -32835,9 +32841,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   /**/
 
+  _formatDate(date, format)
+  {
+    var test = luxon.DateTime.fromJSDate(date).toFormat(format);
+    console.log(date, format, test);
+    return test;
+  }
+
   _buildCalendar (date)
   {
-
     date = Affinity2018.isDate(date) ? date : Affinity2018.isDate(this.date) ? this.date : this.__uiDate;
     var currentMonth = this.calendarNode.querySelector('.ui-cal-cells').dataset.month,
         currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
@@ -32919,7 +32931,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _cellClicked (ev)
   {
-    if(this.datesNode.querySelector('.ui-cal-cell.selected')) this.datesNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
+    var selectedCells = this.datesNode.querySelectorAll('.ui-cal-cell.selected');
+    for (var s = 0; s < selectedCells.length; s++)
+    {
+      selectedCells[s].classList.remove('selected');
+    }
     var cellNode = ev.target.closest('.ui-cal-cell.active'), cellDate;
     if (cellNode)
     {
@@ -32960,7 +32976,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setDate ()
   {
     var dateStr = '';
-    if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.dateFormat);
+    if (this.date && Affinity2018.isDate(this.date)) dateStr = this._formatDate(this.date, this.dateFormat);
     this.dateDisplayNode.innerHTML = dateStr;
     this._setDisplay(false);
     this.IsValid();
@@ -32968,7 +32984,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setTime()
   {
     var timeStr = '';
-    if(this.date && Affinity2018.isDate(this.date)) timeStr = this.date.toString(this.timeFormat);
+    if(this.date && Affinity2018.isDate(this.date)) timeStr = this._formatDate(this.date, this.timeFormat);
     this.timeDisplayNode.innerHTML = timeStr;
     this._setDisplay(false);
     this.IsValid();
@@ -32979,9 +32995,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
     if(this.date && Affinity2018.isDate(this.date))
     {
-      if (this.showCalendar) dateStr += this.date.toString(this.dateFormat);
+      if (this.showCalendar) dateStr += this._formatDate(this.date, this.dateFormat);
       if (this.showCalendar && this.showTime) dateStr += ' ';
-      if (this.showTime) dateStr += this.date.toString(this.timeFormat);
+      if (this.showTime) dateStr += this._formatDate(this.date, this.timeFormat);
     }
     if (!this.Ready)
     {
@@ -33001,7 +33017,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     var dateStr = '', output = fromBlur && this.nullable ? false : true;
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
-    if(this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.outputFormat);
+    if(this.date && Affinity2018.isDate(this.date)) dateStr = this._formatDate(this.date, this.outputFormat);
     if (output) this.targetNode.value = dateStr;
     this.IsValid();
   }
@@ -33520,6 +33536,13 @@ Affinity2018.Classes.Plugins.TimeWidget = class
   }
 
   /**/
+
+  _formatDate(date, format)
+  {
+    var test = luxon.DateTime.fromJSDate(date).toFormat(format);
+    console.log(date, format, test);
+    return test;
+  }
 
   _setDisplay ()
   {
