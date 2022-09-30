@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2780,32-37): run-time error JS1195: Expected expression: class
-(3317,32-37): run-time error JS1195: Expected expression: class
-(3330,20-21): run-time error JS1004: Expected ';': {
-(3401,27-28): run-time error JS1004: Expected ';': {
-(3405,29-30): run-time error JS1004: Expected ';': {
-(3406,29-30): run-time error JS1004: Expected ';': {
-(3407,29-30): run-time error JS1004: Expected ';': {
-(3408,29-30): run-time error JS1004: Expected ';': {
-(3409,13-14): run-time error JS1004: Expected ';': {
-(3428,15-16): run-time error JS1004: Expected ';': {
-(3446,12-13): run-time error JS1004: Expected ';': {
-(3451,12-13): run-time error JS1004: Expected ';': {
-(3454,17-18): run-time error JS1004: Expected ';': {
-(4044,36-41): run-time error JS1195: Expected expression: class
-(4157,30-35): run-time error JS1195: Expected expression: class
-(4262,31-36): run-time error JS1195: Expected expression: class
-(4501,35-40): run-time error JS1195: Expected expression: class
-(4629,33-38): run-time error JS1195: Expected expression: class
-(4840,39-40): run-time error JS1014: Invalid character: `
-(4840,40-41): run-time error JS1195: Expected expression: <
-(4840,100-101): run-time error JS1014: Invalid character: `
-(4859,43-44): run-time error JS1014: Invalid character: `
-(4859,44-45): run-time error JS1195: Expected expression: <
-(4859,108-109): run-time error JS1014: Invalid character: `
-(4927,33-38): run-time error JS1195: Expected expression: class
-(5225,32-37): run-time error JS1195: Expected expression: class
-(5591,33-38): run-time error JS1195: Expected expression: class
-(5669,37-42): run-time error JS1195: Expected expression: class
-(5670,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2787,32-37): run-time error JS1195: Expected expression: class
+(3324,32-37): run-time error JS1195: Expected expression: class
+(3337,20-21): run-time error JS1004: Expected ';': {
+(3408,27-28): run-time error JS1004: Expected ';': {
+(3412,29-30): run-time error JS1004: Expected ';': {
+(3413,29-30): run-time error JS1004: Expected ';': {
+(3414,29-30): run-time error JS1004: Expected ';': {
+(3415,29-30): run-time error JS1004: Expected ';': {
+(3416,13-14): run-time error JS1004: Expected ';': {
+(3435,15-16): run-time error JS1004: Expected ';': {
+(3453,12-13): run-time error JS1004: Expected ';': {
+(3458,12-13): run-time error JS1004: Expected ';': {
+(3461,17-18): run-time error JS1004: Expected ';': {
+(4051,36-41): run-time error JS1195: Expected expression: class
+(4164,30-35): run-time error JS1195: Expected expression: class
+(4269,31-36): run-time error JS1195: Expected expression: class
+(4508,35-40): run-time error JS1195: Expected expression: class
+(4636,33-38): run-time error JS1195: Expected expression: class
+(4847,39-40): run-time error JS1014: Invalid character: `
+(4847,40-41): run-time error JS1195: Expected expression: <
+(4847,100-101): run-time error JS1014: Invalid character: `
+(4866,43-44): run-time error JS1014: Invalid character: `
+(4866,44-45): run-time error JS1195: Expected expression: <
+(4866,108-109): run-time error JS1014: Invalid character: `
+(4934,33-38): run-time error JS1195: Expected expression: class
+(5232,32-37): run-time error JS1195: Expected expression: class
+(5598,33-38): run-time error JS1195: Expected expression: class
+(5676,37-42): run-time error JS1195: Expected expression: class
+(5677,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5671,5-16): run-time error JS1006: Expected ')': constructor
-(5740,3-4): run-time error JS1002: Syntax error: }
-(5740,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5684,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5678,5-16): run-time error JS1006: Expected ')': constructor
+(5747,3-4): run-time error JS1002: Syntax error: }
+(5747,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5691,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1782,10 +1782,17 @@
       {
         if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
         {
-          if (mixed.countString('/') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd/MM/yyyy HH:mm:ss', { zone: 'local' });
-          if (mixed.countString('\\') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd\\MM\\yyyy HH:mm:ss', { zone: 'local' });
-          if (mixed.countString('-') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd-MM-yyyy HH:mm:ss', { zone: 'local' });
-          if (mixed.countString('.') === 2) luxonDate = luxon.DateTime.fromFormat(mixed, 'dd.MM.yyyy HH:mm:ss', { zone: 'local' });
+          var parserFormat =
+            mixed.countString('/') === 2 ? 'dd/MM/yyyy' :
+            mixed.countString('\\') === 2 ? 'dd\\MM\\yyyy' :
+            mixed.countString('-') === 2 ? 'dd-MM-yyyy' :
+            mixed.countString('.') === 2 ? 'dd.MM.yyyy' :
+            'dd/MM/yyyy';
+          if (mixed.countString(':') === 2) parserFormat += ' HH:mm';
+          if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss';
+          if (mixed.countString(':') === 3 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
+          if (mixed.countString(':') === 4) parserFormat += ' HH:mm:ss:S';
+          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: 'local' });
         }
         else
         {
@@ -32574,7 +32581,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         this.showDefault = false;
       }
     }
-    else if (this.startDate && today.contains(this.startDate.toLowerCase))
+    else if (this.startDate && $a.isString(this.startDate) &&  today.contains(this.startDate.toLowerCase()))
     {
       this.date = new Date();
       this.startDate = $a.getDate(this.date, this.outputFormat);
