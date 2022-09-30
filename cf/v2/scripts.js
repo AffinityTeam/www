@@ -20698,12 +20698,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       || ($a.isPropBool(this.Config.Details, 'SetDefaultValue') && this.Config.Details.SetDefaultValue === true)
     )
     {
-      date = Date.today();
+      date = new Date().clearTime();
+      //date = Date.today();
       //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
-    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.stringToDate(this.Config.Details.Value); 
+    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value); 
 
-    var originalDate = date;
+    //var originalDate = date;
     var dateObj = Affinity2018.getDate(date);
     var dateStr = Affinity2018.getDate(dateObj, format);
     var value = '';
@@ -20716,11 +20717,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' - ';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss tt';
-
         dateStr = Affinity2018.getDate(dateObj, format);
-
-        value = date.toString(format);
-
+        value = dateStr;
+        //value = date.toString(format);
       }
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -20731,29 +20730,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     {
       format = '';
       if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'dd/MM/yyyy';
-      //if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'yyyy-MM-dd';
       if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' HH:mm:ss';
-
       if (format.trim() !== '') dataset += ' data-calendar-return-format="' + format + '"';
 
       if (date !== null)
       {
         dateStr = Affinity2018.getDate(dateObj, format);
-        value = date.toString(format);
+        value = dateStr
         dataset += ' data-start-date="' + value + '"';
         date = value;
       }
 
       dataset += ' data-calendar-nullable="true"';
 
-      html = this.HtmlRowTemplate.format(
-        {
-          label: this.Config.Details.Label,
-          type: this.Config.Details.DateTimeType,
-          date: date,
-          dataset: dataset.trim()
-        }
-      );
+      html = this.HtmlRowTemplate.format({
+        label: this.Config.Details.Label,
+        type: this.Config.Details.DateTimeType,
+        date: date,
+        dataset: dataset.trim()
+      });
 
     }
 
@@ -32419,6 +32414,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     /**/
 
+    this.originalDate = 'none';
+
     this.startDate = 'none';
     this.hasStartDate = false;
     this.showStartDate = false;
@@ -32426,6 +32423,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     var attemptStr = this.targetNode.dataset.hasOwnProperty('startDate') ? this.targetNode.dataset.startDate.trim() : '';
     if (attemptStr !== '')
     {
+      this.originalDate = attemptStr;
       //if (attemptStr.countString('/') === 2 || attemptStr.countString('\\') === 2 || attemptStr.countString('-') === 2 || attemptStr.countString('.') === 2)
       //{
       //  this.startDate = $a.getDate(attemptStr);
@@ -32566,16 +32564,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _init ()
   {
-
     var today = ['now', 'today'];
 
     this.showDefault = this.startDate === 'none' ? false : true;
 
     if (this.startDate === 'none')
     {
-
       if (this.target && 'value' in this.targetNode && this.targetNode.value.trim() !== '')
       {
+        this.originalDate = this.targetNode.value.trim();
         this.startDate = $a.getDate(this.targetNode.value.trim(), this.outputFormat);
         this.date = $a.getDate(this.startDate.trim());
         this.showDefault = date.isValid();
@@ -32598,9 +32595,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         this.showDefault = false;
       }
     }
-    else if (this.startDate && $a.isString(this.startDate) &&  today.contains(this.startDate.toLowerCase()))
+    else if (this.startDate && $a.isString(this.startDate) && today.contains(this.startDate.toLowerCase()))
     {
-      this.date = new Date();
+      this.date = new Date().clearTime();
       this.startDate = $a.getDate(this.date, this.outputFormat);
     }
     else
@@ -32623,16 +32620,23 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (!$a.isDateValid(this.date))
     {
       if ($a.isDateValid(this.startDate)) this.date = this.startDate;
-      else this.date = new Date();
+      else this.date = this.showTime ? $a.getDate(new Date()) : $a.getDate(new Date().clearTime());
     }
-
-    if (this.showCalendar && !this.showTime) this.date = this.date.clearTime();
 
     this.watchOutput = this.targetNode.classList.contains('uidate-watch') ? true : this.watchOutput;
     if (this.watchOutput) this.watchTimer = setInterval(this.watchOutputChanges, 500);
 
     if (this.date) this.__uiDate = this.date;
-    else this.__uiDate = new Date();
+    else this.__uiDate = this.showTime ? $a.getDate(new Date()) : $a.getDate(new Date().clearTime());
+
+    console.group("RAKI!! -> ");
+    console.log('Original Date:');
+    console.log(this.originalDate);
+    console.log('Start Date:');
+    console.log(this.startDate);
+    console.log('Parsed Date:');
+    console.log(this.date);
+    console.groupEnd();
 
     /**/
 
@@ -32720,7 +32724,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     var date = this.getDateObject();
     if (date)
     {
-      return date.toString(this.outputFormat);
+      //return date.toString(this.outputFormat);
+      return $a.getDate(date, this.outputFormat);
     }
     return false;
   }
