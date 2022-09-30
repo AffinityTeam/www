@@ -18832,6 +18832,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.Config.Details.AffinityField.FieldPrecision = 5;
       }
     }
+    if (this.Config.Details.AffinityField.FieldName.indexOf('STD_HOURS_') === 0)
+    {
+      displayType = 'Float';
+      this.Config.Details.AffinityField.FieldDecimal = 2;
+      this.Config.Details.AffinityField.FieldPrecision = 2;
+    }
 
     /////////////////////////////////////////////////////////
 
@@ -20414,7 +20420,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
       fieldDecimal = this.Config.Details.AffinityField.FieldDecimal ? this.Config.Details.AffinityField.FieldDecimal : fieldDecimal;
-      fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
+      //fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
+      fieldPrecision = fieldDecimal;
     }
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
@@ -23780,7 +23787,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
       fieldDecimal = this.Config.Details.AffinityField.FieldDecimal ? this.Config.Details.AffinityField.FieldDecimal : fieldDecimal;
-      fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
+      //fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
+      fieldPrecision = fieldDecimal;
     }
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
@@ -32605,6 +32613,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       else this.date = new Date();
     }
 
+    if (this.showCalendar && !this.showTime) this.date = this.date.clearTime();
+
     this.watchOutput = this.targetNode.classList.contains('uidate-watch') ? true : this.watchOutput;
     if (this.watchOutput) this.watchTimer = setInterval(this.watchOutputChanges, 500);
 
@@ -37297,14 +37307,18 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       this.Valid = false;
     }
 
-    if (['float', 'decimal', 'currency'].contains(this.type) && this.decimals > 0)
+    // do padding on blur ONLY
+    if (!ev || (ev && ev.type.toLowerCase() !== 'keyup'))
     {
-      if (!this.InputNode.value.contains('.')) this.InputNode.value = this.InputNode.value.trim() + '.';
-      let decimalStr = this.InputNode.value.trim().split('.')[1].trim();
-      if (decimalStr.length < this.decimals)
+      if (['float', 'decimal', 'currency'].contains(this.type) && this.decimals > 0)
       {
-        var paddedInput = Affinity2018.padRight(this.InputNode.value.trim(), '0', this.decimals + (this.InputNode.value.trim().length - decimalStr.length));
-        this.InputNode.value = paddedInput;
+        if (!this.InputNode.value.contains('.')) this.InputNode.value = this.InputNode.value.trim() + '.';
+        let decimalStr = this.InputNode.value.trim().split('.')[1].trim();
+        if (decimalStr.length < this.decimals)
+        {
+          var paddedInput = Affinity2018.padRight(this.InputNode.value.trim(), '0', this.decimals + (this.InputNode.value.trim().length - decimalStr.length));
+          this.InputNode.value = paddedInput;
+        }
       }
     }
 
