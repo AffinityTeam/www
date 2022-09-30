@@ -1,38 +1,38 @@
 /* Minification failed. Returning unminified contents.
-(2787,32-37): run-time error JS1195: Expected expression: class
-(3324,32-37): run-time error JS1195: Expected expression: class
-(3337,20-21): run-time error JS1004: Expected ';': {
-(3408,27-28): run-time error JS1004: Expected ';': {
-(3412,29-30): run-time error JS1004: Expected ';': {
-(3413,29-30): run-time error JS1004: Expected ';': {
-(3414,29-30): run-time error JS1004: Expected ';': {
-(3415,29-30): run-time error JS1004: Expected ';': {
-(3416,13-14): run-time error JS1004: Expected ';': {
-(3435,15-16): run-time error JS1004: Expected ';': {
-(3453,12-13): run-time error JS1004: Expected ';': {
-(3458,12-13): run-time error JS1004: Expected ';': {
-(3461,17-18): run-time error JS1004: Expected ';': {
-(4051,36-41): run-time error JS1195: Expected expression: class
-(4164,30-35): run-time error JS1195: Expected expression: class
-(4269,31-36): run-time error JS1195: Expected expression: class
-(4508,35-40): run-time error JS1195: Expected expression: class
-(4636,33-38): run-time error JS1195: Expected expression: class
-(4847,39-40): run-time error JS1014: Invalid character: `
-(4847,40-41): run-time error JS1195: Expected expression: <
-(4847,100-101): run-time error JS1014: Invalid character: `
-(4866,43-44): run-time error JS1014: Invalid character: `
-(4866,44-45): run-time error JS1195: Expected expression: <
-(4866,108-109): run-time error JS1014: Invalid character: `
-(4934,33-38): run-time error JS1195: Expected expression: class
-(5232,32-37): run-time error JS1195: Expected expression: class
-(5598,33-38): run-time error JS1195: Expected expression: class
-(5676,37-42): run-time error JS1195: Expected expression: class
-(5677,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2791,32-37): run-time error JS1195: Expected expression: class
+(3328,32-37): run-time error JS1195: Expected expression: class
+(3341,20-21): run-time error JS1004: Expected ';': {
+(3412,27-28): run-time error JS1004: Expected ';': {
+(3416,29-30): run-time error JS1004: Expected ';': {
+(3417,29-30): run-time error JS1004: Expected ';': {
+(3418,29-30): run-time error JS1004: Expected ';': {
+(3419,29-30): run-time error JS1004: Expected ';': {
+(3420,13-14): run-time error JS1004: Expected ';': {
+(3439,15-16): run-time error JS1004: Expected ';': {
+(3457,12-13): run-time error JS1004: Expected ';': {
+(3462,12-13): run-time error JS1004: Expected ';': {
+(3465,17-18): run-time error JS1004: Expected ';': {
+(4055,36-41): run-time error JS1195: Expected expression: class
+(4168,30-35): run-time error JS1195: Expected expression: class
+(4273,31-36): run-time error JS1195: Expected expression: class
+(4512,35-40): run-time error JS1195: Expected expression: class
+(4640,33-38): run-time error JS1195: Expected expression: class
+(4851,39-40): run-time error JS1014: Invalid character: `
+(4851,40-41): run-time error JS1195: Expected expression: <
+(4851,100-101): run-time error JS1014: Invalid character: `
+(4870,43-44): run-time error JS1014: Invalid character: `
+(4870,44-45): run-time error JS1195: Expected expression: <
+(4870,108-109): run-time error JS1014: Invalid character: `
+(4938,33-38): run-time error JS1195: Expected expression: class
+(5236,32-37): run-time error JS1195: Expected expression: class
+(5602,33-38): run-time error JS1195: Expected expression: class
+(5680,37-42): run-time error JS1195: Expected expression: class
+(5681,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-12): run-time error JS1301: End of file encountered before function is properly closed: function()
-(5678,5-16): run-time error JS1006: Expected ')': constructor
-(5747,3-4): run-time error JS1002: Syntax error: }
-(5747,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5691,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5682,5-16): run-time error JS1006: Expected ')': constructor
+(5751,3-4): run-time error JS1002: Syntax error: }
+(5751,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5695,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function()
 {
@@ -1749,6 +1749,7 @@
   //};
   Affinity2018.getDate = function (mixed, format)
   {
+    var zone = 'utc'; // local
     var date;
     format = Affinity2018.paramOrDefault(format, false, 'string');
     if (Affinity2018.isDate(mixed))
@@ -1756,7 +1757,7 @@
       date = mixed;
       if (format)
       {
-        date = luxon.DateTime.fromJSDate(mixed).toFormat(format);
+        date = luxon.DateTime.fromJSDate(mixed).toUTC().toFormat(format);
       }
       //Affinity2018.DateLog('getDate', mixed, '', format, date);
       return date;
@@ -1769,11 +1770,13 @@
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
         timestamp = parseInt(dateStr);
-        luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: 'utc' });
-        date = luxonDate.toLocal().toJSDate();
+        luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: zone });
+        //date = luxonDate.toLocal().toJSDate();
+        date = luxonDate.toUTC().toJSDate();
         if (format)
         {
-          date = luxonDate.toLocal().toFormat(format);
+          //date = luxonDate.toLocal().toFormat(format);
+          date = luxonDate.toUTC().toFormat(format);
         }
         //Affinity2018.DateLog('getDate', mixed, timestamp, format, date);
         return date
@@ -1792,11 +1795,11 @@
           if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss';
           if (mixed.countString(':') === 3 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
           if (mixed.countString(':') === 4) parserFormat += ' HH:mm:ss:S';
-          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: 'local' });
+          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
         }
         else
         {
-          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: 'local' });
+          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: zone });
         }
         if (luxonDate.isValid)
         {
@@ -1812,7 +1815,8 @@
     }
     //
     date = new Date();
-    if (format) date = luxon.DateTime.local().toFormat(format);
+    //if (format) date = luxon.DateTime.local().toFormat(format);
+    if (format) date = luxon.DateTime.fromJSDate(new Date()).toUTC().toFormat(format);
     return date;
   };
 
@@ -32572,6 +32576,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       if (this.target && 'value' in this.targetNode && this.targetNode.value.trim() !== '')
       {
+        this.startDate = $a.getDate(this.targetNode.value.trim(), this.outputFormat);
+        this.date = $a.getDate(this.startDate.trim());
+        this.showDefault = date.isValid();
+        /*
         var attempt = this._setDateFromStr(this.targetNode.value.trim(), true);
         if ($a.isDate(attempt) && attempt.isValid())
         {
@@ -32583,6 +32591,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         {
           this.showDefault = false;
         }
+        */
       }
       else
       {
@@ -32598,12 +32607,16 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       if ($a.isString(this.startDate))
       {
+        this.startDate = $a.getDate(this.startDate.trim(), this.outputFormat);
+        this.date = $a.getDate(this.startDate.trim());
+        /*
         var attempt = this._setDateFromStr(this.startDate.trim(), true);
         if ($a.isDate(attempt) && attempt.isValid())
         {
           this.startDate = attempt.toString(this.outputFormat);
           this.date = attempt;
         }
+        */
       }
     }
 
