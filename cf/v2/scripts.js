@@ -15049,8 +15049,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         //this._processTemplate();
         window.addEventListener('GotEmployeeData', this._processTemplate);
-        // TODO: get emp from template
-        this.CleverForms.GetEmployeeData('');
+        var emp = '';
+        for (var s = 0; s < this.FormData.length; s++)
+        {
+          for (var e = 0; e < this.FormData[s].Elements.length; e++)
+          {
+            var element = this.FormData[s].Elements[e];
+            if (element.Details.hasOwnProperty('AffinityField') && element.Details.AffinityField.FieldName === 'EMPLOYEE_NO')
+            {
+              emp = element.Value;
+              break;
+            }
+          }
+        }
+        window.addEventListener('GotEmployeeData', this._processTemplate);
+        this.CleverForms.GetEmployeeData(emp);
       }
     }.bind(this);
     window.addEventListener('FormGotTemplate', gotTemplateTempMethod);
@@ -15204,6 +15217,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       window.removeEventListener('FormGotTemplate', gotTemplateTempMethod);
       if (this.FormData)
       {
+        //this._processInstance();
         var emp = '';
         for (var s = 0; s < this.FormData.length; s++)
         {
@@ -15217,8 +15231,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
-        window.addEventListener('GotEmployeeData', this._processTemplate);
-        // TODO: get emp from template
+        window.addEventListener('GotEmployeeData', this._processInstance);
         this.CleverForms.GetEmployeeData(emp);
       }
     }.bind(this);
@@ -20187,7 +20200,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       country = this.CountryCodeMap[country.toUpperCase()];
     }
     var html = '';
-    if (this.IsReadOnly)
+    if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -25829,21 +25842,35 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             if (item !== null && item.Value === this.Config.Details.Value)
             {
               if (this.Config.Details.ItemSource.ItemSourceType === 'Custom') html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key);
-              else html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key.replace(' - ', ', ')); 
+              else html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key.replace(' - ', ', '));
               break;
             }
           }
         }
-        if (html === null) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
+        if (html === null) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
       }
       else
       {
         html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
       }
     }
-    else html = this.HtmlRowTemplate.format(this.Config.Details.Label);
+    else
+    {
+      if (this.CleverForms.ViewType === 'ViewOnly')
+      {
+        html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label);
+      }
+      else
+      {
+        html = this.HtmlRowTemplate.format(
+          this.Config.Details.Label,
+          this.Config.Details.hasOwnProperty('Value') ? this.Config.Details : ''
+        );
+      }
+    }
 
     this.FormRowNode = super.SetFormRow(target, html);
+
     if (this.FormRowNode && !this.IsReadOnly)
     {
 
@@ -25914,7 +25941,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             }
           }
         }
-        this.FormRowNode.querySelector('input').value = selected;
+        else if (this.Config.Details.hasOwnProperty('Value'))
+        {
+          selected = this.Config.Details.Value
+        }
+        if (this.FormRowNode.querySelector('input')) this.FormRowNode.querySelector('input').value = selected;
       }
       else
       {
@@ -26695,7 +26726,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       country = this.CountryCodeMap[country.toUpperCase()];
     }
     var html = '';
-    if (this.IsReadOnly)
+    if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -26709,7 +26740,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
-      if (!this.IsReadOnly)
+      if (!this.IsReadOnly && !this.CleverForms.ViewType === 'ViewOnly')
       {
         if (this.FormRowNode.querySelector('input.ui-has-taxnumber')) this.FormRowNode.querySelector('input.ui-has-taxnumber').addEventListener('widgetReady', this._setupEvents);
         else if (this.FormRowNode.querySelector('input.ui-taxnumber')) this.FormRowNode.querySelector('input.ui-taxnumber').addEventListener('widgetReady', this._setupEvents);
