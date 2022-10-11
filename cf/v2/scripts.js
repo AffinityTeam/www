@@ -8881,9 +8881,13 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
     )
     {
-      Affinity2018.UserProfile = {};
-      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString().trim();
-      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString().trim();
+      Affinity2018.UserProfile = {
+        CompanyNumber: (response.data.CompanyNumber + '').trim(),
+        EmployeeNumber: (response.data.EmployeeNumber + '').trim(),
+        UserGuid: 'e0000000-0000-0000-0000-000000000000',
+        PayPoint: response.data.EmployeePayPoint,
+        Country: response.data.EmployeeCountry
+      };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       //Affinity2018.UserProfile.FormInstaceId = response.data.FormInstaceId;
       //Affinity2018.UserProfile.FormEmployeeNumber = response.data.FormEmployeeNumber;
@@ -8924,6 +8928,24 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
 
     /** Get form user data **/
+
+    if (
+      employeeNo === null
+      || (employeeNo + '').trim().toLowerCase() === 'null'
+      || (employeeNo + '').trim() === ''
+      // No emp slected - starting a new form, so use logged in user
+    )
+    {
+      Affinity2018.FormProfile = {
+        CompanyNumber: Affinity2018.UserProfile.CompanyNumber,
+        EmployeeNumber: Affinity2018.UserProfile.EmployeeNumber,
+        UserGuid: Affinity2018.UserProfile.UserGuid,
+        PayPoint: Affinity2018.UserProfile.PayPoint,
+        Country: Affinity2018.UserProfile.Country
+      };
+      window.dispatchEvent(new CustomEvent('GotEmployeeData'));
+      return;
+    }
 
     var api = null;
 
@@ -8993,12 +9015,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
     )
     {
-      Affinity2018.FormProfile = {};
-      Affinity2018.FormProfile.CompanyNumber = response.data.CompanyNumber.toString().trim();
-      Affinity2018.FormProfile.EmployeeNumber = response.data.EmployeeNumber.toString().trim();
+      Affinity2018.FormProfile = {
+        CompanyNumber: response.data.CompanyNumber.toString().trim(),
+        EmployeeNumber: response.data.EmployeeNumber.toString().trim(),
+        UserGuid: 'e0000000-0000-0000-0000-000000000000',
+        PayPoint: response.data.EmployeePayPoint,
+        Country: response.data.EmployeeCountry
+      };
       Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
-      Affinity2018.FormProfile.PayPoint = response.data.PayPoint;
-      Affinity2018.FormProfile.Country = response.data.Country;
       if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
     }
