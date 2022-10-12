@@ -8889,11 +8889,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Country: response.data.EmployeeCountry
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
-      //Affinity2018.UserProfile.FormInstaceId = response.data.FormInstaceId;
-      //Affinity2018.UserProfile.FormEmployeeNumber = response.data.FormEmployeeNumber;
-      //Affinity2018.UserProfile.FormPayPoint = response.data.FormPayPoint;
-      //Affinity2018.UserProfile.FormEmployeeCountry = response.data.FormEmployeeCountry;
-      //Affinity2018.UserProfile.FormCompanyNumber = response.data.FormCompanyNumber;
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
       window.dispatchEvent(new Event('GotUserData'));
       window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
@@ -8930,10 +8925,13 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     /** Get form user data **/
 
     if (
+      // No emp slected - starting a new form, so use logged in user
       employeeNo === null
       || (employeeNo + '').trim().toLowerCase() === 'null'
       || (employeeNo + '').trim() === ''
-      // No emp slected - starting a new form, so use logged in user
+      // employee is "crfeate new employee"
+      || employeeNo === 0
+      || employeeNo ==='0'
     )
     {
       Affinity2018.FormProfile = {
