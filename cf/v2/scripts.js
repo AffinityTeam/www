@@ -8936,10 +8936,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     {
       Affinity2018.FormProfile = {
         CompanyNumber: Affinity2018.UserProfile.CompanyNumber,
-        EmployeeNumber: Affinity2018.UserProfile.EmployeeNumber,
-        UserGuid: Affinity2018.UserProfile.UserGuid,
-        PayPoint: Affinity2018.UserProfile.PayPoint,
-        Country: Affinity2018.UserProfile.Country
+        EmployeeNumber: '', //Affinity2018.UserProfile.EmployeeNumber,
+        UserGuid: 'e0000000-0000-0000-0000-000000000000', //Affinity2018.UserProfile.UserGuid,
+        PayPoint: '', //Affinity2018.UserProfile.PayPoint,
+        Country: '' //Affinity2018.UserProfile.Country
       };
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
       return;
