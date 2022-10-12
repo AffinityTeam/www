@@ -8925,13 +8925,13 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     /** Get form user data **/
 
     if (
-      // No emp slected - starting a new form, so use logged in user
+      // No emp selected - starting a new form, so use logged in user
       employeeNo === null
       || (employeeNo + '').trim().toLowerCase() === 'null'
       || (employeeNo + '').trim() === ''
-      // employee is "crfeate new employee"
+      // Employee is 0, or "create new employee"
       || employeeNo === 0
-      || employeeNo ==='0'
+      || employeeNo === '0'
     )
     {
       Affinity2018.FormProfile = {
