@@ -7742,17 +7742,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @type {String}
     * @public
     */
-    this.GetUserDataApi = Affinity2018.Path + 'Api/GetLoginData'; 
-
-
-
-
-    /**
-    * Description.    The API end point for getting form employee user data.
-    * @type {String}
-    * @public
-    */
-    this.GetFormUserDataApi = Affinity2018.Path + 'Api/GetFormEmployeeData';
+    this.GetUserDataApi = Affinity2018.Path + 'Api/GetLoginData';
 
 
 
@@ -7813,11 +7803,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     [
       '_init',
       '_getUserData', '_gotUserData', '_getUserDataError',
-      '_getEmployeeData', '_gotEmployeeData', '_gotEmployeeDataError',
       '_loadHtmlTemplates', '_templatesLoaded', '_loadHtmlTemplatesError',
 
-      'GetEmployeeData',
-      'GetFormEmployeeNo',
       'IsGlobalKey', 'IsPseudoGlobalKey', 'IsKey', 'IsReadOnly', 'IskeyWithNoRequiredKeys', 'IsMasterFile', 'IsLookup', 'SelectDefaultModeOnFieldSearch',
 
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_G_G_G_GET_DATA_UNTIL_GET_DATA_MATCHES_NEW_STRUCTURE',
@@ -7869,7 +7856,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     Affinity2018.ApiEndpoints.BankValidationApi = this.BankValidationApi;
     Affinity2018.ApiEndpoints.TaxValidationApi = this.TaxValidationApi;
     Affinity2018.ApiEndpoints.GetUserDataApi = this.GetUserDataApi;
-    Affinity2018.ApiEndpoints.GetFormUserDataApi = this.GetFormUserDataApi;
 
     /** If Affnity2018 UI is ready, initialise, else initialise when Affnity2018 fires the "MainInit" event. */
     if (Affinity2018.UiReady) this._init();
@@ -7990,17 +7976,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   /***                                                                                                                  ******************************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
-
-
-  /**
-   * Summary. ?
-   * @this    Class scope
-   * @access  private
-   */
-  GetEmployeeData(employeeNo)
-  {
-    this._getEmployeeData(employeeNo);
-  }
 
 
 
@@ -8207,23 +8182,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   /***                                                                                                                                            ****/
   /***************************************************************************************************************************************************/
   /************************************************************************************************************** Source63 *** Affinty Field Logic ***/
-
-
-
-  /**
-   * Summary. Get the employee number that is on the current form (not the logged in user)
-   * @this    Class scope
-   * @access  private
-   */
-  GetFormEmployeeNo()
-  {
-    // TODO: Probably should extend this to non-form views, just incase we ever need it ..
-    if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form'))
-    {
-      return Affinity2018.Apps.CleverForms.Form.GetFormEmployeeNo();
-    }
-    return null;
-  }
 
 
 
@@ -8819,7 +8777,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && Affinity2018.ApiEndpoints.GetUserDataApi.trim() !== ''
     )
     {
-      api = (Affinity2018.ApiEndpoints.GetUserDataApi + '?InstanceId={id}').format({ id: this.GetInstanceGuid() });
+      api = Affinity2018.ApiEndpoints.GetUserDataApi + '';
     }
     else
     {
@@ -8828,35 +8786,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
 
     // Using events here to break out of promise scope for debugging
-
-    if ('sessionStorage' in window)
-    {
-      if (sessionStorage.getItem('UserProfile'))
-      {
-        var profileStr = sessionStorage.getItem('UserProfile') || '{}';
-        try
-        {
-          var profile = JSON.parse(profileStr);
-          //if (
-          //  profile.EmployeeNo === Affinity2018.UserProfile.FormEmployeeNumber
-          //  || profile.FormInstaceId === this.GetInstanceGuid()
-          //)
-          if (profile.hasOwnProperty('CompanyNumber') && profile.hasOwnProperty('EmployeeNo'))
-          {
-            Affinity2018.UserProfile = profile;
-            window.dispatchEvent(new Event('GotUserData'));
-            window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
-            this.OnInit();
-            return;
-          }
-        }
-        catch (joErr)
-        {
-          console.warn('Could not load existing user from session: ', joErr);
-        }
-      }
-    }
-
     window.addEventListener('GotUser', this._gotUserData);
     axios({
       method: 'GET',
@@ -8876,20 +8805,16 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     window.removeEventListener('GotUser', this._gotUserData);
     if ('detail' in response) response = response.detail;
+
     if (
       Affinity2018.isPropObject(response, 'data')
       && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
     )
     {
-      Affinity2018.UserProfile = {
-        CompanyNumber: (response.data.CompanyNumber + '').trim(),
-        EmployeeNumber: (response.data.EmployeeNumber + '').trim(),
-        UserGuid: 'e0000000-0000-0000-0000-000000000000',
-        PayPoint: response.data.EmployeePayPoint,
-        Country: response.data.EmployeeCountry
-      };
+      Affinity2018.UserProfile = {};
+      Affinity2018.UserProfile.CompanyNumber = response.data.CompanyNumber.toString().trim();
+      Affinity2018.UserProfile.EmployeeNumber = response.data.EmployeeNumber.toString().trim();
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
-      if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
       window.dispatchEvent(new Event('GotUserData'));
       window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
       this.OnInit();
@@ -8909,136 +8834,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   _getUserDataError(subError)
   {
     var error = 'Could not get logged in user data. ' + subError + '. CleverForms Default failed.';
-    Affinity2018.LogError('Bootstrap Error', 'critical', error);
-    this.OnError(error);
-  }
-
-
-  /**
-   * Summary. ?
-   * @this    Class scope
-   * @access  private
-   */
-  _getEmployeeData(employeeNo)
-  {
-
-    /** Get form user data **/
-
-    if (
-      // No emp selected - starting a new form, so use logged in user
-      employeeNo === null
-      || (employeeNo + '').trim().toLowerCase() === 'null'
-      || (employeeNo + '').trim() === ''
-      // Employee is 0, or "create new employee"
-      || employeeNo === 0
-      || employeeNo === '0'
-    )
-    {
-      Affinity2018.FormProfile = {
-        CompanyNumber: Affinity2018.UserProfile.CompanyNumber,
-        EmployeeNumber: '', //Affinity2018.UserProfile.EmployeeNumber,
-        UserGuid: 'e0000000-0000-0000-0000-000000000000', //Affinity2018.UserProfile.UserGuid,
-        PayPoint: '', //Affinity2018.UserProfile.PayPoint,
-        Country: '' //Affinity2018.UserProfile.Country
-      };
-      window.dispatchEvent(new CustomEvent('GotEmployeeData'));
-      return;
-    }
-
-    var api = null;
-
-    if (
-      Affinity2018.isPropObject(Affinity2018, 'ApiEndpoints')
-      && Affinity2018.isPropString(Affinity2018.ApiEndpoints, 'GetFormUserDataApi')
-      && Affinity2018.ApiEndpoints.GetFormUserDataApi.trim() !== ''
-    )
-    {
-      api = (Affinity2018.ApiEndpoints.GetFormUserDataApi + '?EmployeeNo={employeeNo}').format({ employeeNo: employeeNo });
-    }
-    else
-    {
-      this._gotEmployeeDataError('Failed to get API');
-      return;
-    }
-
-    // Using events here to break out of promise scope for debugging
-
-    if ('sessionStorage' in window)
-    {
-      if (sessionStorage.getItem('FormProfile'))
-      {
-        var profileStr = sessionStorage.getItem('FormProfile') || '{}';
-        try
-        {
-          var profile = JSON.parse(profileStr);
-          //if (
-          //  profile.EmployeeNo === Affinity2018.UserProfile.FormEmployeeNumber
-          //  || profile.FormInstaceId === this.GetInstanceGuid()
-          //)
-          if (profile.hasOwnProperty('CompanyNumber') && profile.hasOwnProperty('EmployeeNo'))
-          {
-            Affinity2018.FormProfile = profile;
-            window.dispatchEvent(new CustomEvent('GotEmployeeData'));
-            return;
-          }
-        }
-        catch (joErr)
-        {
-          console.warn('Could not load existing user from session: ', joErr);
-        }
-      }
-    }
-
-    window.addEventListener('GotEmployee', this._gotEmployeeData);
-    axios({
-      method: 'GET',
-      url: api
-    })
-      .then(function (response) { window.dispatchEvent(new CustomEvent('GotEmployee', { detail: response })); }.bind(this))
-      .catch(this._gotEmployeeDataError);
-  }
-
-
-  /**
-   * Summary. ?
-   * @this    Class scope
-   * @access  private
-   */
-  _gotEmployeeData(response)
-  {
-    window.removeEventListener('GotEmployee', this._gotEmployeeData);
-    if ('detail' in response) response = response.detail;
-    if (
-      Affinity2018.isPropObject(response, 'data')
-      && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
-    )
-    {
-      Affinity2018.FormProfile = {
-        CompanyNumber: response.data.CompanyNumber.toString().trim(),
-        EmployeeNumber: response.data.EmployeeNumber.toString().trim(),
-        UserGuid: 'e0000000-0000-0000-0000-000000000000',
-        PayPoint: response.data.EmployeePayPoint,
-        Country: response.data.EmployeeCountry
-      };
-      Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
-      if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
-      window.dispatchEvent(new CustomEvent('GotEmployeeData'));
-    }
-    else
-    {
-      this._gotEmployeeDataError('Failed to get data from response');
-    }
-  }
-
-
-  /**
-   * Summary. ?
-   * @this    Class scope
-   * @access  private
-   */
-  _gotEmployeeDataError(subError)
-  {
-    var error = 'Could not get employee user data. ' + subError + '. CleverForms Default failed.';
     Affinity2018.LogError('Bootstrap Error', 'critical', error);
     this.OnError(error);
   }
@@ -14663,11 +14458,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'Save',
 
-      'GetFormEmployeeNo',
-
       '_initTemplatesLoaded',
 
-      '_hasValue', '_getValue', '_getLabel',
+      '_hasValue', '_getValue', '_celanValue', '_getLabel',
 
       '_getTemplateInfo',
 
@@ -14925,21 +14718,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this._post(buttonData, suppressMessgae);
   }
 
-  GetFormEmployeeNo()
-  {
-    if (this.FormNode && this.FormNode.querySelector('.form-row.row-affinityfield.is-global-key.is-employee-no'))
-    {
-      var rowNode = this.FormNode.querySelector('.form-row.row-affinityfield.is-global-key.is-employee-no');
-      if (rowNode && rowNode.querySelector('input'))
-      {
-        var value = rowNode.querySelector('input').value.trim();
-        if (isNaN(parseInt(value))) return null;
-        else return parseInt(value);
-      }
-    }
-    return null;
-  }
-
 
 
   /***************************************************************************************************************************************************/
@@ -15067,26 +14845,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     var gotTemplateTempMethod = function ()
     {
       window.removeEventListener('FormGotTemplate', gotTemplateTempMethod);
-      if (this.FormData)
-      {
-        //this._processTemplate();
-        window.addEventListener('GotEmployeeData', this._processTemplate);
-        var emp = '';
-        for (var s = 0; s < this.FormData.length; s++)
-        {
-          for (var e = 0; e < this.FormData[s].Elements.length; e++)
-          {
-            var element = this.FormData[s].Elements[e];
-            if (element.Details.hasOwnProperty('AffinityField') && element.Details.AffinityField.FieldName === 'EMPLOYEE_NO')
-            {
-              emp = element.Value;
-              break;
-            }
-          }
-        }
-        window.addEventListener('GotEmployeeData', this._processTemplate);
-        this.CleverForms.GetEmployeeData(emp);
-      }
+      if (this.FormData) this._processTemplate();
     }.bind(this);
     window.addEventListener('FormGotTemplate', gotTemplateTempMethod);
 
@@ -15107,6 +14866,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             )
           )
           {
+
             // TODO: old - retire once new is used.
             if (response.data.hasOwnProperty('elementTemplateMerged') && $a.isArray(response.data.elementTemplateMerged))
             {
@@ -15237,25 +14997,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     var gotTemplateTempMethod = function ()
     {
       window.removeEventListener('FormGotTemplate', gotTemplateTempMethod);
-      if (this.FormData)
-      {
-        //this._processInstance();
-        var emp = '';
-        for (var s = 0; s < this.FormData.length; s++)
-        {
-          for (var e = 0; e < this.FormData[s].Elements.length; e++)
-          {
-            var element = this.FormData[s].Elements[e];
-            if (element.Details.hasOwnProperty('AffinityField') && element.Details.AffinityField.FieldName === 'EMPLOYEE_NO')
-            {
-              emp = element.Value;
-              break;
-            }
-          }
-        }
-        window.addEventListener('GotEmployeeData', this._processInstance);
-        this.CleverForms.GetEmployeeData(emp);
-      }
+      if (this.FormData) this._processInstance();
     }.bind(this);
     window.addEventListener('FormGotTemplate', gotTemplateTempMethod);
 
@@ -18017,12 +17759,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   _listSourceChanged ()
   {
     var tableName = this.ListSourceSelectNode.value,
-        employeeNo = this.CleverForms.GetFormEmployeeNo(),
-        lookupApi = '{api}?modelName={modelName}&employeeNo={employeeNo}'.format({
-          api: this.CleverForms.GetLookupApi,
-          modelName: tableName,
-          employeeNo: employeeNo
-        });
+        lookupApi = this.CleverForms.GetLookupApi + '?modelName=' + tableName;
     if (this.ListSourceSelectNode.value === '0')
     {
       Affinity2018.Apps.Plugins.ListBuilder.RestoreBackup();
@@ -19167,13 +18904,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     if (this.FormRowNode)
     {
-      if (displayType) this.FormRowNode.classList.add('row-' + displayType.toLowerCase().trim().replace(/ /g, '-'));
 
-      if (isGlobalKey)
-      {
-        this.FormRowNode.classList.add('is-global-key');
-        if (this.Config.Details.AffinityField.FieldName === "EMPLOYEE_NO") this.FormRowNode.classList.add('is-employee-no');
-      }
+      if (displayType) this.FormRowNode.classList.add('row-' + displayType.toLowerCase().trim().replace(/ /g, '-'));
 
       /* form link select */
       
@@ -20222,7 +19954,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       country = this.CountryCodeMap[country.toUpperCase()];
     }
     var html = '';
-    if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
+    if (this.IsReadOnly)
     {
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -20287,35 +20019,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
   _getFormRowHtml(value, country)
   {
     var showCountrySelect = true;
+
     if (
-      //Affinity2018.UserProfile.hasOwnProperty('FormEmployeeCountry')
-      //&& Affinity2018.UserProfile.FormEmployeeCountry !== null
-      Affinity2018.hasOwnProperty('FormProfile')
-      && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && Affinity2018.FormProfile.Country !== null
+      $a.isPropObject(Affinity2018.UserProfile, 'Selected')
+      && $a.isPropBool(Affinity2018.UserProfile.Selected, 'HasPayPoint')
     )
     {
-      showCountrySelect = false;
+      if (Affinity2018.SelectedProfile.Selected.HasPayPoint) showCountrySelect = false;
+      if ($a.isPropString(Affinity2018.UserProfile.Selected, 'PayPointCountryCode')) country = Affinity2018.UserProfile.Selected.CountryCode;
     }
-    else
+
+    if (
+      !showCountrySelect
+      && this.Config.Type === 'AffinityField'
+      && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+    )
     {
-      if (
-        $a.isPropObject(Affinity2018.UserProfile, 'Selected')
-        && $a.isPropBool(Affinity2018.UserProfile.Selected, 'HasPayPoint')
-      )
-      {
-        if (Affinity2018.SelectedProfile.Selected.HasPayPoint) showCountrySelect = false;
-        if ($a.isPropString(Affinity2018.UserProfile.Selected, 'PayPointCountryCode')) country = Affinity2018.UserProfile.Selected.CountryCode;
-      }
-      if (
-        !showCountrySelect
-        && this.Config.Type === 'AffinityField'
-        && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-      )
-      {
-        showCountrySelect = true;
-      }
+      showCountrySelect = true;
     }
+
     return this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       value: value,
@@ -25864,35 +25586,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             if (item !== null && item.Value === this.Config.Details.Value)
             {
               if (this.Config.Details.ItemSource.ItemSourceType === 'Custom') html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key);
-              else html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key.replace(' - ', ', '));
+              else html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, item.Key.replace(' - ', ', ')); 
               break;
             }
           }
         }
-        if (html === null) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+        if (html === null) html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value); 
       }
       else
       {
         html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
       }
     }
-    else
-    {
-      if (this.CleverForms.ViewType === 'ViewOnly')
-      {
-        html = this.HtmlRowReadOnlyTemplate.format(this.Config.Details.Label);
-      }
-      else
-      {
-        html = this.HtmlRowTemplate.format(
-          this.Config.Details.Label,
-          this.Config.Details.hasOwnProperty('Value') ? this.Config.Details : ''
-        );
-      }
-    }
+    else html = this.HtmlRowTemplate.format(this.Config.Details.Label);
 
     this.FormRowNode = super.SetFormRow(target, html);
-
     if (this.FormRowNode && !this.IsReadOnly)
     {
 
@@ -25963,11 +25671,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             }
           }
         }
-        else if (this.Config.Details.hasOwnProperty('Value'))
-        {
-          selected = this.Config.Details.Value
-        }
-        if (this.FormRowNode.querySelector('input')) this.FormRowNode.querySelector('input').value = selected;
+        this.FormRowNode.querySelector('input').value = selected;
       }
       else
       {
@@ -25983,19 +25687,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
           {
-            select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
-              groupid: this.Config.Details.AffinityField.GenericGroupId,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              groupid: this.Config.Details.AffinityField.GenericGroupId
             });
           }
           else
           {
-            select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}'.format({
               api: this.CleverForms.GetLookupApi,
-              modelName: this.Config.Details.AffinityField.ModelName,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              modelName: this.Config.Details.AffinityField.ModelName
             });
           }
 
@@ -26030,24 +25732,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           select.classList.remove('ui-has-autocomplete');
           select.classList.add('prevent-autocomplete');
-
+          
           if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
           {
-            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
               propertyName: this.Config.Details.AffinityField.FieldName,
-              groupid: this.Config.Details.AffinityField.GenericGroupId,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              groupid: this.Config.Details.AffinityField.GenericGroupId
             });
           }
           else
           {
-            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
-              propertyName: this.Config.Details.AffinityField.FieldName,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              propertyName: this.Config.Details.AffinityField.FieldName
             });
           }
 
@@ -26748,7 +26448,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       country = this.CountryCodeMap[country.toUpperCase()];
     }
     var html = '';
-    if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
+    if (this.IsReadOnly)
     {
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -26762,7 +26462,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
-      if (!this.IsReadOnly && !this.CleverForms.ViewType === 'ViewOnly')
+      if (!this.IsReadOnly)
       {
         if (this.FormRowNode.querySelector('input.ui-has-taxnumber')) this.FormRowNode.querySelector('input.ui-has-taxnumber').addEventListener('widgetReady', this._setupEvents);
         else if (this.FormRowNode.querySelector('input.ui-taxnumber')) this.FormRowNode.querySelector('input.ui-taxnumber').addEventListener('widgetReady', this._setupEvents);
@@ -26815,36 +26515,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
   _getFormRowHtml(value, country)
   {
     var showCountrySelect = true;
+
     if (
-      //Affinity2018.UserProfile.hasOwnProperty('FormEmployeeCountry')
-      //&& Affinity2018.UserProfile.FormEmployeeCountry !== null
-      Affinity2018.hasOwnProperty('FormProfile')
-      && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && Affinity2018.FormProfile.Country !== null
+      $a.isPropObject(Affinity2018.UserProfile, 'Selected')
+      && $a.isPropBool(Affinity2018.UserProfile.Selected, 'HasPayPoint')
     )
     {
-      showCountrySelect = false;
+      if (Affinity2018.SelectedProfile.Selected.HasPayPoint) showCountrySelect = false;
+      if ($a.isPropString(Affinity2018.UserProfile.Selected, 'PayPointCountryCode')) country = Affinity2018.UserProfile.Selected.CountryCode;
     }
-    else
-    {
-      if (
-        $a.isPropObject(Affinity2018.UserProfile, 'Selected')
-        && $a.isPropBool(Affinity2018.UserProfile.Selected, 'HasPayPoint')
-      )
-      {
-        if (Affinity2018.SelectedProfile.Selected.HasPayPoint) showCountrySelect = false;
-        if ($a.isPropString(Affinity2018.UserProfile.Selected, 'PayPointCountryCode')) country = Affinity2018.UserProfile.Selected.CountryCode;
-      }
 
-      if (
-        !showCountrySelect
-        && this.Config.Type === 'AffinityField'
-        && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-      )
-      {
-        showCountrySelect = true;
-      }
+    if (
+      !showCountrySelect
+      && this.Config.Type === 'AffinityField'
+      && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+    )
+    {
+      showCountrySelect = true;
     }
+
     return this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       value: value,
