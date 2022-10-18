@@ -31287,6 +31287,11 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     var showCountryNode = true;
     var country = this.DefaultCountryCode;
 
+    if (this.CountryCodes.contains(this.countrySelectNode.value.trim().toUpperCase()))
+    {
+      country = this.countrySelectNode.value.trim().toUpperCase();
+    }
+
     if (this.initInputNode.dataset.country)
     {
       if (this.CountryCodes.contains(this.initInputNode.dataset.country.trim().toUpperCase()))
@@ -31326,8 +31331,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       this.countryNode.classList.remove('hidden');
       this.countryNode.addEventListener('change', this._setupCountry);
-      this._setupCountry();
     }
+    this._setupCountry();
 
     /**/
 
@@ -39284,6 +39289,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var showCountryNode = true;
     var country = this.DefaultCountryCode;
 
+    if (this.CountryCodes.contains(this.countrySelectNode.value.trim().toUpperCase()))
+    {
+      country = this.countrySelectNode.value.trim().toUpperCase();
+    }
+
     if (this.initInputNode.dataset.country)
     {
       if (this.CountryCodes.contains(this.initInputNode.dataset.country.trim().toUpperCase()))
@@ -39323,8 +39333,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     {
       this.countryNode.classList.remove('hidden');
       this.countryNode.addEventListener('change', this._setupCountry);
-      this._setupCountry();
     }
+    this._setupCountry();
 
     /**/
 
