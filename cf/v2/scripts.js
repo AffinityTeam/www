@@ -8236,11 +8236,21 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    */
   GetFormEmployeeNo()
   {
-    // TODO: Probably should extend this to non-form views, just incase we ever need it ..
+    var emp = -1;
+    if (
+      Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('EmployeeNumber')
+      && Affinity2018.toString(Affinity2018.FormProfile.EmployeeNumber) !== ''
+    )
+    {
+      emp = parseInt(Affinity2018.FormProfile.EmployeeNumber);
+    }
     if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form'))
     {
-      return Affinity2018.Apps.CleverForms.Form.GetFormEmployeeNo();
+      emp = parseInt(Affinity2018.Apps.CleverForms.Form.GetFormEmployeeNo());
     }
+    if (emp === '' || emp === 0) return -1;
+    else return emp;
     return null;
   }
 
@@ -15101,8 +15111,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       window.removeEventListener('FormGotTemplate', gotTemplateTempMethod);
       if (this.FormData)
       {
-        //this._processTemplate();
-        window.addEventListener('GotEmployeeData', this._processTemplate);
         var emp = '';
         for (var s = 0; s < this.FormData.length; s++)
         {
@@ -15116,6 +15124,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
+        window.removeEventListener('GotEmployeeData', this._processTemplate);
         window.addEventListener('GotEmployeeData', this._processTemplate);
         this.CleverForms.GetEmployeeData(emp);
       }
@@ -15202,6 +15211,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processTemplate()
   {
+    debugger;
+    window.removeEventListener('GotEmployeeData', this._processTemplate);
     if (Affinity2018.isArray(this.FormData))
     {
 
@@ -15271,7 +15282,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       window.removeEventListener('FormGotTemplate', gotTemplateTempMethod);
       if (this.FormData)
       {
-        //this._processInstance();
         var emp = '';
         for (var s = 0; s < this.FormData.length; s++)
         {
@@ -15285,6 +15295,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
+        window.removeEventListener('GotEmployeeData', this._processInstance);
         window.addEventListener('GotEmployeeData', this._processInstance);
         this.CleverForms.GetEmployeeData(emp);
       }
@@ -15366,6 +15377,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
+    window.removeEventListener('GotEmployeeData', this._processInstance);
     if (Affinity2018.isArray(this.FormData))
     {
       var sectionNode, elementNode, anyRequired = false;
@@ -18613,7 +18625,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       '_insertDesignerKey',
 
-      '_formRowLookupChanged', '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged'
+      '_formRowLookupChanged', '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
 
     ].bindEach(this);
 
@@ -19204,7 +19216,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (isGlobalKey)
       {
         this.FormRowNode.classList.add('is-global-key');
-        if (this.Config.Details.AffinityField.FieldName === "EMPLOYEE_NO") this.FormRowNode.classList.add('is-employee-no');
+        if (this.Config.Details.AffinityField.FieldName === "EMPLOYEE_NO")
+        {
+          this.FormRowNode.classList.add('is-employee-no');
+          if (displayType && displayType === 'SingleSelectDropdown')
+          {
+            this.FormRowNode.querySelector('select').addEventListener('change', this._globalKeyChanged);
+          }
+        }
       }
 
       /* form link select */
@@ -19858,6 +19877,36 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
+  _globalKeyChanged(ev)
+  {
+    window.addEventListener('GotEmployeeData', this._updateNonAffintyFields);
+    this.CleverForms.GetEmployeeData(this.CleverForms.GetFormEmployeeNo());
+  }
+
+  _updateNonAffintyFields()
+  {
+    window.removeEventListener('GotEmployeeData', this._updateNonAffintyFields);
+    if (
+      Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && !['', 'null', 'undefined'].contains(Affinity2018.toString(Affinity2018.FormProfile.Country))
+    )
+    {
+      var nodes = document.querySelectorAll('.form-row.row-banknumber:not(.row-affinityfield), .form-row.row-taxnumber:not(.row-affinityfield)');
+      nodes.forEach(function (row)
+      {
+        var inputNode = row.querySelector('input');
+        if (inputNode && inputNode.hasOwnProperty('widgets'))
+        {
+          for (var key in inputNode.widgets)
+          {
+            if (inputNode.widgets[key].hasOwnProperty('SetupCountry')) inputNode.widgets[key].SetupCountry(Affinity2018.FormProfile.Country);
+          }
+        }
+      });
+    }
+  }
+
   /**/
 
   _templates ()
@@ -20257,7 +20306,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       countryCode = Affinity2018.FormProfile.Country;
     }
     var value = $a.isArray(this.Config.Details.Value) && this.Config.Details.Value.length === 2 ? this.Config.Details.Value[0] : '';
-    var country = $a.isArray(this.Config.Details.Value) && this.Config.Details.Value.length === 2 && this.CountryCodes.contains(this.Config.Details.Value[1].trim().toUpperCase()) ? this.Config.Details.Value[1].trim().toUpperCase() : countryCode;
+    var country = $a.isArray(this.Config.Details.Value) && this.Config.Details.Value.length === 2 && this.CountryCodes.contains($a.toString(this.Config.Details.Value[1]).trim().toUpperCase()) ? this.Config.Details.Value[1].trim().toUpperCase() : countryCode;
     if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase()))
     {
       country = this.CountryCodeMap[country.toUpperCase()];
@@ -26780,7 +26829,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       countryCode = Affinity2018.FormProfile.Country;
     }
     var value = $a.isArray(this.Config.Details.Value) && this.Config.Details.Value.length === 2 ? this.Config.Details.Value[0] : '';
-    var country = $a.isArray(this.Config.Details.Value) && this.Config.Details.Value.length === 2 && this.CountryCodes.contains(this.Config.Details.Value[1].trim().toUpperCase()) ? this.Config.Details.Value[1].trim().toUpperCase() : countryCode;
+    var country = $a.isArray(this.Config.Details.Value) && this.Config.Details.Value.length === 2 && this.CountryCodes.contains($a.toString(this.Config.Details.Value[1]).trim().toUpperCase()) ? this.Config.Details.Value[1].trim().toUpperCase() : countryCode;
     if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase()))
     {
       country = this.CountryCodeMap[country.toUpperCase()];
@@ -31248,6 +31297,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     [
 
       'Get', 'GetData', 'Set', 'Check', 'Clear',
+      'SetupCountry',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -31438,6 +31488,16 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   Clear ()
   {
     this._clear();
+  }
+
+  SetupCountry(country)
+  {
+    if (country !== '')
+    {
+      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
+      this.countrySelectNode.value = country;
+      this._setupCountry();
+    }
   }
 
   /**/
@@ -39257,6 +39317,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     [
 
       'Get', 'GetData', 'Set', 'SetCountry', 'Check', 'Clear',
+      'SetupCountry',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -39462,6 +39523,16 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   Clear ()
   {
     this._clear();
+  }
+
+  SetupCountry(country)
+  {
+    if (country !== '')
+    {
+      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
+      this.countrySelectNode.value = country;
+      this._setupCountry();
+    }
   }
 
   /**/
