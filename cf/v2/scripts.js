@@ -8900,12 +8900,20 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
     )
     {
+      var paypoint = "";
+      if (response.data.hasOwnProperty('EmployeePayPoint')) paypoint = $a.toString(response.data.EmployeePayPoint);
+      if (response.data.hasOwnProperty('PayPoint')) paypoint = $a.toString(response.data.PayPoint);
+
+      var country = "A";
+      if (response.data.hasOwnProperty('EmployeeCountry')) country = $a.toString(response.data.EmployeeCountry);
+      if (response.data.hasOwnProperty('PayPointCountry')) country = $a.toString(response.data.PayPointCountry);
+
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
-        PayPoint: $a.toString(response.data.EmployeePayPoint),
-        Country: $a.toString(response.data.EmployeeCountry)
+        PayPoint: paypoint,
+        Country: country
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
@@ -8950,7 +8958,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       || $a.toString(employeeNo) === ''
       // Employee is 0, or "create new employee"
       || employeeNo === 0
-      || employeeNo === '0'
+      || $a.toString(employeeNo) === '0'
     )
     {
       Affinity2018.FormProfile = {
@@ -9028,13 +9036,22 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
     )
     {
+      var paypoint = "";
+      if (response.data.hasOwnProperty('EmployeePayPoint')) paypoint = $a.toString(response.data.EmployeePayPoint);
+      if (response.data.hasOwnProperty('PayPoint')) paypoint = $a.toString(response.data.PayPoint);
+
+      var country = "A";
+      if (response.data.hasOwnProperty('EmployeeCountry')) country = $a.toString(response.data.EmployeeCountry);
+      if (response.data.hasOwnProperty('PayPointCountry')) country = $a.toString(response.data.PayPointCountry);
+
       Affinity2018.FormProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
-        PayPoint: $a.toString(response.data.EmployeePayPoint),
-        Country: $a.toString(response.data.EmployeeCountry)
+        PayPoint: paypoint,
+        Country: country
       };
+
       if ($a.toString(response.data.EmployeeNumber) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
