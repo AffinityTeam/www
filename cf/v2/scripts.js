@@ -8249,7 +8249,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     {
       emp = parseInt(Affinity2018.Apps.CleverForms.Form.GetFormEmployeeNo());
     }
-    if (emp === '' || emp === 0) return -1;
+    if (emp === '') return -1; // emp is text and empty
+    else if (emp === 0) return -1; // emp is create new
+    else if (Affinity2018.toString(emp) === 'NaN') return -1; // emp is empty or can not be parsed
     else return emp;
     return null;
   }
@@ -8969,6 +8971,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       // Employee is 0, or "create new employee"
       || employeeNo === 0
       || $a.toString(employeeNo) === '0'
+      // Employee is already set to -1 becuase it is 0 or none
+      || $a.toString(employeeNo) === '-1'
     )
     {
       Affinity2018.FormProfile = {
@@ -14969,17 +14973,24 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
   GetFormEmployeeNo()
   {
+    var value = null;
     if (this.FormNode && this.FormNode.querySelector('.form-row.row-affinityfield.is-global-key.is-employee-no'))
     {
       var rowNode = this.FormNode.querySelector('.form-row.row-affinityfield.is-global-key.is-employee-no');
+      if (rowNode && rowNode.querySelector('select'))
+      {
+        value = rowNode.querySelector('select').value.trim();
+        if (isNaN(parseInt(value))) return null;
+        else return parseInt(value);
+      }
       if (rowNode && rowNode.querySelector('input'))
       {
-        var value = rowNode.querySelector('input').value.trim();
+        value = rowNode.querySelector('input').value.trim();
         if (isNaN(parseInt(value))) return null;
         else return parseInt(value);
       }
     }
-    return null;
+    return value;
   }
 
 
@@ -19879,6 +19890,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _globalKeyChanged(ev)
   {
+    window.removeEventListener('GotEmployeeData', this._updateNonAffintyFields);
     window.addEventListener('GotEmployeeData', this._updateNonAffintyFields);
     this.CleverForms.GetEmployeeData(this.CleverForms.GetFormEmployeeNo());
   }
@@ -19889,7 +19901,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (
       Affinity2018.hasOwnProperty('FormProfile')
       && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && !['', 'null', 'undefined'].contains(Affinity2018.toString(Affinity2018.FormProfile.Country))
+      //&& !['', 'null', 'undefined'].contains(Affinity2018.toString(Affinity2018.FormProfile.Country))
     )
     {
       var nodes = document.querySelectorAll('.form-row.row-banknumber:not(.row-affinityfield), .form-row.row-taxnumber:not(.row-affinityfield)');
@@ -19900,7 +19912,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           for (var key in inputNode.widgets)
           {
-            if (inputNode.widgets[key].hasOwnProperty('SetupCountry')) inputNode.widgets[key].SetupCountry(Affinity2018.FormProfile.Country);
+            if (inputNode.widgets[key].hasOwnProperty('SetCountry')) inputNode.widgets[key].SetCountry(Affinity2018.FormProfile.Country);
           }
         }
       });
@@ -20374,26 +20386,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
 
   /**/
 
+  _showCountrySelect()
+  {
+
+  }
+
   _getFormRowHtml(value, country)
   {
     var showCountrySelect = this.CountryCodes.contains(country) ? false : true;
-    if (
-      showCountrySelect
-      && Affinity2018.hasOwnProperty('FormProfile')
-      && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
-    )
-    {
-      showCountrySelect = false;
-    }
-    if (
-      !showCountrySelect
-      && this.Config.Type === 'AffinityField'
-      && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-    )
-    {
-      showCountrySelect = true;
-    }
     return this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       value: value,
@@ -26902,23 +26902,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
   _getFormRowHtml(value, country)
   {
     var showCountrySelect = this.CountryCodes.contains(country) ? false : true;
-    if (
-      showCountrySelect
-      && Affinity2018.hasOwnProperty('FormProfile')
-      && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
-    )
-    {
-      showCountrySelect = false;
-    }
-    if (
-      !showCountrySelect
-      && this.Config.Type === 'AffinityField'
-      && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-    )
-    {
-      showCountrySelect = true;
-    }
     return this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       value: value,
@@ -31296,8 +31279,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this._options();
     [
 
-      'Get', 'GetData', 'Set', 'Check', 'Clear',
-      'SetupCountry',
+      'Get', 'GetData', 'Set', 'SetCountry', 'Check', 'Clear',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -31377,29 +31359,20 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.initInputNode.dataset.countryStatus = null;
     }
 
-    //if (
-    //  showCountryNode
-    //  && Affinity2018.hasOwnProperty('FormProfile')
-    //  && Affinity2018.FormProfile.hasOwnProperty('Country')
-    //  && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
-    //)
-    //{
-    //  showCountryNode = false;
-    //  country = Affinity2018.FormProfile.Country;
-    //}
-
-    if (country !== '')
+    if (country === '' || country === 'NULL')
     {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
-      this.countrySelectNode.value = country;
+      country = this.DefaultCountryCode;
+      showCountryNode = true;
     }
+    if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
+    this.countrySelectNode.value = country;
 
     if (showCountryNode)
     {
       this.countryNode.classList.remove('hidden');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
-    this._setupCountry();
+    this.SetCountry(country);
 
     /**/
 
@@ -31470,13 +31443,58 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this._validate();
   }
 
-  SetCountry (value)
+  SetCountry(country)
   {
-    if (this.CountryCodes.contains(value))
+    country = $a.toString(country).toUpperCase();
+
+    if (country === '' || country === 'NULL') country = this.DefaultCountryCode;
+
+    if (this.CountryCodes.contains(country))
     {
-      this.countrySelectNode.value = value;
+      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country)) country = this.CountryCodeMap[country];
+      this.countrySelectNode.value = country;
       this._setupCountry();
     }
+
+    var showCountrySelect = this.CountryCodes.contains(country) ? false : true;
+
+    if (
+      showCountrySelect
+      && Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+    )
+    {
+      showCountrySelect = false;
+    }
+
+    if (
+      Affinity2018.hasOwnProperty('Apps')
+      && Affinity2018.Apps.hasOwnProperty('CleverForms')
+      && Affinity2018.Apps.CleverForms.hasOwnProperty('Default')
+      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() === -1)
+    {
+      showCountrySelect = true;
+    }
+
+    // test if emp is create, not this field
+    //if (
+    //  !showCountrySelect
+    //  && this.Config.Type === 'AffinityField'
+    //  && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+    //)
+    //{
+    //  showCountrySelect = true;
+    //}
+
+    this.countryNode.removeEventListener('change', this._setupCountry);
+    this.countryNode.classList.add('hidden');
+    if (showCountrySelect)
+    {
+      this.countryNode.classList.remove('hidden');
+      this.countryNode.addEventListener('change', this._setupCountry);
+    }
+
   }
 
   Check ()
@@ -31488,16 +31506,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   Clear ()
   {
     this._clear();
-  }
-
-  SetupCountry(country)
-  {
-    if (country !== '')
-    {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
-      this.countrySelectNode.value = country;
-      this._setupCountry();
-    }
   }
 
   /**/
@@ -39317,7 +39325,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     [
 
       'Get', 'GetData', 'Set', 'SetCountry', 'Check', 'Clear',
-      'SetupCountry',
 
       '_clear',
       '_stringToNodes', '_stringFromNodes',
@@ -39390,29 +39397,20 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       delete this.initInputNode.dataset.countryStatus;
     }
 
-    //if (
-    //  showCountryNode
-    //  && Affinity2018.hasOwnProperty('FormProfile')
-    //  && Affinity2018.FormProfile.hasOwnProperty('Country')
-    //  && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
-    //)
-    //{
-    //  showCountryNode = false;
-    //  country = Affinity2018.FormProfile.Country;
-    //}
-
-    if (country !== '')
+    if (country === '' || country === 'NULL')
     {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
-      this.countrySelectNode.value = country;
+      country = this.DefaultCountryCode;
+      showCountryNode = true;
     }
+    if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
+    this.countrySelectNode.value = country;
 
     if (showCountryNode)
     {
       this.countryNode.classList.remove('hidden');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
-    this._setupCountry();
+    this.SetCountry(country);
 
     /**/
 
@@ -39461,10 +39459,14 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   Set (value)
   {
     var countryCode = this._getCountryCode();
-    if ($a.isArray(value) && value.length === 2)  value = value[1] + ',' + value[0];
+    if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + value[0];
     if (!$a.isString(value)) value = value.toString().trim();
     if (value.toLowerCase() === 'null') value = '';
-    if (value.toLowerCase() === 'null,null') value = '';
+    if (value.toLowerCase() === 'null,null')
+    {
+      value = '';
+      countryCode = '';
+    }
     if (value.contains(','))
     {
       countryCode = value.split(',')[0];
@@ -39500,18 +39502,58 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
   }
 
-  SetCountry (value)
+  SetCountry(country)
   {
-    if (this.CountryCodes.contains(value))
+    country = $a.toString(country).toUpperCase();
+
+    if (country === '' || country === 'NULL') country = this.DefaultCountryCode;
+
+    if (this.CountryCodes.contains(country))
     {
-      this.countrySelectNode.value = value;
+      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country)) country = this.CountryCodeMap[country];
+      this.countrySelectNode.value = country;
       this._setupCountry();
     }
-    if (this.CountryCodeMap.hasOwnProperty(value))
+
+    var showCountrySelect = this.CountryCodes.contains(country) ? false : true;
+
+    if (
+      showCountrySelect
+      && Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+    )
     {
-      this.countrySelectNode.value = this.CountryCodeMap[value];
-      this._setupCountry();
+      showCountrySelect = false;
     }
+
+    if (
+      Affinity2018.hasOwnProperty('Apps')
+      && Affinity2018.Apps.hasOwnProperty('CleverForms')
+      && Affinity2018.Apps.CleverForms.hasOwnProperty('Default')
+      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() === -1)
+    {
+      showCountrySelect = true;
+    }
+
+    // test if emp is create, not this field
+    //if (
+    //  !showCountrySelect
+    //  && this.Config.Type === 'AffinityField'
+    //  && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+    //)
+    //{
+    //  showCountrySelect = true;
+    //}
+
+    this.countryNode.removeEventListener('change', this._setupCountry);
+    this.countryNode.classList.add('hidden');
+    if (showCountrySelect)
+    {
+      this.countryNode.classList.remove('hidden');
+      this.countryNode.addEventListener('change', this._setupCountry);
+    }
+
   }
 
   Check ()
@@ -39523,16 +39565,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   Clear ()
   {
     this._clear();
-  }
-
-  SetupCountry(country)
-  {
-    if (country !== '')
-    {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
-      this.countrySelectNode.value = country;
-      this._setupCountry();
-    }
   }
 
   /**/
