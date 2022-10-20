@@ -20326,9 +20326,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
+      var display = value + ', ' + country;
+      if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
-        value: value + ', ' + country
+        value: display
       });
     }
     else
@@ -26837,9 +26839,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
+      var display = value + ' - ' + country;
+      if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
-        value: value + ' - ' + country
+        value: display
       });
     }
     else
