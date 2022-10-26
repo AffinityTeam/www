@@ -1,28 +1,28 @@
 /* Minification failed. Returning unminified contents.
-(6347,64): run-time error CSS1030: Expected identifier, found ','
-(6347,71): run-time error CSS1031: Expected selector, found ')'
-(6347,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6355,63): run-time error CSS1030: Expected identifier, found ','
-(6355,70): run-time error CSS1031: Expected selector, found ')'
-(6355,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6363,72): run-time error CSS1030: Expected identifier, found ','
-(6363,79): run-time error CSS1031: Expected selector, found ')'
-(6363,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6422,74): run-time error CSS1030: Expected identifier, found ','
-(6422,216): run-time error CSS1031: Expected selector, found ')'
-(6422,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7998,113): run-time error CSS1030: Expected identifier, found ','
-(7998,125): run-time error CSS1031: Expected selector, found ')'
-(7998,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9195,133): run-time error CSS1030: Expected identifier, found ','
-(9195,274): run-time error CSS1031: Expected selector, found ')'
-(9195,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9759,167): run-time error CSS1030: Expected identifier, found ','
-(9759,309): run-time error CSS1031: Expected selector, found ')'
-(9759,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10010,108): run-time error CSS1030: Expected identifier, found ','
-(10010,250): run-time error CSS1031: Expected selector, found ')'
-(10010,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6414,64): run-time error CSS1030: Expected identifier, found ','
+(6414,71): run-time error CSS1031: Expected selector, found ')'
+(6414,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6422,63): run-time error CSS1030: Expected identifier, found ','
+(6422,70): run-time error CSS1031: Expected selector, found ')'
+(6422,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6430,72): run-time error CSS1030: Expected identifier, found ','
+(6430,79): run-time error CSS1031: Expected selector, found ')'
+(6430,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6489,74): run-time error CSS1030: Expected identifier, found ','
+(6489,216): run-time error CSS1031: Expected selector, found ')'
+(6489,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8065,113): run-time error CSS1030: Expected identifier, found ','
+(8065,125): run-time error CSS1031: Expected selector, found ')'
+(8065,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9262,133): run-time error CSS1030: Expected identifier, found ','
+(9262,274): run-time error CSS1031: Expected selector, found ')'
+(9262,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9826,167): run-time error CSS1030: Expected identifier, found ','
+(9826,309): run-time error CSS1031: Expected selector, found ')'
+(9826,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10077,108): run-time error CSS1030: Expected identifier, found ','
+(10077,250): run-time error CSS1031: Expected selector, found ')'
+(10077,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -5898,10 +5898,14 @@ body.ui2018.mobile body.ui2018 .footer .footer-inner .footer-bottom {
 /***                                                 ***********************************************************************************************/
 /***************************************************************************************************************************************************/
 /*************************************************************************************************************************** Source63 *** new UI ***/
+html {
+  scroll-behavior: smooth !important;
+}
 body.ui2018.uiupdate,
 body.ui2018.uiupdate.cform {
   font-family: 'Montserrat', Arial, "Helvetica Neue", Helvetica, Sans-Serif;
   font-size: 16px;
+  scroll-behavior: smooth !important;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper #uimodalbg,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodalbg {
@@ -6302,6 +6306,69 @@ body.ui2018.uiupdate.cform .default-form .form-row.error .ui-form-error:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+body.ui2018.uiupdate form .form-row.error:not(.flash-error) label,
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error) label,
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error) label,
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error) label,
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error) label,
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error) label {
+  color: #ea0909;
+}
+body.ui2018.uiupdate form .form-row.error:not(.flash-error) textarea,
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error) textarea,
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error) textarea,
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error) textarea,
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error) textarea,
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error) textarea,
+body.ui2018.uiupdate form .form-row.error:not(.flash-error) .select,
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error) .select,
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error) .select,
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error) .select,
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error) .select,
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error) .select,
+body.ui2018.uiupdate form .form-row.error:not(.flash-error) input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error) input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error) input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error) input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error) input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error) input:not([type=checkbox]):not([type=radio]) {
+  background-color: #ffeeee;
+  border-color: #ffcccc;
+}
+body.ui2018.uiupdate form .form-row.error.flash-error label,
+body.ui2018.uiupdate.cform form .form-row.error.flash-error label,
+body.ui2018.uiupdate .form .form-row.error.flash-error label,
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error label,
+body.ui2018.uiupdate .default-form .form-row.error.flash-error label,
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error label {
+  -webkit-animation: flash-error-label 0.5s 5;
+  -moz-animation: flash-error-label 0.5s 5;
+  -o-animation: flash-error-label 0.5s 5;
+  animation: flash-error-label 0.5s 5;
+}
+body.ui2018.uiupdate form .form-row.error.flash-error textarea,
+body.ui2018.uiupdate.cform form .form-row.error.flash-error textarea,
+body.ui2018.uiupdate .form .form-row.error.flash-error textarea,
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error textarea,
+body.ui2018.uiupdate .default-form .form-row.error.flash-error textarea,
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error textarea,
+body.ui2018.uiupdate form .form-row.error.flash-error .select,
+body.ui2018.uiupdate.cform form .form-row.error.flash-error .select,
+body.ui2018.uiupdate .form .form-row.error.flash-error .select,
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error .select,
+body.ui2018.uiupdate .default-form .form-row.error.flash-error .select,
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error .select,
+body.ui2018.uiupdate form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]) {
+  -webkit-animation: flash-error-input 0.5s 5;
+  -moz-animation: flash-error-input 0.5s 5;
+  -o-animation: flash-error-input 0.5s 5;
+  animation: flash-error-input 0.5s 5;
 }
 body.ui2018.uiupdate form .form-row.error2,
 body.ui2018.uiupdate.cform form .form-row.error2,
@@ -10206,6 +10273,55 @@ body div.test-device-info * {
     stroke-dashoffset: 180;
     -webkit-transform: rotate(450deg);
     transform: rotate(450deg);
+  }
+}
+@-webkit-keyframes flash-error-label {
+  0% {
+    color: #636e7c;
+  }
+  50% {
+    color: #ea0909;
+  }
+  100% {
+    color: #636e7c;
+  }
+}
+@keyframes flash-error-label {
+  0% {
+    color: #636e7c;
+  }
+  50% {
+    color: #ea0909;
+  }
+  100% {
+    color: #636e7c;
+  }
+}
+@-webkit-keyframes flash-error-input {
+  0% {
+    background-color: #f7f9fe;
+    border-color: #e3e8ed;
+  }
+  50% {
+    background-color: #ffeeee;
+    border-color: #ffcccc;
+  }
+  100% {
+    background-color: #f7f9fe;
+  }
+}
+@keyframes flash-error-input {
+  0% {
+    background-color: #f7f9fe;
+    border-color: #e3e8ed;
+  }
+  50% {
+    background-color: #ffeeee;
+    border-color: #ffcccc;
+  }
+  100% {
+    background-color: #f7f9fe;
+    border-color: #e3e8ed;
   }
 }
 
