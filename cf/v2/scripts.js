@@ -14670,8 +14670,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.RequestCheckCount = 0;
     this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
 
-    this.DashboardHeaderHeight = 0;
-
     this.Ready = false;
 
     this.TestErrorStub = false;
@@ -15018,7 +15016,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _ready()
   {
-    this.DashboardHeaderHeight = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
     this.widgetData = [];
     Affinity2018.Tooltips.Apply();
     Affinity2018.SelectLookups.Apply();
@@ -16152,22 +16149,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         setTimeout(function ()
         {
-          var pos = scrollTarget.getBoundingClientRect(window).top;
-          pos += window.scrollY;
-          pos -= this.DashboardHeaderHeight;
-          pos -= 20;
           scrollTarget.classList.add('flash-error');
-          window.scrollTo({
-            behavior: 'smooth',
-            top: pos
+          TweenLite.to(window, 0.5, {
+            scrollTo: $a.getPosition(scrollTarget).top - 70
           });
-          // TweenLite is all the sucks right now, and is NOT working correctly.
-          //TweenLite.to(window, 0.5, {
-          //  //scrollTo: pos
-          //  scrollTo: scrollTarget
-          //});
-          setTimeout(function () { scrollTarget.classList.remove('flash-error'); }, 2500);
-        }.bind(this), scrollDelay);
+        }, scrollDelay);
       }
 
       $a.HidePageLoader();
@@ -35486,8 +35472,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     super();
     this._options();
     [
-      'ShowError', 'HideError',
-      'IsValid',
 
       'GetFiles', 'GetFileIds',
       'DeleteFiles',
@@ -35497,7 +35481,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       'PostFiles',
       'Destroy',
 
-      '_validate',
       '_sizeOk', '_fileTypeOk',
       '_getGridCount',
       '_sizeGrid',
@@ -35524,12 +35507,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     this.initNode = targetNode;
     this.initNode.classList.add('ui-file');
-
-    if (this.initNode.parentNode.classList.contains('edit-row'))
-    {
-      this.EditRow = this.initNode.parentNode;
-      this.EditRow.classList.add('ui-file-row');
-    }
 
     this.fileNode = this.initNode.querySelector('input');
     this.fileNode.classList.add('ui-file');
@@ -35696,23 +35673,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.initNode.parentNode.insertBefore(this.gridNode, this.initNode.nextSibling);
     }
 
-    /**/
-
-    this.IsRequired = false;
-    this.Valid = true;
-    this.RowNode = false;
-    this.ErrorNode = false;
-    if (this.initNode.parentNode.classList.contains('form-row'))
-    {
-      this.RowNode = this.initNode.parentNode;
-      this.IsRequired = this.RowNode.classList.contains('required');
-      this.ErrorNode = document.createElement('div');
-      this.ErrorNode.classList.add('ui-form-error');
-      this.initNode.parentNode.appendChild(this.ErrorNode);
-    }
-
-    /**/
-
     var breaker = document.createElement('br');
     this.gridNode.parentNode.insertBefore(breaker, this.gridNode);
 
@@ -35731,23 +35691,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.fileNode.dispatchEvent(new CustomEvent('widgetReady'));
     }
 
-  }
-
-  /**/
-
-  IsValid()
-  {
-    return this._validate();
-  }
-
-  ShowError(error)
-  {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
-  }
-  HideError()
-  {
-    this.ErrorNode.classList.remove('show');
   }
 
   /**/
@@ -35818,26 +35761,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     //{
     //  this._deleteMissingFiles();
     //}
-  }
-
-  /**/
-
-  _validate()
-  {
-    this.Valid = true;
-    this.HideError();
-    if (this.RowNode) this.RowNode.classList.remove('error');
-
-    if (!this.IsRequired) return;
-
-    if (!this.HasFiles())
-    {
-      if (this.RowNode) this.RowNode.classList.add('error');
-      this.ShowError('You must select a file.');
-      this.Valid = false;
-    }
-
-    return this.Valid;
   }
 
   /**/
