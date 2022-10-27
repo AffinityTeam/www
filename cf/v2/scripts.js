@@ -35525,6 +35525,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this.initNode = targetNode;
     this.initNode.classList.add('ui-file');
 
+    if (this.initNode.parentNode.classList.contains('edit-row'))
+    {
+      this.EditRow = this.initNode.parentNode;
+      this.EditRow.classList.add('ui-file-row');
+    }
+
     this.fileNode = this.initNode.querySelector('input');
     this.fileNode.classList.add('ui-file');
 
