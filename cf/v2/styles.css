@@ -26,12 +26,12 @@
 (9330,133): run-time error CSS1030: Expected identifier, found ','
 (9330,274): run-time error CSS1031: Expected selector, found ')'
 (9330,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9894,167): run-time error CSS1030: Expected identifier, found ','
-(9894,309): run-time error CSS1031: Expected selector, found ')'
-(9894,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10145,108): run-time error CSS1030: Expected identifier, found ','
-(10145,250): run-time error CSS1031: Expected selector, found ')'
-(10145,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9904,167): run-time error CSS1030: Expected identifier, found ','
+(9904,309): run-time error CSS1031: Expected selector, found ')'
+(9904,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10155,108): run-time error CSS1030: Expected identifier, found ','
+(10155,250): run-time error CSS1031: Expected selector, found ')'
+(10155,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -9378,7 +9378,7 @@ body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row {
-  height: unset;
+  min-height: 80px;
   line-height: unset;
   margin-bottom: 10px;
 }
@@ -9393,6 +9393,7 @@ body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-radio,
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-check,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-check {
+  min-height: 16px;
   margin-right: 10px;
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-radio input[type="radio"],
@@ -9425,9 +9426,18 @@ body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.worflow-states-list-wrapper {
   background-color: rgba(0, 0, 0, 0.1);
 }
-body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.hidable,
-body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.hidable {
-  height: unset;
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-has-file input[type="file"],
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-has-file input[type="file"] {
+  display: none !important;
+}
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row,
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row {
+  height: 44px;
+}
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row label,
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row label {
+  height: 44px;
+  line-height: 44px;
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-file-list,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-file-list {
@@ -18040,16 +18050,17 @@ li.cf-designer-element.disabled * {
 .cf-designer-element-popup .inner .settings .edit-template .edit-row.hidable {
   height: 30px;
   line-height: 30px;
-  -webkit-transition: height 250ms, margin 250ms;
-  -moz-transition: height 250ms, margin 250ms;
-  -o-transition: height 250ms, margin 250ms;
-  transition: height 250ms, margin 250ms;
+  -webkit-transition: height 250ms, margin 250ms, min-height 250ms;
+  -moz-transition: height 250ms, margin 250ms, min-height 250ms;
+  -o-transition: height 250ms, margin 250ms, min-height 250ms;
+  transition: height 250ms, margin 250ms, min-height 250ms;
 }
 .cf-designer-element-popup .inner .settings .edit-template .edit-row.hidable.hide {
-  height: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  overflow: hidden;
+  height: 0px !important;
+  min-height: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  overflow: hidden !important;
 }
 .cf-designer-element-popup .inner .settings .list-builder {
   position: absolute;
