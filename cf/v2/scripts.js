@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2814,32-37): run-time error JS1195: Expected expression: class
-(3353,32-37): run-time error JS1195: Expected expression: class
-(3445,29-30): run-time error JS1004: Expected ';': {
-(3446,29-30): run-time error JS1004: Expected ';': {
+(2816,32-37): run-time error JS1195: Expected expression: class
+(3355,32-37): run-time error JS1195: Expected expression: class
 (3447,29-30): run-time error JS1004: Expected ';': {
 (3448,29-30): run-time error JS1004: Expected ';': {
-(4093,36-41): run-time error JS1195: Expected expression: class
-(4206,30-35): run-time error JS1195: Expected expression: class
-(4311,31-36): run-time error JS1195: Expected expression: class
-(4551,35-40): run-time error JS1195: Expected expression: class
-(4679,33-38): run-time error JS1195: Expected expression: class
-(4890,39-40): run-time error JS1014: Invalid character: `
-(4890,40-41): run-time error JS1195: Expected expression: <
-(4890,100-101): run-time error JS1014: Invalid character: `
-(4909,43-44): run-time error JS1014: Invalid character: `
-(4909,44-45): run-time error JS1195: Expected expression: <
-(4909,108-109): run-time error JS1014: Invalid character: `
-(4977,33-38): run-time error JS1195: Expected expression: class
-(5277,32-37): run-time error JS1195: Expected expression: class
-(5649,33-38): run-time error JS1195: Expected expression: class
-(5731,37-42): run-time error JS1195: Expected expression: class
-(5732,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3449,29-30): run-time error JS1004: Expected ';': {
+(3450,29-30): run-time error JS1004: Expected ';': {
+(4095,36-41): run-time error JS1195: Expected expression: class
+(4208,30-35): run-time error JS1195: Expected expression: class
+(4313,31-36): run-time error JS1195: Expected expression: class
+(4553,35-40): run-time error JS1195: Expected expression: class
+(4681,33-38): run-time error JS1195: Expected expression: class
+(4892,39-40): run-time error JS1014: Invalid character: `
+(4892,40-41): run-time error JS1195: Expected expression: <
+(4892,100-101): run-time error JS1014: Invalid character: `
+(4911,43-44): run-time error JS1014: Invalid character: `
+(4911,44-45): run-time error JS1195: Expected expression: <
+(4911,108-109): run-time error JS1014: Invalid character: `
+(4979,33-38): run-time error JS1195: Expected expression: class
+(5279,32-37): run-time error JS1195: Expected expression: class
+(5651,33-38): run-time error JS1195: Expected expression: class
+(5733,37-42): run-time error JS1195: Expected expression: class
+(5734,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5733,5-16): run-time error JS1006: Expected ')': constructor
-(5804,3-4): run-time error JS1002: Syntax error: }
-(5804,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5746,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5735,5-16): run-time error JS1006: Expected ')': constructor
+(5806,3-4): run-time error JS1002: Syntax error: }
+(5806,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5748,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -2802,9 +2802,11 @@
     {
       if (document.body.classList.contains('disable-scroll'))
       {
+        window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
         document.body.classList.remove('disable-scroll');
         document.body.removeAttribute('style');
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
+        setTimeout(function () { window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY); }, 100);
       }
     };
   }
@@ -15225,7 +15227,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processTemplate()
   {
-    debugger;
     window.removeEventListener('GotEmployeeData', this._processTemplate);
     if (Affinity2018.isArray(this.FormData))
     {
@@ -15861,7 +15862,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if (this.Ready && $a.isNode(this.CommentNode))
     {
-      var showAnim = setInterval(function () { window.scrollTo(0, document.body.scrollHeight); }, 30);
+      var showAnim = setInterval(function ()
+      {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 30);
       this.CommentNode.classList.remove('hide');
       setTimeout(function () { clearInterval(showAnim); }, 500);
     }
@@ -16157,6 +16161,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           pos -= this.DashboardHeaderHeight;
           pos -= 20;
           scrollTarget.classList.add('flash-error');
+
+          debugger;
+
           window.scrollTo({
             behavior: 'smooth',
             top: pos
@@ -30551,7 +30558,6 @@ function returnList (uuid, html, defaultValue, filter)
 
       if (!selected && defaultValue.indexOf(',') > -1)
       {
-        //if (ogvalue.indexOf('Fire Prevention') > -1) debugger;
         var forStr = ogvalue.trim();
         var reg = new RegExp('\(([0-9]{1,10})\)', 'g');
         if (reg.test(ogvalue))
