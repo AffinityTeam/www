@@ -1,28 +1,37 @@
 /* Minification failed. Returning unminified contents.
-(6347,64): run-time error CSS1030: Expected identifier, found ','
-(6347,71): run-time error CSS1031: Expected selector, found ')'
-(6347,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6355,63): run-time error CSS1030: Expected identifier, found ','
-(6355,70): run-time error CSS1031: Expected selector, found ')'
-(6355,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6363,72): run-time error CSS1030: Expected identifier, found ','
-(6363,79): run-time error CSS1031: Expected selector, found ')'
-(6363,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6422,74): run-time error CSS1030: Expected identifier, found ','
-(6422,216): run-time error CSS1031: Expected selector, found ')'
-(6422,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(7998,113): run-time error CSS1030: Expected identifier, found ','
-(7998,125): run-time error CSS1031: Expected selector, found ')'
-(7998,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9195,133): run-time error CSS1030: Expected identifier, found ','
-(9195,274): run-time error CSS1031: Expected selector, found ')'
-(9195,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9759,167): run-time error CSS1030: Expected identifier, found ','
-(9759,309): run-time error CSS1031: Expected selector, found ')'
-(9759,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10010,108): run-time error CSS1030: Expected identifier, found ','
-(10010,250): run-time error CSS1031: Expected selector, found ')'
-(10010,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6287,59): run-time error CSS1030: Expected identifier, found ','
+(6287,81): run-time error CSS1031: Expected selector, found ')'
+(6287,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6295,59): run-time error CSS1030: Expected identifier, found ','
+(6295,81): run-time error CSS1031: Expected selector, found ')'
+(6295,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6327,82): run-time error CSS1030: Expected identifier, found ','
+(6327,153): run-time error CSS1031: Expected selector, found ')'
+(6327,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6417,64): run-time error CSS1030: Expected identifier, found ','
+(6417,71): run-time error CSS1031: Expected selector, found ')'
+(6417,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6425,63): run-time error CSS1030: Expected identifier, found ','
+(6425,70): run-time error CSS1031: Expected selector, found ')'
+(6425,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6433,72): run-time error CSS1030: Expected identifier, found ','
+(6433,79): run-time error CSS1031: Expected selector, found ')'
+(6433,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6492,74): run-time error CSS1030: Expected identifier, found ','
+(6492,216): run-time error CSS1031: Expected selector, found ')'
+(6492,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8136,113): run-time error CSS1030: Expected identifier, found ','
+(8136,125): run-time error CSS1031: Expected selector, found ')'
+(8136,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9333,133): run-time error CSS1030: Expected identifier, found ','
+(9333,274): run-time error CSS1031: Expected selector, found ')'
+(9333,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9907,167): run-time error CSS1030: Expected identifier, found ','
+(9907,309): run-time error CSS1031: Expected selector, found ')'
+(9907,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10158,108): run-time error CSS1030: Expected identifier, found ','
+(10158,250): run-time error CSS1031: Expected selector, found ')'
+(10158,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -2824,7 +2833,10 @@ body.ui2018.disable-scroll {
   width: 100vw;
   height: 100vh;
   overflow-y: hidden;
-  padding-right: 14px;
+  padding-right: 14px !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2018 .drag-box {
   position: relative;
@@ -5898,6 +5910,10 @@ body.ui2018.mobile body.ui2018 .footer .footer-inner .footer-bottom {
 /***                                                 ***********************************************************************************************/
 /***************************************************************************************************************************************************/
 /*************************************************************************************************************************** Source63 *** new UI ***/
+/*html {
+  scroll-behavior: smooth !important;
+}*/
+
 body.ui2018.uiupdate,
 body.ui2018.uiupdate.cform {
   font-family: 'Montserrat', Arial, "Helvetica Neue", Helvetica, Sans-Serif;
@@ -6302,6 +6318,69 @@ body.ui2018.uiupdate.cform .default-form .form-row.error .ui-form-error:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+body.ui2018.uiupdate form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child {
+  color: #ea0909;
+}
+body.ui2018.uiupdate form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .default-form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .default-form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code) {
+  background-color: #ffeeee;
+  border-color: #ffcccc;
+}
+body.ui2018.uiupdate form .form-row.error.flash-error label:first-child,
+body.ui2018.uiupdate.cform form .form-row.error.flash-error label:first-child,
+body.ui2018.uiupdate .form .form-row.error.flash-error label:first-child,
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error label:first-child,
+body.ui2018.uiupdate .default-form .form-row.error.flash-error label:first-child,
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error label:first-child {
+  -webkit-animation: flash-error-label 0.5s 5;
+  -moz-animation: flash-error-label 0.5s 5;
+  -o-animation: flash-error-label 0.5s 5;
+  animation: flash-error-label 0.5s 5;
+}
+body.ui2018.uiupdate form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code) {
+  -webkit-animation: flash-error-input 0.5s 5;
+  -moz-animation: flash-error-input 0.5s 5;
+  -o-animation: flash-error-input 0.5s 5;
+  animation: flash-error-input 0.5s 5;
 }
 body.ui2018.uiupdate form .form-row.error2,
 body.ui2018.uiupdate.cform form .form-row.error2,
@@ -7119,6 +7198,42 @@ body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair label {
   min-height: 44px;
   line-height: 22px;
 }
+body.ui2018.uiupdate form .form-row .radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row .radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row .radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row .radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row .radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row .radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate form .form-row .check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row .check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row .check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row .check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row .check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row .check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate form .form-row.radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row.radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.radio-label-pair.error .ui-form-error,
+body.ui2018.uiupdate form .form-row.check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row.check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.check-label-pair.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair.error .ui-form-error {
+  bottom: unset;
+  top: 0;
+  max-width: 50%;
+}
+body.ui2018.uiupdate form .form-row.row-checkbox,
+body.ui2018.uiupdate.cform form .form-row.row-checkbox,
+body.ui2018.uiupdate .form .form-row.row-checkbox,
+body.ui2018.uiupdate.cform .form .form-row.row-checkbox,
+body.ui2018.uiupdate .default-form .form-row.row-checkbox,
+body.ui2018.uiupdate.cform .default-form .form-row.row-checkbox {
+  width: 680px;
+}
 body.ui2018.uiupdate form .form-row.row-checkbox .required,
 body.ui2018.uiupdate.cform form .form-row.row-checkbox .required,
 body.ui2018.uiupdate .form .form-row.row-checkbox .required,
@@ -7128,25 +7243,15 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-checkbox .required {
   height: 44px;
   line-height: 44px;
 }
-body.ui2018.uiupdate form .form-row.row-singleselectradio.error,
-body.ui2018.uiupdate.cform form .form-row.row-singleselectradio.error,
-body.ui2018.uiupdate .form .form-row.row-singleselectradio.error,
-body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio.error,
-body.ui2018.uiupdate .default-form .form-row.row-singleselectradio.error,
-body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio.error,
-body.ui2018.uiupdate form .form-row.row-multiselect.error,
-body.ui2018.uiupdate.cform form .form-row.row-multiselect.error,
-body.ui2018.uiupdate .form .form-row.row-multiselect.error,
-body.ui2018.uiupdate.cform .form .form-row.row-multiselect.error,
-body.ui2018.uiupdate .default-form .form-row.row-multiselect.error,
-body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.error,
-body.ui2018.uiupdate form .form-row.row-checkbox.error,
-body.ui2018.uiupdate.cform form .form-row.row-checkbox.error,
-body.ui2018.uiupdate .form .form-row.row-checkbox.error,
-body.ui2018.uiupdate.cform .form .form-row.row-checkbox.error,
-body.ui2018.uiupdate .default-form .form-row.row-checkbox.error,
-body.ui2018.uiupdate.cform .default-form .form-row.row-checkbox.error {
-  margin: 0 0 50px 0;
+body.ui2018.uiupdate form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.row-checkbox.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.row-checkbox.error .ui-form-error {
+  bottom: unset;
+  top: 0;
+  max-width: 50%;
 }
 body.ui2018.uiupdate form .form-row.row-singleselectradio.error .ui-form-error,
 body.ui2018.uiupdate.cform form .form-row.row-singleselectradio.error .ui-form-error,
@@ -7159,15 +7264,10 @@ body.ui2018.uiupdate.cform form .form-row.row-multiselect.error .ui-form-error,
 body.ui2018.uiupdate .form .form-row.row-multiselect.error .ui-form-error,
 body.ui2018.uiupdate.cform .form .form-row.row-multiselect.error .ui-form-error,
 body.ui2018.uiupdate .default-form .form-row.row-multiselect.error .ui-form-error,
-body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.error .ui-form-error,
-body.ui2018.uiupdate form .form-row.row-checkbox.error .ui-form-error,
-body.ui2018.uiupdate.cform form .form-row.row-checkbox.error .ui-form-error,
-body.ui2018.uiupdate .form .form-row.row-checkbox.error .ui-form-error,
-body.ui2018.uiupdate.cform .form .form-row.row-checkbox.error .ui-form-error,
-body.ui2018.uiupdate .default-form .form-row.row-checkbox.error .ui-form-error,
-body.ui2018.uiupdate.cform .default-form .form-row.row-checkbox.error .ui-form-error {
-  right: unset;
-  left: 0;
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.error .ui-form-error {
+  bottom: unset;
+  top: 0;
+  max-width: 50%;
 }
 body.ui2018.uiupdate form .form-row.row-documentsigning,
 body.ui2018.uiupdate.cform form .form-row.row-documentsigning,
@@ -7340,6 +7440,53 @@ body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent .docsign-f
 body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
 body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child {
   margin: 0 2px 0 0;
+}
+body.ui2018.uiupdate form .form-row.row-documentsigning.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.error .ui-form-error,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent.error .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent.error .ui-form-error,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent.error .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent.error .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent.error .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent.error .ui-form-error {
+  bottom: unset;
+  top: -44px;
+  max-width: 50%;
+}
+body.ui2018.uiupdate form .form-row.row-documentsigning.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent.error:not(.flash-error) label.tt,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent.error:not(.flash-error) label.tt {
+  color: #ea0909;
+}
+body.ui2018.uiupdate form .form-row.row-documentsigning.error.flash-error label.tt,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.error.flash-error label.tt,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.error.flash-error label.tt,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.error.flash-error label.tt,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.error.flash-error label.tt,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.error.flash-error label.tt,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent.error.flash-error label.tt,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent.error.flash-error label.tt,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent.error.flash-error label.tt,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent.error.flash-error label.tt,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent.error.flash-error label.tt,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent.error.flash-error label.tt {
+  -webkit-animation: flash-error-label 0.5s 5;
+  -moz-animation: flash-error-label 0.5s 5;
+  -o-animation: flash-error-label 0.5s 5;
+  animation: flash-error-label 0.5s 5;
 }
 body.ui2018.uiupdate form .form-row.row-currency,
 body.ui2018.uiupdate.cform form .form-row.row-currency,
@@ -9234,7 +9381,7 @@ body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row {
-  height: unset;
+  min-height: 80px;
   line-height: unset;
   margin-bottom: 10px;
 }
@@ -9249,6 +9396,7 @@ body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-radio,
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-check,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-check {
+  min-height: 16px;
   margin-right: 10px;
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.inline-radio input[type="radio"],
@@ -9281,9 +9429,18 @@ body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.worflow-states-list-wrapper {
   background-color: rgba(0, 0, 0, 0.1);
 }
-body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.hidable,
-body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.hidable {
-  height: unset;
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-has-file input[type="file"],
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-has-file input[type="file"] {
+  display: none !important;
+}
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row,
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row {
+  height: 44px;
+}
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row label,
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row.ui-file-row label {
+  height: 44px;
+  line-height: 44px;
 }
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-file-list,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-file-list {
@@ -10206,6 +10363,55 @@ body div.test-device-info * {
     stroke-dashoffset: 180;
     -webkit-transform: rotate(450deg);
     transform: rotate(450deg);
+  }
+}
+@-webkit-keyframes flash-error-label {
+  0% {
+    color: #636e7c;
+  }
+  50% {
+    color: #ea0909;
+  }
+  100% {
+    color: #636e7c;
+  }
+}
+@keyframes flash-error-label {
+  0% {
+    color: #636e7c;
+  }
+  50% {
+    color: #ea0909;
+  }
+  100% {
+    color: #636e7c;
+  }
+}
+@-webkit-keyframes flash-error-input {
+  0% {
+    background-color: #f7f9fe;
+    border-color: #e3e8ed;
+  }
+  50% {
+    background-color: #ffeeee;
+    border-color: #ffcccc;
+  }
+  100% {
+    background-color: #f7f9fe;
+  }
+}
+@keyframes flash-error-input {
+  0% {
+    background-color: #f7f9fe;
+    border-color: #e3e8ed;
+  }
+  50% {
+    background-color: #ffeeee;
+    border-color: #ffcccc;
+  }
+  100% {
+    background-color: #f7f9fe;
+    border-color: #e3e8ed;
   }
 }
 
@@ -17847,16 +18053,17 @@ li.cf-designer-element.disabled * {
 .cf-designer-element-popup .inner .settings .edit-template .edit-row.hidable {
   height: 30px;
   line-height: 30px;
-  -webkit-transition: height 250ms, margin 250ms;
-  -moz-transition: height 250ms, margin 250ms;
-  -o-transition: height 250ms, margin 250ms;
-  transition: height 250ms, margin 250ms;
+  -webkit-transition: height 250ms, margin 250ms, min-height 250ms;
+  -moz-transition: height 250ms, margin 250ms, min-height 250ms;
+  -o-transition: height 250ms, margin 250ms, min-height 250ms;
+  transition: height 250ms, margin 250ms, min-height 250ms;
 }
 .cf-designer-element-popup .inner .settings .edit-template .edit-row.hidable.hide {
-  height: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  overflow: hidden;
+  height: 0px !important;
+  min-height: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  overflow: hidden !important;
 }
 .cf-designer-element-popup .inner .settings .list-builder {
   position: absolute;
