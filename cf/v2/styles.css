@@ -5907,14 +5907,14 @@ body.ui2018.mobile body.ui2018 .footer .footer-inner .footer-bottom {
 /***                                                 ***********************************************************************************************/
 /***************************************************************************************************************************************************/
 /*************************************************************************************************************************** Source63 *** new UI ***/
-html {
+/*html {
   scroll-behavior: smooth !important;
-}
+}*/
+
 body.ui2018.uiupdate,
 body.ui2018.uiupdate.cform {
   font-family: 'Montserrat', Arial, "Helvetica Neue", Helvetica, Sans-Serif;
   font-size: 16px;
-  scroll-behavior: smooth !important;
 }
 body.ui2018.uiupdate.ss-dashboard-wrapper #uimodalbg,
 body.ui2018.uiupdate.cform.ss-dashboard-wrapper #uimodalbg {

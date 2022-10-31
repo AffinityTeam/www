@@ -2791,6 +2791,7 @@
         Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
         document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
         document.body.classList.add('disable-scroll');
+        console.log('!!! LOCK background scroll');
       }
     };
 
@@ -2802,11 +2803,10 @@
     {
       if (document.body.classList.contains('disable-scroll'))
       {
-        window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
         document.body.classList.remove('disable-scroll');
         document.body.removeAttribute('style');
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
-        setTimeout(function () { window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY); }, 100);
+        console.log('!!! UNLOCK background scroll');
       }
     };
   }
@@ -16162,17 +16162,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           pos -= 20;
           scrollTarget.classList.add('flash-error');
 
-          debugger;
+          console.log('!!! SCROLL to first error');
 
           window.scrollTo({
-            behavior: 'smooth',
+            //behavior: 'smooth',
             top: pos
           });
+
           // TweenLite is all the sucks right now, and is NOT working correctly.
           //TweenLite.to(window, 0.5, {
           //  //scrollTo: pos
           //  scrollTo: scrollTarget
           //});
+
           setTimeout(function () { scrollTarget.classList.remove('flash-error'); }, 2500);
         }.bind(this), scrollDelay);
       }
@@ -39172,6 +39174,12 @@ Affinity2018.Classes.Plugins.StringWidget = class
         extraspace = false,
         required = this._isRequired(),
         pattern, warning;
+
+    console.group('=== string validation ===');
+    console.log(this.type);
+    console.log(event);
+    console.log(ev);
+    console.groupEnd();
 
     this.Valid = true;
     this.HideError();
