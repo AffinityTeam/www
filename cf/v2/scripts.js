@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2819,32-37): run-time error JS1195: Expected expression: class
-(3358,32-37): run-time error JS1195: Expected expression: class
+(2817,32-37): run-time error JS1195: Expected expression: class
+(3356,32-37): run-time error JS1195: Expected expression: class
+(3448,29-30): run-time error JS1004: Expected ';': {
+(3449,29-30): run-time error JS1004: Expected ';': {
 (3450,29-30): run-time error JS1004: Expected ';': {
 (3451,29-30): run-time error JS1004: Expected ';': {
-(3452,29-30): run-time error JS1004: Expected ';': {
-(3453,29-30): run-time error JS1004: Expected ';': {
-(4098,36-41): run-time error JS1195: Expected expression: class
-(4211,30-35): run-time error JS1195: Expected expression: class
-(4316,31-36): run-time error JS1195: Expected expression: class
-(4556,35-40): run-time error JS1195: Expected expression: class
-(4684,33-38): run-time error JS1195: Expected expression: class
-(4895,39-40): run-time error JS1014: Invalid character: `
-(4895,40-41): run-time error JS1195: Expected expression: <
-(4895,100-101): run-time error JS1014: Invalid character: `
-(4914,43-44): run-time error JS1014: Invalid character: `
-(4914,44-45): run-time error JS1195: Expected expression: <
-(4914,108-109): run-time error JS1014: Invalid character: `
-(4982,33-38): run-time error JS1195: Expected expression: class
-(5282,32-37): run-time error JS1195: Expected expression: class
-(5654,33-38): run-time error JS1195: Expected expression: class
-(5736,37-42): run-time error JS1195: Expected expression: class
-(5737,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(4096,36-41): run-time error JS1195: Expected expression: class
+(4209,30-35): run-time error JS1195: Expected expression: class
+(4314,31-36): run-time error JS1195: Expected expression: class
+(4554,35-40): run-time error JS1195: Expected expression: class
+(4682,33-38): run-time error JS1195: Expected expression: class
+(4893,39-40): run-time error JS1014: Invalid character: `
+(4893,40-41): run-time error JS1195: Expected expression: <
+(4893,100-101): run-time error JS1014: Invalid character: `
+(4912,43-44): run-time error JS1014: Invalid character: `
+(4912,44-45): run-time error JS1195: Expected expression: <
+(4912,108-109): run-time error JS1014: Invalid character: `
+(4980,33-38): run-time error JS1195: Expected expression: class
+(5280,32-37): run-time error JS1195: Expected expression: class
+(5652,33-38): run-time error JS1195: Expected expression: class
+(5734,37-42): run-time error JS1195: Expected expression: class
+(5735,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5738,5-16): run-time error JS1006: Expected ')': constructor
-(5809,3-4): run-time error JS1002: Syntax error: }
-(5809,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5751,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5736,5-16): run-time error JS1006: Expected ')': constructor
+(5807,3-4): run-time error JS1002: Syntax error: }
+(5807,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5749,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -2794,7 +2794,6 @@
         Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
         document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
         document.body.classList.add('disable-scroll');
-        console.log('!!! LOCK background scroll');
       }
     };
 
@@ -2809,7 +2808,6 @@
         document.body.classList.remove('disable-scroll');
         document.body.removeAttribute('style');
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
-        console.log('!!! UNLOCK background scroll');
       }
     };
   }
@@ -14675,8 +14673,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.RequestCheckCount = 0;
     this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
 
-    this.DashboardHeaderHeight = 0;
-
     this.Ready = false;
 
     this.TestErrorStub = false;
@@ -15023,7 +15019,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _ready()
   {
-    this.DashboardHeaderHeight = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
     this.widgetData = [];
     Affinity2018.Tooltips.Apply();
     Affinity2018.SelectLookups.Apply();
@@ -15230,6 +15225,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processTemplate()
   {
+    debugger;
     window.removeEventListener('GotEmployeeData', this._processTemplate);
     if (Affinity2018.isArray(this.FormData))
     {
@@ -15865,10 +15861,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if (this.Ready && $a.isNode(this.CommentNode))
     {
-      var showAnim = setInterval(function ()
-      {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 30);
+      var showAnim = setInterval(function () { window.scrollTo(0, document.body.scrollHeight); }, 30);
       this.CommentNode.classList.remove('hide');
       setTimeout(function () { clearInterval(showAnim); }, 500);
     }
@@ -16159,27 +16152,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         setTimeout(function ()
         {
-          var pos = scrollTarget.getBoundingClientRect(window).top;
-          pos += window.scrollY;
-          pos -= this.DashboardHeaderHeight;
-          pos -= 20;
           scrollTarget.classList.add('flash-error');
-
-          console.log('!!! SCROLL to first error');
-
-          window.scrollTo({
-            //behavior: 'smooth',
-            top: pos
+          TweenLite.to(window, 0.5, {
+            scrollTo: $a.getPosition(scrollTarget).top - 70
           });
-
-          // TweenLite is all the sucks right now, and is NOT working correctly.
-          //TweenLite.to(window, 0.5, {
-          //  //scrollTo: pos
-          //  scrollTo: scrollTarget
-          //});
-
-          setTimeout(function () { scrollTarget.classList.remove('flash-error'); }, 2500);
-        }.bind(this), scrollDelay);
+        }, scrollDelay);
       }
 
       $a.HidePageLoader();
@@ -17565,16 +17542,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         requiredNode.classList.add('ui-has-tooltip');
         this.FormRowNode.classList.add('required');
         this.FormRowNode.querySelector('label').appendChild(requiredNode);
-
-        if (this.Config.Type && this.Config.Type === 'Text' && this.FormRowNode.querySelector('input'))
-        {
-          this.FormRowNode.querySelector('input').classList.add('ui-has-string');
-        }
-        if (this.Config.Type && this.Config.Type === 'Memo' && this.FormRowNode.querySelector('textarea'))
-        {
-          this.FormRowNode.querySelector('textarea').classList.add('ui-has-string');
-        }
-
       }
 
       if (isReadOnly)
@@ -18552,7 +18519,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-      this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
@@ -20664,7 +20630,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-      this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
@@ -21644,7 +21609,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-      this.FormRowNode.classList.remove('error', 'flash-error');
     }
   }
 
@@ -25115,7 +25079,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-      this.FormRowNode.classList.remove('error', 'flash-error');
     }
   }
 
@@ -26324,7 +26287,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-      this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
@@ -26696,7 +26658,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-      this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
@@ -28774,13 +28735,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
     document.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
 
-    //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
-    //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
-
-    this.listNode.removeEventListener('mouseenter', this._mouseEnter);
-    this.listNode.removeEventListener('mouseleave', this._mouseLeave);
-    this.listNode.addEventListener('mouseenter', this._mouseEnter);
-    this.listNode.addEventListener('mouseleave', this._mouseLeave);
+    this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
+    this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
 
     this._processOptions();
 
@@ -29734,7 +29690,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._focusDelay);
     this._focusDelay = setTimeout(function ()
     {
-      console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
+      // console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
       if (this.status == 'closed')
       {
         this._position(0, 'displayNode focus');
@@ -30292,10 +30248,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     window.removeEventListener('mobileback', function () { this.hide(); }.bind(this));
     document.removeEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
     document.removeEventListener('resize', this._position, Affinity2018.PassiveEventProp);
-    //this.autocompleteNode.removeEventListener('mouseenter', this._mouseEnter);
-    //this.autocompleteNode.removeEventListener('mouseleave', this._mouseLeave);
-    this.listNode.removeEventListener('mouseenter', this._mouseEnter);
-    this.listNode.removeEventListener('mouseleave', this._mouseLeave);
+    this.autocompleteNode.removeEventListener('mouseenter', this._mouseEnter);
+    this.autocompleteNode.removeEventListener('mouseleave', this._mouseLeave);
     if (this.fuzzyWorker)
     {
       this.fuzzyWorker.onmessage = null;
@@ -30570,6 +30524,7 @@ function returnList (uuid, html, defaultValue, filter)
 
       if (!selected && defaultValue.indexOf(',') > -1)
       {
+        //if (ogvalue.indexOf('Fire Prevention') > -1) debugger;
         var forStr = ogvalue.trim();
         var reg = new RegExp('\(([0-9]{1,10})\)', 'g');
         if (reg.test(ogvalue))
@@ -35520,8 +35475,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     super();
     this._options();
     [
-      'ShowError', 'HideError',
-      'IsValid',
 
       'GetFiles', 'GetFileIds',
       'DeleteFiles',
@@ -35531,7 +35484,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       'PostFiles',
       'Destroy',
 
-      '_validate',
       '_sizeOk', '_fileTypeOk',
       '_getGridCount',
       '_sizeGrid',
@@ -35558,12 +35510,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     this.initNode = targetNode;
     this.initNode.classList.add('ui-file');
-
-    if (this.initNode.parentNode.classList.contains('edit-row'))
-    {
-      this.EditRow = this.initNode.parentNode;
-      this.EditRow.classList.add('ui-file-row');
-    }
 
     this.fileNode = this.initNode.querySelector('input');
     this.fileNode.classList.add('ui-file');
@@ -35730,23 +35676,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.initNode.parentNode.insertBefore(this.gridNode, this.initNode.nextSibling);
     }
 
-    /**/
-
-    this.IsRequired = false;
-    this.Valid = true;
-    this.RowNode = false;
-    this.ErrorNode = false;
-    if (this.initNode.parentNode.classList.contains('form-row'))
-    {
-      this.RowNode = this.initNode.parentNode;
-      this.IsRequired = this.RowNode.classList.contains('required');
-      this.ErrorNode = document.createElement('div');
-      this.ErrorNode.classList.add('ui-form-error');
-      this.initNode.parentNode.appendChild(this.ErrorNode);
-    }
-
-    /**/
-
     var breaker = document.createElement('br');
     this.gridNode.parentNode.insertBefore(breaker, this.gridNode);
 
@@ -35765,23 +35694,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.fileNode.dispatchEvent(new CustomEvent('widgetReady'));
     }
 
-  }
-
-  /**/
-
-  IsValid()
-  {
-    return this._validate();
-  }
-
-  ShowError(error)
-  {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
-  }
-  HideError()
-  {
-    this.ErrorNode.classList.remove('show');
   }
 
   /**/
@@ -35852,26 +35764,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     //{
     //  this._deleteMissingFiles();
     //}
-  }
-
-  /**/
-
-  _validate()
-  {
-    this.Valid = true;
-    this.HideError();
-    if (this.RowNode) this.RowNode.classList.remove('error');
-
-    if (!this.IsRequired) return;
-
-    if (!this.HasFiles())
-    {
-      if (this.RowNode) this.RowNode.classList.add('error');
-      this.ShowError('You must select a file.');
-      this.Valid = false;
-    }
-
-    return this.Valid;
   }
 
   /**/
@@ -37816,9 +37708,8 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       }
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
       this.InputNode.value = value;
+      this._validate();
     }
-
-    this._validate();
   }
 
   _validate (ev)
@@ -39185,16 +39076,10 @@ Affinity2018.Classes.Plugins.StringWidget = class
         required = this._isRequired(),
         pattern, warning;
 
-    console.group('=== string validation ===');
-    console.log(this.type);
-    console.log(event);
-    console.log(ev);
-    console.groupEnd();
-
     this.Valid = true;
     this.HideError();
     this.InputNode.classList.remove('error');
-    if (this.RowNode) this.RowNode.classList.remove('error', 'error2', 'flash-error');
+    if (this.RowNode) this.RowNode.classList.remove('error', 'error2');
 
     if (value === '' && !this.IsRequired) return;
 
