@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2818,32-37): run-time error JS1195: Expected expression: class
-(3357,32-37): run-time error JS1195: Expected expression: class
-(3449,29-30): run-time error JS1004: Expected ';': {
+(2819,32-37): run-time error JS1195: Expected expression: class
+(3358,32-37): run-time error JS1195: Expected expression: class
 (3450,29-30): run-time error JS1004: Expected ';': {
 (3451,29-30): run-time error JS1004: Expected ';': {
 (3452,29-30): run-time error JS1004: Expected ';': {
-(4097,36-41): run-time error JS1195: Expected expression: class
-(4210,30-35): run-time error JS1195: Expected expression: class
-(4315,31-36): run-time error JS1195: Expected expression: class
-(4555,35-40): run-time error JS1195: Expected expression: class
-(4683,33-38): run-time error JS1195: Expected expression: class
-(4894,39-40): run-time error JS1014: Invalid character: `
-(4894,40-41): run-time error JS1195: Expected expression: <
-(4894,100-101): run-time error JS1014: Invalid character: `
-(4913,43-44): run-time error JS1014: Invalid character: `
-(4913,44-45): run-time error JS1195: Expected expression: <
-(4913,108-109): run-time error JS1014: Invalid character: `
-(4981,33-38): run-time error JS1195: Expected expression: class
-(5281,32-37): run-time error JS1195: Expected expression: class
-(5653,33-38): run-time error JS1195: Expected expression: class
-(5735,37-42): run-time error JS1195: Expected expression: class
-(5736,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3453,29-30): run-time error JS1004: Expected ';': {
+(4098,36-41): run-time error JS1195: Expected expression: class
+(4211,30-35): run-time error JS1195: Expected expression: class
+(4316,31-36): run-time error JS1195: Expected expression: class
+(4556,35-40): run-time error JS1195: Expected expression: class
+(4684,33-38): run-time error JS1195: Expected expression: class
+(4895,39-40): run-time error JS1014: Invalid character: `
+(4895,40-41): run-time error JS1195: Expected expression: <
+(4895,100-101): run-time error JS1014: Invalid character: `
+(4914,43-44): run-time error JS1014: Invalid character: `
+(4914,44-45): run-time error JS1195: Expected expression: <
+(4914,108-109): run-time error JS1014: Invalid character: `
+(4982,33-38): run-time error JS1195: Expected expression: class
+(5282,32-37): run-time error JS1195: Expected expression: class
+(5654,33-38): run-time error JS1195: Expected expression: class
+(5736,37-42): run-time error JS1195: Expected expression: class
+(5737,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5737,5-16): run-time error JS1006: Expected ')': constructor
-(5808,3-4): run-time error JS1002: Syntax error: }
-(5808,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5750,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5738,5-16): run-time error JS1006: Expected ')': constructor
+(5809,3-4): run-time error JS1002: Syntax error: }
+(5809,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5751,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1809,6 +1809,7 @@
           if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss:S';
           if (mixed.toLowerCase().trim().endsWith(' am') || mixed.toLowerCase().trim().endsWith(' pm')) parserFormat += ' a';
           else if (mixed.toLowerCase().trim().endsWith('am') || mixed.toLowerCase().trim().endsWith('pm')) parserFormat += 'a';
+          if (parserFormat.endsWith('a')) parserFormat = parserFormat.replace('HH', 'hh');
           //luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
           luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
         }
@@ -28773,8 +28774,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
     document.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
 
-    this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
-    this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
+    //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
+    //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
+
+    this.listNode.removeEventListener('mouseenter', this._mouseEnter);
+    this.listNode.removeEventListener('mouseleave', this._mouseLeave);
+    this.listNode.addEventListener('mouseenter', this._mouseEnter);
+    this.listNode.addEventListener('mouseleave', this._mouseLeave);
 
     this._processOptions();
 
@@ -29728,7 +29734,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._focusDelay);
     this._focusDelay = setTimeout(function ()
     {
-      // console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
+      console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
       if (this.status == 'closed')
       {
         this._position(0, 'displayNode focus');
@@ -30286,8 +30292,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     window.removeEventListener('mobileback', function () { this.hide(); }.bind(this));
     document.removeEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
     document.removeEventListener('resize', this._position, Affinity2018.PassiveEventProp);
-    this.autocompleteNode.removeEventListener('mouseenter', this._mouseEnter);
-    this.autocompleteNode.removeEventListener('mouseleave', this._mouseLeave);
+    //this.autocompleteNode.removeEventListener('mouseenter', this._mouseEnter);
+    //this.autocompleteNode.removeEventListener('mouseleave', this._mouseLeave);
+    this.listNode.removeEventListener('mouseenter', this._mouseEnter);
+    this.listNode.removeEventListener('mouseleave', this._mouseLeave);
     if (this.fuzzyWorker)
     {
       this.fuzzyWorker.onmessage = null;
