@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2816,32-37): run-time error JS1195: Expected expression: class
-(3355,32-37): run-time error JS1195: Expected expression: class
-(3447,29-30): run-time error JS1004: Expected ';': {
+(2817,32-37): run-time error JS1195: Expected expression: class
+(3356,32-37): run-time error JS1195: Expected expression: class
 (3448,29-30): run-time error JS1004: Expected ';': {
 (3449,29-30): run-time error JS1004: Expected ';': {
 (3450,29-30): run-time error JS1004: Expected ';': {
-(4095,36-41): run-time error JS1195: Expected expression: class
-(4208,30-35): run-time error JS1195: Expected expression: class
-(4313,31-36): run-time error JS1195: Expected expression: class
-(4553,35-40): run-time error JS1195: Expected expression: class
-(4681,33-38): run-time error JS1195: Expected expression: class
-(4892,39-40): run-time error JS1014: Invalid character: `
-(4892,40-41): run-time error JS1195: Expected expression: <
-(4892,100-101): run-time error JS1014: Invalid character: `
-(4911,43-44): run-time error JS1014: Invalid character: `
-(4911,44-45): run-time error JS1195: Expected expression: <
-(4911,108-109): run-time error JS1014: Invalid character: `
-(4979,33-38): run-time error JS1195: Expected expression: class
-(5279,32-37): run-time error JS1195: Expected expression: class
-(5651,33-38): run-time error JS1195: Expected expression: class
-(5733,37-42): run-time error JS1195: Expected expression: class
-(5734,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3451,29-30): run-time error JS1004: Expected ';': {
+(4096,36-41): run-time error JS1195: Expected expression: class
+(4209,30-35): run-time error JS1195: Expected expression: class
+(4314,31-36): run-time error JS1195: Expected expression: class
+(4554,35-40): run-time error JS1195: Expected expression: class
+(4682,33-38): run-time error JS1195: Expected expression: class
+(4893,39-40): run-time error JS1014: Invalid character: `
+(4893,40-41): run-time error JS1195: Expected expression: <
+(4893,100-101): run-time error JS1014: Invalid character: `
+(4912,43-44): run-time error JS1014: Invalid character: `
+(4912,44-45): run-time error JS1195: Expected expression: <
+(4912,108-109): run-time error JS1014: Invalid character: `
+(4980,33-38): run-time error JS1195: Expected expression: class
+(5280,32-37): run-time error JS1195: Expected expression: class
+(5652,33-38): run-time error JS1195: Expected expression: class
+(5734,37-42): run-time error JS1195: Expected expression: class
+(5735,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5735,5-16): run-time error JS1006: Expected ')': constructor
-(5806,3-4): run-time error JS1002: Syntax error: }
-(5806,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5748,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5736,5-16): run-time error JS1006: Expected ')': constructor
+(5807,3-4): run-time error JS1002: Syntax error: }
+(5807,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5749,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1807,6 +1807,7 @@
           if (mixed.countString(':') === 2) parserFormat += ' HH:mm:ss';
           if (mixed.countString(':') === 2 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
           if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss:S';
+          if (mixed.toLowerCase().trim().endsWith('am') || mixed.toLowerCase().trim().endsWith('pm')) parserFormat += ' a';
           //luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
           luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
         }
