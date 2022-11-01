@@ -27919,8 +27919,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.formComponents = {
       Default: {
         subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'long_name',  formMap: 'street' },
+        street_number:                { type: 'short_name', formMap: 'street_number' },
+        route:                        { type: 'short_name', formMap: 'street' },
         sublocality_level_1:          { type: 'long_name',  formMap: 'suburb' },
         locality:                     { type: 'long_name',  formMap: 'city' },
         administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
@@ -27929,8 +27929,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       },
       NZ: {
         subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'long_name',  formMap: 'street' },
+        street_number:                { type: 'short_name', formMap: 'street_number' },
+        route:                        { type: 'short_name', formMap: 'street' },
         sublocality_level_1:          { type: 'long_name',  formMap: 'suburb' },
         locality:                     { type: 'long_name',  formMap: 'city' },
         administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
@@ -27940,7 +27940,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       AU: {
         subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
         street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'long_name',  formMap: 'street' },
+        route:                        { type: 'short_name', formMap: 'street' },
         locality:                     { type: 'long_name',  formMap: 'suburb' },
         administrative_area_level_2:  { type: 'long_name',  formMap: 'city' },
         administrative_area_level_1:  { type: 'short_name', formMap: 'state' },
@@ -27950,17 +27950,17 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       US: {
         subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
         street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'long_name',  formMap: 'street' },
+        route:                        { type: 'short_name', formMap: 'street' },
         neighborhood:                 { type: 'long_name',  formMap: 'suburb' },
         locality:                     { type: 'long_name',  formMap: 'city' },
-        sublocality_level_1:          { type: 'long_name',  formMap: 'state' },
+        sublocality_level_1:          { type: 'short_name', formMap: 'state' },
         country:                      { type: 'long_name',  formMap: 'country' },
         postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
       },
       GB: {
         subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
         street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'long_name',  formMap: 'street' },
+        route:                        { type: 'short_name', formMap: 'street' },
         neighborhood:                 { type: 'long_name',  formMap: 'suburb' },
         locality:                     { type: 'long_name',  formMap: 'city' },
         administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
