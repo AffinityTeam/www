@@ -15931,6 +15931,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     document.querySelectorAll('.form-row.required').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
+      rowNode.style.marginBottom = null;
       formElement = rowNode.querySelector('input,select,textarea');
       elemntRow = formElement.closest('.form-row');
       if (formElement && !elemntRow.classList.contains('hidden'))
@@ -15942,13 +15943,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           {
             widgets = { TaxNumber: formElement.widgets.TaxNumber };
           }
-          else if (formElement.widgets.hasOwnProperty('Address'))
-          {
-            widgets = { Address: formElement.widgets.Address };
-          }
+          //else if (formElement.widgets.hasOwnProperty('Address'))
+          //{
+          //  widgets = { Address: formElement.widgets.Address };
+          //}
           for (key in widgets)
           {
-            if (formElement.widgets.hasOwnProperty(key))
+            if (key !== 'Address' && formElement.widgets.hasOwnProperty(key))
             {
               widget = formElement.widgets[key];
               if (widget)
@@ -15992,7 +15993,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
 
         /**/
-
         if (!setError && $a.isMethod(rowNode.controller.IsValid))
         {
           var valid = rowNode.controller.IsValid();
@@ -16016,6 +16016,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
               errorNode.classList.add('ui-form-error', 'show');
               errorNode.innerHTML = reason.trim();
+
+              var checkBottom = parseFloat(window.getComputedStyle(errorNode, null).getPropertyValue('bottom').replace('px', ''));
+              if (checkBottom < 0)
+              {
+                var errorSize = errorNode.getBoundingClientRect().height;
+                var newMargin = Math.max(errorSize - 30, 0) + 50;
+                rowNode.style.marginBottom = newMargin + 'px';
+                errorNode.style.bottom = (0 - (errorSize + 1)) + 'px';
+                Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+              }
+
             }
             if (!firstErrorRow.row)
             {
@@ -16111,20 +16122,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
           }
         }
-
       }
     });
 
     if (firstRequiredErrorRow.row || firstErrorRow.row)
     {
-      // TODO: use "scrollIntoView" instead of TweenLite when Chrome sort their shit out >:( (broken since Chrome 81.0.4044.122)
-      /*
-      var scrollOtions = {
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'end'
-      };
-      */
       if (firstRequiredErrorRow.row && !firstErrorRow.row)
       {
         scrollTarget = firstRequiredErrorRow.row;
@@ -16152,7 +16154,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           scrollTarget = firstErrorRow.row;
           //firstErrorRow.row.scrollIntoView(scrollOtions);
         }
-
       }
 
       if (scrollTarget)
@@ -16164,20 +16165,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           pos -= this.DashboardHeaderHeight;
           pos -= 20;
           scrollTarget.classList.add('flash-error');
-
-          console.log('!!! SCROLL to first error');
-
           window.scrollTo({
             //behavior: 'smooth',
             top: pos
           });
-
           // TweenLite is all the sucks right now, and is NOT working correctly.
           //TweenLite.to(window, 0.5, {
           //  //scrollTo: pos
           //  scrollTo: scrollTarget
           //});
-
           setTimeout(function () { scrollTarget.classList.remove('flash-error'); }, 2500);
         }.bind(this), scrollDelay);
       }
@@ -18533,18 +18529,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
   {
     var required = this.Config.Details.Required, value = false;
     if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
-    if (required)
+    var inputNode = this.FormRowNode.querySelector('input.ui-address');
+    var inputWidget = inputNode.widgets.Address;
+    if (required || inputWidget.ValidateLengths)
     {
-      var inputNode = this.FormRowNode.querySelector('input.ui-address');
-      var inputWidget = inputNode.widgets.Address;
-      return inputWidget.IsValid();
+      var valid = inputWidget.IsValid();
+      return valid;
     }
     return true;
   }
 
   InvalidReason()
   {
-    return '';
+    var inputNode = this.FormRowNode.querySelector('input.ui-address');
+    var errors = [];
+    inputNode.widgets.Address.ValidationErrors.forEach(error => errors.push(error[1]));
+    return errors.join('<br>');
   }
 
   CheckValid()
@@ -18591,7 +18591,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-address" placeholder="{placeholder}"" value="{value}" />
+      <input type="text" class="ui-has-address" placeholder="{placeholder}"" value="{value}" data-field-limits="{limits}" />
     </div>
     `;
 
@@ -27969,6 +27969,9 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     };
 
+    this.ValidateLengths = true;
+    this.ValidationErrors = [];
+
     this.IsRequired = false;
 
     this.StartAddressObject = null;
@@ -27987,6 +27990,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
       '_waitUntilready', '_ready', 
       '_userUpdateAddress',
+      '_userUpdateSubAddress',
       '_checkAddress', '_getCountryFromPLace', '_fillAddress',
       '_templates',
 
@@ -28022,6 +28026,11 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.addressNode.classList.add('ui-address-fields');
     this.addressNode.innerHTML = this.addressTemplate;
     this.lookupNode.parentNode.appendChild(this.addressNode);
+
+    this.addressNode.querySelectorAll('input').forEach(function (node)
+    {
+      node.addEventListener('blur', this._userUpdateSubAddress);
+    }.bind(this));
 
     this.iconNode = this.addressNode.querySelector('.address-indicator');
 
@@ -28249,6 +28258,12 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
   }
 
+  _userUpdateSubAddress()
+  {
+    //clearTimeout(this._checkAddressThrottle);
+    //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
+  }
+
   _checkAddress ()
   {
     axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey)
@@ -28364,7 +28379,45 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       this.lookupNode.value = this.GetAddress();
       this.iconNode.classList.remove('invalid', 'icon-blocked', 'icon-cross-round');
       this.iconNode.classList.add('valid', 'icon-tick-round');
-      this.Valid = true;
+
+      var valid = true;
+      this.ValidationErrors = [];
+      if (this.ValidateLengths)
+      {
+        var length = 0;
+        var names = [];
+        var values = [];
+        var field = null;
+        [
+          { max: 38, fields: ['street_number', 'street'] },
+          { max: 25, fields: ['suburb'] },
+          { max: 25, fields: ['city'] },
+          { max: 25, fields: ['state'] },
+          { max: 25, fields: ['country'] },
+          { max: 25, fields: ['postal_code'] }
+        ].forEach(function (fieldInfo)
+        {
+          length = 0;
+          names = [];
+          values = [];
+          for (var f = 0; f < fieldInfo.fields.length; f++)
+          {
+            field = this.addressNode.querySelector('.' + fieldInfo.fields[f]);
+            names.push(field.placeholder);
+            values.push(field.value.trim());
+            length += field.value.trim().length;
+          }
+          length += (fieldInfo.fields.length - 1);
+          if (length > fieldInfo.max)
+          {
+            valid = false;
+            this.ValidationErrors.push([field, names.join(' and ') + ' (' + values.join(' ') + ') must not be more than ' + fieldInfo.max + ' characters long']);
+            //this.ValidationErrors.push([field, names.join(' and ') + ' must not be more than ' + fieldInfo.max + ' characters long']);
+            //this.ValidationErrors.push([field, '"' + values.join(' ') + '" must not be more than ' + fieldInfo.max + ' characters']);
+          }
+        }.bind(this));
+      }
+      this.Valid = valid;
 
     }
     else
@@ -39144,7 +39197,8 @@ Affinity2018.Classes.Plugins.StringWidget = class
 
   IsValid ()
   {
-    return this._validate();
+    this._validate();
+    return this.Valid;
   }
 
   ShowError (error)
@@ -39185,11 +39239,11 @@ Affinity2018.Classes.Plugins.StringWidget = class
         required = this._isRequired(),
         pattern, warning;
 
-    console.group('=== string validation ===');
-    console.log(this.type);
-    console.log(event);
-    console.log(ev);
-    console.groupEnd();
+    //console.group('=== string validation ===');
+    //console.log(this.type);
+    //console.log(event);
+    //console.log(ev);
+    //console.groupEnd();
 
     this.Valid = true;
     this.HideError();
