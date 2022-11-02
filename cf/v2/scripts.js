@@ -15993,6 +15993,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
 
         /**/
+
         if (!setError && $a.isMethod(rowNode.controller.IsValid))
         {
           var valid = rowNode.controller.IsValid();
@@ -16000,33 +16001,39 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (!valid)
           {
             setError = true;
-            rowNode.classList.add('error');
-            if (rowNode.closest('.section').classList.contains('collapsed'))
+            if ($a.isMethod(rowNode.controller.SetError))
             {
-              rowNode.closest('.section').classList.remove('collapsed');
-              scrollDelay = 0.250;
+              rowNode.controller.SetError();
             }
-            if (reason.trim() !== '')
+            else
             {
-              var errorNode = rowNode.querySelector('.ui-form-error');
-              if (!errorNode)
+              rowNode.classList.add('error');
+              if (rowNode.closest('.section').classList.contains('collapsed'))
               {
-                errorNode = document.createElement('div');
-                rowNode.appendChild(errorNode);
+                rowNode.closest('.section').classList.remove('collapsed');
+                scrollDelay = 0.250;
               }
-              errorNode.classList.add('ui-form-error', 'show');
-              errorNode.innerHTML = reason.trim();
-
-              var checkBottom = parseFloat(window.getComputedStyle(errorNode, null).getPropertyValue('bottom').replace('px', ''));
-              if (checkBottom < 0)
+              if (reason.trim() !== '')
               {
-                var errorSize = errorNode.getBoundingClientRect().height;
-                var newMargin = Math.max(errorSize - 30, 0) + 50;
-                rowNode.style.marginBottom = newMargin + 'px';
-                errorNode.style.bottom = (0 - (errorSize + 1)) + 'px';
-                Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+                var errorNode = rowNode.querySelector('.ui-form-error');
+                if (!errorNode)
+                {
+                  errorNode = document.createElement('div');
+                  rowNode.appendChild(errorNode);
+                }
+                errorNode.classList.add('ui-form-error', 'show');
+                errorNode.innerHTML = reason.trim();
+                rowNode.style.marginBottom = '20px';
+                var checkBottom = parseFloat(window.getComputedStyle(errorNode, null).getPropertyValue('bottom').replace('px', ''));
+                if (checkBottom < 0)
+                {
+                  var errorSize = errorNode.getBoundingClientRect().height;
+                  var newMargin = Math.max(errorSize - 30, 0) + 50;
+                  rowNode.style.marginBottom = newMargin + 'px';
+                  errorNode.style.bottom = (0 - (errorSize + 1)) + 'px';
+                  Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+                }
               }
-
             }
             if (!firstErrorRow.row)
             {
@@ -17564,11 +17571,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
         if (this.Config.Type && this.Config.Type === 'Text' && this.FormRowNode.querySelector('input'))
         {
-          this.FormRowNode.querySelector('input').classList.add('ui-has-string');
+          this.FormRowNode.querySelector('input').classList.add('ui-has-sentence');
         }
         if (this.Config.Type && this.Config.Type === 'Memo' && this.FormRowNode.querySelector('textarea'))
         {
-          this.FormRowNode.querySelector('textarea').classList.add('ui-has-string');
+          this.FormRowNode.querySelector('textarea').classList.add('ui-has-sentence');
         }
 
       }
@@ -18372,7 +18379,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid', 'InvalidReason', 'CheckValid',
+      'IsValid', 'InvalidReason', 'CheckValid', 'SetError'
 
     ].bindEach(this);
 
@@ -18485,6 +18492,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     if (this.FormRowNode)
     {
 
+      var input = this.FormRowNode.querySelector('input');
+      if (this.Config.Type === 'AffinityField' && input)
+      {
+        input.dataset.validate = 'lengths';
+        input.addEventListener('LengthValidated', this.SetError);
+      }
+
       // set any special elements
 
       return this.FormRowNode;
@@ -18542,9 +18556,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
   InvalidReason()
   {
     var inputNode = this.FormRowNode.querySelector('input.ui-address');
+    var inputWidget = inputNode.widgets.Address;
     var errors = [];
-    inputNode.widgets.Address.ValidationErrors.forEach(error => errors.push(error[1]));
-    return errors.join('<br>');
+    inputWidget.ValidationErrors.forEach(error => errors.push(error[1]));
+    return errors.length > 0 ? errors.join('<br>') : inputWidget.Valid ? '' : 'You must enter a valid address';
   }
 
   CheckValid()
@@ -18555,6 +18570,49 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+  }
+
+  SetError()
+  {
+    var inputNode = this.FormRowNode.querySelector('input.ui-address');
+    var inputWidget = inputNode.widgets.Address;
+    var rowNode = Affinity2018.getParent(inputNode, 'form-row');
+    var reason = this.InvalidReason();
+    if (rowNode)
+    {
+      var errorNode = rowNode.querySelector('.ui-form-error');
+      if (inputWidget.Valid)
+      {
+        if (errorNode) errorNode.classList.remove('show');
+        rowNode.classList.remove('error');
+        rowNode.style.marginBottom = '20px';
+        Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+      }
+      else
+      {
+        rowNode.classList.add('error');
+        if (reason.trim() !== '')
+        {
+          var errorNode = rowNode.querySelector('.ui-form-error');
+          if (!errorNode)
+          {
+            errorNode = document.createElement('div');
+            rowNode.appendChild(errorNode);
+          }
+          errorNode.innerHTML = this.InvalidReason();
+          errorNode.classList.add('ui-form-error', 'show');
+          var checkBottom = parseFloat(window.getComputedStyle(errorNode, null).getPropertyValue('bottom').replace('px', ''));
+          if (checkBottom < 0)
+          {
+            var errorSize = errorNode.getBoundingClientRect().height;
+            var newMargin = Math.max(errorSize - 30, 0) + 50;
+            rowNode.style.marginBottom = newMargin + 'px';
+            errorNode.style.bottom = (0 - (errorSize + 1)) + 'px';
+          }
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+        }
+      }
+    }
   }
 
   /**/
@@ -18591,7 +18649,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-address" placeholder="{placeholder}"" value="{value}" data-field-limits="{limits}" />
+      <input type="text" class="ui-has-address" placeholder="{placeholder}" value="{value}" />
     </div>
     `;
 
@@ -19243,6 +19301,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.ElementControllerType = displayType;
       this.ElementController = new elements[displayType](this.Config);
       this.FormRowNode = this.ElementController.SetFormRow(target);
+
+      if (displayType === 'Address')
+      {
+        if (this.FormRowNode.querySelector('input'))
+        {
+          this.FormRowNode.querySelector('input').dataset.validate = 'lengths';
+        }
+      }
+
       if (
         displayType === 'SingleSelectDropdown'
         && (this.Config.Details.AffinityField.IsKeyField || this.Config.Details.AffinityField.IsGlobalKey)
@@ -19273,6 +19340,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           }
         }
       }
+
 
       /* form link select */
       
@@ -27929,7 +27997,7 @@ Affinity2018.Classes.Plugins.Address = class
 
 Affinity2018.Classes.Plugins.AddressWidget = class
 {
-  _options ()
+  _options()
   {
     this.WidgetName = 'Address';
 
@@ -27942,68 +28010,68 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     this.formComponents = {
       Default: {
-        subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'short_name', formMap: 'street_number' },
-        route:                        { type: 'short_name', formMap: 'street' },
-        sublocality_level_1:          { type: 'long_name',  formMap: 'suburb' },
-        locality:                     { type: 'long_name',  formMap: 'city' },
-        administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
-        country:                      { type: 'long_name',  formMap: 'country' },
-        postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
+        subpremise: { type: 'long_name', formMap: 'subpremise' },
+        street_number: { type: 'short_name', formMap: 'street_number' },
+        route: { type: 'short_name', formMap: 'street' },
+        sublocality_level_1: { type: 'long_name', formMap: 'suburb' },
+        locality: { type: 'long_name', formMap: 'city' },
+        administrative_area_level_1: { type: 'long_name', formMap: 'state' },
+        country: { type: 'long_name', formMap: 'country' },
+        postal_code: { type: 'long_name', formMap: 'postal_code' }
       },
       NZ: {
-        subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'short_name', formMap: 'street_number' },
-        route:                        { type: 'short_name', formMap: 'street' },
-        sublocality_level_1:          { type: 'long_name',  formMap: 'suburb' },
-        locality:                     { type: 'long_name',  formMap: 'city' },
-        administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
-        country:                      { type: 'long_name',  formMap: 'country' },
-        postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
+        subpremise: { type: 'long_name', formMap: 'subpremise' },
+        street_number: { type: 'short_name', formMap: 'street_number' },
+        route: { type: 'short_name', formMap: 'street' },
+        sublocality_level_1: { type: 'long_name', formMap: 'suburb' },
+        locality: { type: 'long_name', formMap: 'city' },
+        administrative_area_level_1: { type: 'long_name', formMap: 'state' },
+        country: { type: 'long_name', formMap: 'country' },
+        postal_code: { type: 'long_name', formMap: 'postal_code' }
       },
       AU: {
-        subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'short_name', formMap: 'street' },
-        locality:                     { type: 'long_name',  formMap: 'suburb' },
-        administrative_area_level_2:  { type: 'long_name',  formMap: 'city' },
-        administrative_area_level_1:  { type: 'short_name', formMap: 'state' },
-        country:                      { type: 'long_name',  formMap: 'country' },
-        postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
+        subpremise: { type: 'long_name', formMap: 'subpremise' },
+        street_number: { type: 'long_name', formMap: 'street_number' },
+        route: { type: 'short_name', formMap: 'street' },
+        locality: { type: 'long_name', formMap: 'suburb' },
+        administrative_area_level_2: { type: 'long_name', formMap: 'city' },
+        administrative_area_level_1: { type: 'short_name', formMap: 'state' },
+        country: { type: 'long_name', formMap: 'country' },
+        postal_code: { type: 'long_name', formMap: 'postal_code' }
       },
       US: {
-        subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'short_name', formMap: 'street' },
-        neighborhood:                 { type: 'long_name',  formMap: 'suburb' },
-        locality:                     { type: 'long_name',  formMap: 'city' },
-        sublocality_level_1:          { type: 'short_name', formMap: 'state' },
-        country:                      { type: 'long_name',  formMap: 'country' },
-        postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
+        subpremise: { type: 'long_name', formMap: 'subpremise' },
+        street_number: { type: 'long_name', formMap: 'street_number' },
+        route: { type: 'short_name', formMap: 'street' },
+        neighborhood: { type: 'long_name', formMap: 'suburb' },
+        locality: { type: 'long_name', formMap: 'city' },
+        sublocality_level_1: { type: 'short_name', formMap: 'state' },
+        country: { type: 'long_name', formMap: 'country' },
+        postal_code: { type: 'long_name', formMap: 'postal_code' }
       },
       GB: {
-        subpremise:                   { type: 'long_name',  formMap: 'subpremise' },
-        street_number:                { type: 'long_name',  formMap: 'street_number' },
-        route:                        { type: 'short_name', formMap: 'street' },
-        neighborhood:                 { type: 'long_name',  formMap: 'suburb' },
-        locality:                     { type: 'long_name',  formMap: 'city' },
-        administrative_area_level_1:  { type: 'long_name',  formMap: 'state' },
-        country:                      { type: 'long_name',  formMap: 'country' },
-        postal_code:                  { type: 'long_name',  formMap: 'postal_code' }
+        subpremise: { type: 'long_name', formMap: 'subpremise' },
+        street_number: { type: 'long_name', formMap: 'street_number' },
+        route: { type: 'short_name', formMap: 'street' },
+        neighborhood: { type: 'long_name', formMap: 'suburb' },
+        locality: { type: 'long_name', formMap: 'city' },
+        administrative_area_level_1: { type: 'long_name', formMap: 'state' },
+        country: { type: 'long_name', formMap: 'country' },
+        postal_code: { type: 'long_name', formMap: 'postal_code' }
       }
     };
 
-    this.ValidateLengths = true;
+    this.ValidateLengths = false;
     this.ValidationErrors = [];
 
     this.IsRequired = false;
 
     this.StartAddressObject = null;
-    
+
     this.Valid = false;
   }
 
-  constructor (targetNode)
+  constructor(targetNode)
   {
     this._options();
     [
@@ -28012,9 +28080,10 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
       'IsValid',
 
-      '_waitUntilready', '_ready', 
+      '_waitUntilready', '_ready',
       '_userUpdateAddress',
       '_userUpdateSubAddress',
+      '_validateLengths',
       '_checkAddress', '_getCountryFromPLace', '_fillAddress',
       '_templates',
 
@@ -28033,6 +28102,10 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     targetNode.classList.remove('ui-has-address');
     targetNode.classList.add('ui-address', 'no-validate');
+
+    this.ValidateLengths = targetNode.hasAttribute('data-validate') && targetNode.dataset.validate.toLowerCase().trim() === 'lengths';
+
+    //
 
     this.lookupNode = targetNode;
     this.lookupNode.classList.add('ui-address-lookup');
@@ -28062,7 +28135,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     for (key in this.formComponents.Default)
     {
       component = this.formComponents.Default[key];
-      if(this.addressNode.querySelector('.' + component.formMap))
+      if (this.addressNode.querySelector('.' + component.formMap))
       {
         this.addressNode.querySelector('.' + component.formMap).addEventListener('keyup', this._userUpdateAddress);
         this.addressNode.querySelector('.' + component.formMap).addEventListener('blur', this._userUpdateAddress);
@@ -28076,13 +28149,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   /**/
 
-  IsValid ()
+  IsValid()
   {
     this._checkAddress();
     return this.Valid;
   }
 
-  SetAddress (value)
+  SetAddress(value)
   {
     if ($a.type(value) === 'object')
     {
@@ -28286,6 +28359,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   {
     //clearTimeout(this._checkAddressThrottle);
     //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
+    this.Valid = this._validateLengths();
   }
 
   _checkAddress ()
@@ -28325,6 +28399,51 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     }
     return false;
+  }
+
+
+  _validateLengths () 
+  {
+    var valid = true;
+    this.ValidationErrors = [];
+    if (this.ValidateLengths)
+    {
+      var length = 0;
+      var names = [];
+      var values = [];
+      var field = null;
+      [
+        { max: 38, fields: ['street_number', 'street'] },
+        { max: 25, fields: ['suburb'] },
+        { max: 25, fields: ['city'] },
+        { max: 25, fields: ['state'] },
+        { max: 25, fields: ['country'] },
+        { max: 25, fields: ['postal_code'] }
+      ].forEach(function (fieldInfo)
+      {
+        length = 0;
+        names = [];
+        values = [];
+        for (var f = 0; f < fieldInfo.fields.length; f++)
+        {
+          field = this.addressNode.querySelector('.' + fieldInfo.fields[f]);
+          names.push(field.placeholder);
+          values.push(field.value.trim());
+          length += field.value.trim().length;
+        }
+        length += (fieldInfo.fields.length - 1);
+        if (length > fieldInfo.max)
+        {
+          valid = false;
+          this.ValidationErrors.push([field, names.join(' and ') + ' (' + values.join(' ') + ') must not be more than ' + fieldInfo.max + ' characters long']);
+          //this.ValidationErrors.push([field, names.join(' and ') + ' must not be more than ' + fieldInfo.max + ' characters long']);
+          //this.ValidationErrors.push([field, '"' + values.join(' ') + '" must not be more than ' + fieldInfo.max + ' characters']);
+        }
+      }.bind(this));
+    }
+    this.Valid = valid;
+    this.lookupNode.dispatchEvent(new Event('LengthValidated'));
+    return this.Valid;
   }
 
   _fillAddress (place)
@@ -28404,45 +28523,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       this.iconNode.classList.remove('invalid', 'icon-blocked', 'icon-cross-round');
       this.iconNode.classList.add('valid', 'icon-tick-round');
 
-      var valid = true;
-      this.ValidationErrors = [];
-      if (this.ValidateLengths)
-      {
-        var length = 0;
-        var names = [];
-        var values = [];
-        var field = null;
-        [
-          { max: 38, fields: ['street_number', 'street'] },
-          { max: 25, fields: ['suburb'] },
-          { max: 25, fields: ['city'] },
-          { max: 25, fields: ['state'] },
-          { max: 25, fields: ['country'] },
-          { max: 25, fields: ['postal_code'] }
-        ].forEach(function (fieldInfo)
-        {
-          length = 0;
-          names = [];
-          values = [];
-          for (var f = 0; f < fieldInfo.fields.length; f++)
-          {
-            field = this.addressNode.querySelector('.' + fieldInfo.fields[f]);
-            names.push(field.placeholder);
-            values.push(field.value.trim());
-            length += field.value.trim().length;
-          }
-          length += (fieldInfo.fields.length - 1);
-          if (length > fieldInfo.max)
-          {
-            valid = false;
-            this.ValidationErrors.push([field, names.join(' and ') + ' (' + values.join(' ') + ') must not be more than ' + fieldInfo.max + ' characters long']);
-            //this.ValidationErrors.push([field, names.join(' and ') + ' must not be more than ' + fieldInfo.max + ' characters long']);
-            //this.ValidationErrors.push([field, '"' + values.join(' ') + '" must not be more than ' + fieldInfo.max + ' characters']);
-          }
-        }.bind(this));
-      }
-      this.Valid = valid;
-
+      this.Valid = this._validateLengths();
     }
     else
     {
