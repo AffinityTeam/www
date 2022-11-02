@@ -22700,6 +22700,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
       // set any special elements
 
+      var input = this.FormRowNode.querySelector('input');
+      var checkPanelLoaded = function ()
+      {
+        if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+        {
+          input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
+          if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+          return;
+        }
+        setTimeout(checkPanelLoaded, 100);
+      }.bind(this);
+      checkPanelLoaded();
+
       // TODO: add files for background images and stuff ....
 
       return this.FormRowNode;
@@ -27615,6 +27628,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
     {
 
       // set any special elements
+
+      var checkIframeLoaded = function ()
+      {
+        if (this.FormRowNode.getBoundingClientRect().height > 10)
+        {
+          setTimeout(Affinity2018.Apps.CleverForms.Form.ResizeSection, 250, this.FormRowNode);
+          return;
+        }
+        setTimeout(checkIframeLoaded, 100);
+      }.bind(this);
+      checkIframeLoaded();
 
       return this.FormRowNode;
     }

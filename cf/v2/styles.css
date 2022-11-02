@@ -14455,6 +14455,24 @@ html.print body.ui2018 .example-template .preview div.content .collapser,
 html.print body.ui2018.dark .example-template .preview div.content .collapser {
   display: none;
 }
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.header span.form-name,
+html.print body.ui2018.cform div.content div.header span.form-name,
+html.print body.ui2018.dark.cform div.content div.header span.form-name,
+html.print body.ui2018.uiupdate div.content div.header span.form-name,
+html.print body.ui2018.dark.uiupdate div.content div.header span.form-name,
+html.print body.ui2018.cform.uiupdate div.content div.header span.form-name,
+html.print body.ui2018.dark.cform.uiupdate div.content div.header span.form-name,
+html.print body.ui2018 .example-template .preview div.content div.header span.form-name,
+html.print body.ui2018.dark .example-template .preview div.content div.header span.form-name {
+  display: block;
+}
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section,
 html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section,
@@ -14620,6 +14638,7 @@ html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body
 html.print body.ui2018 .example-template .preview div.content div.section .section-body,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body {
   border: none;
+  max-height: unset !important;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form,
@@ -14816,8 +14835,6 @@ html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row input[type="radio"],
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row input[type="radio"] {
   width: unset;
-  height: unset;
-  margin-top: 8px;
   outline: solid;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row input[type="checkbox"]:after,
@@ -14964,7 +14981,8 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row textarea:not(.field),
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row textarea:not(.field),
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row textarea:not(.field) {
-  width: calc(100% - 200px);
+  width: 100%;
+  min-width: unset;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select,
@@ -14982,7 +15000,7 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .select,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .select,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .select {
-  width: calc(100% - 200px);
+  width: 100%;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select select,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select select,
@@ -15018,7 +15036,7 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .ui-address-fields,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-fields,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-fields {
-  width: calc(100% - 200px);
+  width: 100%;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
@@ -15036,7 +15054,7 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box {
-  width: calc(100% - 200px);
+  width: 100%;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .tickcross,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .tickcross,
@@ -15072,7 +15090,7 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .select.hidden,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .select.hidden,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .select.hidden {
-  display: inline-block !important;
+  display: block !important;
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
@@ -15112,7 +15130,7 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .currencybox,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox {
-  width: calc(100% - 181px);
+  width: calc(100% - 22px);
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox input,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox input,
@@ -15130,7 +15148,7 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .currencybox input,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox input,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox input {
-  width: calc(100% - 19px) !important;
+  width: calc(100% - 22px) !important;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox .symbol,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox .symbol,
@@ -15150,23 +15168,80 @@ html.print body.ui2018 .example-template .preview div.content div.section .secti
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox .symbol {
   color: black !important;
 }
-html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video,
-html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video {
-  min-height: 420px;
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair {
+  min-height: unset;
+  line-height: unset;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair label {
+  min-height: unset;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning {
+  margin: 0 0 0 12px;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields {
+  margin: 10px 0 0 12px;
+  width: calc(100% - 12px);
+  max-width: unset;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .ui-autocomplete-container,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .ui-autocomplete-container,
@@ -15204,8 +15279,9 @@ html.print body.ui2018 .example-template .preview div.content div.section .secti
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-fields {
   display: inline-block;
   vertical-align: top;
-  width: calc(100% - 200px) !important;
+  width: 100% !important;
   max-width: unset !important;
+  min-width: unset !important;
   margin: 0 !important;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .ui-address-fields .street_number,
@@ -15382,6 +15458,42 @@ html.print body.ui2018.dark .example-template .preview div.content div.section .
   left: auto;
   color: black !important;
 }
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel {
+  width: 100% !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box {
+  width: 100%;
+}
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel canvas,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel canvas,
 html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel canvas,
@@ -15398,7 +15510,25 @@ html.print body.ui2018.cform.uiupdate div.content div.section .section-body .def
 html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel canvas,
 html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel canvas,
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel canvas {
-  width: calc(100% - 200px) !important;
+  width: 100% !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .select,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .select {
+  width: 100%;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel button,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel button,
@@ -15418,6 +15548,24 @@ html.print body.ui2018 .example-template .preview div.content div.section .secti
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel button {
   display: none !important;
 }
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video {
+  min-height: 420px;
+}
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
 html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
@@ -15434,7 +15582,6 @@ html.print body.ui2018.cform.uiupdate div.content div#form div.section:nth-child
 html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section:nth-child(n+2),
 html.print body.ui2018 .example-template .preview div.content div#form div.section:nth-child(n+2),
 html.print body.ui2018.dark .example-template .preview div.content div#form div.section:nth-child(n+2) {
-  display: grid;
   break-inside: avoid;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
@@ -15453,7 +15600,6 @@ html.print body.ui2018.cform.uiupdate div.content div#form div.section div.secti
 html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
 html.print body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
 html.print body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
-  display: grid;
   break-inside: avoid;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content .section#buttons,
@@ -15869,6 +16015,24 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark .example-template .preview div.content .collapser {
     display: none;
   }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.header span.form-name,
+  body.ui2018.cform div.content div.header span.form-name,
+  body.ui2018.dark.cform div.content div.header span.form-name,
+  body.ui2018.uiupdate div.content div.header span.form-name,
+  body.ui2018.dark.uiupdate div.content div.header span.form-name,
+  body.ui2018.cform.uiupdate div.content div.header span.form-name,
+  body.ui2018.dark.cform.uiupdate div.content div.header span.form-name,
+  body.ui2018 .example-template .preview div.content div.header span.form-name,
+  body.ui2018.dark .example-template .preview div.content div.header span.form-name {
+    display: block;
+  }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section,
   body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section,
@@ -16034,6 +16198,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018 .example-template .preview div.content div.section .section-body,
   body.ui2018.dark .example-template .preview div.content div.section .section-body {
     border: none;
+    max-height: unset !important;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form,
@@ -16230,8 +16395,6 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row input[type="radio"],
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row input[type="radio"] {
     width: unset;
-    height: unset;
-    margin-top: 8px;
     outline: solid;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row input[type="checkbox"]:after,
@@ -16378,7 +16541,8 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row textarea:not(.field),
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row textarea:not(.field),
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row textarea:not(.field) {
-    width: calc(100% - 200px);
+    width: 100%;
+    min-width: unset;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select,
@@ -16396,7 +16560,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .select,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .select,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .select {
-    width: calc(100% - 200px);
+    width: 100%;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select select,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .select select,
@@ -16432,7 +16596,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .ui-address-fields,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-fields,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-fields {
-    width: calc(100% - 200px);
+    width: 100%;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
@@ -16450,7 +16614,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box {
-    width: calc(100% - 200px);
+    width: 100%;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .tickcross,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .tickcross,
@@ -16486,7 +16650,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .select.hidden,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .select.hidden,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .select.hidden {
-    display: inline-block !important;
+    display: block !important;
     -moz-opacity: 1;
     -khtml-opacity: 1;
     opacity: 1;
@@ -16526,7 +16690,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .currencybox,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox {
-    width: calc(100% - 181px);
+    width: calc(100% - 22px);
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox input,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox input,
@@ -16544,7 +16708,7 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .currencybox input,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox input,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox input {
-    width: calc(100% - 19px) !important;
+    width: calc(100% - 22px) !important;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox .symbol,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .currencybox .symbol,
@@ -16564,23 +16728,80 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .currencybox .symbol {
     color: black !important;
   }
-  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.cform div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video,
-  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video {
-    min-height: 420px;
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair {
+    min-height: unset;
+    line-height: unset;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair label,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .radio-label-pair label {
+    min-height: unset;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning {
+    margin: 0 0 0 12px;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.row-documentsigning .docsign-fields {
+    margin: 10px 0 0 12px;
+    width: calc(100% - 12px);
+    max-width: unset;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .ui-autocomplete-container,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .ui-autocomplete-container,
@@ -16618,8 +16839,9 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-fields {
     display: inline-block;
     vertical-align: top;
-    width: calc(100% - 200px) !important;
+    width: 100% !important;
     max-width: unset !important;
+    min-width: unset !important;
     margin: 0 !important;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .ui-address-fields .street_number,
@@ -16796,6 +17018,42 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
     left: auto;
     color: black !important;
   }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel {
+    width: 100% !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .draw-panel-box {
+    width: 100%;
+  }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel canvas,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel canvas,
   body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel canvas,
@@ -16812,7 +17070,25 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel canvas,
   body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel canvas,
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel canvas {
-    width: calc(100% - 200px) !important;
+    width: 100% !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .select,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel .select {
+    width: 100%;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel button,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.draw-panel button,
@@ -16832,6 +17108,24 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row.draw-panel button {
     display: none !important;
   }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video {
+    min-height: 420px;
+  }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
   body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
@@ -16848,7 +17142,6 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div#form div.section:nth-child(n+2),
   body.ui2018 .example-template .preview div.content div#form div.section:nth-child(n+2),
   body.ui2018.dark .example-template .preview div.content div#form div.section:nth-child(n+2) {
-    display: grid;
     break-inside: avoid;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
@@ -16867,7 +17160,6 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
   body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
   body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
-    display: grid;
     break-inside: avoid;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content .section#buttons,
