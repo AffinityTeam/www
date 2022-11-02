@@ -15925,10 +15925,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     document.querySelectorAll('.form-row.error').forEach(function (rowNode)
     {
       rowNode.classList.remove('error', 'flash-error');
+      if (rowNode.querySelector('.ui-form-error'))
+      {
+        rowNode.querySelector('.ui-form-error').classList.remove('show');
+      }
     });
 
-
-    document.querySelectorAll('.form-row.required').forEach(function (rowNode, rowIndex)
+    document.querySelectorAll('.form-row.required, .form-row.inline-error').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
       rowNode.style.marginBottom = null;
@@ -15976,7 +15979,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                 }
                 else
                 {
-                  if (rowNode.querySelector('input[type="file"]'))
+                  if (rowNode.classList.contains('required') && rowNode.querySelector('input[type="file"]'))
                   {
                     if (widget.GetFiles().length === 0)
                     {
@@ -18584,13 +18587,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       if (inputWidget.Valid)
       {
         if (errorNode) errorNode.classList.remove('show');
-        rowNode.classList.remove('error');
+        rowNode.classList.remove('error', 'inline-error');
         rowNode.style.marginBottom = '20px';
         Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
       }
       else
       {
-        rowNode.classList.add('error');
+        rowNode.classList.add('error', 'inline-error');
         if (reason.trim() !== '')
         {
           var errorNode = rowNode.querySelector('.ui-form-error');
@@ -28442,6 +28445,20 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }.bind(this));
     }
     this.Valid = valid;
+
+    var formRow = $a.getParent(this.InputNode, '.form-row');
+    if (formRow)
+    {
+      if (this.Valid)
+      {
+        formRow.classList.remove('error', 'flash-error', 'inline-error');
+      }
+      else
+      {
+        formRow.classList.add('error', 'inline-error');
+      }
+    }
+
     this.lookupNode.dispatchEvent(new Event('LengthValidated'));
     return this.Valid;
   }
@@ -38045,6 +38062,19 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       }
     }
 
+    var formRow = $a.getParent(this.InputNode, '.form-row');
+    if (formRow)
+    {
+      if (this.Valid)
+      {
+        formRow.classList.remove('error', 'flash-error', 'inline-error');
+      }
+      else
+      {
+        formRow.classList.add('error', 'inline-error');
+      }
+    }
+
     return this.Valid;
   }
 
@@ -39438,6 +39468,19 @@ Affinity2018.Classes.Plugins.StringWidget = class
       if (newUrl !== value)
       {
         this.InputNode.value = newUrl;
+      }
+    }
+
+    var formRow = $a.getParent(this.InputNode, '.form-row');
+    if (formRow)
+    {
+      if (this.Valid)
+      {
+        formRow.classList.remove('error', 'flash-error', 'inline-error');
+      }
+      else
+      {
+        formRow.classList.add('error', 'inline-error');
       }
     }
 
