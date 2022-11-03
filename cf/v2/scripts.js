@@ -28427,7 +28427,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         { max: 38, fields: ['suburb'] },
         { max: 25, fields: ['city'] },
         { max: 25, fields: ['state'] },
-        { max: 25, fields: ['country'] },
+        { max: 20, fields: ['country'] },
         { max: 8, fields: ['postal_code'] }
       ].forEach(function (fieldInfo)
       {
