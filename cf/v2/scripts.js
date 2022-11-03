@@ -18550,7 +18550,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     var inputWidget = inputNode.widgets.Address;
     if (required || inputWidget.ValidateLengths)
     {
-      var valid = inputWidget.IsValid();
+      //var valid = inputWidget.IsValid();
+      var valid = inputWidget.IsLenghtsValid();
       return valid;
     }
     return true;
@@ -28081,7 +28082,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
       'GetAddressData', 'GetAddress', 'SetAddress',
 
-      'IsValid',
+      'IsValid', 'IsLenghtsValid',
 
       '_waitUntilready', '_ready',
       '_userUpdateAddress',
@@ -28155,6 +28156,12 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   IsValid()
   {
     this._checkAddress();
+    return this.Valid;
+  }
+
+  IsLenghtsValid()
+  {
+    this._validateLengths();
     return this.Valid;
   }
 
