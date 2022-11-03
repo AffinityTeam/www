@@ -28424,7 +28424,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       var field = null;
       [
         { max: 38, fields: ['street_number', 'street'] },
-        { max: 25, fields: ['suburb'] },
+        { max: 38, fields: ['suburb'] },
         { max: 25, fields: ['city'] },
         { max: 25, fields: ['state'] },
         { max: 25, fields: ['country'] },
