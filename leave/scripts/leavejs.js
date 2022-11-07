@@ -8232,7 +8232,8 @@ var UILeaveDetail = new Class({
             OldValue: oldValue
         };
 
-        if (fieldName === "Reply")
+        if (fieldName === "Reply" ||
+            fieldName === "Comment")
             value.NewValue = encodeURIComponent(value.NewValue);
 
         var methodName = 'ui.myLeave.js -> update';
