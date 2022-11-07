@@ -5308,7 +5308,7 @@ var UILeaveApply = new Class({
         obj.TotalUnits = this.unitInput.get("id");
         obj.SubmittedBy = Affinity.login.profile.employeeNumber;
         obj.Authorisations = approvers;
-        obj.Comment = this.commentBox.value;
+        obj.Comment = encodeURIComponent(this.commentBox.value);
         obj.StatusCode = statusCode;
         obj.UnitType = this.leaveCode.UnitType;
         obj.Reply = null;
@@ -8231,6 +8231,9 @@ var UILeaveDetail = new Class({
             NewValue: newValue,
             OldValue: oldValue
         };
+
+        if (fieldName === "Reply")
+            value.NewValue = encodeURIComponent(value.NewValue);
 
         var methodName = 'ui.myLeave.js -> update';
 
