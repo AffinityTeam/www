@@ -30,6 +30,8 @@ var Leave = new Class({
         //'populateForwardHistory', //moved to detail
         //'leaveDetailData',
         //'populateDetailData',
+        'htmlEncode',
+        'htmlDecode',
     ],
 
     options: {
@@ -1000,7 +1002,28 @@ var Leave = new Class({
             element.getElement('.month').set('html', monthStr);
             element.getElement('.year').set('html', yearStr);
         }
-    }
+    },
+    getListOfHTMLChars: function () {
+        return ['<', '>', '=', '"', '\''];
+    },
+    htmlEncode: function (input) {
+        var listOfCharsToEncode = this.getListOfHTMLChars();
+
+        for (var i = 0; i < listOfCharsToEncode.length; i++) {
+            input = input.replace(listOfCharsToEncode[i], '&#' + listOfCharsToEncode[i].charCodeAt(0) + ';');
+        }
+
+        return input;
+    },
+    htmlDecode: function (input) {
+        var listOfCharsToEncode = this.getListOfHTMLChars();
+
+        for (var i = 0; i < listOfCharsToEncode.length; i++) {
+            input = input.replace('&#' + listOfCharsToEncode[i].charCodeAt(0) + ';', listOfCharsToEncode[i]);
+        }
+
+        return input;
+    },
 
 });
 var UILeaveHistory = new Class({
@@ -5308,7 +5331,7 @@ var UILeaveApply = new Class({
         obj.TotalUnits = this.unitInput.get("id");
         obj.SubmittedBy = Affinity.login.profile.employeeNumber;
         obj.Authorisations = approvers;
-        obj.Comment = this.commentBox.value;
+        obj.Comment = Affinity.leave.htmlEncode(this.commentBox.value);
         obj.StatusCode = statusCode;
         obj.UnitType = this.leaveCode.UnitType;
         obj.Reply = null;
@@ -5329,7 +5352,6 @@ var UILeaveApply = new Class({
             this.sendApplicationRequest.options.url = this._api;
         this.sendApplicationRequest.post(JSON.stringify(obj));
     },
-
     resetForm: function () {
         var today = new Date();
         this.fromDateWidget.setDate(today);
@@ -6839,7 +6861,7 @@ var UILeaveDetail = new Class({
                             var value = {
                                 ForwardedTo: id,
                                 AuthorisationId: this.data.Components[0].Authorisation.AuthorisationId,
-                                Comment: this.forwardReasonText.get('value')
+                                Comment: Affinity.leave.htmlEncode(this.forwardReasonText.get('value'))
                             };
 
                             if (value.ForwardedTo === '') {
@@ -8223,7 +8245,6 @@ var UILeaveDetail = new Class({
 
         //return forwardsBox;
     },
-
     update: function (fieldName, newValue, oldValue, employeeNo, leaveId, timeLastModified, doOnSuccess, doOnError) {
 
         var value = {
@@ -8231,6 +8252,10 @@ var UILeaveDetail = new Class({
             NewValue: newValue,
             OldValue: oldValue
         };
+
+        if (fieldName === "Reply" ||
+            fieldName === "Comment")
+            value.NewValue = Affinity.leave.htmlEncode(value.NewValue);
 
         var methodName = 'ui.myLeave.js -> update';
 
