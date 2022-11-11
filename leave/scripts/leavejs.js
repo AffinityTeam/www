@@ -1007,6 +1007,8 @@ var Leave = new Class({
         return ['<', '>', '=', '"', '\''];
     },
     htmlEncode: function (input) {
+        if (input === null || input === undefined) return input;
+
         var listOfCharsToEncode = this.getListOfHTMLChars();
 
         for (var i = 0; i < listOfCharsToEncode.length; i++) {
@@ -1016,6 +1018,7 @@ var Leave = new Class({
         return input;
     },
     htmlDecode: function (input) {
+        if (input === null || input === undefined) return input;
         var listOfCharsToEncode = this.getListOfHTMLChars();
 
         for (var i = 0; i < listOfCharsToEncode.length; i++) {
