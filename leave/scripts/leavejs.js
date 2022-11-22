@@ -3839,7 +3839,7 @@ var UILeaveApply = new Class({
             }.bind(this)
         );
 
-        var fBuildUnits = function (position, dates, unitType) {
+        var fBuildUnits = function (position, dates, unitType, isMultiPosition) {
             var pos = new Element("div", { class: "position-label" }).inject(
                 this.positionsLabels
             );
@@ -3891,10 +3891,7 @@ var UILeaveApply = new Class({
                                 Array.each(
                                     day.PositionUnits,
                                     function (pUnit, Index) {
-                                        if (
-                                            pUnit.PositionCode ===
-                                            position.get("id")
-                                        ) {
+                                        if (!isMultiPosition || (isMultiPosition && pUnit.PositionCode === position.get("id"))) {
                                             if (unitType === "H") {
                                                 hours = new Element("input", {
                                                     class: "edit-position-hours data-hj-whitelist",
@@ -4048,16 +4045,16 @@ var UILeaveApply = new Class({
                         this.posies,
                         function (pos, index) {
                             if (pos.get("id") != -01) {
-                                fBuildUnits(pos, dates, unitType);
+                                fBuildUnits(pos, dates, unitType, true);
                             }
                         }.bind(this)
                     );
                 } else {
-                    fBuildUnits(this.selectedPos, dates, unitType);
+                    fBuildUnits(this.selectedPos, dates, unitType, true);
                 }
             } else {
                 this.pos = this.position.getElement(".position");
-                fBuildUnits(this.pos, dates, unitType);
+                fBuildUnits(this.pos, dates, unitType, false);
             }
         }
 
@@ -4108,6 +4105,7 @@ var UILeaveApply = new Class({
             var positions = document.getElements(
                 ".positions-" + unitType.toLowerCase()
             );
+            var isMultiPosition = positions.length > 1;
             Array.each(
                 positions,
                 function (position, index) {
@@ -4128,10 +4126,8 @@ var UILeaveApply = new Class({
                                         .format("%d/%b/%y");
 
                                     if (inputDate === responseDate) {
-                                        if (
-                                            unit.PositionCode ===
-                                            position.get("id")
-                                        ) {
+                                        if (!isMultiPosition ||
+                                            (isMultiPosition && unit.PositionCode === position.get("id"))) {
                                             unit[unitType] = parseFloat(
                                                 input.value
                                             );
