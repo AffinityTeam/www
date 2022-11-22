@@ -4291,6 +4291,8 @@ var UILeaveApply = new Class({
                 });
             }
 
+            var hasMultiPositions = positionsArray.length > 1;
+
             Array.each(approverList, function (approver, index) {
                 //approver.addClass('hidden');
                 approver
@@ -4311,7 +4313,7 @@ var UILeaveApply = new Class({
             Array.each(positionsArray, function (position, index) {
                 if (position.units > 0) {
                     Array.each(approverList, function (approver, index) {
-                        if (approver.get("id") === position.positionName) {
+                        if ((hasMultiPositions && approver.get("id") === position.positionName) || !hasMultiPositions) {
                             //approver.removeClass('hidden');
                             approver
                                 .getElement(".leave-approver-selector")
@@ -4325,7 +4327,7 @@ var UILeaveApply = new Class({
                     });
                 } else {
                     Array.each(approverList, function (approver, index) {
-                        if (approver.get("id") === position.positionName) {
+                        if ((hasMultiPositions && approver.get("id") === position.positionName) || !hasMultiPositions) {
                             if (!approver.getElement(".leave-approver-hint")) {
                                 new Element("span", {
                                     class: "leave-approver-hint",
@@ -4635,7 +4637,6 @@ var UILeaveApply = new Class({
                                 var select = document
                                     .getElement(".position")
                                     .get("id");
-                                if (position.PositionCode === select) {
                                     if (unitType === "H") {
                                         unitsAppFor += parseFloat(
                                             position.HoursAppliedFor
@@ -4655,7 +4656,6 @@ var UILeaveApply = new Class({
                                                 : 0
                                         );
                                     }
-                                }
                             }
                         );
                     }
