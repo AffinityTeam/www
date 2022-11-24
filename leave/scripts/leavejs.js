@@ -3839,7 +3839,7 @@ var UILeaveApply = new Class({
             }.bind(this)
         );
 
-        var fBuildUnits = function (position, dates, unitType) {
+        var fBuildUnits = function (position, dates, unitType, isMultiPosition) {
             var pos = new Element("div", { class: "position-label" }).inject(
                 this.positionsLabels
             );
@@ -3891,10 +3891,7 @@ var UILeaveApply = new Class({
                                 Array.each(
                                     day.PositionUnits,
                                     function (pUnit, Index) {
-                                        if (
-                                            pUnit.PositionCode ===
-                                            position.get("id")
-                                        ) {
+                                        if (!isMultiPosition || (isMultiPosition && pUnit.PositionCode === position.get("id"))) {
                                             if (unitType === "H") {
                                                 hours = new Element("input", {
                                                     class: "edit-position-hours data-hj-whitelist",
@@ -4048,16 +4045,16 @@ var UILeaveApply = new Class({
                         this.posies,
                         function (pos, index) {
                             if (pos.get("id") != -01) {
-                                fBuildUnits(pos, dates, unitType);
+                                fBuildUnits(pos, dates, unitType, true);
                             }
                         }.bind(this)
                     );
                 } else {
-                    fBuildUnits(this.selectedPos, dates, unitType);
+                    fBuildUnits(this.selectedPos, dates, unitType, true);
                 }
             } else {
                 this.pos = this.position.getElement(".position");
-                fBuildUnits(this.pos, dates, unitType);
+                fBuildUnits(this.pos, dates, unitType, false);
             }
         }
 
@@ -4108,6 +4105,7 @@ var UILeaveApply = new Class({
             var positions = document.getElements(
                 ".positions-" + unitType.toLowerCase()
             );
+            var isMultiPosition = positions.length > 1;
             Array.each(
                 positions,
                 function (position, index) {
@@ -4128,10 +4126,8 @@ var UILeaveApply = new Class({
                                         .format("%d/%b/%y");
 
                                     if (inputDate === responseDate) {
-                                        if (
-                                            unit.PositionCode ===
-                                            position.get("id")
-                                        ) {
+                                        if (!isMultiPosition ||
+                                            (isMultiPosition && unit.PositionCode === position.get("id"))) {
                                             unit[unitType] = parseFloat(
                                                 input.value
                                             );
@@ -4291,6 +4287,8 @@ var UILeaveApply = new Class({
                 });
             }
 
+            var hasMultiPositions = positionsArray.length > 1;
+
             Array.each(approverList, function (approver, index) {
                 //approver.addClass('hidden');
                 approver
@@ -4311,7 +4309,7 @@ var UILeaveApply = new Class({
             Array.each(positionsArray, function (position, index) {
                 if (position.units > 0) {
                     Array.each(approverList, function (approver, index) {
-                        if (approver.get("id") === position.positionName) {
+                        if ((hasMultiPositions && approver.get("id") === position.positionName) || !hasMultiPositions) {
                             //approver.removeClass('hidden');
                             approver
                                 .getElement(".leave-approver-selector")
@@ -4325,7 +4323,7 @@ var UILeaveApply = new Class({
                     });
                 } else {
                     Array.each(approverList, function (approver, index) {
-                        if (approver.get("id") === position.positionName) {
+                        if ((hasMultiPositions && approver.get("id") === position.positionName) || !hasMultiPositions) {
                             if (!approver.getElement(".leave-approver-hint")) {
                                 new Element("span", {
                                     class: "leave-approver-hint",
@@ -4635,7 +4633,6 @@ var UILeaveApply = new Class({
                                 var select = document
                                     .getElement(".position")
                                     .get("id");
-                                if (position.PositionCode === select) {
                                     if (unitType === "H") {
                                         unitsAppFor += parseFloat(
                                             position.HoursAppliedFor
@@ -4655,7 +4652,6 @@ var UILeaveApply = new Class({
                                                 : 0
                                         );
                                     }
-                                }
                             }
                         );
                     }
