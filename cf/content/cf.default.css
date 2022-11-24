@@ -83,8 +83,10 @@ newui .grid-list li {
 .newui col.cf-admin-buttons,
 .newui .section table tr td.cf-admin-buttons {
     width: 180px;
+    min-width: 180px;
     text-align: right;
 }
+
 
 .newui .button-cols {
     min-width: 300px;
