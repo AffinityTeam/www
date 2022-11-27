@@ -9282,15 +9282,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
             toConfig.Details.DocumentCategory = pair['Value'];
           }
         }.bind(this));
-        // toConfig.Details.DocumentCategory = this.DocumentCategories[fromConfig.Details.FileSetting.DocumentCategory].Value;
-        // Ben this method returns wrong element as it is returning element number 19 which has key=20, rather than key=19. Please review. 
       }
       else
+      {
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
-      
-      toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
-      //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
-      toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
+        toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
+        //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
+        toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
+      }
     }
     if (toConfig.Details.hasOwnProperty('AttachFormOnly')) toConfig.Details.AttachFormOnly = fromConfig.Details.AttachFormOnly;
     return toConfig;
@@ -18044,7 +18043,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    */
   _fileDeleteFailed(ev)
   {
-    var message = 'Oops! Something went wrong deleting this file.';
+    var message = 'Something went wrong deleting this file.';
     if (ev && 'detail' in ev && 'Success' in ev.detail && !ev.detail.Success) message = 'You are not allowed to delete this file.';
     $a.HidePageLoader();
     Affinity2018.Dialog.Show({
@@ -20191,6 +20190,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     {
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
+      link += '&instanceId=' + this.CleverForms.GetInstanceGuid();
+      link += '&questionName=' + this.Config.Name;
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
       axios({
@@ -20206,7 +20207,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
         {
           if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
         }
-      }.bind(this)).catch(function () { });
+      }.bind(this)).catch(function (error)
+      {
+
+        // TODO: handle security errors, like, NO, NOT YOU XD
+
+        console.log('AttachInstructions ERROR');
+        console.log(error);
+
+      }.bind(this));
     }
 
     this.FormRowNode = super.SetFormRow(target, html);
@@ -23675,13 +23684,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.Config.Details.SecurityLevel = this.DocSecurityLevelSelectNode.value;
     //this.Config.Details.DocumentDescription = this.DocumentDescriptionNode.value;
 
-      if (this.AttachOnlyTrueNode.checked) {
-          this.Config.Details.AttachFormOnly = false;
-      }
-      if (this.AttachOnlyFalseNode.checked) {
-          this.Config.Details.DocumentCategory = "";
-          this.Config.Details.AttachFormOnly = true;
-      }
+    if (this.AttachOnlyTrueNode.checked)
+    {
+      this.Config.Details.AttachFormOnly = false;
+    }
+    if (this.AttachOnlyFalseNode.checked)
+    {
+      this.Config.Details.DocumentCategory = "";
+      this.Config.Details.AttachFormOnly = true;
+    }
 
     if (this.AttachPositionNode.checked)
     {
@@ -23848,10 +23859,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
             this.DocCatsSelectNode.innerHTML = '';
             for (key in response.data)
             {
-                this.DocumentCategories[key] = key.splitCamelCase();
+              this.DocumentCategories[key] = key.splitCamelCase();
               if (response.data.hasOwnProperty(key))
               {
-                  if (key !== 'Position' && key !== 'Performance') // do not add Position or Performance
+                if (key !== 'Position' && key !== 'Performance') // do not add Position or Performance
                 {
                   optionNode = document.createElement('option');
                   optionNode.innerHTML = this.DocumentCategories[key];
@@ -23865,11 +23876,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
                 }
               }
             }
-              if (selected !== null) {
-                  this.DocCatsSelectNode.value = selected;
-                  this._getDocumentTypes();
-              }
-              if (selected === null && this.DocCatsSelectNode.value !== null) this._getDocumentTypes();
+            if (selected !== null)
+            {
+              this.DocCatsSelectNode.value = selected;
+              this._getDocumentTypes();
+            }
+            if (selected === null && this.DocCatsSelectNode.value !== null) this._getDocumentTypes();
           }
         }
         this.DocCatsNode.classList.remove('working');
@@ -23877,9 +23889,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       }.bind(this))
       .catch(function (error)
       {
+
+        // TODO: handle security errors, like, NO, NOT YOU XD
+
         console.log('GetDocumentCategory ERROR');
         console.log(error);
+
         this.DocCatsNode.classList.remove('working');
+
       }.bind(this));
     }
     else
@@ -23990,11 +24007,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         && $a.isPropObject(response.data, 'data')
       )
       {
-        var dataObj = response.data.data, f = 0, links = [], id;
+        var dataObj = response.data.data, f = 0, links = [], link, id;
         for ( ; f < fileIds.length; f++)
         {
+          link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
+          link += '&instanceId=' + this.CleverForms.GetInstanceGuid();
+          link += '&questionName=' + this.Config.Name;
           if (dataObj.hasOwnProperty(fileIds[f]))
-            links.push('<a href="' + this.CleverForms.FileGetApi + '?documentId=' + fileIds[f] + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
+            links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
           else
             links.push(fileIds[f]);
         }
