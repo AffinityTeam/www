@@ -22769,12 +22769,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     }
     else
     {
-
-      var test1 = this.CleverForms.GetInstanceGuid();
-      var test2 = this.Config.Name;
-
-      debugger;
-
       html = this.HtmlRowTemplate.format({
         instanceId: this.CleverForms.GetInstanceGuid(),
         questionName: this.Config.Name,
