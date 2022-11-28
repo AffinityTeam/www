@@ -17907,6 +17907,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       var fileIds = this._getFileIds();
 
+      this.FileNode.dataset.instanceId = this.CleverForms.GetInstanceGuid()
+      this.FileNode.dataset.questionName = this.Config.Name;
+
       this.FileNode.dataset.fileIds = fileIds.removeEmpty().removeDuplicates().join(',');
       this.FileNode.dataset.fileNames = [];
 
@@ -17948,6 +17951,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       {
         this.FileNode.dataset.allowTypes = Affinity2018.FileTypeGroupData[this.Config.Details.RestrictTypes].Name;
       }
+
+
+
 
     }
   }
@@ -22763,7 +22769,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     }
     else
     {
+
+      var test1 = this.CleverForms.GetInstanceGuid();
+      var test2 = this.Config.Name;
+
+      debugger;
+
       html = this.HtmlRowTemplate.format({
+        instanceId: this.CleverForms.GetInstanceGuid(),
+        questionName: this.Config.Name,
         label: this.Config.Details.Label,
         value: $a.isString(this.Config.Details.Value) && this.Config.Details.Value.startsWith('data:image') ? this.Config.Details.Value : '',
         fileIds: this.Config.Details.FileId !== null ? this.Config.Details.FileId : '',
@@ -22860,7 +22874,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" />
+      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" data-instance-id="{instanceId}" data-question-name="{questionName}" />
     </div>
     `;
 
@@ -34669,6 +34683,20 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
     /**/
 
+    this.InstanceId = '';
+    if (this.InitNode.dataset.instanceId)
+    {
+      this.InstanceId = this.InitNode.dataset.instanceId;
+      delete this.InitNode.dataset.instanceId;
+    }
+
+    this.QuestionName = '';
+    if (this.InitNode.dataset.questionName)
+    {
+      this.QuestionName = this.InitNode.dataset.questionName;
+      delete this.InitNode.dataset.questionName;
+    }
+
     if (this.InitNode.dataset.getApi)
     {
       if (this.InitNode.dataset.getApi.toLowerCase().trim() !== 'false')
@@ -34935,7 +34963,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       image = null;
       root = null;
     };
-    image.src = this.DownloadApi + '?documentId=' + id;
+    image.src = this.DownloadApi + '?documentId=' + id + '&instanceId=' + this.InstanceId + '&questionName=' + this.QuestionName;
   }
   _loadImageDataFromB64 (b64String, name, method)
   {
@@ -35907,12 +35935,16 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     /**/
 
+    this.InstanceId = this.fileNode.dataset.instanceId || '';
+    this.QuestionName = this.fileNode.dataset.questionName || '';
     if (this.fileNode.dataset.fileIds)
     {
       var fileIds = this.fileNode.dataset.fileIds;
       this.FileIds = fileIds.split(',').removeEmpty().removeDuplicates();
       delete this.fileNode.dataset.fileIds;
     }
+    delete this.fileNode.dataset.instanceId;
+    delete this.fileNode.dataset.questionName;
 
     /**/
 
@@ -36332,7 +36364,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     rowNode.querySelector('td.file').innerHTML = fileName;
     if (filePath && !filePath.isNullOrEmpty())
     {
-      rowNode.querySelector('td.file').innerHTML = '<a href="' + filePath + '" target="_blank">' + fileName + '</a>';
+      var link = filePath;
+      if (this.InstanceId !== '') link += '&instanceId=' + this.InstanceId;
+      if (this.QuestionName !== '') link += '&questionName=' + this.QuestionName;
+      rowNode.querySelector('td.file').innerHTML = '<a href="' + link + '" target="_blank">' + fileName + '</a>';
     }
     if (
       ($a.isString(fileId) && !fileId.isNullOrEmpty())
