@@ -24003,8 +24003,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   {
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
-    debugger;
-    // should fileIds be passed to axios as a tring delimetered by a comma?
+    // TODO: should fileIds be passed to axios as a tring delimetered by a comma?
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
     if (Array.isArray(fileIds) && fileIds.length > 0)
@@ -34928,7 +34927,6 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
     name = name.replace(/-/g, ' ');
     name = name.replace(/_/g, ' ');
     name = name.replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
-    var method = this._init();
     image.onload = function ()
     {
       var w = this.naturalWidth;
@@ -34962,21 +34960,19 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
         height: h,
         image: canvas.toDataURL('image/png')
       });
-      if (root._loaded === root._total) root._init();
+      if (root._loaded >= root._total) root._init();
 
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-
-      method();
 
       canvas = null;
       image = null;
       root = null;
 
-    }.bind(this);
+    };
     image.error = function (error)
     {
       console.warn(error);
-      method();
+      root._init();
     };
     image.src = this.DownloadApi + '?documentId=' + id + '&instanceId=' + this.InstanceId + '&questionName=' + this.QuestionName;
   }
