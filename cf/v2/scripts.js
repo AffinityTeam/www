@@ -9286,10 +9286,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       else
       {
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
-        toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
-        //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
-        toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
       }
+      toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
+      toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
+      //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
     }
     if (toConfig.Details.hasOwnProperty('AttachFormOnly')) toConfig.Details.AttachFormOnly = fromConfig.Details.AttachFormOnly;
     return toConfig;
