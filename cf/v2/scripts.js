@@ -22789,10 +22789,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
       // set any special elements
 
-      var input = this.FormRowNode.querySelector('input');
       var checkPanelLoaded = function ()
       {
-        if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+        var input = this.FormRowNode.querySelector('input');
+        if (input && input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
         {
           input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
           if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
@@ -24003,52 +24003,57 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   {
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
+    debugger;
+    // should fileIds be passed to axios as a tring delimetered by a comma?
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
-    axios({
-      method: 'GET',
-      url: this.CleverForms.FileGetInfoApi + '?fileIds=' + fileIds,
-    }).then(function (response)
+    if (Array.isArray(fileIds) && fileIds.length > 0)
     {
-      if (
-        $a.isPropObject(response, 'data')
-        && $a.isPropObject(response.data, 'data')
-      )
+      axios({
+        method: 'GET',
+        url: this.CleverForms.FileGetInfoApi + '?fileIds=' + fileIds,
+      }).then(function (response)
       {
-        var dataObj = response.data.data, f = 0, links = [], link, id;
-        for ( ; f < fileIds.length; f++)
+        if (
+          $a.isPropObject(response, 'data')
+          && $a.isPropObject(response.data, 'data')
+        )
         {
-          link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
-          link += '&instanceId=' + this.CleverForms.GetInstanceGuid();
-          link += '&questionName=' + this.Config.Name;
-          if (dataObj.hasOwnProperty(fileIds[f]))
-            links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
-          else
-            links.push(fileIds[f]);
-        }
-        if (links.length > 0)
-        {
-          //if (hasDesc)
-          //{
-          //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
-          //    label: this.Config.Details.Label,
-          //    desc: desc,
-          //    links: links.join('<br />')
-          //  });
-          //}
-          //else
-          //{
+          var dataObj = response.data.data, f = 0, links = [], link, id;
+          for (; f < fileIds.length; f++)
+          {
+            link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
+            link += '&instanceId=' + this.CleverForms.GetInstanceGuid();
+            link += '&questionName=' + this.Config.Name;
+            if (dataObj.hasOwnProperty(fileIds[f]))
+              links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
+            else
+              links.push(fileIds[f]);
+          }
+          if (links.length > 0)
+          {
+            //if (hasDesc)
+            //{
+            //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
+            //    label: this.Config.Details.Label,
+            //    desc: desc,
+            //    links: links.join('<br />')
+            //  });
+            //}
+            //else
+            //{
             this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesTemplate.format({
               label: this.Config.Details.Label,
               links: links.join('<br />')
             });
-          //}
+            //}
+          }
         }
-      }
-    }.bind(this)).catch(function ()
-    {
+      }.bind(this)).catch(function ()
+      {
 
-    });
+      });
+    }
   }
 
 
@@ -34852,6 +34857,10 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       delete this.InitNode.dataset.fileIds;
       delete this.InitNode.dataset.fileNames;
     }
+    else
+    {
+      this._init();
+    }
   }
 
   _getFileInfo()
@@ -34872,15 +34881,18 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       && Affinity2018.isPropObject(response.data, 'data')
     )
     {
+      var hasFiles = false;
       this._total = Object.keys(response.data.data).length;
       this._loaded = 0;
       for (var id in response.data.data)
       {
         if (response.data.data.hasOwnProperty(id))
         {
+          hasFiles = true;
           this._loadImageData(response.data.data[id], id);
         }
       }
+      if (!hasFiles) this._init();
       return;
     }
 
@@ -34915,7 +34927,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
     name = name.substring(0, name.lastIndexOf('.'));
     name = name.replace(/-/g, ' ');
     name = name.replace(/_/g, ' ');
-    name = name.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+    name = name.replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
+    var method = this._init();
     image.onload = function ()
     {
       var w = this.naturalWidth;
@@ -34953,9 +34966,17 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
+      method();
+
       canvas = null;
       image = null;
       root = null;
+
+    }.bind(this);
+    image.error = function (error)
+    {
+      console.warn(error);
+      method();
     };
     image.src = this.DownloadApi + '?documentId=' + id + '&instanceId=' + this.InstanceId + '&questionName=' + this.QuestionName;
   }
@@ -35003,6 +35024,11 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       canvas = null;
       image = null;
       root = null;
+    };
+    image.error = function (error)
+    {
+      console.warn(error);
+      method();
     };
     image.src = b64String;
   }
