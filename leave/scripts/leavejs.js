@@ -4100,6 +4100,7 @@ var UILeaveApply = new Class({
 
     updatePosUnit: function () {
         if (!this.data) return;
+        var unmodifiedData = JSON.parse(JSON.stringify(this.data));
 
         var fUpfatePosUnits = function (unitType) {
             var positions = document.getElements(
@@ -4147,13 +4148,18 @@ var UILeaveApply = new Class({
         if (this.leaveCode) {
             var total = 0;
             var unitType = this.leaveCode.UnitType;
+            var vm = this;
             Array.each(this.data, function (unit, index) {
                 if (unitType === "H") {
                     total += parseFloat(unit.Hours);
                 } else if (unitType === "D") {
                     total += parseFloat(unit.Days);
                     //SSL-1702 - Re-calculate the hours if it's in Days
-                    unit.Hours = unit.Hours * unit.Days;
+                    var originalUnits = vm.getOriginalUnits(unmodifiedData, unit);
+                    if (originalUnits.Days !== unit.Days) {
+                        unit.Hours = originalUnits.HoursInADay * unit.Days;
+                    }
+                    
                 } else if (unitType === "W") {
                     total += parseFloat(unit.Weeks);
                 }
@@ -4171,7 +4177,30 @@ var UILeaveApply = new Class({
 
         Affinity.modal.closeButtonCloser();
     },
-
+    getOriginalUnits: function (unmodifiedData, unit) {
+        var originalUnits = new Object();
+        originalUnits.Hours = 0;
+        originalUnits.Days = 0;
+        originalUnits.HoursInADay = 0;
+        var vm = this;
+        Array.each(unmodifiedData, function (originalUnit, index) {
+            if (unit.Date === originalUnit.Date && unit.PositionCode === originalUnit.PositionCode) {
+                originalUnits.Hours = originalUnit.Hours;
+                originalUnits.Days = originalUnit.Days;
+                originalUnits = vm.getHoursInADay(originalUnits);
+            }
+        });
+        return originalUnits;
+    },
+    getHoursInADay: function (originalUnits) {
+        if (originalUnits.Days < 1) {
+            var dayRemainder = 1 / originalUnits.Days;
+            originalUnits.HoursInADay = dayRemainder * originalUnits.Hours;
+        } else if (originalUnits.Days === 1) {
+            originalUnits.HoursInADay = originalUnits.Hours;
+        }
+        return originalUnits;
+    },
     updateButtons: function (enable) {
         var toggleHideButtons = function (btn) {
             if (enable) {
