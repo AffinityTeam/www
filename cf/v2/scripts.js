@@ -17907,7 +17907,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       var fileIds = this._getFileIds();
 
-      this.FileNode.dataset.instanceId = this.CleverForms.GetInstanceGuid()
+      this.FileNode.dataset.instanceId = this.CleverForms.GetInstanceGuid();
+      this.FileNode.dataset.templateId = this.CleverForms.GetTemplateGuid();
       this.FileNode.dataset.questionName = this.Config.Name;
 
       this.FileNode.dataset.fileIds = fileIds.removeEmpty().removeDuplicates().join(',');
@@ -20194,9 +20195,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     }
     else
     {
+      var instanceId = this.CleverForms.GetInstanceGuid();
+      var templateId = this.CleverForms.GetTemplateGuid();
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
-      link += '&instanceId=' + this.CleverForms.GetInstanceGuid();
+      link += instanceId && instanceId !== '' ? '&instanceId=' + instanceId : '';
+      link += templateId && templateId !== '' ? '&templateId=' + templateId : '';
       link += '&questionName=' + this.Config.Name;
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
@@ -34688,6 +34692,13 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       delete this.InitNode.dataset.instanceId;
     }
 
+    this.TemplateId = '';
+    if (this.InitNode.dataset.templateId)
+    {
+      this.TemplateId = this.InitNode.dataset.templateId;
+      delete this.InitNode.dataset.templateId;
+    }
+
     this.QuestionName = '';
     if (this.InitNode.dataset.questionName)
     {
@@ -34974,7 +34985,10 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       console.warn(error);
       root._init();
     };
-    image.src = this.DownloadApi + '?documentId=' + id + '&instanceId=' + this.InstanceId + '&questionName=' + this.QuestionName;
+    var src = this.DownloadApi + '?documentId=' + id + '&questionName=' + this.QuestionName;
+    src += this.InstanceId && this.InstanceId !== '' ? '&instanceId=' + this.InstanceId : '';
+    src += this.TemplateId && this.TemplateId !== '' ? '&templateId=' + this.TemplateId : '';
+    image.src = src;
   }
   _loadImageDataFromB64 (b64String, name, method)
   {
@@ -35952,6 +35966,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     /**/
 
     this.InstanceId = this.fileNode.dataset.instanceId || '';
+    this.TemplateId = this.fileNode.dataset.templateId || '';
     this.QuestionName = this.fileNode.dataset.questionName || '';
     if (this.fileNode.dataset.fileIds)
     {
@@ -36381,7 +36396,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (filePath && !filePath.isNullOrEmpty())
     {
       var link = filePath;
-      if (this.InstanceId !== '') link += '&instanceId=' + this.InstanceId;
+      if (this.InstanceId && this.InstanceId !== '') link += '&instanceId=' + this.InstanceId;
+      if (this.TemplateId && this.TemplateId !== '') link += '&templateId=' + this.TemplateId;
       if (this.QuestionName !== '') link += '&questionName=' + this.QuestionName;
       rowNode.querySelector('td.file').innerHTML = '<a href="' + link + '" target="_blank">' + fileName + '</a>';
     }

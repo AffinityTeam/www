@@ -13859,7 +13859,7 @@ var UIUplaoders = new Class({
                             )
                             {
                                 name = response.data.data[fileId];
-                                defaultFile.set('html', 'Current File: ');
+                                defaultFile.set('html', 'Current Saved File: ');
                                 new Element('a', { 'href': path, 'html': name }).inject(defaultFile);
                             }
                         }).catch(function (err)
@@ -13869,7 +13869,7 @@ var UIUplaoders = new Class({
                     }
                     else
                     {
-                        defaultFile.set('html', 'Current File: ');
+                        defaultFile.set('html', 'Current Saved File: ');
                         new Element('a', { 'href': path, 'html': name }).inject(defaultFile);
                     }
                 }
@@ -13877,7 +13877,7 @@ var UIUplaoders = new Class({
                 {
                     if (name)
                     {
-                        defaultFile.set('html', 'Current File: ');
+                        defaultFile.set('html', 'Current Saved File: ');
                         new Element('span', { 'html': name }).inject(defaultFile);
                     }
                 }
