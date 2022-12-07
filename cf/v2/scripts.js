@@ -36414,7 +36414,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     rowNode.querySelector('td.file').innerHTML = fileName;
     if (filePath && !filePath.isNullOrEmpty())
     {
-      debugger;
       var link = filePath;
       if (this.InstanceId && this.InstanceId !== '') link += '&instanceId=' + this.InstanceId;
       if (this.TemplateId && this.TemplateId !== '') link += '&templateId=' + this.TemplateId;
