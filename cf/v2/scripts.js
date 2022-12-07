@@ -35967,6 +35967,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     this.InstanceId = this.fileNode.dataset.instanceId || '';
     this.TemplateId = this.fileNode.dataset.templateId || '';
+    if (this.InstanceId && this.InstanceId.trim().toLowerCase() === 'false') this.InstanceId = '';
+    if (this.TemplateId && this.TemplateId.trim().toLowerCase() === 'false') this.TemplateId = '';
     this.QuestionName = this.fileNode.dataset.questionName || '';
     if (this.fileNode.dataset.fileIds)
     {
@@ -36395,6 +36397,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     rowNode.querySelector('td.file').innerHTML = fileName;
     if (filePath && !filePath.isNullOrEmpty())
     {
+      debugger;
       var link = filePath;
       if (this.InstanceId && this.InstanceId !== '') link += '&instanceId=' + this.InstanceId;
       if (this.TemplateId && this.TemplateId !== '') link += '&templateId=' + this.TemplateId;
@@ -36701,6 +36704,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
           else postData[key] = params[key];
         }
       }
+
+      if (this.InstanceId && this.InstanceId !== '') postData.append('instanceId', this.InstanceId);
+      if (this.TemplateId && this.TemplateId !== '') postData.append('templateId', this.TemplateId);
+      if (this.QuestionName && this.QuestionName !== '') postData.append('questionName', this.QuestionName);
 
       this._deletingFileRow = false;
       if (this.gridBody.querySelector('.from-doc-store.id' + id)) this._deletingFileRow = this.gridBody.querySelector('.from-doc-store.id' + id);
