@@ -20199,8 +20199,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       var templateId = this.CleverForms.GetTemplateGuid();
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
-      link += instanceId && instanceId !== '' ? '&instanceId=' + instanceId : '';
-      link += templateId && templateId !== '' ? '&templateId=' + templateId : '';
+      link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
+      link += templateId && templateId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
       link += '&questionName=' + this.Config.Name;
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
@@ -23744,6 +23744,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     fileIds = fileIds.split(',').removeEmpty().removeDuplicates();
     fileIds = fileIds.map(function (x) { return x + ''; });
 
+    var instanceId = this.CleverForms.GetInstanceGuid();
+    instanceId = instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? instanceId : '';
+
+    var templateId = this.CleverForms.GetTemplateGuid();
+    templateId = templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? templateId : '';
+
+    var questionName = this.Config.Name;
+
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
 
@@ -23762,6 +23770,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         html = this.HtmlRowReadOnlyTemplate.format({
           label: this.Config.Details.Label,
           fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.',
+          instanceId: instanceId,
+          templateId: templateId,
+          questionName: questionName,
           choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
@@ -23782,6 +23793,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         html = this.HtmlRowTemplate.format({
           label: this.Config.Details.Label,
           fileids: this.Config.Details.Value,
+          instanceId: instanceId,
+          templateId: templateId,
+          questionName: questionName,
           choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
@@ -24010,6 +24024,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     // TODO: should fileIds be passed to axios as a tring delimetered by a comma?
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
+    var instanceId = this.CleverForms.GetInstanceGuid();
+    var templateId = this.CleverForms.GetTemplateGuid();
     if (Array.isArray(fileIds) && fileIds.length > 0)
     {
       axios({
@@ -24026,7 +24042,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           for (; f < fileIds.length; f++)
           {
             link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
-            link += '&instanceId=' + this.CleverForms.GetInstanceGuid();
+            link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
+            link += templateId && templateId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
             link += '&questionName=' + this.Config.Name;
             if (dataObj.hasOwnProperty(fileIds[f]))
               links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
@@ -24124,7 +24141,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <label class="ui-has-file" data-files="{fileids}">
+      <label class="ui-has-file" data-files="{fileids}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" >
         <input type="file" data-allow-multiple="true" />
         <div class="button blue upload">
           <span class="icon-file-black"></span>{choose}
@@ -24152,7 +24169,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.HtmlRowReadOnlyTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" disabled value="{fileids}" />
+      <input type="text" disabled value="{fileids}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" />
     </div>
     `;
 
