@@ -34997,10 +34997,11 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       root = null;
 
     };
-    image.error = function (error)
+    image.onerror = function (error)
     {
       console.warn(error);
-      root._init();
+      root._loaded++;
+      if (root._loaded >= root._total) root._init();
     };
     var src = this.DownloadApi + '?documentId=' + id + '&questionName=' + this.QuestionName;
     src += this.InstanceId && this.InstanceId !== '' ? '&instanceId=' + this.InstanceId : '';
@@ -35052,7 +35053,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       image = null;
       root = null;
     };
-    image.error = function (error)
+    image.onerror = function (error)
     {
       console.warn(error);
       method();
