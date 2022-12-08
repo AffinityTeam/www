@@ -20216,7 +20216,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
       link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
-      link += templateId && templateId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
+      link += templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
       link += '&questionName=' + this.Config.Name;
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
@@ -24059,7 +24059,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           {
             link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
             link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
-            link += templateId && templateId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
+            link += templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
             link += '&questionName=' + this.Config.Name;
             if (dataObj.hasOwnProperty(fileIds[f]))
               links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
