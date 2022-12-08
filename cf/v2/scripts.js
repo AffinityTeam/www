@@ -22791,6 +22791,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     {
       html = this.HtmlRowTemplate.format({
         instanceId: this.CleverForms.GetInstanceGuid(),
+        templateId: this.CleverForms.GetTemplateGuid(),
         questionName: this.Config.Name,
         label: this.Config.Details.Label,
         value: $a.isString(this.Config.Details.Value) && this.Config.Details.Value.startsWith('data:image') ? this.Config.Details.Value : '',
@@ -22888,7 +22889,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" data-instance-id="{instanceId}" data-question-name="{questionName}" />
+      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" />
     </div>
     `;
 
@@ -35020,8 +35021,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       if (root._loaded >= root._total) root._init();
     };
     var src = this.DownloadApi + '?documentId=' + id + '&questionName=' + this.QuestionName;
-    src += this.InstanceId && this.InstanceId !== '' ? '&instanceId=' + this.InstanceId : '';
-    src += this.TemplateId && this.TemplateId !== '' ? '&templateId=' + this.TemplateId : '';
+    src += this.InstanceId && this.InstanceId !== '' && this.InstanceId !== 'false' ? '&instanceId=' + this.InstanceId : '';
+    src += this.TemplateId && this.TemplateId !== '' && this.TemplateId !== 'false' ? '&templateId=' + this.TemplateId : '';
     image.src = src;
   }
   _loadImageDataFromB64 (b64String, name, method)
