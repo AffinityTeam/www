@@ -8062,11 +8062,19 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   GetInstanceGuidFromAddressBar()
   {
     var url = window.location.href.toLowerCase();
+    if (url.contains('/template/') || url.contains('/templatev2/')) return false;
     if (
-      url.split('/edit/').length === 2
+      url.contains('/edit/')
+      && url.split('/edit/').length === 2
       && $s.isString(url.split('/edit/')[1])
       && url.split('/edit/')[1].trim() !== ''
     ) return url.split('/edit/')[1].trim();
+    if (
+      url.contains('/preview/')
+      && url.split('/preview/').length === 2
+      && $s.isString(url.split('/preview/')[1])
+      && url.split('/preview/')[1].trim() !== ''
+    ) return url.split('/preview/')[1].trim();
     return false;
   }
 
@@ -8122,6 +8130,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
       if (templateId) return templateId;
     }
+    var url = window.location.href.toLowerCase();
+    if (
+      url.contains('/template')
+      && url.contains('/preview/')
+      && url.split('/preview/').length === 2
+      && $s.isString(url.split('/preview/')[1])
+      && url.split('/preview/')[1].trim() !== ''
+    ) return url.split('/preview/')[1].trim();
     return false;
   }
 
@@ -20200,7 +20216,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
       link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
-      link += templateId && templateId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
+      link += templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
       link += '&questionName=' + this.Config.Name;
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
@@ -22775,6 +22791,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     {
       html = this.HtmlRowTemplate.format({
         instanceId: this.CleverForms.GetInstanceGuid(),
+        templateId: this.CleverForms.GetTemplateGuid(),
         questionName: this.Config.Name,
         label: this.Config.Details.Label,
         value: $a.isString(this.Config.Details.Value) && this.Config.Details.Value.startsWith('data:image') ? this.Config.Details.Value : '',
@@ -22872,7 +22889,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" data-instance-id="{instanceId}" data-question-name="{questionName}" />
+      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" />
     </div>
     `;
 
@@ -24043,7 +24060,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           {
             link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
             link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
-            link += templateId && templateId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
+            link += templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
             link += '&questionName=' + this.Config.Name;
             if (dataObj.hasOwnProperty(fileIds[f]))
               links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
@@ -35004,8 +35021,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       if (root._loaded >= root._total) root._init();
     };
     var src = this.DownloadApi + '?documentId=' + id + '&questionName=' + this.QuestionName;
-    src += this.InstanceId && this.InstanceId !== '' ? '&instanceId=' + this.InstanceId : '';
-    src += this.TemplateId && this.TemplateId !== '' ? '&templateId=' + this.TemplateId : '';
+    src += this.InstanceId && this.InstanceId !== '' && this.InstanceId !== 'false' ? '&instanceId=' + this.InstanceId : '';
+    src += this.TemplateId && this.TemplateId !== '' && this.TemplateId !== 'false' ? '&templateId=' + this.TemplateId : '';
     image.src = src;
   }
   _loadImageDataFromB64 (b64String, name, method)
