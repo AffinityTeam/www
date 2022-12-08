@@ -8062,11 +8062,19 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   GetInstanceGuidFromAddressBar()
   {
     var url = window.location.href.toLowerCase();
+    if (url.contains('/template/') || url.contains('/templatev2/')) return false;
     if (
-      url.split('/edit/').length === 2
+      url.contains('/edit/')
+      && url.split('/edit/').length === 2
       && $s.isString(url.split('/edit/')[1])
       && url.split('/edit/')[1].trim() !== ''
     ) return url.split('/edit/')[1].trim();
+    if (
+      url.contains('/preview/')
+      && url.split('/preview/').length === 2
+      && $s.isString(url.split('/preview/')[1])
+      && url.split('/preview/')[1].trim() !== ''
+    ) return url.split('/preview/')[1].trim();
     return false;
   }
 
@@ -8122,6 +8130,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
       if (templateId) return templateId;
     }
+    var url = window.location.href.toLowerCase();
+    if (
+      url.contains('/template')
+      && url.contains('/preview/')
+      && url.split('/preview/').length === 2
+      && $s.isString(url.split('/preview/')[1])
+      && url.split('/preview/')[1].trim() !== ''
+    ) return url.split('/preview/')[1].trim();
     return false;
   }
 
