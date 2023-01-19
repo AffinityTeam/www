@@ -8062,11 +8062,19 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   GetInstanceGuidFromAddressBar()
   {
     var url = window.location.href.toLowerCase();
+    if (url.contains('/template/') || url.contains('/templatev2/')) return false;
     if (
-      url.split('/edit/').length === 2
+      url.contains('/edit/')
+      && url.split('/edit/').length === 2
       && $s.isString(url.split('/edit/')[1])
       && url.split('/edit/')[1].trim() !== ''
     ) return url.split('/edit/')[1].trim();
+    if (
+      url.contains('/preview/')
+      && url.split('/preview/').length === 2
+      && $s.isString(url.split('/preview/')[1])
+      && url.split('/preview/')[1].trim() !== ''
+    ) return url.split('/preview/')[1].trim();
     return false;
   }
 
@@ -8122,6 +8130,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
       if (templateId) return templateId;
     }
+    var url = window.location.href.toLowerCase();
+    if (
+      url.contains('/template')
+      && url.contains('/preview/')
+      && url.split('/preview/').length === 2
+      && $s.isString(url.split('/preview/')[1])
+      && url.split('/preview/')[1].trim() !== ''
+    ) return url.split('/preview/')[1].trim();
     return false;
   }
 
@@ -9286,10 +9302,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       else
       {
         toConfig.Details.DocumentCategory = fromConfig.Details.FileSetting.DocumentCategory;
-        toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
-        //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
-        toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
       }
+      toConfig.Details.DocumentType = fromConfig.Details.FileSetting.DocumentType;
+      toConfig.Details.SecurityLevel = fromConfig.Details.FileSetting.SecurityLevel;
+      //toConfig.Details.DocumentDescription = fromConfig.Details.FileSetting.DocumentDescription;
     }
     if (toConfig.Details.hasOwnProperty('AttachFormOnly')) toConfig.Details.AttachFormOnly = fromConfig.Details.AttachFormOnly;
     return toConfig;
@@ -17907,6 +17923,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       var fileIds = this._getFileIds();
 
+      this.FileNode.dataset.instanceId = this.CleverForms.GetInstanceGuid();
+      this.FileNode.dataset.templateId = this.CleverForms.GetTemplateGuid();
+      this.FileNode.dataset.questionName = this.Config.Name;
+
       this.FileNode.dataset.fileIds = fileIds.removeEmpty().removeDuplicates().join(',');
       this.FileNode.dataset.fileNames = [];
 
@@ -17948,6 +17968,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       {
         this.FileNode.dataset.allowTypes = Affinity2018.FileTypeGroupData[this.Config.Details.RestrictTypes].Name;
       }
+
+
+
 
     }
   }
@@ -20188,8 +20211,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     }
     else
     {
+      var instanceId = this.CleverForms.GetInstanceGuid();
+      var templateId = this.CleverForms.GetTemplateGuid();
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
+      link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
+      link += templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
+      link += '&questionName=' + this.Config.Name;
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
       axios({
@@ -22762,6 +22790,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     else
     {
       html = this.HtmlRowTemplate.format({
+        instanceId: this.CleverForms.GetInstanceGuid(),
+        templateId: this.CleverForms.GetTemplateGuid(),
+        questionName: this.Config.Name,
         label: this.Config.Details.Label,
         value: $a.isString(this.Config.Details.Value) && this.Config.Details.Value.startsWith('data:image') ? this.Config.Details.Value : '',
         fileIds: this.Config.Details.FileId !== null ? this.Config.Details.FileId : '',
@@ -22779,10 +22810,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
       // set any special elements
 
-      var input = this.FormRowNode.querySelector('input');
       var checkPanelLoaded = function ()
       {
-        if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+        var input = this.FormRowNode.querySelector('input');
+        if (input && input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
         {
           input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
           if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
@@ -22858,7 +22889,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" />
+      <input type="text" value="{value}" class="ui-has-drawpanel" data-file-ids="{fileIds}" data-file-names="{fileNames}" data-get-api="{getApi}" data-download-api="{downloadApi}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" />
     </div>
     `;
 
@@ -23730,6 +23761,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     fileIds = fileIds.split(',').removeEmpty().removeDuplicates();
     fileIds = fileIds.map(function (x) { return x + ''; });
 
+    var instanceId = this.CleverForms.GetInstanceGuid();
+    instanceId = instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? instanceId : '';
+
+    var templateId = this.CleverForms.GetTemplateGuid();
+    templateId = templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? templateId : '';
+
+    var questionName = this.Config.Name;
+
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
 
@@ -23748,6 +23787,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         html = this.HtmlRowReadOnlyTemplate.format({
           label: this.Config.Details.Label,
           fileids: fileIds.length > 0 ? 'File Ids: ' + fileIds.join(', ') : 'No Files.',
+          instanceId: instanceId,
+          templateId: templateId,
+          questionName: questionName,
           choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
@@ -23768,6 +23810,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
         html = this.HtmlRowTemplate.format({
           label: this.Config.Details.Label,
           fileids: this.Config.Details.Value,
+          instanceId: instanceId,
+          templateId: templateId,
+          questionName: questionName,
           choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
@@ -23993,49 +24038,59 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   {
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
+    // TODO: should fileIds be passed to axios as a tring delimetered by a comma?
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
-    axios({
-      method: 'GET',
-      url: this.CleverForms.FileGetInfoApi + '?fileIds=' + fileIds,
-    }).then(function (response)
+    var instanceId = this.CleverForms.GetInstanceGuid();
+    var templateId = this.CleverForms.GetTemplateGuid();
+    if (Array.isArray(fileIds) && fileIds.length > 0)
     {
-      if (
-        $a.isPropObject(response, 'data')
-        && $a.isPropObject(response.data, 'data')
-      )
+      axios({
+        method: 'GET',
+        url: this.CleverForms.FileGetInfoApi + '?fileIds=' + fileIds,
+      }).then(function (response)
       {
-        var dataObj = response.data.data, f = 0, links = [], id;
-        for ( ; f < fileIds.length; f++)
+        if (
+          $a.isPropObject(response, 'data')
+          && $a.isPropObject(response.data, 'data')
+        )
         {
-          if (dataObj.hasOwnProperty(fileIds[f]))
-            links.push('<a href="' + this.CleverForms.FileGetApi + '?documentId=' + fileIds[f] + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
-          else
-            links.push(fileIds[f]);
-        }
-        if (links.length > 0)
-        {
-          //if (hasDesc)
-          //{
-          //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
-          //    label: this.Config.Details.Label,
-          //    desc: desc,
-          //    links: links.join('<br />')
-          //  });
-          //}
-          //else
-          //{
+          var dataObj = response.data.data, f = 0, links = [], link, id;
+          for (; f < fileIds.length; f++)
+          {
+            link = this.CleverForms.FileGetApi + '?documentId=' + fileIds[f];
+            link += instanceId && instanceId !== '' && instanceId.trim().toLowerCase() !== 'false' ? '&instanceId=' + instanceId : '';
+            link += templateId && templateId !== '' && templateId.trim().toLowerCase() !== 'false' ? '&templateId=' + templateId : '';
+            link += '&questionName=' + this.Config.Name;
+            if (dataObj.hasOwnProperty(fileIds[f]))
+              links.push('<a href="' + link + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
+            else
+              links.push(fileIds[f]);
+          }
+          if (links.length > 0)
+          {
+            //if (hasDesc)
+            //{
+            //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
+            //    label: this.Config.Details.Label,
+            //    desc: desc,
+            //    links: links.join('<br />')
+            //  });
+            //}
+            //else
+            //{
             this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesTemplate.format({
               label: this.Config.Details.Label,
               links: links.join('<br />')
             });
-          //}
+            //}
+          }
         }
-      }
-    }.bind(this)).catch(function ()
-    {
+      }.bind(this)).catch(function ()
+      {
 
-    });
+      });
+    }
   }
 
 
@@ -24103,7 +24158,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <label class="ui-has-file" data-files="{fileids}">
+      <label class="ui-has-file" data-files="{fileids}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" >
         <input type="file" data-allow-multiple="true" />
         <div class="button blue upload">
           <span class="icon-file-black"></span>{choose}
@@ -24131,7 +24186,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     this.HtmlRowReadOnlyTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" disabled value="{fileids}" />
+      <input type="text" disabled value="{fileids}" data-instance-id="{instanceId}" data-template-id="{templateId}" data-question-name="{questionName}" />
     </div>
     `;
 
@@ -34664,6 +34719,27 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
     /**/
 
+    this.InstanceId = '';
+    if (this.InitNode.dataset.instanceId)
+    {
+      this.InstanceId = this.InitNode.dataset.instanceId;
+      delete this.InitNode.dataset.instanceId;
+    }
+
+    this.TemplateId = '';
+    if (this.InitNode.dataset.templateId)
+    {
+      this.TemplateId = this.InitNode.dataset.templateId;
+      delete this.InitNode.dataset.templateId;
+    }
+
+    this.QuestionName = '';
+    if (this.InitNode.dataset.questionName)
+    {
+      this.QuestionName = this.InitNode.dataset.questionName;
+      delete this.InitNode.dataset.questionName;
+    }
+
     if (this.InitNode.dataset.getApi)
     {
       if (this.InitNode.dataset.getApi.toLowerCase().trim() !== 'false')
@@ -34825,6 +34901,10 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       delete this.InitNode.dataset.fileIds;
       delete this.InitNode.dataset.fileNames;
     }
+    else
+    {
+      this._init();
+    }
   }
 
   _getFileInfo()
@@ -34845,15 +34925,18 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       && Affinity2018.isPropObject(response.data, 'data')
     )
     {
+      var hasFiles = false;
       this._total = Object.keys(response.data.data).length;
       this._loaded = 0;
       for (var id in response.data.data)
       {
         if (response.data.data.hasOwnProperty(id))
         {
+          hasFiles = true;
           this._loadImageData(response.data.data[id], id);
         }
       }
+      if (!hasFiles) this._init();
       return;
     }
 
@@ -34888,7 +34971,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
     name = name.substring(0, name.lastIndexOf('.'));
     name = name.replace(/-/g, ' ');
     name = name.replace(/_/g, ' ');
-    name = name.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+    name = name.replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
     image.onload = function ()
     {
       var w = this.naturalWidth;
@@ -34922,15 +35005,25 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
         height: h,
         image: canvas.toDataURL('image/png')
       });
-      if (root._loaded === root._total) root._init();
+      if (root._loaded >= root._total) root._init();
 
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 
       canvas = null;
       image = null;
       root = null;
+
     };
-    image.src = this.DownloadApi + '?documentId=' + id;
+    image.onerror = function (error)
+    {
+      console.warn(error);
+      root._loaded++;
+      if (root._loaded >= root._total) root._init();
+    };
+    var src = this.DownloadApi + '?documentId=' + id + '&questionName=' + this.QuestionName;
+    src += this.InstanceId && this.InstanceId !== '' && this.InstanceId !== 'false' ? '&instanceId=' + this.InstanceId : '';
+    src += this.TemplateId && this.TemplateId !== '' && this.TemplateId !== 'false' ? '&templateId=' + this.TemplateId : '';
+    image.src = src;
   }
   _loadImageDataFromB64 (b64String, name, method)
   {
@@ -34976,6 +35069,11 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       canvas = null;
       image = null;
       root = null;
+    };
+    image.onerror = function (error)
+    {
+      console.warn(error);
+      method();
     };
     image.src = b64String;
   }
@@ -35902,12 +36000,19 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     /**/
 
+    this.InstanceId = this.fileNode.dataset.instanceId || '';
+    this.TemplateId = this.fileNode.dataset.templateId || '';
+    if (this.InstanceId && this.InstanceId.trim().toLowerCase() === 'false') this.InstanceId = '';
+    if (this.TemplateId && this.TemplateId.trim().toLowerCase() === 'false') this.TemplateId = '';
+    this.QuestionName = this.fileNode.dataset.questionName || '';
     if (this.fileNode.dataset.fileIds)
     {
       var fileIds = this.fileNode.dataset.fileIds;
       this.FileIds = fileIds.split(',').removeEmpty().removeDuplicates();
       delete this.fileNode.dataset.fileIds;
     }
+    delete this.fileNode.dataset.instanceId;
+    delete this.fileNode.dataset.questionName;
 
     /**/
 
@@ -36327,7 +36432,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     rowNode.querySelector('td.file').innerHTML = fileName;
     if (filePath && !filePath.isNullOrEmpty())
     {
-      rowNode.querySelector('td.file').innerHTML = '<a href="' + filePath + '" target="_blank">' + fileName + '</a>';
+      var link = filePath;
+      if (this.InstanceId && this.InstanceId !== '') link += '&instanceId=' + this.InstanceId;
+      if (this.TemplateId && this.TemplateId !== '') link += '&templateId=' + this.TemplateId;
+      if (this.QuestionName !== '') link += '&questionName=' + this.QuestionName;
+      rowNode.querySelector('td.file').innerHTML = '<a href="' + link + '" target="_blank">' + fileName + '</a>';
     }
     if (
       ($a.isString(fileId) && !fileId.isNullOrEmpty())
@@ -36629,6 +36738,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
           else postData[key] = params[key];
         }
       }
+
+      if (this.InstanceId && this.InstanceId !== '') postData.append('instanceId', this.InstanceId);
+      if (this.TemplateId && this.TemplateId !== '') postData.append('templateId', this.TemplateId);
+      if (this.QuestionName && this.QuestionName !== '') postData.append('questionName', this.QuestionName);
 
       this._deletingFileRow = false;
       if (this.gridBody.querySelector('.from-doc-store.id' + id)) this._deletingFileRow = this.gridBody.querySelector('.from-doc-store.id' + id);
