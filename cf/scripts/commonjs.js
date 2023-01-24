@@ -16710,7 +16710,7 @@ var CFInbox = new Class({
               }
             }
             row.querySelectorAll('td')[3].className = effectiveDate !== '' ? 'ui-inbox-date sort-by ui-format-date' : 'ui-inbox-date';
-            row.querySelectorAll('td')[3].dataset.dateFormat = effectiveDate !== '' ? '%e.%m.%Y %l:%M%p' : null;
+            row.querySelectorAll('td')[3].dataset.dateFormat = effectiveDate !== '' ? '%e.%m.%Y' : null;
           }.bind(this));
           this.toActionBox.getElements('.checking').destroy();
         }
@@ -16764,7 +16764,7 @@ var CFInbox = new Class({
               ).inject(this.inProgressBox.getElement('tbody'));
             }
             row.querySelectorAll('td')[4].className = effectiveDate !== '' ? 'ui-inbox-date sort-by ui-format-date' : 'ui-inbox-date';
-            row.querySelectorAll('td')[4].dataset.dateFormat = effectiveDate !== '' ? '%e.%m.%Y %l:%M%p' : null;
+            row.querySelectorAll('td')[4].dataset.dateFormat = effectiveDate !== '' ? '%e.%m.%Y' : null;
           }.bind(this));
           this.inProgressBox.getElements('.checking').destroy();
         }
@@ -16818,7 +16818,7 @@ var CFInbox = new Class({
               ).inject(this.completedBox.getElement('tbody'));
             }
             row.querySelectorAll('td')[4].className = effectiveDate !== '' ? 'ui-inbox-date sort-by ui-format-date' : 'ui-inbox-date';
-            row.querySelectorAll('td')[4].dataset.dateFormat = effectiveDate !== '' ? '%e.%m.%Y %l:%M%p' : null;
+            row.querySelectorAll('td')[4].dataset.dateFormat = effectiveDate !== '' ? '%e.%m.%Y' : null;
           }.bind(this));
           this.completedBox.getElements('.checking').destroy();
         }
