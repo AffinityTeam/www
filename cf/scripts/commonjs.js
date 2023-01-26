@@ -16701,7 +16701,7 @@ var CFInbox = new Class({
                 new Element('td', { 'class': 'indicate none sort-by', 'html': data.DisplayName }),
                 new Element('td', { 'class': 'sort-by', 'html': data.StateName }),
                 new Element('td', { 'class': 'ui-inbox-date sort-by ui-format-date', 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
-                new Element('td', { 'class': 'ui-inbox-date', 'html': effectiveDate }),
+                new Element('td', { 'class': 'ui-inbox-date-effective', 'html': effectiveDate }),
                 buttons
               ).inject(this.toActionBox.getElement('tbody'));
               if (data.IsStarted)
@@ -16813,8 +16813,8 @@ var CFInbox = new Class({
                 new Element('td', { 'class': 'sort-by', 'html': data.StateName }),
                 new Element('td', { 'class': 'sort-by', 'html': data.CompletedBy }),
                 new Element('td', { 'class': 'ui-inbox-date sort-by ui-format-date', 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
-                new Element('td', { 'class': 'uui-inbox-date-effective', 'html': effectiveDate }),
-                new Element('td', { 'class': 'ui-inbox-actions buttons', 'html': '<a href="' + this.options.viewUrl + '/' + data.InstanceId + '" id=""><span class="button blue w-icon"><span>' + this.icons.view + '</span>' + this.labels.view + '</span></a>' })
+                new Element('td', { 'class': 'ui-inbox-date-effective', 'html': effectiveDate }),
+                new Element('td', { 'class': 'ui-inbox-actions-simple buttons', 'html': '<a href="' + this.options.viewUrl + '/' + data.InstanceId + '" id=""><span class="button blue w-icon"><span>' + this.icons.view + '</span>' + this.labels.view + '</span></a>' })
               ).inject(this.completedBox.getElement('tbody'));
             }
             row.querySelectorAll('td')[4].className = effectiveDate !== '' ? 'ui-inbox-date sort-by ui-format-date' : 'ui-inbox-date';
