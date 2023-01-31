@@ -10488,6 +10488,22 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       }
     }
 
+    // check foir valid list items
+    if (this.PopupNode.classList.contains('has-list') && $a.Apps.Plugins.ListBuilder)
+    {
+      if (!$a.Apps.Plugins.ListBuilder.IsValid() && $a.Apps.Plugins.ListBuilder.InvalidReason)
+      {
+        Affinity2018.Dialog.Show({
+          message: $a.Apps.Plugins.ListBuilder.InvalidReason,
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'left'
+        });
+        return false;
+      }
+    }
+
     // check for uploads
     var fileNode = this.TemplateNode.querySelector('input[type="file"]') || false, widget, hasFiles
     if ($a.isNode(fileNode))
@@ -36806,6 +36822,9 @@ Affinity2018.Classes.Plugins.ListBuilder = class
   {
     this.WidgetName = 'ListBuilder';
 
+    this.IllegalKeys = ['none', 'null', 'key', 'value'];
+    this.IllegalValues = ['none', 'null', 'key', 'value'];
+
     this.ColumnHeaders = {
       KeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
       KeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
@@ -36843,13 +36862,16 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       'InsertBlankRow', 'HasLockedBlankRow', 'InsertLockedBlankRow', 'RemoveLockedBlankRow',
       'SanatiseData',
       'ResetModified',
+      'Reset',
       'Clear',
       'Apply',
+      'IsValid',
 
       '_getNextIncrement',
       '_insertRow',
       '_gridClicked',
-      '_cellKeyUp',
+      '_cellKeyUp', '_cellBlur',
+      '_validate',
       '_compare', '_doCompare',
       '_updateData',
 
@@ -36954,6 +36976,20 @@ Affinity2018.Classes.Plugins.ListBuilder = class
               gotone = true;
               insertedKeys.push(data[this.KeyNames.KeyName]);
               this._insertRow(data);
+            }
+          }
+          else
+          {
+            if (this._badRowReason)
+            {
+              Affinity2018.Dialog.Show({
+                message: this._badRowReason,
+                showOk: true,
+                showCancel: false,
+                showInput: false,
+                //textAlign: 'left'
+              });
+              this._badRowReason = false;
             }
           }
         }
@@ -37165,13 +37201,48 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
   /**/
 
+  IsValid()
+  {
+    var reasons = [];
+
+    var rows = this.targetNode.querySelectorAll('tbody tr');
+
+    for (var rowIndex = 0; rowIndex < rows.length; rowIndex++)
+    {
+      var rowNode = rows[rowIndex];
+      var keyInput = rowNode.querySelector('textarea.description');
+      var valueInput = rowNode.querySelector('textarea.code');
+      var key = keyInput.value;
+      var value = valueInput.value;
+      if (!this._validate(key, value) && this._badRowReason)
+      {
+        var rowReasons = this._badRowReason.split('<br>');
+        for (var reasonIndex = 0; reasonIndex < rowReasons.length; reasonIndex++)
+        {
+          rowReasons[reasonIndex] += ' at row ' + (rowIndex + 1);
+        }
+        Array.prototype.push.apply(reasons, rowReasons);
+        this._badRowReason = false;
+      }
+    }
+    if (reasons.length > 0)
+    {
+      this.InvalidReason = reasons.join('<br>');
+      return false;
+    }
+    this.InvalidReason = false;
+    return true;
+  }
+
+  /**/
+
   _isRowDataGood (data)
   {
     if (Affinity2018.isObject(data))
     {
       var key = data[this.KeyNames.KeyName];
       var value = data[this.KeyNames.ValueName];
-      if ($a.isString(key) && ($a.isString(value) || $a.isNumeric(value))) return data;
+      if (this._validate(key, value, false)) return data;
     }
     return false;
   }
@@ -37234,7 +37305,9 @@ Affinity2018.Classes.Plugins.ListBuilder = class
       if (!locked)
       {
         rowNode.querySelector('textarea.description').addEventListener('keyup', this._cellKeyUp);
+        rowNode.querySelector('textarea.description').addEventListener('blur', this._cellBlur);
         rowNode.querySelector('textarea.code').addEventListener('keyup', this._cellKeyUp);
+        rowNode.querySelector('textarea.code').addEventListener('blur', this._cellBlur);
         this.gridBodyNode.appendChild(rowNode);
       }
       else
@@ -37247,7 +37320,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
         rowNode.classList.add('locked-null');
         this.gridBodyNode.insertBefore(rowNode, this.gridBodyNode.querySelector('tr'));
       }
-      this._compare();
+      this._compare(rowNode);
       return rowNode;
     }
     return false;
@@ -37292,7 +37365,9 @@ Affinity2018.Classes.Plugins.ListBuilder = class
   _deleteRow (rowNode)
   {
     rowNode.querySelector('textarea.description').removeEventListener('keyup', this._cellKeyUp);
+    rowNode.querySelector('textarea.description').removeEventListener('blur', this._cellBlur);
     rowNode.querySelector('textarea.code').removeEventListener('keyup', this._cellKeyUp);
+    rowNode.querySelector('textarea.code').removeEventListener('blur', this._cellBlur);
     rowNode.parentNode.removeChild(rowNode);
     if(!this.gridBodyNode.querySelector('tr'))
     {
@@ -37324,9 +37399,81 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     }
   }
 
+  _validate(key, value, validateEmpty)
+  {
+    validateEmpty = $a.isBool(validateEmpty) ? validateEmpty : true;
+    var tempIllegals = this.IllegalKeys.slice(0, -1);
+    var illegalsString = '\'' + tempIllegals.join('\', \'') + ' or \'' + this.IllegalKeys[this.IllegalKeys.length - 1] + '\'';
+    var reasons = [];
+
+    if (this.IllegalKeys.contains(key.toLowerCase().trim()))
+    {
+      reasons.push('You cannot use ' + illegalsString + ' in a \'' + this.ColumnHeaders.KeyHeader + '\'');
+    }
+
+    if (this.IllegalValues.contains(value.toLowerCase().trim()))
+    {
+      reasons.push('You cannot use ' + illegalsString + ' in a ' + this.ColumnHeaders.ValueHeader + '\'');
+    }
+
+    if (!$a.isString(key))
+    {
+      reasons.push('\'' + this.ColumnHeaders.KeyHeader + '\' must be a string');
+    }
+
+    if (!$a.isString(value) && !$a.isNumeric(value))
+    {
+      reasons.push('\'' + this.ColumnHeaders.ValueHeader + '\' must be a string or number');
+    }
+
+    if (validateEmpty)
+    {
+      if (key.trim() === '')
+      {
+        reasons.push('\'' + this.ColumnHeaders.KeyHeader + '\' must not be empty');
+      }
+
+      if (value.trim() === '')
+      {
+        reasons.push('\'' + this.ColumnHeaders.ValueHeader + '\' must not be empty');
+      }
+    }
+
+    if (reasons.length > 0)
+    {
+      this._badRowReason = reasons.join('<br>');
+      return false;
+    }
+
+    return true;
+  }
+
   _cellKeyUp ()
   {
     this._compare();
+  }
+
+  _cellBlur(ev)
+  {
+    var rowNode = $a.getParent(ev.target, 'tr');
+    var rowIndex = rowNode.parentNode.querySelectorAll('tr').indexOf(rowNode);
+    var keyInput = rowNode.querySelector('textarea.description');
+    var valueInput = rowNode.querySelector('textarea.code');
+    var key = keyInput.value;
+    var value = valueInput.value;
+    if (!this._validate(key, value) && this._badRowReason)
+    {
+      //var message = this._badRowReason.contains('not use') ? this._badRowReason : this._badRowReason + ' at row ' + (rowIndex + 1);
+      var message = this._badRowReason + ' at row ' + (rowIndex + 1);
+      this._badRowReason = false;
+      Affinity2018.Dialog.Show({
+        message: message,
+        showOk: true,
+        showCancel: false,
+        showInput: false,
+        //textAlign: 'left'
+      });
+    }
   }
 
   _updateData ()
@@ -37415,8 +37562,16 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     {
       this.gridBodyNode.querySelectorAll('tr').forEach(function (rowNode)
       {
-        if (rowNode.querySelector('textarea.description')) rowNode.querySelector('textarea.description').removeEventListener('keyup', this._cellKeyUp);
-        if (rowNode.querySelector('textarea.code')) rowNode.querySelector('textarea.code').removeEventListener('keyup', this._cellKeyUp);
+        if (rowNode.querySelector('textarea.description'))
+        {
+          rowNode.querySelector('textarea.description').removeEventListener('keyup', this._cellKeyUp);
+          rowNode.querySelector('textarea.description').removeEventListener('blur', this._cellBlur);
+        }
+        if (rowNode.querySelector('textarea.code'))
+        {
+          rowNode.querySelector('textarea.code').removeEventListener('keyup', this._cellKeyUp);
+          rowNode.querySelector('textarea.code').removeEventListener('blur', this._cellBlur);
+        }
       }.bind(this));
       this.gridBodyNode.innerHTML = '';
       if (insertBlankRow)
