@@ -26354,6 +26354,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               select.appendChild(optionNode);
             }
 
+            if (
+              this.Config.Details.ItemSource.ItemSourceType !== 'Affinity'
+              && this.CleverForms.InsertLookupEmptyRequiredOption
+              && this.Config.Details.Required
+            )
+            {
+              optionNode = document.createElement('option');
+              optionNode.value = this.CleverForms.InsertLookupEmptyRequiredValue;
+              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyRequiredDisplay;
+              select.appendChild(optionNode);
+            }
+
             keys = Object.keys(this.Config.Details.ItemSource.Items[0]);
             dataList = this.Config.Details.ItemSource.Items;
             selected = false;
