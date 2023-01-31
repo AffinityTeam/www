@@ -10380,7 +10380,8 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       {
         if (this.DragNode.controller.GetFromDesignEditor(false))
         {
-          if (this._checkOkToContinue(false))
+          var buttonCLicked = 'OK';
+          if (this._checkOkToContinue(false, buttonCLicked))
           {
             if (this.DragNode.controller.Saved && this.DragNode.controller.Changed) this.Designer.CheckSave();
 
@@ -10471,7 +10472,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    * @this    Class scope
    * @access  private
    */
-  _checkOkToContinue (cancelling)
+  _checkOkToContinue(cancelling, button)
   {
     cancelling = $a.paramOrDefault(cancelling, false);
 
@@ -10489,7 +10490,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     }
 
     // check foir valid list items
-    if (this.PopupNode.classList.contains('has-list') && $a.Apps.Plugins.ListBuilder)
+    if (this.PopupNode.classList.contains('has-list') && $a.Apps.Plugins.ListBuilder && button === "OK")
     {
       if (!$a.Apps.Plugins.ListBuilder.IsValid() && $a.Apps.Plugins.ListBuilder.InvalidReason)
       {
@@ -37219,7 +37220,9 @@ Affinity2018.Classes.Plugins.ListBuilder = class
         var rowReasons = this._badRowReason.split('<br>');
         for (var reasonIndex = 0; reasonIndex < rowReasons.length; reasonIndex++)
         {
-          rowReasons[reasonIndex] += ' at row ' + (rowIndex + 1);
+          var message = rowReasons[reasonIndex].trim();
+          if (message.endsWith('.')) message = message.slice(0, -1);
+          rowReasons[reasonIndex] = message + $a.Lang.ReturnPath('generic.list_builder.validate_row_detail', { column: this.ColumnHeaders.ValueHeader, value: value.trim() });
         }
         Array.prototype.push.apply(reasons, rowReasons);
         this._badRowReason = false;
@@ -37403,39 +37406,45 @@ Affinity2018.Classes.Plugins.ListBuilder = class
   {
     validateEmpty = $a.isBool(validateEmpty) ? validateEmpty : true;
     var tempIllegals = this.IllegalKeys.slice(0, -1);
-    var illegalsString = '\'' + tempIllegals.join('\', \'') + ' or \'' + this.IllegalKeys[this.IllegalKeys.length - 1] + '\'';
+    var illegalsString = '\'' + tempIllegals.join('\', \'') + '\' or \'' + this.IllegalKeys[this.IllegalKeys.length - 1] + '\'';
     var reasons = [];
 
     if (this.IllegalKeys.contains(key.toLowerCase().trim()))
     {
-      reasons.push('You cannot use ' + illegalsString + ' in a \'' + this.ColumnHeaders.KeyHeader + '\'');
+      //reasons.push('You cannot use ' + illegalsString + ' in a \'' + this.ColumnHeaders.KeyHeader + '\'');
+      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_illegal', { illegals: illegalsString, column: this.ColumnHeaders.KeyHeader }));
     }
 
     if (this.IllegalValues.contains(value.toLowerCase().trim()))
     {
-      reasons.push('You cannot use ' + illegalsString + ' in a ' + this.ColumnHeaders.ValueHeader + '\'');
+      //reasons.push('You cannot use ' + illegalsString + ' in a ' + this.ColumnHeaders.ValueHeader + '\'');
+      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_illegal', { illegals: illegalsString, column: this.ColumnHeaders.ValueHeader }));
     }
 
     if (!$a.isString(key))
     {
-      reasons.push('\'' + this.ColumnHeaders.KeyHeader + '\' must be a string');
+      //reasons.push('\'' + this.ColumnHeaders.KeyHeader + '\' must be a string');
+      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_string', { column: this.ColumnHeaders.KeyHeader }));
     }
 
     if (!$a.isString(value) && !$a.isNumeric(value))
     {
-      reasons.push('\'' + this.ColumnHeaders.ValueHeader + '\' must be a string or number');
+      //reasons.push('\'' + this.ColumnHeaders.ValueHeader + '\' must be a string or number');
+      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_string_num', { column: this.ColumnHeaders.ValueHeader }));
     }
 
     if (validateEmpty)
     {
       if (key.trim() === '')
       {
-        reasons.push('\'' + this.ColumnHeaders.KeyHeader + '\' must not be empty');
+        //reasons.push('\'' + this.ColumnHeaders.KeyHeader + '\' must not be empty');
+        reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_empty', { column: this.ColumnHeaders.KeyHeader }));
       }
 
       if (value.trim() === '')
       {
-        reasons.push('\'' + this.ColumnHeaders.ValueHeader + '\' must not be empty');
+        //reasons.push('\'' + this.ColumnHeaders.ValueHeader + '\' must not be empty');
+        reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_empty', { column: this.ColumnHeaders.ValueHeader }));
       }
     }
 
@@ -37464,7 +37473,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     if (!this._validate(key, value) && this._badRowReason)
     {
       //var message = this._badRowReason.contains('not use') ? this._badRowReason : this._badRowReason + ' at row ' + (rowIndex + 1);
-      var message = this._badRowReason + ' at row ' + (rowIndex + 1);
+      //var message = this._badRowReason + ' at row ' + (rowIndex + 1);
+      var message = this._badRowReason;
       this._badRowReason = false;
       Affinity2018.Dialog.Show({
         message: message,
