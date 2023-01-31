@@ -26422,8 +26422,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
     if (!this.IsValid())
     {
-      var required = this.Config.Details.Required, value = false;
-      var error = this.Config.Details.Label + ' is required';
+      var required = this.Config.Details.Required;
+      var error = $a.Lang.ReturnPath('generic.validation.strings.required', { label: this.Config.Details.Label });
       var select = this.FormRowNode.querySelector('div.select.hidden select');
       select.querySelectorAll('option').forEach(function (option)
       {
@@ -26435,7 +26435,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           }
           else
           {
-            error = '\'' + this.Config.Details.Label + '\' can not be ' + option.innerHTML.trim();
+            error = $a.Lang.ReturnPath('generic.validation.strings.notnoneselect', { label: this.Config.Details.Label, value: option.innerHTML.trim() });
           }
         }
       }.bind(this));
@@ -38977,7 +38977,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         emptyData[this.config.DisplayKey] = this.config.EmptyDisplay;
         inserted = this._insertResult(emptyData);
       }
-
       if (this.config.Required)
       {
         this.hasSelected = false;
@@ -38986,7 +38985,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         emptyData[this.config.DisplayKey] = this.config.NoneDisplay;
         inserted = this._insertResult(emptyData);
       }
-
       for ( ; inc < resultArray.length; inc++)
       {
         inserted = this._insertResult(resultArray[inc]);
