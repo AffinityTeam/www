@@ -37444,13 +37444,13 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     if (this.IllegalKeys.contains(key.toLowerCase().trim()))
     {
       //reasons.push('You cannot use ' + illegalsString + ' in a \'' + this.ColumnHeaders.KeyHeader + '\'');
-      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_illegal', { illegals: illegalsString, column: this.ColumnHeaders.KeyHeader }));
+      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_illegal_an', { illegals: illegalsString, column: this.ColumnHeaders.KeyHeader }));
     }
 
     if (this.IllegalValues.contains(value.toLowerCase().trim()))
     {
       //reasons.push('You cannot use ' + illegalsString + ' in a ' + this.ColumnHeaders.ValueHeader + '\'');
-      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_illegal', { illegals: illegalsString, column: this.ColumnHeaders.ValueHeader }));
+      reasons.push($a.Lang.ReturnPath('generic.list_builder.validate_illegal_a', { illegals: illegalsString, column: this.ColumnHeaders.ValueHeader }));
     }
 
     if (!$a.isString(key))
@@ -37497,7 +37497,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
   _cellBlur(ev)
   {
     var rowNode = $a.getParent(ev.target, 'tr');
-    var rowIndex = rowNode.parentNode.querySelectorAll('tr').indexOf(rowNode);
+    //var rowIndex = rowNode.parentNode.querySelectorAll('tr').indexOf(rowNode);
     var keyInput = rowNode.querySelector('textarea.description');
     var valueInput = rowNode.querySelector('textarea.code');
     var key = keyInput.value;
@@ -37549,20 +37549,39 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
   _doCompare ()
   {
-    let compareData = this.data.map(item => item[this.KeyNames.ValueName]);
-    let compareGrid = this._updateData().map(item => item[this.KeyNames.ValueName]);
-    //if (JSON.stringify(this.data) !== JSON.stringify(this._updateData()))
-    if (JSON.stringify(compareData) !== JSON.stringify(compareGrid))
+    let gridData = this._updateData();
+    let compareData = this.data.map(item => item[this.KeyNames.ValueName].trim());
+    let compareGrid = gridData.map(item => item[this.KeyNames.ValueName].trim());
+    let compareDatakeys = this.data.map(item => item[this.KeyNames.KeyName].trim());
+    let compareGridkeys = gridData.map(item => item[this.KeyNames.KeyName].trim());
+    if (
+      JSON.stringify(compareData) !== JSON.stringify(compareGrid)
+      || JSON.stringify(compareDatakeys) !== JSON.stringify(compareGridkeys)
+    )
     {
       console.groupCollapsed('comparer found diff:');
-      console.log('local keys:');
-      console.log(compareData);
-      console.log('grid keys:');
-      console.log(compareGrid);
+      console.log('actual diffs:');
+      var valueDiffs = compareGrid.filter((o1) => !compareData.some((o2) => o1 === o2));
+      var keyDiffs = compareGridkeys.filter((o1) => !compareDatakeys.some((o2) => o1 === o2));
+      var i = 0;
+      if (keyDiffs.length > 0)
+      {
+        for (i = 0; i < keyDiffs.length; i++)
+        {
+          console.log('\tthe key "' + compareDatakeys[compareGridkeys.indexOf(keyDiffs[i])] + '" is now "' + keyDiffs[i] + '"');
+        }
+      }
+      if (valueDiffs.length > 0)
+      {
+        for (i = 0; i < valueDiffs.length; i++)
+        {
+          console.log('\tthe value "' + compareData[compareGrid.indexOf(valueDiffs[i])] + '" is now "' + valueDiffs[i] + '"');
+        }
+      }
       console.log('local data:');
       console.log(this.data);
       console.log('grid data:');
-      console.log(this._updateData());
+      console.log(gridData);
       console.groupEnd();
       this.IsModified = true;
       if (this.NewRender)
