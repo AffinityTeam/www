@@ -15959,7 +15959,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
     });
 
-    document.querySelectorAll('.form-row.required, .form-row.inline-error').forEach(function (rowNode, rowIndex)
+    document.querySelectorAll('.form-row.required, .form-row.inline-error, .is-global-key').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
       rowNode.style.marginBottom = null;
@@ -26247,6 +26247,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             Required: this.Config.Details.Required,
             Value: null
           };
+
+          if (this.CleverForms.IsGlobalKey(this.Config))
+          {
+            selectConfig.Required = true;
+          }
           
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
@@ -26261,6 +26266,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           //  selectConfig.EmptyKey = null;
           //  selectConfig.EmptyDisplay = 'None';
           //}
+
           select.dataset.config = JSON.stringify(selectConfig);
 
         }
@@ -26303,6 +26309,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             Value: null
           };
 
+          if (this.CleverForms.IsGlobalKey(this.Config))
+          {
+            selectConfig.Required = true;
+          }
+
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
             selectConfig.Value = this.Config.Details.Value;
@@ -26323,10 +26334,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           )
           {
             selectConfig = false;
+
             if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
             {
               selectConfig = this.Config.Details.Value;
               select.dataset.defaultValue = this.Config.Details.Value;
+            }
+
+            if (this.CleverForms.IsGlobalKey(this.Config))
+            {
+              selectConfig.Required = true;
             }
 
             // If Details.ItemSource.ItemSourceType == Affinity, obey CleverFroms.InsertLookupEmptyOption, and if tru, insert blank
@@ -26438,6 +26455,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   IsValid()
   {
     var required = this.Config.Details.Required, value = false;
+    if (this.CleverForms.IsGlobalKey(this.Config)) required = true;
     if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
     if (required)
     {
@@ -26452,6 +26470,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (!this.IsValid())
     {
       var required = this.Config.Details.Required;
+      if (this.CleverForms.IsGlobalKey(this.Config)) required = true;
+      if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
       var error = $a.Lang.ReturnPath('generic.validation.strings.required', { label: this.Config.Details.Label });
       var select = this.FormRowNode.querySelector('div.select.hidden select');
       select.querySelectorAll('option').forEach(function (option)
