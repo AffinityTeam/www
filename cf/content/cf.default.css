@@ -47,16 +47,8 @@ newui .grid-list li {
 
 /** INBOX **/
 
-.newui .ui-inbox .ui-inbox-boxes .ui-inbox-date-effective {
-    width: 90px;
-}
 .newui .ui-inbox .ui-inbox-boxes .ui-inbox-actions {
     width: 110px;
-}
-.newui .ui-inbox .ui-inbox-boxes .ui-inbox-actions-simple {
-    width: unset;
-    max-width: unset;
-    min-width: unset;
 }
 
 /** INDEX **/
