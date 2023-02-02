@@ -26346,7 +26346,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               selectConfig.Required = true;
             }
 
-            // If Details.ItemSource.ItemSourceType == Affinity, obey CleverFroms.InsertLookupEmptyOption, and if tru, insert blank
+            // if affinity and NOT required
+            // insert "None" option
             if (
               this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
               && this.CleverForms.InsertLookupEmptyOption
@@ -26359,6 +26360,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               select.appendChild(optionNode);
             }
 
+            // if affinity and IS required
+            // insert "Select..." option
             if (
               this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
               && this.CleverForms.InsertLookupEmptyRequiredOption
@@ -26371,6 +26374,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               select.appendChild(optionNode);
             }
 
+            // if NOT affinity and NOT required
+            // insert "None" option
+            if (
+              this.Config.Details.ItemSource.ItemSourceType !== 'Affinity'
+              && this.CleverForms.InsertLookupEmptyRequiredOption
+              && !this.Config.Details.Required
+            )
+            {
+              optionNode = document.createElement('option');
+              optionNode.value = this.CleverForms.InsertLookupEmptyValue;
+              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyDisplay;
+              select.appendChild(optionNode);
+            }
+
+            // if NOT affinity and IS required
+            // insert "Select..." option
             if (
               this.Config.Details.ItemSource.ItemSourceType !== 'Affinity'
               && this.CleverForms.InsertLookupEmptyRequiredOption
