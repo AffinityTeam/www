@@ -7793,17 +7793,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
-    * Description.    Add empty option to required lookup lists.
-    * @public
-    */
-    this.InsertLookupEmptyRequiredOption = true;
-    this.InsertLookupEmptyRequiredValue = '';
-    this.InsertLookupEmptyRequiredDisplay = 'Select...';
-
-
-
-
-    /**
     * Description.    Default configuration. Updated by designer.js via constructor parameter.
     * @type {Object}
     * @public
@@ -15959,7 +15948,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
     });
 
-    document.querySelectorAll('.form-row.required, .form-row.inline-error, .is-global-key').forEach(function (rowNode, rowIndex)
+    document.querySelectorAll('.form-row.required, .form-row.inline-error').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
       rowNode.style.marginBottom = null;
@@ -15974,12 +15963,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           {
             widgets = { TaxNumber: formElement.widgets.TaxNumber };
           }
-
-          //if (formElement.widgets.hasOwnProperty('SelectLookup'))
+          //else if (formElement.widgets.hasOwnProperty('Address'))
           //{
-          //  widgets = { SelectLookup: formElement.widgets.SelectLookup };
+          //  widgets = { Address: formElement.widgets.Address };
           //}
-
           for (key in widgets)
           {
             if (key !== 'Address' && formElement.widgets.hasOwnProperty(key))
@@ -26242,16 +26229,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             AddEmpty: this.CleverForms.InsertLookupEmptyOption,
             EmptyKey: this.CleverForms.InsertLookupEmptyValue,
             EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
-            NoneKey: this.CleverForms.InsertLookupEmptyRequiredValue,
-            NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
-            Required: this.Config.Details.Required,
             Value: null
           };
-
-          if (this.CleverForms.IsGlobalKey(this.Config))
-          {
-            selectConfig.Required = true;
-          }
           
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
@@ -26266,7 +26245,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           //  selectConfig.EmptyKey = null;
           //  selectConfig.EmptyDisplay = 'None';
           //}
-
           select.dataset.config = JSON.stringify(selectConfig);
 
         }
@@ -26301,18 +26279,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             DisplayKey: 'Key',
             IncludeDataInDisplay: true,
             AddEmpty: this.CleverForms.InsertLookupEmptyOption,
-            EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
             EmptyKey: this.CleverForms.InsertLookupEmptyValue,
-            NoneKey: this.CleverForms.InsertLookupEmptyRequiredValue,
-            NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
-            Required: this.Config.Details.Required,
+            EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
             Value: null
           };
-
-          if (this.CleverForms.IsGlobalKey(this.Config))
-          {
-            selectConfig.Required = true;
-          }
 
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
@@ -26334,20 +26304,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           )
           {
             selectConfig = false;
-
             if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
             {
               selectConfig = this.Config.Details.Value;
               select.dataset.defaultValue = this.Config.Details.Value;
             }
 
-            if (this.CleverForms.IsGlobalKey(this.Config))
-            {
-              selectConfig.Required = true;
-            }
-
-            // if affinity and NOT required
-            // insert "None" option
+            // If Details.ItemSource.ItemSourceType == Affinity, obey CleverFroms.InsertLookupEmptyOption, and if tru, insert blank
             if (
               this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
               && this.CleverForms.InsertLookupEmptyOption
@@ -26357,48 +26320,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               optionNode = document.createElement('option');
               optionNode.value = this.CleverForms.InsertLookupEmptyValue;
               optionNode.innerHTML = this.CleverForms.InsertLookupEmptyDisplay;
-              select.appendChild(optionNode);
-            }
-
-            // if affinity and IS required
-            // insert "Select..." option
-            if (
-              this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
-              && this.CleverForms.InsertLookupEmptyRequiredOption
-              && this.Config.Details.Required
-            )
-            {
-              optionNode = document.createElement('option');
-              optionNode.value = this.CleverForms.InsertLookupEmptyRequiredValue;
-              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyRequiredDisplay;
-              select.appendChild(optionNode);
-            }
-
-            // if NOT affinity and NOT required
-            // insert "None" option
-            if (
-              this.Config.Details.ItemSource.ItemSourceType !== 'Affinity'
-              && this.CleverForms.InsertLookupEmptyRequiredOption
-              && !this.Config.Details.Required
-            )
-            {
-              optionNode = document.createElement('option');
-              optionNode.value = this.CleverForms.InsertLookupEmptyValue;
-              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyDisplay;
-              select.appendChild(optionNode);
-            }
-
-            // if NOT affinity and IS required
-            // insert "Select..." option
-            if (
-              this.Config.Details.ItemSource.ItemSourceType !== 'Affinity'
-              && this.CleverForms.InsertLookupEmptyRequiredOption
-              && this.Config.Details.Required
-            )
-            {
-              optionNode = document.createElement('option');
-              optionNode.value = this.CleverForms.InsertLookupEmptyRequiredValue;
-              optionNode.innerHTML = this.CleverForms.InsertLookupEmptyRequiredDisplay;
               select.appendChild(optionNode);
             }
 
@@ -26474,7 +26395,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   IsValid()
   {
     var required = this.Config.Details.Required, value = false;
-    if (this.CleverForms.IsGlobalKey(this.Config)) required = true;
     if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
     if (required)
     {
@@ -26488,23 +26408,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
     if (!this.IsValid())
     {
-      var required = this.Config.Details.Required;
-      if (this.CleverForms.IsGlobalKey(this.Config)) required = true;
-      if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
-      var error = $a.Lang.ReturnPath('generic.validation.strings.required', { label: this.Config.Details.Label });
+      var error = this.Config.Details.Label + ' is required';
       var select = this.FormRowNode.querySelector('div.select.hidden select');
       select.querySelectorAll('option').forEach(function (option)
       {
         if (option.value === select.value)
         {
-          if (required)
-          {
-            error = $a.Lang.ReturnPath('generic.validation.strings.notemptyselect', { label: this.Config.Details.Label });
-          }
-          else
-          {
-            error = $a.Lang.ReturnPath('generic.validation.strings.notnoneselect', { label: this.Config.Details.Label, value: option.innerHTML.trim() });
-          }
+          error = '\'' + this.Config.Details.Label + '\' can not be ' + option.innerHTML.trim();
         }
       }.bind(this));
       return error;
@@ -39017,8 +38927,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
     this.request = false;
 
-    this.Valid = true;
-
     this.DefaultConfig = {
       DataKey: 'Key',
 	    DisplayKey: 'Value',
@@ -39026,10 +38934,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       AddEmpty: false,
       EmptyKey: '',
       EmptyDisplay: '',
-      Filters: [],
-      NoneKey: '',
-      NoneDisplay: 'Select...',
-      Required: false
+	    Filters: []
     };
 
   }
@@ -39041,8 +38946,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     [
 
       '_init',
-
-      'IsValid', 'GetValue',
 
       '_gotResults', '_gotResultsError', '_requestCanceled',
 
@@ -39125,25 +39028,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   /**/
 
-  IsValid()
-  {
-    if (this.config.Required)
-    {
-      if (this.GetValue() === this.config.NoneKey)
-      {
-        this.Valid = false;
-      }
-    }
-    this.Valid = true;
-  }
-
-  GetValue()
-  {
-    return this.targetNode.value;
-  }
-
-  /**/
-
   _gotResults (response)
   {
     if(response)
@@ -39204,20 +39088,12 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     if (Array.isArray(resultArray))
     {
       var inc = 0, inserted = false;
-      if (this.config.AddEmpty && !this.config.Required)
+      if (this.config.AddEmpty)
       {
         this.hasSelected = false;
         var emptyData = { Selected: true };
         emptyData[this.config.DataKey] = this.config.EmptyKey;
         emptyData[this.config.DisplayKey] = this.config.EmptyDisplay;
-        inserted = this._insertResult(emptyData);
-      }
-      if (this.config.Required)
-      {
-        this.hasSelected = false;
-        var emptyData = { Selected: true };
-        emptyData[this.config.DataKey] = this.config.NoneKey;
-        emptyData[this.config.DisplayKey] = this.config.NoneDisplay;
         inserted = this._insertResult(emptyData);
       }
       for ( ; inc < resultArray.length; inc++)
@@ -39233,8 +39109,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     }
     this.targetNode.classList.remove('working');
     if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.remove('working');
-    this.targetNode.removeEventListener('change', this.IsValid);
-    this.targetNode.addEventListener('change', this.IsValid);
   }
 
   _insertResult (data)
