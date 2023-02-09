@@ -21093,7 +21093,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     super(config, 'Date');
     [
       '_options', '_templates',
-      
+
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue'
@@ -21123,7 +21123,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if (super.SetDesignEditor())
     {
       // set special html / values
-      
+
       this.ShowDateNode = this.TemplateNode.querySelector('#_DateTimeTypeAndDate');
       this.ShowTimeNode = this.TemplateNode.querySelector('#_DateTimeTypeAndTime');
       this.DefaultValueNode = this.TemplateNode.querySelector('#_DateTimeDefaultValue');
@@ -21159,7 +21159,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     return false;
   }
 
-  UnsetDesignEditor ()
+  UnsetDesignEditor()
   {
     if (super.UnsetDesignEditor())
     {
@@ -21190,13 +21190,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     return this.Config;
   }
 
-  RemoveDesignerElement (callback)
+  RemoveDesignerElement(callback)
   {
     if (super.RemoveDesignerElement())
     {
 
       // do any removal stuff here
-      
+
       var node = document.querySelector('.item-' + this.UniqueName);
       if (node && $a.isFunction(callback))
       {
@@ -21229,7 +21229,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       date = Date.today().clearTime();
       //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
-    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value); 
+    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value);
 
     //var originalDate = date;
     var dateObj = Affinity2018.getDate(date);
@@ -21244,7 +21244,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy'; //date = Date.today().toString('dd.MM.yyyy');
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' - ';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += 'h:mm:ss tt';
-        //dateStr = Affinity2018.getDate(dateObj, format);
+        //dateStr = Affinity2018.getDate(dateObj, format); // requires luxon format where "ddd" = "EEE", and no "S" in "dS" (luxon "S" is trimmed milliseconds)
         dateStr = dateObj.toString(format);
         value = dateStr;
       }
@@ -21321,7 +21321,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue (value)
+  SetFromValue(value)
   {
     var originalValue = value;
     var format = '';
@@ -21353,7 +21353,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date')) format += 'ddd dS MMM, yyyy';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('date') && this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' -';
         if (this.Config.Details.DateTimeType.toLowerCase().contains('time')) format += ' h:mm a';
-        if (format.trim() !== '') inputNode.value = Affinity2018.getDate(value, format);
+        //if (format.trim() !== '') inputNode.value = Affinity2018.getDate(value, format); // requires luxon format where "ddd" = "EEE", and no "S" in "dS" (luxon "S" is trimmed milliseconds)
+        if (format.trim() !== '') inputNode.value = value.toString(format);
         else inputNode.value = '';
       }
     }
@@ -21365,7 +21366,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
   /**/
 
-  _templates ()
+  _templates()
   {
     super._templates();
 
@@ -21401,7 +21402,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     </div>
     `;
 
-    this.HtmlRowReadOnlyTemplate =  `
+    this.HtmlRowReadOnlyTemplate = `
     <div class="form-row">
       <label>{label}</label>
       <input type="text" disabled value="{value}" />
