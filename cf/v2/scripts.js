@@ -8391,6 +8391,61 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
+  InsertEmptyListItem (dataList, required, selected)
+  {
+    if (this.InsertLookupEmptyOption)
+    {
+      if (required)
+      {
+        dataList.unshift({ Key: this.InsertLookupEmptyRequiredDisplay, Value: this.InsertLookupEmptyRequiredValue, Selected: selected });
+      }
+      else
+      {
+        dataList.unshift({ Key: this.InsertLookupEmptyDisplay, Value: this.InsertLookupEmptyValue, Selected: selected });
+      }
+    }
+    return dataList;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetEmptyListOption (required, selected)
+  {
+    var option = '';
+    if (this.InsertLookupEmptyOption)
+    {
+      if (required)
+      {
+        option = '<option value="{Value}"{Selected}>{Display}</option>'.format({
+          Display: this.InsertLookupEmptyRequiredDisplay,
+          Value: this.InsertLookupEmptyRequiredValue,
+          Selected: selected ? ' selected="selected"' : ''
+        });
+      }
+      else
+      {
+        option = '<option value="{Value}"{Selected}>{Display}</option>'.format({
+          Display: this.InsertLookupEmptyDisplay,
+          Value: this.InsertLookupEmptyValue,
+          Selected: selected ? ' selected="selected"' : ''
+        });
+      }
+    }
+    return option;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   ReturnExisitingModelKeyNode(modelName, fromNode)
   {
     var keyNode = null;
@@ -18893,7 +18948,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
         if (exampleController !== null && exampleController.hasOwnProperty('HtmlEditExampleTemplate') && exampleController.HtmlEditExampleTemplate.trim() !== '')
         {
-          this.PreviewBoxNode.innerHTML = exampleController.HtmlEditExampleTemplate;
+          var emptyRequired = this.RequiredBoxNode.querySelector('input').checked;
+          var emptyOption = this.CleverForms.GetEmptyListOption(emptyRequired, true);
+          this.PreviewBoxNode.innerHTML = exampleController.HtmlEditExampleTemplate.format({
+            Empty: emptyOption
+          });
           this.PreviewNode.classList.remove('hidden');
         }
       }
@@ -26160,6 +26219,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           ];
         }
 
+        dataList = this.CleverForms.InsertEmptyListItem(dataList, this.Config.Details.Required, false);
+
         selected = false;
         keys = Object.keys(dataList[0]);
         dataList.forEach(function (listItem)
@@ -26190,6 +26251,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         )
         {
           dataList = this.Config.Details.ItemSource.Items;
+          dataList = this.CleverForms.InsertEmptyListItem(dataList, this.Config.Details.Required, false);
           for (i = 0; i < dataList.length; i++)
           {
             if (dataList[i].Value === this.Config.Details.Value)
@@ -26572,9 +26634,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         <label>Select from a list</label>
         <div class="select">
           <select class="ui-has-autocomplete">
-            <option>Example One</option>
-            <option>Example Two</option>
-            <option>Example Three</option>
+            {Empty}
+            <option value="ExampleOne">Example One</option>
+            <option value="ExampleTwo">Example Two</option>
+            <option value="ExampleThree">Example Three</option>
           </select>
         </div>
       </div>
