@@ -6,8 +6,7 @@
 (6295,81): run-time error CSS1031: Expected selector, found ')'
 (6295,81): run-time error CSS1025: Expected comma or open brace, found ')'
 (6327,82): run-time error CSS1030: Expected identifier, found ','
-(6327,153): run-time error CSS1031: Expected selector, found ')'
-(6327,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6327,155): run-time error CSS1031: Expected selector, found ')'
 (6417,64): run-time error CSS1030: Expected identifier, found ','
 (6417,71): run-time error CSS1031: Expected selector, found ')'
 (6417,71): run-time error CSS1025: Expected comma or open brace, found ')'
@@ -20,18 +19,18 @@
 (6492,74): run-time error CSS1030: Expected identifier, found ','
 (6492,216): run-time error CSS1031: Expected selector, found ')'
 (6492,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8144,113): run-time error CSS1030: Expected identifier, found ','
-(8144,125): run-time error CSS1031: Expected selector, found ')'
-(8144,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9341,133): run-time error CSS1030: Expected identifier, found ','
-(9341,274): run-time error CSS1031: Expected selector, found ')'
-(9341,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9915,167): run-time error CSS1030: Expected identifier, found ','
-(9915,309): run-time error CSS1031: Expected selector, found ')'
-(9915,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10166,108): run-time error CSS1030: Expected identifier, found ','
-(10166,250): run-time error CSS1031: Expected selector, found ')'
-(10166,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(8210,113): run-time error CSS1030: Expected identifier, found ','
+(8210,125): run-time error CSS1031: Expected selector, found ')'
+(8210,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9407,133): run-time error CSS1030: Expected identifier, found ','
+(9407,274): run-time error CSS1031: Expected selector, found ')'
+(9407,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(9981,167): run-time error CSS1030: Expected identifier, found ','
+(9981,309): run-time error CSS1031: Expected selector, found ')'
+(9981,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10232,108): run-time error CSS1030: Expected identifier, found ','
+(10232,250): run-time error CSS1031: Expected selector, found ')'
+(10232,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6359,24 +6358,24 @@ body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error label:first
   -o-animation: flash-error-label 0.5s 5;
   animation: flash-error-label 0.5s 5;
 }
-body.ui2018.uiupdate form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate .form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform .form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate .default-form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate .form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform .form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate .default-form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
-body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code) {
+body.ui2018.uiupdate form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate .form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error textarea:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate .form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error .select:not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform .form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ),
+body.ui2018.uiupdate.cform .default-form .form-row.error.flash-error input:not([type=checkbox]):not([type=radio]):not(.street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code, ) {
   -webkit-animation: flash-error-input 0.5s 5;
   -moz-animation: flash-error-input 0.5s 5;
   -o-animation: flash-error-input 0.5s 5;
@@ -7573,7 +7572,13 @@ body.ui2018.uiupdate.cform form .form-row.row-taxnumber.error .ui-form-error.sho
 body.ui2018.uiupdate .form .form-row.row-taxnumber.error .ui-form-error.show,
 body.ui2018.uiupdate.cform .form .form-row.row-taxnumber.error .ui-form-error.show,
 body.ui2018.uiupdate .default-form .form-row.row-taxnumber.error .ui-form-error.show,
-body.ui2018.uiupdate.cform .default-form .form-row.row-taxnumber.error .ui-form-error.show {
+body.ui2018.uiupdate.cform .default-form .form-row.row-taxnumber.error .ui-form-error.show,
+body.ui2018.uiupdate form .form-row.row-taxcode.error .ui-form-error.show,
+body.ui2018.uiupdate.cform form .form-row.row-taxcode.error .ui-form-error.show,
+body.ui2018.uiupdate .form .form-row.row-taxcode.error .ui-form-error.show,
+body.ui2018.uiupdate.cform .form .form-row.row-taxcode.error .ui-form-error.show,
+body.ui2018.uiupdate .default-form .form-row.row-taxcode.error .ui-form-error.show,
+body.ui2018.uiupdate.cform .default-form .form-row.row-taxcode.error .ui-form-error.show {
   display: none;
 }
 body.ui2018.uiupdate form .form-row.row-banknumber.error .banknumber-box .ui-form-error.show,
@@ -7588,6 +7593,12 @@ body.ui2018.uiupdate .form .form-row.row-taxnumber.error .banknumber-box .ui-for
 body.ui2018.uiupdate.cform .form .form-row.row-taxnumber.error .banknumber-box .ui-form-error.show,
 body.ui2018.uiupdate .default-form .form-row.row-taxnumber.error .banknumber-box .ui-form-error.show,
 body.ui2018.uiupdate.cform .default-form .form-row.row-taxnumber.error .banknumber-box .ui-form-error.show,
+body.ui2018.uiupdate form .form-row.row-taxcode.error .banknumber-box .ui-form-error.show,
+body.ui2018.uiupdate.cform form .form-row.row-taxcode.error .banknumber-box .ui-form-error.show,
+body.ui2018.uiupdate .form .form-row.row-taxcode.error .banknumber-box .ui-form-error.show,
+body.ui2018.uiupdate.cform .form .form-row.row-taxcode.error .banknumber-box .ui-form-error.show,
+body.ui2018.uiupdate .default-form .form-row.row-taxcode.error .banknumber-box .ui-form-error.show,
+body.ui2018.uiupdate.cform .default-form .form-row.row-taxcode.error .banknumber-box .ui-form-error.show,
 body.ui2018.uiupdate form .form-row.row-banknumber.error .taxnumber-box .ui-form-error.show,
 body.ui2018.uiupdate.cform form .form-row.row-banknumber.error .taxnumber-box .ui-form-error.show,
 body.ui2018.uiupdate .form .form-row.row-banknumber.error .taxnumber-box .ui-form-error.show,
@@ -7599,7 +7610,13 @@ body.ui2018.uiupdate.cform form .form-row.row-taxnumber.error .taxnumber-box .ui
 body.ui2018.uiupdate .form .form-row.row-taxnumber.error .taxnumber-box .ui-form-error.show,
 body.ui2018.uiupdate.cform .form .form-row.row-taxnumber.error .taxnumber-box .ui-form-error.show,
 body.ui2018.uiupdate .default-form .form-row.row-taxnumber.error .taxnumber-box .ui-form-error.show,
-body.ui2018.uiupdate.cform .default-form .form-row.row-taxnumber.error .taxnumber-box .ui-form-error.show {
+body.ui2018.uiupdate.cform .default-form .form-row.row-taxnumber.error .taxnumber-box .ui-form-error.show,
+body.ui2018.uiupdate form .form-row.row-taxcode.error .taxnumber-box .ui-form-error.show,
+body.ui2018.uiupdate.cform form .form-row.row-taxcode.error .taxnumber-box .ui-form-error.show,
+body.ui2018.uiupdate .form .form-row.row-taxcode.error .taxnumber-box .ui-form-error.show,
+body.ui2018.uiupdate.cform .form .form-row.row-taxcode.error .taxnumber-box .ui-form-error.show,
+body.ui2018.uiupdate .default-form .form-row.row-taxcode.error .taxnumber-box .ui-form-error.show,
+body.ui2018.uiupdate.cform .default-form .form-row.row-taxcode.error .taxnumber-box .ui-form-error.show {
   display: block;
 }
 body.ui2018.uiupdate form .form-row .banknumber-box,
@@ -7723,6 +7740,54 @@ body.ui2018.uiupdate.cform .form .form-row .taxnumber-box input.tax3,
 body.ui2018.uiupdate .default-form .form-row .taxnumber-box input.tax3,
 body.ui2018.uiupdate.cform .default-form .form-row .taxnumber-box input.tax3 {
   width: 70px !important;
+}
+body.ui2018.uiupdate form .form-row .taxcode-box,
+body.ui2018.uiupdate.cform form .form-row .taxcode-box,
+body.ui2018.uiupdate .form .form-row .taxcode-box,
+body.ui2018.uiupdate.cform .form .form-row .taxcode-box,
+body.ui2018.uiupdate .default-form .form-row .taxcode-box,
+body.ui2018.uiupdate.cform .default-form .form-row .taxcode-box {
+  display: block;
+  width: 680px;
+  min-height: 44px;
+  line-height: 44px;
+}
+body.ui2018.uiupdate form .form-row .taxcode-box .select.country-select,
+body.ui2018.uiupdate.cform form .form-row .taxcode-box .select.country-select,
+body.ui2018.uiupdate .form .form-row .taxcode-box .select.country-select,
+body.ui2018.uiupdate.cform .form .form-row .taxcode-box .select.country-select,
+body.ui2018.uiupdate .default-form .form-row .taxcode-box .select.country-select,
+body.ui2018.uiupdate.cform .default-form .form-row .taxcode-box .select.country-select {
+  display: inline-block;
+  width: 70px !important;
+  min-width: unset;
+  margin: 0 10px 0 0 !important;
+}
+body.ui2018.uiupdate form .form-row .taxcode-box.show-country .ui-autocomplete-container,
+body.ui2018.uiupdate.cform form .form-row .taxcode-box.show-country .ui-autocomplete-container,
+body.ui2018.uiupdate .form .form-row .taxcode-box.show-country .ui-autocomplete-container,
+body.ui2018.uiupdate.cform .form .form-row .taxcode-box.show-country .ui-autocomplete-container,
+body.ui2018.uiupdate .default-form .form-row .taxcode-box.show-country .ui-autocomplete-container,
+body.ui2018.uiupdate.cform .default-form .form-row .taxcode-box.show-country .ui-autocomplete-container {
+  display: inline-block;
+  width: 600px;
+}
+body.ui2018.uiupdate form .form-row .taxcode-box.show-country .ui-autocomplete-container input,
+body.ui2018.uiupdate.cform form .form-row .taxcode-box.show-country .ui-autocomplete-container input,
+body.ui2018.uiupdate .form .form-row .taxcode-box.show-country .ui-autocomplete-container input,
+body.ui2018.uiupdate.cform .form .form-row .taxcode-box.show-country .ui-autocomplete-container input,
+body.ui2018.uiupdate .default-form .form-row .taxcode-box.show-country .ui-autocomplete-container input,
+body.ui2018.uiupdate.cform .default-form .form-row .taxcode-box.show-country .ui-autocomplete-container input {
+  width: 100%;
+}
+body.ui2018.uiupdate form .form-row .taxcode-box.show-country .select:not(.country-select),
+body.ui2018.uiupdate.cform form .form-row .taxcode-box.show-country .select:not(.country-select),
+body.ui2018.uiupdate .form .form-row .taxcode-box.show-country .select:not(.country-select),
+body.ui2018.uiupdate.cform .form .form-row .taxcode-box.show-country .select:not(.country-select),
+body.ui2018.uiupdate .default-form .form-row .taxcode-box.show-country .select:not(.country-select),
+body.ui2018.uiupdate.cform .default-form .form-row .taxcode-box.show-country .select:not(.country-select) {
+  display: inline-block;
+  width: 600px;
 }
 body.ui2018.uiupdate form .form-row .draw-panel-box,
 body.ui2018.uiupdate.cform form .form-row .draw-panel-box,
