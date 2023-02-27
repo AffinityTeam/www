@@ -27352,9 +27352,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
 
   _gotNewUserProfile()
   {
-
-    debugger;
-
     if (this.FormRowNode && $a.isPropObject(Affinity2018.UserProfile, 'Selected'))
     {
       var inputNode = this.FormRowNode.querySelector('input.ui-taxcode');
@@ -27749,9 +27746,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
 
   _gotNewUserProfile()
   {
-
-    debugger;
-
     if (this.FormRowNode && $a.isPropObject(Affinity2018.UserProfile, 'Selected'))
     {
       var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
@@ -29507,6 +29501,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       'getValue', 'getDisplayValue', 'setValue', 'setFirst', 'filterList',
       'obscure', 'reveal',
       'show', 'hide',
+      'processOptions',
       'forceDefaultSelection', 'isDefaultSelected', 'defaultSelected',
       'refreshFromSelect',
 
@@ -29813,6 +29808,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   hide (calledFrom)
   {
     this._hide(calledFrom);
+  }
+
+  processOptions()
+  {
+    this._processOptions();
   }
 
   forceDefaultSelection ()
@@ -39653,6 +39653,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
     this.Valid = true;
 
+    this.Ready = false;
+
     this.DefaultConfig = {
       DataKey: 'Key',
 	    DisplayKey: 'Value',
@@ -39675,6 +39677,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     [
 
       '_init',
+
+      'UpdateApi', 'Refresh',
 
       'IsValid', 'GetValue',
 
@@ -39737,24 +39741,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   _init ()
   {
-    this.targetNode.classList.add('working');
-    if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('working');
-    if (this.useRequestQueue && Affinity2018.RequestQueue)
-    {
-      Affinity2018.RequestQueue.Add(this.api, this._gotResults, this._gotResultsError);
-      Affinity2018.RequestQueue.StartQueue();
-    }
-    else
-    {
-      if (this.request && this.request.hasOwnProperty('cancelToken')) this.request.cancelToken.source.cancel(true);
-      this.request = axios({
-        method: 'get',
-        url: this.api,
-        cancelToken: new axios.CancelToken(this._requestCanceled)
-      })
-      .then(this._gotResults)
-      .catch(this._gotResultsError);
-    }
+    this.Refresh();
   }
 
   /**/
@@ -39774,6 +39761,45 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   GetValue()
   {
     return this.targetNode.value;
+  }
+
+  UpdateApi(api)
+  {
+    if (!$a.isUrl(api))
+    {
+      console.error('No valid api path was passed to SelectLookupWidget, dummy!');
+      console.error(this.targetNode);
+      return false;
+    }
+    else
+    {
+      if (this.api) Affinity2018.RequestQueue.Remove(this.api, 'get');
+      this.targetNode.dataset.api = api;
+      this.api = api;
+      return true;
+    }
+  }
+
+  Refresh()
+  {
+    this.targetNode.classList.add('working');
+    if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('working');
+    if (this.useRequestQueue && Affinity2018.RequestQueue)
+    {
+      Affinity2018.RequestQueue.Add(this.api, this._gotResults, this._gotResultsError);
+      Affinity2018.RequestQueue.StartQueue();
+    }
+    else
+    {
+      if (this.request && this.request.hasOwnProperty('cancelToken')) this.request.cancelToken.source.cancel(true);
+      this.request = axios({
+        method: 'get',
+        url: this.api,
+        cancelToken: new axios.CancelToken(this._requestCanceled)
+      })
+        .then(this._gotResults)
+        .catch(this._gotResultsError);
+    }
   }
 
   /**/
@@ -39830,7 +39856,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.targetNode.innerHTML = '';
   }
 
-  _processResults (resultArray)
+  _processResults(resultArray)
   {
     this._clear();
     this.insertCount = 0;
@@ -39854,21 +39880,29 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         emptyData[this.config.DisplayKey] = this.config.NoneDisplay;
         inserted = this._insertResult(emptyData);
       }
-      for ( ; inc < resultArray.length; inc++)
+      for (; inc < resultArray.length; inc++)
       {
         inserted = this._insertResult(resultArray[inc]);
       }
     }
-    var filtersInserted = this._processFilters();
-    if (this.makeAutocomplete && Affinity2018.Autocompletes)
+    if (!this.Ready)
     {
-      this.targetNode.classList.remove('prevent-autocomplete');
-      Affinity2018.Autocompletes.Apply(this.targetNode);
+      //var filtersInserted = this._processFilters();
+      if (this.makeAutocomplete && Affinity2018.Autocompletes)
+      {
+        this.targetNode.classList.remove('prevent-autocomplete');
+        Affinity2018.Autocompletes.Apply(this.targetNode);
+      }
+      this.targetNode.removeEventListener('change', this.IsValid);
+      this.targetNode.addEventListener('change', this.IsValid);
+      this.Ready = true;
+    }
+    else
+    {
+      this.targetNode.widgets.Autocomplete.processOptions();
     }
     this.targetNode.classList.remove('working');
     if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.remove('working');
-    this.targetNode.removeEventListener('change', this.IsValid);
-    this.targetNode.addEventListener('change', this.IsValid);
   }
 
   _insertResult (data)
@@ -40604,7 +40638,9 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
 
       '_clear',
       '_stringToNodes',
-      '_getCountryCode', '_setupCountry',
+      '_getCountryCode', '_setCountryCode',
+      '_getDisplayVariant', '_getCodeVariant',
+      '_setupCountry',
       '_setIcon',
       '_userKey', '_userKeyUp', '_userValidate', '_validate',
 
@@ -40649,7 +40685,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
     this.initInputNode.widgets.TaxCode = this;
 
     this.taxcodeNode = document.createElement('div');
-    this.taxcodeNode.classList.add('taxcode-box', this.DefaultCountryCode.toLowerCase(), 'show-country');
+    this.taxcodeNode.classList.add('taxcode-box', 'show-country');
     this.taxcodeNode.innerHTML = this.template.format({ options: this.CountryOptions });
 
     this.countryNode = this.taxcodeNode.querySelectorAll('.select')[0];
@@ -40697,10 +40733,9 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       country = this.DefaultCountryCode;
       showCountryNode = true;
     }
-    if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
-    var selectValue = country;
-    if (selectValue.length > 1) selectValue = Object.keys(this.CountryCodeMap).find(c => this.CountryCodeMap[c] === selectValue);
-    this.countrySelectNode.value = selectValue;
+
+    country = this._getDisplayVariant(country);
+    this.countrySelectNode.value = this._getCodeVariant(country);
     this.taxcodeNode.classList.remove('show-country');
     if (showCountryNode)
     {
@@ -40767,10 +40802,8 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
 
     if (this.CountryCodes.contains(country))
     {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country)) country = this.CountryCodeMap[country];
-      var selectValue = country;
-      if (selectValue.length > 1) selectValue = Object.keys(this.CountryCodeMap).find(c => this.CountryCodeMap[c] === selectValue);
-      this.countrySelectNode.value = selectValue;
+      this.countrySelectNode.value = this._getCodeVariant(country);
+      this.taxcodeNode.dataset.country = this.countrySelectNode.value;
       this._setupCountry();
     }
 
@@ -40795,16 +40828,6 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       showCountrySelect = true;
     }
 
-    // test if emp is create, not this field
-    //if (
-    //  !showCountrySelect
-    //  && this.Config.Type === 'AffinityField'
-    //  && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-    //)
-    //{
-    //  showCountrySelect = true;
-    //}
-
     this.countryNode.removeEventListener('change', this._setupCountry);
     this.countryNode.classList.add('hidden');
     this.taxcodeNode.classList.remove('show-country');
@@ -40814,6 +40837,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       this.taxcodeNode.classList.add('show-country');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
+
 
   }
 
@@ -40850,23 +40874,59 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
     return this.DefaultCountryCode;
   }
 
+  _setCountryCode()
+  {
+    for (var key in this.lastCodes)
+    {
+      this.lastCodes[key] = '';
+      if (key === this._getDisplayVariant(this._getCountryCode()))
+      {
+        this.lastCodes[key] = this.Get().trim();
+      }
+    }
+    this.taxcodeNode.dataset.country = this._getCodeVariant(this._getCountryCode());
+  }
+
+  _getDisplayVariant(country)
+  {
+    return country.length === 1 && this.CountryCodeMap.hasOwnProperty(country) ? this.CountryCodeMap[country] : country;
+  }
+
+  _getCodeVariant(country)
+  {
+    return country.length === 2 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
+  }
+
   _setupCountry()
   {
     this._clear();
     var country = this._getCountryCode();
+    var lastCountry = this.taxcodeNode.dataset.country;
 
     /**/
 
-    if (this.lastCodes.hasOwnProperty(country))
+    if (country !== lastCountry)
     {
-      if (this.Get().trim() === '' && this.lastCodes[country].trim() !== '')
+      if (
+        this.taxcodeLookupNode
+        && this.taxcodeLookupNode.hasOwnProperty('widgets')
+        && this.taxcodeLookupNode.widgets.hasOwnProperty('SelectLookup'))
       {
-        // TODO: What is this in this context? -> this._stringToNodes(this.lastCodes[country]);
+        var newApi = this.taxcodeLookupNode.dataset.api.replace('country=' + this._getDisplayVariant(lastCountry), 'country=' + this._getDisplayVariant(country));
+        newApi = newApi.replace('country=' + this._getCodeVariant(lastCountry), 'country=' + this._getCodeVariant(country));
+        if (newApi !== this.taxcodeLookupNode.dataset.api)
+        {
+          newApi = newApi.replace('country=' + this._getDisplayVariant(country), 'country=' + this._getCodeVariant(country));
+          if (this.taxcodeLookupNode.widgets.SelectLookup.UpdateApi(newApi))
+          {
+            this.taxcodeLookupNode.dataset.api = newApi;
+            this.taxcodeLookupNode.widgets.SelectLookup.Refresh();
+            this._setCountryCode(country);
+          }
+        }
       }
     }
-
     this.initInputNode.dispatchEvent(new CustomEvent('countryChanged', { detail: { Country: country } }));
-
   }
 
   /**/
