@@ -2794,7 +2794,7 @@
         Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
         document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
         document.body.classList.add('disable-scroll');
-        console.log('!!! LOCK background scroll');
+        //console.log('!!! LOCK background scroll');
       }
     };
 
@@ -2809,7 +2809,7 @@
         document.body.classList.remove('disable-scroll');
         document.body.removeAttribute('style');
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
-        console.log('!!! UNLOCK background scroll');
+        //console.log('!!! UNLOCK background scroll');
       }
     };
   }
@@ -16113,6 +16113,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (formElement.widgets.hasOwnProperty('TaxNumber'))
           {
             widgets = { TaxNumber: formElement.widgets.TaxNumber };
+          }
+          if (formElement.widgets.hasOwnProperty('TaxCode'))
+          {
+            widgets = { TaxNumber: formElement.widgets.TaxCode };
           }
 
           //if (formElement.widgets.hasOwnProperty('SelectLookup'))
@@ -32797,6 +32801,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
+    var formRow = $a.getParent(this.initInputNode, '.form-row');
+    if (formRow)
+    {
+      if (this.Valid) formRow.classList.remove('inline-error', 'error');
+      else formRow.classList.add('inline-error');
+    }
   }
 
   /**/
@@ -38945,6 +38955,14 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (value === '' && !this.IsRequired) return;
 
+    if (this.InputNode.classList.contains('no-validate'))
+    {
+      this.Valid = true;
+      var formRow = $a.getParent(this.InputNode, '.form-row');
+      if (formRow) formRow.classList.remove('error', 'flash-error', 'inline-error');
+      return this.Valid;
+    }
+
     if (isNaN(parseFloat(value)))
     {
       isValid = false;
@@ -40391,6 +40409,14 @@ Affinity2018.Classes.Plugins.StringWidget = class
     this.InputNode.classList.remove('error');
     if (this.RowNode) this.RowNode.classList.remove('error', 'error2', 'flash-error');
 
+    if (this.InputNode.classList.contains('no-validate'))
+    {
+      this.Valid = true;
+      var formRow = $a.getParent(this.InputNode, '.form-row');
+      if (formRow) formRow.classList.remove('error', 'flash-error', 'inline-error');
+      return this.Valid;
+    }
+
     if (value === '' && !this.IsRequired) return;
 
     switch (this.type)
@@ -40661,8 +40687,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       '_getCountryCode', '_setCountryCode',
       '_getDisplayVariant', '_getCodeVariant',
       '_setupCountry',
-      '_setIcon',
-      '_userKey', '_userKeyUp', '_userValidate', '_validate',
+      '_validate',
 
       'Destroy',
 
@@ -40779,6 +40804,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       this.Set(value);
       this.FirstLoad = false;
     }
+    else this._validate();
 
     this.initInputNode.dispatchEvent(new CustomEvent('widgetReady'));
 
@@ -40789,7 +40815,15 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
   Get()
   {
     var value = this.initInputNode.value;
-    if (value.trim() === '') value = this.taxcodeLookupNode.widgets.Autocomplete.getValue();
+    if (
+      value.trim() === ''
+      && this.taxcodeLookupNode.hasOwnProperty('widgets')
+      && this.taxcodeLookupNode.widgets.hasOwnProperty('Autocomplete')
+      && this.taxcodeLookupNode.widgets.Autocomplete.Ready
+    )
+    {
+      value = this.taxcodeLookupNode.widgets.Autocomplete.getValue();
+    }
     if (value.contains(','))
     {
       var data = value.split(',');
@@ -40830,6 +40864,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       this.taxcodeLookupNode.widgets.Autocomplete.setValue(value, false);
     }
     if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = value;
+    this._validate();
   }
 
   SetCountry(country)
@@ -40970,11 +41005,15 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
 
   }
 
+  _validate()
+  {
+    this.Valid = this.Get().trim() !== '' ? true : false;
+  }
+
   /**/
 
   Destroy()
   {
-    clearTimeout(this._userValidateDelay);
     this.countryNode.removeEventListener('change', this._setupCountry);
     this.initInputNode.type = 'text';
     this.initInputNode.classList.remove('ui-taxcode');
@@ -41363,6 +41402,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   {
     this.FirstLoad = false;
     this._validate();
+
+    console.log('tax number valid: ', this.Valid);
   }
 
   Clear ()
@@ -41542,6 +41583,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   {
     //this.Valid = false;
 
+    clearTimeout(this._userValidateDelay);
+
     var api = null, employeeNumber = null;
 
     if (
@@ -41603,6 +41646,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     else this._setIcon(this.Valid);
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
+    var formRow = $a.getParent(this.initInputNode, '.form-row');
+    if (formRow)
+    {
+      if (this.Valid) formRow.classList.remove('inline-error', 'error');
+      else formRow.classList.add('inline-error');
+    }
   }
 
   /**/
