@@ -19576,6 +19576,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
       
       this.FormRowNode.dataset.model = this.Config.Details.AffinityField.ModelName;
+      this.FormRowNode.dataset.field = this.Config.Details.AffinityField.FieldName;
 
       if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum && this.CleverForms.IsGlobalKey(this.Config))
       {
@@ -27239,10 +27240,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
-      if (!this.IsReadOnly && !this.CleverForms.ViewType === 'ViewOnly')
+      if (!this.IsReadOnly && this.CleverForms.ViewType !== 'ViewOnly')
       {
-        if (this.FormRowNode.querySelector('input.ui-has-taxcode')) this.FormRowNode.querySelector('input.ui-has-taxcode').addEventListener('widgetReady', this._setupEvents);
-        else if (this.FormRowNode.querySelector('input.ui-taxcode')) this.FormRowNode.querySelector('input.ui-taxcode').addEventListener('widgetReady', this._setupEvents);
+        var node = false;
+        if (this.FormRowNode.querySelector('input.ui-has-taxcode'))
+        {
+          node = this.FormRowNode.querySelector('input.ui-has-taxcode');
+          node.addEventListener('widgetReady', this._setupEvents);
+        }
+        else if (this.FormRowNode.querySelector('input.ui-taxcode'))
+        {
+          node = this.FormRowNode.querySelector('input.ui-taxcode');
+          node.addEventListener('widgetReady', this._setupEvents);
+        }
         else console.warn('Tax Code element "' + this.Config.Details.Label + '" has no field to check.');
       }
 
@@ -27250,6 +27260,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
 
       var input = this.FormRowNode.querySelector('input');
       input.dataset.config = JSON.stringify(this._getSelectConfig(value));
+
+      if (node && this.Config.Type == 'AffinityField')
+      {
+        node.dataset.field = this.Config.Details.AffinityField.FieldName;
+      }
 
       return this.FormRowNode;
     }
@@ -27378,12 +27393,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     if (!this.IsReadOnly)
     {
       this.SectionNode = this.FormRowNode.closest('div.default-form');
-      if (this.SectionNode.querySelector('select[data-api*="propertyName=' + this.DependencyPropertyName + '"]'))
+      if (this.SectionNode.querySelector('div[data-field="' + this.DependencyPropertyName + '"]'))
       {
-        this.DependencyInputNode = this.SectionNode.querySelector('select[data-api*="propertyName=' + this.TaxCodePropertyName + '"]');
-        this.DependencyWidget = this.DependencyInputNode.widgets.Autocomplete;
-        if (this.DependencyWidget === undefined) this.DependencyInputNode.addEventListener('ready', this._setupCountry);
-        else this.DependencyWidget = false;
+        clearTimeout(this.dependancyCheck);
+        if (this.SectionNode.querySelector('input[data-field="' + this.DependencyPropertyName + '"]'))
+        {
+          this.DependencyInputNode = this.SectionNode.querySelector('input[data-field="' + this.DependencyPropertyName + '"]');
+          var checkName = this.DependencyPropertyName.replace('_', '').toLowerCase(); // TAX_NUMBER -> taxnumber
+          for (var widgetName in this.DependencyInputNode.widgets)
+          {
+            if (widgetName.toLowerCase() === checkName)
+            {
+              this.DependencyWidget = this.DependencyInputNode.widgets[widgetName];
+              this._setupCountry();
+              return;
+            }
+          }
+          this.dependancyCheck = setTimeout(this._setupEvents, 100);
+        }
+        else
+        {
+          this.dependancyCheck = setTimeout(this._setupEvents, 100);
+        }
       }
       else
       {
@@ -27401,12 +27432,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
       {
         this.DependencyOptions = this.DependencyInputNode.querySelectorAll('option');
         this.TaxCodeInputNode = this.FormRowNode.querySelector('input.ui-taxcode');
+        this.TaxCodeInputNode.removeEventListener('countryChanged', this._countrySet);
         this.TaxCodeInputNode.addEventListener('countryChanged', this._countrySet);
-        if (this.DependencyInputNode.widgets.Autocomplete)
+        if (this.DependencyWidget)
         {
-          this.DependencyWidget = this.DependencyInputNode.widgets.Autocomplete;
-          this.DependencyInputNode.removeEventListener('complete', this._setupCountry);
-          this.DependencyInputNode.addEventListener('change', this._setFromDependency);
+          this.DependencyWidget.initInputNode.removeEventListener('countryChanged', this._setFromDependency);
+          this.DependencyWidget.initInputNode.addEventListener('countryChanged', this._setFromDependency);
         }
       }
       else
@@ -27448,12 +27479,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
           {
             filterMatch = all[all.length - 1];
           }
-          if (!this.DisableDepnedancy)
-          {
-            this.DisableDepnedancy = true;
-            this.DependencyInputNode.addEventListener('workerComplete', this._autocompleteWorkerDone);
-            this.DependencyWidget.filterList(filterMatch);
-          }
+          //if (!this.DisableDepnedancy)
+          //{
+          //  this.DisableDepnedancy = true;
+          //  this.DependencyInputNode.addEventListener('workerComplete', this._autocompleteWorkerDone);
+          //  this.DependencyWidget.filterList(filterMatch);
+          //}
         }
       }
     }
@@ -27473,14 +27504,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     if (!this.IsReadOnly)
     {
       if (this.DisableDepnedancy) return;
-      var value = this.DependencyWidget.getDisplayValue(), o = 0, country;
-      for (o = 0; o < this.CountryCodes.length; o++)
+      var country = '';
+      if (this.DependencyWidget.hasOwnProperty('GetData'))
       {
-        if (value.toUpperCase().contains('- ' + this.CountryCodes[o].toUpperCase()))
-        {
-          country = this.CountryCodes[o];
-          break;
-        }
+        var value = this.DependencyWidget.GetData();
+        country = value[1];
       }
       if (country !== '')
       {
@@ -27683,11 +27711,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
-      if (!this.IsReadOnly && !this.CleverForms.ViewType === 'ViewOnly')
+      if (!this.IsReadOnly && this.CleverForms.ViewType !== 'ViewOnly')
       {
-        if (this.FormRowNode.querySelector('input.ui-has-taxnumber')) this.FormRowNode.querySelector('input.ui-has-taxnumber').addEventListener('widgetReady', this._setupEvents);
-        else if (this.FormRowNode.querySelector('input.ui-taxnumber')) this.FormRowNode.querySelector('input.ui-taxnumber').addEventListener('widgetReady', this._setupEvents);
+        var node = false;
+        if (this.FormRowNode.querySelector('input.ui-has-taxnumber'))
+        {
+          node = this.FormRowNode.querySelector('input.ui-has-taxnumber');
+          node.addEventListener('widgetReady', this._setupEvents);
+        }
+        else if (this.FormRowNode.querySelector('input.ui-taxnumber'))
+        {
+          node = this.FormRowNode.querySelector('input.ui-taxnumber');
+          node.addEventListener('widgetReady', this._setupEvents);
+        }
         else console.warn('Tax Number element "' + this.Config.Details.Label + '" has no field to check.');
+      }
+
+      if (node && this.Config.Type == 'AffinityField')
+      {
+        node.dataset.field = this.Config.Details.AffinityField.FieldName;
       }
 
       // set any special elements
@@ -27769,12 +27811,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     if (!this.IsReadOnly)
     {
       this.SectionNode = this.FormRowNode.closest('div.default-form');
-      if (this.SectionNode.querySelector('select[data-api*="propertyName=' + this.DependencyPropertyName + '"]'))
+      if (this.SectionNode.querySelector('div[data-field="' + this.DependencyPropertyName + '"]'))
       {
-        this.DependencyInputNode = this.SectionNode.querySelector('select[data-api*="propertyName=' + this.TaxCodePropertyName + '"]');
-        this.DependencyWidget = this.DependencyInputNode.widgets.Autocomplete;
-        if (this.DependencyWidget === undefined) this.DependencyInputNode.addEventListener('ready', this._setupCountry);
-        else this.DependencyWidget = false;
+        clearTimeout(this.dependancyCheck);
+        if (this.SectionNode.querySelector('input[data-field="' + this.DependencyPropertyName + '"]'))
+        {
+          this.DependencyInputNode = this.SectionNode.querySelector('input[data-field="' + this.DependencyPropertyName + '"]');
+          var checkName = this.DependencyPropertyName.replace('_', '').toLowerCase(); // TAX_CODE -> taxcode
+          for (var widgetName in this.DependencyInputNode.widgets)
+          {
+            if (widgetName.toLowerCase() === checkName)
+            {
+              this.DependencyWidget = this.DependencyInputNode.widgets[widgetName];
+              this._setupCountry();
+              return;
+            }
+          }
+          this.dependancyCheck = setTimeout(this._setupEvents, 100);
+        }
+        else
+        {
+          this.dependancyCheck = setTimeout(this._setupEvents, 100);
+        }
       }
       else
       {
@@ -27792,12 +27850,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       {
         this.DependencyOptions = this.DependencyInputNode.querySelectorAll('option');
         this.TaxNumberInputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
+        this.TaxNumberInputNode.removeEventListener('countryChanged', this._countrySet);
         this.TaxNumberInputNode.addEventListener('countryChanged', this._countrySet);
-        if (this.DependencyInputNode.widgets.Autocomplete)
+        if (this.DependencyWidget)
         {
-          this.DependencyWidget = this.DependencyInputNode.widgets.Autocomplete;
-          this.DependencyInputNode.removeEventListener('complete', this._setupCountry);
-          this.DependencyInputNode.addEventListener('change', this._setFromDependency);
+          this.DependencyWidget.initInputNode.removeEventListener('countryChanged', this._setFromDependency);
+          this.DependencyWidget.initInputNode.addEventListener('countryChanged', this._setFromDependency);
         }
       }
       else
@@ -27811,44 +27869,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
   {
     if (!this.IsReadOnly)
     {
-      if (ev && 'detail' in ev && 'Country' in ev.detail)
-      {
-        clearTimeout(this.filterTimeout);
-        var check = '- ' + ev.detail.Country.toUpperCase() + ' ';
-        if (this.DependencyWidget)
-        {
-          this.SetMatch = null;
-          var filterMatch = null;
-          var all = [];
-          for (var key in this.CountryCodeMap)
-          {
-            if (check.contains(this.CountryCodeMap[key]))
-            {
-              this.SetMatch = '- ' + this.CountryCodeMap[key] + ' ';
-            }
-            else
-            {
-              all.push('- ' + this.CountryCodeMap[key] + ' ');
-              if (this.SetMatch !== null && filterMatch === null)
-              {
-                filterMatch = '- ' + this.CountryCodeMap[key] + ' ';
-              }
-            }
-          }
-          if (all.length > 0 && this.SetMatch !== null && filterMatch === null)
-          {
-            filterMatch = all[all.length - 1];
-          }
-          if (!this.DisableDepnedancy)
-          {
-            this.DisableDepnedancy = true;
-            this.DependencyInputNode.addEventListener('workerComplete', this._autocompleteWorkerDone);
-            this.DependencyWidget.filterList(filterMatch);
-          }
-        }
-      }
     }
   }
+
   _autocompleteWorkerDone()
   {
     if (!this.IsReadOnly)
@@ -27864,14 +27887,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     if (!this.IsReadOnly)
     {
       if (this.DisableDepnedancy) return;
-      var value = this.DependencyWidget.getDisplayValue(), o = 0, country;
-      for (o = 0; o < this.CountryCodes.length; o++)
+      var country = '';
+      if (this.DependencyWidget.hasOwnProperty('GetData'))
       {
-        if (value.toUpperCase().contains('- ' + this.CountryCodes[o].toUpperCase()))
-        {
-          country = this.CountryCodes[o];
-          break;
-        }
+        var value = this.DependencyWidget.GetData();
+        country = value[1];
       }
       if (country !== '')
       {
@@ -30645,7 +30665,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._focusDelay);
     this._focusDelay = setTimeout(function ()
     {
-      console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
+      //console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
       if (this.status == 'closed')
       {
         this._position(0, 'displayNode focus');
@@ -40743,6 +40763,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       this.taxcodeNode.classList.add('show-country');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
+    this.taxcodeNode.dataset.country = this._getCodeVariant(country);
     this.SetCountry(country);
 
     /**/
@@ -40767,7 +40788,24 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
 
   Get()
   {
-    return this.initInputNode.value;
+    var value = this.initInputNode.value;
+    if (value.trim() === '') value = this.taxcodeLookupNode.widgets.Autocomplete.getValue();
+    if (value.contains(','))
+    {
+      var data = value.split(',');
+      var country = this._getCountryCode();
+      if (
+        data.length === 2
+        && (
+          data[1] === this._getCodeVariant(country)
+          || data[1] === this._getDisplayVariant(country)
+        )
+      )
+      {
+        value = data[0];
+      }
+    }
+    return value;
   }
 
   GetData()
@@ -40803,7 +40841,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
     if (this.CountryCodes.contains(country))
     {
       this.countrySelectNode.value = this._getCodeVariant(country);
-      this.taxcodeNode.dataset.country = this.countrySelectNode.value;
+      //this.taxcodeNode.dataset.country = this.countrySelectNode.value;
       this._setupCountry();
     }
 
@@ -40925,8 +40963,11 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
           }
         }
       }
+
+      this.initInputNode.dispatchEvent(new CustomEvent('countryChanged', { detail: { Country: country } }));
+
     }
-    this.initInputNode.dispatchEvent(new CustomEvent('countryChanged', { detail: { Country: country } }));
+
   }
 
   /**/
@@ -41307,16 +41348,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     {
       showCountrySelect = true;
     }
-
-    // test if emp is create, not this field
-    //if (
-    //  !showCountrySelect
-    //  && this.Config.Type === 'AffinityField'
-    //  && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-    //)
-    //{
-    //  showCountrySelect = true;
-    //}
 
     this.countryNode.removeEventListener('change', this._setupCountry);
     this.countryNode.classList.add('hidden');
