@@ -9165,11 +9165,15 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         try
         {
           var profile = JSON.parse(profileStr);
-          if (profile.hasOwnProperty('CompanyNumber') && profile.hasOwnProperty('EmployeeNo'))
+          if (profile.hasOwnProperty('CompanyNumber') && profile.hasOwnProperty('EmployeeNumber'))
           {
-            Affinity2018.FormProfile = profile;
-            window.dispatchEvent(new CustomEvent('GotEmployeeData'));
-            return;
+            if (profile.EmployeeNumber === employeeNo)
+            {
+              Affinity2018.FormProfile = profile;
+              window.addEventListener('GotEmployee', this._gotEmployeeData);
+              window.dispatchEvent(new CustomEvent('GotEmployee', { detail: { data: profile } }));
+              return;
+            }
           }
         }
         catch (joErr)
@@ -14911,7 +14915,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_submit', '_print', '_close',
 
-      '_ready', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests',
+      '_ready', '_userLoaded', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests',
 
       '_templates'
 
@@ -14970,8 +14974,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.RequiredMessageNode = document.querySelector('.required-message');
 
       this.ButtonsNode.classList.add('locked');
-
-      // TODO: Add AffinityField Key lookup hooks. If Key is EMPLOYEE_NO, fire event 'GotUser' on change and load.
 
       if (this.ViewType === 'Preview')
       {
@@ -15190,6 +15192,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _ready()
   {
+    if (document.querySelector('.form-row.is-employee-no select'))
+    {
+      // make sure latest values are updated if an employee is present and selected after it has finished loading.
+      document.querySelector('.form-row.is-employee-no select').addEventListener('ready', this._userLoaded);
+    }
     this.DashboardHeaderHeight = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
     this.widgetData = [];
     Affinity2018.Tooltips.Apply();
@@ -15206,6 +15213,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.widgetData[3] = Affinity2018.Apps.Plugins.DrawPanel.Apply();
     this.widgetData[4] = Affinity2018.Apps.Plugins.FileUpload.Apply();
     this._checkWidgetsLoaded();
+  }
+
+
+
+  /**
+   * Summary. Check if EMPLOYE_NO has been first time loaded or modified
+   * @this    Class scope
+   * @access  private
+   */
+  _userLoaded(ev)
+  {
+    document.querySelector('.form-row.is-employee-no select').removeEventListener('ready', this._userLoaded);
+    var widget = document.querySelector('.form-row.is-employee-no select').widgets.Autocomplete;
+    var value = widget.getValue();
+    widget.setValue(value, true); // where "true" is "Force Trigger Events even if the value is the same as the current value"
   }
 
 
@@ -20141,16 +20163,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       if (data[this.Config.Name] !== null)
       {
-        color = '#8dca35';
-        messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) to "{Value}"';
-        messgae = messageStr.format({
-          Label: this.Config.Details.Label,
-          FieldName: this.Config.Details.AffinityField.FieldName,
-          Type: this.ElementControllerType,
-          Value: data[this.Config.Name]
-        });
-        console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        console.log(data);
+        var originalString = JSON.stringify(this.Config.Details.Value);
+        var newString = JSON.stringify(data[this.Config.Name]);
+        if (originalString !== newString)
+        {
+          color = '#8dca35';
+          messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) from "{original}" to "{Value}"';
+          messgae = messageStr.format({
+            Label: this.Config.Details.Label,
+            FieldName: this.Config.Details.AffinityField.FieldName,
+            Type: this.ElementControllerType,
+            original: this.Config.Details.Value,
+            Value: data[this.Config.Name]
+          });
+          console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
+          console.log(data);
+        }
         this.ElementController.SetFromValue(data[this.Config.Name]);
       }
       else
@@ -20615,7 +20643,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ', ' + country;
+      var display = value + ' - ' + country;
       if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -27230,8 +27258,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ' - ' + country;
-      if (value === null || value === 'null') display = '';
+      var display = this.Config.Details.Value !== null && this.Config.Details.Value !== 'null' ? this.Config.Details.Value : value;
+      if ($a.isArray(display))
+      {
+        display = display[0];
+      }
+      if (!display.contains(' - ' + this._getDisplayVariant(country)))
+      {
+        display += ' - ' + this._getDisplayVariant(country);
+      }
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
         value: display
@@ -27239,7 +27274,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     }
     else
     {
-      html = this._getFormRowHtml(value, country);
+      var actualValue = value;
+      if (!actualValue.contains(','))
+      {
+        actualValue += ',' + this._getDisplayVariant(country);
+      }
+      html = this._getFormRowHtml(actualValue, country);
     }
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -27262,8 +27302,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
 
       // set any special elements
 
+      var actualValue = value;
+      if (!actualValue.contains(',')) actualValue += ',' + this._getDisplayVariant(country);
       var input = this.FormRowNode.querySelector('input');
-      input.dataset.config = JSON.stringify(this._getSelectConfig(value));
+      input.dataset.config = JSON.stringify(this._getSelectConfig(actualValue));
 
       if (node && this.Config.Type == 'AffinityField')
       {
@@ -27357,12 +27399,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     }
   }
 
-  _getFormRowHtml(value, country, api)
+  _getFormRowHtml(value, country)
   {
     var showCountrySelect = this.CountryCodes.contains(country) ? false : true;
+    var actualValue = value;
+    if (!actualValue.contains(',')) actualValue += ',' + this._getDisplayVariant(country);
     return this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
-      value: value,
+      value: actualValue,
       country: country,
       status: showCountrySelect ? 'show' : 'hide',
       api: this._getApi(country)
@@ -27384,7 +27428,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
       this.FormRowNode.innerHTML = html;
 
       var input = this.FormRowNode.querySelector('input');
-      input.dataset.config = JSON.stringify(this._getSelectConfig(value));
+      var actualValue = value;
+      if (!actualValue.contains(',')) actualValue += ',' + this._getDisplayVariant(country);
+      input.dataset.config = JSON.stringify(this._getSelectConfig(actualValue));
 
       Affinity2018.Apps.Plugins.TaxCode.Apply();
     }
@@ -27524,6 +27570,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
         this.TaxCodeInputNode.addEventListener('countryChanged', this._countrySet);
       }
     }
+  }
+
+  _getDisplayVariant(country)
+  {
+    return country.length === 1 && this.CountryCodeMap.hasOwnProperty(country) ? this.CountryCodeMap[country] : country;
+  }
+
+  _getCodeVariant(country)
+  {
+    return country.length > 1 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
   }
 
   /**/
@@ -39899,6 +39955,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this._clear();
     this.insertCount = 0;
     this.hasSelected = false;
+    this.hasSelectedValue = false;
+
     if (Array.isArray(resultArray))
     {
       var inc = 0, inserted = false;
@@ -39946,23 +40004,42 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   _insertResult (data)
   {
     var resultsNode = document.createElement('option'),
+        value = data[this.config.DataKey],
         displayStr = this._cleanValue(data[this.config.DisplayKey], data[this.config.DataKey]);
     if (displayStr.trim() !== '')
     {
       resultsNode.innerHTML = displayStr;
-      resultsNode.value = data[this.config.DataKey];
-      if (!this.hasSelected && this.config.Value === data[this.config.DataKey])
+      resultsNode.value = value;
+
+      if (!this.hasSelected && this.config.Value === value)
       {
         resultsNode.selected = true;
         this.targetNode.selectedIndex = this.insertCount;
         this.hasSelected = true;
+        this.hasSelectedValue = value;
       }
+
       if (!this.hasSelected && $a.isPropBool(data, 'Selected') && data.Selected === true)
       {
         resultsNode.selected = true;
         this.targetNode.selectedIndex = this.insertCount;
         this.hasSelected = true;
+        this.hasSelectedValue = value;
       }
+
+      if (this.hasSelected && this.config.Value === value && this.hasSelectedValue !== value)
+      {
+        this.targetNode.querySelectorAll('option').forEach(function (optionNode)
+        {
+          optionNode.selected = null;
+          optionNode.removeAttribute('selected');
+        });
+        resultsNode.selected = true;
+        this.targetNode.selectedIndex = this.insertCount;
+        this.hasSelected = true;
+        this.hasSelectedValue = value;
+      }
+
       if (this.config.Filters.length > 0)
       {
         var i, filterData;
@@ -40873,7 +40950,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
 
     if (country === '' || country === 'NULL') country = this.DefaultCountryCode;
 
-    if (this.CountryCodes.contains(country))
+    if (this.CountryCodes.contains(country)) 
     {
       this.countrySelectNode.value = this._getCodeVariant(country);
       //this.taxcodeNode.dataset.country = this.countrySelectNode.value;
@@ -40881,6 +40958,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
     }
 
     var showCountrySelect = this.CountryCodes.contains(country) ? false : true;
+    var emp = Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo();
 
     if (
       showCountrySelect
@@ -40896,7 +40974,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       Affinity2018.hasOwnProperty('Apps')
       && Affinity2018.Apps.hasOwnProperty('CleverForms')
       && Affinity2018.Apps.CleverForms.hasOwnProperty('Default')
-      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() === -1)
+      && emp === -1)
     {
       showCountrySelect = true;
     }
@@ -40910,7 +40988,6 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       this.taxcodeNode.classList.add('show-country');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
-
 
   }
 
