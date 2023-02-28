@@ -20698,7 +20698,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       {
         inputWidget.Set('');
       }
-      else inputWidget.Set(value);
+      else
+      {
+        inputWidget.Set(value);
+      }
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
   }
@@ -32386,6 +32389,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     /**/
 
+    // NOTE: We should never hide the country code, becasue bank can be any country,
+    //       regardless of the logged in user or slected employee's country.
+
     var showCountryNode = true;
     var country = this.DefaultCountryCode;
 
@@ -32407,7 +32413,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       if (this.initInputNode.dataset.countryStatus.trim().toLowerCase() === 'hide')
       {
-        showCountryNode = false;
+        // showCountryNode = false;
       }
       this.initInputNode.dataset.countryStatus = null;
     }
@@ -32415,7 +32421,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     if (country === '' || country === 'NULL')
     {
       country = this.DefaultCountryCode;
-      showCountryNode = true;
+      // showCountryNode = true;
     }
     if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country.toUpperCase())) country = this.CountryCodeMap[country.toUpperCase()];
     var selectValue = country;
