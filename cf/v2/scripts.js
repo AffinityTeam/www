@@ -7912,6 +7912,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       'GetFormEmployeeNo',
       'IsGlobalKey', 'IsPseudoGlobalKey', 'IsKey', 'IsReadOnly', 'IskeyWithNoRequiredKeys', 'IsMasterFile', 'IsLookup', 'SelectDefaultModeOnFieldSearch',
 
+      'GetCountryOptons', 'GetCountryCodeVariant', 'GetCountryDisplayVariant',
+
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_G_G_G_GET_DATA_UNTIL_GET_DATA_MATCHES_NEW_STRUCTURE',
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_P_P_P_POST_DATA_UNTIL_POST_DATA_MATCHES_NEW_STRUCTURE'
 
@@ -8519,6 +8521,30 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       );
     }
     return options.join('');
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryCodeVariant(country)
+  {
+    return country.length === 2 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
+  }
+
+
+   
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryDisplayVariant(country)
+  {
+    return country.length === 1 && this.CountryCodeMap.hasOwnProperty(country) ? this.CountryCodeMap[country] : country;
   }
 
 
@@ -27293,7 +27319,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
     }
     else
     {
-      var actualValue = value;
+      var actualValue = value === null ? '' : value;
       if (!actualValue.contains(','))
       {
         actualValue += ',' + this._getDisplayVariant(country);
@@ -27321,7 +27347,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
 
       // set any special elements
 
-      var actualValue = value;
+      var actualValue = value === null ? '' : value;
       if (!actualValue.contains(',')) actualValue += ',' + this._getDisplayVariant(country);
       var input = this.FormRowNode.querySelector('input');
       input.dataset.config = JSON.stringify(this._getSelectConfig(actualValue));
@@ -32505,7 +32531,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   Set (value)
   {
     var countryCode = this.DefaultCountryCode;
-    if ($a.isArray(value) && value.length === 2)  value = value[1] + ',' + value[0];
+    if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + this.CleverForms.GetCountryCodeVariant(value[0]);
     if (!$a.isString(value)) value = value.toString().trim();
     if (value.toLowerCase() === 'null') value = '';
     if (value.trim() === '')
@@ -32536,12 +32562,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     if (this.CountryCodes.contains(country))
     {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country)) country = this.CountryCodeMap[country];
-
-      var selectValue = country;
-      if (country.length > 1) selectValue = Object.keys(this.CountryCodeMap).find(c => this.CountryCodeMap[c] === country);
-
-      this.countrySelectNode.value = selectValue;
+      country = this.CleverForms.GetCountryDisplayVariant(country);
+      this.countrySelectNode.value = this.CleverForms.GetCountryCodeVariant(country);
       this._setupCountry();
     }
 
@@ -32565,16 +32587,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       showCountrySelect = true;
     }
-
-    // test if emp is create, not this field
-    //if (
-    //  !showCountrySelect
-    //  && this.Config.Type === 'AffinityField'
-    //  && this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-    //)
-    //{
-    //  showCountrySelect = true;
-    //}
 
     this.countryNode.removeEventListener('change', this._setupCountry);
     this.countryNode.classList.add('hidden');
@@ -40792,7 +40804,6 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       '_clear',
       '_stringToNodes',
       '_getCountryCode', '_setCountryCode',
-      '_getDisplayVariant', '_getCodeVariant',
       '_setupCountry',
       '_validate',
 
@@ -40886,8 +40897,8 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       showCountryNode = true;
     }
 
-    country = this._getDisplayVariant(country);
-    this.countrySelectNode.value = this._getCodeVariant(country);
+    country = this.CleverForms.GetCountryDisplayVariant(country);
+    this.countrySelectNode.value = this.CleverForms.GetCountryCodeVariant(country);
     this.taxcodeNode.classList.remove('show-country');
     if (showCountryNode)
     {
@@ -40895,7 +40906,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       this.taxcodeNode.classList.add('show-country');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
-    this.taxcodeNode.dataset.country = this._getCodeVariant(country);
+    this.taxcodeNode.dataset.country = this.CleverForms.GetCountryCodeVariant(country);
     this.SetCountry(country);
 
     /**/
@@ -40938,8 +40949,8 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
       if (
         data.length === 2
         && (
-          data[1] === this._getCodeVariant(country)
-          || data[1] === this._getDisplayVariant(country)
+          data[1] === this.CleverForms.GetCountryCodeVariant(country)
+          || data[1] === this.CleverForms.GetCountryDisplayVariant(country)
         )
       )
       {
@@ -40960,6 +40971,8 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
   Set(value)
   {
     var countryCode = this._getCountryCode();
+    if ($a.isArray(value) && value.length === 2) value = this.CleverForms.GetCountryCodeVariant(value[0]) + ',' + value[1];
+    if (value.toLowerCase() === 'null') value = '';
     this.initInputNode.value = value;
     this.SetCountry(countryCode);
     if (
@@ -40982,7 +40995,7 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
 
     if (this.CountryCodes.contains(country)) 
     {
-      this.countrySelectNode.value = this._getCodeVariant(country);
+      this.countrySelectNode.value = this.CleverForms.GetCountryCodeVariant(country);
       //this.taxcodeNode.dataset.country = this.countrySelectNode.value;
       this._setupCountry();
     }
@@ -41059,22 +41072,12 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
     for (var key in this.lastCodes)
     {
       this.lastCodes[key] = '';
-      if (key === this._getDisplayVariant(this._getCountryCode()))
+      if (key === this.CleverForms.GetCountryDisplayVariant(this._getCountryCode()))
       {
         this.lastCodes[key] = this.Get().trim();
       }
     }
-    this.taxcodeNode.dataset.country = this._getCodeVariant(this._getCountryCode());
-  }
-
-  _getDisplayVariant(country)
-  {
-    return country.length === 1 && this.CountryCodeMap.hasOwnProperty(country) ? this.CountryCodeMap[country] : country;
-  }
-
-  _getCodeVariant(country)
-  {
-    return country.length === 2 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
+    this.taxcodeNode.dataset.country = this.CleverForms.GetCountryCodeVariant(this._getCountryCode());
   }
 
   _setupCountry()
@@ -41092,11 +41095,11 @@ Affinity2018.Classes.Plugins.TaxCodeWidget = class
         && this.taxcodeLookupNode.hasOwnProperty('widgets')
         && this.taxcodeLookupNode.widgets.hasOwnProperty('SelectLookup'))
       {
-        var newApi = this.taxcodeLookupNode.dataset.api.replace('country=' + this._getDisplayVariant(lastCountry), 'country=' + this._getDisplayVariant(country));
-        newApi = newApi.replace('country=' + this._getCodeVariant(lastCountry), 'country=' + this._getCodeVariant(country));
+        var newApi = this.taxcodeLookupNode.dataset.api.replace('country=' + this.CleverForms.GetCountryDisplayVariant(lastCountry), 'country=' + this.CleverForms.GetCountryDisplayVariant(country));
+        newApi = newApi.replace('country=' + this.CleverForms.GetCountryCodeVariant(lastCountry), 'country=' + this.CleverForms.GetCountryCodeVariant(country));
         if (newApi !== this.taxcodeLookupNode.dataset.api)
         {
-          newApi = newApi.replace('country=' + this._getDisplayVariant(country), 'country=' + this._getCodeVariant(country));
+          newApi = newApi.replace('country=' + this.CleverForms.GetCountryDisplayVariant(country), 'country=' + this.CleverForms.GetCountryCodeVariant(country));
           if (this.taxcodeLookupNode.widgets.SelectLookup.UpdateApi(newApi))
           {
             this.taxcodeLookupNode.dataset.api = newApi;
@@ -41416,7 +41419,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   Set (value)
   {
     var countryCode = this._getCountryCode();
-    if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + value[0];
+    if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + this.CleverForms.GetCountryCodeVariant(value[0]);
     if (!$a.isString(value)) value = value.toString().trim();
     if (value.toLowerCase() === 'null') value = '';
     if (value.toLowerCase() === 'null,null')
@@ -41467,10 +41470,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     if (this.CountryCodes.contains(country))
     {
-      if (country.length === 1 && this.CountryCodeMap.hasOwnProperty(country)) country = this.CountryCodeMap[country];
-      var selectValue = country;
-      if (selectValue.length > 1) selectValue = Object.keys(this.CountryCodeMap).find(c => this.CountryCodeMap[c] === selectValue);
-      this.countrySelectNode.value = selectValue;
+      country = this.CleverForms.GetCountryDisplayVariant(country);
+      this.countrySelectNode.value = this.CleverForms.GetCountryCodeVariant(country);
       this._setupCountry();
     }
 
