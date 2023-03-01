@@ -20564,9 +20564,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     this._options();
     this._templates();
 
-    this.CountryCodes = this.CleverForms.CountryCodes;
-    this.DefaultCountryCode = this.CleverForms.DefaultCountryCode;
-    this.CountryCodeMap = this.CleverForms.CountryCodeMap;
+    if (!this.CleverForms && Affinity2018.Apps.CleverForms.hasOwnProperty('Default')) this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+    if (this.CleverForms)
+    {
+      this.CountryCodes = this.CleverForms.CountryCodes;
+      this.DefaultCountryCode = this.CleverForms.DefaultCountryCode;
+      this.CountryCodeMap = this.CleverForms.CountryCodeMap;
+    }
+    else
+    {
+      throw new Error('No CleverForms base Default object found');
+    }
 
     window.addEventListener('GotUser', this._gotNewUserProfile);
 
@@ -27182,9 +27190,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxCode = class extends Affinity2
 
     this.Config = config;
 
-    this.CountryCodes = this.CleverForms.CountryCodes;
-    this.DefaultCountryCode = this.CleverForms.DefaultCountryCode;
-    this.CountryCodeMap = this.CleverForms.CountryCodeMap;
+    if (!this.CleverForms && Affinity2018.Apps.CleverForms.hasOwnProperty('Default')) this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+    if (this.CleverForms)
+    {
+      this.CountryCodes = this.CleverForms.CountryCodes;
+      this.DefaultCountryCode = this.CleverForms.DefaultCountryCode;
+      this.CountryCodeMap = this.CleverForms.CountryCodeMap;
+    }
+    else
+    {
+      throw new Error('No CleverForms base Default object found');
+    }
 
     window.addEventListener('GotUser', this._gotNewUserProfile);
 
@@ -27681,9 +27697,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this._options();
     this._templates();
 
-    this.CountryCodes = this.CleverForms.CountryCodes;
-    this.DefaultCountryCode = this.CleverForms.DefaultCountryCode;
-    this.CountryCodeMap = this.CleverForms.CountryCodeMap;
+    if (!this.CleverForms && Affinity2018.Apps.CleverForms.hasOwnProperty('Default')) this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+    if (this.CleverForms)
+    {
+      this.CountryCodes = this.CleverForms.CountryCodes;
+      this.DefaultCountryCode = this.CleverForms.DefaultCountryCode;
+      this.CountryCodeMap = this.CleverForms.CountryCodeMap;
+    }
+    else
+    {
+      throw new Error('No CleverForms base Default object found');
+    }
 
     window.addEventListener('GotUser', this._gotNewUserProfile);
 
