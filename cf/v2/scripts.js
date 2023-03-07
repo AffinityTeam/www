@@ -25999,7 +25999,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.PayPoint = class extends Affinity
     {
       if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
       {
-        api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}&country={country}'.format({
+        api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}&country={country}&includeCountry=true'.format({
           api: this.CleverForms.GetLookupApi,
           modelName: this.Config.Details.AffinityField.ModelName,
           propertyName: this.Config.Details.AffinityField.FieldName,
@@ -26010,7 +26010,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.PayPoint = class extends Affinity
       }
       else
       {
-        api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&country={country}'.format({
+        api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&country={country}&includeCountry=true'.format({
           api: this.CleverForms.GetLookupApi,
           modelName: this.Config.Details.AffinityField.ModelName,
           propertyName: this.Config.Details.AffinityField.FieldName,
@@ -39723,6 +39723,8 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
     this.lastDisplay = '';
     this.lastCountry = '';
 
+    this.AnswerArrayIndex = { Country: 1, Value: 0 };
+
     this.FirstLoad = true;
 
     this.hasPayPoint = false;
@@ -39866,20 +39868,10 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
     {
       value = this.paypointLookupNode.widgets.Autocomplete.getValue();
     }
-    if (value.contains(','))
+    if (value.contains(',')) value = value.split(',');
+    if ($a.isArray(value) && value.length === 2 && this.CountryCodes.contains(value[this.AnswerArrayIndex.Country]))
     {
-      var data = value.split(',');
-      var country = this._getCountryCode();
-      if (
-        data.length === 2
-        && (
-          data[1] === this.CleverForms.GetCountryCodeVariant(country)
-          || data[1] === this.CleverForms.GetCountryDisplayVariant(country)
-        )
-      )
-      {
-        value = data[0];
-      }
+      value = value[this.AnswerArrayIndex.Country.Value];
     }
     return value;
   }
@@ -39894,23 +39886,24 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
 
   Set(value)
   {
+    var setValue = value;
     var country = this.DefaultCountryCode;
-    var displayValue = value.toString();
     if ($a.isString(value) && value.contains(',')) value = value.split(',');
-    if ($a.isArray(value) && value.length === 2 && this.CountryCodes.contains(value[1]))
+    if ($a.isArray(value) && value.length === 2 && this.CountryCodes.contains(value[this.AnswerArrayIndex.Country]))
     {
-      country = this.CleverForms.GetCountryCodeVariant(value[1]);
-      value = value[0];
+      country = this.CleverForms.GetCountryCodeVariant(value[this.AnswerArrayIndex.Country]);
+      value = value[this.AnswerArrayIndex.Value];
+      setValue = '{value},{country}'.format({ value: value, country: this.CleverForms.GetCountryDisplayVariant(country) });
     }
     if ($a.isString(value) && value.toLowerCase() === 'null') value = '';
-    this.initInputNode.value = value;
+    this.initInputNode.value = setValue;
     if (
       this.paypointLookupNode.hasOwnProperty('widgets')
       && this.paypointLookupNode.widgets.hasOwnProperty('Autocomplete')
       && this.paypointLookupNode.widgets.Autocomplete.Ready
     )
     {
-      this.paypointLookupNode.widgets.Autocomplete.setValue(value, false);
+      this.paypointLookupNode.widgets.Autocomplete.setValue(setValue, false);
     }
 
     this._doMessagesAndWarnings();
@@ -39962,15 +39955,12 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
     if (this.paypointLookupNode.hasOwnProperty('widgets') && this.paypointLookupNode.widgets.hasOwnProperty('Autocomplete'))
     {
       value = this.paypointLookupNode.widgets.Autocomplete.getValue();
-      console.groupEnd();
-      console.log('Retrieved Pay Point value: ', value);
-      //debugger;
     }
     if ($a.isString(value) && value.contains(',')) value = value.split(',');
     if ($a.isArray(value) && value.length === 2 && this.CountryCodes.contains(value[1]))
     {
-      country = this.CleverForms.GetCountryCodeVariant(value[1]);
-      value = value[0];
+      country = this.CleverForms.GetCountryCodeVariant(value[this.AnswerArrayIndex.Country]);
+      value = value[this.AnswerArrayIndex.Value];
     }
 
     if (country && value.toString().trim() !== '')
@@ -40035,9 +40025,9 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
       value = this.paypointLookupNode.widgets.Autocomplete.getValue();
     }
     if ($a.isString(value) && value.contains(',')) value = value.split(',');
-    if ($a.isArray(value) && value.length === 2 && this.CountryCodes.contains(value[1]))
+    if ($a.isArray(value) && value.length === 2 && this.CountryCodes.contains(value[this.AnswerArrayIndex.Country]))
     {
-      country = this.CleverForms.GetCountryCodeVariant(value[1]);
+      country = this.CleverForms.GetCountryCodeVariant(value[this.AnswerArrayIndex.Country]);
     }
     return this.country;
   }
@@ -40053,7 +40043,7 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
 
   _validate()
   {
-    this.Valid = this.Get().trim() !== '' ? true : false;
+    this.Valid = $a.isString(this.Get()) ? this.Get().trim() !== '' ? true : false : false;
   }
 
   /**/
