@@ -7862,11 +7862,30 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       'N': 'NZ'
     }; 
     this.CountrySensativeFields = {
-      'PAY_POINT': 'Pay Point',
-      'TAX_CODE': 'Tax Code',
-      'TAX_NUMBER': 'Tax Number',
-      'BANK_ACCT': 'Bank Account',
-      'BAL_ACCT': 'Balance Account'
+      'PAY_POINT': {
+        Name: 'Pay Point',
+        OnlyInForm: false
+      },
+      'TAX_CODE': {
+        Name: 'Tax Code',
+        OnlyInForm: false
+      },
+      'TAX_NUMBER': {
+        Name: 'Tax Number',
+        OnlyInForm: false
+      },
+      'BANK_ACCT': {
+        Name: 'Bank Account',
+        OnlyInForm: false
+      },
+      'BAL_ACCT': {
+        Name: 'Balance Account',
+        OnlyInForm: false
+      },
+      'AWARD_ID ': {
+        Name: 'Award ID',
+        OnlyInForm: true
+      }
     };
     this.GlobalAlwaysShowCountry = false;
 
@@ -8592,7 +8611,16 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         if (key !== currentField)
         {
-          warningFieldList.push(this.CountrySensativeFields[key]);
+          var sensativeFieldData = this.CountrySensativeFields[key];
+          if (sensativeFieldData.OnlyInForm)
+          {
+            var sectionNode = $a.getParent(rowNode, 'section');
+            if (sectionNode && sectionNode.querySelector('.form-row[data-field="' + key + '"]'))
+            {
+              warningFieldList.push(sensativeFieldData.Name);
+            }
+          }
+          else warningFieldList.push(sensativeFieldData.Name);
         }
       }
       if (popup)
@@ -40061,7 +40089,8 @@ Affinity2018.Classes.Plugins.PayPointWidget = class
 
   _sanatiseDisplay(value)
   {
-    if (value.contains(',')) value = value.split(',')[this.AnswerArrayIndex.Value];
+    if ($a.isString(value) && value.contains(',')) value = value.split(',')[this.AnswerArrayIndex.Value];
+    if ($a.isNumeric(value)) value = value.toString();
     var rowNode = $a.getParent(this.paypointNode, 'row-affinityfield');
     var name = rowNode ? rowNode.querySelector('label').innerText.trim() : 'Pay Point';
     if ($a.isNumeric(value)) value = name + ' "' + value + '"';
