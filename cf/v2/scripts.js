@@ -14880,6 +14880,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.FormNode = document.querySelector('#form');
       this.ButtonsNode = document.querySelector('#buttons');
       this.CommentNode = this.ButtonsNode.querySelector('.comments');
+      this.CommentHistoryNode = this.CommentNode.querySelector('.comment-history');
       this.CommentInputNode = this.ButtonsNode.querySelector('textarea');
       this.HistoryNode = document.querySelector('#history');
       this.UserInstructionsNode = document.querySelector('.user-instructions');
@@ -15566,6 +15567,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if (this.HistoryNode && Affinity2018.isArray(this.HistoryData) && this.HistoryData.length > 0)
     {
+      this.CommentHistoryNode.innerHTML = '';
+      this.CommentHistoryNode.classList.add('hidden');
+      var commentHistory = [];
       var node, html;
       this.HistoryData.forEach(function (data, index)
       {
@@ -15582,8 +15586,30 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         if (data.Originator !== data.Assignee) node.querySelector('.history-to').classList.remove('hidden');
         if ($a.isString(data.Comment) && data.Comment.trim() !== '') node.querySelector('.history-comment').classList.remove('hidden');
         this.HistoryNode.querySelector('.section-body').appendChild(node);
+        if (data.Comment !== null && data.Comment.trim() !== '')
+        {
+          commentHistory.push(this.historyCommentTemplate.format({
+            From: data.OriginatorName,
+            Date: $a.getDate(data.EnteredAtUtc, 'ccc MMM yyyy'),
+            Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
+            Action: data.ActionTaken,
+            ActionClass: data.ActionTaken.split(' ')[0].toLowerCase(),
+            Comment: data.Comment
+          }));
+        }
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
+      if (commentHistory.length > 0)
+      {
+        commentHistory.reverse();
+        this.CommentHistoryNode.classList.remove('hidden');
+        this.CommentHistoryNode.innerHTML = commentHistory.join('');
+        var height = this.CommentHistoryNode.getBoundingClientRect().height;
+        var newHeight = 110 + height + 10;
+        this.CommentNode.style.height = newHeight + 'px';
+        this.ResizeSection();
+        //TODO: If the most recent history state has a comment, move comments to the top? (Bruce suggestion)
+      }
     }
 
     // TODO: Comments were only shown if forms are assigned so asigner can leave comments for asignee.
@@ -16994,6 +17020,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     <strong>{OriginatorName}</strong> selected <strong>{ActionTaken}</strong>
     <span class="history-to hidden"> to {AssigneeName}</span>
     <span class="history-comment hidden">, with comment: <em>{Comment}</em></span>
+    `;
+
+    this.historyCommentTemplate = `
+    <div class="history-comment">
+      <div class="info"><span class="from">{From}</span> selected <span class="action {ActionClass}">{Action}</span> on <span class="date">{Date}</span> at <span class="time">{Time}</span></div>
+      <div class="comment">{Comment}</div>
+    </div>
     `;
 
   }
