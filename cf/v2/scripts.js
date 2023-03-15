@@ -15585,6 +15585,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
     }
+
+    // TODO: Comments were only shown if forms are assigned so asigner can leave comments for asignee.
+    //        We now want to make this comment box generic for all forms ..
+    this._showComments();
+
   }
 
 
@@ -15871,7 +15876,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     listNode.querySelector('select').appendChild(optionNode);
                   }
                 });
-                listNode.querySelector('select').addEventListener('change', this._checkIdentitySelects);
+
+                // TODO: The event listener below was used to show comments only if forms are assigned so asigner can leave comments for asignee.
+                //        We now want to make this comment box generic for all forms ..
+                //listNode.querySelector('select').addEventListener('change', this._checkIdentitySelects);
+
                 listNode.querySelector('select').dataset.refId = id;
                 target.appendChild(listNode);
                 if (data.Identities[0].Identifier.toLowerCase() === Affinity2018.UserProfile.UserGuid.toLowerCase()) listNode.classList.add('hidden');
@@ -15892,7 +15901,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       placeHolder.innerHTML = '';
       placeHolder = null;
       this.ButtonsNode.classList.remove('hidden');
-      this._checkIdentitySelects();
+
+      // TODO: The method below was used to show comments only if forms are assigned so asigner can leave comments for asignee.
+      //        We now want to make this comment box generic for all forms ..
+      //this._checkIdentitySelects();
 
       var workflowButtonsNode = this.ButtonsNode.querySelector('.section-body .workflow-buttons');
       var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
@@ -15946,15 +15958,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _showComments()
   {
-    if (this.Ready && $a.isNode(this.CommentNode))
-    {
-      var showAnim = setInterval(function ()
-      {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 30);
-      this.CommentNode.classList.remove('hide');
-      setTimeout(function () { clearInterval(showAnim); }, 500);
-    }
+    // TODO: Comments were only shown if forms are assigned so asigner can leave comments for asignee.
+    //        We now want to make this comment box generic for all forms ..
+    this.CommentNode.classList.remove('hide');
+
+    //if (this.Ready && $a.isNode(this.CommentNode))
+    //{
+    //  var showAnim = setInterval(function ()
+    //  {
+    //    window.scrollTo(0, document.body.scrollHeight);
+    //  }, 30);
+    //  this.CommentNode.classList.remove('hide');
+    //  setTimeout(function () { clearInterval(showAnim); }, 500);
+    //}
   }
 
 
