@@ -23,15 +23,15 @@
 (8144,113): run-time error CSS1030: Expected identifier, found ','
 (8144,125): run-time error CSS1031: Expected selector, found ')'
 (8144,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9341,133): run-time error CSS1030: Expected identifier, found ','
-(9341,274): run-time error CSS1031: Expected selector, found ')'
-(9341,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(9915,167): run-time error CSS1030: Expected identifier, found ','
-(9915,309): run-time error CSS1031: Expected selector, found ')'
-(9915,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10166,108): run-time error CSS1030: Expected identifier, found ','
-(10166,250): run-time error CSS1031: Expected selector, found ')'
-(10166,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9454,133): run-time error CSS1030: Expected identifier, found ','
+(9454,274): run-time error CSS1031: Expected selector, found ')'
+(9454,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10028,167): run-time error CSS1030: Expected identifier, found ','
+(10028,309): run-time error CSS1031: Expected selector, found ')'
+(10028,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10279,108): run-time error CSS1030: Expected identifier, found ','
+(10279,250): run-time error CSS1031: Expected selector, found ')'
+(10279,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -8523,6 +8523,119 @@ body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments label {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history {
+  position: relative;
+  margin: 0 0 10px 0;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-collapser,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-collapser {
+  position: absolute;
+  top: -21px;
+  right: 0;
+  height: 16px;
+  line-height: 16px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #106eb6;
+  -webkit-transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -moz-transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -o-transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-collapser:hover,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-collapser:hover {
+  color: #16c1f3;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment {
+  position: relative;
+  margin: 0 0 5px 0;
+  padding: 10px;
+  font-size: 0;
+  background: #efefef;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment:before,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment:before {
+  position: absolute;
+  display: block;
+  width: 0;
+  border-style: solid;
+  border-width: 4px 4px 0;
+  border-color: #efefef transparent;
+  bottom: -4px;
+  left: 9px;
+  content: '';
+  z-index: 1;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment.to-me .info .to,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment.to-me .info .to {
+  font-weight: bold;
+  font-style: italic;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 25px;
+  font-size: 12px;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .from,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .from {
+  display: inline-block;
+  line-height: 25px;
+  font-size: 12px;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  margin: 0 2px;
+  padding: 0 10px;
+  font-size: 12px;
+  text-transform: capitalize;
+  color: white;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-color: rgba(22, 193, 243, 0.5);
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.submit,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.submit,
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.initiaite,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.initiaite,
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.approve,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.approve {
+  background-color: rgba(141, 202, 53, 0.5);
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.decline,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.decline {
+  background-color: rgba(227, 49, 0, 0.5);
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 25px;
+  font-size: 12px;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .comment,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment .comment {
+  margin: 5px 0 0 0;
+  font-size: 14.4px;
+  font-weight: bold;
+}
 body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments textarea,
 body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments textarea {
   display: block;
@@ -13975,74 +14088,6 @@ body.ui2018.cform .section#buttons .comments.hide,
 body.ui2018 .example-template .preview .section#buttons .comments.hide {
   height: 0px;
   margin: 0;
-}
-body.ui2018.cform .section#buttons .comments .comment-history,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history {
-  margin: 0 0 10px 0;
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment {
-  margin: 0 0 10px 0;
-  padding: 10px;
-  font-size: 0;
-  background-color: rgba(0, 0, 0, 0.05);
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info {
-  display: inline-block;
-  line-height: 25px;
-  font-size: 12px;
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .from,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .from {
-  display: inline-block;
-  line-height: 25px;
-  font-size: 12px;
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .action,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .action {
-  display: inline-block;
-  height: 25px;
-  line-height: 25px;
-  margin: 5px 2px;
-  padding: 0 10px;
-  font-size: 12px;
-  text-transform: capitalize;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .action.submit,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .action.submit,
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .action.initiaite,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .action.initiaite,
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .action.approve,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .action.approve {
-  background-color: rgba(141, 202, 53, 0.2);
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .action.decline,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .action.decline {
-  background-color: rgba(227, 49, 0, 0.2);
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .date,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .date,
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .info .time,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .info .time {
-  display: inline-block;
-  line-height: 25px;
-  font-size: 12px;
-}
-body.ui2018.cform .section#buttons .comments .comment-history .history-comment .comment,
-body.ui2018 .example-template .preview .section#buttons .comments .comment-history .history-comment .comment {
-  font-size: 14.4px;
-  font-weight: bold;
 }
 body.ui2018.cform .section#buttons .workflow-buttons,
 body.ui2018 .example-template .preview .section#buttons .workflow-buttons,
