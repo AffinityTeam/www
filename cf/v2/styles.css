@@ -23,15 +23,15 @@
 (8144,113): run-time error CSS1030: Expected identifier, found ','
 (8144,125): run-time error CSS1031: Expected selector, found ')'
 (8144,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9454,133): run-time error CSS1030: Expected identifier, found ','
-(9454,274): run-time error CSS1031: Expected selector, found ')'
-(9454,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10028,167): run-time error CSS1030: Expected identifier, found ','
-(10028,309): run-time error CSS1031: Expected selector, found ')'
-(10028,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10279,108): run-time error CSS1030: Expected identifier, found ','
-(10279,250): run-time error CSS1031: Expected selector, found ')'
-(10279,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9467,133): run-time error CSS1030: Expected identifier, found ','
+(9467,274): run-time error CSS1031: Expected selector, found ')'
+(9467,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10041,167): run-time error CSS1030: Expected identifier, found ','
+(10041,309): run-time error CSS1031: Expected selector, found ')'
+(10041,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10292,108): run-time error CSS1030: Expected identifier, found ','
+(10292,250): run-time error CSS1031: Expected selector, found ')'
+(10292,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -8503,11 +8503,16 @@ body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content div.se
 body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments,
 body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments {
   width: 680px;
-  height: 110px;
+  height: unset;
+  -webkit-transition: unset;
+  -moz-transition: unset;
+  -o-transition: unset;
+  transition: unset;
 }
 body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments.hide,
 body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments.hide {
-  height: 0px;
+  height: unset;
+  margin: unset;
 }
 body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments label,
 body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments label {
@@ -8547,6 +8552,14 @@ body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment
 body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-collapser:hover,
 body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-collapser:hover {
   color: #16c1f3;
+}
+body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list,
+body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list {
+  overflow: hidden;
+  -webkit-transition: height 250ms;
+  -moz-transition: height 250ms;
+  -o-transition: height 250ms;
+  transition: height 250ms;
 }
 body.ui2018.uiupdate.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment,
 body.ui2018.uiupdate.cform.cform.v2 .content .section#buttons .comments .comment-history .comment-history-list .history-comment {
