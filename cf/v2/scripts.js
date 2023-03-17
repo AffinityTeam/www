@@ -15593,15 +15593,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         if ($a.isString(data.Comment) && data.Comment.trim() !== '') node.querySelector('.history-comment').classList.remove('hidden');
         this.HistoryNode.querySelector('.section-body').appendChild(node);
         var hasComment = false;
-        var to = data.Assignee === Affinity2018.UserProfile.UserGuid ? 'Me' : data.AssigneeName;
         if (data.Comment !== null && data.Comment.trim() !== '')
         {
           historyWithComments.push(data);
           hasComment = true;
         }
+        var assignee = data.Originator === Affinity2018.UserProfile.UserGuid ? 'I' : data.OriginatorName;
+        var to = data.Assignee === Affinity2018.UserProfile.UserGuid ? data.OriginatorName === data.AssigneeName ? 'Myself' : 'Me' : data.AssigneeName;
         commentHistory.push(this.historyCommentTemplate.format({
           ItemClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'history-comment to-me' : 'history-comment',
-          From: data.OriginatorName,
+          From: assignee,
           To: to,
           ToClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'to me' : 'to',
           Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
