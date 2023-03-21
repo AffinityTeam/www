@@ -14880,10 +14880,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.FormNode = document.querySelector('#form');
       this.ButtonsNode = document.querySelector('#buttons');
       this.CommentNode = this.ButtonsNode.querySelector('.comments');
-      this.CommentHistoryNode = this.CommentNode.querySelector('.comment-history');
-      this.CommentHistoryCollapserNode = this.CommentHistoryNode.querySelector('.comment-history-collapser');
-      this.CommentHistoryListNode = this.CommentHistoryNode.querySelector('.comment-history-list');
-      this.CommentInputNode = this.ButtonsNode.querySelector('textarea');
+      if (this.CommentNode)
+      {
+        this.CommentHistoryNode = this.CommentNode.querySelector('.comment-history');
+        this.CommentHistoryCollapserNode = this.CommentHistoryNode.querySelector('.comment-history-collapser');
+        this.CommentHistoryListNode = this.CommentHistoryNode.querySelector('.comment-history-list');
+        this.CommentInputNode = this.ButtonsNode.querySelector('textarea');
+      }
       this.HistoryNode = document.querySelector('#history');
       this.UserInstructionsNode = document.querySelector('.user-instructions');
       this.RequiredMessageNode = document.querySelector('.required-message');
@@ -15615,33 +15618,36 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
       /**/
-      commentHistory.reverse();
-      this.CommentInputNode.classList.add('hidden');
-      this.CommentHistoryNode.classList.remove('hidden');
-      this.CommentHistoryListNode.innerHTML = commentHistory.join('');
-      var height = this.CommentHistoryListNode.getBoundingClientRect().height;
-      var autoShow = historyWithComments.length && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid && historyWithComments[0].Comment !== null && historyWithComments[0].Comment.trim() !== '';
-      this.CommentHistoryListNode.dataset.openHeight = height + 'px';
-      this.CommentHistoryListNode.dataset.closedHeight = '0px';
-      if (this.ViewType !== 'ViewOnly')
+      if (this.CommentNode)
       {
-        this.CommentInputNode.classList.remove('hidden');
-      }
-      if (commentHistory.length > 0)
-      {
-        if (autoShow)
+        commentHistory.reverse();
+        this.CommentInputNode.classList.add('hidden');
+        this.CommentHistoryNode.classList.remove('hidden');
+        this.CommentHistoryListNode.innerHTML = commentHistory.join('');
+        var height = this.CommentHistoryListNode.getBoundingClientRect().height;
+        var autoShow = historyWithComments.length && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid && historyWithComments[0].Comment !== null && historyWithComments[0].Comment.trim() !== '';
+        this.CommentHistoryListNode.dataset.openHeight = height + 'px';
+        this.CommentHistoryListNode.dataset.closedHeight = '0px';
+        if (this.ViewType !== 'ViewOnly')
         {
-          //TODO: Move comments to the top? (Bruce suggestion)
-          this._expandComments();
+          this.CommentInputNode.classList.remove('hidden');
+        }
+        if (commentHistory.length > 0)
+        {
+          if (autoShow)
+          {
+            //TODO: Move comments to the top? (Bruce suggestion)
+            this._expandComments();
+          }
+          else
+          {
+            this._collpaseComments();
+          }
         }
         else
         {
           this._collpaseComments();
         }
-      }
-      else
-      {
-        this._collpaseComments();
       }
     }
   }
