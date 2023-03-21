@@ -14819,7 +14819,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_getWorkflowButtons', '_gotWorkflowButtons', '_getWorkflowButtonsFailed',
       '_checkIdentitySelects',
-      '_collpaseComments', '_expandComments', '_toggleComments',
+      '_compileCommentLanguage', '_collpaseComments', '_expandComments', '_toggleComments',
 
       '_submit',
       '_save',
@@ -15595,26 +15595,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         if (data.Originator !== data.Assignee) node.querySelector('.history-to').classList.remove('hidden');
         if ($a.isString(data.Comment) && data.Comment.trim() !== '') node.querySelector('.history-comment').classList.remove('hidden');
         this.HistoryNode.querySelector('.section-body').appendChild(node);
-        var hasComment = false;
         if (data.Comment !== null && data.Comment.trim() !== '')
         {
           historyWithComments.push(data);
-          hasComment = true;
         }
-        var assignee = data.Originator === Affinity2018.UserProfile.UserGuid ? 'I' : data.OriginatorName;
-        var to = data.Assignee === Affinity2018.UserProfile.UserGuid ? data.OriginatorName === data.AssigneeName ? 'Myself' : 'Me' : data.AssigneeName;
-        commentHistory.push(this.historyCommentTemplate.format({
-          ItemClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'history-comment to-me' : 'history-comment',
-          From: assignee,
-          To: to,
-          ToClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'to me' : 'to',
-          Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
-          Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
-          Action: data.ActionTaken,
-          ActionClass: 'action ' + data.ActionTaken.split(' ')[0].toLowerCase(),
-          Comment: hasComment ? data.Comment : '',
-          CommentClass: hasComment ? 'comment' : 'hidden'
-        }));
+        commentHistory.push(this._compileCommentLanguage(data, (this.HistoryData.length - 1) - index));
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
       /**/
@@ -16010,6 +15995,74 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
+
+  /**
+   * Summary. Compile Comment Language
+   * @this    Class scope
+   * @access  private
+   */
+  _compileCommentLanguage(data, index)
+  {
+    index = index === undefined ? -1 : index;
+    var hasComment = data.Comment !== null && data.Comment.trim() !== '';
+    /**/
+    //var str = '';
+    //var assignee = data.Originator === Affinity2018.UserProfile.UserGuid ? 'I' : data.OriginatorName;
+    //var to = data.Assignee === Affinity2018.UserProfile.UserGuid ? data.OriginatorName === data.AssigneeName ? 'Myself' : 'Me' : data.AssigneeName;
+    //str = this.historyCommentSimpleTemplate.format({
+    //  ItemClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'history-comment to-me' : 'history-comment',
+    //  From: assignee,
+    //  To: to,
+    //  ToClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'to me' : 'to',
+    //  Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
+    //  Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
+    //  Action: data.ActionTaken,
+    //  ActionClass: 'action ' + data.ActionTaken.split(' ')[0].toLowerCase(),
+    //  Comment: hasComment ? data.Comment : '',
+    //  CommentClass: hasComment ? 'comment' : 'hidden'
+    //});
+    /**/
+    var complexStr = data.OriginatorName + ' submitted this form to ' + data.AssigneeName;
+    if (index === 0)
+    {
+      complexStr = data.OriginatorName + ' initiated this form.';
+    }
+    else
+    {
+      var declienedLikeWords = [
+        'declin', 'fail', 'reject', 'abort', 'refus', 'need more', 'needs more'
+      ];
+      var approvedLikeWords = [
+        'approv', 'success'
+      ];
+      var match = data.ActionTaken
+        .toLowerCase()
+        .replace('/[\W]/g', '')
+        .split(' ')
+        .filter(i => i.length > 3)
+        .join(' ');
+      if (declienedLikeWords.some(function (word) { return match.contains(word); }))
+      {
+        complexStr = data.OriginatorName + ' declined this form and sent it to ' + data.AssigneeName;
+      }
+      if (approvedLikeWords.some(function (word) { return match.contains(word); }))
+      {
+        complexStr = data.OriginatorName + ' approved this form and sent it to ' + data.AssigneeName;
+      }
+    }
+    var complex = this.historyCommentComplexTemplate.format({
+      ItemClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'history-comment to-me' : 'history-comment',
+      Complex: complexStr,
+      Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
+      Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
+      Comment: hasComment ? data.Comment : '',
+      CommentClass: hasComment ? 'comment' : 'hidden'
+    });
+    /**/
+    return complex;
+  }
+
+
   
   /**
    * Summary. Collapse comment chat section
@@ -16019,7 +16072,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _collpaseComments()
   {
     this.CommentNode.classList.remove('open');
-    this.CommentHistoryCollapserNode.innerHTML = 'Show Comments';
+    this.CommentHistoryCollapserNode.innerHTML = 'Show';
     this.CommentHistoryListNode.style.height = this.CommentHistoryListNode.dataset.closedHeight;
   }
 
@@ -16033,7 +16086,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _expandComments()
   {
     this.CommentNode.classList.add('open');
-    this.CommentHistoryCollapserNode.innerHTML = 'Hide Comments';
+    this.CommentHistoryCollapserNode.innerHTML = 'Hide';
     this.CommentHistoryListNode.style.height = this.CommentHistoryListNode.dataset.openHeight;
   }
 
@@ -17067,9 +17120,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     <span class="history-comment hidden">, with comment: <em>{Comment}</em></span>
     `;
 
-    this.historyCommentTemplate = `
+    this.historyCommentSimpleTemplate = `
     <div class="{ItemClass}">
       <div class="info"><span class="from">{From}</span> selected <span class="{ActionClass}">{Action}</span> to <span class="{ToClass}">{To}</span> <span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
+      <div class="{CommentClass}">{Comment}</div>
+    </div>
+    `;
+
+    this.historyCommentComplexTemplate = `
+    <div class="{ItemClass}">
+      <div class="info"><span>{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
       <div class="{CommentClass}">{Comment}</div>
     </div>
     `;
