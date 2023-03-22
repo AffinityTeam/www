@@ -14283,6 +14283,26 @@ html.print body.ui2018.dark .example-template .preview {
   font-size: 11pt;
   color: #333333;
 }
+html.print body.ui2018.cform .show-on-print,
+html.print body.ui2018.dark.cform .show-on-print,
+html.print body.ui2018.uiupdate .show-on-print,
+html.print body.ui2018.dark.uiupdate .show-on-print,
+html.print body.ui2018.cform.uiupdate .show-on-print,
+html.print body.ui2018.dark.cform.uiupdate .show-on-print,
+html.print body.ui2018 .example-template .preview .show-on-print,
+html.print body.ui2018.dark .example-template .preview .show-on-print {
+  display: block;
+}
+html.print body.ui2018.cform .hide-on-print,
+html.print body.ui2018.dark.cform .hide-on-print,
+html.print body.ui2018.uiupdate .hide-on-print,
+html.print body.ui2018.dark.uiupdate .hide-on-print,
+html.print body.ui2018.cform.uiupdate .hide-on-print,
+html.print body.ui2018.dark.cform.uiupdate .hide-on-print,
+html.print body.ui2018 .example-template .preview .hide-on-print,
+html.print body.ui2018.dark .example-template .preview .hide-on-print {
+  display: none !important;
+}
 html.print body.ui2018.cform input[type="text"]:-webkit-autofill,
 html.print body.ui2018.dark.cform input[type="text"]:-webkit-autofill,
 html.print body.ui2018.uiupdate input[type="text"]:-webkit-autofill,
@@ -15728,24 +15748,6 @@ html.print body.ui2018 .example-template .preview div.content div#form div.secti
 html.print body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
   break-inside: avoid;
 }
-html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content .section#buttons,
-html.print body.ui2018.cform div.content .section#buttons,
-html.print body.ui2018.dark.cform div.content .section#buttons,
-html.print body.ui2018.uiupdate div.content .section#buttons,
-html.print body.ui2018.dark.uiupdate div.content .section#buttons,
-html.print body.ui2018.cform.uiupdate div.content .section#buttons,
-html.print body.ui2018.dark.cform.uiupdate div.content .section#buttons,
-html.print body.ui2018 .example-template .preview div.content .section#buttons,
-html.print body.ui2018.dark .example-template .preview div.content .section#buttons {
-  display: none;
-}
 html.print body.ui2018.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
 html.print body.ui2018.dark.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
 html.print body.ui2018.uiupdate .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
@@ -15842,6 +15844,26 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
     font-weight: 400;
     font-size: 11pt;
     color: #333333;
+  }
+  body.ui2018.cform .show-on-print,
+  body.ui2018.dark.cform .show-on-print,
+  body.ui2018.uiupdate .show-on-print,
+  body.ui2018.dark.uiupdate .show-on-print,
+  body.ui2018.cform.uiupdate .show-on-print,
+  body.ui2018.dark.cform.uiupdate .show-on-print,
+  body.ui2018 .example-template .preview .show-on-print,
+  body.ui2018.dark .example-template .preview .show-on-print {
+    display: block;
+  }
+  body.ui2018.cform .hide-on-print,
+  body.ui2018.dark.cform .hide-on-print,
+  body.ui2018.uiupdate .hide-on-print,
+  body.ui2018.dark.uiupdate .hide-on-print,
+  body.ui2018.cform.uiupdate .hide-on-print,
+  body.ui2018.dark.cform.uiupdate .hide-on-print,
+  body.ui2018 .example-template .preview .hide-on-print,
+  body.ui2018.dark .example-template .preview .hide-on-print {
+    display: none !important;
   }
   body.ui2018.cform input[type="text"]:-webkit-autofill,
   body.ui2018.dark.cform input[type="text"]:-webkit-autofill,
@@ -17287,24 +17309,6 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
   body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
     break-inside: avoid;
-  }
-  body.ui2018.cform div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content .section#buttons,
-  body.ui2018.cform div.content .section#buttons,
-  body.ui2018.dark.cform div.content .section#buttons,
-  body.ui2018.uiupdate div.content .section#buttons,
-  body.ui2018.dark.uiupdate div.content .section#buttons,
-  body.ui2018.cform.uiupdate div.content .section#buttons,
-  body.ui2018.dark.cform.uiupdate div.content .section#buttons,
-  body.ui2018 .example-template .preview div.content .section#buttons,
-  body.ui2018.dark .example-template .preview div.content .section#buttons {
-    display: none;
   }
   body.ui2018.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
   body.ui2018.dark.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,

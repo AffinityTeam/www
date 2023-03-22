@@ -16023,7 +16023,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     //});
     /**/
     var complexStr = data.OriginatorName + ' submitted this form to ' + data.AssigneeName;
-    if (index === 0)
+    if (index === 0) // index of 0 means first history record, which is always the initiator
     {
       complexStr = data.OriginatorName + ' initiated this form.';
     }
@@ -16036,16 +16036,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         'approv', 'success'
       ];
       var match = data.ActionTaken
-        .toLowerCase()
-        .replace('/[\W]/g', '')
-        .split(' ')
-        .filter(i => i.length > 3)
-        .join(' ');
-      if (declienedLikeWords.some(function (word) { return match.contains(word); }))
+        .toLowerCase() // case insensative
+        .replace('/[\W]/g', '') // remove all non-alpha chars
+        .split(' ') // split words into array
+        .filter(i => i.length > 3) // remove short words from array
+        .join(' '); // join back to a sanatised match string
+      if (declienedLikeWords.some(function (word) { return match.contains(word); })) // see if any of the declined-like words are in our sanatised match string
       {
         complexStr = data.OriginatorName + ' declined this form and sent it to ' + data.AssigneeName;
       }
-      if (approvedLikeWords.some(function (word) { return match.contains(word); }))
+      if (approvedLikeWords.some(function (word) { return match.contains(word); })) // see if any of the approved-like words are in our sanatised match string
       {
         complexStr = data.OriginatorName + ' approved this form and sent it to ' + data.AssigneeName;
       }
