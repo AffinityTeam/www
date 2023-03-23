@@ -14819,7 +14819,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_getWorkflowButtons', '_gotWorkflowButtons', '_getWorkflowButtonsFailed',
       '_checkIdentitySelects',
-      '_showComments', '_hideComments',
+      '_compileCommentLanguage', '_collpaseComments', '_expandComments', '_toggleComments',
 
       '_submit',
       '_save',
@@ -14880,10 +14880,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.FormNode = document.querySelector('#form');
       this.ButtonsNode = document.querySelector('#buttons');
       this.CommentNode = this.ButtonsNode.querySelector('.comments');
-      this.CommentInputNode = this.ButtonsNode.querySelector('textarea');
+      if (this.CommentNode)
+      {
+        this.CommentHistoryNode = this.CommentNode.querySelector('.comment-history');
+        this.CommentHistoryCollapserNode = this.CommentHistoryNode.querySelector('.comment-history-collapser');
+        this.CommentHistoryListNode = this.CommentHistoryNode.querySelector('.comment-history-list');
+        this.CommentInputNode = this.ButtonsNode.querySelector('textarea');
+      }
       this.HistoryNode = document.querySelector('#history');
       this.UserInstructionsNode = document.querySelector('.user-instructions');
       this.RequiredMessageNode = document.querySelector('.required-message');
+
+      this.CommentHistoryCollapserNode.addEventListener('click', this._toggleComments);
 
       this.ButtonsNode.classList.add('locked');
 
@@ -15566,6 +15574,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if (this.HistoryNode && Affinity2018.isArray(this.HistoryData) && this.HistoryData.length > 0)
     {
+      this.CommentHistoryListNode.innerHTML = '';
+      this.CommentHistoryListNode.style.height = null;
+      this.CommentHistoryNode.classList.add('hidden');
+      var commentHistory = [];
+      var historyWithComments = [];
       var node, html;
       this.HistoryData.forEach(function (data, index)
       {
@@ -15582,8 +15595,45 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         if (data.Originator !== data.Assignee) node.querySelector('.history-to').classList.remove('hidden');
         if ($a.isString(data.Comment) && data.Comment.trim() !== '') node.querySelector('.history-comment').classList.remove('hidden');
         this.HistoryNode.querySelector('.section-body').appendChild(node);
+        if (data.Comment !== null && data.Comment.trim() !== '')
+        {
+          historyWithComments.push(data);
+        }
+        commentHistory.push(this._compileCommentLanguage(data, (this.HistoryData.length - 1) - index));
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
+      /**/
+      if (this.CommentNode)
+      {
+        commentHistory.reverse();
+        this.CommentInputNode.classList.add('hidden');
+        this.CommentHistoryNode.classList.remove('hidden');
+        this.CommentHistoryListNode.innerHTML = commentHistory.join('');
+        var height = this.CommentHistoryListNode.getBoundingClientRect().height;
+        var autoShow = historyWithComments.length && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid && historyWithComments[0].Comment !== null && historyWithComments[0].Comment.trim() !== '';
+        this.CommentHistoryListNode.dataset.openHeight = height + 'px';
+        this.CommentHistoryListNode.dataset.closedHeight = '0px';
+        if (this.ViewType !== 'ViewOnly')
+        {
+          this.CommentInputNode.classList.remove('hidden');
+        }
+        if (commentHistory.length > 0)
+        {
+          if (autoShow)
+          {
+            //TODO: Move comments to the top? (Bruce suggestion)
+            this._expandComments();
+          }
+          else
+          {
+            this._collpaseComments();
+          }
+        }
+        else
+        {
+          this._collpaseComments();
+        }
+      }
     }
   }
 
@@ -15871,7 +15921,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     listNode.querySelector('select').appendChild(optionNode);
                   }
                 });
-                listNode.querySelector('select').addEventListener('change', this._checkIdentitySelects);
+
+                // TODO: The event listener below was used to show comments only if forms are assigned so asigner can leave comments for asignee.
+                //        We now want to make this comment box generic for all forms ..
+                //listNode.querySelector('select').addEventListener('change', this._checkIdentitySelects);
+
                 listNode.querySelector('select').dataset.refId = id;
                 target.appendChild(listNode);
                 if (data.Identities[0].Identifier.toLowerCase() === Affinity2018.UserProfile.UserGuid.toLowerCase()) listNode.classList.add('hidden');
@@ -15892,7 +15946,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       placeHolder.innerHTML = '';
       placeHolder = null;
       this.ButtonsNode.classList.remove('hidden');
-      this._checkIdentitySelects();
+
+      // TODO: The method below was used to show comments only if forms are assigned so asigner can leave comments for asignee.
+      //        We now want to make this comment box generic for all forms ..
+      //this._checkIdentitySelects();
 
       var workflowButtonsNode = this.ButtonsNode.querySelector('.section-body .workflow-buttons');
       var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
@@ -15925,48 +15982,131 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _checkIdentitySelects()
   {
-    var show = false;
-    var selectNodes = document.querySelectorAll('.identity');
-    if (selectNodes.length > 0)
-    {
-      selectNodes.forEach(function (selectNode)
-      {
-        if (selectNode.value !== Affinity2018.UserProfile.UserGuid) show = true;
-      });
-    }
-    if (show) this._showComments();
+    //var show = false;
+    //var selectNodes = document.querySelectorAll('.identity');
+    //if (selectNodes.length > 0)
+    //{
+    //  selectNodes.forEach(function (selectNode)
+    //  {
+    //    if (selectNode.value !== Affinity2018.UserProfile.UserGuid) show = true;
+    //  });
+    //}
+    //if (show) this._showComments();
   }
 
 
 
   /**
-   * Summary. Show comments section
+   * Summary. Compile Comment Language
    * @this    Class scope
    * @access  private
    */
-  _showComments()
+  _compileCommentLanguage(data, index)
   {
-    if (this.Ready && $a.isNode(this.CommentNode))
+    index = index === undefined ? -1 : index;
+    var hasComment = data.Comment !== null && data.Comment.trim() !== '';
+    /**/
+    //var str = '';
+    //var assignee = data.Originator === Affinity2018.UserProfile.UserGuid ? 'I' : data.OriginatorName;
+    //var to = data.Assignee === Affinity2018.UserProfile.UserGuid ? data.OriginatorName === data.AssigneeName ? 'Myself' : 'Me' : data.AssigneeName;
+    //str = this.historyCommentSimpleTemplate.format({
+    //  ItemClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'history-comment to-me' : 'history-comment',
+    //  From: assignee,
+    //  To: to,
+    //  ToClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'to me' : 'to',
+    //  Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
+    //  Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
+    //  Action: data.ActionTaken,
+    //  ActionClass: 'action ' + data.ActionTaken.split(' ')[0].toLowerCase(),
+    //  Comment: hasComment ? data.Comment : '',
+    //  CommentClass: hasComment ? 'comment' : 'hidden'
+    //});
+    /**/
+    var complexStr = data.OriginatorName + ' submitted this form to ' + data.AssigneeName;
+    if (index === 0) // index of 0 means first history record, which is always the initiator
     {
-      var showAnim = setInterval(function ()
-      {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 30);
-      this.CommentNode.classList.remove('hide');
-      setTimeout(function () { clearInterval(showAnim); }, 500);
+      complexStr = data.OriginatorName + ' initiated this form.';
     }
+    else
+    {
+      var declienedLikeWords = [
+        'declin', 'fail', 'reject', 'abort', 'refus', 'need more', 'needs more'
+      ];
+      var approvedLikeWords = [
+        'approv', 'success'
+      ];
+      var match = data.ActionTaken
+        .toLowerCase() // case insensative
+        .replace('/[\W]/g', '') // remove all non-alpha chars
+        .split(' ') // split words into array
+        .filter(i => i.length > 3) // remove short words from array
+        .join(' '); // join back to a sanatised match string
+      if (declienedLikeWords.some(function (word) { return match.contains(word); })) // see if any of the declined-like words are in our sanatised match string
+      {
+        complexStr = data.OriginatorName + ' declined this form and sent it to ' + data.AssigneeName;
+      }
+      if (approvedLikeWords.some(function (word) { return match.contains(word); })) // see if any of the approved-like words are in our sanatised match string
+      {
+        complexStr = data.OriginatorName + ' approved this form and sent it to ' + data.AssigneeName;
+      }
+    }
+    var complex = this.historyCommentComplexTemplate.format({
+      ItemClass: data.Assignee === Affinity2018.UserProfile.UserGuid ? 'history-comment to-me' : 'history-comment',
+      Complex: complexStr,
+      Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
+      Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
+      Comment: hasComment ? data.Comment : '',
+      CommentClass: hasComment ? 'comment' : 'hidden'
+    });
+    /**/
+    return complex;
+  }
+
+
+  
+  /**
+   * Summary. Collapse comment chat section
+   * @this    Class scope
+   * @access  private
+   */
+  _collpaseComments()
+  {
+    this.CommentNode.classList.remove('open');
+    this.CommentHistoryCollapserNode.innerHTML = 'Show';
+    this.CommentHistoryListNode.style.height = this.CommentHistoryListNode.dataset.closedHeight;
   }
 
 
 
   /**
-   * Summary. Hide comments section
+   * Summary. Expand comment chat section
    * @this    Class scope
    * @access  private
    */
-  _hideComments()
+  _expandComments()
   {
-    if ($a.isNode(this.CommentNode)) this.CommentNode.classList.add('hide');
+    this.CommentNode.classList.add('open');
+    this.CommentHistoryCollapserNode.innerHTML = 'Hide';
+    this.CommentHistoryListNode.style.height = this.CommentHistoryListNode.dataset.openHeight;
+  }
+
+
+
+  /**
+   * Summary. Toggle comment chat section
+   * @this    Class scope
+   * @access  private
+   */
+  _toggleComments()
+  {
+    if (this.CommentNode.classList.contains('open'))
+    {
+      this._collpaseComments();
+    }
+    else
+    {
+      this._expandComments();
+    }
   }
 
 
@@ -16978,6 +17118,20 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     <strong>{OriginatorName}</strong> selected <strong>{ActionTaken}</strong>
     <span class="history-to hidden"> to {AssigneeName}</span>
     <span class="history-comment hidden">, with comment: <em>{Comment}</em></span>
+    `;
+
+    this.historyCommentSimpleTemplate = `
+    <div class="{ItemClass}">
+      <div class="info"><span class="from">{From}</span> selected <span class="{ActionClass}">{Action}</span> to <span class="{ToClass}">{To}</span> <span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
+      <div class="{CommentClass}">{Comment}</div>
+    </div>
+    `;
+
+    this.historyCommentComplexTemplate = `
+    <div class="{ItemClass}">
+      <div class="info"><span>{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
+      <div class="{CommentClass}">{Comment}</div>
+    </div>
     `;
 
   }

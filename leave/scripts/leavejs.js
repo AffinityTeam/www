@@ -541,31 +541,6 @@ var Leave = new Class({
                     messageStr += exceptions.join('<br />');
                 }
 
-                try {
-                    if (!hasError) {
-                        console.log('// JSON WARNING ////////////////////////////////////');
-                    } else if (hasError && hasWarning) {
-                        console.log('// JSON ERROR & WARNING ////////////////////////////');
-                    } else {
-                        console.log('// JSON ERROR //////////////////////////////////////');
-                    }
-                    console.log('Method info  :' + method);
-                    console.log('URL called   :' + url);
-                    console.log('Messages     :');
-                    console.log(messageStr.replace('<br />', '\r\n').stripTags());
-                    console.log('Returned Obj :');
-                    console.log(jsonData);
-                    //console.log('////////////////////////////////////////////////////');
-                    console.log('');
-                } catch (e) { }
-                    if (typeOf(suppress) === 'null' || (typeOf(suppress) === 'boolean' && !suppress)) {
-                        uialert({
-                            'message': messageStr,
-                            showButtons: true,
-                            noClose: false
-                        });
-                }
-
                 if (!hasError) {
                     return false;
                 }
