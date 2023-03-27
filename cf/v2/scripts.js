@@ -7804,6 +7804,47 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    Country code options.
+    * TODO: Replace CountryCodes and CountrySensativeFields with lookups
+    * @public
+    */
+    this.DefaultCountryCode = 'A';
+    this.CountryCodeMap = {
+      'AU': 'A',
+      'NZ': 'N'
+    };
+    this.CountryCodes = [];
+    this.CountrySensativeFields = {
+      'PAY_POINT': {
+        Name: 'Pay Point',
+        OnlyInForm: false
+      },
+      'TAX_CODE': {
+        Name: 'Tax Code',
+        OnlyInForm: false
+      },
+      'TAX_NUMBER': {
+        Name: 'Tax Number',
+        OnlyInForm: false
+      },
+      'BANK_ACCT': {
+        Name: 'Bank Account',
+        OnlyInForm: false
+      },
+      'BAL_ACCT': {
+        Name: 'Balance Account',
+        OnlyInForm: false
+      },
+      'AWARD_ID ': {
+        Name: 'Award ID',
+        OnlyInForm: true
+      }
+    };
+
+
+
+
+    /**
     * Description.    Default configuration. Updated by designer.js via constructor parameter.
     * @type {Object}
     * @public
@@ -7814,6 +7855,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Name : '',
         Description: '',
         Revision: '',
+        FormCountry: '',
         Type: '',
         DashboardTemplate: false,
         UserInstructions: '',
@@ -7855,10 +7897,19 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       'GetFormEmployeeNo',
       'IsGlobalKey', 'IsPseudoGlobalKey', 'IsKey', 'IsReadOnly', 'IskeyWithNoRequiredKeys', 'IsMasterFile', 'IsLookup', 'SelectDefaultModeOnFieldSearch',
 
+      'GetCountryOptons', 'GetCountryCodeVariant', 'GetCountryDisplayVariant',
+
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_G_G_G_GET_DATA_UNTIL_GET_DATA_MATCHES_NEW_STRUCTURE',
       '__THIS_IS_A_TEMP_TRANSMUTER_FOR_P_P_P_POST_DATA_UNTIL_POST_DATA_MATCHES_NEW_STRUCTURE'
 
     ].bindEach(this);
+
+    for (var key in this.CountryCodeMap)
+    {
+      this.CountryCodes.push(key);
+      this.CountryCodes.push(this.CountryCodeMap[key]);
+    }
+    console.log(this.CountryCodes);
 
     // apply passed in config from base page
     if (config && Affinity2018.isObject(config))
@@ -7870,6 +7921,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         this[key] = mergedConfig[key];
       }
+      this.FormCountry = mergedConfig.hasOwnProperty('TemplateModel') && mergedConfig.TemplateModel.FormCountry !== undefined ? this.GetCountryCodeVariant(mergedConfig.TemplateModel.FormCountry) : null;
       delete this.defaultConfig;
     }
 
@@ -8437,6 +8489,124 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
     return option;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryOptons(country)
+  {
+    country = country || this.DefaultCountryCode;
+    var options = [];
+    for (var key in this.CountryCodeMap)
+    {
+      var selected = country.trim().toLowerCase() === this.CountryCodeMap[key].trim().toLowerCase() || country.trim().toLowerCase() === key.trim().toLowerCase();
+      options.push(
+        '<option value="{value}"{selected}>{display}</option>'.format({
+          display: this.CountryCodeMap[key],
+          value: key,
+          selected: selected ? ' selected' : ''
+        })
+      );
+    }
+    return options.join('');
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryCodeVariant(country)
+  {
+    if (!Affinity2018.isString(country)) return country;
+    country = country.toString().trim().toUpperCase();
+    if (this.CountryCodes.contains(country))
+    {
+      return country.length === 2 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
+    }
+    return country;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryDisplayVariant(country)
+  {
+    if (!Affinity2018.isString(country)) return country;
+    country = country.toString().trim().toUpperCase();
+    if (this.CountryCodes.contains(country))
+    {
+      return country.length === 1 && this.CountryCodeMap.hasOwnProperty(country) ? this.CountryCodeMap[country] : country;
+    }
+    return country;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryWarning(node, oldVlaue, newValue, oldCountry, newCountry, popup)
+  {
+    popup = popup || false;
+    var rowNode = $a.getParent(node, 'row-affinityfield');
+    if (rowNode)
+    {
+      var name = rowNode.querySelector('label').innerText.trim();
+      var currentField = rowNode.dataset.field;
+      var warningFieldList = [];
+      for (var key in this.CountrySensativeFields)
+      {
+        if (key !== currentField)
+        {
+          var sensativeFieldData = this.CountrySensativeFields[key];
+          if (sensativeFieldData.OnlyInForm)
+          {
+            var sectionNode = $a.getParent(rowNode, 'section');
+            if (sectionNode && sectionNode.querySelector('.form-row[data-field="' + key + '"]'))
+            {
+              warningFieldList.push(sensativeFieldData.Name);
+            }
+          }
+          else warningFieldList.push(sensativeFieldData.Name);
+        }
+      }
+      if (popup)
+      {
+        return $a.Lang.ReturnPath('application.cleverfroms.template_edit.country_warning_popup', {
+          name: name,
+          oldValue: oldVlaue,
+          newValue: newValue,
+          oldCountry: this.GetCountryDisplayVariant(oldCountry),
+          newCountry: this.GetCountryDisplayVariant(newCountry),
+          list: warningFieldList.join('<br />')
+        });
+      }
+
+      return $a.Lang.ReturnPath('application.cleverfroms.template_edit.country_warning', {
+        name: name,
+        oldValue: oldVlaue,
+        newValue: newValue,
+        oldCountry: this.GetCountryDisplayVariant(oldCountry),
+        newCountry: this.GetCountryDisplayVariant(newCountry),
+        list: warningFieldList.join('<br />')
+      });
+
+    }
+    return '';
   }
 
 
@@ -13223,10 +13393,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _updateFormDetails (ev)
   {
+    var formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('input.form-country').value);
+    if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === '') formCountry = null;
     var postData = $a.jsonCloneObject(this.CleverForms.TemplateModel);
     postData.Description = this.TopNode.querySelector('input.form-name').value.trim();
     postData.UserInstructions = this.TopNode.querySelector('input.form-instructions').value.trim();
     postData.Revision = this.TopNode.querySelector('input.form-revision').value.trim();
+    if (formCountry == null)
+    {
+      delete postData.FormCountry;
+    }
+    else
+    {
+      postData.FormCountry = formCountry;
+    }
     postData.WorkflowDefinitionIds = [];
     if (
       this.CleverForms.hasOwnProperty('TemplateModel')
@@ -18354,10 +18534,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   {
     var tableName = this.ListSourceSelectNode.value,
         employeeNo = this.CleverForms.GetFormEmployeeNo(),
-        lookupApi = '{api}?modelName={modelName}&employeeNo={employeeNo}'.format({
+        instanceId = his.CleverForms.GetInstanceGuid(),
+        lookupApi = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
           api: this.CleverForms.GetLookupApi,
           modelName: tableName,
-          employeeNo: employeeNo
+          employeeNo: employeeNo,
+          instanceId: instanceId
         });
     if (this.ListSourceSelectNode.value === '0')
     {
@@ -26435,19 +26617,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
           {
-            select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
               groupid: this.Config.Details.AffinityField.GenericGroupId,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              employeeNo: this.CleverForms.GetFormEmployeeNo(),
+              instanceId: this.CleverForms.GetInstanceGuid()
             });
           }
           else
           {
-            select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              employeeNo: this.CleverForms.GetFormEmployeeNo(),
+              instanceId: this.CleverForms.GetInstanceGuid()
             });
           }
 
@@ -26494,21 +26678,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
           {
-            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
               propertyName: this.Config.Details.AffinityField.FieldName,
               groupid: this.Config.Details.AffinityField.GenericGroupId,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              employeeNo: this.CleverForms.GetFormEmployeeNo(),
+              instanceId: this.CleverForms.GetInstanceGuid()
             });
           }
           else
           {
-            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}'.format({
+            select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
               propertyName: this.Config.Details.AffinityField.FieldName,
-              employeeNo: this.CleverForms.GetFormEmployeeNo()
+              employeeNo: this.CleverForms.GetFormEmployeeNo(),
+              instanceId: this.CleverForms.GetInstanceGuid()
             });
           }
 
