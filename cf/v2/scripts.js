@@ -13395,7 +13395,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _updateFormDetails (ev)
   {
     var formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
-    if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === '') formCountry = null;
+    if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === 'NULL' || formCountry === '') formCountry = null;
     var postData = $a.jsonCloneObject(this.CleverForms.TemplateModel);
     postData.Description = this.TopNode.querySelector('input.form-name').value.trim();
     postData.UserInstructions = this.TopNode.querySelector('input.form-instructions').value.trim();
