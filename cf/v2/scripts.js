@@ -11184,6 +11184,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     this.TopNode.querySelector('input.form-name').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('input.form-instructions').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('input.form-revision').addEventListener('blur', this._updateFormDetails);
+    this.TopNode.querySelector('select.form-country').addEventListener('change', this._updateFormDetails);
 
 
     if (!Affinity2018.Numbers) Affinity2018.Numbers = new Affinity2018.Classes.Plugins.Numbers();
@@ -13393,7 +13394,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _updateFormDetails (ev)
   {
-    var formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('input.form-country').value);
+    var formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
     if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === '') formCountry = null;
     var postData = $a.jsonCloneObject(this.CleverForms.TemplateModel);
     postData.Description = this.TopNode.querySelector('input.form-name').value.trim();
