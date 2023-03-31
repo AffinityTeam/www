@@ -8579,7 +8579,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   GetCountryDisplayVariant(country)
   {
     if (!Affinity2018.isString(country)) return country;
-    country = this.country.toString().trim().toUpperCase();
+    country = country.toString().trim().toUpperCase();
     // new full display
     var code = this.GetCountryCodeVariant(country);
     if (this.CountryDisplayMap[code])
@@ -19200,7 +19200,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       '_insertDesignerKey',
 
-      '_formRowLookupChanged', '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
+      '_formRowLookupChanged', '_payPointChaged', '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
 
     ].bindEach(this);
 
@@ -19814,7 +19814,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         }
       }
 
-
       /* form link select */
       
       var linkedTemplateId = this.Config.Details.AffinityField.LinkedTemplateId;
@@ -19906,6 +19905,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
 
       // set any special elements
+
+      /* custom behaviour for PAY_POINT */
+      if (this.Config.Details.AffinityField.FieldName === 'PAY_POINT')
+      {
+        this.PayPointInfo = {};
+        this.PayPointInfo.DefaultValue = this.Config.Details.AffinityField.Value;
+        this.PayPointInfo.CurrentValue = this.Config.Details.AffinityField.Value;
+        this.FormRowNode.querySelector('select').addEventListener('change', this._payPointChaged);
+      }
 
       return this.FormRowNode;
     }
@@ -20385,6 +20393,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
+  _payPointChaged(ev)
+  {
+    var value = this.FormRowNode.querySelector('select').value;
+    this.PayPointInfo.CurrentValue = value;
+    var defaultValue = this.PayPointInfo.DefaultValue !== null && this.PayPointInfo.DefaultValue !== undefined ? this.PayPointInfo.DefaultValue.toString() : this.PayPointInfo.DefaultValue;
+    var currentValue = this.PayPointInfo.CurrentValue !== null && this.PayPointInfo.CurrentValue !== undefined ? this.PayPointInfo.CurrentValue.toString() : this.PayPointInfo.CurrentValue;
+    if (currentValue !== defaultValue && defaultValue !== undefined)
+    {
+      Affinity2018.Dialog.Show({
+        message: $a.Lang.ReturnPath('app.cf.form.country_popup_warning'),
+        textAlign: 'left',
+        buttons: {
+          ok: {
+            show: true,
+            icon: 'tick',
+            text: 'Continue',
+            color: 'blue'
+          },
+          cancel: false
+        },
+        onOk: function ()
+        {
+        }.bind(this)
+      });
+    }
+  }
+
   _lookupModelLoaded(data)
   {
     var event = new CustomEvent('ModelLookupChanged', {
@@ -20463,6 +20498,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         else this.ElementController.SetFromValue('');
       }
       console.groupEnd();
+
+      if (this.Config.Details.AffinityField.FieldName === 'PAY_POINT')
+      {
+        this.PayPointInfo.DefaultValue = data[this.Config.Name];
+        this.PayPointInfo.CurrentValue = data[this.Config.Name];
+      }
+
     }
   }
 
@@ -32401,7 +32443,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     return str;
   }
 
-  _getCountryCode()
+  _getCountryCode ()
   {
     try
     {
@@ -40404,7 +40446,7 @@ Affinity2018.Classes.Plugins.TaxNumber = class
 
 Affinity2018.Classes.Plugins.TaxNumberWidget = class
 {
-  _options ()
+  _options()
   {
     this.WidgetName = 'TaxNumber';
 
@@ -40418,6 +40460,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       N: '',
       A: ''
     };
+    this.ValidationAttempts = [];
 
     //this.lastCodes = {
     //  NZ: '',
@@ -40432,7 +40475,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.pasting = false;
   }
 
-  constructor (targetNode)
+  constructor(targetNode)
   {
     this._options();
     [
@@ -40530,7 +40573,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     /**/
 
-    this.taxnumberNode.querySelectorAll('input[type="text"]').forEach(function(node)
+    this.taxnumberNode.querySelectorAll('input[type="text"]').forEach(function (node)
     {
       node.addEventListener('keydown', this._userKey);
       node.addEventListener('keyup', this._userKeyUp);
@@ -40558,7 +40601,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   }
 
-  Get ()
+  Get()
   {
     this.initInputNode.value = this._stringFromNodes();
     return this.initInputNode.value;
@@ -40572,8 +40615,9 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     ]
   }
 
-  Set (value)
+  Set(value)
   {
+    this.ValidationAttempts = [];
     var countryCode = this._getCountryCode();
     if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + value[0];
     if (!$a.isString(value)) value = value.toString().trim();
@@ -40672,20 +40716,20 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   }
 
-  Check ()
+  Check()
   {
     this.FirstLoad = false;
     this._validate();
   }
 
-  Clear ()
+  Clear()
   {
     this._clear();
   }
 
   /**/
 
-  _clear ()
+  _clear()
   {
     this.input1Node.value = '';
     this.input2Node.value = '';
@@ -40693,7 +40737,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this._setIcon();
   }
 
-  _stringToNodes (str)
+  _stringToNodes(str)
   {
     str = typeof str === 'string' ? str : this.initInputNode.value;
     str = str.replace(/\s/g, '');
@@ -40722,13 +40766,13 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this._validate();
   }
 
-  _stringFromNodes ()
+  _stringFromNodes()
   {
     var str = this.input1Node.value + '-' + this.input2Node.value + '-' + this.input3Node.value;
-    str = str.replace(/\s/g,'');
-    str = str.replace(/\-\-/g,'-');
-    if(str[str.length - 1] === '-') str = str.substring(0, str.length - 1);
-    if(str[0] === '-') str = str.substring(1);
+    str = str.replace(/\s/g, '');
+    str = str.replace(/\-\-/g, '-');
+    if (str[str.length - 1] === '-') str = str.substring(0, str.length - 1);
+    if (str[0] === '-') str = str.substring(1);
     return str;
     /*
     var str = this.input1Node.value + this.input2Node.value + this.input3Node.value;
@@ -40737,7 +40781,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     */
   }
 
-  _getCountryCode ()
+  _getCountryCode()
   {
     try
     {
@@ -40754,14 +40798,14 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     return this.DefaultCountryCode;
   }
 
-  _setupCountry ()
+  _setupCountry()
   {
     this._clear();
     var country = this._getCountryCode();
     switch (country)
     {
       case 'N':
-      case 'NZ': 
+      case 'NZ':
 
         break;
 
@@ -40781,12 +40825,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         this._stringToNodes(this.lastCodes[country]);
       }
     }
-    
+
     this.initInputNode.dispatchEvent(new CustomEvent('countryChanged', { detail: { Country: country } }));
 
   }
 
-  _setIcon (valid)
+  _setIcon(valid)
   {
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
@@ -40804,12 +40848,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         break;
       case 'reset':
       default:
-        this.iconNode.classList.add('grey','icon-blocked');
+        this.iconNode.classList.add('grey', 'icon-blocked');
         break;
     }
   }
 
-  _userKey (ev)
+  _userKey(ev)
   {
     if (ev.target === this.input1Node)
     {
@@ -40823,7 +40867,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
   }
 
-  _userKeyUp (ev)
+  _userKeyUp(ev)
   {
     if (this.pasting && ev && ev.target === this.input1Node)
     {
@@ -40853,21 +40897,24 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.pasting = false;
 
     this.initInputNode.value = this._stringFromNodes();
-    
+
     if (this.lastCodes.hasOwnProperty(this._getCountryCode())) this.lastCodes[this._getCountryCode()] = this.initInputNode.value;
 
     this._userValidate();
   }
 
-  _userValidate ()
+  _userValidate()
   {
     clearTimeout(this._userValidateDelay);
     this._userValidateDelay = setTimeout(this._validate, 500);
   }
 
-  _validate ()
+  _validate(attemtpCountry)
   {
     //this.Valid = false;
+    attemtpCountry = attemtpCountry || this._getCountryCode();
+
+    if (this.MessageNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
 
     var api = null, employeeNumber = null;
 
@@ -40889,7 +40936,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       return;
     }
 
-    if (this._getCountryCode() == '')
+    if (attemtpCountry == '')
     {
       this._setIcon();
       return;
@@ -40898,38 +40945,72 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var postData = new FormData();
     postData.append('EmployeeNo', employeeNumber);
     postData.append('TaxNumber', this._stringFromNodes().replace(/\-/g, ''));
-    postData.append('CountryCode', this._getCountryCode());
+    postData.append('CountryCode', attemtpCountry);
+
+    if (!this.ValidationAttempts.contains(attemtpCountry)) this.ValidationAttempts.push(attemtpCountry);
+    else return;
 
     axios({
       method: 'POST',
       url: api,
       data: postData
     })
-    .then(function (response)
-    {
-      if (
-        typeof response === 'object'
-        && response.hasOwnProperty('data')
-        && response.data.hasOwnProperty('success')
-        && typeof response.data.success === 'boolean'
-      )
+      .then(function (response)
       {
-        this.Valid = response.data.success;
-        this._validated(response.data);
-      }
-    }.bind(this))
-    .catch(function (error)
-    {
-      this._validated();
-    }.bind(this));
+        if (
+          typeof response === 'object'
+          && response.hasOwnProperty('data')
+          && response.data.hasOwnProperty('success')
+          && typeof response.data.success === 'boolean'
+        )
+        {
+          this.Valid = response.data.success;
+          this._validated(response.data);
+        }
+      }.bind(this))
+      .catch(function (error)
+      {
+
+        this._validated();
+
+      }.bind(this));
   }
 
-  _validated (data)
+  _validated(data)
   {
     if (this.FirstLoad) this._setIcon();
-    else this._setIcon(this.Valid);
+    else
+    {
+      if (this.ValidationAttempts.length === 1) this._setIcon(this.Valid);
+    }
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
+
+    if (this.Valid)
+    {
+      var lastAttempt = this.ValidationAttempts[this.ValidationAttempts.length - 1];
+      var defaultCountry = this.CleverForms.FormCountry == null ? Affinity2018.UserProfile.Country : this.CleverForms.FormCountry;
+      var messageBase = this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning';
+      if (lastAttempt !== this._getCountryCode())
+      {
+        var message = $a.Lang.ReturnPath('app.cf.form.' + messageBase, {
+          fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Tax Number',
+          country: this.CleverForms.GetCountryDisplayVariant(lastAttempt),
+          formCountry: this.CleverForms.GetCountryDisplayVariant(defaultCountry)
+        });
+        this.MessageNode = document.createElement('div');
+        this.MessageNode.classList.add('names');
+        this.MessageNode.innerHTML = message;
+        this.iconNode.parentNode.insertBefore(this.MessageNode, this.iconNode.nextSibling);
+      }
+      this.ValidationAttempts = [];
+    }
+    else
+    {
+      var countries = Object.keys(this.CountryCodeMap);
+      var remainingCountries = countries.diff(this.ValidationAttempts);
+      if (remainingCountries.length > 0) this._validate(remainingCountries[0]);
+    }
   }
 
   /**/
