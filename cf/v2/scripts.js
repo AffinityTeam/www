@@ -19200,7 +19200,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       '_insertDesignerKey',
 
-      '_formRowLookupChanged', '_payPointChaged', '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
+      '_formRowLookupChanged', '_payPointChanged', '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
 
     ].bindEach(this);
 
@@ -19907,12 +19907,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       // set any special elements
 
       /* custom behaviour for PAY_POINT */
-      if (this.Config.Details.AffinityField.FieldName === 'PAY_POINT')
+      if (this.Config.Details.AffinityField.FieldName === 'PAY_POINT' && this.FormRowNode.querySelector('select'))
       {
         this.PayPointInfo = {};
         this.PayPointInfo.DefaultValue = this.Config.Details.AffinityField.Value;
         this.PayPointInfo.CurrentValue = this.Config.Details.AffinityField.Value;
-        this.FormRowNode.querySelector('select').addEventListener('change', this._payPointChaged);
+        this.FormRowNode.querySelector('select').addEventListener('change', this._payPointChanged);
       }
 
       return this.FormRowNode;
@@ -20393,7 +20393,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
-  _payPointChaged(ev)
+  _payPointChanged(ev)
   {
     var value = this.FormRowNode.querySelector('select').value;
     this.PayPointInfo.CurrentValue = value;
