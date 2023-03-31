@@ -7620,7 +7620,7 @@ body.ui2018.uiupdate.cform .form .form-row .banknumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .banknumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .banknumber-box .select {
   display: inline-block;
-  width: 70px !important;
+  width: 150px !important;
 }
 body.ui2018.uiupdate form .form-row .banknumber-box span,
 body.ui2018.uiupdate.cform form .form-row .banknumber-box span,
@@ -7689,7 +7689,7 @@ body.ui2018.uiupdate.cform .form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .taxnumber-box .select {
   display: inline-block;
-  width: 70px !important;
+  width: 150px !important;
 }
 body.ui2018.uiupdate form .form-row .taxnumber-box span,
 body.ui2018.uiupdate.cform form .form-row .taxnumber-box span,
