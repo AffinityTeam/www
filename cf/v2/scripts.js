@@ -32699,7 +32699,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       var selectedCountry = this._getCountryCode();
       var messageBase = this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning';
       //if (lastAttempt !== selectedCountry)
-      if (lastAttempt !== defaultCountry)
+      if (lastAttempt !== defaultCountry || lastAttempt !== selectedCountry)
       {
         var message = $a.Lang.ReturnPath('app.cf.form.' + messageBase, {
           fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Bank Number',
