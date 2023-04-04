@@ -32219,6 +32219,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.countryNode.classList.add('hidden');
       this.countryNode.removeEventListener('change', this._setupCountry);
     }
+    this._setupCountry();
     this.SetCountry(country);
 
     /**/
@@ -32267,6 +32268,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   Set (value)
   {
     this.ValidationAttempts = [];
+    this.Clear();
 
     var countryCode = this.DefaultCountryCode;
     if (
@@ -32288,6 +32290,11 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + value[0];
     if (!$a.isString(value)) value = value.toString().trim();
     if (value.toLowerCase() === 'null') value = '';
+    if (value.toLowerCase() === 'null,null')
+    {
+      value = '';
+      countryCode = '';
+    }
     if (value.contains(','))
     {
       countryCode = this.CleverForms.GetCountryCodeVariant(value.split(',')[0]);
@@ -32295,19 +32302,16 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     if (value.trim() === '')
     {
-      this.inputBankNode.value = '';
-      this.inputBranchkNode.value = '';
-      this.inputAccountNode.value = '';
-      this.inputSuffixNode.value = '';
+      this._clear();
+      this.SetCountry(countryCode);
     }
     else
     {
+      this.initInputNode.value = value;
       this._stringToNodes();
+      this.SetCountry(countryCode);
+      this._validate();
     }
-    this.initInputNode.value = value;
-    this.SetCountry(countryCode);
-    this._stringToNodes();
-    this._validate();
   }
 
   SetCountry(country)
@@ -32383,6 +32387,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   _clear ()
   {
+    if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
+    this.MessageNode = null;
+
     this.inputBankNode.value = '';
     this.inputBranchkNode.value = '';
     this.inputAccountNode.value = '';
@@ -32392,6 +32399,18 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.bankNameNode.classList.add('hidden');
     this.branchNameNode.classList.add('hidden');
     this._setIcon();
+
+    var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : this.DefaultCountryCode);
+    if (
+      Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() !== -1
+      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+    )
+    {
+      defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+    }
+    this.SetCountry(defaultCountry);
   }
 
   _stringToNodes (str)
@@ -32419,7 +32438,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       case 'A':
       case 'AU':
-        if(parts.length === 3)
+        if (parts.length === 3)
         {
           this._clear();
           this.inputBankNode.value = parts[0];
@@ -32433,12 +32452,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
           this.inputBranchkNode.value = parts[1];
           this.inputAccountNode.value = parts[2] + parts[3];
         }
-        this._userValidate();
+        //this._userValidate();
         break;
       case 'N':
       case 'NZ':
       default:
-        if(parts.length === 4)
+        if (parts.length === 4)
         {
           this._clear();
           this.inputBankNode.value = parts[0].length > 2 ? parts[0].substring(0, 2) : parts[0];
@@ -32451,7 +32470,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
             this.inputSuffixNode.value = parts[2].substring(7, parts[2].length);
           }
         }
-        this._userValidate();
+        //this._userValidate();
         break;
     }
   }
@@ -32694,17 +32713,19 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     if (this.Valid)
     {
-      var lastAttempt = this.ValidationAttempts[this.ValidationAttempts.length - 1];
-      var defaultCountry = this.CleverForms.FormCountry == null ? Affinity2018.UserProfile.Country : this.CleverForms.FormCountry;
-      var selectedCountry = this._getCountryCode();
-      var messageBase = this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning';
-      //if (lastAttempt !== selectedCountry)
-      if (lastAttempt !== defaultCountry || lastAttempt !== selectedCountry)
+      var lastAttempt = this.CleverForms.GetCountryCodeVariant(this.ValidationAttempts[this.ValidationAttempts.length - 1]);
+      var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : Affinity2018.FormProfile.Country);
+      //var selectedCountry = this.CleverForms.GetCountryCodeVariant(this._getCountryCode());
+      //var compareCountry = selectedCountry;
+      var compareCountry = defaultCountry;
+      //console.log('== Bank Validation ============================================');
+      //console.log('last attempt: ', lastAttempt, ', form context: ', compareCountry, ', is Form Country: ', this.CleverForms.FormCountry !== null, ' (', this.CleverForms.FormCountry, ')');
+      if (lastAttempt !== compareCountry)
       {
-        var message = $a.Lang.ReturnPath('app.cf.form.' + messageBase, {
+        var message = $a.Lang.ReturnPath('app.cf.form.' + (this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning'), {
           fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Bank Number',
           country: this.CleverForms.GetCountryDisplayVariant(lastAttempt),
-          formCountry: this.CleverForms.GetCountryDisplayVariant(defaultCountry)
+          formCountry: this.CleverForms.GetCountryDisplayVariant(compareCountry)
         });
         this.MessageNode = document.createElement('div');
         this.MessageNode.classList.add('names');
@@ -32712,10 +32733,10 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
         this.MessageNode.innerHTML = message;
         this.bankNameNode.classList.add('hidden');
         this.branchNameNode.classList.add('hidden');
+        this.Valid = false;
       }
-      this.ValidationAttempts = [];
-      this.Valid = false;
       this._setIcon(this.Valid);
+      this.ValidationAttempts = [];
     }
     else
     {
@@ -40692,6 +40713,10 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   Set(value)
   {
     this.ValidationAttempts = [];
+    this.Clear();
+
+    if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
+    this.MessageNode = null;
 
     var countryCode = this.DefaultCountryCode;
     if (
@@ -40734,19 +40759,16 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         bits[0] = value.replace(bits[2], '').replace(bits[1], '').trim();
         value = bits.join('-');
       }
+      if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = value;
       this.initInputNode.value = value;
       this.SetCountry(countryCode);
       this._stringToNodes(value);
-      if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = value;
       this._validate();
     }
     else
     {
-      this.initInputNode.value = '';
-      this.SetCountry(countryCode);
-      this._stringToNodes('');
       if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = '';
-      this._validate();
+      this._clear();
     }
   }
 
@@ -40805,7 +40827,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.countryNode.classList.remove('hidden');
       this.countryNode.addEventListener('change', this._setupCountry);
     }
-
   }
 
   Check()
@@ -40823,10 +40844,25 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _clear()
   {
+    if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
+    this.MessageNode = null;
+
     this.input1Node.value = '';
     this.input2Node.value = '';
     this.input3Node.value = '';
     this._setIcon();
+
+    var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : this.DefaultCountryCode);
+    if (
+      Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() !== -1
+      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+    )
+    {
+      defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+    }
+    this.SetCountry(defaultCountry);
   }
 
   _stringToNodes(str)
@@ -41074,29 +41110,34 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     if (this.FirstLoad) this._setIcon();
     else
     {
+      this._setIcon
       if (this.ValidationAttempts.length === 1) this._setIcon(this.Valid);
     }
-    this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
 
     if (this.Valid)
     {
-      var lastAttempt = this.ValidationAttempts[this.ValidationAttempts.length - 1];
-      var defaultCountry = this.CleverForms.FormCountry == null ? Affinity2018.UserProfile.Country : this.CleverForms.FormCountry;
-      var selectedCountry = this._getCountryCode();
-      var messageBase = this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning';
-      if (lastAttempt !== selectedCountry)
+      var lastAttempt = this.CleverForms.GetCountryCodeVariant(this.ValidationAttempts[this.ValidationAttempts.length - 1]);
+      var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : Affinity2018.FormProfile.Country);
+      //var selectedCountry = this.CleverForms.GetCountryCodeVariant(this._getCountryCode());
+      //var compareCountry = selectedCountry;
+      var compareCountry = defaultCountry;
+      //console.log('== Tax Validation =============================================');
+      //console.log('last attempt: ', lastAttempt, ', form context: ', compareCountry, ', is Form Country: ', this.CleverForms.FormCountry !== null, ' (', this.CleverForms.FormCountry, ')');
+      if (lastAttempt !== compareCountry)
       {
-        var message = $a.Lang.ReturnPath('app.cf.form.' + messageBase, {
+        var message = $a.Lang.ReturnPath('app.cf.form.' + (this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning'), {
           fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Tax Number',
           country: this.CleverForms.GetCountryDisplayVariant(lastAttempt),
-          formCountry: this.CleverForms.GetCountryDisplayVariant(defaultCountry)
+          formCountry: this.CleverForms.GetCountryDisplayVariant(compareCountry)
         });
         this.MessageNode = document.createElement('div');
         this.MessageNode.classList.add('names');
         this.iconNode.parentNode.insertBefore(this.MessageNode, this.iconNode.nextSibling);
         this.MessageNode.innerHTML = message;
+        this.Valid = false;
       }
+      this._setIcon(this.Valid);
       this.ValidationAttempts = [];
     }
     else
