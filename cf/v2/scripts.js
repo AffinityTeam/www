@@ -7833,8 +7833,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       'NZ': 'N'
     };
     this.CountryDisplayMap = {
-      'A': 'Australia',
-      'N': 'New Zealand'
+      'A': 'AU', // Australia
+      'N': 'NZ' // New Zealand
     };
     this.CountryCodes = [];
     this.CountrySensativeFields = {
@@ -32108,6 +32108,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       A: '',
       N: ''
     };
+    this.ValidationAttempts = [];
 
     this.FirstLoad = true;
 
@@ -32192,7 +32193,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       {
         country = this.initInputNode.dataset.country.trim().toUpperCase();
       }
-      this.initInputNode.dataset.country = null;
+      delete this.initInputNode.dataset.country;
     }
     country = this.CleverForms.GetCountryCodeVariant(country);
 
@@ -32202,7 +32203,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       {
         showCountryNode = false;
       }
-      this.initInputNode.dataset.countryStatus = null;
+      delete this.initInputNode.dataset.countryStatus;
     }
 
     // new options
@@ -32265,6 +32266,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   Set (value)
   {
+    this.ValidationAttempts = [];
     var countryCode = this.DefaultCountryCode;
     if ($a.isArray(value) && value.length === 2)  value = value[1] + ',' + value[0];
     if (!$a.isString(value)) value = value.toString().trim();
@@ -32390,12 +32392,13 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     parts = str.split('-');
 
     var countryCode = this._getCountryCode();
-    if (parts.length === 3) countryCode = 'AU';
-    if (parts.length === 4) countryCode = 'NZ';
-    this.SetCountry(countryCode);
+    if (parts.length === 3) countryCode = 'A';
+    if (parts.length === 4) countryCode = 'N';
+    //this.SetCountry(countryCode);
 
     switch(countryCode)
     {
+      case 'A':
       case 'AU':
         if(parts.length === 3)
         {
@@ -32413,6 +32416,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
         }
         this._userValidate();
         break;
+      case 'N':
       case 'NZ':
       default:
         if(parts.length === 4)
@@ -32561,6 +32565,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     this.initInputNode.value = this._stringFromNodes();
 
+    this.ValidationAttempts = [];
+
     this._userValidate();
   }
 
@@ -32570,9 +32576,13 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this._userValidateDelay = setTimeout(this._validate, 500);
   }
 
-  _validate ()
+  _validate(attemtpCountry)
   {
     //this.Valid = false;
+    attemtpCountry = attemtpCountry || this._getCountryCode();
+
+    if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
+    this.MessageNode = null;
 
     var api = null, employeeNumber = null;
 
@@ -32594,10 +32604,19 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       return;
     }
 
+    if (attemtpCountry == '')
+    {
+      this._setIcon();
+      return;
+    }
+
     var postData = new FormData();
     postData.append('EmployeeNo', employeeNumber);
     postData.append('BankNumber', this._stringFromNodes());
-    postData.append('CountryCode', this._getCountryCode());
+    postData.append('CountryCode', attemtpCountry);
+
+    if (!this.ValidationAttempts.contains(attemtpCountry)) this.ValidationAttempts.push(attemtpCountry);
+    else return;
 
     this.iconNode.classList.add('validating');
     if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
@@ -32629,10 +32648,13 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }.bind(this));
   }
 
-  _validated (data)
+  _validated(data)
   {
     if (this.FirstLoad) this._setIcon();
-    else this._setIcon(this.Valid);
+    else
+    {
+      if (this.ValidationAttempts.length === 1) this._setIcon(this.Valid);
+    }
     if (
       typeof data === 'object'
       && data.hasOwnProperty('bankName')
@@ -32650,6 +32672,39 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
+
+    if (this.Valid)
+    {
+      var lastAttempt = this.ValidationAttempts[this.ValidationAttempts.length - 1];
+      var defaultCountry = this.CleverForms.FormCountry == null ? Affinity2018.UserProfile.Country : this.CleverForms.FormCountry;
+      var selectedCountry = this._getCountryCode();
+      var messageBase = this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning';
+      //if (lastAttempt !== selectedCountry)
+      if (lastAttempt !== defaultCountry)
+      {
+        var message = $a.Lang.ReturnPath('app.cf.form.' + messageBase, {
+          fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Bank Number',
+          country: this.CleverForms.GetCountryDisplayVariant(lastAttempt),
+          formCountry: this.CleverForms.GetCountryDisplayVariant(defaultCountry)
+        });
+        this.MessageNode = document.createElement('div');
+        this.MessageNode.classList.add('names');
+        this.NamesBoxNode.parentNode.insertBefore(this.MessageNode, this.NamesBoxNode.nextSibling);
+        this.MessageNode.innerHTML = message;
+        this.bankNameNode.classList.add('hidden');
+        this.branchNameNode.classList.add('hidden');
+      }
+      this.ValidationAttempts = [];
+      this.Valid = false;
+      this._setIcon(this.Valid);
+    }
+    else
+    {
+      var countries = Object.keys(this.CountryCodeMap);
+      var remainingCountries = countries.diff(this.ValidationAttempts);
+      if (remainingCountries.length > 0) this._validate(remainingCountries[0]);
+    }
+
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
@@ -40914,7 +40969,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     //this.Valid = false;
     attemtpCountry = attemtpCountry || this._getCountryCode();
 
-    if (this.MessageNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
+    if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
+    this.MessageNode = null;
 
     var api = null, employeeNumber = null;
 
@@ -40990,8 +41046,9 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     {
       var lastAttempt = this.ValidationAttempts[this.ValidationAttempts.length - 1];
       var defaultCountry = this.CleverForms.FormCountry == null ? Affinity2018.UserProfile.Country : this.CleverForms.FormCountry;
+      var selectedCountry = this._getCountryCode();
       var messageBase = this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning';
-      if (lastAttempt !== this._getCountryCode())
+      if (lastAttempt !== selectedCountry)
       {
         var message = $a.Lang.ReturnPath('app.cf.form.' + messageBase, {
           fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Tax Number',
@@ -41000,8 +41057,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         });
         this.MessageNode = document.createElement('div');
         this.MessageNode.classList.add('names');
-        this.MessageNode.innerHTML = message;
         this.iconNode.parentNode.insertBefore(this.MessageNode, this.iconNode.nextSibling);
+        this.MessageNode.innerHTML = message;
       }
       this.ValidationAttempts = [];
     }

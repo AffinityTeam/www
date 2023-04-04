@@ -7620,7 +7620,7 @@ body.ui2018.uiupdate.cform .form .form-row .banknumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .banknumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .banknumber-box .select {
   display: inline-block;
-  width: 150px !important;
+  width: 70px !important;
 }
 body.ui2018.uiupdate form .form-row .banknumber-box span,
 body.ui2018.uiupdate.cform form .form-row .banknumber-box span,
@@ -7689,7 +7689,7 @@ body.ui2018.uiupdate.cform .form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .taxnumber-box .select {
   display: inline-block;
-  width: 150px !important;
+  width: 70px !important;
 }
 body.ui2018.uiupdate form .form-row .taxnumber-box span,
 body.ui2018.uiupdate.cform form .form-row .taxnumber-box span,
@@ -11558,6 +11558,7 @@ body.ui2018 .banknumber-box .tickcross.validating::before {
 }
 body.ui2018 .banknumber-box .names {
   font-size: 12px;
+  line-height: 30px;
 }
 body.ui2018 .banknumber-box .names div {
   height: 30px;
@@ -11566,6 +11567,7 @@ body.ui2018 .banknumber-box .names div {
 }
 body.ui2018 .banknumber-box .names div:last-child {
   line-height: 10px;
+  height: 20px;
 }
 body.ui2018 .banknumber-box.au input.bank {
   width: 42px !important;
@@ -13199,6 +13201,7 @@ body.ui2018 .taxnumber-box .tickcross {
 }
 body.ui2018 .taxnumber-box .names {
   font-size: 12px;
+  line-height: 30px;
 }
 body.ui2018 .taxnumber-box .names div {
   height: 30px;
