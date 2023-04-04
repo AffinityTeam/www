@@ -32267,23 +32267,42 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   Set (value)
   {
     this.ValidationAttempts = [];
+
     var countryCode = this.DefaultCountryCode;
-    if ($a.isArray(value) && value.length === 2)  value = value[1] + ',' + value[0];
+    if (
+      Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+    )
+    {
+      countryCode = Affinity2018.FormProfile.Country;
+    }
+    if (
+      this.CleverForms.hasOwnProperty('FormCountry')
+      && this.CountryCodes.contains(this.CleverForms.FormCountry)
+    )
+    {
+      countryCode = this.CleverForms.FormCountry;
+    }
+    //var countryCode = this.DefaultCountryCode;
+    if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + value[0];
     if (!$a.isString(value)) value = value.toString().trim();
     if (value.toLowerCase() === 'null') value = '';
+    if (value.contains(','))
+    {
+      countryCode = this.CleverForms.GetCountryCodeVariant(value.split(',')[0]);
+      value = value.split(',')[1];
+    }
     if (value.trim() === '')
     {
       this.inputBankNode.value = '';
       this.inputBranchkNode.value = '';
       this.inputAccountNode.value = '';
       this.inputSuffixNode.value = '';
-      this._validate();
-      return;
     }
-    if (value.contains(','))
+    else
     {
-      countryCode = this.CleverForms.GetCountryCodeVariant(value.split(',')[0]);
-      value = value.split(',')[1];
+      this._stringToNodes();
     }
     this.initInputNode.value = value;
     this.SetCountry(countryCode);
@@ -40673,7 +40692,25 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   Set(value)
   {
     this.ValidationAttempts = [];
-    var countryCode = this._getCountryCode();
+
+    var countryCode = this.DefaultCountryCode;
+    if (
+      Affinity2018.hasOwnProperty('FormProfile')
+      && Affinity2018.FormProfile.hasOwnProperty('Country')
+      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+    )
+    {
+      countryCode = Affinity2018.FormProfile.Country;
+    }
+    if (
+      this.CleverForms.hasOwnProperty('FormCountry')
+      && this.CountryCodes.contains(this.CleverForms.FormCountry)
+    )
+    {
+      countryCode = this.CleverForms.FormCountry;
+    }
+
+    //var countryCode = this._getCountryCode();
     if ($a.isArray(value) && value.length === 2) value = value[1] + ',' + value[0];
     if (!$a.isString(value)) value = value.toString().trim();
     if (value.toLowerCase() === 'null') value = '';
