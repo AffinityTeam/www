@@ -7832,9 +7832,13 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       'AU': 'A',
       'NZ': 'N'
     };
+    this.CountryShortMap = {
+      'A': 'AU',
+      'N': 'NZ'
+    };
     this.CountryDisplayMap = {
-      'A': 'AU', // Australia
-      'N': 'NZ' // New Zealand
+      'A': 'Australia',
+      'N': 'New Zealand'
     };
     this.CountryCodes = [];
     this.CountrySensativeFields = {
@@ -8563,8 +8567,26 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     country = country.toString().trim().toUpperCase();
     if (this.CountryCodes.contains(country))
     {
-      //return country.length === 2 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
       return country.length === 2 ? this.CountryCodeMap[country] : country;
+    }
+    return country;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetCountryShortVariant(country)
+  {
+    if (!Affinity2018.isString(country)) return country;
+    country = country.toString().trim().toUpperCase();
+    var code = this.GetCountryCodeVariant(country);
+    if (this.CountryShortMap[code])
+    {
+      return this.CountryShortMap[code];
     }
     return country;
   }
