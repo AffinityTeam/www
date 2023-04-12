@@ -23,15 +23,15 @@
 (8144,113): run-time error CSS1030: Expected identifier, found ','
 (8144,125): run-time error CSS1031: Expected selector, found ')'
 (8144,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9510,133): run-time error CSS1030: Expected identifier, found ','
-(9510,274): run-time error CSS1031: Expected selector, found ')'
-(9510,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10090,167): run-time error CSS1030: Expected identifier, found ','
-(10090,309): run-time error CSS1031: Expected selector, found ')'
-(10090,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10341,108): run-time error CSS1030: Expected identifier, found ','
-(10341,250): run-time error CSS1031: Expected selector, found ')'
-(10341,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9467,133): run-time error CSS1030: Expected identifier, found ','
+(9467,274): run-time error CSS1031: Expected selector, found ')'
+(9467,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10041,167): run-time error CSS1030: Expected identifier, found ','
+(10041,309): run-time error CSS1031: Expected selector, found ')'
+(10041,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10292,108): run-time error CSS1030: Expected identifier, found ','
+(10292,250): run-time error CSS1031: Expected selector, found ')'
+(10292,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -7620,7 +7620,7 @@ body.ui2018.uiupdate.cform .form .form-row .banknumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .banknumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .banknumber-box .select {
   display: inline-block;
-  width: 150px !important;
+  width: 70px !important;
 }
 body.ui2018.uiupdate form .form-row .banknumber-box span,
 body.ui2018.uiupdate.cform form .form-row .banknumber-box span,
@@ -7689,7 +7689,7 @@ body.ui2018.uiupdate.cform .form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .taxnumber-box .select {
   display: inline-block;
-  width: 150px !important;
+  width: 70px !important;
 }
 body.ui2018.uiupdate form .form-row .taxnumber-box span,
 body.ui2018.uiupdate.cform form .form-row .taxnumber-box span,
@@ -8467,49 +8467,6 @@ body.ui2018.uiupdate .default-form .form-row select:-webkit-autofill,
 body.ui2018.uiupdate.cform .default-form .form-row select:-webkit-autofill {
   color: #1a1a1a !important;
   -webkit-text-fill-color: 0% !important;
-}
-body.ui2018.uiupdate .cf-d2-top .form,
-body.ui2018.uiupdate.cform .cf-d2-top .form {
-  width: 100% !important;
-  min-width: 100% !important;
-  max-width: 100% !important;
-}
-body.ui2018.uiupdate .cf-d2-top .form .form-row,
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row {
-  width: 760px;
-  min-width: 760px;
-  max-width: 760px;
-  margin: 0 0 0 0;
-  font-size: 0;
-}
-body.ui2018.uiupdate .cf-d2-top .form .form-row label,
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row label {
-  display: inline-block !important;
-  width: 200px !important;
-  height: 44px;
-  line-height: 44px;
-}
-body.ui2018.uiupdate .cf-d2-top .form .form-row.row-checkbox input[type="checkbox"],
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row.row-checkbox input[type="checkbox"] {
-  margin-top: 7px;
-}
-body.ui2018.uiupdate .cf-d2-top .form .form-row.row-checkbox span,
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row.row-checkbox span {
-  display: none;
-}
-body.ui2018.uiupdate .cf-d2-top .form .form-row input[type="text"],
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row input[type="text"],
-body.ui2018.uiupdate .cf-d2-top .form .form-row .select,
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row .select {
-  display: inline-block !important;
-  width: 560px !important;
-}
-body.ui2018.uiupdate .cf-d2-top .form .form-row p,
-body.ui2018.uiupdate.cform .cf-d2-top .form .form-row p {
-  width: 560px;
-  min-width: 560px;
-  max-width: 560px;
-  margin: 10px 0 20px 200px;
 }
 body.ui2018.uiupdate.cform.v2.dashboard div.pagewrapper div.content,
 body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content {
@@ -9891,12 +9848,6 @@ body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top {
 }
 body.ui2018.uiupdate.dark .content.designer .cf-d2-top .cf-d2-top-row input,
 body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top .cf-d2-top-row input {
-  color: white;
-  background: #333333;
-  border: 2px solid #444444;
-}
-body.ui2018.uiupdate.dark .content.designer .cf-d2-top .cf-d2-top-row .select,
-body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top .cf-d2-top-row .select {
   color: white;
   background: #333333;
   border: 2px solid #444444;
@@ -11558,7 +11509,6 @@ body.ui2018 .banknumber-box .tickcross.validating::before {
 }
 body.ui2018 .banknumber-box .names {
   font-size: 12px;
-  line-height: 30px;
 }
 body.ui2018 .banknumber-box .names div {
   height: 30px;
@@ -11567,7 +11517,6 @@ body.ui2018 .banknumber-box .names div {
 }
 body.ui2018 .banknumber-box .names div:last-child {
   line-height: 10px;
-  height: 20px;
 }
 body.ui2018 .banknumber-box.au input.bank {
   width: 42px !important;
@@ -13201,7 +13150,6 @@ body.ui2018 .taxnumber-box .tickcross {
 }
 body.ui2018 .taxnumber-box .names {
   font-size: 12px;
-  line-height: 30px;
 }
 body.ui2018 .taxnumber-box .names div {
   height: 30px;
