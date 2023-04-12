@@ -32530,7 +32530,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   {
     this._clear(false);
     var country = this._getCountryCode();
-    //var country = this.CleverForms.GetCountryCodeVariant(this.countrySelectNode.value.trim().toUpperCase());
     switch (country)
     {
       case 'A':
@@ -40868,8 +40867,9 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   /**/
 
-  _clear()
+  _clear(resetCountry)
   {
+    resetCountry = $a.isBool(resetCountry) ? resetCountry : true;
     if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
     this.MessageNode = null;
 
@@ -40877,18 +40877,20 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.input2Node.value = '';
     this.input3Node.value = '';
     this._setIcon();
-
-    var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : this.DefaultCountryCode);
-    if (
-      Affinity2018.hasOwnProperty('FormProfile')
-      && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() !== -1
-      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
-    )
+    if (resetCountry)
     {
-      defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+      var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : this.DefaultCountryCode);
+      if (
+        Affinity2018.hasOwnProperty('FormProfile')
+        && Affinity2018.FormProfile.hasOwnProperty('Country')
+        && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() !== -1
+        && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+      )
+      {
+        defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+      }
+      this.SetCountry(defaultCountry);
     }
-    this.SetCountry(defaultCountry);
   }
 
   _stringToNodes(str)
@@ -40954,7 +40956,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _setupCountry()
   {
-    this._clear();
+    this._clear(false);
     var country = this._getCountryCode();
     switch (country)
     {
