@@ -32407,11 +32407,11 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   /**/
 
-  _clear ()
+  _clear (resetCountry)
   {
+    resetCountry = $a.isBool(resetCountry) ? resetCountry : true;
     if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
     this.MessageNode = null;
-
     this.inputBankNode.value = '';
     this.inputBranchkNode.value = '';
     this.inputAccountNode.value = '';
@@ -32421,18 +32421,20 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.bankNameNode.classList.add('hidden');
     this.branchNameNode.classList.add('hidden');
     this._setIcon();
-
-    var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : this.DefaultCountryCode);
-    if (
-      Affinity2018.hasOwnProperty('FormProfile')
-      && Affinity2018.FormProfile.hasOwnProperty('Country')
-      && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() !== -1
-      && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
-    )
+    if (resetCountry)
     {
-      defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+      var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : this.DefaultCountryCode);
+      if (
+        Affinity2018.hasOwnProperty('FormProfile')
+        && Affinity2018.FormProfile.hasOwnProperty('Country')
+        && Affinity2018.Apps.CleverForms.Default.GetFormEmployeeNo() !== -1
+        && this.CountryCodes.contains(Affinity2018.FormProfile.Country)
+      )
+      {
+        defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+      }
+      this.SetCountry(defaultCountry);
     }
-    this.SetCountry(defaultCountry);
   }
 
   _stringToNodes (str)
@@ -32526,8 +32528,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   _setupCountry ()
   {
-    this._clear();
+    this._clear(false);
     var country = this._getCountryCode();
+    //var country = this.CleverForms.GetCountryCodeVariant(this.countrySelectNode.value.trim().toUpperCase());
     switch (country)
     {
       case 'A':
@@ -32735,6 +32738,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     if (this.Valid)
     {
+      // TODO: Make this irrelevant! Ideally, validation whould return pass/fail for each country on the first check, then we respond rather than making multplle passes.
       var lastAttempt = this.CleverForms.GetCountryCodeVariant(this.ValidationAttempts[this.ValidationAttempts.length - 1]);
       var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : Affinity2018.FormProfile.Country);
       //var selectedCountry = this.CleverForms.GetCountryCodeVariant(this._getCountryCode());
@@ -41139,6 +41143,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     if (this.Valid)
     {
+      // TODO: Make this irrelevant! Ideally, validation whould return pass/fail for each country on the first check, then we respond rather than making multplle passes.
       var lastAttempt = this.CleverForms.GetCountryCodeVariant(this.ValidationAttempts[this.ValidationAttempts.length - 1]);
       var defaultCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : Affinity2018.FormProfile.Country);
       //var selectedCountry = this.CleverForms.GetCountryCodeVariant(this._getCountryCode());
