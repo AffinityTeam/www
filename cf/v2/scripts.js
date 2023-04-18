@@ -19951,9 +19951,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         var inserter = function ()
         {
           this.FormRowNode.appendChild(this.CountryWarningNode);
-          this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
+          if (this.FormRowNode.querySelector('select')) {
+            this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
+          }
         }.bind(this);
-        this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
+
+        if (this.FormRowNode.querySelector('select')) { 
+          this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
+        }
       }
 
       this._checkCountrySensative(this.Config.Details.Value);
