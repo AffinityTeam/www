@@ -1,37 +1,37 @@
 /* Minification failed. Returning unminified contents.
-(6287,59): run-time error CSS1030: Expected identifier, found ','
-(6287,81): run-time error CSS1031: Expected selector, found ')'
-(6287,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6295,59): run-time error CSS1030: Expected identifier, found ','
-(6295,81): run-time error CSS1031: Expected selector, found ')'
-(6295,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6327,82): run-time error CSS1030: Expected identifier, found ','
-(6327,153): run-time error CSS1031: Expected selector, found ')'
-(6327,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6417,64): run-time error CSS1030: Expected identifier, found ','
-(6417,71): run-time error CSS1031: Expected selector, found ')'
-(6417,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6425,63): run-time error CSS1030: Expected identifier, found ','
-(6425,70): run-time error CSS1031: Expected selector, found ')'
-(6425,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6433,72): run-time error CSS1030: Expected identifier, found ','
-(6433,79): run-time error CSS1031: Expected selector, found ')'
-(6433,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6492,74): run-time error CSS1030: Expected identifier, found ','
-(6492,216): run-time error CSS1031: Expected selector, found ')'
-(6492,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8144,113): run-time error CSS1030: Expected identifier, found ','
-(8144,125): run-time error CSS1031: Expected selector, found ')'
-(8144,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9467,133): run-time error CSS1030: Expected identifier, found ','
-(9467,274): run-time error CSS1031: Expected selector, found ')'
-(9467,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10041,167): run-time error CSS1030: Expected identifier, found ','
-(10041,309): run-time error CSS1031: Expected selector, found ')'
-(10041,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10292,108): run-time error CSS1030: Expected identifier, found ','
-(10292,250): run-time error CSS1031: Expected selector, found ')'
-(10292,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6294,59): run-time error CSS1030: Expected identifier, found ','
+(6294,81): run-time error CSS1031: Expected selector, found ')'
+(6294,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6302,59): run-time error CSS1030: Expected identifier, found ','
+(6302,81): run-time error CSS1031: Expected selector, found ')'
+(6302,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6334,82): run-time error CSS1030: Expected identifier, found ','
+(6334,153): run-time error CSS1031: Expected selector, found ')'
+(6334,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6424,64): run-time error CSS1030: Expected identifier, found ','
+(6424,71): run-time error CSS1031: Expected selector, found ')'
+(6424,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6432,63): run-time error CSS1030: Expected identifier, found ','
+(6432,70): run-time error CSS1031: Expected selector, found ')'
+(6432,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6440,72): run-time error CSS1030: Expected identifier, found ','
+(6440,79): run-time error CSS1031: Expected selector, found ')'
+(6440,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6499,74): run-time error CSS1030: Expected identifier, found ','
+(6499,216): run-time error CSS1031: Expected selector, found ')'
+(6499,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8151,113): run-time error CSS1030: Expected identifier, found ','
+(8151,125): run-time error CSS1031: Expected selector, found ')'
+(8151,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9517,133): run-time error CSS1030: Expected identifier, found ','
+(9517,274): run-time error CSS1031: Expected selector, found ')'
+(9517,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10097,167): run-time error CSS1030: Expected identifier, found ','
+(10097,309): run-time error CSS1031: Expected selector, found ')'
+(10097,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10348,108): run-time error CSS1030: Expected identifier, found ','
+(10348,250): run-time error CSS1031: Expected selector, found ')'
+(10348,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -3504,6 +3504,13 @@ body.ui2018 .default-form .form-row .help-bubble {
   width: 680px;
   max-width: 680px;
   min-width: 680px;
+}
+body.ui2018 form .form-row .country-warning,
+body.ui2018 .form .form-row .country-warning,
+body.ui2018 .default-form .form-row .country-warning {
+  font-size: 12px;
+  line-height: 20px;
+  margin: 10px 0 20px 0;
 }
 body.ui2018 form .form-row.inline-check input,
 body.ui2018 .form .form-row.inline-check input,
@@ -7620,7 +7627,7 @@ body.ui2018.uiupdate.cform .form .form-row .banknumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .banknumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .banknumber-box .select {
   display: inline-block;
-  width: 70px !important;
+  width: 150px !important;
 }
 body.ui2018.uiupdate form .form-row .banknumber-box span,
 body.ui2018.uiupdate.cform form .form-row .banknumber-box span,
@@ -7689,7 +7696,7 @@ body.ui2018.uiupdate.cform .form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate .default-form .form-row .taxnumber-box .select,
 body.ui2018.uiupdate.cform .default-form .form-row .taxnumber-box .select {
   display: inline-block;
-  width: 70px !important;
+  width: 150px !important;
 }
 body.ui2018.uiupdate form .form-row .taxnumber-box span,
 body.ui2018.uiupdate.cform form .form-row .taxnumber-box span,
@@ -8467,6 +8474,49 @@ body.ui2018.uiupdate .default-form .form-row select:-webkit-autofill,
 body.ui2018.uiupdate.cform .default-form .form-row select:-webkit-autofill {
   color: #1a1a1a !important;
   -webkit-text-fill-color: 0% !important;
+}
+body.ui2018.uiupdate .cf-d2-top .form,
+body.ui2018.uiupdate.cform .cf-d2-top .form {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+body.ui2018.uiupdate .cf-d2-top .form .form-row,
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row {
+  width: 760px;
+  min-width: 760px;
+  max-width: 760px;
+  margin: 0 0 0 0;
+  font-size: 0;
+}
+body.ui2018.uiupdate .cf-d2-top .form .form-row label,
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row label {
+  display: inline-block !important;
+  width: 200px !important;
+  height: 44px;
+  line-height: 44px;
+}
+body.ui2018.uiupdate .cf-d2-top .form .form-row.row-checkbox input[type="checkbox"],
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row.row-checkbox input[type="checkbox"] {
+  margin-top: 7px;
+}
+body.ui2018.uiupdate .cf-d2-top .form .form-row.row-checkbox span,
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row.row-checkbox span {
+  display: none;
+}
+body.ui2018.uiupdate .cf-d2-top .form .form-row input[type="text"],
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row input[type="text"],
+body.ui2018.uiupdate .cf-d2-top .form .form-row .select,
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row .select {
+  display: inline-block !important;
+  width: 560px !important;
+}
+body.ui2018.uiupdate .cf-d2-top .form .form-row p,
+body.ui2018.uiupdate.cform .cf-d2-top .form .form-row p {
+  width: 560px;
+  min-width: 560px;
+  max-width: 560px;
+  margin: 10px 0 20px 200px;
 }
 body.ui2018.uiupdate.cform.v2.dashboard div.pagewrapper div.content,
 body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content {
@@ -9848,6 +9898,12 @@ body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top {
 }
 body.ui2018.uiupdate.dark .content.designer .cf-d2-top .cf-d2-top-row input,
 body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top .cf-d2-top-row input {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.dark .content.designer .cf-d2-top .cf-d2-top-row .select,
+body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top .cf-d2-top-row .select {
   color: white;
   background: #333333;
   border: 2px solid #444444;
@@ -11509,6 +11565,7 @@ body.ui2018 .banknumber-box .tickcross.validating::before {
 }
 body.ui2018 .banknumber-box .names {
   font-size: 12px;
+  line-height: 30px;
 }
 body.ui2018 .banknumber-box .names div {
   height: 30px;
@@ -11517,6 +11574,7 @@ body.ui2018 .banknumber-box .names div {
 }
 body.ui2018 .banknumber-box .names div:last-child {
   line-height: 10px;
+  height: 20px;
 }
 body.ui2018 .banknumber-box.au input.bank {
   width: 42px !important;
@@ -13150,6 +13208,7 @@ body.ui2018 .taxnumber-box .tickcross {
 }
 body.ui2018 .taxnumber-box .names {
   font-size: 12px;
+  line-height: 30px;
 }
 body.ui2018 .taxnumber-box .names div {
   height: 30px;
