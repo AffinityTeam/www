@@ -19951,14 +19951,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         var inserter = function ()
         {
           this.FormRowNode.appendChild(this.CountryWarningNode);
-          if (this.FormRowNode.querySelector('select')) {
-            this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
-          }
+          this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
         }.bind(this);
-
-        if (this.FormRowNode.querySelector('select')) { 
-          this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
-        }
+        this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
       }
 
       this._checkCountrySensative(this.Config.Details.Value);
@@ -20581,13 +20576,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         && (dataValue !== formValue || $a.isNullOrEmpty(formValue))
       )
       {
-        this.CountryWarningNode.innerHTML = $a.Lang.ReturnPath('app.cf.form.country_sensative_inline_warning', {
-          fieldName: label,
-          formCountry: formCountry,
-          country: profileCountry
-        });
-        this.CountryWarningNode.classList.remove('hidden');
-        Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        if (formCountry === profileCountry)
+        {
+          console.log('%cTried to load "' + label + '" with failed values ("' + dataValue + '" vs "' + formValue + '") but countries match. Is this user broken?', 'color:yellow');
+          this.CountryWarningNode.classList.add('hidden');
+        }
+        else
+        {
+          this.CountryWarningNode.innerHTML = $a.Lang.ReturnPath('app.cf.form.country_sensative_inline_warning', {
+            fieldName: label,
+            formCountry: formCountry,
+            country: profileCountry
+          });
+          this.CountryWarningNode.classList.remove('hidden');
+        }
       }
       else
       {
@@ -20597,11 +20599,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           if ($a.isNullOrEmpty(formValue))
           {
-            console.log('%ctried to load "' + label + '" with value NULL and failed! Why is this NULL?', 'color:red');
+            console.log('%cTried to load "' + label + '" with saved value NULL', 'color:yellow');
           }
           else
           {
-            console.log('%ctried to load "' + label + '" with value "' + formValue + '" and failed!', 'color:red');
+            console.log('%cTried to load "' + label + '" with saved value "' + formValue + '"', 'color:yellow');
           }
         }
       }
@@ -32430,6 +32432,13 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.SetCountry(countryCode);
       this._validate();
     }
+
+    if (this.initInputNode.closest('div.form-row'))
+    {
+      this.FormRowNode = this.initInputNode.closest('div.form-row');
+      this.CleverForms.Form.ResizeSection(this.FormRowNode);
+    }
+
   }
 
   SetCountry(country)
@@ -32642,7 +32651,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   {
     this._clear(false);
     var country = this._getCountryCode();
-    switch (country)
+    var useCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry !== null ? this.CleverForms.FormCountry : country);
+    switch (useCountry)
     {
       case 'A':
       case 'AU':
@@ -40945,6 +40955,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     {
       if (this.lastCodes.hasOwnProperty(countryCode)) this.lastCodes[countryCode] = '';
       this._clear();
+    }
+
+    if (this.initInputNode.closest('div.form-row'))
+    {
+      this.FormRowNode = this.initInputNode.closest('div.form-row');
+      this.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
   }
 
