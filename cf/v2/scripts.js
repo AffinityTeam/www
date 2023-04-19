@@ -32427,9 +32427,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     else
     {
       this.initInputNode.value = value;
-      this._stringToNodes();
       this._setupCountry();
       this.SetCountry(countryCode);
+      this._stringToNodes();
       this._validate();
     }
 
