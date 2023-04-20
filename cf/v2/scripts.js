@@ -19948,12 +19948,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.CountryWarningNode = document.createElement('div');
         this.CountryWarningNode.classList.add('country-warning', 'hidden');
         this.FormRowNode.appendChild(this.CountryWarningNode);
-        var inserter = function ()
+        if (this.FormRowNode.querySelector('select'))
         {
-          this.FormRowNode.appendChild(this.CountryWarningNode);
-          this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
-        }.bind(this);
-        this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
+          var inserter = function ()
+          {
+            this.FormRowNode.appendChild(this.CountryWarningNode);
+            if (this.FormRowNode.querySelector('select')) this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
+          }.bind(this);
+          this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
+        }
       }
 
       this._checkCountrySensative(this.Config.Details.Value);
