@@ -9198,6 +9198,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
 
+    Affinity2018.ShowPageLoader();
+
     window.addEventListener('GotUser', this._gotUserData);
     axios({
       method: 'GET',
@@ -9247,6 +9249,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     {
       this._getUserDataError('Failed to get data from response');
     }
+
+    Affinity2018.HidePageLoader();
   }
 
 
@@ -9260,6 +9264,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     var error = 'Could not get logged in user data. ' + subError + '. CleverForms Default failed.';
     Affinity2018.LogError('Bootstrap Error', 'critical', error);
     this.OnError(error);
+
+    Affinity2018.HidePageLoader();
   }
 
 
@@ -9336,6 +9342,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
 
+    Affinity2018.ShowPageLoader();
+
     window.addEventListener('GotEmployee', this._gotEmployeeData);
     axios({
       method: 'GET',
@@ -9384,6 +9392,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     {
       this._gotEmployeeDataError('Failed to get data from response');
     }
+
+    Affinity2018.HidePageLoader();
   }
 
 
@@ -9397,6 +9407,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     var error = 'Could not get employee user data. ' + subError + '. CleverForms Default failed.';
     Affinity2018.LogError('Bootstrap Error', 'critical', error);
     this.OnError(error);
+
+    Affinity2018.HidePageLoader();
   }
 
 
@@ -20427,14 +20439,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       $a.ShowPageLoader();
       var key = encodeURIComponent(select.value.trim());
-
       this.FormLookupApi = '{api}?modelName={modelName}&key={key}&instanceId={instanceId}'.format({
         api: this.CleverForms.GetModelApi.trim(),
         modelName: this.Config.Details.AffinityField.ModelName,
         key,
         instanceId: this.CleverForms.GetInstanceGuid()
       });
-
       $a.RequestQueue.Add(this.FormLookupApi, this._lookupModelLoaded, this._lookupModelFailed);
     }
   }
@@ -32221,6 +32231,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     this.ShowCountryIfUnknown = true;
 
+    this.ReValidate = true;
+
     this.FirstLoad = true;
 
     this.hasPayPoint = false;
@@ -32390,6 +32402,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   Set (value)
   {
+    this.ReValidate = false;
+    if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
     this.ValidationAttempts = [];
     this.Clear();
 
@@ -32423,6 +32437,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       countryCode = this.CleverForms.GetCountryCodeVariant(value.split(',')[0]);
       value = value.split(',')[1];
     }
+
+    this.ReValidate = true;
+
     if (value.trim() === '')
     {
       this._clear();
@@ -32864,7 +32881,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     if (this.Valid)
     {
-      if (Affinity2018.FormCountry !== '')
+      if (this.ReValidate && Affinity2018.FormCountry !== '')
       {
         // TODO: Make this irrelevant! Ideally, validation whould return pass/fail for each country on the first check, then we respond rather than making multiple passes.
         var formCountry = $a.isNullOrEmpty(this.CleverForms.FormCountry) ? null : this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry);
@@ -32902,23 +32919,18 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     else
     {
-      var countries = Object.keys(this.CountryCodeMap);
-      var remainingCountries = countries.diff(this.ValidationAttempts);
-      if (remainingCountries.length > 0) this._validate(remainingCountries[0]);
-      if (remainingCountries.length === 0)
+      if (this.ReValidate)
       {
-        this.ValidationAttempts = [];
-        // TODO: check for required?
-        if (this._stringFromNodes() === '')
-        {
-          this._setIcon();
-        }
-        else
-        {
-          this._setIcon(this.Valid);
-        }
+        var countries = Object.keys(this.CountryCodeMap);
+        var remainingCountries = countries.diff(this.ValidationAttempts);
+        if (remainingCountries.length > 0) this._validate(remainingCountries[0]);
+        if (remainingCountries.length === 0) this.ValidationAttempts = [];
       }
+      // TODO: check for required?
+      if (this._stringFromNodes() === '') this._setIcon();
+      else this._setIcon(this.Valid);
     }
+    this.ReValidate = true;
 
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
@@ -40734,6 +40746,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     this.ShowCountryIfUnknown = true;
 
+    this.ReValidate = true;
+
     //this.lastCodes = {
     //  NZ: '',
     //  AU: ''
@@ -40902,6 +40916,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   Set(value)
   {
+    this.ReValidate = false;
+    if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
     this.ValidationAttempts = [];
     this.Clear();
 
@@ -40939,6 +40955,9 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       countryCode = this.CleverForms.GetCountryCodeVariant(value.split(',')[0]);
       value = value.split(',')[1];
     }
+
+    this.ReValidate = true;
+
     if (value.trim() !== '')
     {
       if (!value.contains('-'))
@@ -41291,10 +41310,13 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     if (!this.ValidationAttempts.contains(attemtpCountry)) this.ValidationAttempts.push(attemtpCountry);
     else return;
 
-    axios({
+    this.iconNode.classList.add('validating');
+    if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
+    this.validationLookup = axios({
       method: 'POST',
       url: api,
-      data: postData
+      data: postData,
+      cancelToken: new axios.CancelToken(function () { })
     })
       .then(function (response)
       {
@@ -41329,7 +41351,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     if (this.Valid)
     {
-      if (Affinity2018.FormCountry !== '')
+      if (this.ReValidate && Affinity2018.FormCountry !== '')
       {
         // TODO: Make this irrelevant! Ideally, validation whould return pass/fail for each country on the first check, then we respond rather than making multiple passes.
         var formCountry = $a.isNullOrEmpty(this.CleverForms.FormCountry) ? null : this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry);
@@ -41365,17 +41387,20 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
     else
     {
-      var countries = Object.keys(this.CountryCodeMap);
-      var remainingCountries = countries.diff(this.ValidationAttempts);
-      if (remainingCountries.length > 0) this._validate(remainingCountries[0]);
-      if (remainingCountries.length === 0)
+      if (this.ReValidate)
       {
-        this.ValidationAttempts = [];
-        // TODO: check for required?
-        if (this._stringFromNodes() === '') this._setIcon();
-        else this._setIcon(this.Valid);
+        var countries = Object.keys(this.CountryCodeMap);
+        var remainingCountries = countries.diff(this.ValidationAttempts);
+        if (remainingCountries.length > 0) this._validate(remainingCountries[0]);
+        if (remainingCountries.length === 0)  this.ValidationAttempts = [];
       }
+      // TODO: check for required?
+      if (this._stringFromNodes() === '') this._setIcon();
+      else this._setIcon(this.Valid);
     }
+    this.ReValidate = true;
+
+    this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
   /**/
