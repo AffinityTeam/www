@@ -21082,6 +21082,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
         }.bind(this));
       }
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
