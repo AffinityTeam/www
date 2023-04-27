@@ -15584,6 +15584,75 @@ html.print body.ui2018 .example-template .preview div.content div.section .secti
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-lookup {
   display: none !important;
 }
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box,
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box {
+  width: 680px;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.cform div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box .select {
+  display: inline-block !important;
+  width: 150px !important;
+}
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.calendar:after,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.calendar:after,
 html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.calendar:after,
@@ -15827,6 +15896,11 @@ html.print body.ui2018.dark.cform.uiupdate .help-bubble.left:before,
 html.print body.ui2018 .example-template .preview .help-bubble.left:before,
 html.print body.ui2018.dark .example-template .preview .help-bubble.left:before {
   border-color: transparent #eeeeee;
+}
+html.print .content .section#buttons .comments.hide .comment-history .comment-history-list,
+html.print .content .section#buttons .comments.open .comment-history .comment-history-list {
+  height: unset !important;
+  margin: 10px 0 20px 0;
 }
 @media print {
   body.ui2018.cform,
@@ -17146,6 +17220,75 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .ui-address-lookup {
     display: none !important;
   }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box,
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box {
+    width: 680px;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .banknumber-box .select,
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.cform div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark.cform div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark.cform.uiupdate div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018 .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box .select,
+  body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row .taxnumber-box .select {
+    display: inline-block !important;
+    width: 150px !important;
+  }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.calendar:after,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.calendar:after,
   body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div.section .section-body .default-form .form-row.calendar:after,
@@ -17389,6 +17532,11 @@ html.print body.ui2018.dark .example-template .preview .help-bubble.left:before 
   body.ui2018 .example-template .preview .help-bubble.left:before,
   body.ui2018.dark .example-template .preview .help-bubble.left:before {
     border-color: transparent #eeeeee;
+  }
+  .content .section#buttons .comments.hide .comment-history .comment-history-list,
+  .content .section#buttons .comments.open .comment-history .comment-history-list {
+    height: unset !important;
+    margin: 10px 0 20px 0;
   }
 }
 /***************************************************************************************************************************************************/
