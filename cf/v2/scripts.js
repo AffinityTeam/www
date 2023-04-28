@@ -32884,22 +32884,22 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
 
       // stub
-      response = {
-        data: [
-          {
-            isValid: true,
-            countryCode: 'N',
-            branchName: 'My NZ Branch',
-            bankName: 'My NZ Bank'
-          },
-          {
-            isValid: false,
-            countryCode: 'A',
-            branchName: 'My AU Branch',
-            bankName: 'My AU Bank'
-          }
-        ]
-      };
+      //response = {
+      //  data: [
+      //    {
+      //      isValid: true,
+      //      countryCode: 'N',
+      //      branchName: 'My NZ Branch',
+      //      bankName: 'My NZ Bank'
+      //    },
+      //    {
+      //      isValid: false,
+      //      countryCode: 'A',
+      //      branchName: 'My AU Branch',
+      //      bankName: 'My AU Bank'
+      //    }
+      //  ]
+      //};
 
       if (
         typeof response === 'object'
@@ -41370,18 +41370,18 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       {
 
         // stub
-        response = {
-          data: [
-            {
-              isValid: false,
-              countryCode: 'N'
-            },
-            {
-              isValid: true,
-              countryCode: 'A'
-            }
-          ]
-        };
+        //response = {
+        //  data: [
+        //    {
+        //      isValid: false,
+        //      countryCode: 'N'
+        //    },
+        //    {
+        //      isValid: true,
+        //      countryCode: 'A'
+        //    }
+        //  ]
+        //};
 
         if (
           typeof response === 'object'
