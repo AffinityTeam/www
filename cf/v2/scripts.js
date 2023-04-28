@@ -32887,16 +32887,16 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       //response = {
       //  data: [
       //    {
-      //      isValid: true,
-      //      countryCode: 'N',
-      //      branchName: 'My NZ Branch',
-      //      bankName: 'My NZ Bank'
+      //      IsValid: true,
+      //      CountryCode: 'N',
+      //      BranchName: 'My NZ Branch',
+      //      BankName: 'My NZ Bank'
       //    },
       //    {
-      //      isValid: false,
-      //      countryCode: 'A',
-      //      branchName: 'My AU Branch',
-      //      bankName: 'My AU Bank'
+      //      IsValid: false,
+      //      CountryCode: 'A',
+      //      BranchName: 'My AU Branch',
+      //      BankName: 'My AU Bank'
       //    }
       //  ]
       //};
@@ -32919,11 +32919,11 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
         for (var c = 0; c < response.data.length; c++)
         {
           var validationData = response.data[c];
-          if (validationData.isValid && validationData.countryCode === compareCountry)
+          if (validationData.IsValid && validationData.CountryCode === compareCountry)
           {
             isValid = true;
-            validData.bankName = validationData.bankName;
-            validData.branchName = validationData.branchName;
+            validData.bankName = validationData.BankName;
+            validData.branchName = validationData.BranchName;
             break;
           }
         }
@@ -32931,11 +32931,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
         {
           for (c = 0; c < response.data.length; c++)
           {
-            if (validationData.isValid && validationData.countryCode !== compareCountry)
+            validationData = response.data[c];
+            if (validationData.IsValid && validationData.CountryCode !== compareCountry)
             {
               var message = $a.Lang.ReturnPath('app.cf.form.' + (this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning'), {
                 fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Bank Number',
-                country: this.CleverForms.GetCountryDisplayVariant(validationData.countryCode),
+                country: this.CleverForms.GetCountryDisplayVariant(validationData.CountryCode),
                 formCountry: this.CleverForms.GetCountryDisplayVariant(compareCountry)
               });
               if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
@@ -41373,12 +41374,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         //response = {
         //  data: [
         //    {
-        //      isValid: false,
-        //      countryCode: 'N'
+        //      IsValid: false,
+        //      CountryCode: 'N'
         //    },
         //    {
-        //      isValid: true,
-        //      countryCode: 'A'
+        //      IsValid: true,
+        //      CountryCode: 'A'
         //    }
         //  ]
         //};
@@ -41397,7 +41398,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
           for (var c = 0; c < response.data.length; c++)
           {
             var validationData = response.data[c];
-            if (validationData.isValid && validationData.countryCode === compareCountry)
+            if (validationData.IsValid && validationData.CountryCode === compareCountry)
             {
               isValid = true;
               break;
@@ -41407,11 +41408,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
           {
             for (c = 0; c < response.data.length; c++)
             {
-              if (validationData.isValid && validationData.countryCode !== compareCountry)
+              validationData = response.data[c];
+              if (validationData.IsValid && validationData.CountryCode !== compareCountry)
               {
                 var message = $a.Lang.ReturnPath('app.cf.form.' + (this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning'), {
                   fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Bank Number',
-                  country: this.CleverForms.GetCountryDisplayVariant(validationData.countryCode),
+                  country: this.CleverForms.GetCountryDisplayVariant(validationData.CountryCode),
                   formCountry: this.CleverForms.GetCountryDisplayVariant(compareCountry)
                 });
                 if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
