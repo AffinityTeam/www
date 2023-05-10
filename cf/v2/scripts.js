@@ -8687,10 +8687,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    */
   ReturnExisitingModelKeyNode(modelName, fromNode)
   {
-    var keyNode = null;
+    var query, keyNode = null;
     if (Affinity2018.Apps.CleverForms.hasOwnProperty('Designer'))
     {
-      var rightListNode = Affinity2018.Apps.CleverForms.Designer.RightListNode, query;
+      var rightListNode = Affinity2018.Apps.CleverForms.Designer.RightListNode;
       if (keyNode !== null)
       {
         query = 'li[data-type="AffinityField"][data-model="{0}"].is-global-key'.format(modelName);
@@ -8701,6 +8701,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         query = 'li[data-type="AffinityField"][data-model="{0}"].is-key-field'.format(modelName);
         if (rightListNode.querySelector(query)) keyNode = rightListNode.querySelector(query);
       }
+    }
+    if (
+      !Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')
+      && Affinity2018.Apps.CleverForms.hasOwnProperty('Form')
+    )
+    {
+      query = 'div.form-row.row-affinityfield.is-global-key[data-model="{0}"]'.format(modelName);
+      if (document.querySelector(query)) keyNode = document.querySelector(query);
     }
     return keyNode;
   }
@@ -20512,26 +20520,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     var value = this.FormRowNode.querySelector('select').value;
     this.PayPointInfo.CurrentValue = value;
-    var defaultValue = this.PayPointInfo.DefaultValue !== null && this.PayPointInfo.DefaultValue !== undefined ? this.PayPointInfo.DefaultValue.toString() : this.PayPointInfo.DefaultValue;
-    var currentValue = this.PayPointInfo.CurrentValue !== null && this.PayPointInfo.CurrentValue !== undefined ? this.PayPointInfo.CurrentValue.toString() : this.PayPointInfo.CurrentValue;
-    if (currentValue !== defaultValue && defaultValue !== undefined)
+    var payPointModeIsCreate = this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum;
+    var globalModeIsCreate = this.CleverForms.ReturnExisitingModelKeyNode('EMPLOYEE') ? this.CleverForms.ReturnExisitingModelKeyNode('EMPLOYEE').controller.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum : false;
+    if (!globalModeIsCreate && !payPointModeIsCreate)
     {
-      Affinity2018.Dialog.Show({
-        message: $a.Lang.ReturnPath('app.cf.form.country_popup_warning'),
-        textAlign: 'left',
-        buttons: {
-          ok: {
-            show: true,
-            icon: 'tick',
-            text: 'Continue',
-            color: 'blue'
+      var defaultValue = this.PayPointInfo.DefaultValue !== null && this.PayPointInfo.DefaultValue !== undefined ? this.PayPointInfo.DefaultValue.toString() : this.PayPointInfo.DefaultValue;
+      var currentValue = this.PayPointInfo.CurrentValue !== null && this.PayPointInfo.CurrentValue !== undefined ? this.PayPointInfo.CurrentValue.toString() : this.PayPointInfo.CurrentValue;
+      if (currentValue !== defaultValue && defaultValue !== undefined)
+      {
+        Affinity2018.Dialog.Show({
+          message: $a.Lang.ReturnPath('app.cf.form.country_popup_warning'),
+          textAlign: 'left',
+          buttons: {
+            ok: {
+              show: true,
+              icon: 'tick',
+              text: 'Continue',
+              color: 'blue'
+            },
+            cancel: false
           },
-          cancel: false
-        },
-        onOk: function ()
-        {
-        }.bind(this)
-      });
+          onOk: function ()
+          {
+            // Do nothing yet .. keep it simple ..
+          }.bind(this)
+        });
+      }
     }
   }
 
@@ -32868,9 +32882,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
 
     var postData = new FormData();
-    postData.append('EmployeeNo', employeeNumber);
-    postData.append('BankNumber', this._stringFromNodes());
-    postData.append('CountryCode', attemtpCountry);
+    //postData.append('EmployeeNo', employeeNumber);
+    postData.append('BankAccount', this._stringFromNodes());
+    //postData.append('CountryCode', attemtpCountry);
 
     this.iconNode.classList.add('validating');
     if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
@@ -41355,9 +41369,9 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
 
     var postData = new FormData();
-    postData.append('EmployeeNo', employeeNumber);
+    //postData.append('EmployeeNo', employeeNumber);
     postData.append('TaxNumber', this._stringFromNodes().replace(/\-/g, ''));
-    postData.append('CountryCode', attemtpCountry);
+    //postData.append('CountryCode', attemtpCountry);
 
     this.iconNode.classList.add('validating');
     if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
