@@ -10465,43 +10465,6 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   body.newui #uimodal .acknowledgement-warnings {
     width: auto !important;
   }
-  .calendar-history-day {
-    position: fixed;
-    z-index: 10000001;
-    left: 50%;
-    margin-left: -150px;
-    overflow: auto;
-    width: 284px;
-    padding: 8px;
-    text-indent: 0;
-    background-color: rgba(102, 102, 102, 0.8);
-  }
-  .calendar-history-day > div {
-    position: relative;
-    display: block;
-    width: 268px;
-    padding: 8px;
-    border: 1px dotted #fff;
-    text-align: left;
-  }
-  .calendar-history-day h1 {
-    position: static !important;
-    display: block !important;
-    height: auto !important;
-    line-height: 1em !important;
-    text-indent: 0 !important;
-  }
-  .calendar-history-day-overlay {
-    z-index: 10000000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
-  .calendar-history-item.focused {
-    background-color: #9fe04c !important;
-  }
 }
 @media screen and (max-width: 360px) {
   .leave-time-inputs {
