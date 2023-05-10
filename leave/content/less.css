@@ -10475,6 +10475,7 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
     padding: 8px;
     text-indent: 0;
     background-color: rgba(102, 102, 102, 0.8);
+    color: #fff;
   }
   .calendar-history-day > div {
     position: relative;
