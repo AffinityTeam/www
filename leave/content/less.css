@@ -10501,7 +10501,7 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
     right: 0;
   }
   .calendar-history-item.focused {
-    background-color: #9fe04c !important;
+    border: 2px solid #9fe04c !important;
   }
 }
 @media screen and (max-width: 360px) {
