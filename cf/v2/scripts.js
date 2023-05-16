@@ -7219,10 +7219,10 @@
       if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply();
       if (Affinity2018.hasOwnProperty('Calendars')) Affinity2018.Calendars.Apply();
 
+      console.clear();
+
       Affinity2018.HidePageLoader();
       Affinity2018.UiReady = true;
-
-      console.clear();
 
       window.dispatchEvent(new Event('MainInit'));
     }
@@ -7846,14 +7846,42 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Name: 'Pay Point',
         OnlyInForm: false
       },
-      'TAX_CODE': {
-        Name: 'Tax Code',
-        OnlyInForm: false
-      },
       'AWARD_ID ': {
         Name: 'Award ID',
         OnlyInForm: true
+      },
+      'TAX_CODE': {
+        Name: 'Tax Code',
+        OnlyInForm: false
       }
+      //'TAX_NUMBER': {
+      //  Name: 'Tax Number',
+      //  OnlyInForm: false
+      //},
+      //'BAL_ACCT': {
+      //  Name: 'Balance Account',
+      //  OnlyInForm: false
+      //},
+      //'ACCT1': {
+      //  Name: 'Account 1',
+      //  OnlyInForm: false
+      //},
+      //'ACCT2': {
+      //  Name: 'Account 2',
+      //  OnlyInForm: false
+      //},
+      //'ACCT3': {
+      //  Name: 'Account 3',
+      //  OnlyInForm: false
+      //},
+      //'ACCT4': {
+      //  Name: 'Account 4',
+      //  OnlyInForm: false
+      //},
+      //'ACCT5': {
+      //  Name: 'Account 5',
+      //  OnlyInForm: false
+      //}
     };
     // Consider this: If we do not know the user or form country, show selects
     this.ShowCountryIfUnknown = true;
@@ -21179,9 +21207,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-banknumber');
-      var inputWidget = inputNode.widgets.BankNumber;
-      this.FormData.Value = inputWidget.GetData();
-
+      var inputWidget = inputNode ? inputNode.widgets.BankNumber : null;
+      if (inputWidget)
+      {
+        this.FormData.Value = inputWidget.GetData();
+      }
+      else
+      {
+        if (this.Config.Details.hasOwnProperty('AffinityField'))
+        {
+          console.warn('tried to read from {0} ({1}) when it is not yet rendered.'.format(this.Config.Details.Label, this.Config.Details.AffinityField.FieldName));
+        }
+        else
+        {
+          console.warn('tried to read from {0} when it is not yet rendered.'.format(this.Config.Details.Label));
+        }
+      }
       return this.FormData;
     }
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
@@ -27798,10 +27839,24 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
-      var inputWidget = inputNode.widgets.TaxNumber;
-      var value = inputWidget.GetData();
-      if ($a.isArray(value)) value[0] = value[0].replace(/\-/g, '').trim()
-      this.FormData.Value = value;
+      var inputWidget = inputNode ? inputNode.widgets.TaxNumber : null;
+      if (inputWidget)
+      {
+        var value = inputWidget.GetData();
+        if ($a.isArray(value)) value[0] = value[0].replace(/\-/g, '').trim();
+        this.FormData.Value = value;
+      }
+      else
+      {
+        if (this.Config.Details.hasOwnProperty('AffinityField'))
+        {
+          console.warn('tried to read from {0} ({1}) when it is not yet rendered.'.format(this.Config.Details.Label, this.Config.Details.AffinityField.FieldName));
+        }
+        else
+        {
+          console.warn('tried to read from {0} when it is not yet rendered.'.format(this.Config.Details.Label));
+        }
+      }
 
       return this.FormData;
     }
