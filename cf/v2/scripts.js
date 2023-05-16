@@ -7890,6 +7890,28 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    A basic enum and status property to indicate a seelcted Employee Profile XHR load status.
+    * @type {Object}
+    * @public
+    */
+    this.ProfileStatusEnum = {
+      Null: 0,
+      Loading: 1,
+      Complete: 2,
+      Error: 3
+    };
+    this.ProfileStatusCode = {
+      0: 'Null',
+      1: 'Loading',
+      2: 'Complete',
+      3: 'Error'
+    };
+    this.ProfileStatus = this.ProfileStatusEnum.Null;
+
+
+
+
+    /**
     * Description.    Default configuration. Updated by designer.js via constructor parameter.
     * @type {Object}
     * @public
@@ -9335,6 +9357,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Country: ''
       };
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
+      this.ProfileStatus = this.ProfileStatusEnum.Null;
       return;
     }
 
@@ -9351,6 +9374,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     else
     {
       this._gotEmployeeDataError('Failed to get API');
+      this.ProfileStatus = this.ProfileStatusEnum.Error;
       return;
     }
 
@@ -9364,9 +9388,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         try
         {
           var profile = JSON.parse(profileStr);
-          if (profile.hasOwnProperty('CompanyNumber') && profile.hasOwnProperty('EmployeeNo'))
+          if (profile.hasOwnProperty('CompanyNumber') && profile.hasOwnProperty('EmployeeNumber') && profile.EmployeeNumber.toString().trim() == employeeNo.toString().trim())
           {
             Affinity2018.FormProfile = profile;
+            this.ProfileStatus = this.ProfileStatusEnum.Complete;
             window.dispatchEvent(new CustomEvent('GotEmployeeData'));
             return;
           }
@@ -9379,6 +9404,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
 
     Affinity2018.ShowPageLoader();
+
+    this.ProfileStatus = this.ProfileStatusEnum.Loading;
 
     window.addEventListener('GotEmployee', this._gotEmployeeData);
     axios({
@@ -9422,10 +9449,12 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
       if ($a.toString(response.data.EmployeeNumber) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
+      this.ProfileStatus = this.ProfileStatusEnum.Complete;
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
     }
     else
     {
+      this.ProfileStatus = this.ProfileStatusEnum.Error;
       this._gotEmployeeDataError('Failed to get data from response');
     }
 
@@ -9440,6 +9469,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    */
   _gotEmployeeDataError(subError)
   {
+    this.ProfileStatus = this.ProfileStatusEnum.Error;
+
     var error = 'Could not get employee user data. ' + subError + '. CleverForms Default failed.';
     Affinity2018.LogError('Bootstrap Error', 'critical', error);
     this.OnError(error);
@@ -19331,7 +19362,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       '_insertDesignerKey',
 
       '_formRowLookupChanged', '_payPointChanged',
-      '_lookupModelLoaded', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
+      '_lookupModelLoaded', '_lookupModelDispatch', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
 
     ].bindEach(this);
 
@@ -19933,7 +19964,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (displayType) this.FormRowNode.classList.add('row-' + displayType.toLowerCase().trim().replace(/ /g, '-'));
 
       if (isGlobalKey)
-      {
+      { 
         this.FormRowNode.classList.add('is-global-key');
         if (this.Config.Details.AffinityField.FieldName === "EMPLOYEE_NO")
         {
@@ -20582,11 +20613,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _lookupModelLoaded(data)
   { 
+    this.ModelData = data;
+    if (this.CleverForms.ProfileStatus === this.CleverForms.ProfileStatusEnum.Loading)
+    {
+      window.removeEventListener('GotEmployeeData', this._lookupModelDispatch);
+      window.addEventListener('GotEmployeeData', this._lookupModelDispatch);
+    }
+    else
+    {
+      this._lookupModelDispatch();
+    }
+  }
+
+  _lookupModelDispatch()
+  {
     var event = new CustomEvent('ModelLookupChanged', {
       detail: {
         FieldKey: this.FormRowNode.querySelector('select').value,
         Model: this.Config.Details.AffinityField.ModelName,
-        Data: data
+        Data: this.ModelData
       }
     });
     $a.HidePageLoader();
@@ -20618,20 +20663,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var data = ev.detail.Data;
     var key = ev.detail.FieldKey;
     var checkValue = null;
+    var to = null;
+    var from = this.ElementController.GetFromFormRow();
+    if ($a.isObject(from) && from.hasOwnProperty('Value')) from = from.Value;
+    if (!$a.isString(from) && isNaN(parseInt(from))) from = JSON.stringify(from);
     if (this.Config.Details.AffinityField.ModelName === model && Object.keys(data).contains(this.Config.Name))
     {
       if (data[this.Config.Name] !== null)
       {
+        to = data[this.Config.Name];
+        if ($a.isObject(to) && to.hasOwnProperty('Value')) to = to.Value;
+        if (!$a.isString(to) && isNaN(parseInt(to))) to = JSON.stringify(to);
         color = '#8dca35';
-        messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) to "{Value}"';
+        messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) from "{From}" to "{To}"';
         messgae = messageStr.format({
           Label: this.Config.Details.Label,
           FieldName: this.Config.Details.AffinityField.FieldName,
           Type: this.ElementControllerType,
-          Value: data[this.Config.Name]
+          From: from,
+          To: to
         });
-        console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        console.log(data);
+        //console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
+        //console.log(data);
+        console.log('%c' + messgae, 'color:' + color + ';font-weight:bold;');
         this.ElementController.SetFromValue(data[this.Config.Name]);
 
         checkValue = data[this.Config.Name];
@@ -20656,15 +20710,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           FieldName: this.Config.Details.AffinityField.FieldName,
           Type: this.ElementControllerType
         });
-        console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        console.log(data);
+        //console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
+        //console.log(data);
+        console.log('%c' + messgae, 'color:' + color + ';font-weight:bold;');
+
         if (key === '') this.ElementController.SetFromValue('');
         else this.ElementController.SetFromValue('');
 
         checkValue = '';
 
       }
-      console.groupEnd();
+      //console.groupEnd();
 
       if (checkValue !== null) this._checkCountrySensative(checkValue);
 
@@ -32568,14 +32624,14 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     if (value.trim() === '')
     {
       this._clear();
-      this._setupCountry();
       this.SetCountry(countryCode);
+      this._setupCountry();
     }
     else
     {
       this.initInputNode.value = value;
-      this._setupCountry();
       this.SetCountry(countryCode);
+      this._setupCountry();
       this._stringToNodes();
       this._validate();
     }
