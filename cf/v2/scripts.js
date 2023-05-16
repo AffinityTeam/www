@@ -20061,12 +20061,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           {
             this.FormRowNode.appendChild(this.CountryWarningNode);
             if (this.FormRowNode.querySelector('select')) this.FormRowNode.querySelector('select').removeEventListener('ready', inserter);
+
+            this._checkCountrySensative(this.Config.Details.Value);
+
           }.bind(this);
           this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
         }
       }
 
-      this._checkCountrySensative(this.Config.Details.Value);
+      
 
       return this.FormRowNode;
     }
@@ -21148,6 +21151,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
   {
     var fromFormCountry = false;
     var countryCode = this.DefaultCountryCode;
+
     if (
       Affinity2018.hasOwnProperty('FormProfile')
       && Affinity2018.FormProfile.hasOwnProperty('Country')
@@ -32697,6 +32701,10 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       {
         defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
       }
+      if (Affinity2018.hasOwnProperty('FormCountry') && !$a.isNullOrEmpty(Affinity2018.FormCountry))
+      {
+        defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormCountry);
+      }
       this.SetCountry(defaultCountry);
     }
   }
@@ -32718,8 +32726,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     parts = str.split('-');
 
     var countryCode = this._getCountryCode();
-    if (parts.length === 3) countryCode = 'A';
-    if (parts.length === 4) countryCode = 'N';
+    //if (parts.length === 3) countryCode = 'A';
+    //if (parts.length === 4) countryCode = 'N';
     //this.SetCountry(countryCode);
 
     switch(countryCode)
@@ -32745,7 +32753,16 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       case 'N':
       case 'NZ':
       default:
-        if (parts.length === 4)
+        if (parts.length === 3)
+        {
+          // this is NOT a NZ bank number ..
+          this.inputBankNode.value = parts[0];
+          this.inputBranchkNode.value = parts[1];
+          this.inputAccountNode.value = parts[2];
+          this.inputSuffixNode.value = '';
+          console.warn('Trying to enforce an AU formatted bank number {0} to a NZ banknumber field format'.format(str));
+        }
+        else if (parts.length === 4)
         {
           this._clear();
           this.inputBankNode.value = parts[0].length > 2 ? parts[0].substring(0, 2) : parts[0];
@@ -41212,6 +41229,10 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       )
       {
         defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormProfile.Country);
+      }
+      if (Affinity2018.hasOwnProperty('FormCountry') && !$a.isNullOrEmpty(Affinity2018.FormCountry))
+      {
+        defaultCountry = this.CleverForms.GetCountryCodeVariant(Affinity2018.FormCountry);
       }
       this.SetCountry(defaultCountry);
     }
