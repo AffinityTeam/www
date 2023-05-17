@@ -1,3 +1,33 @@
+/* Minification failed. Returning unminified contents.
+(5398,71-72): run-time error JS1195: Expected expression: >
+(5398,98-99): run-time error JS1004: Expected ';': )
+(5400,87-88): run-time error JS1195: Expected expression: >
+(5400,129-130): run-time error JS1004: Expected ';': )
+(5405,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5410,13-14): run-time error JS1002: Syntax error: }
+(5412,34-35): run-time error JS1004: Expected ';': {
+(5416,9-10): run-time error JS1002: Syntax error: }
+(5419,25-26): run-time error JS1004: Expected ';': {
+(5570,5-6): run-time error JS1002: Syntax error: }
+(5571,45-46): run-time error JS1004: Expected ';': {
+(5590,6-7): run-time error JS1195: Expected expression: ,
+(5591,63-64): run-time error JS1004: Expected ';': {
+(5597,6-7): run-time error JS1195: Expected expression: ,
+(5598,26-27): run-time error JS1195: Expected expression: )
+(5598,28-29): run-time error JS1004: Expected ';': {
+(5672,6-7): run-time error JS1195: Expected expression: ,
+(5674,22-23): run-time error JS1195: Expected expression: )
+(5674,24-25): run-time error JS1004: Expected ';': {
+(5697,6-7): run-time error JS1195: Expected expression: ,
+(5699,24-25): run-time error JS1195: Expected expression: )
+(5699,26-27): run-time error JS1004: Expected ';': {
+(5758,6-7): run-time error JS1195: Expected expression: ,
+(5596,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5486,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5505,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5441,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5414,17-23): run-time error JS1018: 'return' statement outside of function: return
+ */
 var Leave = new Class({
 
     Implements: [Options, Events],
@@ -1011,7 +1041,7 @@ var Leave = new Class({
             noClose: false
         });
     }
-});
+});;
 var UILeaveHistory = new Class({
 
     Implements: [Options, Events],
@@ -2008,7 +2038,7 @@ var UILeaveHistory = new Class({
         }.bind(this));
     }
 });
-
+;
 var UILeaveApply = new Class({
     Implements: [Options, Events],
 
@@ -5757,7 +5787,7 @@ var UILeaveApply = new Class({
         );
     },
 });
-
+;
 var UILeaveApplyV1 = new Class({
     Implements: [Options, Events],
 
@@ -9257,7 +9287,7 @@ var UILeaveApplyV1 = new Class({
         );
     },
 });
-
+;
 var UILeaveDetail = new Class({
 
     Implements: [Options, Events],
@@ -9682,7 +9712,7 @@ var UILeaveDetail = new Class({
 
             this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.managerCommentsAreaRow2Column2);
 
-            this.managerCommentEdit = new InputEditWidget({
+            this.managerCommentEdit = new InputEditWidgetLeaveDays({
                 target: this.managerCommentsAreaRow2Column2,
                 input: this.managerCommentBox,
                 doOnSelect: function () {
@@ -11340,7 +11370,7 @@ var UILeaveDetail = new Class({
         var app = this;
 
 
-        this.leavePeriodDaysContainerEdit = new InputEditWidget({
+        this.leavePeriodDaysContainerEdit = new InputEditWidgetLeaveDays({
             target: app.leavePeriodDaysBox,
             input: app.leavePeriodDaysContainer,
             doOnSelect: function () {
@@ -11380,7 +11410,7 @@ var UILeaveDetail = new Class({
                 var leaveModel = app.createLeaveModel(app.data);
                 app.createDaysFields(leaveModel, null);
                 app.enableButtonsAfterInputEditIsProcessed();
-            }.bind(this)
+            }.bind(this),
         });
 
 
@@ -11430,7 +11460,7 @@ var UILeaveDetail = new Class({
                 this.commentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.commentsAreaRow2Column2);
                 this.commentBox.set('html', this.data.LeaveHeader.Comment);
 
-                this.commentEdit = new InputEditWidget({
+                this.commentEdit = new InputEditWidgetLeaveDays({
                     target: this.commentsAreaRow2Column2,
                     input: this.commentBox,
                     doOnSelect: function () {
@@ -11467,7 +11497,7 @@ var UILeaveDetail = new Class({
                 this.partDayReason = new Element('textarea', { 'class': 'leave-detail-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
                 this.partDayReason.set('html', this.data.LeaveHeader.PartDayReason);
 
-                this.partDayReasonEdit = new InputEditWidget({
+                this.partDayReasonEdit = new InputEditWidgetLeaveDays({
                     target: this.leavePeriodRequestPartDayInputColumn2,
                     input: this.partDayReason,
                     doOnSelect: function () {
@@ -12696,7 +12726,7 @@ var UILeaveDetail = new Class({
         Affinity.modal.show();
     },
 });
-
+;
 var UILeaveDetailV1 = new Class({
 
     Implements: [Options, Events],
@@ -14369,7 +14399,7 @@ var UILeaveDetailV1 = new Class({
         }.bind(this));
     },
     doLeaveCancellation: function () {
-        this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, this.data.LeaveHeader.statusCode,
+        this.submitLeave(this.data.LeaveHeader.TSGroupId, 6, this.data.LeaveHeader.StatusCode,
             function (response) {
                 if (response.Data !== null) {
                     if (response.Data.LeaveHeader.StatusCode == 6) {
@@ -16229,7 +16259,7 @@ var UILeaveDetailV1 = new Class({
         }.bind(this));
     }
 });
-
+;
 var UIEmployeeLeaveBalances = new Class({
     Implements: [Options, Events],
     Binds: [
@@ -17106,7 +17136,7 @@ if (!Element.prototype.closest) {
         return null;
     };
 }
-
+;
 var InputEditWidget = new Class({
 
     Implements: [Options, Events],
@@ -17248,4 +17278,149 @@ var InputEditWidget = new Class({
             this.saveInputEdit.addClass('disabled');
         }
     }
-});
+});;
+var InputEditWidgetLeaveDays = new Class({
+
+    Implements: [Options, Events],
+
+    Binds: [
+        'attachToInput',
+        'select',
+        'deselect',
+        'enableSave',
+        'disableSave'
+    ],
+
+    options: {
+        target: null,
+        input: null,
+        updateInput: null,
+        cancelInput: null,
+        useEditInputButtonStyling: null,
+    },
+
+    initialize: function (options) {
+        this.setOptions(options);
+        this.target = this.options.target;
+        this.input = this.options.input;
+        this.updateInput = this.options.updateInput;
+        this.cancelInput = this.options.cancelInput;
+        this.selected = false;
+        this.delayDeselectTimeout = null;
+        this.useEditInputButtonStyling = this.options.useEditInputButtonStyling;
+
+        /**/
+
+        if (this.input) {
+            this.attachToInput(this.input);
+        }
+        
+        this.inputEditButtons = new Element('div').inject(this.target);
+        
+
+        this.saveInputEdit = new Element('span', {
+            'class': 'button green w-icon-only ui-has-tooltip',
+            'data-tooltip': 'Save',
+            'data-tooltip-dir': 'bottom'
+        })
+            .adopt(new Element('span', { 'html': Affinity.icons.Save }))
+            .inject(this.inputEditButtons);
+
+        this.saveInputEdit.addEvent('click', function () {
+            this.updateInput();
+            (function () { this.target.removeClass('selected'); }).delay(500, this);
+            this.inputEditButtons.dissolve();
+            this.selected = false;
+        }.bind(this));
+
+        this.cancelInputEdit = new Element('span', {
+            'class': 'button grey w-icon-only ui-has-tooltip',
+            'data-tooltip': 'Cancel',
+            'data-tooltip-dir': 'bottom'
+        }).adopt(
+                new Element('span', { 'html': Affinity.icons.Cancel })
+            ).inject(this.inputEditButtons);
+        this.cancelInputEdit.addEvent('click', function () {          
+            this.inputEditButtons.dissolve();
+            (function () { this.target.removeClass('selected'); }).delay(500, this);
+            this.cancelInput();
+            this.selected = false;
+            this.enableSave();
+        }.bind(this));
+        this.inputEditButtons.hide();
+    },
+
+    attachToInput: function(input) {
+        if (input) {
+            if (this.input) {
+                this.input.removeEvents();
+            }
+
+            this.input = input;
+            this.input.addEvent('focusin', function (e) {
+                this.select(e);
+            }.bind(this));
+            this.input.addEvent('focusout', function (e) {
+                this.deselect(e);
+            }.bind(this));
+        }
+    },
+
+    select: function () {
+        this.inInput = true;
+
+        if (!this.selected) {
+            this.selected = true;
+            (function () {
+                if (this.delayDeselectTimeout) {
+                    clearTimeout(this.delayDeselectTimeout);
+                }
+                this.target.addClass('selected');
+                this.inputEditButtons.setStyle('top', (this.target.getSize().y - 4) + 'px');
+                this.inputEditButtons.reveal();
+            }.bind(this)).delay(250, this);
+        }
+    },
+
+    deselect: function (e) {
+        this.inInput = false;
+        //Realign buttons incase something has resized.
+        this.inputEditButtons.setStyle('top', (this.target.getSize().y - 4) + 'px');
+
+        if (this.delayFocusoutTimeout) {
+            clearTimeout(this.delayFocusoutTimeout);
+        }
+
+        this.delayFocusoutTimeout = (function () {
+            if (this.selected && !this.inInput) {
+                if (this.saveInputEdit.get('disabled')) {
+                    (function () {
+                        e.target.focus();
+                    })();
+                }
+                else {
+                    this.delayDeselectTimeout = (function () {
+                        this.target.removeClass('selected');
+                    }.bind(this)).delay(500, this);
+                    this.inputEditButtons.dissolve();
+                    this.selected = false;
+                    this.updateInput();
+                }
+            }
+        }).delay(250, this);
+    },
+
+    enableSave: function () {
+        if (this.saveInputEdit) {
+            this.saveInputEdit.set('disabled', null);
+            this.saveInputEdit.removeClass('disabled');
+        }
+    },
+
+    disableSave: function () {
+        if (this.saveInputEdit) {
+            this.saveInputEdit.set('disabled', 'disabled');
+            this.saveInputEdit.addClass('disabled');
+        }
+    }
+});;
