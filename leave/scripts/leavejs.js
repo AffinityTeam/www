@@ -22,6 +22,23 @@
 (5699,24-25): run-time error JS1195: Expected expression: )
 (5699,26-27): run-time error JS1004: Expected ';': {
 (5758,6-7): run-time error JS1195: Expected expression: ,
+(10429,52-53): run-time error JS1195: Expected expression: .
+(10441,5-6): run-time error JS1002: Syntax error: }
+(10442,46-47): run-time error JS1004: Expected ';': {
+(10477,6-7): run-time error JS1195: Expected expression: ,
+(10478,42-43): run-time error JS1004: Expected ';': {
+(10500,6-7): run-time error JS1195: Expected expression: ,
+(10501,43-44): run-time error JS1004: Expected ';': {
+(10513,6-7): run-time error JS1195: Expected expression: ,
+(10514,81-82): run-time error JS1004: Expected ';': {
+(10531,6-7): run-time error JS1195: Expected expression: ,
+(10532,54-55): run-time error JS1004: Expected ';': {
+(10558,6-7): run-time error JS1195: Expected expression: ,
+(10559,49-50): run-time error JS1004: Expected ';': {
+(10629,6-7): run-time error JS1195: Expected expression: ,
+(10630,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10440,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10434,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5596,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5486,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5505,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -1213,7 +1230,7 @@ var UILeaveHistory = new Class({
                 
             }.bind(this));
             
-            var multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
+            var multiPositionCompanies = [2593, 6593, 5203, 9593];
             if (multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) > 0) { //multi position comps only
                 this.panelShares.hide();
             }
@@ -3363,7 +3380,7 @@ var UILeaveApply = new Class({
         this.typeSelector.addEvent('change', function () {
             this.typeSelectorChanged();
         }.bind(this));
-        var multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
+        var multiPositionCompanies = [2593, 6593, 5203, 9593];
         if (multiPositionCompanies.indexOf(Affinity.login.profile.companyNumber) < 0) { //non-multi position comps only
 
             this.label = new Element('br').inject(this.type);
@@ -6765,7 +6782,7 @@ var UILeaveApplyV1 = new Class({
                 this.typeSelectorChanged();
             }.bind(this)
         );
-        var multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
+        var multiPositionCompanies = [2593, 6593, 5203, 9593];
         if (
             multiPositionCompanies.indexOf(
                 Affinity.login.profile.companyNumber
@@ -9681,7 +9698,8 @@ var UILeaveDetail = new Class({
             'class': 'leave-detail-group-column-label'
         }).inject(this.commentsAreaRow1Column2);
 
-        this.commentsAreaRow2 = new Element('div', { 'class': 'form-row leave-detail-group-row', attr: 'comments-area-row2' }).inject(container);
+        this.commentsAreaRow2Container = new Element('div').inject(container);
+        this.commentsAreaRow2 = new Element('div', { 'class': 'form-row leave-detail-group-row', attr: 'comments-area-row2' }).inject(this.commentsAreaRow2Container);
         this.commentsAreaRow2Column2 = this.createElementBigLabelContainer(this.commentsAreaRow2);
 
         this.commentBox = new Element('div', { class: 'margin-top-10' }).inject(this.commentsAreaRow2Column2);
@@ -9692,18 +9710,13 @@ var UILeaveDetail = new Class({
             this.managerCommentsAreaRow1 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
             this.managerCommentsAreaRow2 = this.createElementLeaveDetailGroupRow(container); //new Element('div', { 'class': 'leave-detail-group-row' }).inject(container);
 
-            // this.managerCommentsAreaRow1Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow1); // new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow1);
             this.managerCommentsAreaRow1Column1 = new Element('div', { 'class': 'leave-detail-group-row', attr: 'manager-comment-area' }).inject(this.managerCommentsAreaRow1);
-            // this.managerCommentsAreaRow1Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1, true); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
             this.managerCommentsAreaRow1Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
 
             this.managerCommentsAreaRow1Column3 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow1); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow1);
 
-            // this.managerCommentsAreaRow2Column1 = this.createElementLeaveDetailBlankColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-blank-container' }).inject(this.managerCommentsAreaRow2);
-            // this.managerCommentsAreaRow2Column2 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2, true); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
-            this.managerCommentsAreaRow2Column2 = new Element('div', { 'class': 'form-row leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
-
-            this.managerCommentsAreaRow2Column3 = this.createElementLeaveDetailColumnContainer(this.managerCommentsAreaRow2); //new Element('span', { 'class': 'leave-detail-group-column-container' }).inject(this.managerCommentsAreaRow2);
+            this.managerCommentsAreaRow2Column2Container = new Element('div', { 'id': 'managerCommentsAreaRow2Column2Container' }).inject(this.managerCommentsAreaRow2);
+            this.managerCommentsAreaRow2Column2 = new Element('div', { 'class': 'form-row', 'style': 'display:inline-block;' }).inject(this.managerCommentsAreaRow2Column2Container);
 
             new Element('label', {
                 'html': 'Manager Comments',
@@ -9713,7 +9726,7 @@ var UILeaveDetail = new Class({
             this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.managerCommentsAreaRow2Column2);
 
             this.managerCommentEdit = new InputEditWidgetLeaveDays({
-                target: this.managerCommentsAreaRow2Column2,
+                target: this.managerCommentsAreaRow2Column2Container,
                 input: this.managerCommentBox,
                 doOnSelect: function () {
                     this.disableButtonsWhileInputEditIsProcessing();
@@ -9941,8 +9954,11 @@ var UILeaveDetail = new Class({
     },
     createLeavePeriodGroup: function (form) {
         this.leavePeriodGroup = new Element('div', { 'class': 'leave-detail-group margin-top-20' }).inject(form);
-        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row', 'style':'margin: 35px 0 35px 0 !important' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row', 'style': 'margin: 35px 0 35px 0 !important' }).inject(this.leavePeriodGroup);
+
+        this.leavePeriodGroupRow3Container = new Element('div', { 'id': 'leavePeriodGroupRow3Container' }).inject(this.leavePeriodGroup);
+        this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row', 'id': 'leavePeriodGroupRow3' }).inject(this.leavePeriodGroupRow3Container);
+
         this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row', attr: 'period-row-5' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow6 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
 
@@ -9962,7 +9978,8 @@ var UILeaveDetail = new Class({
         this.leavPeriodRequestPartDayLabelColumn2 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow5);
         this.leavPeriodRequestPartDayLabelColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow5);
 
-        this.leavePeriodRequestPartDayInputColumn2 = this.createElementBigLabelContainer(this.leavePeriodGroupRow6);
+        this.leavePeriodRequestPartDayInputColumn2Container = new Element('div', { 'id': 'leavePeriodRequestPartDayInputColumn2Container' }).inject(this.leavePeriodGroupRow6);
+        this.leavePeriodRequestPartDayInputColumn2 = this.createElementBigLabelContainer(this.leavePeriodRequestPartDayInputColumn2Container);
         this.leavePeriodRequestPartDayInputColumn3 = this.createElementLeaveDetailColumnContainer(this.leavePeriodGroupRow6);
 
         this.leavePeriodRequestPartDayLabel = new Element('label', {
@@ -10292,9 +10309,24 @@ var UILeaveDetail = new Class({
         this.leaveUnitsRequest.url = this.leaveUnitsRequest.options.url = this._api;
         this.leaveUnitsRequest.send();
     },
+    sortObjectArray: function (arrayOfObjects, sortBy) {
+        arrayOfObjects.sort(function (value1, value2) {
+
+            if (value1[sortBy] < value2[sortBy]) {
+                return -1;
+            }
+            if (value1[sortBy] > value2[sortBy]) {
+                return 1;
+            }
+            return 0;
+        });
+
+        return arrayOfObjects;
+    },
     createDaysFields: function (leave, currentEditedLeaveInstance) {
 
         if (leave.Days.length > 0) {
+            leave.Days = this.sortObjectArray(leave.Days, "Date");
 
             if (this.leavePeriodDaysContainer !== undefined) {
                 this.leavePeriodDaysContainer.destroy();
@@ -10441,15 +10473,17 @@ var UILeaveDetail = new Class({
         }
     },
     checkIfLeaveCanEditByDays: function (leave) {
-        var leaveCodeConfigs = this.employeeConfig.LeaveCodes;
-        for (var i = 0; i < leaveCodeConfigs.length; i++) {
-            var leaveConfig = leaveCodeConfigs[i];
-            if (leaveConfig.LeaveCode === leave.LeaveCode.toString()) {
-                return leaveConfig.CanEditByDays;
-                break;
+        var leaveCodeConfigs = this.employeeConfig?.LeaveCodes;
+        if (leaveCodeConfigs !== undefined) {
+            for (var i = 0; i < leaveCodeConfigs.length; i++) {
+                var leaveConfig = leaveCodeConfigs[i];
+                if (leaveConfig.LeaveCode === leave.LeaveCode.toString()) {
+                    return leaveConfig.CanEditByDays;
+                    break;
+                }
             }
         }
-
+       
         return false;
     },
     setLeaveValues: function (leave, config) {
@@ -10973,7 +11007,7 @@ var UILeaveDetail = new Class({
                 var vm = this;
                 var customResponse = function (response) {
                     if (response != null &&
-                        response.Response === 'Leave cancellation has been requested') {
+                        response.Response === 'Leave Cancellation Requested') {
                         vm.acknowledgementModal(response);
                     } else {
 
@@ -10988,9 +11022,19 @@ var UILeaveDetail = new Class({
                 }
 
                 this.partialApproved = false; //need to figure out what is this for?
+      
+                var cancelLeaveEvent = new CustomEvent('cancelLeaveEvent');
+                ;
+                document.addEventListener('cancelLeaveEvent', function () {
+                    var customErrorHandler = function (responseObject, vm) {
+                        vm.handleValidationErrors(responseObject, "Reason");
+                    }
+
+                    vm.updateLeave2(6, customResponse, customErrorHandler, vm);
+                });
 
                 var validationResponse = function (data) {
-                    if (!this.isManager && leave.StatusCode == 3) {
+                    if (!this.isManager && leave.StatusCode === 3) {
                         uialert({
                             message: 'Approved/paid leave must first be cancelled before you can update it. Continue?',
                             showButtons: true,
@@ -10998,7 +11042,12 @@ var UILeaveDetail = new Class({
                             okText: "Yes",
                             cancelText: 'No',
                             onOk: function () {
-                                this.updateLeave2(6, customResponse, null, vm);
+                                prompts.hide();
+                                setTimeout(() => {
+                                    document.dispatchEvent(cancelLeaveEvent);
+                                },200);
+                                
+                                //this.updateLeave2(6, customResponse, null, vm);
                             }.bind(this),
                             onCancel: function () {
                             }
@@ -11051,7 +11100,12 @@ var UILeaveDetail = new Class({
                             vm.acknowledgementModal(response)
                             Affinity.leave.employee.refreshAll();
                         };
-                        this.updateLeave2(0, customResponse, null, vm);
+
+                        var customErrorHandler = function (responseObject, vm) {
+                            vm.handleValidationErrors(responseObject, "");
+                        }
+
+                        this.updateLeave2(0, customResponse, customErrorHandler, vm);
                     } else {
                         this.displayAttachmentRequiredModalMessage();
                     }
@@ -11371,7 +11425,7 @@ var UILeaveDetail = new Class({
 
 
         this.leavePeriodDaysContainerEdit = new InputEditWidgetLeaveDays({
-            target: app.leavePeriodDaysBox,
+            target: app.leavePeriodGroupRow3Container,
             input: app.leavePeriodDaysContainer,
             doOnSelect: function () {
                 this.disableButtonsWhileInputEditIsProcessing();
@@ -11461,7 +11515,7 @@ var UILeaveDetail = new Class({
                 this.commentBox.set('html', this.data.LeaveHeader.Comment);
 
                 this.commentEdit = new InputEditWidgetLeaveDays({
-                    target: this.commentsAreaRow2Column2,
+                    target: this.commentsAreaRow2Container,
                     input: this.commentBox,
                     doOnSelect: function () {
                         this.disableButtonsWhileInputEditIsProcessing();
@@ -11498,7 +11552,7 @@ var UILeaveDetail = new Class({
                 this.partDayReason.set('html', this.data.LeaveHeader.PartDayReason);
 
                 this.partDayReasonEdit = new InputEditWidgetLeaveDays({
-                    target: this.leavePeriodRequestPartDayInputColumn2,
+                    target: this.leavePeriodRequestPartDayInputColumn2Container,
                     input: this.partDayReason,
                     doOnSelect: function () {
                         this.disableButtonsWhileInputEditIsProcessing();
@@ -16284,7 +16338,7 @@ var UIEmployeeLeaveBalances = new Class({
             this.title = new Element('div', { 'class': 'section-title', 'html': 'Estimated Leave' }).inject(this.form);
             this.panels = new Element('div', { 'class': 'leave-info-panels' }).inject(this.form);
             this.employeeNumber = Affinity.login.profile.employeeNumber;
-            this.multiPositionCompanies = [2593, 6593, 5000, 5111, 9593];
+            this.multiPositionCompanies = [2593, 6593, 5203, 9593];
 
         }
         this.employeeBalanceRequest = new Request.JSON({
@@ -17296,7 +17350,6 @@ var InputEditWidgetLeaveDays = new Class({
         input: null,
         updateInput: null,
         cancelInput: null,
-        useEditInputButtonStyling: null,
     },
 
     initialize: function (options) {
@@ -17307,17 +17360,15 @@ var InputEditWidgetLeaveDays = new Class({
         this.cancelInput = this.options.cancelInput;
         this.selected = false;
         this.delayDeselectTimeout = null;
-        this.useEditInputButtonStyling = this.options.useEditInputButtonStyling;
 
         /**/
 
         if (this.input) {
             this.attachToInput(this.input);
         }
+               
+        this.inputEditButtons = new Element('div', { 'class': 'edit-input-leavedays-buttons' }).inject(this.target, 'after');
         
-        this.inputEditButtons = new Element('div').inject(this.target);
-        
-
         this.saveInputEdit = new Element('span', {
             'class': 'button green w-icon-only ui-has-tooltip',
             'data-tooltip': 'Save',
