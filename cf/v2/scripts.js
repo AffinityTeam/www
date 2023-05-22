@@ -27144,6 +27144,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
+
+            
+
             selectConfig.Value = this.Config.Details.Value;
             select.dataset.defaultValue = this.Config.Details.Value;
           }
@@ -27207,8 +27210,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
-            selectConfig.Value = this.Config.Details.Value;
-            select.dataset.defaultValue = this.Config.Details.Value;
+            var codeValue = this.Config.Details.Value.contains(',') && this.Config.Details.Value.split(',')[0].length < this.Config.Details.Value.split(',')[1].length ? this.Config.Details.Value.split(',')[0].trim() : this.Config.Details.Value;
+            selectConfig.Value = codeValue;
+            select.dataset.defaultValue = codeValue;
           }
           select.dataset.config = JSON.stringify(selectConfig);
 
@@ -30069,6 +30073,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   filterList(match, defaultValue)
   {
     if (defaultValue === undefined) defaultValue = this.targetNode.dataset.defaultValue || this.targetNode.value;
+    //if (defaultValue.contains(',')) defaultValue = defaultValue.split(',')[0];
     var encodedDefaultValue = this._encodeValue(defaultValue);
     this.filter = match;
     this.workerComplete = false;
@@ -30397,6 +30402,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       if (this.iconNode) this.iconNode.classList.add('working');
 
       var defaultValue = this.targetNode.dataset.defaultValue || this.targetNode.value;
+      //if (defaultValue.contains(',')) defaultValue = defaultValue.split(',')[0];
       var encodedDefaultValue = this._encodeValue(defaultValue);
 
       this.workerComplete = false;
