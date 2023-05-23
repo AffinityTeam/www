@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5390,71-72): run-time error JS1195: Expected expression: >
-(5390,98-99): run-time error JS1004: Expected ';': )
-(5392,87-88): run-time error JS1195: Expected expression: >
-(5392,129-130): run-time error JS1004: Expected ';': )
-(5397,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5402,13-14): run-time error JS1002: Syntax error: }
-(5404,34-35): run-time error JS1004: Expected ';': {
-(5408,9-10): run-time error JS1002: Syntax error: }
-(5411,25-26): run-time error JS1004: Expected ';': {
-(5562,5-6): run-time error JS1002: Syntax error: }
-(5563,45-46): run-time error JS1004: Expected ';': {
-(5582,6-7): run-time error JS1195: Expected expression: ,
-(5583,63-64): run-time error JS1004: Expected ';': {
-(5589,6-7): run-time error JS1195: Expected expression: ,
-(5590,26-27): run-time error JS1195: Expected expression: )
-(5590,28-29): run-time error JS1004: Expected ';': {
-(5664,6-7): run-time error JS1195: Expected expression: ,
-(5666,22-23): run-time error JS1195: Expected expression: )
-(5666,24-25): run-time error JS1004: Expected ';': {
-(5689,6-7): run-time error JS1195: Expected expression: ,
-(5691,24-25): run-time error JS1195: Expected expression: )
-(5691,26-27): run-time error JS1004: Expected ';': {
-(5750,6-7): run-time error JS1195: Expected expression: ,
-(10421,52-53): run-time error JS1195: Expected expression: .
-(10433,5-6): run-time error JS1002: Syntax error: }
-(10434,46-47): run-time error JS1004: Expected ';': {
-(10469,6-7): run-time error JS1195: Expected expression: ,
-(10470,42-43): run-time error JS1004: Expected ';': {
-(10492,6-7): run-time error JS1195: Expected expression: ,
-(10493,43-44): run-time error JS1004: Expected ';': {
-(10505,6-7): run-time error JS1195: Expected expression: ,
-(10506,81-82): run-time error JS1004: Expected ';': {
-(10523,6-7): run-time error JS1195: Expected expression: ,
-(10524,54-55): run-time error JS1004: Expected ';': {
-(10550,6-7): run-time error JS1195: Expected expression: ,
-(10551,49-50): run-time error JS1004: Expected ';': {
-(10621,6-7): run-time error JS1195: Expected expression: ,
-(10622,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10432,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10426,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5588,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5478,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5497,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5433,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5406,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5387,71-72): run-time error JS1195: Expected expression: >
+(5387,98-99): run-time error JS1004: Expected ';': )
+(5389,87-88): run-time error JS1195: Expected expression: >
+(5389,129-130): run-time error JS1004: Expected ';': )
+(5394,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5399,13-14): run-time error JS1002: Syntax error: }
+(5401,34-35): run-time error JS1004: Expected ';': {
+(5405,9-10): run-time error JS1002: Syntax error: }
+(5408,25-26): run-time error JS1004: Expected ';': {
+(5559,5-6): run-time error JS1002: Syntax error: }
+(5560,45-46): run-time error JS1004: Expected ';': {
+(5579,6-7): run-time error JS1195: Expected expression: ,
+(5580,63-64): run-time error JS1004: Expected ';': {
+(5586,6-7): run-time error JS1195: Expected expression: ,
+(5587,26-27): run-time error JS1195: Expected expression: )
+(5587,28-29): run-time error JS1004: Expected ';': {
+(5661,6-7): run-time error JS1195: Expected expression: ,
+(5663,22-23): run-time error JS1195: Expected expression: )
+(5663,24-25): run-time error JS1004: Expected ';': {
+(5686,6-7): run-time error JS1195: Expected expression: ,
+(5688,24-25): run-time error JS1195: Expected expression: )
+(5688,26-27): run-time error JS1004: Expected ';': {
+(5747,6-7): run-time error JS1195: Expected expression: ,
+(10418,52-53): run-time error JS1195: Expected expression: .
+(10430,5-6): run-time error JS1002: Syntax error: }
+(10431,46-47): run-time error JS1004: Expected ';': {
+(10466,6-7): run-time error JS1195: Expected expression: ,
+(10467,42-43): run-time error JS1004: Expected ';': {
+(10489,6-7): run-time error JS1195: Expected expression: ,
+(10490,43-44): run-time error JS1004: Expected ';': {
+(10502,6-7): run-time error JS1195: Expected expression: ,
+(10503,81-82): run-time error JS1004: Expected ';': {
+(10520,6-7): run-time error JS1195: Expected expression: ,
+(10521,54-55): run-time error JS1004: Expected ';': {
+(10547,6-7): run-time error JS1195: Expected expression: ,
+(10548,49-50): run-time error JS1004: Expected ';': {
+(10618,6-7): run-time error JS1195: Expected expression: ,
+(10619,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10429,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10423,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5585,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5475,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5494,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5430,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5403,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -2870,7 +2870,6 @@ var UILeaveApply = new Class({
                     Affinity.leave.employee.leaveDetail.formatFields(this, this.data);
                 }
                 this.computeUnitTotals();
-
             }
         }
 
@@ -2939,18 +2938,17 @@ var UILeaveApply = new Class({
     registerFocusOutEvents: function () {
         var leaveUnits = this.data;
         var vm = this;
+
         for (var i = 0; i < leaveUnits.length; i++) {
-
-
             var hoursField = this.leavePeriodDaysContainer.getElementById('hours-' + i);
             var scheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
 
             hoursField.removeEvents();
             hoursField.addEvent('focusout', function () {
                 if (Affinity.leave.manager && this.isManager) {
-                    Affinity.leave.manager.leaveDetail.formatFields(this, this.data);
+                    Affinity.leave.manager.leaveDetail.formatFields(this, this.data, true);
                 } else {
-                    Affinity.leave.employee.leaveDetail.formatFields(this, this.data);
+                    Affinity.leave.employee.leaveDetail.formatFields(this, this.data, true);
                 }
                 this.computeUnitTotals(vm);
             }.bind(this));
@@ -2958,13 +2956,12 @@ var UILeaveApply = new Class({
             scheduledHoursField.removeEvents();
             scheduledHoursField.addEvent('focusout', function () {
                 if (Affinity.leave.manager && this.isManager) {
-                    Affinity.leave.manager.leaveDetail.formatFields(this, this.data);
+                    Affinity.leave.manager.leaveDetail.formatFields(this, this.data, true);
                 } else {
-                    Affinity.leave.employee.leaveDetail.formatFields(this, this.data);
+                    Affinity.leave.employee.leaveDetail.formatFields(this, this.data, true);
                 }
                 this.computeUnitTotals(vm);
             }.bind(this));
-
         }
     },
 
@@ -12165,8 +12162,9 @@ var UILeaveDetail = new Class({
 
         return result;
     },
-    formatFields: function (target, leaveUnits) {
+    formatFields: function (target, leaveUnits, fromLeaveApply) {
 
+        var partialDayWarningApplied = false;
         var daysFormattingRule = this.getFormattingRule("days");
         var hoursFormattingRule = this.getFormattingRule("hours");
         var scheduledHoursFormattingRule = this.getFormattingRule("scheduledHours");
@@ -12208,9 +12206,23 @@ var UILeaveDetail = new Class({
             this.applyFormattingRule(hoursField, hoursFormattingRule, ruleParams);
             this.applyFormattingRule(scheduledHoursField, scheduledHoursFormattingRule, ruleParams);
             this.applyFormattingRule(dateField, dateFormattingRule, ruleParams);
+
             this.applyWarningRule(warningField, dateFormattingRule, ruleParams);
+
+            if (warningField.get('text') === 'Partial leave day only') {
+                partialDayWarningApplied = true;
+            } 
+            
+
             this.applyHolidayIcon(dateField, ruleParams);
         }
+
+        if (partialDayWarningApplied && fromLeaveApply) {
+            target.leavePeriodDaysContainer.setStyle('width', '800px');
+        } else {
+            target.leavePeriodDaysContainer.setStyle('width', null);
+        }
+
     },
     getMaxHoursFromSelectedLeaveUnit: function (target,leaveUnit) {
         var returnValue = leaveUnit.hoursWorkSched;
@@ -12272,6 +12284,7 @@ var UILeaveDetail = new Class({
     },
 
     applyWarningRule: function (fieldElement, formattingRule, ruleParams) {
+        
         if (ruleParams.hoursValue > ruleParams.scheduledHoursValue) {
             fieldElement.set('text', 'Hours exceeds Scheduled amount')
             fieldElement.setStyle('display', 'inline-block');
@@ -12285,7 +12298,8 @@ var UILeaveDetail = new Class({
             }
 
         } else if (ruleParams.hoursValue < ruleParams.scheduledHoursValue && ruleParams.hoursValue !== 0) {
-            fieldElement.set('text', "Leave covers the day partially")
+            
+            fieldElement.set('text', "Partial leave day only")
             fieldElement.setStyle('color', 'orange');
             fieldElement.setStyle('display', 'inline-block');
             fieldElement.setStyle('width', '120px');
