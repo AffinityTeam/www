@@ -7964,6 +7964,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Description: '',
         Revision: '',
         FormCountry: '',
+        IsMultiCountry: false,
+        AvaiableCountries: [],
         Type: '',
         DashboardTemplate: false,
         UserInstructions: '',
@@ -8095,6 +8097,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     /** If Affnity2018 UI is ready, initialise, else initialise when Affnity2018 fires the "MainInit" event. */
     if (Affinity2018.UiReady) this._init();
     else window.addEventListener('MainInit', this._init);
+
+
+    console.log(config);
   }
 
 
@@ -11424,6 +11429,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
     this.DesignerSavingNode = document.querySelector('#loading-toast');
 
+    this.HasMultipleCountries = Affinity2018.Apps.CleverForms.Default.TemplateModel.IsMultiCountry;
+
     /* Add events to top details */
     this.TopNode.querySelector('input.form-name').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('input.form-instructions').addEventListener('blur', this._updateFormDetails);
@@ -13711,6 +13718,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _hasCountrySensativeFields(formCountry)
   {
+    //if (!this.HasMultipleCountries) return false;
     if (formCountry === undefined)
     {
       formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
@@ -13720,10 +13728,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     {
       var checkFeilds = this.CleverForms.CountrySensativeFieldNames;
       var hasSensativeFields = false;
-      this.TemplateData.forEach(function (sectionConfig, sectionIndex)
+      var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
+      elementNodes.forEach(function (elementNode)
       {
-        sectionConfig.Elements.forEach(function (elementConfig, elementINdex)
+        if (elementNode.hasOwnProperty('controller'))
         {
+          var elementConfig = elementNode.controller.Config;
           if (
             elementConfig.Details.hasOwnProperty('AffinityField')
             && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
@@ -13732,8 +13742,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             hasSensativeFields = true;
             return;
           }
-        });
-      });
+        }
+      }.bind(this));
       if (hasSensativeFields)
       {
         Affinity2018.Dialog.Show({
