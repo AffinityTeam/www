@@ -2794,7 +2794,7 @@
         Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
         document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
         document.body.classList.add('disable-scroll');
-        console.log('!!! LOCK background scroll');
+        //console.log('!!! LOCK background scroll');
       }
     };
 
@@ -2809,7 +2809,7 @@
         document.body.classList.remove('disable-scroll');
         document.body.removeAttribute('style');
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
-        console.log('!!! UNLOCK background scroll');
+        //console.log('!!! UNLOCK background scroll');
       }
     };
   }
@@ -6544,6 +6544,27 @@
     CheckFileApi: function ()
     {
       Affinity2018.SupportsFileApi = window.File && window.FileReader && window.FileList && window.Blob ? true : false;
+    },
+
+    /**
+     * DOMParser Check
+     * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+     */
+    CheckDOMParser: function ()
+    {
+      Affinity2018.SupportsDOMParser = (function ()
+      {
+        if (!window.DOMParser) return false;
+        var parser = new DOMParser();
+        try
+        {
+          parser.parseFromString('x', 'text/html');
+        } catch (err)
+        {
+          return false;
+        }
+        return true;
+      })();
     },
 
     /**
@@ -29123,6 +29144,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_position', '_setPosition',
 
       '_cleanDisplay',
+      '_encodeValue',
       '_resetListEvents', '_setListEvents',
       '_fireWindowChangeEvent',
       '_escapeRegExp',
@@ -29375,12 +29397,15 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   filterList(match, defaultValue)
   {
     if (defaultValue === undefined) defaultValue = this.targetNode.dataset.defaultValue || this.targetNode.value;
+    //if (defaultValue.contains(',')) defaultValue = defaultValue.split(',')[0];
+    var encodedDefaultValue = this._encodeValue(defaultValue);
     this.filter = match;
     this.workerComplete = false;
     this.fuzzyWorker.postMessage({
       job: 'getList',
       html: this.targetNode.innerHTML,
       defaultValue: defaultValue,
+      encodedDefaultValue: encodedDefaultValue,
       filter: this.filter,
       uuid: this.uuid
     });
@@ -29688,12 +29713,17 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
 
       if (this.iconNode) this.iconNode.classList.add('working');
-      
+
+      var defaultValue = this.targetNode.dataset.defaultValue || this.targetNode.value;
+      //if (defaultValue.contains(',')) defaultValue = defaultValue.split(',')[0];
+      var encodedDefaultValue = this._encodeValue(defaultValue);
+
       this.workerComplete = false;
       this.fuzzyWorker.postMessage({
         job: 'getList',
         html: this.targetNode.innerHTML,
-        defaultValue: this.targetNode.dataset.defaultValue || this.targetNode.value,
+        defaultValue: defaultValue,
+        encodedDefaultValue: encodedDefaultValue,
         filter: this.filter,
         uuid: this.uuid
       });
@@ -30572,7 +30602,20 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     return str;
   }
 
-  _resetListEvents ()
+  _encodeValue(str)
+  {
+    if (Affinity2018.SupportsDOMParser)
+    {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(str, 'text/html');
+      return doc.body.innerHTML;
+    }
+    var dom = document.createElement('div');
+    dom.innerHTML = str;
+    return dom.innerHTML;
+  }
+
+  _resetListEvents()
   {
     if (this.listNode && this.listNode.querySelector('li'))
     {
@@ -31041,7 +31084,7 @@ function returnListItem (data)
   return li;
 }
 
-function returnList (uuid, html, defaultValue, filter)
+function returnList (uuid, html, defaultValue, encodedDefaultValue, filter)
 {
   var options = html.split('</option>'),
       items = [], // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
@@ -31067,7 +31110,7 @@ function returnList (uuid, html, defaultValue, filter)
       value = new RegExp('value="', 'gi').test(html) ? html.substring(html.indexOf('value="') + 7, html.indexOf('"', html.indexOf('value="') + 7)) : '';
       klass = 'visible';
 
-      if (new RegExp('selected', 'gi').test(html) || (value + '') === (defaultValue + ''))
+      if (new RegExp('selected', 'gi').test(html) || value === defaultValue || value === encodedDefaultValue)
       {
         klass += ' selected';
         returndata.defaultID = uuid + '-li-' + i;
@@ -31253,7 +31296,7 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay, filter)
   if (fuzzyRunning) return;
   fuzzyRunning = true;
 
-  console.log(searchData);
+  //console.log(searchData);
 
   var returnData = [],
       results = [],
@@ -31714,7 +31757,7 @@ onmessage = function (msgData)
   }
   if (opts.job === "getList")
   {
-    returnList(opts.uuid, opts.html, opts.defaultValue, opts.filter);
+    returnList(opts.uuid, opts.html, opts.defaultValue, opts.encodedDefaultValue, opts.filter);
   }
   if (opts.job === "getSelectedList")
   {
