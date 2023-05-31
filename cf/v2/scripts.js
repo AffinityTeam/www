@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2819,32-37): run-time error JS1195: Expected expression: class
-(3358,32-37): run-time error JS1195: Expected expression: class
-(3450,29-30): run-time error JS1004: Expected ';': {
-(3451,29-30): run-time error JS1004: Expected ';': {
-(3452,29-30): run-time error JS1004: Expected ';': {
-(3453,29-30): run-time error JS1004: Expected ';': {
-(4098,36-41): run-time error JS1195: Expected expression: class
-(4211,30-35): run-time error JS1195: Expected expression: class
-(4316,31-36): run-time error JS1195: Expected expression: class
-(4556,35-40): run-time error JS1195: Expected expression: class
-(4684,33-38): run-time error JS1195: Expected expression: class
-(4895,39-40): run-time error JS1014: Invalid character: `
-(4895,40-41): run-time error JS1195: Expected expression: <
-(4895,100-101): run-time error JS1014: Invalid character: `
-(4914,43-44): run-time error JS1014: Invalid character: `
-(4914,44-45): run-time error JS1195: Expected expression: <
-(4914,108-109): run-time error JS1014: Invalid character: `
-(4982,33-38): run-time error JS1195: Expected expression: class
-(5282,32-37): run-time error JS1195: Expected expression: class
-(5654,33-38): run-time error JS1195: Expected expression: class
-(5736,37-42): run-time error JS1195: Expected expression: class
-(5737,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2838,32-37): run-time error JS1195: Expected expression: class
+(3377,32-37): run-time error JS1195: Expected expression: class
+(3469,29-30): run-time error JS1004: Expected ';': {
+(3470,29-30): run-time error JS1004: Expected ';': {
+(3471,29-30): run-time error JS1004: Expected ';': {
+(3472,29-30): run-time error JS1004: Expected ';': {
+(4117,36-41): run-time error JS1195: Expected expression: class
+(4230,30-35): run-time error JS1195: Expected expression: class
+(4335,31-36): run-time error JS1195: Expected expression: class
+(4575,35-40): run-time error JS1195: Expected expression: class
+(4703,33-38): run-time error JS1195: Expected expression: class
+(4914,39-40): run-time error JS1014: Invalid character: `
+(4914,40-41): run-time error JS1195: Expected expression: <
+(4914,100-101): run-time error JS1014: Invalid character: `
+(4933,43-44): run-time error JS1014: Invalid character: `
+(4933,44-45): run-time error JS1195: Expected expression: <
+(4933,108-109): run-time error JS1014: Invalid character: `
+(5001,33-38): run-time error JS1195: Expected expression: class
+(5301,32-37): run-time error JS1195: Expected expression: class
+(5673,33-38): run-time error JS1195: Expected expression: class
+(5755,37-42): run-time error JS1195: Expected expression: class
+(5756,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5738,5-16): run-time error JS1006: Expected ')': constructor
-(5809,3-4): run-time error JS1002: Syntax error: }
-(5809,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5751,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5757,5-16): run-time error JS1006: Expected ')': constructor
+(5828,3-4): run-time error JS1002: Syntax error: }
+(5828,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5770,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -915,6 +915,25 @@
     Affinity2018.isNull = function (obj)
     {
       return obj === null || obj === undefined ? true : false;
+    };
+  }
+
+
+  /**
+   * Affinity2018.isNullOrEmpty()
+   * Determines if passed value is NULL
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {object} obj
+   * 
+   * @returns {boolean}
+   */
+  if (!Affinity2018.hasOwnProperty('isNullOrEmpty'))
+  {
+    Affinity2018.isNullOrEmpty = function (obj)
+    {
+      return obj === null || obj === undefined ? true : Affinity2018.isString(obj) && (obj.trim().toLowerCase() === 'null' || obj.trim() === '') ? true : false;
     };
   }
 
@@ -6547,7 +6566,7 @@
     },
 
     /**
-     * DOMParser Check
+     * File DOMParser
      * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
      */
     CheckDOMParser: function ()
@@ -7224,7 +7243,7 @@
       Affinity2018.HidePageLoader();
       Affinity2018.UiReady = true;
 
-      console.clear();
+      //console.clear();
 
       window.dispatchEvent(new Event('MainInit'));
     }
@@ -29880,7 +29899,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_init',
 
       'getValue', 'getDisplayValue', 'setValue', 'setFirst', 'filterList',
-      'obscure', 'reveal',
+      'obscure', 'reveal', 'lock', 'release',
       'show', 'hide',
       'forceDefaultSelection', 'isDefaultSelected', 'defaultSelected',
       'refreshFromSelect',
@@ -30182,6 +30201,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.enabled = true;
     if (this.iconElement) this.iconElement.classList.remove('hidden');
     if (this.displayNode) this.displayNode.classList.remove('hidden');
+  }
+
+  lock()
+  {
+    this.autocompleteNode.querySelector('input').setAttribute('disabled', 'disabled');
+    if (this.iconNode) this.iconNode.classList.add('working');
+  }
+
+  release()
+  {
+    this.autocompleteNode.querySelector('input').removeAttribute('disabled');
+    if (this.iconNode) this.iconNode.classList.remove('working');
   }
 
   show (calledFrom)
@@ -31029,7 +31060,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._focusDelay);
     this._focusDelay = setTimeout(function ()
     {
-      console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
+      //console.log('displayNode focus : autocomplete ' + this.uuid + ' : ' + (this.mouseIsOver ? 'is over' : 'is NOT over'));
       if (this.status == 'closed')
       {
         this._position(0, 'displayNode focus');
@@ -31373,7 +31404,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     return dom.innerHTML;
   }
 
-  _resetListEvents()
+  _resetListEvents ()
   {
     if (this.listNode && this.listNode.querySelector('li'))
     {
