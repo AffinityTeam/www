@@ -11008,7 +11008,8 @@ var UILeaveDetail = new Class({
 
             var cancelLeaveEvent = new CustomEvent('cancelLeaveEvent');
 
-            var customResponse = function (response, viewModel) {
+            var viewModel = this;
+            var customResponse = function (response) {
                 if (response !== null &&
                     response.Response === 'Leave Cancellation Requested') {
                     viewModel.acknowledgementModal(response);
@@ -11023,11 +11024,11 @@ var UILeaveDetail = new Class({
                 }
             };
 
-            var customErrorHandler = function (responseObject, viewModel) {
-                viewModel.handleValidationErrors(responseObject, "Reason");
+            var customErrorHandler = function (responseObject, vm) {
+                vm.handleValidationErrors(responseObject, "Reason");
             };
 
-            var viewModel = this;
+            
             var cancelLeaveEventHandler = function (event) {
                 event.stopPropagation();
                 viewModel.updateLeave2(6, customResponse, customErrorHandler, viewModel);
