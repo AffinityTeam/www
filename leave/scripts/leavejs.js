@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5387,71-72): run-time error JS1195: Expected expression: >
-(5387,98-99): run-time error JS1004: Expected ';': )
-(5389,87-88): run-time error JS1195: Expected expression: >
-(5389,129-130): run-time error JS1004: Expected ';': )
-(5394,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5399,13-14): run-time error JS1002: Syntax error: }
-(5401,34-35): run-time error JS1004: Expected ';': {
-(5405,9-10): run-time error JS1002: Syntax error: }
-(5408,25-26): run-time error JS1004: Expected ';': {
-(5559,5-6): run-time error JS1002: Syntax error: }
-(5560,45-46): run-time error JS1004: Expected ';': {
-(5579,6-7): run-time error JS1195: Expected expression: ,
-(5580,63-64): run-time error JS1004: Expected ';': {
-(5586,6-7): run-time error JS1195: Expected expression: ,
-(5587,26-27): run-time error JS1195: Expected expression: )
-(5587,28-29): run-time error JS1004: Expected ';': {
-(5661,6-7): run-time error JS1195: Expected expression: ,
-(5663,22-23): run-time error JS1195: Expected expression: )
-(5663,24-25): run-time error JS1004: Expected ';': {
-(5686,6-7): run-time error JS1195: Expected expression: ,
-(5688,24-25): run-time error JS1195: Expected expression: )
-(5688,26-27): run-time error JS1004: Expected ';': {
-(5747,6-7): run-time error JS1195: Expected expression: ,
-(10425,52-53): run-time error JS1195: Expected expression: .
-(10437,5-6): run-time error JS1002: Syntax error: }
-(10438,46-47): run-time error JS1004: Expected ';': {
-(10473,6-7): run-time error JS1195: Expected expression: ,
-(10474,42-43): run-time error JS1004: Expected ';': {
-(10496,6-7): run-time error JS1195: Expected expression: ,
-(10497,43-44): run-time error JS1004: Expected ';': {
-(10509,6-7): run-time error JS1195: Expected expression: ,
-(10510,81-82): run-time error JS1004: Expected ';': {
-(10527,6-7): run-time error JS1195: Expected expression: ,
-(10528,54-55): run-time error JS1004: Expected ';': {
-(10554,6-7): run-time error JS1195: Expected expression: ,
-(10555,49-50): run-time error JS1004: Expected ';': {
-(10625,6-7): run-time error JS1195: Expected expression: ,
-(10626,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10436,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10430,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5585,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5475,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5494,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5430,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5403,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5390,71-72): run-time error JS1195: Expected expression: >
+(5390,98-99): run-time error JS1004: Expected ';': )
+(5392,87-88): run-time error JS1195: Expected expression: >
+(5392,129-130): run-time error JS1004: Expected ';': )
+(5397,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5402,13-14): run-time error JS1002: Syntax error: }
+(5404,34-35): run-time error JS1004: Expected ';': {
+(5408,9-10): run-time error JS1002: Syntax error: }
+(5411,25-26): run-time error JS1004: Expected ';': {
+(5562,5-6): run-time error JS1002: Syntax error: }
+(5563,45-46): run-time error JS1004: Expected ';': {
+(5582,6-7): run-time error JS1195: Expected expression: ,
+(5583,63-64): run-time error JS1004: Expected ';': {
+(5589,6-7): run-time error JS1195: Expected expression: ,
+(5590,26-27): run-time error JS1195: Expected expression: )
+(5590,28-29): run-time error JS1004: Expected ';': {
+(5664,6-7): run-time error JS1195: Expected expression: ,
+(5666,22-23): run-time error JS1195: Expected expression: )
+(5666,24-25): run-time error JS1004: Expected ';': {
+(5689,6-7): run-time error JS1195: Expected expression: ,
+(5691,24-25): run-time error JS1195: Expected expression: )
+(5691,26-27): run-time error JS1004: Expected ';': {
+(5750,6-7): run-time error JS1195: Expected expression: ,
+(10424,52-53): run-time error JS1195: Expected expression: .
+(10436,5-6): run-time error JS1002: Syntax error: }
+(10437,46-47): run-time error JS1004: Expected ';': {
+(10472,6-7): run-time error JS1195: Expected expression: ,
+(10473,42-43): run-time error JS1004: Expected ';': {
+(10495,6-7): run-time error JS1195: Expected expression: ,
+(10496,43-44): run-time error JS1004: Expected ';': {
+(10508,6-7): run-time error JS1195: Expected expression: ,
+(10509,81-82): run-time error JS1004: Expected ';': {
+(10526,6-7): run-time error JS1195: Expected expression: ,
+(10527,54-55): run-time error JS1004: Expected ';': {
+(10553,6-7): run-time error JS1195: Expected expression: ,
+(10554,49-50): run-time error JS1004: Expected ';': {
+(10624,6-7): run-time error JS1195: Expected expression: ,
+(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10435,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10429,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5588,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5478,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5497,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5433,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5406,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -2798,6 +2798,7 @@ var UILeaveApply = new Class({
                 this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer);
                 this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysDateColumnContainer = new Element('span', { class: 'leave-period-day-date-container' }).inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDateColumnDivContainer = new Element('div').inject(this.leavePeriodDaysDateColumnContainer);
                 this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysScheduledColumnContainer = new Element('span', { 'attr': 'period-day-schedule-hours-container' }).inject(this.leavePeriodDaysBoxValueRow);
@@ -2820,6 +2821,7 @@ var UILeaveApply = new Class({
                 var weekDefUnits = this.roundDown(day.PositionUnits[0].WeekDefUnits, 2).toFixed(2);
                 
                 var isPublicHoliday = day.IsPublicHoliday;
+                var publicHolidayName = day.PublicHolidayName;
                 var defaultHoursWorkScheduled = parseFloat(schedulesHours);
 
                 if (isPublicHoliday) {
@@ -2827,12 +2829,13 @@ var UILeaveApply = new Class({
                 }
 
                 this.leavePeriodDaysHiddenDateColumnValue = new Element('input', { 'id': 'hiddenDate-' + index, 'type': 'hidden', 'class': 'leave-detail-input-hiddenDate', 'value': dateValue.toDate() }).inject(this.leavePeriodDaysScheduledColumnContainer);
-                this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnContainer);
+                this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnDivContainer);
                 this.leavePeriodDaysDaysColumnValue = new Element('input', { 'id': 'days-' + index, 'type': 'text', 'class': 'leave-apply-input-days', 'value': daysAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysDaysColumnContainer);
                 this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': 'leave-apply-input-hours', 'value': hoursAppliedFor }).inject(this.leavePeriodDaysHoursColumnContainer);
                 this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': 'leave-apply-input-uneditable-scheduledHours', 'value': schedulesHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysPublicHolidayNameColumnValue = new Element('input', { 'id': 'publicHolidayName-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': publicHolidayName }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysWeeksColumnValue = new Element('input', { 'id': 'weeks-' + index, 'type': 'hidden', 'value': weeksAppliedFor }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysWeekDefUnitsColumnValue = new Element('input', { 'id': 'weekDefUnits-' + index, 'type': 'hidden', 'value': weekDefUnits }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 
@@ -10228,6 +10231,7 @@ var UILeaveDetail = new Class({
             var newDay = new Object();
             newDay.Date = leaveComponent.Units[i].Date;
             newDay.IsPublicHoliday = leaveComponent.Units[i].IsPublicHoliday;
+            newDay.PublicHolidayName = leaveComponent.Units[i].PublicHolidayName;
             newDay.PositionUnits = [];
             var positionUnit = new Object();
 
@@ -10371,6 +10375,7 @@ var UILeaveDetail = new Class({
                 var hoursAppliedFor = this.roundDown(day.PositionUnits[0].HoursAppliedFor, 2).toFixed(2);
                 var defaultHoursWorkScheduled = parseFloat(day.PositionUnits[0].DefaultHoursWorkScheduled);
                 var isPublicHoliday = day.IsPublicHoliday;
+                var publicHolidayName = day.PublicHolidayName;
 
                 if (isNaN(daysAppliedFor)) {
                     daysAppliedFor = parseFloat(0).toFixed(2);
@@ -10392,19 +10397,13 @@ var UILeaveDetail = new Class({
                 this.leavePeriodDaysHoursColumnValue = new Element('input', { 'id': 'hours-' + index, 'type': 'text', 'class': hoursFieldClass, 'value': hoursAppliedFor, 'readonly': 'true' }).inject(this.leavePeriodDaysHoursColumnContainer);
                 this.leavePeriodDaysScheduledColumnValue = new Element('input', { 'id': 'scheduledHours-' + index, 'type': 'text', 'class': scheduledHoursFieldClass, 'value': scheduledHours, 'readonly': 'true' }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysDefaultScheduledColumnValue = new Element('input', { 'id': 'defaultScheduledHours-' + index, 'type': 'hidden', 'class': 'leave-detail-input-defaultScheduledHours', 'value': defaultHoursWorkScheduled }).inject(this.leavePeriodDaysScheduledColumnContainer);
+
                 this.leavePeriodDaysIsPublicHolidayColumnValue = new Element('input', { 'id': 'isPublicHoliday-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': isPublicHoliday }).inject(this.leavePeriodDaysScheduledColumnContainer);
+                this.leavePeriodDaysPublicHolidayNameColumnValue = new Element('input', { 'id': 'publicHolidayName-' + index, 'type': 'hidden', 'class': 'leave-detail-input-isPublicHoliday', 'value': publicHolidayName }).inject(this.leavePeriodDaysScheduledColumnContainer);
+
+
                 this.leavePeriodDaysWeeksColumnValue = new Element('input', { 'id': 'weeks-' + index, 'type': 'hidden', 'value': weeksAppliedFor }).inject(this.leavePeriodDaysScheduledColumnContainer);
-                //if (isPublicHoliday) {
-                //    this.leavePeriodDaysHoursColumnValue.set('readonly', true);
-                //    this.leavePeriodDaysHoursColumnValue.removeClass('leave-detail-input-hours');
-                //    this.leavePeriodDaysHoursColumnValue.addClass('leave-detail-input-uneditable-hours');
-
-
-                //    this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
-                //    this.leavePeriodDaysScheduledColumnValue.removeClass('leave-detail-input-scheduledHours');
-                //    this.leavePeriodDaysScheduledColumnValue.addClass('leave-detail-input-uneditable-scheduledHours');
-
-                //}
+              
             }.bind(this));
 
             var viewModel = this;
@@ -12201,12 +12200,14 @@ var UILeaveDetail = new Class({
             var defaultScheduledHoursField = target.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
             var scheduledHoursField = target.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
             var isPublicHolidayField = target.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+            var publicHolidayNameField = target.leavePeriodDaysContainer.getElementById('publicHolidayName-' + i);
 
             var warningField = target.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + i);
 
             var ruleParams = new Object();
             ruleParams.isManager = this.identifyIfManager(target);
             ruleParams.isPublicHoliday = isPublicHolidayField.value === 'true' ? true : false;
+            ruleParams.publicHolidayName = publicHolidayNameField.value;
             ruleParams.daysValue = parseFloat(daysField.value);
             ruleParams.isWeekEnds = this.identifyIfWeekends(dateField);
             ruleParams.hoursValue = parseFloat(hoursField.value);
@@ -12295,7 +12296,9 @@ var UILeaveDetail = new Class({
         if (ruleParams.isPublicHoliday) {
             var existingPlaneList = dateField.parentElement.getElementsByClassName('icon-plane');
             if (existingPlaneList && existingPlaneList.length === 0) {
+                
                 dateField.parentElement.grab(new Element('span', { class: 'icon-plane' }), 'top');
+                dateField.parentElement.addClass('ui-has-tooltip').set('data-tooltip', ruleParams.publicHolidayName).set('data-tooltip-dir', 'bottom,center');
             }
         } else {
             var existingPlaneList = dateField.parentElement.getElementsByClassName('space-icon-plane');
@@ -12635,6 +12638,8 @@ var UILeaveDetail = new Class({
             var leaveUnitScheduledHoursField = this.leavePeriodDaysContainer.getElementById('scheduledHours-' + i);
             var leaveUnitDefaultScheduledHoursField = this.leavePeriodDaysContainer.getElementById('defaultScheduledHours-' + i);
             var leaveUnitIsPublicHolidayField = this.leavePeriodDaysContainer.getElementById('isPublicHoliday-' + i);
+            var leaveUnitsPublicHolidayNameField = this.leavePeriodDaysContainer.getElementById('publicHolidayName-' + i);
+
             if (Date.parse(leaveUnitDate) <= Date.parse(editedLeaveInstance.dateTo)) {
 
                 var leaveUnitHour = parseFloat(leaveUnitHoursField.value);
@@ -12649,6 +12654,7 @@ var UILeaveDetail = new Class({
                 leaveUnit.hoursWorkSched = leaveUnitScheduledHour;
                 leaveUnit.defaultHoursWorkScheduled = parseFloat(leaveUnitDefaultScheduledHoursField.value);
                 leaveUnit.isPublicHoliday = leaveUnitIsPublicHolidayField.value === 'true' ? true : false;
+                leaveUnit.publicHolidayName = leaveUnitsPublicHolidayNameField.value;
 
                 if (excludeDaysWithNoScheduledHours === true &&
                     leaveUnitHour > 0) {
