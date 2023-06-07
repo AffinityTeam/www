@@ -12299,6 +12299,8 @@ var UILeaveDetail = new Class({
                 
                 dateField.parentElement.grab(new Element('span', { class: 'icon-plane' }), 'top');
                 dateField.parentElement.addClass('ui-has-tooltip').set('data-tooltip', ruleParams.publicHolidayName).set('data-tooltip-dir', 'bottom,center');
+
+                Affinity.tooltips.processTooltip(dateField.parentElement, false);
             }
         } else {
             var existingPlaneList = dateField.parentElement.getElementsByClassName('space-icon-plane');
