@@ -18098,6 +18098,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           
           if (
             this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
+            && this.Config.Details.ItemSource.TableType !== null
             && (
               this.Config.Details.ItemSource.TableType === pair.Key - 1
               || this.Config.Details.ItemSource.TableType.toString().toLowerCase().trim() === pair.Value.toString().toLowerCase().trim()
@@ -18934,7 +18935,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   {
     var tableName = this.ListSourceSelectNode.value,
         employeeNo = this.CleverForms.GetFormEmployeeNo(),
-        instanceId = his.CleverForms.GetInstanceGuid(),
+        instanceId = this.CleverForms.GetInstanceGuid(),
         lookupApi = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
           api: this.CleverForms.GetLookupApi,
           modelName: tableName,
