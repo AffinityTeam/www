@@ -18940,7 +18940,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           api: this.CleverForms.GetLookupApi,
           modelName: tableName,
           employeeNo: employeeNo,
-          instanceId: instanceId
+          instanceId: instanceId || ''
         });
     if (this.ListSourceSelectNode.value === '0')
     {
