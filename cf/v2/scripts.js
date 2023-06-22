@@ -18098,6 +18098,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           
           if (
             this.Config.Details.ItemSource.ItemSourceType === 'Affinity'
+            && this.Config.Details.ItemSource.TableType !== null
             && (
               this.Config.Details.ItemSource.TableType === pair.Key - 1
               || this.Config.Details.ItemSource.TableType.toString().toLowerCase().trim() === pair.Value.toString().toLowerCase().trim()
@@ -18934,12 +18935,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   {
     var tableName = this.ListSourceSelectNode.value,
         employeeNo = this.CleverForms.GetFormEmployeeNo(),
-        instanceId = his.CleverForms.GetInstanceGuid(),
+        instanceId = this.CleverForms.GetInstanceGuid(),
         lookupApi = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
           api: this.CleverForms.GetLookupApi,
           modelName: tableName,
           employeeNo: employeeNo,
-          instanceId: instanceId
+          instanceId: instanceId || ''
         });
     if (this.ListSourceSelectNode.value === '0')
     {
@@ -38610,27 +38611,31 @@ Affinity2018.Classes.Plugins.ListBuilder = class
   IsValid()
   {
     var reasons = [];
-
-    var rows = this.targetNode.querySelectorAll('tbody tr');
-
-    for (var rowIndex = 0; rowIndex < rows.length; rowIndex++)
+    if (this.targetNode)
     {
-      var rowNode = rows[rowIndex];
-      var keyInput = rowNode.querySelector('textarea.description');
-      var valueInput = rowNode.querySelector('textarea.code');
-      var key = keyInput.value;
-      var value = valueInput.value;
-      if (!this._validate(key, value) && this._badRowReason)
+      var rows = this.targetNode.querySelectorAll('tbody tr');
+      for (var rowIndex = 0; rowIndex < rows.length; rowIndex++)
       {
-        var rowReasons = this._badRowReason.split('<br>');
-        for (var reasonIndex = 0; reasonIndex < rowReasons.length; reasonIndex++)
+        var rowNode = rows[rowIndex];
+        var keyInput = rowNode.querySelector('textarea.description');
+        var valueInput = rowNode.querySelector('textarea.code');
+        if (keyInput && valueInput)
         {
-          var message = rowReasons[reasonIndex].trim();
-          if (message.endsWith('.')) message = message.slice(0, -1);
-          rowReasons[reasonIndex] = message + $a.Lang.ReturnPath('generic.list_builder.validate_row_detail', { column: this.ColumnHeaders.ValueHeader, value: value.trim() });
+          var key = keyInput.value;
+          var value = valueInput.value;
+          if (!this._validate(key, value) && this._badRowReason)
+          {
+            var rowReasons = this._badRowReason.split('<br>');
+            for (var reasonIndex = 0; reasonIndex < rowReasons.length; reasonIndex++)
+            {
+              var message = rowReasons[reasonIndex].trim();
+              if (message.endsWith('.')) message = message.slice(0, -1);
+              rowReasons[reasonIndex] = message + $a.Lang.ReturnPath('generic.list_builder.validate_row_detail', { column: this.ColumnHeaders.ValueHeader, value: value.trim() });
+            }
+            Array.prototype.push.apply(reasons, rowReasons);
+            this._badRowReason = false;
+          }
         }
-        Array.prototype.push.apply(reasons, rowReasons);
-        this._badRowReason = false;
       }
     }
     if (reasons.length > 0)
