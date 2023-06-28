@@ -11296,15 +11296,38 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     */
     this.AllowMultipleDisplayFields = false;
 
-    /**/
-
+    /**
+    * Description.    Open preview in a new tab
+    * @type {Boolean}
+    * @const
+    * @public
+    */
     this.OpenPreviewInNewWindow = false;
 
+    /**
+    * Description.    Last Update and POST times
+    * @type {DateTime}
+    * @const
+    * @public
+    */
     this.LastModifiedTime = Date.now();
     this.LastPostTime = Date.now();
 
-
+    /**
+    * Description.    Status of Form Details (top info) update. 
+    *                 none / progress / done / error
+    * @type {String}
+    * @const
+    * @public
+    */
     this.FormDetailsProgress = 'none';
+
+    /**
+    * Description.    The new element created wafter a lft list item is dropped.
+    * @type {HtmlElement}
+    * @const
+    * @public
+    */
     this.ElementDropped = null;
   }
 
