@@ -10611,7 +10611,6 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    */
   SearchSelected(data, dontPrompt)
   {
-    debugger;
     this._searchSelected(data, dontPrompt);
   }
 
@@ -10857,7 +10856,10 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
           var buttonCLicked = 'OK';
           if (this._checkOkToContinue(false, buttonCLicked))
           {
-            if (this.DragNode.controller.Saved && this.DragNode.controller.Changed) this.Designer.CheckSave();
+            if (this.DragNode.controller.Saved && this.DragNode.controller.Changed)
+            {
+              this.Designer.CheckSave();
+            }
 
             // update special data
 
@@ -12135,7 +12137,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 },
                 onOk: function ()
                 {
-                  debugger;
                   this.Editor.SearchSelected({ data: config.Details.AffinityField }, true);
                 }.bind(this),
                 onCancel: function ()
@@ -13686,6 +13687,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       {
         countryNode.value = Affinity2018.Apps.CleverForms.Default.TemplateModel.FormCountry;
       }
+      this.FormDetailsProgress = 'none';
+      window.dispatchEvent(new Event('FormDetailsDone'));
       return;
     }
 
@@ -13735,19 +13738,24 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           model: this.CleverForms.TemplateModel
         }
       })
-      .then(function (response)
-      {
-        this.lastUpdateFormDetails = postData;
-        this.DesignerSavingNode.classList.remove('show');
-        this.FormDetailsProgress = 'done';
-        window.dispatchEvent(new Event('FormDetailsDone'));
-      }.bind(this))
-      .catch(function (error)
-      {
-        this.DesignerSavingNode.classList.remove('show');
-        this.FormDetailsProgress = 'error';
-        window.dispatchEvent(new Event('FormDetailsDone'));
-      }.bind(this));
+        .then(function (response)
+        {
+          this.lastUpdateFormDetails = postData;
+          this.DesignerSavingNode.classList.remove('show');
+          this.FormDetailsProgress = 'done';
+          window.dispatchEvent(new Event('FormDetailsDone'));
+        }.bind(this))
+        .catch(function (error)
+        {
+          this.DesignerSavingNode.classList.remove('show');
+          this.FormDetailsProgress = 'error';
+          window.dispatchEvent(new Event('FormDetailsDone'));
+        }.bind(this));
+    }
+    else
+    {
+      this.FormDetailsProgress = 'none';
+      window.dispatchEvent(new Event('FormDetailsDone'));
     }
   }
 
@@ -13784,7 +13792,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           )
           {
             hasSensativeFields = true;
-            return;
           }
         }
       }.bind(this));
@@ -14467,7 +14474,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     fromAutoLoad = fromAutoLoad === undefined ? false : fromAutoLoad;
     if (this.FormDetailsProgress !== 'progress')
     {
-      if (this._hasCountrySensativeFields())
+      var checkSensativeFieldsBool = this._hasCountrySensativeFields();
+      if (checkSensativeFieldsBool)
       {
         if (!fromAutoLoad && this.ElementDropped === null)
         {
@@ -14865,7 +14873,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     {
       if (
         response.hasOwnProperty('statusText') // needs exact match on all or partial result
-        && response.statusText.toLowerCase().contains('requires form country result from marina') 
+        && response.statusText.toLowerCase().contains('must select the country form') 
       )
       {
         error = $a.Lang.ReturnPath('app.cf.backend_sub_errors.designer-element-requires-form-country');
