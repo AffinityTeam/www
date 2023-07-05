@@ -27342,66 +27342,41 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           || (!this.CleverForms.IsLookup(this.Config) && this.CleverForms.IskeyWithNoRequiredKeys(this.Config)))
         {
 
+          select.classList.remove('ui-has-autocomplete');
+          select.classList.add('prevent-autocomplete');
 
-          if (!$a.isNullOrEmpty(Affinity2018.SwapInitatorEmployee))
+          if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
           {
-            //this.FormRowNode.classList.add('is-single-value');
-            //this.FormRowNode.dataset.singleValue = Affinity2018.SwapInitatorEmployee;
-            selectConfig = {
-              DataKey: 'Value',
-              DisplayKey: 'Key',
-              IncludeDataInDisplay: true,
-              AddEmpty: false,
-              EmptyKey: this.CleverForms.InsertLookupEmptyValue,
-              EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
-              NoneKey: this.CleverForms.InsertLookupEmptyRequiredValue,
-              NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
-              Required: this.Config.Details.Required,
-              Value: Affinity2018.SwapInitatorEmployee,
-              IsSingleValue: true
-            };
-
+            select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
+              api: this.CleverForms.GetLookupApi,
+              modelName: this.Config.Details.AffinityField.ModelName,
+              groupid: this.Config.Details.AffinityField.GenericGroupId,
+              employeeNo: this.CleverForms.GetFormEmployeeNo(),
+              instanceId: this.CleverForms.GetInstanceGuid()
+            });
           }
           else
           {
-            select.classList.remove('ui-has-autocomplete');
-            select.classList.add('prevent-autocomplete');
-
-            if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
-            {
-              select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
-                api: this.CleverForms.GetLookupApi,
-                modelName: this.Config.Details.AffinityField.ModelName,
-                groupid: this.Config.Details.AffinityField.GenericGroupId,
-                employeeNo: this.CleverForms.GetFormEmployeeNo(),
-                instanceId: this.CleverForms.GetInstanceGuid()
-              });
-            }
-            else
-            {
-              select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
-                api: this.CleverForms.GetLookupApi,
-                modelName: this.Config.Details.AffinityField.ModelName,
-                employeeNo: this.CleverForms.GetFormEmployeeNo(),
-                instanceId: this.CleverForms.GetInstanceGuid()
-              });
-            }
-
-            selectConfig = {
-              DataKey: 'Value',
-              DisplayKey: 'Key',
-              IncludeDataInDisplay: true,
-              AddEmpty: this.CleverForms.InsertLookupEmptyOption,
-              EmptyKey: this.CleverForms.InsertLookupEmptyValue,
-              EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
-              NoneKey: this.CleverForms.InsertLookupEmptyRequiredValue,
-              NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
-              Required: this.Config.Details.Required,
-              Value: null,
-              IsSingleValue: false
-            };
-
+            select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
+              api: this.CleverForms.GetLookupApi,
+              modelName: this.Config.Details.AffinityField.ModelName,
+              employeeNo: this.CleverForms.GetFormEmployeeNo(),
+              instanceId: this.CleverForms.GetInstanceGuid()
+            });
           }
+
+          selectConfig = {
+            DataKey: 'Value',
+            DisplayKey: 'Key',
+            IncludeDataInDisplay: true,
+            AddEmpty: this.CleverForms.InsertLookupEmptyOption,
+            EmptyKey: this.CleverForms.InsertLookupEmptyValue,
+            EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
+            NoneKey: this.CleverForms.InsertLookupEmptyRequiredValue,
+            NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
+            Required: this.Config.Details.Required,
+            Value: null
+          };
 
           if (this.CleverForms.IsGlobalKey(this.Config))
           {
@@ -27410,6 +27385,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           
           if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
           {
+
+            
+
             selectConfig.Value = this.Config.Details.Value;
             select.dataset.defaultValue = this.Config.Details.Value;
           }
@@ -27463,8 +27441,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             NoneKey: this.CleverForms.InsertLookupEmptyRequiredValue,
             NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
             Required: this.Config.Details.Required,
-            Value: null,
-            IsSingleValue: false
+            Value: null
           };
 
           if (this.CleverForms.IsGlobalKey(this.Config))
@@ -30813,8 +30790,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.targetNode.dispatchEvent(new Event('workerComplete'));
       this.workerComplete = true;
     }
-
-    this.targetNode.dispatchEvent(new Event('autocompleteReady'));
 
     return true;
   }
@@ -40570,7 +40545,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       '_gotResults', '_gotResultsError', '_requestCanceled',
 
       '_clear',
-      '_processResults', '_insertResult', '_forceSingleValueChange', '_cleanValue',
+      '_processResults', '_insertResult', '_cleanValue',
       '_processFilters', '_insertFilter', '_filterToggled',
 
       '_templates'
@@ -40595,19 +40570,17 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
     this.api = $a.isUrl(api) ? api.trim() : $a.isUrl(this.targetNode.dataset.api) ? this.targetNode.dataset.api.trim() : false;
 
-    this.config = $a.isObject(config) ? config : $a.isString(this.targetNode.dataset.config) ? JSON.parse(this.targetNode.dataset.config) : false;
-    if ($a.isObject(this.config)) this.config = $a.objectDeepMerge([$a.jsonCloneObject(this.DefaultConfig), this.config]);
-    else this.config = $a.jsonCloneObject(this.DefaultConfig);
-    delete this.targetNode.dataset.config;
-
-    this.isSingleValue = this.config.IsSingleValue && !$a.isNullOrEmpty(this.config.Value);
-
-    if (!this.api && !this.isSingleValue)
+    if (!this.api)
     {
       console.error('No valid api path was passed to SelectLookupWidget, dummy!');
       console.error(this.targetNode);
       return;
     }
+
+    this.config = $a.isObject(config) ? config : $a.isString(this.targetNode.dataset.config) ? JSON.parse(this.targetNode.dataset.config) : false;
+    if ($a.isObject(this.config)) this.config = $a.objectDeepMerge([$a.jsonCloneObject(this.DefaultConfig), this.config]);
+    else this.config = $a.jsonCloneObject(this.DefaultConfig);
+    delete this.targetNode.dataset.config;
 
     if (!this.targetNode.hasOwnProperty('widgets')) this.targetNode.widgets = {};
     this.targetNode.widgets.SelectLookup = this;
@@ -40622,56 +40595,29 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.targetNode.classList.add('ui-lookup');
     if (this.makeAutocomplete) this.targetNode.classList.add('prevent-autocomplete');
 
-    if (this.isSingleValue)
-    {
-      axios.post(Affinity2018.ApiPath + 'api/GetDashboardProfile')
-        .then(function(response)
-        {
-          this._gotResults([
-            {
-              Key: response.data.FirstName,
-              Value: this.config.Value
-            }
-          ]);
-        }.bind(this))
-        .catch(function()
-        {
-          this._gotResults([
-            {
-              Key: this.config.Value,
-              Value: this.config.Value
-            }
-          ]);
-        }.bind(this));
-      this.api = false;
-    }
-
     this._init();
 
   }
 
   _init ()
   {
-    if (!$a.isNullOrEmpty(this.api))
+    this.targetNode.classList.add('working');
+    if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('working');
+    if (this.useRequestQueue && Affinity2018.RequestQueue)
     {
-      this.targetNode.classList.add('working');
-      if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('working');
-      if (this.useRequestQueue && Affinity2018.RequestQueue)
-      {
-        Affinity2018.RequestQueue.Add(this.api, this._gotResults, this._gotResultsError);
-        Affinity2018.RequestQueue.StartQueue();
-      }
-      else
-      {
-        if (this.request && this.request.hasOwnProperty('cancelToken')) this.request.cancelToken.source.cancel(true);
-        this.request = axios({
-          method: 'get',
-          url: this.api,
-          cancelToken: new axios.CancelToken(this._requestCanceled)
-        })
-          .then(this._gotResults)
-          .catch(this._gotResultsError);
-      }
+      Affinity2018.RequestQueue.Add(this.api, this._gotResults, this._gotResultsError);
+      Affinity2018.RequestQueue.StartQueue();
+    }
+    else
+    {
+      if (this.request && this.request.hasOwnProperty('cancelToken')) this.request.cancelToken.source.cancel(true);
+      this.request = axios({
+        method: 'get',
+        url: this.api,
+        cancelToken: new axios.CancelToken(this._requestCanceled)
+      })
+      .then(this._gotResults)
+      .catch(this._gotResultsError);
     }
   }
 
@@ -40764,7 +40710,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         emptyData[this.config.DisplayKey] = this.config.EmptyDisplay;
         inserted = this._insertResult(emptyData);
       }
-      if (this.config.Required && !this.isSingleValue)
+      if (this.config.Required)
       {
         this.hasSelected = false;
         var emptyData = { Selected: true };
@@ -40781,19 +40727,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     if (this.makeAutocomplete && Affinity2018.Autocompletes)
     {
       this.targetNode.classList.remove('prevent-autocomplete');
-      if (this.isSingleValue)
-      {
-        this.targetNode.addEventListener('autocompleteReady', this._forceSingleValueChange);
-      }
       Affinity2018.Autocompletes.Apply(this.targetNode);
-    }
-    else
-    {
-      if (this.isSingleValue)
-      {
-        this.targetNode.disabled = 'disabled';
-        this.targetNode.dispatchEvent(new Event('change'));
-      }
     }
     this.targetNode.classList.remove('working');
     if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.remove('working');
@@ -40842,16 +40776,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       return true;
     }
     return false;
-  }
-
-  _forceSingleValueChange()
-  {
-    this.targetNode.removeEventListener('autocompleteReady', this._forceSingleValueChange);
-    if (this.targetNode.hasOwnProperty('widgets') && this.targetNode.widgets.hasOwnProperty('Autocomplete'))
-    {
-      this.targetNode.widgets.Autocomplete.displayNode.classList.add('force-disabled');
-    }
-    this.targetNode.dispatchEvent(new Event('change'));
   }
 
   /**/
