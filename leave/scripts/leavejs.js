@@ -22,23 +22,23 @@
 (5691,24-25): run-time error JS1195: Expected expression: )
 (5691,26-27): run-time error JS1004: Expected ';': {
 (5750,6-7): run-time error JS1195: Expected expression: ,
-(10424,52-53): run-time error JS1195: Expected expression: .
-(10436,5-6): run-time error JS1002: Syntax error: }
-(10437,46-47): run-time error JS1004: Expected ';': {
-(10472,6-7): run-time error JS1195: Expected expression: ,
-(10473,42-43): run-time error JS1004: Expected ';': {
-(10495,6-7): run-time error JS1195: Expected expression: ,
-(10496,43-44): run-time error JS1004: Expected ';': {
-(10508,6-7): run-time error JS1195: Expected expression: ,
-(10509,81-82): run-time error JS1004: Expected ';': {
-(10526,6-7): run-time error JS1195: Expected expression: ,
-(10527,54-55): run-time error JS1004: Expected ';': {
-(10553,6-7): run-time error JS1195: Expected expression: ,
-(10554,49-50): run-time error JS1004: Expected ';': {
-(10624,6-7): run-time error JS1195: Expected expression: ,
-(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10435,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10429,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(10423,52-53): run-time error JS1195: Expected expression: .
+(10435,5-6): run-time error JS1002: Syntax error: }
+(10436,46-47): run-time error JS1004: Expected ';': {
+(10471,6-7): run-time error JS1195: Expected expression: ,
+(10472,42-43): run-time error JS1004: Expected ';': {
+(10494,6-7): run-time error JS1195: Expected expression: ,
+(10495,43-44): run-time error JS1004: Expected ';': {
+(10507,6-7): run-time error JS1195: Expected expression: ,
+(10508,81-82): run-time error JS1004: Expected ';': {
+(10525,6-7): run-time error JS1195: Expected expression: ,
+(10526,54-55): run-time error JS1004: Expected ';': {
+(10552,6-7): run-time error JS1195: Expected expression: ,
+(10553,49-50): run-time error JS1004: Expected ';': {
+(10623,6-7): run-time error JS1195: Expected expression: ,
+(10624,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10434,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10428,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5588,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5478,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5497,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -2241,18 +2241,18 @@ var UILeaveApply = new Class({
 
 
 
-        this.leavePeriodDaysDaysTitle = new Element('label', {
+        this.leavePeriodDaysDaysTitle = new Element('div', {
             'html': 'Days',
             'class': 'leave-apply-leave-period-header-days'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
-        this.leavePeriodDaysHoursTitle = new Element('label', {
+        this.leavePeriodDaysHoursTitle = new Element('div', {
             'html': 'Hours',
             'class': 'leave-apply-leave-period-header-hours ui-has-tooltip',
             'data-tooltip': "Number of hours you're applying for on this day. The value for 'Days' are auto-calculated",
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
-        this.leavePeriodDaysHoursTitle = new Element('label', {
+        this.leavePeriodDaysHoursTitle = new Element('div', {
             'html': 'Scheduled',
             'class': 'leave-apply-leave-period-header-scheduled ui-has-tooltip',
             'data-tooltip': "Number of hours you're scheduled to work for on this day",
@@ -2812,7 +2812,7 @@ var UILeaveApply = new Class({
 
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
-                var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
+                var dateStringValue = dateValue.toDate().toLocaleString("en-AU", options);
                 var schedulesHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
                 schedulesHours = this.roundDown(schedulesHours, 2).toFixed(2);
                 var daysAppliedFor = this.roundDown(day.PositionUnits[0].DaysAppliedFor, 2).toFixed(2);
@@ -10001,17 +10001,17 @@ var UILeaveDetail = new Class({
 
 
 
-        this.leavePeriodDaysDaysTitle = new Element('label', {
+        this.leavePeriodDaysDaysTitle = new Element('div', {
             'html': 'Days',
             'class': 'leave-detail-leave-period-header-days'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
-        this.leavePeriodDaysHoursTitle = new Element('label', {
+        this.leavePeriodDaysHoursTitle = new Element('div', {
             'html': 'Hours',
             'class': 'leave-detail-leave-period-header-hours'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
-        this.leavePeriodDaysHoursTitle = new Element('label', {
+        this.leavePeriodDaysHoursTitle = new Element('div', {
             'html': 'Scheduled',
             'class': 'leave-detail-leave-period-header-scheduled'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
@@ -10063,8 +10063,6 @@ var UILeaveDetail = new Class({
         this.createLeavePeriodGroup(form);
         this.createLeaveDetailsGroup(form, this.isManager, leaveHeader);
 
-        Affinity.leave.populateLeaveActivity(form, leaveHeader.EmployeeNo, leaveHeader.TSGroupId);
-
         Affinity.modal.setElement(modalData);
 
         var leaveConfig = new Object();
@@ -10089,6 +10087,7 @@ var UILeaveDetail = new Class({
         var leaveModel = this.createLeaveModel(this.data);
         this.createDaysFields(leaveModel, null);
         this.createButtons(form, false);
+        Affinity.leave.populateLeaveActivity(form, leaveHeader.EmployeeNo, leaveHeader.TSGroupId);
 
         this.currentlySavedLeaveInstance = this.getEditedLeaveInstance();
 
@@ -10354,7 +10353,7 @@ var UILeaveDetail = new Class({
 
                 this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer);
                 // this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-detail-group-column-blank-header' }).inject(this.leavePeriodDaysBoxValueRow);
-                this.leavePeriodDaysDateColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
+                this.leavePeriodDaysDateColumnContainer = new Element('div', {'class':'leave-detail-period-daysdate-column-container'}).inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysDaysColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysHoursColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
                 this.leavePeriodDaysScheduledColumnContainer = new Element('span').inject(this.leavePeriodDaysBoxValueRow);
@@ -10367,7 +10366,7 @@ var UILeaveDetail = new Class({
 
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
-                var dateStringValue = dateValue.toDate().toLocaleString("en-US", options);
+                var dateStringValue = dateValue.toDate().toLocaleString("en-AU", options);
                 var scheduledHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
                 scheduledHours = this.roundDown(scheduledHours, 2).toFixed(2);
                 var daysAppliedFor = this.roundDown(day.PositionUnits[0].DaysAppliedFor, 2).toFixed(2);
@@ -12233,7 +12232,7 @@ var UILeaveDetail = new Class({
 
             this.applyWarningRule(warningField, dateFormattingRule, ruleParams);
 
-            if (warningField.get('text') === 'Partial leave day only') {
+            if (warningField.get('text') === 'Partial leave day') {
                 partialDayWarningApplied = true;
             }
 
@@ -12300,12 +12299,26 @@ var UILeaveDetail = new Class({
                 dateField.parentElement.grab(new Element('span', { class: 'icon-plane' }), 'top');
                 dateField.parentElement.addClass('ui-has-tooltip').set('data-tooltip', ruleParams.publicHolidayName).set('data-tooltip-dir', 'bottom,center');
 
+                if (dateField.className.indexOf('leave-detail-input-date') !== -1) {
+                    dateField.removeClass('leave-detail-input-date');
+                    dateField.addClass('leave-detail-input-date-holiday');
+                }
+
+               
+
                 Affinity.tooltips.processTooltip(dateField.parentElement, false);
             }
-        } else {
+        }
+        else {
             var existingPlaneList = dateField.parentElement.getElementsByClassName('space-icon-plane');
             if (existingPlaneList && existingPlaneList.length === 0) {
-                dateField.parentElement.grab(new Element('span', { class: 'space-icon-plane' }), 'top');
+
+                if (dateField.className.indexOf('leave-detail-input-date') !== -1) {
+                    dateField.removeClass('leave-detail-input-date-holiday');
+                    dateField.addClass('leave-detail-input-date');
+                }
+
+              
             }
 
         }
@@ -12327,7 +12340,7 @@ var UILeaveDetail = new Class({
 
         } else if (ruleParams.hoursValue < ruleParams.scheduledHoursValue && ruleParams.hoursValue !== 0) {
 
-            fieldElement.set('text', "Partial leave day only")
+            fieldElement.set('text', "Partial leave day")
             fieldElement.setStyle('color', 'orange');
             fieldElement.setStyle('display', 'inline-block');
             fieldElement.setStyle('width', '120px');

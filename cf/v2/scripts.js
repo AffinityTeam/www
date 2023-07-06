@@ -10611,7 +10611,6 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
    */
   SearchSelected(data, dontPrompt)
   {
-    debugger;
     this._searchSelected(data, dontPrompt);
   }
 
@@ -10857,7 +10856,10 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
           var buttonCLicked = 'OK';
           if (this._checkOkToContinue(false, buttonCLicked))
           {
-            if (this.DragNode.controller.Saved && this.DragNode.controller.Changed) this.Designer.CheckSave();
+            if (this.DragNode.controller.Saved && this.DragNode.controller.Changed)
+            {
+              this.Designer.CheckSave();
+            }
 
             // update special data
 
@@ -11296,12 +11298,39 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     */
     this.AllowMultipleDisplayFields = false;
 
-    /**/
-
+    /**
+    * Description.    Open preview in a new tab
+    * @type {Boolean}
+    * @const
+    * @public
+    */
     this.OpenPreviewInNewWindow = false;
 
+    /**
+    * Description.    Last Update and POST times
+    * @type {DateTime}
+    * @const
+    * @public
+    */
     this.LastModifiedTime = Date.now();
     this.LastPostTime = Date.now();
+
+    /**
+    * Description.    Status of Form Details (top info) update. 
+    *                 none / progress / done / error
+    * @type {String}
+    * @const
+    * @public
+    */
+    this.FormDetailsProgress = 'none';
+
+    /**
+    * Description.    The new element created wafter a lft list item is dropped.
+    * @type {HtmlElement}
+    * @const
+    * @public
+    */
+    this.ElementDropped = null;
   }
 
 
@@ -11360,7 +11389,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       '_removeElementClicked', '_clearRemove', '_removeElement', '_setElementForDelete',
       '_disableAllDeleteButtons', '_enableAllDeleteButtons',
 
-      '_updateFormDetails', '_hasCountrySensativeFields',
+      '_updateFormDetails', '_hasCountrySensativeFields', '_checkResetFormCountry',
 
       '_setupLeftListPositionOnScroll',
 
@@ -12108,7 +12137,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 },
                 onOk: function ()
                 {
-                  debugger;
                   this.Editor.SearchSelected({ data: config.Details.AffinityField }, true);
                 }.bind(this),
                 onCancel: function ()
@@ -12655,9 +12683,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   * @this    Class scope
   * @access  private
   */
-  _processTemplate ()
+  _processTemplate (showLoader)
   {
-    $a.ShowPageLoader();
+    showLoader = showLoader === undefined ? true : showLoader;
+
+    if (showLoader) $a.ShowPageLoader();
 
     var formEmpty = false;
     var totalElements = 0;
@@ -13099,7 +13129,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     }
     else
     {
-      this._checkSave();
+      this._checkSave(true);
     }
 
     this.LockAffinityNonMasterFileSection(node);
@@ -13646,10 +13676,21 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _updateFormDetails (ev)
   {
-    var formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
+    this.FormDetailsProgress = 'progress';
+    var countryNode = this.TopNode.querySelector('select.form-country');
+    var formCountry = this.CleverForms.GetCountryCodeVariant(countryNode.value);
     if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === 'NULL' || formCountry === '') formCountry = null;
 
-    if (this._hasCountrySensativeFields()) return;
+    if (this._hasCountrySensativeFields())
+    {
+      if ($a.isNullOrEmpty(countryNode.value))
+      {
+        countryNode.value = Affinity2018.Apps.CleverForms.Default.TemplateModel.FormCountry;
+      }
+      this.FormDetailsProgress = 'none';
+      window.dispatchEvent(new Event('FormDetailsDone'));
+      return;
+    }
 
     var postData = $a.jsonCloneObject(this.CleverForms.TemplateModel);
     postData.Description = this.TopNode.querySelector('input.form-name').value.trim();
@@ -13697,15 +13738,24 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           model: this.CleverForms.TemplateModel
         }
       })
-      .then(function (response)
-      {
-        this.lastUpdateFormDetails = postData;
-        this.DesignerSavingNode.classList.remove('show');
-      }.bind(this))
-      .catch(function (error)
-      {
-        this.DesignerSavingNode.classList.remove('show');
-      }.bind(this));
+        .then(function (response)
+        {
+          this.lastUpdateFormDetails = postData;
+          this.DesignerSavingNode.classList.remove('show');
+          this.FormDetailsProgress = 'done';
+          window.dispatchEvent(new Event('FormDetailsDone'));
+        }.bind(this))
+        .catch(function (error)
+        {
+          this.DesignerSavingNode.classList.remove('show');
+          this.FormDetailsProgress = 'error';
+          window.dispatchEvent(new Event('FormDetailsDone'));
+        }.bind(this));
+    }
+    else
+    {
+      this.FormDetailsProgress = 'none';
+      window.dispatchEvent(new Event('FormDetailsDone'));
     }
   }
 
@@ -13719,6 +13769,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _hasCountrySensativeFields(formCountry)
   {
     //if (!this.HasMultipleCountries) return false;
+    let formCountryNode = this.TopNode.querySelector('select.form-country');
+    let countries = Affinity2018.Apps.CleverForms.Default.TemplateModel.SupportedCountries; // get supported countries
+    var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
+    var checkFeilds = this.CleverForms.CountrySensativeFieldNames;
+    var hasSensativeFields = false;
     if (formCountry === undefined)
     {
       formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
@@ -13726,9 +13781,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     }
     if (formCountry === null)
     {
-      var checkFeilds = this.CleverForms.CountrySensativeFieldNames;
-      var hasSensativeFields = false;
-      var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
       elementNodes.forEach(function (elementNode)
       {
         if (elementNode.hasOwnProperty('controller'))
@@ -13740,14 +13792,33 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           )
           {
             hasSensativeFields = true;
-            return;
           }
         }
       }.bind(this));
       if (hasSensativeFields)
       {
+        if ($a.isNullOrEmpty(formCountryNode.value)) // form contry selector is N/A
+        {
+          if (countries.length == 1) // is only on, is is NOT multi country
+          {
+            formCountryNode.value = countries[0]; // set to default ..
+            this._updateFormDetails(); // and save :P
+            return false; // then return, NO! We do NOT have illegal country sensative fields in a N/A template :P
+          }
+        }
+        let fieldSpecific = false;
+        if (this.ElementDropped !== null)
+        {
+          fieldSpecific = true;
+          if (this.ElementDropped.parentNode)
+          {
+            this.ElementDropped.parentNode.removeChild(this.ElementDropped);
+            // TODO:" Do we need to remove keys too?
+          }
+        }
+        let lang = $a.Lang.ReturnPath('application.cleverfroms.designer.' + (fieldSpecific ? 'element-requires-form-country' : 'has-country-sensative-fields'));
         Affinity2018.Dialog.Show({
-          message: $a.Lang.ReturnPath('application.cleverfroms.designer.has-country-sensative-fields'),
+          message: lang,
           showOk: true,
           showCancel: false,
           showInput: false,
@@ -13757,7 +13828,50 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         return true;
       }
     }
+    this._checkResetFormCountry();
     return false;
+  }
+
+
+
+  /**
+   * Summary. Check if we should reset Form Country to N/A
+   * @this    Class scope
+   * @access  private
+   */
+  _checkResetFormCountry(formCountry)
+  {
+    let countries = Affinity2018.Apps.CleverForms.Default.TemplateModel.SupportedCountries; // get supported countries
+    if (countries.length === 1)
+    {
+      let formCountryNode = this.TopNode.querySelector('select.form-country');
+      var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
+      var checkFeilds = this.CleverForms.CountrySensativeFieldNames;
+      var hasSensativeFields = false;
+      if (!$a.isNullOrEmpty(formCountryNode.value))
+      {
+        elementNodes.forEach(function (elementNode)
+        {
+          if (elementNode.hasOwnProperty('controller'))
+          {
+            var elementConfig = elementNode.controller.Config;
+            if (
+              elementConfig.Details.hasOwnProperty('AffinityField')
+              && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
+            )
+            {
+              hasSensativeFields = true;
+              return;
+            }
+          }
+        }.bind(this));
+        if (!hasSensativeFields)
+        {
+          formCountryNode.value = '';
+          this._updateFormDetails();
+        }
+      }
+    }
   }
 
 
@@ -14301,6 +14415,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _dropped (node, toListNode, fromListNode, siblingNode)
   {
+
+    this.ElementDropped = node;
+
     clearTimeout(this.dragScrollTimer);
     if (toListNode !== null)
     {
@@ -14350,11 +14467,30 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   * @this    Class scope
   * @access  private
   */
-  _checkSave ()
+  _checkSave (fromAutoLoad)
   {
     clearTimeout(this._checkSaveTimer);
-    if (this._hasCountrySensativeFields()) return;
-    this._checkSaveTimer = setTimeout(this._checkSaveThrottled, 250);
+    clearTimeout(this._checkSaveTimerAfterDetailsProgress);
+    fromAutoLoad = fromAutoLoad === undefined ? false : fromAutoLoad;
+    if (this.FormDetailsProgress !== 'progress')
+    {
+      var checkSensativeFieldsBool = this._hasCountrySensativeFields();
+      if (checkSensativeFieldsBool)
+      {
+        if (!fromAutoLoad && this.ElementDropped === null)
+        {
+          clearTimeout(this._resetFormDelay);
+          this._resetFormDelay = setTimeout(this._processTemplate, 250, false);
+        }
+        return;
+      }
+      this._checkSaveTimer = setTimeout(this._checkSaveThrottled, 250);
+    }
+    else
+    {
+      window.removeEventListener('FormDetailsDone', this._checkSave);
+      window.addEventListener('FormDetailsDone', this._checkSave);
+    }
   }
 
 
@@ -14399,6 +14535,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _checkSaveThrottled ()
   {
     clearTimeout(this._checkSaveTimer);
+
+    this.ElementDropped = null;
 
     var changedNodes = [],
       logs = [],
@@ -14735,7 +14873,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     {
       if (
         response.hasOwnProperty('statusText') // needs exact match on all or partial result
-        && response.statusText.toLowerCase().contains('requires form country result from marina') 
+        && response.statusText.toLowerCase().contains('must select the country form') 
       )
       {
         error = $a.Lang.ReturnPath('app.cf.backend_sub_errors.designer-element-requires-form-country');
@@ -14807,6 +14945,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _postComplete ()
   {
+    this._checkResetFormCountry();
     this._enableAllButtons();
     if (!this.RightListNode.querySelector('li[data-type="Section"]') && !this.Uploading) this._injectDefaultSection();
     this.PostLocked = false;
