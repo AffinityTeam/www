@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2838,32-37): run-time error JS1195: Expected expression: class
-(3377,32-37): run-time error JS1195: Expected expression: class
-(3469,29-30): run-time error JS1004: Expected ';': {
-(3470,29-30): run-time error JS1004: Expected ';': {
+(2840,32-37): run-time error JS1195: Expected expression: class
+(3379,32-37): run-time error JS1195: Expected expression: class
 (3471,29-30): run-time error JS1004: Expected ';': {
 (3472,29-30): run-time error JS1004: Expected ';': {
-(4117,36-41): run-time error JS1195: Expected expression: class
-(4230,30-35): run-time error JS1195: Expected expression: class
-(4335,31-36): run-time error JS1195: Expected expression: class
-(4575,35-40): run-time error JS1195: Expected expression: class
-(4703,33-38): run-time error JS1195: Expected expression: class
-(4914,39-40): run-time error JS1014: Invalid character: `
-(4914,40-41): run-time error JS1195: Expected expression: <
-(4914,100-101): run-time error JS1014: Invalid character: `
-(4933,43-44): run-time error JS1014: Invalid character: `
-(4933,44-45): run-time error JS1195: Expected expression: <
-(4933,108-109): run-time error JS1014: Invalid character: `
-(5001,33-38): run-time error JS1195: Expected expression: class
-(5301,32-37): run-time error JS1195: Expected expression: class
-(5673,33-38): run-time error JS1195: Expected expression: class
-(5755,37-42): run-time error JS1195: Expected expression: class
-(5756,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3473,29-30): run-time error JS1004: Expected ';': {
+(3474,29-30): run-time error JS1004: Expected ';': {
+(4119,36-41): run-time error JS1195: Expected expression: class
+(4232,30-35): run-time error JS1195: Expected expression: class
+(4337,31-36): run-time error JS1195: Expected expression: class
+(4577,35-40): run-time error JS1195: Expected expression: class
+(4705,33-38): run-time error JS1195: Expected expression: class
+(4916,39-40): run-time error JS1014: Invalid character: `
+(4916,40-41): run-time error JS1195: Expected expression: <
+(4916,100-101): run-time error JS1014: Invalid character: `
+(4935,43-44): run-time error JS1014: Invalid character: `
+(4935,44-45): run-time error JS1195: Expected expression: <
+(4935,108-109): run-time error JS1014: Invalid character: `
+(5003,33-38): run-time error JS1195: Expected expression: class
+(5303,32-37): run-time error JS1195: Expected expression: class
+(5675,33-38): run-time error JS1195: Expected expression: class
+(5757,37-42): run-time error JS1195: Expected expression: class
+(5758,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5757,5-16): run-time error JS1006: Expected ')': constructor
-(5828,3-4): run-time error JS1002: Syntax error: }
-(5828,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5770,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5759,5-16): run-time error JS1006: Expected ')': constructor
+(5830,3-4): run-time error JS1002: Syntax error: }
+(5830,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5772,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1800,21 +1800,26 @@
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
         timestamp = parseInt(dateStr);
-        //luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: 'utc' });
-        //date = luxonDate.toLocal().toJSDate();
-        luxonDate = luxon.DateTime.fromMillis(timestamp);
-        date = luxonDate.toJSDate();
+        luxonDate = luxon.DateTime.fromMillis(timestamp); // timestamps to local?
+        // luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: 'utc' });
         if (format)
         {
-          //date = luxonDate.toLocal().toFormat(format);
           date = luxonDate.toFormat(format);
+        }
+        else
+        {
+          date = luxonDate.toJSDate();
         }
         //Affinity2018.DateLog('getDate', mixed, timestamp, format, date);
         return date
       }
       else
       {
-        if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
+        if (mixed.countString('T') === 1) // ISO
+        {
+          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
+        }
+        else if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
         {
           var parserFormat =
             mixed.countString('/') === 2 ? 'dd/MM/yyyy' :
@@ -1829,12 +1834,10 @@
           if (mixed.toLowerCase().trim().endsWith(' am') || mixed.toLowerCase().trim().endsWith(' pm')) parserFormat += ' a';
           else if (mixed.toLowerCase().trim().endsWith('am') || mixed.toLowerCase().trim().endsWith('pm')) parserFormat += 'a';
           if (parserFormat.endsWith('a')) parserFormat = parserFormat.replace('HH', 'hh');
-          //luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
           luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
         }
         else
         {
-          //luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed), { zone: 'local' });
           luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
         }
         if (luxonDate.isValid)
@@ -1851,7 +1854,6 @@
     }
     //
     date = new Date();
-    //if (format) date = luxon.DateTime.local().toFormat(format);
     if (format) date = luxon.DateTime.toFormat(format);
     return date;
   };
@@ -16301,14 +16303,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var node, html;
       this.HistoryData.forEach(function (data, index)
       {
+        debugger;
+        var asDate = $a.getDate(data.EnteredAtUtc, 'dd.MM.yyyy');
+        var asTime = $a.getDate(data.EnteredAtUtc, 'h:mma').toLowerCase();
         node = document.createElement('div');
         html = this.historyTemplate.format({
           ActionTaken: data.ActionTaken,
           AssigneeName: data.AssigneeName,
           Comment: data.Comment === null ? '' : data.Comment,
           OriginatorName: data.OriginatorName,
-          Date: $a.getDate(data.EnteredAtUtc, 'dd.MM.yyyy'),
-          Time: $a.getDate(data.EnteredAtUtc, 'h:mma').toLowerCase()
+          Date: asDate,
+          Time: asTime
         });
         node.innerHTML = html;
         if (data.Originator !== data.Assignee) node.querySelector('.history-to').classList.remove('hidden');
