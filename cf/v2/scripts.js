@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2840,32-37): run-time error JS1195: Expected expression: class
-(3379,32-37): run-time error JS1195: Expected expression: class
-(3471,29-30): run-time error JS1004: Expected ';': {
+(2841,32-37): run-time error JS1195: Expected expression: class
+(3380,32-37): run-time error JS1195: Expected expression: class
 (3472,29-30): run-time error JS1004: Expected ';': {
 (3473,29-30): run-time error JS1004: Expected ';': {
 (3474,29-30): run-time error JS1004: Expected ';': {
-(4119,36-41): run-time error JS1195: Expected expression: class
-(4232,30-35): run-time error JS1195: Expected expression: class
-(4337,31-36): run-time error JS1195: Expected expression: class
-(4577,35-40): run-time error JS1195: Expected expression: class
-(4705,33-38): run-time error JS1195: Expected expression: class
-(4916,39-40): run-time error JS1014: Invalid character: `
-(4916,40-41): run-time error JS1195: Expected expression: <
-(4916,100-101): run-time error JS1014: Invalid character: `
-(4935,43-44): run-time error JS1014: Invalid character: `
-(4935,44-45): run-time error JS1195: Expected expression: <
-(4935,108-109): run-time error JS1014: Invalid character: `
-(5003,33-38): run-time error JS1195: Expected expression: class
-(5303,32-37): run-time error JS1195: Expected expression: class
-(5675,33-38): run-time error JS1195: Expected expression: class
-(5757,37-42): run-time error JS1195: Expected expression: class
-(5758,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3475,29-30): run-time error JS1004: Expected ';': {
+(4120,36-41): run-time error JS1195: Expected expression: class
+(4233,30-35): run-time error JS1195: Expected expression: class
+(4338,31-36): run-time error JS1195: Expected expression: class
+(4578,35-40): run-time error JS1195: Expected expression: class
+(4706,33-38): run-time error JS1195: Expected expression: class
+(4917,39-40): run-time error JS1014: Invalid character: `
+(4917,40-41): run-time error JS1195: Expected expression: <
+(4917,100-101): run-time error JS1014: Invalid character: `
+(4936,43-44): run-time error JS1014: Invalid character: `
+(4936,44-45): run-time error JS1195: Expected expression: <
+(4936,108-109): run-time error JS1014: Invalid character: `
+(5004,33-38): run-time error JS1195: Expected expression: class
+(5304,32-37): run-time error JS1195: Expected expression: class
+(5676,33-38): run-time error JS1195: Expected expression: class
+(5758,37-42): run-time error JS1195: Expected expression: class
+(5759,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5759,5-16): run-time error JS1006: Expected ')': constructor
-(5830,3-4): run-time error JS1002: Syntax error: }
-(5830,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5772,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5760,5-16): run-time error JS1006: Expected ')': constructor
+(5831,3-4): run-time error JS1002: Syntax error: }
+(5831,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5773,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1817,7 +1817,8 @@
       {
         if (mixed.countString('T') === 1) // ISO
         {
-          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
+          //luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
+          luxonDate = luxon.DateTime.fromISO(mixed);
         }
         else if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
         {
@@ -16303,7 +16304,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var node, html;
       this.HistoryData.forEach(function (data, index)
       {
-        debugger;
         var asDate = $a.getDate(data.EnteredAtUtc, 'dd.MM.yyyy');
         var asTime = $a.getDate(data.EnteredAtUtc, 'h:mma').toLowerCase();
         node = document.createElement('div');
