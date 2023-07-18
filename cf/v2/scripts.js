@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2835,32-37): run-time error JS1195: Expected expression: class
-(3374,32-37): run-time error JS1195: Expected expression: class
-(3466,29-30): run-time error JS1004: Expected ';': {
+(2836,32-37): run-time error JS1195: Expected expression: class
+(3375,32-37): run-time error JS1195: Expected expression: class
 (3467,29-30): run-time error JS1004: Expected ';': {
 (3468,29-30): run-time error JS1004: Expected ';': {
 (3469,29-30): run-time error JS1004: Expected ';': {
-(4114,36-41): run-time error JS1195: Expected expression: class
-(4227,30-35): run-time error JS1195: Expected expression: class
-(4332,31-36): run-time error JS1195: Expected expression: class
-(4572,35-40): run-time error JS1195: Expected expression: class
-(4700,33-38): run-time error JS1195: Expected expression: class
-(4911,39-40): run-time error JS1014: Invalid character: `
-(4911,40-41): run-time error JS1195: Expected expression: <
-(4911,100-101): run-time error JS1014: Invalid character: `
-(4930,43-44): run-time error JS1014: Invalid character: `
-(4930,44-45): run-time error JS1195: Expected expression: <
-(4930,108-109): run-time error JS1014: Invalid character: `
-(4998,33-38): run-time error JS1195: Expected expression: class
-(5298,32-37): run-time error JS1195: Expected expression: class
-(5670,33-38): run-time error JS1195: Expected expression: class
-(5752,37-42): run-time error JS1195: Expected expression: class
-(5753,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(3470,29-30): run-time error JS1004: Expected ';': {
+(4115,36-41): run-time error JS1195: Expected expression: class
+(4228,30-35): run-time error JS1195: Expected expression: class
+(4333,31-36): run-time error JS1195: Expected expression: class
+(4573,35-40): run-time error JS1195: Expected expression: class
+(4701,33-38): run-time error JS1195: Expected expression: class
+(4912,39-40): run-time error JS1014: Invalid character: `
+(4912,40-41): run-time error JS1195: Expected expression: <
+(4912,100-101): run-time error JS1014: Invalid character: `
+(4931,43-44): run-time error JS1014: Invalid character: `
+(4931,44-45): run-time error JS1195: Expected expression: <
+(4931,108-109): run-time error JS1014: Invalid character: `
+(4999,33-38): run-time error JS1195: Expected expression: class
+(5299,32-37): run-time error JS1195: Expected expression: class
+(5671,33-38): run-time error JS1195: Expected expression: class
+(5753,37-42): run-time error JS1195: Expected expression: class
+(5754,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5754,5-16): run-time error JS1006: Expected ')': constructor
-(5825,3-4): run-time error JS1002: Syntax error: }
-(5825,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5767,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5755,5-16): run-time error JS1006: Expected ')': constructor
+(5826,3-4): run-time error JS1002: Syntax error: }
+(5826,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5768,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1809,8 +1809,9 @@
       else if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.?/.test(mixed)) // ISO Date String - ignore zone as this date should include zone?
       {
         luxonDate = luxon.DateTime.fromISO(mixed);
-        date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
-        Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
+        zone = luxonDate.zoneName;
+        date = format ? luxonDate.setZone(zone).toFormat(format) : luxonDate.setZone(zone).toJSDate();
+        Affinity2018.DateLog('getDate', mixed, luxonDate.setZone(zone).toJSDate(), format, date);
         return date;
       }
       else // Unknown .. we have to work it out as beast we can ...
@@ -1836,8 +1837,8 @@
         }
         if (luxonDate.isValid)
         {
-          date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
-          Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
+          date = format ? luxonDate.setZone(zone).toFormat(format) : luxonDate.setZone(zone).toJSDate();
+          Affinity2018.DateLog('getDate', mixed, luxonDate.setZone(zone).toJSDate(), format, date);
           return date
         }
         else
@@ -8094,9 +8095,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     /** If Affnity2018 UI is ready, initialise, else initialise when Affnity2018 fires the "MainInit" event. */
     if (Affinity2018.UiReady) this._init();
     else window.addEventListener('MainInit', this._init);
-
-
-    console.log(config);
   }
 
 
