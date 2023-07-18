@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2841,32-37): run-time error JS1195: Expected expression: class
-(3380,32-37): run-time error JS1195: Expected expression: class
-(3472,29-30): run-time error JS1004: Expected ';': {
-(3473,29-30): run-time error JS1004: Expected ';': {
-(3474,29-30): run-time error JS1004: Expected ';': {
-(3475,29-30): run-time error JS1004: Expected ';': {
-(4120,36-41): run-time error JS1195: Expected expression: class
-(4233,30-35): run-time error JS1195: Expected expression: class
-(4338,31-36): run-time error JS1195: Expected expression: class
-(4578,35-40): run-time error JS1195: Expected expression: class
-(4706,33-38): run-time error JS1195: Expected expression: class
-(4917,39-40): run-time error JS1014: Invalid character: `
-(4917,40-41): run-time error JS1195: Expected expression: <
-(4917,100-101): run-time error JS1014: Invalid character: `
-(4936,43-44): run-time error JS1014: Invalid character: `
-(4936,44-45): run-time error JS1195: Expected expression: <
-(4936,108-109): run-time error JS1014: Invalid character: `
-(5004,33-38): run-time error JS1195: Expected expression: class
-(5304,32-37): run-time error JS1195: Expected expression: class
-(5676,33-38): run-time error JS1195: Expected expression: class
-(5758,37-42): run-time error JS1195: Expected expression: class
-(5759,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2835,32-37): run-time error JS1195: Expected expression: class
+(3374,32-37): run-time error JS1195: Expected expression: class
+(3466,29-30): run-time error JS1004: Expected ';': {
+(3467,29-30): run-time error JS1004: Expected ';': {
+(3468,29-30): run-time error JS1004: Expected ';': {
+(3469,29-30): run-time error JS1004: Expected ';': {
+(4114,36-41): run-time error JS1195: Expected expression: class
+(4227,30-35): run-time error JS1195: Expected expression: class
+(4332,31-36): run-time error JS1195: Expected expression: class
+(4572,35-40): run-time error JS1195: Expected expression: class
+(4700,33-38): run-time error JS1195: Expected expression: class
+(4911,39-40): run-time error JS1014: Invalid character: `
+(4911,40-41): run-time error JS1195: Expected expression: <
+(4911,100-101): run-time error JS1014: Invalid character: `
+(4930,43-44): run-time error JS1014: Invalid character: `
+(4930,44-45): run-time error JS1195: Expected expression: <
+(4930,108-109): run-time error JS1014: Invalid character: `
+(4998,33-38): run-time error JS1195: Expected expression: class
+(5298,32-37): run-time error JS1195: Expected expression: class
+(5670,33-38): run-time error JS1195: Expected expression: class
+(5752,37-42): run-time error JS1195: Expected expression: class
+(5753,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5760,5-16): run-time error JS1006: Expected ')': constructor
-(5831,3-4): run-time error JS1002: Syntax error: }
-(5831,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5773,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5754,5-16): run-time error JS1006: Expected ')': constructor
+(5825,3-4): run-time error JS1002: Syntax error: }
+(5825,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5767,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1746,81 +1746,78 @@
   *
   * @returns {Date|String}
   */
-  //Affinity2018.DateLog = function (methodName, input, parsed, format, output, color1, color2)
-  //{
-  //  methodName = methodName.toString().padRight(' ', 15);
-  //  input = input.toString().trim()
-  //    .replace('(New Zealand Standard Time)', '(NZST)')
-  //    .replace('(New Zealand Daylight Time)', '(NZDT)')
-  //    .replace('GMT+1200', '+12')
-  //    .replace('GMT+1300', '+13')
-  //    .padRight(' ', 37);
-  //  parsed = parsed.toString().trim()
-  //    .replace('(New Zealand Standard Time)', '(NZST)')
-  //    .replace('(New Zealand Daylight Time)', '(NZDT)')
-  //    .replace('GMT+1200', '+12')
-  //    .replace('GMT+1300', '+13')
-  //    .padRight(' ', 37);
-  //  format = format.toString().padRight(' ', 22);
-  //  color1 = color1 || '#106eb6';
-  //  color2 = color2 || '#16c1f3';
-  //  console.info("%c:: DATE :: Method : " + '%c' + methodName +
-  //    "%cInput : %c" + input +
-  //    "%cParsed : %c" + parsed +
-  //    "%cFormat : %c" + format +
-  //    "%cOutput :",
-  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-  //    'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-  //    'color:' + color1 + ';',
-  //    output
-  //  );
-  //  //console.info("%c:: DATE :: Method: " + methodName, '' + "Input: " + input + "Parsed: " + parsed + "Format: " + format + "Output:   ", 'color: ' + color + ';',  output);
-  //};
+  Affinity2018.DateLog = function (methodName, input, parsed, format, output, color1, color2)
+  {
+    if (input === null) return;
+    format = format === undefined || format === null ? '' : format;
+    methodName = methodName.toString().padRight(' ', 15);
+    input = input.toString().trim()
+      .replace('(New Zealand Standard Time)', '(NZST)')
+      .replace('(New Zealand Daylight Time)', '(NZDT)')
+      .replace('GMT+1200', '+12')
+      .replace('GMT+1300', '+13')
+      .padRight(' ', 37);
+    parsed = parsed.toString().trim()
+      .replace('(New Zealand Standard Time)', '(NZST)')
+      .replace('(New Zealand Daylight Time)', '(NZDT)')
+      .replace('GMT+1200', '+12')
+      .replace('GMT+1300', '+13')
+      .padRight(' ', 37);
+    format = format.toString().padRight(' ', 22);
+    color1 = color1 || '#106eb6';
+    color2 = color2 || '#16c1f3';
+    console.info("%c:: DATE :: Method : " + '%c' + methodName +
+      "%cInput : %c" + input +
+      "%cParsed : %c" + parsed +
+      "%cFormat : %c" + format +
+      "%cOutput :",
+      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
+      'color:' + color1 + ';',
+      output
+    );
+    //console.info("%c:: DATE :: Method: " + methodName, '' + "Input: " + input + "Parsed: " + parsed + "Format: " + format + "Output:   ", 'color: ' + color + ';',  output);
+  };
   Affinity2018.getDate = function (mixed, format, zone)
   {
     var date;
-    format = Affinity2018.paramOrDefault(format, false, 'string');
+    format = format !== undefined && Affinity2018.isString(format) ? format : null;
+    zone = zone !== undefined && Affinity2018.isString(zone) ? zone : 'utc';
     if (Affinity2018.isDate(mixed))
     {
-      date = mixed;
-      if (format)
-      {
-        date = luxon.DateTime.fromJSDate(mixed).toFormat(format);
-      }
-      //Affinity2018.DateLog('getDate', mixed, '', format, date);
+      luxonDate = luxon.DateTime.fromJSDate(mixed, { zone: zone });
+      date = format ? luxonDate.toFormat(format) : mixed;
+      Affinity2018.DateLog('getDate', mixed, luxonDate, format, date);
       return date;
     }
     // strings
     var dateStr, timestamp, luxonDate;
     if (Affinity2018.isString(mixed))
     {
-      if (mixed.startsWith('/Date(') && mixed.endsWith(')/'))
+      //mixed = mixed.replace('th ', ' ').replace('nd ', ' ').replace('rd ', ' ');
+      if (mixed.startsWith('/Date(') && mixed.endsWith(')/')) // C# Date Object as String
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
         timestamp = parseInt(dateStr);
-        luxonDate = luxon.DateTime.fromMillis(timestamp); // timestamps to local?
-        // luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: 'utc' });
-        if (format)
-        {
-          date = luxonDate.toFormat(format);
-        }
-        else
-        {
-          date = luxonDate.toJSDate();
-        }
-        //Affinity2018.DateLog('getDate', mixed, timestamp, format, date);
+        luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: zone });
+        date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+        Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
         return date
       }
-      else
+      else if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.?/.test(mixed)) // ISO Date String - ignore zone as this date should include zone?
       {
-        if (mixed.countString('T') === 1) // ISO
-        {
-          //luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
-          luxonDate = luxon.DateTime.fromISO(mixed);
-        }
-        else if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
+        luxonDate = luxon.DateTime.fromISO(mixed);
+        date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+        Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
+        return date;
+      }
+      else // Unknown .. we have to work it out as beast we can ...
+      {
+        date = Date.parse(mixed);
+        luxonDate = luxon.DateTime.fromJSDate(date, { zone: zone });
+        if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
         {
           var parserFormat =
             mixed.countString('/') === 2 ? 'dd/MM/yyyy' :
@@ -1835,28 +1832,25 @@
           if (mixed.toLowerCase().trim().endsWith(' am') || mixed.toLowerCase().trim().endsWith(' pm')) parserFormat += ' a';
           else if (mixed.toLowerCase().trim().endsWith('am') || mixed.toLowerCase().trim().endsWith('pm')) parserFormat += 'a';
           if (parserFormat.endsWith('a')) parserFormat = parserFormat.replace('HH', 'hh');
-          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
-        }
-        else
-        {
-          luxonDate = luxon.DateTime.fromJSDate(Date.parse(mixed));
+          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
         }
         if (luxonDate.isValid)
         {
-          date = luxonDate.toJSDate();
-          if (format)
-          {
-            date = luxonDate.toFormat(format);
-          }
-          //Affinity2018.DateLog('getDate', mixed, '', format, date);
+          date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+          Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
           return date
+        }
+        else
+        {
+          console.warn('Tried to parse ' + mixed + ' but failed :(');
         }
       }
     }
-    //
-    date = new Date();
-    if (format) date = luxon.DateTime.toFormat(format);
-    return date;
+    // I don't know what the hell mixed is .. soooooo .. return "now" ..
+    luxonDate = luxon.DateTime.fromJSDate(new Date());
+    date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+    Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
+    return date
   };
 
 
