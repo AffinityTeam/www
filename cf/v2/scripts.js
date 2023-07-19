@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2836,32-37): run-time error JS1195: Expected expression: class
-(3375,32-37): run-time error JS1195: Expected expression: class
-(3467,29-30): run-time error JS1004: Expected ';': {
-(3468,29-30): run-time error JS1004: Expected ';': {
-(3469,29-30): run-time error JS1004: Expected ';': {
-(3470,29-30): run-time error JS1004: Expected ';': {
-(4115,36-41): run-time error JS1195: Expected expression: class
-(4228,30-35): run-time error JS1195: Expected expression: class
-(4333,31-36): run-time error JS1195: Expected expression: class
-(4573,35-40): run-time error JS1195: Expected expression: class
-(4701,33-38): run-time error JS1195: Expected expression: class
-(4912,39-40): run-time error JS1014: Invalid character: `
-(4912,40-41): run-time error JS1195: Expected expression: <
-(4912,100-101): run-time error JS1014: Invalid character: `
-(4931,43-44): run-time error JS1014: Invalid character: `
-(4931,44-45): run-time error JS1195: Expected expression: <
-(4931,108-109): run-time error JS1014: Invalid character: `
-(4999,33-38): run-time error JS1195: Expected expression: class
-(5299,32-37): run-time error JS1195: Expected expression: class
-(5671,33-38): run-time error JS1195: Expected expression: class
-(5753,37-42): run-time error JS1195: Expected expression: class
-(5754,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2811,32-37): run-time error JS1195: Expected expression: class
+(3350,32-37): run-time error JS1195: Expected expression: class
+(3442,29-30): run-time error JS1004: Expected ';': {
+(3443,29-30): run-time error JS1004: Expected ';': {
+(3444,29-30): run-time error JS1004: Expected ';': {
+(3445,29-30): run-time error JS1004: Expected ';': {
+(4090,36-41): run-time error JS1195: Expected expression: class
+(4203,30-35): run-time error JS1195: Expected expression: class
+(4308,31-36): run-time error JS1195: Expected expression: class
+(4548,35-40): run-time error JS1195: Expected expression: class
+(4676,33-38): run-time error JS1195: Expected expression: class
+(4887,39-40): run-time error JS1014: Invalid character: `
+(4887,40-41): run-time error JS1195: Expected expression: <
+(4887,100-101): run-time error JS1014: Invalid character: `
+(4906,43-44): run-time error JS1014: Invalid character: `
+(4906,44-45): run-time error JS1195: Expected expression: <
+(4906,108-109): run-time error JS1014: Invalid character: `
+(4974,33-38): run-time error JS1195: Expected expression: class
+(5274,32-37): run-time error JS1195: Expected expression: class
+(5646,33-38): run-time error JS1195: Expected expression: class
+(5728,37-42): run-time error JS1195: Expected expression: class
+(5729,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5755,5-16): run-time error JS1006: Expected ')': constructor
-(5826,3-4): run-time error JS1002: Syntax error: }
-(5826,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5768,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5730,5-16): run-time error JS1006: Expected ')': constructor
+(5801,3-4): run-time error JS1002: Syntax error: }
+(5801,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5743,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1746,112 +1746,129 @@
   *
   * @returns {Date|String}
   */
-  Affinity2018.DateLog = function (methodName, input, parsed, format, output, color1, color2)
-  {
-    if (input === null) return;
-    format = format === undefined || format === null ? '' : format;
-    methodName = methodName.toString().padRight(' ', 15);
-    input = input.toString().trim()
-      .replace('(New Zealand Standard Time)', '(NZST)')
-      .replace('(New Zealand Daylight Time)', '(NZDT)')
-      .replace('GMT+1200', '+12')
-      .replace('GMT+1300', '+13')
-      .padRight(' ', 37);
-    parsed = parsed.toString().trim()
-      .replace('(New Zealand Standard Time)', '(NZST)')
-      .replace('(New Zealand Daylight Time)', '(NZDT)')
-      .replace('GMT+1200', '+12')
-      .replace('GMT+1300', '+13')
-      .padRight(' ', 37);
-    format = format.toString().padRight(' ', 22);
-    color1 = color1 || '#106eb6';
-    color2 = color2 || '#16c1f3';
-    console.info("%c:: DATE :: Method : " + '%c' + methodName +
-      "%cInput : %c" + input +
-      "%cParsed : %c" + parsed +
-      "%cFormat : %c" + format +
-      "%cOutput :",
-      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-      'color:' + color1 + ';', 'font-weight: bold; color:' + color2 + ';',
-      'color:' + color1 + ';',
-      output
-    );
-    //console.info("%c:: DATE :: Method: " + methodName, '' + "Input: " + input + "Parsed: " + parsed + "Format: " + format + "Output:   ", 'color: ' + color + ';',  output);
-  };
-  Affinity2018.getDate = function (mixed, format, zone)
+  Affinity2018.getDate = function (mixed, format, ignoreLocalZone, nullOnFail)
   {
     var date;
     format = format !== undefined && Affinity2018.isString(format) ? format : null;
-    zone = zone !== undefined && Affinity2018.isString(zone) ? zone : 'utc';
+    ignoreLocalZone = ignoreLocalZone !== undefined && Affinity2018.isBool(ignoreLocalZone) ? ignoreLocalZone : true;
+    nullOnFail = nullOnFail !== undefined && Affinity2018.isBool(nullOnFail) ? nullOnFail : false;
     if (Affinity2018.isDate(mixed))
     {
-      luxonDate = luxon.DateTime.fromJSDate(mixed, { zone: zone });
+      luxonDate = luxon.DateTime.fromJSDate(mixed);
       date = format ? luxonDate.toFormat(format) : mixed;
-      Affinity2018.DateLog('getDate', mixed, luxonDate, format, date);
       return date;
     }
     // strings
-    var dateStr, timestamp, luxonDate;
+    var dateStr, luxonDate, partsStr, dateParts = { year: 0, month: 0, day: 0, hour: 0, min: 0, sec: 0 };
     if (Affinity2018.isString(mixed))
     {
-      //mixed = mixed.replace('th ', ' ').replace('nd ', ' ').replace('rd ', ' ');
       if (mixed.startsWith('/Date(') && mixed.endsWith(')/')) // C# Date Object as String
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
-        timestamp = parseInt(dateStr);
-        luxonDate = luxon.DateTime.fromMillis(timestamp, { zone: zone });
-        date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
-        Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
-        return date
+        luxonDate = luxon.DateTime.fromJSDate(new Date(parseInt(dateStr)));
+        dateParts = {
+          year: new Date(parseInt(dateStr)).getFullYear(),
+          month: new Date(parseInt(dateStr)).getMonth(),
+          day: new Date(parseInt(dateStr)).getDate(),
+          hour: new Date(parseInt(dateStr)).getHours(),
+          min: new Date(parseInt(dateStr)).getMinutes(),
+          sec: new Date(parseInt(dateStr)).getSeconds()
+        };
       }
-      else if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.?/.test(mixed)) // ISO Date String - ignore zone as this date should include zone?
+      else if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*?/.test(mixed)) // ISO Date String
       {
         luxonDate = luxon.DateTime.fromISO(mixed);
-        zone = luxonDate.zoneName;
-        date = format ? luxonDate.setZone(zone).toFormat(format) : luxonDate.setZone(zone).toJSDate();
-        Affinity2018.DateLog('getDate', mixed, luxonDate.setZone(zone).toJSDate(), format, date);
-        return date;
+        partsStr = /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*?/.exec(mixed)[0];
+        dateParts = {
+          year: parseInt(partsStr.split('T')[0].split('-')[0]),
+          month: parseInt(partsStr.split('T')[0].split('-')[1]) - 1,
+          day: parseInt(partsStr.split('T')[0].split('-')[2]),
+          hour: parseInt(partsStr.split('T')[1].split(':')[0]),
+          min: parseInt(partsStr.split('T')[1].split(':')[1]),
+          sec: parseInt(partsStr.split('T')[1].split(':')[2])
+        };
       }
       else // Unknown .. we have to work it out as beast we can ...
       {
+        var parserFormat = 'dd/MM/yyyy';
         date = Date.parse(mixed);
-        luxonDate = luxon.DateTime.fromJSDate(date, { zone: zone });
+        luxonDate = luxon.DateTime.fromJSDate(date);
         if (mixed.countString('/') === 2 || mixed.countString('\\') === 2 || mixed.countString('-') === 2 || mixed.countString('.') === 2)
         {
-          var parserFormat =
-            mixed.countString('/') === 2 ? 'dd/MM/yyyy' :
-            mixed.countString('\\') === 2 ? 'dd\\MM\\yyyy' :
-            mixed.countString('-') === 2 ? 'dd-MM-yyyy' :
-            mixed.countString('.') === 2 ? 'dd.MM.yyyy' :
-            'dd/MM/yyyy';
-          if (mixed.countString(':') === 1) parserFormat += ' HH:mm';
-          if (mixed.countString(':') === 2) parserFormat += ' HH:mm:ss';
-          if (mixed.countString(':') === 2 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
-          if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss:S';
-          if (mixed.toLowerCase().trim().endsWith(' am') || mixed.toLowerCase().trim().endsWith(' pm')) parserFormat += ' a';
-          else if (mixed.toLowerCase().trim().endsWith('am') || mixed.toLowerCase().trim().endsWith('pm')) parserFormat += 'a';
-          if (parserFormat.endsWith('a')) parserFormat = parserFormat.replace('HH', 'hh');
-          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat, { zone: zone });
-        }
-        if (luxonDate.isValid)
-        {
-          date = format ? luxonDate.setZone(zone).toFormat(format) : luxonDate.setZone(zone).toJSDate();
-          Affinity2018.DateLog('getDate', mixed, luxonDate.setZone(zone).toJSDate(), format, date);
-          return date
-        }
-        else
-        {
-          console.warn('Tried to parse ' + mixed + ' but failed :(');
+          if (mixed.countString('/') === 2)
+          {
+            parserFormat = 'dd/MM/yyyy';
+            partsStr = mixed.split(' ')[0].trim().split('/');
+          }
+          else if (mixed.countString('\\') === 2)
+          {
+            parserFormat = 'dd\\MM\\yyyy';
+            partsStr = mixed.split(' ')[0].trim().split('\\');
+          }
+          else if (mixed.countString('-') === 2)
+          {
+            parserFormat = 'dd-MM-yyyy';
+            partsStr = mixed.split(' ')[0].trim().split('-');
+          }
+          else if (mixed.countString('.') === 2)
+          {
+            parserFormat = 'dd.MM.yyyy';
+            partsStr = mixed.split(' ')[0].trim().split('.');
+          }
+          dateParts = { year: parseInt(partsStr[2]), month: parseInt(partsStr[1]) - 1, day: parseInt(partsStr[0]), hour: 0, min: 0, sec: 0 };
+          if (mixed.countString(':') >= 1)
+          {
+            if (mixed.countString(':') === 1) parserFormat += ' HH:mm';
+            else if (mixed.countString(':') === 2) parserFormat += ' HH:mm:ss';
+            else if (mixed.countString(':') === 2 && mixed.split(':')[mixed.split(':').length - 1].countString('.') > 0) parserFormat += ' HH:mm:ss.S';
+            else if (mixed.countString(':') === 3) parserFormat += ' HH:mm:ss:S';
+            partsStr = mixed.split(' ')[1].trim().split(' ')[0].trim().split(':');
+            if (partsStr.length === 2) partsStr.push(0);
+            dateParts.hour = parseInt(partsStr[0]);
+            dateParts.min = parseInt(partsStr[1]);
+            dateParts.sec = parseInt(partsStr[2]);
+          }
+          if (mixed.toLowerCase().trim().endsWith(' am') || mixed.toLowerCase().trim().endsWith(' pm'))
+          {
+            parserFormat += ' a';
+            if (mixed.countString(':') >= 1)
+            {
+              parserFormat = parserFormat.replace('HH:', 'hh:');
+              if (mixed.toLowerCase().trim().endsWith(' pm'))
+              {
+                dateParts.hour += 12;
+              }
+            }
+          }
+          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
         }
       }
+      if (luxonDate && luxonDate.isValid)
+      {
+        if (ignoreLocalZone)
+        {
+          luxonDate = luxon.DateTime.fromJSDate(new Date(
+            dateParts.year,
+            dateParts.month,
+            dateParts.day,
+            dateParts.hour,
+            dateParts.min,
+            dateParts.sec,
+            0
+          ));
+        }
+        date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+        return date
+      }
     }
-    // I don't know what the hell mixed is .. soooooo .. return "now" ..
-    luxonDate = luxon.DateTime.fromJSDate(new Date());
-    date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
-    Affinity2018.DateLog('getDate', mixed, luxonDate.toJSDate(), format, date);
-    return date
+    if (!nullOnFail)
+    {
+      // I don't know what the hell mixed is .. soooooo .. return "now" ..
+      luxonDate = luxon.DateTime.fromJSDate(new Date());
+      date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+      return date
+    }
+    return null;
   };
 
 
@@ -1870,51 +1887,9 @@
     Affinity2018.stringToDate = function (dateStr, failReturn)
     {
       if (!Affinity2018.isString(dateStr) || (Affinity2018.isString(dateStr) && dateStr.trim() === '')) return null;
-
-      failReturn = Affinity2018.paramOrDefault(failReturn, null);
-
-      if (dateStr.length > 10 && !dateStr.startsWith('/Date('))
-      {
-        dateStr = dateStr.replace('st', '').replace('nd', '').replace('rd', '').replace(',', '');
-        var testDate = Affinity2018.getDate(dateStr);
-        if (Affinity2018.isDateValid(testDate))
-        {
-          return testDate;
-        }
-        return failReturn;
-      }
-
-      dateStr = dateStr.replace(/\s+/g, '');
-
-      if (dateStr.startsWith('/Date('))
-      {
-        var returnDate = new Date(parseInt(dateStr.replace(/\/Date\((-?\d+)\)\//, '$1').trim()));
-        //Affinity2018.DateLog('stringToDate', dateStr, parseInt(dateStr.replace(/\/Date\((-?\d+)\)\//, '$1').trim()), '', returnDate);
-        return returnDate;
-      }
-
-      if (dateStr.countString('/') === 2 || dateStr.countString('\\') === 2 || dateStr.countString('-') === 2 || dateStr.countString('.') === 2) dateStr = dateStr.replace(/[^0-9]/g, '-');
-
-      if (dateStr.countString('-') !== 2) return failReturn;
-
-      var parts = dateStr.split('-');
-
-      if (parts.length !== 3) return failReturn;
-
-      var year = parseInt(parts[2]);
-      var month = parseInt(parts[1]);
-      var day = parseInt(parts[0]);
-
-      if (isNaN(year + month + day)) return failReturn;
-      if (year < 100) return failReturn;
-      if (month > 12 && day > 12) return failReturn;
-
-      if (month > 12 && day <= 12) parts = [month, day, year];
-
-      var date = new Date(parts[2], parts[1] - 1, parts[0], 0, 0, 0);
-      //Affinity2018.DateLog('stringToDate', dateStr, parts[2] + ', ' + (parts[1] - 1) + ', ' + parts[0] + ', 0, 0, 0', '', date);
-      if (date.isValid()) return date;
-      return failReturn;
+      var date = Affinity2018.getDate(dateStr, undefined, undefined, true);
+      if (date === null) return failReturn;
+      return date;
     };
   }
 
