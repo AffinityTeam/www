@@ -11481,7 +11481,7 @@ var UILeaveDetail = new Class({
         var hourExcessError = false;
 
         // is approved status
-        if (this.data.LeaveHeader.StatusCode !== 3 || this.isManager === false) {
+        if (this.isManager === false) {
             return hourExcessError;
         }
 
