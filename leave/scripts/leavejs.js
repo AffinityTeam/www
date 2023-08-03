@@ -11440,10 +11440,6 @@ var UILeaveDetail = new Class({
                 // todo: add error check here
                 //check if there is difference in leave units
 
-                if (this.validateHoursAndScheduled() === true) {
-                    return;
-                }
-
                 var oldLeaveUnits = app.currentlySavedLeaveInstance.leaveUnits;
                 var newLeaveUnits = app.getEditedLeaveInstance().leaveUnits;
 
@@ -11486,7 +11482,7 @@ var UILeaveDetail = new Class({
         }
 
         for (var i = 0; i < this.data.Components[0].Units.length; i++) {
-            i
+         
             var existWarning = this.leavePeriodDaysContainer.getElementById('period-dayexceeds-warning-' + i);
             if (existWarning.get('text') === 'Hours exceeds Scheduled amount') {
                 hourExcessError = true;
