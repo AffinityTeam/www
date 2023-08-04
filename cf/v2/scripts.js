@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2811,32-37): run-time error JS1195: Expected expression: class
-(3350,32-37): run-time error JS1195: Expected expression: class
-(3442,29-30): run-time error JS1004: Expected ';': {
-(3443,29-30): run-time error JS1004: Expected ';': {
-(3444,29-30): run-time error JS1004: Expected ';': {
-(3445,29-30): run-time error JS1004: Expected ';': {
-(4090,36-41): run-time error JS1195: Expected expression: class
-(4203,30-35): run-time error JS1195: Expected expression: class
-(4308,31-36): run-time error JS1195: Expected expression: class
-(4548,35-40): run-time error JS1195: Expected expression: class
-(4676,33-38): run-time error JS1195: Expected expression: class
-(4887,39-40): run-time error JS1014: Invalid character: `
-(4887,40-41): run-time error JS1195: Expected expression: <
-(4887,100-101): run-time error JS1014: Invalid character: `
-(4906,43-44): run-time error JS1014: Invalid character: `
-(4906,44-45): run-time error JS1195: Expected expression: <
-(4906,108-109): run-time error JS1014: Invalid character: `
-(4974,33-38): run-time error JS1195: Expected expression: class
-(5274,32-37): run-time error JS1195: Expected expression: class
-(5646,33-38): run-time error JS1195: Expected expression: class
-(5728,37-42): run-time error JS1195: Expected expression: class
-(5729,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2837,32-37): run-time error JS1195: Expected expression: class
+(3376,32-37): run-time error JS1195: Expected expression: class
+(3468,29-30): run-time error JS1004: Expected ';': {
+(3469,29-30): run-time error JS1004: Expected ';': {
+(3470,29-30): run-time error JS1004: Expected ';': {
+(3471,29-30): run-time error JS1004: Expected ';': {
+(4116,36-41): run-time error JS1195: Expected expression: class
+(4229,30-35): run-time error JS1195: Expected expression: class
+(4334,31-36): run-time error JS1195: Expected expression: class
+(4574,35-40): run-time error JS1195: Expected expression: class
+(4702,33-38): run-time error JS1195: Expected expression: class
+(4913,39-40): run-time error JS1014: Invalid character: `
+(4913,40-41): run-time error JS1195: Expected expression: <
+(4913,100-101): run-time error JS1014: Invalid character: `
+(4932,43-44): run-time error JS1014: Invalid character: `
+(4932,44-45): run-time error JS1195: Expected expression: <
+(4932,108-109): run-time error JS1014: Invalid character: `
+(5000,33-38): run-time error JS1195: Expected expression: class
+(5300,32-37): run-time error JS1195: Expected expression: class
+(5672,33-38): run-time error JS1195: Expected expression: class
+(5754,37-42): run-time error JS1195: Expected expression: class
+(5755,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5730,5-16): run-time error JS1006: Expected ')': constructor
-(5801,3-4): run-time error JS1002: Syntax error: }
-(5801,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5743,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5756,5-16): run-time error JS1006: Expected ')': constructor
+(5827,3-4): run-time error JS1002: Syntax error: }
+(5827,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5769,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1841,6 +1841,32 @@
             }
           }
           luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
+        }
+        else
+        {
+          mixed = mixed.replace('st ', ' ');
+          mixed = mixed.replace('nd ', ' ');
+          mixed = mixed.replace('rd ', ' ');
+          mixed = mixed.replace('th ', ' ');
+          mixed = mixed.replace(', ', ' ');
+          date = Date.parse(mixed);
+          luxonDate = luxon.DateTime.fromJSDate(date);
+          if (luxonDate.isValid)
+          {
+            dateParts = {
+              year: date.getFullYear(),
+              month: date.getMonth(),
+              day: date.getDate(),
+              hour: date.getHours(),
+              min: date.getMinutes(),
+              sec: date.getSeconds()
+            };
+          }
+          else
+          {
+            // I don't know what the hell mixed is .. 
+            luxonDate = null;
+          }
         }
       }
       if (luxonDate && luxonDate.isValid)
