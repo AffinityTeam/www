@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2837,32-37): run-time error JS1195: Expected expression: class
-(3376,32-37): run-time error JS1195: Expected expression: class
-(3468,29-30): run-time error JS1004: Expected ';': {
-(3469,29-30): run-time error JS1004: Expected ';': {
-(3470,29-30): run-time error JS1004: Expected ';': {
-(3471,29-30): run-time error JS1004: Expected ';': {
-(4116,36-41): run-time error JS1195: Expected expression: class
-(4229,30-35): run-time error JS1195: Expected expression: class
-(4334,31-36): run-time error JS1195: Expected expression: class
-(4574,35-40): run-time error JS1195: Expected expression: class
-(4702,33-38): run-time error JS1195: Expected expression: class
-(4913,39-40): run-time error JS1014: Invalid character: `
-(4913,40-41): run-time error JS1195: Expected expression: <
-(4913,100-101): run-time error JS1014: Invalid character: `
-(4932,43-44): run-time error JS1014: Invalid character: `
-(4932,44-45): run-time error JS1195: Expected expression: <
-(4932,108-109): run-time error JS1014: Invalid character: `
-(5000,33-38): run-time error JS1195: Expected expression: class
-(5300,32-37): run-time error JS1195: Expected expression: class
-(5672,33-38): run-time error JS1195: Expected expression: class
-(5754,37-42): run-time error JS1195: Expected expression: class
-(5755,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2858,32-37): run-time error JS1195: Expected expression: class
+(3397,32-37): run-time error JS1195: Expected expression: class
+(3489,29-30): run-time error JS1004: Expected ';': {
+(3490,29-30): run-time error JS1004: Expected ';': {
+(3491,29-30): run-time error JS1004: Expected ';': {
+(3492,29-30): run-time error JS1004: Expected ';': {
+(4137,36-41): run-time error JS1195: Expected expression: class
+(4250,30-35): run-time error JS1195: Expected expression: class
+(4355,31-36): run-time error JS1195: Expected expression: class
+(4595,35-40): run-time error JS1195: Expected expression: class
+(4723,33-38): run-time error JS1195: Expected expression: class
+(4934,39-40): run-time error JS1014: Invalid character: `
+(4934,40-41): run-time error JS1195: Expected expression: <
+(4934,100-101): run-time error JS1014: Invalid character: `
+(4953,43-44): run-time error JS1014: Invalid character: `
+(4953,44-45): run-time error JS1195: Expected expression: <
+(4953,108-109): run-time error JS1014: Invalid character: `
+(5021,33-38): run-time error JS1195: Expected expression: class
+(5321,32-37): run-time error JS1195: Expected expression: class
+(5693,33-38): run-time error JS1195: Expected expression: class
+(5775,37-42): run-time error JS1195: Expected expression: class
+(5776,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5756,5-16): run-time error JS1006: Expected ')': constructor
-(5827,3-4): run-time error JS1002: Syntax error: }
-(5827,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5769,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5777,5-16): run-time error JS1006: Expected ')': constructor
+(5848,3-4): run-time error JS1002: Syntax error: }
+(5848,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5790,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1755,7 +1755,28 @@
     if (Affinity2018.isDate(mixed))
     {
       luxonDate = luxon.DateTime.fromJSDate(mixed);
-      date = format ? luxonDate.toFormat(format) : mixed;
+      if (luxonDate.isValid && ignoreLocalZone)
+      {
+        dateParts = {
+          year: mixed.getFullYear(),
+          month: mixed.getMonth(),
+          day: mixed.getDate(),
+          hour: mixed.getHours(),
+          min: mixed.getMinutes(),
+          sec: mixed.getSeconds()
+        };
+        luxonDate = luxon.DateTime.fromJSDate(new Date(
+          dateParts.year,
+          dateParts.month,
+          dateParts.day,
+          dateParts.hour,
+          dateParts.min,
+          dateParts.sec,
+          0
+        ));
+      }
+      date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+      //date = format ? luxonDate.toFormat(format) : mixed;
       return date;
     }
     // strings
