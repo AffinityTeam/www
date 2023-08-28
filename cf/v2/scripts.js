@@ -17017,6 +17017,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             {
               setError = true;
               rowNode.classList.add('error');
+              debugger;
               if (rowNode.closest('.section').classList.contains('collapsed'))
               {
                 rowNode.closest('.section').classList.remove('collapsed');
@@ -17414,7 +17415,23 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     document.querySelectorAll('.form-row.error').forEach(function (rowNode)
     {
-      rowNode.classList.remove('error', 'flash-error');
+      rowNode.classList.remove('error', 'flash-error', 'inline-error');
+      if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
+      if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
+      if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
+      //rowNode.querySelectorAll('input,select,textarea').forEach(function (elementNode)
+      //{
+      //  if (elementNode.hasOwnProperty('widgets'))
+      //  {
+      //    for (var widget in elementNode.widgets)
+      //    {
+      //      if (elementNode.widgets[widget].hasOwnProperty('IsValid'))
+      //      {
+      //        elementNode.widgets[widget].IsValid();
+      //      }
+      //    }
+      //  }
+      //}.bind(this));
     });
 
     var message = '';
