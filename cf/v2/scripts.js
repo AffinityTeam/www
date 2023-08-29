@@ -11482,7 +11482,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     this.TopNode.querySelector('input.form-instructions').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('input.form-revision').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('select.form-country').addEventListener('change', this._updateFormDetails);
-
+    if (this.TopNode.querySelector('input[type="checkbox"]'))
+    {
+      this.TopNode.querySelector('input[type="checkbox"]').addEventListener('click', this._updateFormDetails);
+    }
 
     if (!Affinity2018.Numbers) Affinity2018.Numbers = new Affinity2018.Classes.Plugins.Numbers();
     Affinity2018.Numbers.Apply();
@@ -13720,6 +13723,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     else
     {
       postData.FormCountry = formCountry;
+    }
+    if (this.TopNode.querySelector('input[type="checkbox"]'))
+    {
+      postData.DashboardTemplate = this.TopNode.querySelector('input[type="checkbox"]').checked;
     }
     postData.WorkflowDefinitionIds = [];
     if (
