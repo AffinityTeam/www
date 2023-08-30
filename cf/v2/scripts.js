@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2858,32-37): run-time error JS1195: Expected expression: class
-(3397,32-37): run-time error JS1195: Expected expression: class
-(3489,29-30): run-time error JS1004: Expected ';': {
-(3490,29-30): run-time error JS1004: Expected ';': {
-(3491,29-30): run-time error JS1004: Expected ';': {
-(3492,29-30): run-time error JS1004: Expected ';': {
-(4137,36-41): run-time error JS1195: Expected expression: class
-(4250,30-35): run-time error JS1195: Expected expression: class
-(4355,31-36): run-time error JS1195: Expected expression: class
-(4595,35-40): run-time error JS1195: Expected expression: class
-(4723,33-38): run-time error JS1195: Expected expression: class
-(4934,39-40): run-time error JS1014: Invalid character: `
-(4934,40-41): run-time error JS1195: Expected expression: <
-(4934,100-101): run-time error JS1014: Invalid character: `
-(4953,43-44): run-time error JS1014: Invalid character: `
-(4953,44-45): run-time error JS1195: Expected expression: <
-(4953,108-109): run-time error JS1014: Invalid character: `
-(5021,33-38): run-time error JS1195: Expected expression: class
-(5321,32-37): run-time error JS1195: Expected expression: class
-(5693,33-38): run-time error JS1195: Expected expression: class
-(5775,37-42): run-time error JS1195: Expected expression: class
-(5776,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2862,32-37): run-time error JS1195: Expected expression: class
+(3401,32-37): run-time error JS1195: Expected expression: class
+(3493,29-30): run-time error JS1004: Expected ';': {
+(3494,29-30): run-time error JS1004: Expected ';': {
+(3495,29-30): run-time error JS1004: Expected ';': {
+(3496,29-30): run-time error JS1004: Expected ';': {
+(4141,36-41): run-time error JS1195: Expected expression: class
+(4254,30-35): run-time error JS1195: Expected expression: class
+(4359,31-36): run-time error JS1195: Expected expression: class
+(4599,35-40): run-time error JS1195: Expected expression: class
+(4727,33-38): run-time error JS1195: Expected expression: class
+(4938,39-40): run-time error JS1014: Invalid character: `
+(4938,40-41): run-time error JS1195: Expected expression: <
+(4938,100-101): run-time error JS1014: Invalid character: `
+(4957,43-44): run-time error JS1014: Invalid character: `
+(4957,44-45): run-time error JS1195: Expected expression: <
+(4957,108-109): run-time error JS1014: Invalid character: `
+(5025,33-38): run-time error JS1195: Expected expression: class
+(5325,32-37): run-time error JS1195: Expected expression: class
+(5697,33-38): run-time error JS1195: Expected expression: class
+(5779,37-42): run-time error JS1195: Expected expression: class
+(5780,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5777,5-16): run-time error JS1006: Expected ')': constructor
-(5848,3-4): run-time error JS1002: Syntax error: }
-(5848,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5790,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5781,5-16): run-time error JS1006: Expected ')': constructor
+(5852,3-4): run-time error JS1002: Syntax error: }
+(5852,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5794,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1786,14 +1786,14 @@
       if (mixed.startsWith('/Date(') && mixed.endsWith(')/')) // C# Date Object as String
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
-        luxonDate = luxon.DateTime.fromJSDate(new Date(parseInt(dateStr)));
+        luxonDate = luxon.DateTime.fromMillis(parseInt(dateStr));
         dateParts = {
-          year: new Date(parseInt(dateStr)).getFullYear(),
-          month: new Date(parseInt(dateStr)).getMonth(),
-          day: new Date(parseInt(dateStr)).getDate(),
-          hour: new Date(parseInt(dateStr)).getHours(),
-          min: new Date(parseInt(dateStr)).getMinutes(),
-          sec: new Date(parseInt(dateStr)).getSeconds()
+          year: luxonDate.year,
+          month: luxonDate.month - 1,
+          day: luxonDate.day,
+          hour: luxonDate.hour,
+          min: luxonDate.minute,
+          sec: luxonDate.second
         };
       }
       else if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*?/.test(mixed)) // ISO Date String
@@ -1903,6 +1903,10 @@
             dateParts.sec,
             0
           ));
+          console.log(mixed);
+          console.log(JSON.stringify(dateParts));
+          console.log(luxonDate.toJSDate());
+          console.log('');
         }
         date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
         return date
@@ -22426,7 +22430,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       date = Date.today().clearTime();
       //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
-    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value);
+    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '')
+    {
+      console.log(this.Config.Details.Label);
+      date = $a.getDate(this.Config.Details.Value);
+    }
 
     //var originalDate = date;
     var dateObj = Affinity2018.getDate(date);
