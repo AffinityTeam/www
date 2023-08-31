@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2837,32-37): run-time error JS1195: Expected expression: class
-(3376,32-37): run-time error JS1195: Expected expression: class
-(3468,29-30): run-time error JS1004: Expected ';': {
-(3469,29-30): run-time error JS1004: Expected ';': {
-(3470,29-30): run-time error JS1004: Expected ';': {
-(3471,29-30): run-time error JS1004: Expected ';': {
-(4116,36-41): run-time error JS1195: Expected expression: class
-(4229,30-35): run-time error JS1195: Expected expression: class
-(4334,31-36): run-time error JS1195: Expected expression: class
-(4574,35-40): run-time error JS1195: Expected expression: class
-(4702,33-38): run-time error JS1195: Expected expression: class
-(4913,39-40): run-time error JS1014: Invalid character: `
-(4913,40-41): run-time error JS1195: Expected expression: <
-(4913,100-101): run-time error JS1014: Invalid character: `
-(4932,43-44): run-time error JS1014: Invalid character: `
-(4932,44-45): run-time error JS1195: Expected expression: <
-(4932,108-109): run-time error JS1014: Invalid character: `
-(5000,33-38): run-time error JS1195: Expected expression: class
-(5300,32-37): run-time error JS1195: Expected expression: class
-(5672,33-38): run-time error JS1195: Expected expression: class
-(5754,37-42): run-time error JS1195: Expected expression: class
-(5755,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2885,32-37): run-time error JS1195: Expected expression: class
+(3424,32-37): run-time error JS1195: Expected expression: class
+(3516,29-30): run-time error JS1004: Expected ';': {
+(3517,29-30): run-time error JS1004: Expected ';': {
+(3518,29-30): run-time error JS1004: Expected ';': {
+(3519,29-30): run-time error JS1004: Expected ';': {
+(4164,36-41): run-time error JS1195: Expected expression: class
+(4277,30-35): run-time error JS1195: Expected expression: class
+(4382,31-36): run-time error JS1195: Expected expression: class
+(4622,35-40): run-time error JS1195: Expected expression: class
+(4750,33-38): run-time error JS1195: Expected expression: class
+(4961,39-40): run-time error JS1014: Invalid character: `
+(4961,40-41): run-time error JS1195: Expected expression: <
+(4961,100-101): run-time error JS1014: Invalid character: `
+(4980,43-44): run-time error JS1014: Invalid character: `
+(4980,44-45): run-time error JS1195: Expected expression: <
+(4980,108-109): run-time error JS1014: Invalid character: `
+(5048,33-38): run-time error JS1195: Expected expression: class
+(5348,32-37): run-time error JS1195: Expected expression: class
+(5720,33-38): run-time error JS1195: Expected expression: class
+(5802,37-42): run-time error JS1195: Expected expression: class
+(5803,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5756,5-16): run-time error JS1006: Expected ')': constructor
-(5827,3-4): run-time error JS1002: Syntax error: }
-(5827,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5769,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5804,5-16): run-time error JS1006: Expected ')': constructor
+(5875,3-4): run-time error JS1002: Syntax error: }
+(5875,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5817,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -1755,7 +1755,28 @@
     if (Affinity2018.isDate(mixed))
     {
       luxonDate = luxon.DateTime.fromJSDate(mixed);
-      date = format ? luxonDate.toFormat(format) : mixed;
+      if (luxonDate.isValid && ignoreLocalZone)
+      {
+        dateParts = {
+          year: mixed.getFullYear(),
+          month: mixed.getMonth(),
+          day: mixed.getDate(),
+          hour: mixed.getHours(),
+          min: mixed.getMinutes(),
+          sec: mixed.getSeconds()
+        };
+        luxonDate = luxon.DateTime.fromJSDate(new Date(
+          dateParts.year,
+          dateParts.month,
+          dateParts.day,
+          dateParts.hour,
+          dateParts.min,
+          dateParts.sec,
+          0
+        ));
+      }
+      date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+      //date = format ? luxonDate.toFormat(format) : mixed;
       return date;
     }
     // strings
@@ -1765,14 +1786,25 @@
       if (mixed.startsWith('/Date(') && mixed.endsWith(')/')) // C# Date Object as String
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
-        luxonDate = luxon.DateTime.fromJSDate(new Date(parseInt(dateStr)));
+        luxonDate = luxon.DateTime.fromMillis(parseInt(dateStr));
+
+        if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
+        {
+          console.log('                   (Is C# date)');
+          console.log('--- Input ---------------------------');
+          console.log('Passed Value:     ', mixed, ' -> ', dateStr);
+          console.log('As JS Date:       ', new Date(parseInt(dateStr)));
+          console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+          //console.log(luxonDate);
+        }
+
         dateParts = {
-          year: new Date(parseInt(dateStr)).getFullYear(),
-          month: new Date(parseInt(dateStr)).getMonth(),
-          day: new Date(parseInt(dateStr)).getDate(),
-          hour: new Date(parseInt(dateStr)).getHours(),
-          min: new Date(parseInt(dateStr)).getMinutes(),
-          sec: new Date(parseInt(dateStr)).getSeconds()
+          year: luxonDate.year,
+          month: luxonDate.month - 1,
+          day: luxonDate.day,
+          hour: luxonDate.hour,
+          min: luxonDate.minute,
+          sec: luxonDate.second
         };
       }
       else if (/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*?/.test(mixed)) // ISO Date String
@@ -1882,6 +1914,22 @@
             dateParts.sec,
             0
           ));
+
+          if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
+          {
+            console.log('--- Output --------------------------');
+            console.log('JS Date parts:    ', JSON.stringify(dateParts));
+            console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+            console.log('Luxon Date Obj    ', luxonDate);
+            console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
+            if (format)
+            {
+              console.log('Formated Date:    ', luxonDate.toFormat(format));
+            }
+            console.groupEnd();
+          }
+          window.dateLogStart = false;
+
         }
         date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
         return date
@@ -11461,7 +11509,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     this.TopNode.querySelector('input.form-instructions').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('input.form-revision').addEventListener('blur', this._updateFormDetails);
     this.TopNode.querySelector('select.form-country').addEventListener('change', this._updateFormDetails);
-
+    if (this.TopNode.querySelector('input[type="checkbox"]'))
+    {
+      this.TopNode.querySelector('input[type="checkbox"]').addEventListener('click', this._updateFormDetails);
+    }
 
     if (!Affinity2018.Numbers) Affinity2018.Numbers = new Affinity2018.Classes.Plugins.Numbers();
     Affinity2018.Numbers.Apply();
@@ -13699,6 +13750,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     else
     {
       postData.FormCountry = formCountry;
+    }
+    if (this.TopNode.querySelector('input[type="checkbox"]'))
+    {
+      postData.DashboardTemplate = this.TopNode.querySelector('input[type="checkbox"]').checked;
     }
     postData.WorkflowDefinitionIds = [];
     if (
@@ -22352,7 +22407,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       date = Date.today().clearTime();
       //date = new Date(2022, 2, 4, 10, 30, 0, 0); // For Testing: (month is index 0, date is index 1) 4th march
     }
-    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') date = $a.getDate(this.Config.Details.Value);
+    if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '')
+    {
+      window.dateLogStart = true;
+      console.groupCollapsed('Parse Read Only Date:');
+      //console.log();
+      console.log('Label:            ', this.Config.Details.Label);
+      console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
+      console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
+      console.log('Question Name:    ', this.Config.Name);
+      console.log('Server Value:     ', this.Config.Details.Value);
+      date = $a.getDate(this.Config.Details.Value);
+    }
 
     //var originalDate = date;
     var dateObj = Affinity2018.getDate(date);
