@@ -15538,7 +15538,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_submit',
       '_save',
 
-      '_getPostData', '_post', '_postCatch', '_postThen', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
+      '_getPostData', '_post', '_postCatch', '_postThen', '_setPosted', '_postComplete', '_postFailed',
 
       '_submit', '_print', '_close',
 
@@ -17442,46 +17442,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _clearErrors(revalidate)
-  {
-    revalidate = $a.isBool(revalidate) ? revalidate : false;
-    document.querySelectorAll('.form-row.error').forEach(function (rowNode)
-    {
-      rowNode.classList.remove('error', 'flash-error', 'inline-error');
-      if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
-      if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
-      if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
-      if (revalidate)
-      {
-        rowNode.querySelectorAll('input,select,textarea').forEach(function (elementNode)
-        {
-          if (elementNode.hasOwnProperty('widgets'))
-          {
-            for (var widget in elementNode.widgets)
-            {
-              if (elementNode.widgets[widget].hasOwnProperty('IsValid'))
-              {
-                elementNode.widgets[widget].IsValid();
-              }
-            }
-          }
-        }.bind(this));
-      }
-    });
-  }
-
-
-
-  /**
-   * Summary. Form has been submitted
-   * @this    Class scope
-   * @access  private
-   */
   _setPosted(response)
   {
     this.PostedErrors = [];
 
-    this._clearErrors();
+    document.querySelectorAll('.form-row.error').forEach(function (rowNode)
+    {
+      rowNode.classList.remove('error', 'flash-error');
+    });
 
     var message = '';
 
@@ -21052,20 +21020,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _lookupModelDispatch()
   {
-    // becuase setting AffinityFields will validate, also validate NON AffinityFields
-    if (this.CleverForms.IsGlobalKey(this.Config))
-    {
-      document.querySelectorAll('#form .form-row.required:not(.row-affinityfield)').forEach(function (rowNode)
-      {
-        var node = rowNode.querySelector('select,input,textarea');
-        var widgets = node ? node.widgets : {};
-        for (var widget in widgets)
-        {
-          if (widgets[widget].hasOwnProperty('IsValid')) widgets[widget].IsValid();
-        }
-      });
-    }
-    // Fire event to set (and validate) AffinityFields
     var event = new CustomEvent('ModelLookupChanged', {
       detail: {
         FieldKey: this.FormRowNode.querySelector('select').value,
@@ -27748,23 +27702,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (required)
     {
       value = this.FormRowNode.querySelector('div.select.hidden select').value;
-      if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === '')
-      {
-        return false;
-      }
+      if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === '') return false;
     }
     return true;
   }
 
   InvalidReason()
   {
-
     if (!this.IsValid())
     {
       var required = this.Config.Details.Required;
       if (this.CleverForms.IsGlobalKey(this.Config)) required = true;
       if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
-      var error = $a.Lang.ReturnPath('generic.validation.select.required', { label: this.Config.Details.Label });
+      var error = $a.Lang.ReturnPath('generic.validation.strings.required', { label: this.Config.Details.Label });
       var select = this.FormRowNode.querySelector('div.select.hidden select');
       select.querySelectorAll('option').forEach(function (option)
       {
@@ -27772,11 +27722,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         {
           if (required)
           {
-            error = $a.Lang.ReturnPath('generic.validation.select.notempty', { label: this.Config.Details.Label });
+            error = $a.Lang.ReturnPath('generic.validation.strings.notemptyselect', { label: this.Config.Details.Label });
           }
           else
           {
-            error = $a.Lang.ReturnPath('generic.validation.select.notnone', { label: this.Config.Details.Label, value: option.innerHTML.trim() });
+            error = $a.Lang.ReturnPath('generic.validation.strings.notnoneselect', { label: this.Config.Details.Label, value: option.innerHTML.trim() });
           }
         }
       }.bind(this));
@@ -27787,19 +27737,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   CheckValid()
   {
-    if (this.FormRowNode && this.FormRowNode.querySelector('select'))
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
-      var selectNode = this.FormRowNode.querySelector('select');
-      if (selectNode.hasOwnProperty('widgets') && selectNode.widgets.hasOwnProperty('SelectLookup'))
-      {
-        selectNode.widgets.SelectLookup.IsValid();
-      }
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+      this.FormRowNode.classList.remove('error', 'flash-error');
     }
-    //if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    //{
-    //  this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    //  this.FormRowNode.classList.remove('error', 'flash-error');
-    //}
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
@@ -34695,9 +34637,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.uuid = '';
 
     this.targetNode = null;
-    this.RowNode = null;
-    this.IsRequired = false;
-
     this.preserveOriginalInput = false;
 
     this.outputFormat = 'dd/MM/yyyy';
@@ -34749,7 +34688,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       '_init',
 
-      'IsValid', 'ShowError', 'HideError',
+      'IsValid',
 
       'getValue', 'getDisplayValue',
       'setTime', 'setDate', 'setToday', 'setNone', 'setTimeFromWidget',
@@ -34796,13 +34735,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.targetNode.classList.remove('ui-has-calendar');
     this.targetNode.classList.add('ui-calendar');
     this.targetNode.classList.add('hidden');
-
-    this.RowNode = Affinity2018.getParent(this.targetNode, '.form-row');
-    this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
-
-    this.ErrorNode = document.createElement('div');
-    this.ErrorNode.classList.add('ui-form-error');
-    this.targetNode.parentNode.appendChild(this.ErrorNode);
 
     if (!this.targetNode.hasOwnProperty('widgets')) this.targetNode.widgets = {};
     this.targetNode.widgets.DateTime = this;
@@ -35129,32 +35061,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   IsValid()
   {
     this.Valid = Affinity2018.isDateValid(this.getRawDate());
-    if (!this.Ready) return this.Valid;
-    if (this.targetNode)
-    {
-      this.targetNode.classList.remove('error');
-      this.HideError();
-      if (this.RowNode) this.RowNode.classList.remove('error', 'error2', 'flash-error');
-      if (this.IsRequired && !this.Valid)
-      {
-        this.targetNode.classList.add('error');
-        if (this.RowNode) this.RowNode.classList.add('error');
-        var errorPath = 'generic.validation.select.' + (this.displayNode.value.trim() == '' ? 'notempty' : 'invalid');
-        var errorlabel = this.RowNode && this.RowNode.querySelector('label') ? this.RowNode.querySelector('label').innerText.trim() : 'Date';
-        this.ShowError($a.Lang.ReturnPath(errorPath, { label: errorlabel }));
-      }
-    }
     return this.Valid;
-  }
-
-  ShowError(error)
-  {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
-  }
-  HideError()
-  {
-    this.ErrorNode.classList.remove('show');
   }
 
   /**/
@@ -39671,7 +39578,9 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     this._options();
     [
-      'IsValid', 'ShowError', 'HideError',
+      'ShowError', 'HideError',
+
+      'IsValid',
 
       'disable', 'enable',
       '_applyEvents',
@@ -40720,7 +40629,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
       '_init',
 
-      'IsValid', 'ShowError', 'HideError', 'GetValue',
+      'IsValid', 'GetValue',
 
       '_gotResults', '_gotResultsError', '_requestCanceled',
 
@@ -40747,13 +40656,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     }
 
     this.targetNode = targetNode;
-    this.RowNode = Affinity2018.getParent(this.targetNode, '.form-row');
-    this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : this.config.Required : false;
-
-    this.ErrorNode = document.createElement('div');
-    this.ErrorNode.classList.add('ui-form-error');
-    if (this.RowNode) this.RowNode.appendChild(this.ErrorNode);
-    else this.targetNode.parentNode.parentNode.appendChild(this.ErrorNode);
 
     this.api = $a.isUrl(api) ? api.trim() : $a.isUrl(this.targetNode.dataset.api) ? this.targetNode.dataset.api.trim() : false;
 
@@ -40841,44 +40743,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   IsValid()
   {
-    this.targetNode.classList.remove('error');
-    this.HideError();
-    if (this.RowNode) this.RowNode.classList.remove('error', 'error2', 'flash-error');
-    this.Valid = this.IsRequired && this.GetValue() === this.config.NoneKey ? false : true;
-    if (this.IsRequired && !this.Valid)
+    if (this.config.Required)
     {
-      this.targetNode.classList.add('error');
-      if (this.RowNode) this.RowNode.classList.add('error');
-      var errorlabel = this.RowNode && this.RowNode.querySelector('label') ? this.RowNode.querySelector('label').innerText.trim() : 'This';
-      var error = $a.Lang.ReturnPath('generic.validation.select.required', { label: errorlabel });
-      var select = this.RowNode.querySelector('div.select.hidden select');
-      select.querySelectorAll('option').forEach(function (option)
+      if (this.GetValue() === this.config.NoneKey)
       {
-        if (option.value === select.value)
-        {
-          if (this.IsRequired)
-          {
-            error = $a.Lang.ReturnPath('generic.validation.select.notempty', { label: errorlabel });
-          }
-          else
-          {
-            error = $a.Lang.ReturnPath('generic.validation.select.notnone', { label: errorlabel, value: option.innerHTML.trim() });
-          }
-        }
-      }.bind(this));
-      this.ShowError(error);
+        this.Valid = false;
+      }
     }
-    return this.Valid;
-  }
-
-  ShowError(error)
-  {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
-  }
-  HideError()
-  {
-    this.ErrorNode.classList.remove('show');
+    this.Valid = true;
   }
 
   GetValue()
