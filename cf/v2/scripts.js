@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2913,32-37): run-time error JS1195: Expected expression: class
-(3452,32-37): run-time error JS1195: Expected expression: class
-(3544,29-30): run-time error JS1004: Expected ';': {
-(3545,29-30): run-time error JS1004: Expected ';': {
-(3546,29-30): run-time error JS1004: Expected ';': {
-(3547,29-30): run-time error JS1004: Expected ';': {
-(4192,36-41): run-time error JS1195: Expected expression: class
-(4305,30-35): run-time error JS1195: Expected expression: class
-(4410,31-36): run-time error JS1195: Expected expression: class
-(4650,35-40): run-time error JS1195: Expected expression: class
-(4778,33-38): run-time error JS1195: Expected expression: class
-(4989,39-40): run-time error JS1014: Invalid character: `
-(4989,40-41): run-time error JS1195: Expected expression: <
-(4989,100-101): run-time error JS1014: Invalid character: `
-(5008,43-44): run-time error JS1014: Invalid character: `
-(5008,44-45): run-time error JS1195: Expected expression: <
-(5008,108-109): run-time error JS1014: Invalid character: `
-(5076,33-38): run-time error JS1195: Expected expression: class
-(5376,32-37): run-time error JS1195: Expected expression: class
-(5748,33-38): run-time error JS1195: Expected expression: class
-(5830,37-42): run-time error JS1195: Expected expression: class
-(5831,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2885,32-37): run-time error JS1195: Expected expression: class
+(3424,32-37): run-time error JS1195: Expected expression: class
+(3516,29-30): run-time error JS1004: Expected ';': {
+(3517,29-30): run-time error JS1004: Expected ';': {
+(3518,29-30): run-time error JS1004: Expected ';': {
+(3519,29-30): run-time error JS1004: Expected ';': {
+(4164,36-41): run-time error JS1195: Expected expression: class
+(4277,30-35): run-time error JS1195: Expected expression: class
+(4382,31-36): run-time error JS1195: Expected expression: class
+(4622,35-40): run-time error JS1195: Expected expression: class
+(4750,33-38): run-time error JS1195: Expected expression: class
+(4961,39-40): run-time error JS1014: Invalid character: `
+(4961,40-41): run-time error JS1195: Expected expression: <
+(4961,100-101): run-time error JS1014: Invalid character: `
+(4980,43-44): run-time error JS1014: Invalid character: `
+(4980,44-45): run-time error JS1195: Expected expression: <
+(4980,108-109): run-time error JS1014: Invalid character: `
+(5048,33-38): run-time error JS1195: Expected expression: class
+(5348,32-37): run-time error JS1195: Expected expression: class
+(5720,33-38): run-time error JS1195: Expected expression: class
+(5802,37-42): run-time error JS1195: Expected expression: class
+(5803,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5832,5-16): run-time error JS1006: Expected ')': constructor
-(5903,3-4): run-time error JS1002: Syntax error: }
-(5903,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5845,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5804,5-16): run-time error JS1006: Expected ')': constructor
+(5875,3-4): run-time error JS1002: Syntax error: }
+(5875,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5817,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -825,30 +825,6 @@
     };
   }
 
-
-  /**
-   * String.shorten(length) polyfill
-   * @this    String
-   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
-   */
-  if (!String.prototype.shorten)
-  {
-    String.prototype.shorten = function (length, eliipses)
-    {
-      length = length === undefined ? 50 : length;
-      eliipses = eliipses === undefined ? ' ...' : '';
-      let string = this;
-      if (string.length > length)
-      {
-        string = string.substring(0, length);
-        string = string.substring(0, string.lastIndexOf(' '));
-        string += eliipses;
-        string = '"' + string + '"';
-      }
-      return string;
-    };
-  }
-
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                                                                                               *****************/
@@ -978,10 +954,6 @@
   {
     Affinity2018.isDomElement = function (obj)
     {
-      if (obj === undefined || obj === null)
-      {
-        return false;
-      }
       try
       {
         return obj instanceof HTMLElement;
@@ -8465,25 +8437,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
-  ShortenString(string, length)
-  {
-    return string.shorten(50);
-    //if (string.length > length)
-    //{
-    //  string = string.substr(0, length);
-    //  string = string.substr(0, string.lastIndexOf(' '));
-    //  string += ' ...';
-    //}
-    //return string;
-  }
-
-
-
-  /**
-   * Summary. ?
-   * @this    Class scope
-   * @access  private
-   */
   CheckResponseForErrorPage (str)
   {
     var message = 'OK';
@@ -15585,7 +15538,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_submit',
       '_save',
 
-      '_getPostData', '_post', '_postCatch', '_postThen', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
+      '_getPostData', '_post', '_postCatch', '_postThen', '_setPosted', '_postComplete', '_postFailed',
 
       '_submit', '_print', '_close',
 
@@ -17489,46 +17442,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _clearErrors(revalidate)
-  {
-    revalidate = $a.isBool(revalidate) ? revalidate : false;
-    document.querySelectorAll('.form-row.error').forEach(function (rowNode)
-    {
-      rowNode.classList.remove('error', 'flash-error', 'inline-error');
-      if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
-      if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
-      if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
-      if (revalidate)
-      {
-        rowNode.querySelectorAll('input,select,textarea').forEach(function (elementNode)
-        {
-          if (elementNode.hasOwnProperty('widgets'))
-          {
-            for (var widget in elementNode.widgets)
-            {
-              if (elementNode.widgets[widget].hasOwnProperty('IsValid'))
-              {
-                elementNode.widgets[widget].IsValid();
-              }
-            }
-          }
-        }.bind(this));
-      }
-    });
-  }
-
-
-
-  /**
-   * Summary. Form has been submitted
-   * @this    Class scope
-   * @access  private
-   */
   _setPosted(response)
   {
     this.PostedErrors = [];
 
-    this._clearErrors();
+    document.querySelectorAll('.form-row.error').forEach(function (rowNode)
+    {
+      rowNode.classList.remove('error', 'flash-error');
+    });
 
     var message = '';
 
@@ -18736,9 +18657,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    * @this    Class scope
    * @access  private
    */
-  SetFromValue(value, fromKeyChange)
+  SetFromValue(value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     value = !$a.isString(value) ? value.toString() : value.trim();
     if (this.FormRowNode)
     {
@@ -18754,7 +18674,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         widget = widgets && widgets.hasOwnProperty('String') ? widgets.String : widget;
         if (widget)
         {
-          if (!fromKeyChange) widget.IsValid();
+          widget.IsValid();
           Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
         }
       }
@@ -19619,10 +19539,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-
     var inputNode = this.FormRowNode.querySelector('input.ui-address');
     var inputWidget = inputNode.widgets.Address;
     if (!this.IsReadOnly && inputWidget)
@@ -21102,28 +21020,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _lookupModelDispatch()
   {
-    // becuase setting AffinityFields will validate, also validate NON AffinityFields
-    /*
-    if (this.CleverForms.IsGlobalKey(this.Config))
-    {
-      document.querySelectorAll('#form .form-row.required:not(.row-affinityfield)').forEach(function (rowNode)
-      {
-        var node = rowNode.querySelector('select,input,textarea');
-        var widgets = node ? node.widgets : {};
-        for (var widget in widgets)
-        {
-          if (widgets[widget].hasOwnProperty('IsValid')) widgets[widget].IsValid();
-        }
-      });
-    }
-    */
-    // Fire event to set (and validate) AffinityFields
     var event = new CustomEvent('ModelLookupChanged', {
       detail: {
         FieldKey: this.FormRowNode.querySelector('select').value,
         Model: this.Config.Details.AffinityField.ModelName,
-        Data: this.ModelData,
-        FromKeyChange: this.CleverForms.IsGlobalKey(this.Config)
+        Data: this.ModelData
       }
     });
     $a.HidePageLoader();
@@ -21153,7 +21054,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _modelLookupChanged (ev)
   {
-    let fromKeyChange = 'detail' in ev && 'FromKeyChange' in ev.detail ? ev.detail.FromKeyChange : false;
     //console.log('Modal data changed:');
     //console.log('ProfileStatus ', this.CleverForms.ProfileStatus);
     //console.log('ModelStatus   ', this.CleverForms.ModelStatus);
@@ -21185,8 +21085,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         //console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
         //console.log(data);
         console.log('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-
-        this.ElementController.SetFromValue(data[this.Config.Name], fromKeyChange);
+        this.ElementController.SetFromValue(data[this.Config.Name]);
 
         checkValue = data[this.Config.Name];
 
@@ -21214,16 +21113,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         //console.log(data);
         console.log('%c' + messgae, 'color:' + color + ';font-weight:bold;');
 
-        if (key === '') this.ElementController.SetFromValue('', fromKeyChange);
-        else this.ElementController.SetFromValue('', fromKeyChange);
+        if (key === '') this.ElementController.SetFromValue('');
+        else this.ElementController.SetFromValue('');
 
         checkValue = '';
 
       }
       //console.groupEnd();
 
-
-      if (checkValue !== null) this._checkCountrySensative(checkValue, fromKeyChange);
+      if (checkValue !== null) this._checkCountrySensative(checkValue);
 
       if (this.Config.Details.AffinityField.FieldName === 'PAY_POINT')
       {
@@ -21234,9 +21132,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
-  _checkCountrySensative(newValue, fromKeyChange)
+  _checkCountrySensative(newValue)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     if (Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName))
     {
       var label = this.FormRowNode.querySelector('label').innerText.trim();
@@ -21791,9 +21688,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     var inputNode = this.FormRowNode.querySelector('input.ui-banknumber');
     var inputWidget = inputNode.widgets.BankNumber;
     if (!this.IsReadOnly && inputWidget)
@@ -22022,9 +21918,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     this.CheckValid();
   }
 
@@ -22039,7 +21934,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   {
     if (!this.IsValid())
     {
-      return '\'' + this.CleverForms.ShortenString(this.Config.Details.Label, 50) + '\' must be ticked.';
+      return '\'' + this.Config.Details.Label + '\' must be ticked.';
     }
     return '';
   }
@@ -22276,10 +22171,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(value);
   }
 
   /**/
@@ -22892,9 +22786,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     return this.Config;
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -23015,7 +22908,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
   {
     if (!this.IsValid())
     {
-      var error = this.CleverForms.ShortenString(this.Config.Details.Label, 50) + ' is required';
+      var error = this.Config.Details.Label + ' is required';
       if (this.GetSigningTemplateId() !== '' && this.GetSigningRecipients().length > 0) // we must have a seelcted template and valid recipients ...
       {
         if (this.ValidOnlyIfSent) // if we have a template id and valid recipients, and this MUST be sent to be valid (if is required) .....
@@ -24135,9 +24028,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -24378,9 +24270,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     var format = '';
     var inputNode = this.IsReadOnly ? this.FormRowNode.querySelector('input') : this.FormRowNode.querySelector('input.ui-calendar');
     var inputWidget = this.IsReadOnly ? false : inputNode.widgets.DateTime;
@@ -24580,10 +24471,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(value);
   }
 
   /**/
@@ -25123,9 +25013,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -25670,10 +25559,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(value);
   }
 
   /**/
@@ -25858,10 +25746,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(value);
   }
 
   /**/
@@ -26038,10 +25925,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(value);
   }
 
   /**/
@@ -26215,9 +26101,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -26481,9 +26366,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     if ($a.isString(value) && $a.isStringifiedObject(value)) value = $a.stringToObject(value);
     if ($a.isString(value) && value.isNullOrEmpty())
     {
@@ -26526,7 +26410,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
   {
     if (!this.IsValid())
     {
-      return '\'' + this.CleverForms.ShortenString(this.Config.Details.Label, 50) + '\' must have at least one option ticked.';
+      return '\'' + this.Config.Details.Label + '\' must have at least one option ticked.';
     }
     return '';
   }
@@ -26724,9 +26608,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -26997,9 +26880,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -27165,9 +27047,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
     return this.Config;
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -27797,9 +27678,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue(value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       if (this.FormRowNode.querySelector('select').widgets)
@@ -27810,10 +27690,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         this.FormRowNode.querySelector('select').value = value;
       }
-      if (!fromKeyChange)
-      {
-        this.CheckValid();
-      }
+      this.CheckValid();
     }
   }
 
@@ -27825,10 +27702,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (required)
     {
       value = this.FormRowNode.querySelector('div.select.hidden select').value;
-      if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === '')
-      {
-        return false;
-      }
+      if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === '') return false;
     }
     return true;
   }
@@ -27840,8 +27714,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       var required = this.Config.Details.Required;
       if (this.CleverForms.IsGlobalKey(this.Config)) required = true;
       if (this.Config.ElementType === 'AffinityField' && this.Config.Details.AffinityField.IsRequired) required = true;
-      var label = this.CleverForms.ShortenString(this.Config.Details.Label, 50);
-      var error = $a.Lang.ReturnPath('generic.validation.select.required', { label: label });
+      var error = $a.Lang.ReturnPath('generic.validation.strings.required', { label: this.Config.Details.Label });
       var select = this.FormRowNode.querySelector('div.select.hidden select');
       select.querySelectorAll('option').forEach(function (option)
       {
@@ -27849,11 +27722,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         {
           if (required)
           {
-            error = $a.Lang.ReturnPath('generic.validation.select.notempty', { label: label });
+            error = $a.Lang.ReturnPath('generic.validation.strings.notemptyselect', { label: this.Config.Details.Label });
           }
           else
           {
-            error = $a.Lang.ReturnPath('generic.validation.select.notnone', { label: label, value: option.innerHTML.trim() });
+            error = $a.Lang.ReturnPath('generic.validation.strings.notnoneselect', { label: this.Config.Details.Label, value: option.innerHTML.trim() });
           }
         }
       }.bind(this));
@@ -27864,19 +27737,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   CheckValid()
   {
-    if (this.FormRowNode && this.FormRowNode.querySelector('select'))
+    if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
-      var selectNode = this.FormRowNode.querySelector('select');
-      if (selectNode.hasOwnProperty('widgets') && selectNode.widgets.hasOwnProperty('SelectLookup'))
-      {
-        selectNode.widgets.SelectLookup.IsValid();
-      }
+      this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+      this.FormRowNode.classList.remove('error', 'flash-error');
     }
-    //if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
-    //{
-    //  this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
-    //  this.FormRowNode.classList.remove('error', 'flash-error');
-    //}
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
@@ -28211,9 +28076,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     if (this.FormRowNode.querySelector('input[type="radio"][value="' + value + '"]'))
     {
       this.FormRowNode.querySelector('input[type="radio"][value="' + value + '"]').checked = true;
@@ -28239,7 +28103,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
   {
     if (!this.IsValid())
     {
-      return '\'' + this.CleverForms.ShortenString(this.Config.Details.Label, 50) + '\' must have one option ticked.';
+      return '\'' + this.Config.Details.Label + '\' must have one option ticked.';
     }
     return '';
   }
@@ -28497,9 +28361,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     this.DisableDepnedancy = true;
     var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
     var inputWidget = inputNode.widgets.TaxNumber;
@@ -28828,10 +28691,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(value);
   }
 
   /**/
@@ -29005,9 +28867,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -29217,9 +29078,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue (value)
   {
-    fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
   }
 
@@ -33797,7 +33657,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
           if (validationData.IsValid && validationData.CountryCode !== compareCountry)
           {
             var message = $a.Lang.ReturnPath('app.cf.form.' + (this.CleverForms.hasOwnProperty('FormCountry') && this.CleverForms.FormCountry !== null ? 'form_country_vaidation_warning' : 'employee_country_vaidation_warning'), {
-              fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim().shorten(50) : 'Bank Number',
+              fieldName: this.initInputNode.parentNode.querySelector('label') ? this.initInputNode.parentNode.querySelector('label').innerText.trim() : 'Bank Number',
               country: this.CleverForms.GetCountryDisplayVariant(validationData.CountryCode),
               formCountry: this.CleverForms.GetCountryDisplayVariant(compareCountry)
             });
@@ -34777,9 +34637,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.uuid = '';
 
     this.targetNode = null;
-    this.RowNode = null;
-    this.IsRequired = false;
-
     this.preserveOriginalInput = false;
 
     this.outputFormat = 'dd/MM/yyyy';
@@ -34831,7 +34688,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       '_init',
 
-      'IsValid', 'ShowError', 'HideError',
+      'IsValid',
 
       'getValue', 'getDisplayValue',
       'setTime', 'setDate', 'setToday', 'setNone', 'setTimeFromWidget',
@@ -34874,20 +34731,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       && !Affinity2018.Calendars.widgets.hasOwnProperty(this.uuid)
     ) Affinity2018.Calendars.widgets[this.uuid] = this;
 
-    this.CleverForms = window.hasOwnProperty('Affinity2018') && Affinity2018.hasOwnProperty('Apps') && Affinity2018.Apps.hasOwnProperty('CleverForms') ? Affinity2018.Apps.CleverForms.Default : null
-    this.Form = this.CleverForms && this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
-
     this.targetNode = targetNode;
     this.targetNode.classList.remove('ui-has-calendar');
     this.targetNode.classList.add('ui-calendar');
     this.targetNode.classList.add('hidden');
-
-    this.RowNode = Affinity2018.getParent(this.targetNode, '.form-row');
-    this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
-
-    this.ErrorNode = document.createElement('div');
-    this.ErrorNode.classList.add('ui-form-error');
-    this.targetNode.parentNode.appendChild(this.ErrorNode);
 
     if (!this.targetNode.hasOwnProperty('widgets')) this.targetNode.widgets = {};
     this.targetNode.widgets.DateTime = this;
@@ -35214,34 +35061,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   IsValid()
   {
     this.Valid = Affinity2018.isDateValid(this.getRawDate());
-    if (!this.Ready) return this.Valid;
-    if (this.targetNode)
-    {
-      this.targetNode.classList.remove('error');
-      this.HideError();
-      if (this.RowNode) this.RowNode.classList.remove('error', 'error2', 'flash-error');
-      if (this.IsRequired && !this.Valid)
-      {
-        this.targetNode.classList.add('error');
-        if (this.RowNode) this.RowNode.classList.add('error');
-        var errorPath = 'generic.validation.select.' + (this.displayNode.value.trim() == '' ? 'notempty' : 'invalid');
-        var errorlabel = this.RowNode && this.RowNode.querySelector('label') ? this.RowNode.querySelector('label').innerText.trim().shorten(50) : 'Date';
-        this.ShowError($a.Lang.ReturnPath(errorPath, { label: errorlabel }));
-      }
-    }
     return this.Valid;
-  }
-
-  ShowError(error)
-  {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
-  }
-  HideError()
-  {
-    this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
   }
 
   /**/
@@ -37607,9 +37427,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       return;
     }
 
-    this.CleverForms = window.hasOwnProperty('Affinity2018') && Affinity2018.hasOwnProperty('Apps') && Affinity2018.Apps.hasOwnProperty('CleverForms') ? Affinity2018.Apps.CleverForms.Default : null
-    this.Form = this.CleverForms && this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
-
     targetNode.classList.remove('ui-has-file');
 
     this.initNode = targetNode;
@@ -37834,12 +37651,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
   }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
   }
 
   /**/
@@ -39763,7 +39578,9 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     this._options();
     [
-      'IsValid', 'ShowError', 'HideError',
+      'ShowError', 'HideError',
+
+      'IsValid',
 
       'disable', 'enable',
       '_applyEvents',
@@ -39782,9 +39599,6 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       console.error('No valid element was passed to NumberWidget, dummy!');
       return;
     }
-
-    this.CleverForms = window.hasOwnProperty('Affinity2018') && Affinity2018.hasOwnProperty('Apps') && Affinity2018.Apps.hasOwnProperty('CleverForms') ? Affinity2018.Apps.CleverForms.Default : null
-    this.Form = this.CleverForms && this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
 
     this.InputNode = targetNode;
     this.RowNode = Affinity2018.getParent(this.InputNode, '.form-row');
@@ -39875,12 +39689,10 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
   }
   HideError ()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
   }
 
   disable ()
@@ -40817,7 +40629,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
       '_init',
 
-      'IsValid', 'ShowError', 'HideError', 'GetValue',
+      'IsValid', 'GetValue',
 
       '_gotResults', '_gotResultsError', '_requestCanceled',
 
@@ -40836,9 +40648,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       return;
     }
 
-    this.CleverForms = window.hasOwnProperty('Affinity2018') && Affinity2018.hasOwnProperty('Apps') && Affinity2018.Apps.hasOwnProperty('CleverForms') ? Affinity2018.Apps.CleverForms.Default : null
-    this.Form = this.CleverForms && this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
-
     if (targetNode.classList.contains('ui-has-autocomplete') || targetNode.classList.contains('do-autocomplete'))
     {
       this.makeAutocomplete = true;
@@ -40847,12 +40656,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     }
 
     this.targetNode = targetNode;
-    this.RowNode = Affinity2018.getParent(this.targetNode, '.form-row');
-
-    this.ErrorNode = document.createElement('div');
-    this.ErrorNode.classList.add('ui-form-error');
-    if (this.RowNode) this.RowNode.appendChild(this.ErrorNode);
-    else this.targetNode.parentNode.parentNode.appendChild(this.ErrorNode);
 
     this.api = $a.isUrl(api) ? api.trim() : $a.isUrl(this.targetNode.dataset.api) ? this.targetNode.dataset.api.trim() : false;
 
@@ -40860,8 +40663,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     if ($a.isObject(this.config)) this.config = $a.objectDeepMerge([$a.jsonCloneObject(this.DefaultConfig), this.config]);
     else this.config = $a.jsonCloneObject(this.DefaultConfig);
     delete this.targetNode.dataset.config;
-
-    this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : this.hasOwnProperty('config') && this.config.hasOwnProperty('Required') && this.config.Required : false;
 
     this.isSingleValue = this.config.IsSingleValue && !$a.isNullOrEmpty(this.config.Value);
 
@@ -40942,46 +40743,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   IsValid()
   {
-    this.targetNode.classList.remove('error');
-    this.HideError();
-    if (this.RowNode) this.RowNode.classList.remove('error', 'error2', 'flash-error');
-    this.Valid = this.IsRequired && this.GetValue() === this.config.NoneKey ? false : true;
-    if (this.IsRequired && !this.Valid)
+    if (this.config.Required)
     {
-      this.targetNode.classList.add('error');
-      if (this.RowNode) this.RowNode.classList.add('error');
-      var errorlabel = this.RowNode && this.RowNode.querySelector('label') ? this.RowNode.querySelector('label').innerText.trim().shorten(50) : 'This';
-      var error = $a.Lang.ReturnPath('generic.validation.select.required', { label: errorlabel });
-      var select = this.RowNode.querySelector('div.select.hidden select');
-      select.querySelectorAll('option').forEach(function (option)
+      if (this.GetValue() === this.config.NoneKey)
       {
-        if (option.value === select.value)
-        {
-          if (this.IsRequired)
-          {
-            error = $a.Lang.ReturnPath('generic.validation.select.notempty', { label: errorlabel });
-          }
-          else
-          {
-            error = $a.Lang.ReturnPath('generic.validation.select.notnone', { label: errorlabel, value: option.innerHTML.trim() });
-          }
-        }
-      }.bind(this));
-      this.ShowError(error);
+        this.Valid = false;
+      }
     }
-    return this.Valid;
-  }
-
-  ShowError(error)
-  {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
-  }
-  HideError()
-  {
-    this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
+    this.Valid = true;
   }
 
   GetValue()
@@ -41444,9 +41213,6 @@ Affinity2018.Classes.Plugins.StringWidget = class
       return;
     }
 
-    this.CleverForms = window.hasOwnProperty('Affinity2018') && Affinity2018.hasOwnProperty('Apps') && Affinity2018.Apps.hasOwnProperty('CleverForms') ? Affinity2018.Apps.CleverForms.Default : null
-    this.Form = this.CleverForms && this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
-
     this.InputNode = targetNode;
     this.RowNode = Affinity2018.getParent(this.InputNode, '.form-row');
     this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
@@ -41530,12 +41296,10 @@ Affinity2018.Classes.Plugins.StringWidget = class
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
   }
   HideError ()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
   }
 
   /**/
