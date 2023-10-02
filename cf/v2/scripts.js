@@ -15525,6 +15525,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.TestErrorStub = false;
 
+    this.PostState = 'none';
+
   }
 
 
@@ -17232,6 +17234,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }.bind(this), scrollDelay);
       }
 
+      this.PostState = 'invalid';
+
       $a.HidePageLoader();
 
     }
@@ -17609,6 +17613,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     $a.HidePageLoader();
 
+    this.PostState = 'success';
+
     return true;
   }
 
@@ -17795,6 +17801,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (logError) console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' ')));
 
       $a.HidePageLoader();
+
+      this.PostState = 'failed';
+
     }.bind(this), 500);
   }
 
@@ -18740,6 +18749,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     value = !$a.isString(value) ? value.toString() : value.trim();
+    var form = this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
     if (this.FormRowNode)
     {
       var input = false;
@@ -18754,7 +18764,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         widget = widgets && widgets.hasOwnProperty('String') ? widgets.String : widget;
         if (widget)
         {
-          if (!fromKeyChange) widget.IsValid();
+          var doValidate = fromKeyChange ? false : true;
+          doValidate = fromKeyChange && form.PostState !== 'none' ? true : doValidate;
+          if (doValidate) widget.IsValid();
           Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
         }
       }
@@ -27819,10 +27831,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         this.FormRowNode.querySelector('select').value = value;
       }
-      if (!fromKeyChange)
-      {
-        this.CheckValid();
-      }
+      var doValidate = fromKeyChange ? false : true;
+      doValidate = fromKeyChange && this.CleverForms.Form.PostState !== 'none' ? true : doValidate;
+      if (doValidate) this.CheckValid();
     }
   }
 
