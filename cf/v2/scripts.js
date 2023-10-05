@@ -27884,12 +27884,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   CheckValid()
   {
+    debugger;
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       var selectNode = this.FormRowNode.querySelector('select');
       if (selectNode.hasOwnProperty('widgets') && selectNode.widgets.hasOwnProperty('SelectLookup'))
       {
         selectNode.widgets.SelectLookup.IsValid();
+      }
+      else
+      {
+        if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
+        {
+          this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
+          this.FormRowNode.classList.remove('error', 'flash-error');
+        }
       }
     }
     //if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
@@ -37858,11 +37867,13 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
+    if (this.RowNode) this.RowNode.classList.add('error');
     if (this.Form) this.Form.ResizeSection();
   }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
+    if (this.RowNode) this.RowNode.classList.remove('error');
     if (this.Form) this.Form.ResizeSection();
   }
 
@@ -38468,6 +38479,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         {
           this.dispatchEvent(new CustomEvent('postSuccess', { detail: { dispatchObject: { FileName: names.join(','), FileId: this.FileIds.join(',') } } }));
           this._resetFileNode();
+          this._validate();
           $a.HidePageLoader();
         }
       }
@@ -38487,6 +38499,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     var f = 0, names = [];
     for (; f < this.Files.length; f++) names.push(this.Files[f].name);
     this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileName: names } } }));
+    this._validate();
     $a.HidePageLoader();
   }
 
@@ -41007,11 +41020,13 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
+    if (this.RowNode) this.RowNode.classList.add('error');
     if (this.Form) this.Form.ResizeSection();
   }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
+    if (this.RowNode) this.RowNode.classList.remove('error');
     if (this.Form) this.Form.ResizeSection();
   }
 
