@@ -16908,8 +16908,8 @@ var CFInbox = new Class({
 
     var cols = [];
 
-    console.clear();
-    console.log(options);
+    //console.clear();
+    //console.log(options);
 
     if (options.elementid == this.inboxid)
     {
