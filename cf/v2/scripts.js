@@ -40007,7 +40007,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       case 188: // comma
         if (this.type === 'int') return false;
         if (this.type === 'version') return false;
-        if (this.InputNode.value.contains(',')) return false;
+        if (this.InputNode.value.contains(',')) return false; // already contains a comma
         break;
       case 190: // keyboard decimal
       case 110: // nampad decimal
@@ -40053,6 +40053,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     if (this.CutPasteOperration)
     {
+      var hasComma = false;
       var validChars = [];
       var check = this.InputNode.value.toUpperCase().trim();
       for (var i = 0; i < check.length; i++)
@@ -40065,7 +40066,8 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (['float', 'decimal', 'currency'].contains(this.type) && this.InputNode.value.trim() !== '')
     {
-      var value = !isNaN(parseFloat(this.InputNode.value)) ? parseFloat(this.InputNode.value) + '' : value, decimalMultiplyer;
+      hasComma = this.InputNode.value.trim().contains(',');
+      var value = !isNaN(parseFloat(this.InputNode.value.trim().replaceAll(',', ''))) ? parseFloat(this.InputNode.value.trim().replaceAll(',', '')) : value, decimalMultiplyer;
 
       if (this.decimals > 0)
       {
@@ -40089,6 +40091,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
         }
         //value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
       }
+      if (hasComma) value = value.toLocaleString('en-GB');
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
       this.InputNode.value = value;
     }
@@ -40099,6 +40102,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   _validate (ev)
   {
     var value = this.InputNode.value.trim(),
+        valueAsFloat = parseFloat(value.trim().replaceAll(',', '')),
         isValid = true,
         warning;
 
@@ -40109,7 +40113,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (value === '' && !this.IsRequired) return;
 
-    if (isNaN(parseFloat(value)))
+    if (isNaN(valueAsFloat))
     {
       isValid = false;
       warning = 'Value must be a number.';
@@ -40118,7 +40122,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     {
       if (this.SpecialValidation)
       {
-        if (parseFloat(value) < this.MinValue || parseFloat(value) > this.MaxValue)
+        if (valueAsFloat < this.MinValue || valueAsFloat > this.MaxValue)
         {
           isValid = false;
           warning = 'Value must be between ' + this.MinValue + ' and ' + this.MaxValue + '.';
@@ -40126,12 +40130,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       }
       else
       {
-        if (parseFloat(value) < this.MinValue)
+        if (valueAsFloat < this.MinValue)
         {
           isValid = false;
           warning = 'Value must be greater than or equal to ' + this.MinValue + '.';
         }
-        if (parseFloat(value) > this.MaxValue)
+        if (valueAsFloat > this.MaxValue)
         {
           isValid = false;
           warning = 'Value must be less than or equal to ' + this.MaxValue + '.';
