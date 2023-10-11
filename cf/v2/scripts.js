@@ -1,31 +1,31 @@
 /* Minification failed. Returning unminified contents.
-(2917,32-37): run-time error JS1195: Expected expression: class
-(3456,32-37): run-time error JS1195: Expected expression: class
-(3548,29-30): run-time error JS1004: Expected ';': {
-(3549,29-30): run-time error JS1004: Expected ';': {
-(3550,29-30): run-time error JS1004: Expected ';': {
-(3551,29-30): run-time error JS1004: Expected ';': {
-(4196,36-41): run-time error JS1195: Expected expression: class
-(4309,30-35): run-time error JS1195: Expected expression: class
-(4414,31-36): run-time error JS1195: Expected expression: class
-(4654,35-40): run-time error JS1195: Expected expression: class
-(4782,33-38): run-time error JS1195: Expected expression: class
-(4993,39-40): run-time error JS1014: Invalid character: `
-(4993,40-41): run-time error JS1195: Expected expression: <
-(4993,100-101): run-time error JS1014: Invalid character: `
-(5012,43-44): run-time error JS1014: Invalid character: `
-(5012,44-45): run-time error JS1195: Expected expression: <
-(5012,108-109): run-time error JS1014: Invalid character: `
-(5080,33-38): run-time error JS1195: Expected expression: class
-(5380,32-37): run-time error JS1195: Expected expression: class
-(5752,33-38): run-time error JS1195: Expected expression: class
-(5834,37-42): run-time error JS1195: Expected expression: class
-(5835,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(2913,32-37): run-time error JS1195: Expected expression: class
+(3452,32-37): run-time error JS1195: Expected expression: class
+(3544,29-30): run-time error JS1004: Expected ';': {
+(3545,29-30): run-time error JS1004: Expected ';': {
+(3546,29-30): run-time error JS1004: Expected ';': {
+(3547,29-30): run-time error JS1004: Expected ';': {
+(4192,36-41): run-time error JS1195: Expected expression: class
+(4305,30-35): run-time error JS1195: Expected expression: class
+(4410,31-36): run-time error JS1195: Expected expression: class
+(4650,35-40): run-time error JS1195: Expected expression: class
+(4778,33-38): run-time error JS1195: Expected expression: class
+(4989,39-40): run-time error JS1014: Invalid character: `
+(4989,40-41): run-time error JS1195: Expected expression: <
+(4989,100-101): run-time error JS1014: Invalid character: `
+(5008,43-44): run-time error JS1014: Invalid character: `
+(5008,44-45): run-time error JS1195: Expected expression: <
+(5008,108-109): run-time error JS1014: Invalid character: `
+(5076,33-38): run-time error JS1195: Expected expression: class
+(5376,32-37): run-time error JS1195: Expected expression: class
+(5748,33-38): run-time error JS1195: Expected expression: class
+(5830,37-42): run-time error JS1195: Expected expression: class
+(5831,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
 (1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5836,5-16): run-time error JS1006: Expected ')': constructor
-(5907,3-4): run-time error JS1002: Syntax error: }
-(5907,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5849,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(5832,5-16): run-time error JS1006: Expected ')': constructor
+(5903,3-4): run-time error JS1002: Syntax error: }
+(5903,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(5845,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 (function ()
 {
@@ -64,9 +64,6 @@
 
   Affinity2018.UiReady = false;
   Affinity2018.HasCitrix = false;
-
-  /* Assume all server time zones are Melbourne time - at time of writing, this is the case, and there is no plan nor reason to ever change this */
-  Affinity2018.DefaultServerTimeZone = 'Australia/Melbourne';  
 
   Affinity2018.PreloadResources = {
     Scripts: [
@@ -1817,9 +1814,8 @@
       if (mixed.startsWith('/Date(') && mixed.endsWith(')/')) // C# Date Object as String
       {
         dateStr = mixed.replace(/\/Date\((-?\d+)\)\//, '$1').trim();
-        // Assume any timestamp from server uses default server time zone
-        if (Affinity2018.hasOwnProperty('DefaultServerTimeZone') && Affinity2018.isString(Affinity2018.DefaultServerTimeZone)) luxonDate = luxon.DateTime.fromMillis(parseInt(dateStr), { zone: Affinity2018.DefaultServerTimeZone });
-        else luxonDate = luxon.DateTime.fromMillis(parseInt(dateStr));
+        luxonDate = luxon.DateTime.fromMillis(parseInt(dateStr));
+
         if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
         {
           console.log('                   (Is C# date)');
@@ -22541,7 +22537,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     }
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '')
     {
-      /*
       window.dateLogStart = true;
       console.groupCollapsed('Parse Read Only Date:');
       //console.log();
@@ -22550,7 +22545,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
       console.log('Question Name:    ', this.Config.Name);
       console.log('Server Value:     ', this.Config.Details.Value);
-      */
       date = $a.getDate(this.Config.Details.Value);
     }
 
@@ -40007,7 +40001,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       case 188: // comma
         if (this.type === 'int') return false;
         if (this.type === 'version') return false;
-        if (this.InputNode.value.contains(',')) return false; // already contains a comma
+        if (this.InputNode.value.contains(',')) return false;
         break;
       case 190: // keyboard decimal
       case 110: // nampad decimal
@@ -40053,7 +40047,6 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     if (this.CutPasteOperration)
     {
-      var hasComma = false;
       var validChars = [];
       var check = this.InputNode.value.toUpperCase().trim();
       for (var i = 0; i < check.length; i++)
@@ -40066,8 +40059,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (['float', 'decimal', 'currency'].contains(this.type) && this.InputNode.value.trim() !== '')
     {
-      hasComma = this.InputNode.value.trim().contains(',');
-      var value = !isNaN(parseFloat(this.InputNode.value.trim().replaceAll(',', ''))) ? parseFloat(this.InputNode.value.trim().replaceAll(',', '')) : value, decimalMultiplyer;
+      var value = !isNaN(parseFloat(this.InputNode.value)) ? parseFloat(this.InputNode.value) + '' : value, decimalMultiplyer;
 
       if (this.decimals > 0)
       {
@@ -40091,7 +40083,6 @@ Affinity2018.Classes.Plugins.NumberWidget = class
         }
         //value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
       }
-      if (hasComma) value = value.toLocaleString('en-GB');
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
       this.InputNode.value = value;
     }
@@ -40102,7 +40093,6 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   _validate (ev)
   {
     var value = this.InputNode.value.trim(),
-        valueAsFloat = parseFloat(value.trim().replaceAll(',', '')),
         isValid = true,
         warning;
 
@@ -40113,7 +40103,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (value === '' && !this.IsRequired) return;
 
-    if (isNaN(valueAsFloat))
+    if (isNaN(parseFloat(value)))
     {
       isValid = false;
       warning = 'Value must be a number.';
@@ -40122,7 +40112,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     {
       if (this.SpecialValidation)
       {
-        if (valueAsFloat < this.MinValue || valueAsFloat > this.MaxValue)
+        if (parseFloat(value) < this.MinValue || parseFloat(value) > this.MaxValue)
         {
           isValid = false;
           warning = 'Value must be between ' + this.MinValue + ' and ' + this.MaxValue + '.';
@@ -40130,12 +40120,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       }
       else
       {
-        if (valueAsFloat < this.MinValue)
+        if (parseFloat(value) < this.MinValue)
         {
           isValid = false;
           warning = 'Value must be greater than or equal to ' + this.MinValue + '.';
         }
-        if (valueAsFloat > this.MaxValue)
+        if (parseFloat(value) > this.MaxValue)
         {
           isValid = false;
           warning = 'Value must be less than or equal to ' + this.MaxValue + '.';
@@ -42259,22 +42249,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       }
       str = splitCheck[0];
     }
-    if (str.contains('-'))
-    {
-      parts = str.split('-');
-    }
-    else
-    {
-      str = str.trim().replace(/[^0-9.]/g, '');
-      if (str.length >= 9)
-      {
-        parts = [str.substring(0, 3), str.substring(3, 6), str.substring(6)];
-      }
-      else
-      {
-        parts = [str, '', ''];
-      }
-    }
+    parts = str.split('-');
     this.input1Node.value = parts[0];
     this.input2Node.value = parts[1];
     this.input3Node.value = parts[2];
