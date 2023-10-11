@@ -42255,7 +42255,22 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       }
       str = splitCheck[0];
     }
-    parts = str.split('-');
+    if (str.contains('-'))
+    {
+      parts = str.split('-');
+    }
+    else
+    {
+      str = str.trim().replace(/[^0-9.]/g, '');
+      if (str.length >= 9)
+      {
+        parts = [str.substring(0, 3), str.substring(3, 6), str.substring(6)];
+      }
+      else
+      {
+        parts = [str, '', ''];
+      }
+    }
     this.input1Node.value = parts[0];
     this.input2Node.value = parts[1];
     this.input3Node.value = parts[2];
