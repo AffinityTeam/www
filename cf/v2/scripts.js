@@ -27890,7 +27890,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   CheckValid()
   {
-    debugger;
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       var selectNode = this.FormRowNode.querySelector('select');
@@ -41644,7 +41643,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
         break;
       case 'sentence':
       case 'sentance':
-        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\*\/\\|()\s]*$/g;
+        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\s]*$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
         extraspace = true;
         break;
