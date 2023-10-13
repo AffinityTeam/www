@@ -42239,6 +42239,26 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   _stringToNodes(str)
   {
     str = typeof str === 'string' ? str : this.initInputNode.value;
+    str = str.replace(/[^0-9.]/g, '').trim();
+    var parts = ['', '', ''];
+    if (str.length <= 3)
+    {
+      parts = [str, '', ''];
+    }
+    else if (str.length > 3 && str.length <= 6)
+    {
+      parts = [str.substring(0, 3), str.substring(3), ''];
+    }
+    else if (str.length > 6)
+    {
+      parts = [str.substring(0, 3), str.substring(3, 6), str.substring(6)];
+    }
+    this.input1Node.value = parts[0];
+    this.input2Node.value = parts[1];
+    this.input3Node.value = parts[2];
+    this._validate();
+    /*
+    str = typeof str === 'string' ? str : this.initInputNode.value;
     str = str.replace(/\s/g, '');
     var splitCheck, parts;
     if (str.trim() === '')
@@ -42278,6 +42298,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.input2Node.value = parts[1];
     this.input3Node.value = parts[2];
     this._validate();
+    */
   }
 
   _stringFromNodes()
