@@ -40052,7 +40052,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     if (this.CutPasteOperration)
     {
-      var hasComma = false;
+      var hasComma = this.InputNode.value.countString(',') === 1;
       var validChars = [];
       var check = this.InputNode.value.toUpperCase().trim();
       for (var i = 0; i < check.length; i++)
@@ -40065,7 +40065,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (['float', 'decimal', 'currency'].contains(this.type) && this.InputNode.value.trim() !== '')
     {
-      hasComma = this.InputNode.value.trim().contains(',');
+      hasComma = !hasComma ? this.InputNode.value.trim().contains(',') : hasComma;
       var value = !isNaN(parseFloat(this.InputNode.value.trim().replaceAll(',', ''))) ? parseFloat(this.InputNode.value.trim().replaceAll(',', '')) : value, decimalMultiplyer;
 
       if (this.decimals > 0)
