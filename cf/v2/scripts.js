@@ -40102,8 +40102,11 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       }
       var negative = parseFloat(value) < 0;
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
-      value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
-      value = value.contains('$') ? value.split('$')[1] : value;
+      if (this.type === 'currency')
+      {
+        value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
+        value = value.contains('$') ? value.split('$')[1] : value;
+      }
       value = negative ? '-' + value : value;
       //if (!hasComma) value = value.replaceAll(',', '');
 
