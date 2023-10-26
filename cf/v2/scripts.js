@@ -22260,11 +22260,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
       //fieldPrecision = !isNaN(parseInt(this.Config.Details.AffinityField.FieldPrecision)) ? parseInt(this.Config.Details.AffinityField.FieldPrecision) : fieldPrecision;
       fieldPrecision = fieldDecimal;
     }
+
     var html = this.HtmlRowTemplate.format({
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
       rounding: fieldPrecision > 0 ? 'round' : 'none',
-      value: this.Config.Details.Value
+      value: this._formatCurrency(this.Config.Details.Value)
     });
 
     this.FormRowNode = super.SetFormRow(target, html);
@@ -22286,7 +22287,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
       if (this.FormRowNode && !isNaN(parseFloat(this.FormRowNode.querySelector('input.nv').value)))
       {
-        this.FormData.Value = parseFloat(this.FormRowNode.querySelector('input.nv').value);
+        this.FormData.Value = parseFloat(this.FormRowNode.querySelector('input.nv').value.replaceAll(',', ''));
       }
       else
       {
@@ -22301,10 +22302,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-    super.SetFromValue(value, fromKeyChange);
+    super.SetFromValue(this._formatCurrency(value), fromKeyChange);
   }
 
   /**/
+
+  _formatCurrency(value)
+  {
+    if (value == undefined || value === null || isNaN(parseFloat(value))) return value;
+    value = value.toString();
+    //var hasComma = value.contains(',');
+    var negative = parseFloat(value) < 0;
+    value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
+    value = value.contains('$') ? value.split('$')[1] : value;
+    value = negative ? '-' + value : value;
+    //if (!hasComma) value = value.replaceAll(',', '');
+    return value;
+  }
 
   _templates ()
   {
@@ -27884,7 +27898,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   CheckValid()
   {
-    debugger;
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       var selectNode = this.FormRowNode.querySelector('select');
@@ -29491,10 +29504,11 @@ Affinity2018.Classes.Plugins.Address = class
 
   _loadScript ()
   {
+    if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
     this.scriptNode = document.createElement('script');
     this.scriptNode.onload = this._scriptLoaded;
     this.scriptNode.type = 'text/javascript';
-    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places';
+    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback';
     this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
     document.head.appendChild(this.scriptNode);
     this._loadScriptFailTimer = setTimeout(function ()
@@ -29893,7 +29907,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _checkAddress ()
   {
-    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey)
+    if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
+    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback')
     .then(function (response)
     {
       if (
@@ -39806,7 +39821,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       '_applyEvents',
       '_keyDown',
       '_keyUp',
-      '_keyIsOk',
+      '_checkKey',
       '_blur',
       '_validate',
 
@@ -39941,15 +39956,13 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
   _keyDown (ev)
   {
-    // console.log("=== key up ==========================================");
-    // console.log(ev);
-    var key = ev.keyCode || ev.key;
-    if (!this._keyIsOk(key, ev.shiftKey, ev.ctrlKey))
+    //console.log("=== key up ==========================================");
+    //console.log(ev);
+    if (!this._checkKey(ev.target.value, ev.target.selectionStart, ev.key, ev.shiftKey, ev.ctrlKey))
     {
       ev.stop();
       return false;
     }
-    // TODO: Limit decimal places?
   }
 
   _keyUp (ev)
@@ -39962,78 +39975,76 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     }
   }
 
-  _keyIsOk(keyCode, shiftDown, ctrlDown)
+  _checkKey(value, position, key, shiftDown, ctrlDown)
   {
-    if (this.disabled) return true;
-
-    keyCode = typeof keyCode === 'string' ? parseInt(keyCode) : keyCode;
-    
-    // console.log("=== key ok");
-    // console.log(keyCode, shiftDown, this.type);
-
-    if (ctrlDown && [17, 67, 86, 88].contains(keyCode))
+    shiftDown = shiftDown === undefined || shiftDown === null ? false : shiftDown;
+    ctrlDown = ctrlDown === undefined || ctrlDown === null ? false : ctrlDown;
+    if (ctrlDown && ['shift', 'x', 'c', 'v'].contains(key.toLowerCase()))
     {
       this.CutPasteOperration = true;
       return true;
     }
     this.CutPasteOperration = false;
-
-    //                 keyboard number char codes          nampad number char codes
-    var isNumberKey = (keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105);
-
+    var isNumberKey = key.length > 1 ? false : !isNaN(parseInt(key));
     if (!this.CutPasteOperration)
     {
-      if (['float', 'decimal', 'currency'].contains(this.type) && this.decimals > 0 && this.InputNode.value.contains('.'))
+      if (['float', 'decimal', 'currency'].contains(this.type) && this.decimals > 0 && value.contains('.') && !shiftDown && !ctrlDown)
       {
-        // check decimal precision when a number is pressed and prevent typing too many decimals:
-        if (isNumberKey && !shiftDown && !ctrlDown)
+        var decimalPositon = value.lastIndexOf('.') + 1;
+        var decimalStr = value.substring(value.lastIndexOf('.') + 1);
+        var lookbehind = value.charAt(position - 1);
+        var lookAhead = value.charAt(position);
+        if (key === ',')
         {
-          let decimalStr = (this.InputNode.value.trim() + String.fromCharCode(keyCode)).trim().split('.')[1].trim();
-          if (decimalStr.length > this.decimals) return false;
+          if (position > decimalPositon) return false; // no comma after decimal
+          if ([lookbehind, lookAhead].contains(',')) return false; // no consecutive commas
+        } else if (isNumberKey)
+        {
+          if (position > decimalPositon && decimalStr.length >= this.decimals) return false; // already have max decimals
+          if (decimalPositon > -1 && position > decimalPositon + this.decimals) return false; // already have max decimals
         }
       }
     }
-
-    if (isNumberKey && !shiftDown && !ctrlDown) return true;
-
-    switch (keyCode)
+    if (isNumberKey && position === 0)
     {
-      case 188: // comma
+      if (value.contains('+')) return false; // can not have a number beofre a + 
+      if (value.contains('-')) return false; // can not have a number beofre a - 
+    }
+    if (isNumberKey && !shiftDown && !ctrlDown) return true;
+    switch (key)
+    {
+      case ',':
         if (this.type === 'int') return false;
         if (this.type === 'version') return false;
-        if (this.InputNode.value.contains(',')) return false;
+        //if (value.countString(',') < 2) return true; // is allowed one comma
         break;
-      case 190: // keyboard decimal
-      case 110: // nampad decimal
+      case '.':
         if (this.type === 'int') return false;
-        if ((this.type === 'float' || this.type === 'currency') && this.InputNode.value.indexOf('.') > -1) return false; // already has a decimal
+        if ((this.type === 'float' || this.type === 'currency') && value.contains('.')) return false; // already has a decimal
         break;
-      case 107: // nampad plus
-      case 187: // keyboard plus (equals)
-        if (keyCode == 187 && !shiftDown) return false; 
+      case '+':
         if (this.type === 'version') return false;
-        if (this.InputNode.value.length && this.InputNode.selectionStart > 0) return false; // can only have plus as first char
-        if (this.InputNode.value.indexOf('+') > -1) return false; // already has a +
+        if (value.length > 0 && position !== 0) return false; // can only have plus as first char
+        if (value.contains('+')) return false; // already has a plus
+        if (value.charAt(0) === '-') return false; // can not have +-
         break;
-      case 109: // nampad minus
-      case 189: // keyboard minus
-      case 45: // keyboard minus
-        if (keyCode === 45 && shiftDown) return false; // underscore, not minus
+      case '-':
         if (this.type === 'version') return false;
-        if (this.InputNode.value.length > 0 && this.InputNode.selectionStart !== 0) return false; // can only have minus as first char
-        if (this.InputNode.value.indexOf('-') > -1) return false; // already has a minus
+        if (value.length > 0 && position !== 0) return false; // can only have minus as first char
+        if (value.contains('-')) return false; // already has a minus
+        if (value.charAt(0) === '+') return false; // can not have -+
         break;
-      case 8: // backspace
-      case 9: // tab
-      case 13: // enter
-      case 35: // end
-      case 36: // home
-      case 37: // left arrow
-      case 38: // up arrow
-      case 39: // right arrow
-      case 40: // down arrow
-      case 45: // insert
-      case 46: // delete
+      case 'Backspace':
+      case 'Tab':
+      case 'Enter':
+      case 'End':
+      case 'Home':
+      case 'ArrowLeft':
+      case 'ArrowRight':
+      case 'ArrowUp':
+      case 'ArrowDown':
+      case 'Insert':
+      case 'Delete':
         return true;
         break;
       default:
@@ -40048,22 +40059,28 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     if (this.CutPasteOperration)
     {
       var validChars = [];
-      var check = this.InputNode.value.toUpperCase().trim();
+      var check = this.InputNode.value.trim();
       for (var i = 0; i < check.length; i++)
       {
-        var code = check.charCodeAt(i);
-        if (this._keyIsOk(code, false, false)) validChars.push(this.InputNode.value.trim().charAt(i));
+        if (this._checkKey(check.substring(0, i), i, check.indexOf(i))) validChars.push(this.InputNode.value.trim().charAt(i));
       }
       this.InputNode.value = validChars.join('');
     }
 
+    //var hasComma = this.InputNode.value.countString(',') === 1;
+    var decimalMultiplyer;
+    var value = this.InputNode.value;
+    value = (value.contains('$') ? value.split('$')[1] : value).trim();
+
     if (['float', 'decimal', 'currency'].contains(this.type) && this.InputNode.value.trim() !== '')
     {
-      var value = !isNaN(parseFloat(this.InputNode.value)) ? parseFloat(this.InputNode.value) + '' : value, decimalMultiplyer;
+      //hasComma = !hasComma ? this.InputNode.value.trim().contains(',') : hasComma;
+      value = !isNaN(parseFloat(this.InputNode.value.trim().replaceAll(',', ''))) ? parseFloat(this.InputNode.value.trim().replaceAll(',', '')) : value;
 
       if (this.decimals > 0)
       {
         decimalMultiplyer = 10 ** this.decimals;
+
         switch (this.rounding)
         {
           default:
@@ -40083,7 +40100,16 @@ Affinity2018.Classes.Plugins.NumberWidget = class
         }
         //value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
       }
+      var negative = parseFloat(value) < 0;
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
+      if (this.type === 'currency')
+      {
+        value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
+        value = value.contains('$') ? value.split('$')[1] : value;
+      }
+      value = negative ? '-' + value : value;
+      //if (!hasComma) value = value.replaceAll(',', '');
+
       this.InputNode.value = value;
     }
 
@@ -40093,6 +40119,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   _validate (ev)
   {
     var value = this.InputNode.value.trim(),
+        valueAsFloat = parseFloat(value.trim().replaceAll(',', '')),
         isValid = true,
         warning;
 
@@ -40103,7 +40130,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     if (value === '' && !this.IsRequired) return;
 
-    if (isNaN(parseFloat(value)))
+    if (isNaN(valueAsFloat))
     {
       isValid = false;
       warning = 'Value must be a number.';
@@ -40112,7 +40139,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     {
       if (this.SpecialValidation)
       {
-        if (parseFloat(value) < this.MinValue || parseFloat(value) > this.MaxValue)
+        if (valueAsFloat < this.MinValue || valueAsFloat > this.MaxValue)
         {
           isValid = false;
           warning = 'Value must be between ' + this.MinValue + ' and ' + this.MaxValue + '.';
@@ -40120,12 +40147,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       }
       else
       {
-        if (parseFloat(value) < this.MinValue)
+        if (valueAsFloat < this.MinValue)
         {
           isValid = false;
           warning = 'Value must be greater than or equal to ' + this.MinValue + '.';
         }
-        if (parseFloat(value) > this.MaxValue)
+        if (valueAsFloat > this.MaxValue)
         {
           isValid = false;
           warning = 'Value must be less than or equal to ' + this.MaxValue + '.';
@@ -41634,7 +41661,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
         break;
       case 'sentence':
       case 'sentance':
-        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\*\/\\|()\s]*$/g;
+        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\s]*$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
         extraspace = true;
         break;
@@ -42230,6 +42257,26 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   _stringToNodes(str)
   {
     str = typeof str === 'string' ? str : this.initInputNode.value;
+    str = str.replace(/[^0-9.]/g, '').trim();
+    var parts = ['', '', ''];
+    if (str.length <= 3)
+    {
+      parts = [str, '', ''];
+    }
+    else if (str.length > 3 && str.length <= 6)
+    {
+      parts = [str.substring(0, 3), str.substring(3), ''];
+    }
+    else if (str.length > 6)
+    {
+      parts = [str.substring(0, 3), str.substring(3, 6), str.substring(6)];
+    }
+    this.input1Node.value = parts[0];
+    this.input2Node.value = parts[1];
+    this.input3Node.value = parts[2];
+    this._validate();
+    /*
+    str = typeof str === 'string' ? str : this.initInputNode.value;
     str = str.replace(/\s/g, '');
     var splitCheck, parts;
     if (str.trim() === '')
@@ -42249,11 +42296,27 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       }
       str = splitCheck[0];
     }
-    parts = str.split('-');
+    if (str.contains('-'))
+    {
+      parts = str.split('-');
+    }
+    else
+    {
+      str = str.trim().replace(/[^0-9.]/g, '');
+      if (str.length >= 9)
+      {
+        parts = [str.substring(0, 3), str.substring(3, 6), str.substring(6)];
+      }
+      else
+      {
+        parts = [str, '', ''];
+      }
+    }
     this.input1Node.value = parts[0];
     this.input2Node.value = parts[1];
     this.input3Node.value = parts[2];
     this._validate();
+    */
   }
 
   _stringFromNodes()
