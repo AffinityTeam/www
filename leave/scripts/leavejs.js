@@ -2253,7 +2253,7 @@ var UILeaveApply = new Class({
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
         this.leavePeriodDaysHoursTitle = new Element('div', {
-            'html': 'Scheduled',
+            'html': 'Schedule',
             'class': 'leave-apply-leave-period-header-scheduled ui-has-tooltip',
             'data-tooltip': "Number of hours you're scheduled to work for on this day",
         }).inject(this.leavePeriodDaysBoxHeaderRow);
@@ -5376,7 +5376,7 @@ var UILeaveApply = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to chose a leave reason.",
+                    message: "Oops! You forgot to choose a leave reason.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -8972,7 +8972,7 @@ var UILeaveApplyV1 = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to chose a leave reason.",
+                    message: "Oops! You forgot to choose a leave reason.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -10012,7 +10012,7 @@ var UILeaveDetail = new Class({
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
         this.leavePeriodDaysHoursTitle = new Element('div', {
-            'html': 'Scheduled',
+            'html': 'Schedule',
             'class': 'leave-detail-leave-period-header-scheduled'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
