@@ -29491,11 +29491,10 @@ Affinity2018.Classes.Plugins.Address = class
 
   _loadScript ()
   {
-    if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
     this.scriptNode = document.createElement('script');
     this.scriptNode.onload = this._scriptLoaded;
     this.scriptNode.type = 'text/javascript';
-    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback';
+    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places';
     this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
     document.head.appendChild(this.scriptNode);
     this._loadScriptFailTimer = setTimeout(function ()
@@ -29894,8 +29893,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _checkAddress ()
   {
-    if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback')
+    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey)
     .then(function (response)
     {
       if (
