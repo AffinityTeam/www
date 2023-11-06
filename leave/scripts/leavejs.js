@@ -5331,7 +5331,7 @@ var UILeaveApply = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "You must attach supporting documentation when applying for this type of leave.",
+                    "Supporting documentation is needed when applying for this type of leave.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -8927,7 +8927,7 @@ var UILeaveApplyV1 = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "You must attach supporting documentation when applying for this type of leave.",
+                    "Supporting documentation is needed when applying for this type of leave.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -11649,7 +11649,7 @@ var UILeaveDetail = new Class({
     },
     displayAttachmentRequiredModalMessage: function () {
         uialert({
-            message: 'You must attach supporting documentation when applying for this type of leave.',
+            message: 'Supporting documentation is needed when applying for this type of leave.',
             showLoader: false,
             showButtons: true,
             noClose: false
@@ -11769,7 +11769,7 @@ var UILeaveDetail = new Class({
         if (this.attachmentRequired && !isCancelledLeave) {
             Affinity.modal.backgroundCloses = false;
             uialert({
-                message: 'You must attach supporting documentation when applying for this type of leave.',
+                message: 'Supporting documentation is needed when applying for this type of leave.',
                 showLoader: false,
                 showButtons: true,
                 noClose: false
@@ -15731,7 +15731,7 @@ var UILeaveDetailV1 = new Class({
                         });
                     }
                     if (message.MessageType === 0) {
-                        if (message.Message === 'You must attach supporting documentation when applying for this type of leave.') {
+                        if (message.Message === 'Supporting documentation is needed when applying for this type of leave.') {
                             //window.fireEvent('attachmentRequired', true);
                             uialert({
                                 message: message.Message,
@@ -16066,7 +16066,7 @@ var UILeaveDetailV1 = new Class({
     },
     displayAttachmentRequiredModalMessage: function () {
         uialert({
-            message: 'You must attach supporting documentation when applying for this type of leave.',
+            message: 'Supporting documentation is needed when applying for this type of leave.',
             showLoader: false,
             showButtons: true,
             noClose: false
@@ -16186,7 +16186,7 @@ var UILeaveDetailV1 = new Class({
         if (this.attachmentRequired && !isCancelledLeave) {
             Affinity.modal.backgroundCloses = false;
             uialert({
-                message: 'You must attach supporting documentation when applying for this type of leave.',
+                message: 'Supporting documentation is needed when applying for this type of leave.',
                 showLoader: false,
                 showButtons: true,
                 noClose: false
