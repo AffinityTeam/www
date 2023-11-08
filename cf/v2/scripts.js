@@ -40108,8 +40108,11 @@ Affinity2018.Classes.Plugins.NumberWidget = class
         //value = Math.round(value * decimalMultiplyer) / decimalMultiplyer;
       }
       value = value.toString().charAt(0) === '.' ? '0' + value : value;
-      value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
-      value = value.contains('$') ? value.split('$')[1] : value;
+      if (this.type === 'currency')
+      {
+        value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
+        value = value.contains('$') ? value.split('$')[1] : value;
+      }
       //if (!hasComma) value = value.replaceAll(',', '');
 
       this.InputNode.value = value;
