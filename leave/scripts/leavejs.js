@@ -2253,7 +2253,7 @@ var UILeaveApply = new Class({
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
         this.leavePeriodDaysHoursTitle = new Element('div', {
-            'html': 'Schedule',
+            'html': 'Scheduled',
             'class': 'leave-apply-leave-period-header-scheduled ui-has-tooltip',
             'data-tooltip': "Number of hours you're scheduled to work for on this day",
         }).inject(this.leavePeriodDaysBoxHeaderRow);
@@ -5331,7 +5331,7 @@ var UILeaveApply = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "Supporting documentation is needed when applying for this type of leave.",
+                    "You must attach supporting documentation when applying for this type of leave.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -5376,7 +5376,7 @@ var UILeaveApply = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to choose a leave reason.",
+                    message: "Oops! You forgot to chose a leave reason.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -8927,7 +8927,7 @@ var UILeaveApplyV1 = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "Supporting documentation is needed when applying for this type of leave.",
+                    "You must attach supporting documentation when applying for this type of leave.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -8972,7 +8972,7 @@ var UILeaveApplyV1 = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to choose a leave reason.",
+                    message: "Oops! You forgot to chose a leave reason.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -10012,7 +10012,7 @@ var UILeaveDetail = new Class({
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
         this.leavePeriodDaysHoursTitle = new Element('div', {
-            'html': 'Schedule',
+            'html': 'Scheduled',
             'class': 'leave-detail-leave-period-header-scheduled'
         }).inject(this.leavePeriodDaysBoxHeaderRow);
 
@@ -11649,7 +11649,7 @@ var UILeaveDetail = new Class({
     },
     displayAttachmentRequiredModalMessage: function () {
         uialert({
-            message: 'Supporting documentation is needed when applying for this type of leave.',
+            message: 'You must attach supporting documentation when applying for this type of leave.',
             showLoader: false,
             showButtons: true,
             noClose: false
@@ -11769,7 +11769,7 @@ var UILeaveDetail = new Class({
         if (this.attachmentRequired && !isCancelledLeave) {
             Affinity.modal.backgroundCloses = false;
             uialert({
-                message: 'Supporting documentation is needed when applying for this type of leave.',
+                message: 'You must attach supporting documentation when applying for this type of leave.',
                 showLoader: false,
                 showButtons: true,
                 noClose: false
@@ -15731,7 +15731,7 @@ var UILeaveDetailV1 = new Class({
                         });
                     }
                     if (message.MessageType === 0) {
-                        if (message.Message === 'Supporting documentation is needed when applying for this type of leave.') {
+                        if (message.Message === 'You must attach supporting documentation when applying for this type of leave.') {
                             //window.fireEvent('attachmentRequired', true);
                             uialert({
                                 message: message.Message,
@@ -16066,7 +16066,7 @@ var UILeaveDetailV1 = new Class({
     },
     displayAttachmentRequiredModalMessage: function () {
         uialert({
-            message: 'Supporting documentation is needed when applying for this type of leave.',
+            message: 'You must attach supporting documentation when applying for this type of leave.',
             showLoader: false,
             showButtons: true,
             noClose: false
@@ -16186,7 +16186,7 @@ var UILeaveDetailV1 = new Class({
         if (this.attachmentRequired && !isCancelledLeave) {
             Affinity.modal.backgroundCloses = false;
             uialert({
-                message: 'Supporting documentation is needed when applying for this type of leave.',
+                message: 'You must attach supporting documentation when applying for this type of leave.',
                 showLoader: false,
                 showButtons: true,
                 noClose: false
