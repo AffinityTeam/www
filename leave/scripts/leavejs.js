@@ -33,10 +33,10 @@
 (10508,81-82): run-time error JS1004: Expected ';': {
 (10525,6-7): run-time error JS1195: Expected expression: ,
 (10526,54-55): run-time error JS1004: Expected ';': {
-(10552,6-7): run-time error JS1195: Expected expression: ,
-(10553,49-50): run-time error JS1004: Expected ';': {
-(10623,6-7): run-time error JS1195: Expected expression: ,
-(10624,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10553,6-7): run-time error JS1195: Expected expression: ,
+(10554,49-50): run-time error JS1004: Expected ';': {
+(10624,6-7): run-time error JS1195: Expected expression: ,
+(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
 (10434,9-21): run-time error JS1018: 'return' statement outside of function: return false
 (10428,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5588,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
@@ -10587,6 +10587,7 @@ var UILeaveDetail = new Class({
                 }
 
             }
+            console.log("handleRequestWarnings")
             if (warningMessages !== '') {
                 uialert({
                     'message': warningMessages,
@@ -10688,14 +10689,13 @@ var UILeaveDetail = new Class({
         if (response.Message === 'The request is invalid.') {
             this.updateRequestValidationErrorHandler(response, 400, viewModel, customFailureHandler);
         } else {
+            console.log("updateRequestSuccessHandler")
             viewModel.currentlySavedLeaveInstance = viewModel.getEditedLeaveInstance();
             viewModel.data = response.Data;
 
             document.getElement('.messages').empty();
 
             if (viewModel.isManager) {
-
-
                 if (viewModel.approveButton !== undefined) viewModel.approveButton.removeClass('disabled');
                 if (viewModel.declineButton !== undefined) viewModel.declineButton.removeClass('disabled');
             }
@@ -11010,7 +11010,7 @@ var UILeaveDetail = new Class({
             var customResponse = function (response) {
                 if (response !== null &&
                     response.Response === 'Leave Cancellation Requested') {
-                    viewModel.acknowledgementModal(response);
+                    viewModel.acknowledgementModal(response, null, true);
                 } else {
 
                     viewModel.displayEditMode();
@@ -11102,7 +11102,7 @@ var UILeaveDetail = new Class({
                     if (this.validateAttachmentRequirement()) {
                         var vm = this;
                         var customResponse = function (response) {
-                            vm.acknowledgementModal(response)
+                            vm.acknowledgementModal(response, null, true);
                             Affinity.leave.employee.refreshAll();
                         };
 
@@ -11140,7 +11140,7 @@ var UILeaveDetail = new Class({
                         var vm = this;
 
                         var customResponse = function (response) {
-                            vm.acknowledgementModal(response);
+                            vm.acknowledgementModal(response, null, true);
                             Affinity.leave.manager.refreshAll();
                         };
                         var customErrorHandler = function (responseObject, vm) {
@@ -11160,7 +11160,7 @@ var UILeaveDetail = new Class({
                                 window.fireEvent('attachmentRequired', false);
                                 var vm = this;
                                 var customResponse = function (response) {
-                                    vm.acknowledgementModal(response)
+                                    vm.acknowledgementModal(response, null, true);
                                     Affinity.leave.employee.refreshAll();
                                 };
                                 this.updateLeave2(6, customResponse, null, vm);
@@ -11192,7 +11192,7 @@ var UILeaveDetail = new Class({
                 this.declineButton.addEvent('click', function () {
                     var vm = this;
                     var customResponse = function (response) {
-                        vm.acknowledgementModal(response);
+                        vm.acknowledgementModal(response, null, true);
                         Affinity.leave.manager.refreshAll();
 
                     };
@@ -11326,7 +11326,7 @@ var UILeaveDetail = new Class({
                             if (this.validateAttachmentRequirement()) {
                                 var vm = this;
                                 var customResponse = function (response) {
-                                    vm.acknowledgementModal(response);
+                                    vm.acknowledgementModal(response, null, true);
                                     Affinity.leave.manager.refreshAll();
                                 };
                                 var customErrorHandler = function (responseObject, vm) {
@@ -12704,7 +12704,7 @@ var UILeaveDetail = new Class({
 
 
         var apiUrl = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeaveV2/' + editedLeaveInstance.tsGroupId);
-
+console.log('UpdateLeaveV2/')
         new Request.JSON({
             url: apiUrl,
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -12717,6 +12717,7 @@ var UILeaveDetail = new Class({
                     showButtons: false,
                     noClose: true
                 });
+                
             },
             onFailure: function (e) {
                 Affinity.leave.unlockui('myleave-update');
