@@ -7680,7 +7680,35 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @param {String} ModelName The AffinityField.Model (used to be TableName)
     * @param {String} PropertyName The AffinityField.FieldName
     */
-    this.GetGenericGroupLookupApi = Affinity2018.Path + 'GenericGroup/Get';
+    this.GetGenericGroupLookupApi = Affinity2018.Path + 'GenericGroup/GetGroups';
+
+
+
+    /**
+    * Description.    The API end point for loading generic group codes.
+     * @type {String}
+    * @public
+    *
+    * @param {String} ModelName The AffinityField.Model (used to be TableName)
+    * @param {String} PropertyName The AffinityField.FieldName
+    */
+    this.GetGenericGroupCodesLookupApi = Affinity2018.Path + 'GenericGroup/GetCodes';
+
+
+
+    /**
+    * Description.    The API end point for loading generic groups.
+     * @type {String}
+    * @public
+    *
+    * @param {String} ModelName The AffinityField.Model (used to be TableName)
+    * @param {String} PropertyName The AffinityField.FieldName
+    * @param {String} GroupName The Group Name
+    * @param {String} Description The Group Description
+    * @param {String} GroupId The Group ID if exisitng, else null
+    * @param {Array[String]} Codes The list of codes
+    */
+    this.GetGenericGroupSave = Affinity2018.Path + 'GenericGroup/Save';
 
 
 
@@ -11151,7 +11179,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
           <div class="preview hide"></div>
         </div>
         <hr />
-        <div class="settings-box"></div>
+        <div class="settings-box scroller"></div>
       </div>
       <div class="close icon-cross"></div>
     </div>
@@ -18148,6 +18176,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
     });
 
+
+    this.CleverForms.ShowInlineHidden = (node) => { this._showInlineHidden({ target: node }); };
+
   }
 
 
@@ -18268,16 +18299,24 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     {
       var templateHtml = this.HtmlEditTemplate.trim().format({
         filterlabel: $a.Lang.ReturnPath('app.cf.design_items.filter_label'),
+        editButtonLabel: $a.Lang.ReturnPath('app.cf.design_items.filter_edit_button_label'),
+        groupNameLabel: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-name-label'),
+        groupDescriptionLabel: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-description-label'),
+        downloadGroupCSVTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_csv_download_tooltip'),
+        uploadGroupCSVTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_csv_upload_tooltip'),
         linkmessage: $a.Lang.ReturnPath('app.cf.design_items.link_message'),
         selectlabel: $a.Lang.ReturnPath('app.cf.design_items.link_select_label'),
         sectionHidetitleLable: $a.Lang.ReturnPath('app.cf.design_items.section_hide_title_lebel'),
         sectionCollapseLable: $a.Lang.ReturnPath('app.cf.design_items.section_collapse_lebel'),
-
         listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
         listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
       });
       this.TemplateNode.innerHTML = templateHtml;
       this.TemplateNode.classList.remove('hidden');
+      if (this.TemplateNode.querySelector('.show-hidden'))
+      {
+        this.TemplateNode.querySelector('.show-hidden').addEventListener('click', this._showInlineHidden);
+      }
     }
 
     /* label / help text */
@@ -19197,6 +19236,63 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   }
 
 
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  _showInlineHidden(ev)
+  {
+    var node = ev.target.classList.contains('show-hidden') ? ev.target : ev.target.closest('.show-hidden');
+    if (
+      node.dataset.hiddenTarget 
+      && node.dataset.hiddenTargetClass 
+      && node.dataset.hiddenTargetLabels
+      && node.closest(node.dataset.hiddenTarget)
+    )
+    {
+      var labels = node.dataset.hiddenTargetLabels.split(',');
+      var target = node.closest(node.dataset.hiddenTarget);
+      if (target.classList.contains(node.dataset.hiddenTargetClass))
+      {
+        target.classList.remove(node.dataset.hiddenTargetClass);
+        if (labels.length >= 2) node.innerHTML = labels[0].trim();
+        return;
+      }
+      target.classList.add(node.dataset.hiddenTargetClass);
+      if (labels.length >= 2) node.innerHTML = labels[1].trim();
+
+      if (target.querySelector('label') && target.closest('.scroller'))
+      {
+        let parentNode = target.closest('.scroller');
+        let childNode = target.querySelector('label');
+        let parent = parentNode.getBoundingClientRect();
+        let child = childNode.getBoundingClientRect();
+        let scroll = child.top - parent.top;
+        let start = null;
+        let lasttime = null;
+        let done = false;
+        let doscroll = (timestamp) =>
+        {
+          if (start === null) start = timestamp;
+          let elapsed = timestamp - start;
+          if (lasttime !== timestamp)
+          {
+            let newscroll = Math.min(2 * elapsed, scroll);
+            target.closest('.scroller').scrollTop = newscroll;
+            if (newscroll === scroll) done = true;
+          }
+          if (elapsed < 2000)
+          {
+            lasttime = timestamp;
+            if (!done) window.requestAnimationFrame(doscroll);
+          }
+        };
+        window.requestAnimationFrame(doscroll);
+      }
+    }
+  }
+
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                                                         *******************************************************/
@@ -19821,11 +19917,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     this.DoDeepDiveLogic = false; // no depp dive option logic untill we have more info
     this.EnableModeSwitching = false; // no mode switching untill we have more info
 
+    // TODO: Add a "force OFF" for generic group edit
+    this.ForceGerenicGroupEditorEnabled = true;
+    this.GerenicGroupEditButtonColors = { Visible: 'blue', Hidden: 'orange' };
+
     this.MaxDialogListSize = 5;
     this.MaxDialogListTab = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
     this.DefaultFilterOptions = {}; // will get from CleverForms.AffnityFieldModeTypes
     this.FilterOptions = {};
+
+    this.GenericFileReader = new FileReader();
 
   }
 
@@ -19846,7 +19948,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       '_filterSelected',
       
-      '_gotGenericList', '_getGenericListFailed', 
+      '_genericListChanged', '_gotGenericList', '_getGenericListFailed', '_buildGenericListForEdit',
+      '_gotGenericListForEdit', '_getGenericListForEditFailed', '_genericListEditClicked', '_rebuildGenericEditList', '_doRrebuildGenericEditList',
+      '_downloadGenericEditListCSV', '_uploadGenericEditListCSV', 
       '_gotFormList', '_getFormListFailed',
 
       '_modeSelected', '_continueModeSelect',
@@ -19874,6 +19978,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       // set special html / values
 
+      this._showInlineHidden = super._showInlineHidden;
+
       this.PopupNode.classList.add('large');
 
       this.RightListNode = document.querySelector('.cf-d2-bottom-right ul');
@@ -19889,10 +19995,27 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.FilterModeWrapperDisplay = this.FilterRadiosBoxNode.querySelector('.mode-display-wrapper');
       this.FilterModeWrapperHidden = this.FilterRadiosBoxNode.querySelector('.mode-hidden-wrapper');
       this.FilterModeWrapperInitiator = this.FilterRadiosBoxNode.querySelector('.mode-initiator-wrapper');
-      
+
       this.TemplateNode = this.SettingsViewNode.querySelector('.edit-template');
+      
+      this.GenericFilterLables = {
+        Create: $a.Lang.ReturnPath('app.cf.design_items.filter_create_button_label'),
+        CreateClose:$a.Lang.ReturnPath('app.cf.design_items.filter_create_button_close_label'),
+        Edit: $a.Lang.ReturnPath('app.cf.design_items.filter_edit_button_label'),
+        EditClose: $a.Lang.ReturnPath('app.cf.design_items.filter_edit_button_close_label')
+      };
       this.GenericGroupNode = this.TemplateNode.querySelector('.affinity-generic-group');
       this.GenericGroupSelectNode = this.GenericGroupNode.querySelector('select');
+      this.GenericEditToggle = this.GenericGroupNode.querySelector('.generic-group-editor .show-hidden');
+      this.GenericEditToggle.innerHTML = this.GenericFilterLables.Edit;
+      this.GenericEditToggle.dataset.hiddenTargetLabels = `${this.GenericFilterLables.Edit},${this.GenericFilterLables.EditClose}`;
+      if (Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value))
+      {
+        this.GenericEditToggle.innerHTML = this.GenericFilterLables.Create;
+        this.GenericEditToggle.dataset.hiddenTargetLabels = `${this.GenericFilterLables.Create},${this.GenericFilterLables.CreateClose}`;
+      }
+      this.GenericGroupLoaderNode = this.GenericGroupNode.querySelector('.generic-group-loader');
+      
       this.FormLinkNode = this.TemplateNode.querySelector('.affinity-form-link');
       this.FormLinkSelectNode = this.FormLinkNode.querySelector('select');
 
@@ -19931,7 +20054,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsGlobalKey(this.Config))
       {
         var api = this.CleverForms.GetGenericGroupLookupApi + '?ModelName=' + this.Config.Details.AffinityField.ModelName + '&PropertyName=' + this.Config.Details.AffinityField.FieldName;
-        Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
+        //Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
+        if(this.TemplateNode.querySelector('.generic-group-editor') && this.ForceGerenicGroupEditorEnabled)
+        {
+          this.GroupEditorNode = this.TemplateNode.querySelector('.generic-group-editor');
+          this.GroupEditorNode.classList.remove('hidden');
+          this.GenericGroupSelectNode.addEventListener('change', this._genericListChanged);
+        }
+        this.GenericGroupLoaderNode.classList.add('show');
+        axios.get(api).then(((response) => { this._gotGenericList(response.data); }).bind(this)).catch(((error) => { this._getGenericListFailed(error); }).bind(this));
       }
 
       /* form link select */
@@ -20147,7 +20278,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     return false;
   }
 
-  UnsetDesignEditor ()
+  UnsetDesignEditor()
   {
     if (super.UnsetDesignEditor())
     {
@@ -20163,7 +20294,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     return false;
   }
 
-  GetFromDesignEditor (saveOnChanges) // saveOnChanges = true
+  GetFromDesignEditor(saveOnChanges) // saveOnChanges = true
   {
     saveOnChanges = $a.paramOrDefault(saveOnChanges, true, 'boolean');
 
@@ -20295,7 +20426,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     return this.Config;
   }
 
-  RemoveDesignerElement (callback)
+  RemoveDesignerElement(callback)
   {
     if (super.RemoveDesignerElement())
     {
@@ -20312,7 +20443,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   /**/
 
-  SetFormRow (target)
+  SetFormRow(target)
   {
     var displayType = this.Config.Details.AffinityField.CleverFormsDisplayType;
     var value = this.Config.Details.Value;
@@ -20612,7 +20743,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue (value)
+  SetFromValue(value)
   {
     console.log('this should never get hit');
     console.log(value);
@@ -20620,7 +20751,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   /**/
 
-  GetModelName ()
+  GetModelName()
   {
     if (this.Config.Details.hasOwnProperty('AffinityField'))
     {
@@ -20886,7 +21017,69 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   
   /**/
 
-  _gotGenericList (response)
+  _genericListChanged(ev)
+  {
+    if (this.GenericGroupSelectNode.value !== this.GenericGroupSelectValue)
+    {
+      this.GenericGroupSelectValue = this.GenericGroupSelectNode.value;
+      let model = this.Config.Details.AffinityField.ModelName;
+      let property = this.Config.Details.AffinityField.FieldName;
+      let apiBase = this.CleverForms.GetLookupApi;
+      let api = `${apiBase}?ModelName=${model}&PropertyName=${property}`;
+      if (!$a.isNullOrEmpty(this.GenericGroupSelectValue))
+      {
+        apiBase = this.CleverForms.GetGenericGroupCodesLookupApi; 
+        api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}`;
+      }
+      this.GenericGroupLoaderNode.classList.add('show');
+      axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._getGenericListForEditFailed(error); }).bind(this));
+    }
+  }
+
+  _gotGroupFilter(response)
+  {
+    let data = [];
+    let value = null;
+    let name = null;
+    let description = null;
+    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('Code')) value = response.data.Code;
+    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('GroupName')) name = response.data.GroupName;
+    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('Description')) description = response.data.Description;
+    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('Codes')) data = response.data.Codes;
+    if (response.hasOwnProperty('data') && Array.isArray(response.data)) data = response.data;
+    if (Array.isArray(response)) data = response;
+    if(value === null && !$a.isNullOrEmpty(this.GenericGroupSelectNode.value))
+    {
+      value = this.GenericGroupSelectNode.value;
+    }
+    if (name === null && description === null && !$a.isNullOrEmpty(this.GenericGroupSelectNode.value))
+    {
+      let nameDescParts = this.GenericGroupSelectNode.querySelectorAll('option')[this.GenericGroupSelectNode.selectedIndex].innerText.trim().split(' - ');
+      if (nameDescParts.length === 2)
+      {
+        name = nameDescParts[0];
+        description = nameDescParts[1];
+      }
+      else
+      {
+        let index = Math.round(nameDescParts.length / 2);
+        name = nameDescParts.slice(0, index).join(' - ');
+        description = nameDescParts.slice(index, nameDescParts.length).join(' - ');
+      }
+    }
+    if (value !== null)
+    {
+      this.GenericGroupSelectNode.removeEventListener('change', this._genericListChanged);
+      this.GenericGroupSelectValue = response.data.Id;
+      this.GenericGroupSelectNode.value = this.GenericGroupSelectValue;
+      this.GroupEditorNode.querySelector('input[type="text"]').value = name == null ? '' : name;
+      this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = description == null ? '' : description;
+      setTimeout(_this => { _this.GenericGroupSelectNode.addEventListener('change', _this._genericListChanged); }, 100, this);
+    }
+    this._gotGenericListForEdit(data);
+  }
+
+  _gotGenericList(response)
   {
     if (
       $a.isArray(response)
@@ -20894,8 +21087,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     )
     {
       this.GenericGroupSelectNode.innerHTML = '';
-      var i = 0, addedCount = 0, optionData, optionNode;
-      if (response.length > 0)
+      var i = 0, addedCount = 0, selected = null, optionData, optionNode;
+      if (response.length > 0 || this.ForceGerenicGroupEditorEnabled)
       {
         optionNode = document.createElement('option');
         optionNode.value = '';
@@ -20914,12 +21107,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             optionNode = document.createElement('option');
             optionNode.innerHTML = optionData.Value;
             optionNode.value = optionData.Key;
-            if (this.Config.Details.AffinityField.GenericGroupId.toString() === optionData.Key.toString()) optionNode.selected = 'selected';
+            if (this.Config.Details.AffinityField.GenericGroupId.toString() === optionData.Key.toString() && selected === null) 
+            {
+              optionNode.selected = 'selected';
+              selected = optionData.Key;
+            }
             this.GenericGroupSelectNode.appendChild(optionNode);
             addedCount++;
           }
         }
-        if (addedCount > 0)
+        if (selected !== null)
+        {
+          this.GenericGroupSelectNode.value = selected;
+        }
+        if (addedCount > 0 || this.ForceGerenicGroupEditorEnabled)
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
@@ -20929,17 +21130,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           {
             this.GenericGroupNode.classList.remove('hide');
           }
+          this.GenericGroupLoaderNode.classList.remove('show');
+          this._genericListChanged();
         }
         else
         {
           this.GenericGroupSelectNode.innerHTML = '';
           this.GenericGroupNode.classList.add('hidden');
+          this.GenericGroupLoaderNode.classList.remove('show');
         }
       }
       else
       {
         this.GenericGroupSelectNode.innerHTML = '';
         this.GenericGroupNode.classList.add('hidden');
+        this.GenericGroupLoaderNode.classList.remove('show');
       }
     }
     else
@@ -20950,8 +21155,377 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _getGenericListFailed (resposne)
   {
-    this.GenericGroupNode.classList.add('hide');
-    this.GenericGroupNode.classList.add('hidden');
+    // TODO: Do we show the editor anyway? 
+    //this.GenericGroupNode.classList.add('hide');
+    //this.GenericGroupNode.classList.add('hidden');
+    console.log('%cGeneric Group List failed', 'color: orange', resposne);
+    this.GenericGroupLoaderNode.classList.remove('show');
+    this.GenericGroupNode.classList.remove('hidden');
+    this.GenericGroupNode.classList.remove('hide');
+    this._gotGenericList([]);
+    this._buildGenericListForEdit([]);
+  }
+
+  _gotGenericListForEdit (response)
+  {
+    clearTimeout(this._buildGenericListForEditTimeout);
+    this._buildGenericListForEditTimeout = setTimeout(this._buildGenericListForEdit, 100, response);
+  }
+  _buildGenericListForEdit(data)
+  {
+    if (Array.isArray(data))
+    {
+      let groupId = !Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value) ? this.GenericGroupSelectNode.value : null;
+      var html = '';
+      for (let pair of data)
+      {
+        if (
+          (pair.hasOwnProperty('Key') && pair.hasOwnProperty('Value'))
+          || (pair.hasOwnProperty('Id') && pair.hasOwnProperty('Description'))
+        )
+        {
+          let key = pair.hasOwnProperty('Key') ? pair.Key : pair.hasOwnProperty('Description') ? pair.Description : null;
+          let value = pair.hasOwnProperty('Value') ? pair.Value : pair.hasOwnProperty('Code') ? pair.Code : null;
+          let isHidden = pair.hasOwnProperty('IsHidden') && pair.IsHidden;
+          let isModified = groupId == null ? true : pair.hasOwnProperty('IsModified') && pair.IsModified;
+          html += this.GenericRowTemplate.format({
+            key: key !== null ? key.toString().trim() : '',
+            value: value !== null ? value.toString().trim() : '',
+            color: isHidden ? this.GerenicGroupEditButtonColors.Hidden : this.GerenicGroupEditButtonColors.Visible,
+            rowClass: isHidden ? 'hide' : '',
+            modified: isModified ? ' data-modified="true"' : 'data-modified="false"'
+          });
+        }
+      }
+      if (!$a.isNullOrEmpty(this.GroupEditorNode.querySelector('tbody').innerHTML.trim()))
+      {
+        this.GroupEditorTableNode.removeEventListener('click', this._genericListEditClicked);
+        this.GroupEditorNode.querySelector('button.download').removeEventListener('click', this._downloadGenericEditListCSV);
+        this.GroupEditorNode.querySelector('button.upload input[type="file"]').removeEventListener('change', this._uploadGenericEditListCSV);
+        this.GroupEditorNode.querySelector('button.save').removeEventListener('click', this._rebuildGenericEditList);
+      }
+      this.GroupEditorNode.querySelector('tbody').innerHTML = html;
+      this.GroupEditorTableNode = this.GroupEditorNode.querySelector('tbody');
+      this.GroupEditorTableNode.addEventListener('click', this._genericListEditClicked);
+      this.GroupEditorNode.querySelector('button.download').addEventListener('click', this._downloadGenericEditListCSV);
+      this.GroupEditorNode.querySelector('button.upload input[type="file"]').addEventListener('change', this._uploadGenericEditListCSV);
+      this.GroupEditorNode.querySelector('button.save').addEventListener('click', this._rebuildGenericEditList);
+      /**/
+      let labels = [this.GenericFilterLables.Edit, this.GenericFilterLables.EditClose];
+      let isOpen = this.GenericGroupNode.classList.contains('show-edit')
+      if (Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value))
+      {
+        labels = [this.GenericFilterLables.Create, this.GenericFilterLables.CreateClose];
+      }
+      this.GenericEditToggle.innerHTML = isOpen ? labels[1] : labels[0];
+      this.GenericEditToggle.dataset.hiddenTargetLabels = labels.join(',');
+      this.LastGenericListData = data;
+    }
+    this.GenericGroupLoaderNode.classList.remove('show');
+  }
+
+  _gotGenericListForEditFailed (response)
+  {
+    console.log('%c' + response, 'color: orange');
+  }
+
+  _genericListEditClicked(ev)
+  {
+    let button = $a.isNode(ev) ? ev : ev.target.classList.contains('div.button') ? ev.target : ev.target.closest('div.button');
+    if (button)
+    {
+      let row = button.closest('tr');
+      if (row.classList.contains('hide'))
+      {
+        row.classList.remove('hide');
+        button.classList.remove('icon-eye', this.GerenicGroupEditButtonColors.Hidden);
+        button.classList.add('icon-eye-block', this.GerenicGroupEditButtonColors.Visible);
+      }
+      else
+      {
+        row.classList.add('hide');
+        button.classList.add('icon-eye', this.GerenicGroupEditButtonColors.Hidden);
+        button.classList.remove('icon-eye-block', this.GerenicGroupEditButtonColors.Visible);
+      }
+
+      /**/
+
+      let groupId = !Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value) ? this.GenericGroupSelectNode.value : null;
+      if (groupId !== null)
+      {
+        var modified = row.dataset.modified.trim().toLowerCase() === 'true';
+        var alreadyTouched = row.dataset.modified.trim().toLowerCase() =='true';
+        if (!modified)
+        {
+          row.dataset.modified = 'true';
+        }
+        else if (modified && alreadyTouched)
+        {
+          row.dataset.modified = 'false';
+        }
+      }
+      else
+      {
+        row.dataset.modified = 'true';
+      }
+
+      /**/
+
+      this._rebuildGenericEditList();
+    }
+  }
+
+  _rebuildGenericEditList(ev)
+  {
+    clearTimeout(this._rebuildGenericEditListTimer);
+    this._rebuildGenericEditListTimer = setTimeout(this._doRrebuildGenericEditList, 100, ev);
+  }
+  
+  _doRrebuildGenericEditList(ev)
+  {
+    clearTimeout(this._rebuildGenericEditListTimer);
+    if (this.GroupEditorTableNode)
+    {
+      let groupId = !Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value) ? this.GenericGroupSelectNode.value : null;
+      this.GenericListEdited = {
+        Name: this.GroupEditorNode.querySelector('input[type="text"]').value.trim(),
+        Description: this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value.trim(),
+        List: []
+      };
+      let cells = this.GroupEditorTableNode.querySelectorAll('tr');
+      for (let cell of cells)
+      {
+        let id = '';
+        let isHidden = cell.closest('tr').classList.contains('hide');
+        let isModified = cell.closest('tr').dataset.modified.toLowerCase().trim() === 'true';
+        this.GenericListEdited.List.push({
+          Code: cell.querySelectorAll('td')[1].innerText.trim(),
+          Description: cell.querySelector('td').innerText.trim(),
+          IsHidden: cell.closest('tr').classList.contains('hide'),
+          IsModified: isHidden && groupId === null ? true : isModified
+        });
+      }
+      let totalRows = cells.length;
+      let visibleRows = this.GroupEditorTableNode.querySelectorAll('tr:not(.hide)').length;
+      if (this.GenericListEdited.List.length > 0 && totalRows === visibleRows)
+      {
+        this._disableButtons();
+      }
+      else
+      {
+        this._enableButtons();
+      }
+      //console.group('Write to config:');
+      //console.log(this.GenericListEdited);
+      //console.groupEnd();
+      if (ev)
+      {
+        let button = $a.isNode(ev) ? ev : ev.target.classList.contains('button.save') ? ev.target : ev.target.closest('button.save');
+        if (button)
+        {
+          let errors = [];
+          if (this.GenericListEdited.Name.trim() === '')
+          {
+            errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-name-label-error'));
+          }
+          if (this.GenericListEdited.Description.trim() === '')
+          {
+            errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-description-label-error'));
+          }
+          if (this.GenericListEdited.List.length === 0)
+          {
+            errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-list-max-error'));
+          }
+          if(totalRows === visibleRows)
+          {
+            errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-list-min-error'));
+          }
+          if (errors.length > 0)
+          {
+            Affinity2018.Dialog.Show({
+              message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-error')}<ul><li>${errors.join('</li><li>')}</li></ul>`,
+              textAlign: 'left',
+              buttons: {
+                cancel: false
+              }
+            });
+          }
+          else
+          {
+            let postData = {
+              ModelName: this.Config.Details.AffinityField.ModelName,
+              PropertyName: this.Config.Details.AffinityField.FieldName,
+              GroupName: this.GenericListEdited.Name,
+              Description: this.GenericListEdited.Description,
+              Id: groupId,
+              Codes: this.GenericListEdited.List
+            };
+            console.groupCollapsed('Do save ..');
+            console.log(JSON.stringify(postData, null, 2));
+            console.groupEnd();
+            axios.post(this.CleverForms.GetGenericGroupSave, postData)
+              .then(function(response)
+              {
+                this._enableButtons();
+                console.groupCollapsed('Saved.');
+                console.log(JSON.stringify(response.data, null, 2));
+                console.groupEnd();
+                // TODO: Don't be so fucking lazy .. the group id is returned, along with the rows, so actually populate, instead of attempting a reload, you numpty ..
+                // Also, make sure Config is updated with gropup ID too (response.data.Id).
+                if (response.data !== null && !$a.isString(response.data))
+                {
+                  
+                  if(this.UnsetDesignEditor())
+                  {
+                    if (this.SetDesignEditor())
+                    {
+                      this.CleverForms.ShowInlineHidden(this.PopupNode.querySelector('.show-hidden'));
+                    }
+                  }
+                }
+              }.bind(this))
+              .catch(function(error)
+              {
+                this._disableButtons();
+                console.log('%cGeneric Group Post failed', 'color: orange', error);
+              }.bind(this));
+          }
+        }
+      }
+    }
+  }
+
+  _downloadGenericEditListCSV()
+  {
+    let csvContent = 'data:text/csv;charset=utf-8,Key,Value,IsHidden,IsModified\r\n';
+    let cells = this.GroupEditorTableNode.querySelectorAll('tr');
+    for (let cell of cells)
+    {
+      let key = cell.querySelector('td').innerText.trim();
+      let value = cell.querySelectorAll('td')[1].innerText.trim();
+      let isHidden = cell.classList.contains('hide');
+      let isModified = false; //TODO: Compare to original state and check if this has been modified
+      csvContent += `${key},${value},${isHidden},${isModified}\r\n`;
+    }
+    let encodedUri = encodeURI(csvContent);
+    let fileName = $a.Lang.ReturnPath('app.cf.design_items.filter-edit-label').trim().toLowerCase().replaceAll(' ', '_') + '_data.csv';
+    $a.Dialog.Show({
+      message: 'Save as',
+      buttons: {
+        ok: {
+          show: true,
+          icon: 'download',
+          text: 'Download',
+          color: 'blue'
+        },
+        cancel: {
+          show: true,
+          icon: 'cross',
+          text: 'Cancel',
+          color: 'grey'
+        }
+      },
+      input: {
+        show: true,
+        placeholder: '',
+        default: fileName,
+        lines: 1
+      },
+      textAlign: 'left',
+      canBackgroundClose: false,
+      onOk: function (name)
+      {
+        name = name.trim();
+        if (name !== '')
+        {
+          if (name.toLowerCase().substring(name.length - 4, name.length) !== '.csv') name = name + '.csv';
+          let link = document.createElement('a');
+          link.setAttribute('href', encodedUri);
+          link.setAttribute('download', name);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          link = null;
+        }
+      }.bind(this)
+    });
+  }
+
+  _uploadGenericEditListCSV()
+  {
+    let newData = [];
+    let fileNode = this.GroupEditorNode.querySelector('button.upload input[type="file"]');
+    if (fileNode && fileNode.files && fileNode.files.length > 0)
+    {
+      let file = fileNode.files[0];
+      if (file)
+      {
+        let size = ((file.size / 1024) / 1024).toFixed(4);
+        let ext = /(?:\.([^.]+))?$/.exec(file.name)[1].toLowerCase().trim();
+        if (ext === 'csv' && size <= 20) // less than or equal too 20MB
+        {
+          this.GenericFileReader.onload = (() =>
+          {
+            let rows = this.GenericFileReader.result.split(/\r\n|\n/);
+            if (rows.length > 0)
+            {
+              for (let row of rows)
+              {
+                let rawValues = row.split(',');
+                if (rawValues.length === 4)
+                {
+                  if (
+                    rawValues[0].trim() !== 'Key'
+                    && rawValues[0].trim() !== 'Value'
+                    && rawValues[0].trim() !== 'IsHidden'
+                    && rawValues[0].trim() !== 'IsModified'
+                  )
+                  {
+                    newData.push({
+                      Key: rawValues[0].trim(),
+                      Value: rawValues[1].trim(),
+                      IsHidden: rawValues[2].trim().toLowerCase() === 'true' ? true : false,
+                      IsModified: rawValues[3].trim().toLowerCase() === 'true' ? true : false
+                    });
+                  }
+                }
+              }
+            }
+            if (newData.length > 0)
+            {
+              this._buildGenericListForEdit(newData);
+            }
+            else
+            {
+              $a.Dialog.Show({
+                message: errors.join('We could not find any usable data in "' + file.name + '".')
+              });
+            }
+            this.GenericFileReader.onload = null;
+          }).bind(this);
+          this.GenericFileReader.readAsBinaryString(file);
+        }
+      }
+
+
+    }
+
+    /* reset file node */
+
+    try
+    {
+      fileNode.value = '';
+    }
+    catch { }
+    try
+    {
+      if (fileNode.value)
+      {
+        fileNode.type = "text";
+        fileNode.type = "file";
+      }
+    }
+    catch { }
   }
 
   /**/
@@ -21176,9 +21750,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   _modelLookupChanged (ev)
   {
     let fromKeyChange = 'detail' in ev && 'FromKeyChange' in ev.detail ? ev.detail.FromKeyChange : false;
-    //console.log('Modal data changed:');
-    //console.log('ProfileStatus ', this.CleverForms.ProfileStatus);
-    //console.log('ModelStatus   ', this.CleverForms.ModelStatus);
     var color, messageStr, messgae;
     var model = ev.detail.Model;
     var data = ev.detail.Data;
@@ -21343,6 +21914,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   /**/
 
+
+  _disableButtons()
+  {
+    let okButton = this.PopupNode.querySelector('div.button.ok');
+    okButton.parentNode.classList.add('disabled');
+    okButton.parentNode.classList.remove('disabled');
+  }
+  _enableButtons()
+  {
+    let okButton = this.PopupNode.querySelector('div.button.ok');
+    okButton.parentNode.classList.remove('disabled');
+  }
+
+  /**/
+
   _templates ()
   {
     super._templates();
@@ -21351,7 +21937,44 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     <div class="edit-row top affinity-generic-group hidable hide hidden">
       <label>{filterlabel}</label>
       <div class="select working">
-        <select class=""></select>
+        <select class="ui-autocomplete-force-bottom"></select>
+      </div>
+      <div class="generic-group-editor hidden">
+        <a class="show-hidden" data-hidden-target=".affinity-generic-group" data-hidden-target-class="show-edit" data-hidden-target-labels="">{editButtonLabel}</a>
+        <div class="generic-group-editor-list">
+          <div class="inner-edit-row">
+            <label>{groupNameLabel}</label>
+            <input type="text" />
+          </div>
+          <div class="inner-edit-row">
+            <label>{groupDescriptionLabel}</label>
+            <input type="text" />
+          </div>
+          <div class="shadow-wrapper">
+            <div class="grid-wrapper flat-bottom">
+              <table class="grid">
+                <thead>
+                  <tr>
+                    <th>Option Description <icon class="icon-help-round ui-has-tooltip" data-tooltip="The name of the option"></icon></th>
+                    <th>Reference <icon class="icon-help-round ui-has-tooltip" data-tooltip="A unique reference for each item"></icon></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <div class="group-edit-buttons">
+              <button class="blue download no-label ui-has-tooltip" data-tooltip="{downloadGroupCSVTooltip}"><icon class="icon-download"></icon></button>
+              <button class="green upload no-label ui-has-tooltip" data-tooltip="{uploadGroupCSVTooltip}">
+                <icon class="icon-upload"></icon>
+                <input type="file" accept=".csv" />
+              </button>
+              <button class="green save"><icon class="icon-save"></icon><text>Save</text></button>
+            </div>
+          </div>
+          <div class="generic-group-loader"></div>
+        </div>
       </div>
     </div>
     <p class="affinity-form-link-desc">{linkmessage}</p>
@@ -21361,6 +21984,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         <select class=""></select>
       </div>
     </div>
+    `;
+
+    this.GenericRowTemplate = `
+      <tr class="{rowClass}"{modified}>
+        <td>{key}</td>
+        <td>{value}</td>
+      <td><div class="button {color} icon-eye-block"></div></td>
+      </tr>
     `;
 
     this.HtmlEditExampleTemplate = `
@@ -30451,6 +31082,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.forceTop = true;
     }
 
+    this.forceBottom = false;
+    if (this.targetNode.classList.contains('ui-autocomplete-force-bottom'))
+    {
+      this.targetNode.classList.remove('ui-autocomplete-force-bottom');
+      this.forceBottom = true;
+      this.forceTop = false;
+    }
+
     this.bestguess = null;
 
     this.fieldType = this.targetNode.id ? this.targetNode.id.substring(this.targetNode.id.lastIndexOf('-') + 1) : 'none';
@@ -31752,10 +32391,19 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._positionDelay);
     if (this.forceTop)
     {
+      this.listNode.classList.remove('below');
       this.listNode.classList.add('above');
       if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
       return;
     }
+    if (this.forceBottom)
+    {
+      this.listNode.classList.remove('above');
+      this.listNode.classList.add('below');
+      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      return;
+    }
+
     delay = typeof delay === 'number' ? delay : 100;
     this._positionDelay = setTimeout(this._setPosition, delay, calledFrom);
   }
