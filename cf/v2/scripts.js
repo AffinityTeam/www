@@ -19268,7 +19268,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         let childNode = target.querySelector('label');
         let parent = parentNode.getBoundingClientRect();
         let child = childNode.getBoundingClientRect();
-        let scroll = child.top - parent.top;
+        //let scroll = child.top - parent.top;
+        let scroll = (child.top - parent.top) + parentNode.scrollTop;
         let start = null;
         let lasttime = null;
         let done = false;
@@ -21388,6 +21389,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                   this.GenericGroupSelectNode.dataset.defaultValue = response.data.Id.toString();
                   this.GenericGroupSelectNode.widgets.Autocomplete.refreshFromSelect();
                 }
+                Affinity2018.Dialog.Show({
+                  message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-message'),
+                  showOk: true,
+                  showCancel: false,
+                  showInput: false,
+                  textAlign: 'center'
+                });
               }.bind(this))
               .catch(function(error)
               {
