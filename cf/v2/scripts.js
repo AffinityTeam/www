@@ -19919,7 +19919,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     // TODO: Add a "force OFF" for generic group edit
     this.ForceDisableGenericGroupEditor = false;
-    this.ForceDisableGerenicGroupEditor = true;
+    this.ForceGerenicGroupEditorEnabled = true;
     this.GerenicGroupEditButtonColors = { Visible: 'blue', Hidden: 'orange' };
 
     this.MaxDialogListSize = 5;
@@ -20056,7 +20056,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         var api = this.CleverForms.GetGenericGroupLookupApi + '?ModelName=' + this.Config.Details.AffinityField.ModelName + '&PropertyName=' + this.Config.Details.AffinityField.FieldName;
         //Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
-        if(!this.ForceDisableGerenicGroupEditor &&this.TemplateNode.querySelector('.generic-group-editor') && this.ForceDisableGerenicGroupEditor)
+        if(!this.ForceDisableGerenicGroupEditor &&this.TemplateNode.querySelector('.generic-group-editor') && this.ForceGerenicGroupEditorEnabled)
         {
           this.GroupEditorNode = this.TemplateNode.querySelector('.generic-group-editor');
           this.GroupEditorNode.classList.remove('hidden');
@@ -21039,6 +21039,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _gotGroupFilter(response)
   {
+    this.GroupEditorNode.querySelector('input[type="text"]').value = '';
+    this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = '';
+    /**/
     let data = [];
     let value = null;
     let name = null;
@@ -21089,7 +21092,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.GenericGroupSelectNode.innerHTML = '';
       var i = 0, addedCount = 0, selected = null, optionData, optionNode;
-      if (!this.ForceDisableGerenicGroupEditor && (response.length > 0 || this.ForceDisableGerenicGroupEditor))
+      if (!this.ForceDisableGenericGroupEditor && (response.length > 0 || this.ForceGerenicGroupEditorEnabled))
       {
         optionNode = document.createElement('option');
         optionNode.value = '';
@@ -21121,7 +21124,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           this.GenericGroupSelectNode.value = selected;
         }
-        if (!this.ForceDisableGerenicGroupEditor && (addedCount > 0 || this.ForceDisableGerenicGroupEditor))
+        if (!this.ForceDisableGenericGroupEditor && (addedCount > 0 || this.ForceGerenicGroupEditorEnabled))
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
@@ -21159,12 +21162,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     // TODO: Do we show the editor anyway? 
     //this.GenericGroupNode.classList.add('hide');
     //this.GenericGroupNode.classList.add('hidden');
-    console.log('%cGeneric Group List failed', 'color: orange', resposne);
-    this.GenericGroupLoaderNode.classList.remove('show');
-    this.GenericGroupNode.classList.remove('hidden');
-    this.GenericGroupNode.classList.remove('hide');
-    this._gotGenericList([]);
-    this._buildGenericListForEdit([]);
+    if (!this.ForceDisableGenericGroupEditor && this.ForceGerenicGroupEditorEnabled)
+    {
+      console.log('%cGeneric Group List failed', 'color: orange', resposne);
+      this.GenericGroupLoaderNode.classList.remove('show');
+      this.GenericGroupNode.classList.remove('hidden');
+      this.GenericGroupNode.classList.remove('hide');
+      this._gotGenericList([]);
+      this._buildGenericListForEdit([]);
+    }
   }
 
   _gotGenericListForEdit (response)
@@ -21303,7 +21309,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           Code: cell.querySelectorAll('td')[1].innerText.trim(),
           Description: cell.querySelector('td').innerText.trim(),
           IsHidden: cell.closest('tr').classList.contains('hide'),
-          IsModified: isHidden && groupId === null ? true : isModified
+          IsModified: !isHidden && groupId === null ? true : isModified
         });
       }
       let totalRows = cells.length;
@@ -21361,29 +21367,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               Id: groupId,
               Codes: this.GenericListEdited.List
             };
-            console.groupCollapsed('Do save ..');
-            console.log(JSON.stringify(postData, null, 2));
-            console.groupEnd();
+            //console.groupCollapsed('Do save ..');
+            //console.log(JSON.stringify(postData, null, 2));
+            //console.groupEnd();
             axios.post(this.CleverForms.GetGenericGroupSave, postData)
               .then(function(response)
               {
                 this._enableButtons();
-                console.groupCollapsed('Saved.');
-                console.log(JSON.stringify(response.data, null, 2));
-                console.groupEnd();
-                // TODO: Don't be so fucking lazy .. the group id is returned, along with the rows, so actually populate, instead of attempting a reload, you numpty ..
-                // Also, make sure Config is updated with gropup ID too (response.data.Id).
-                if (response.data !== null && !$a.isString(response.data))
-                {
-                  
-                  if(this.UnsetDesignEditor())
-                  {
-                    if (this.SetDesignEditor())
-                    {
-                      this.CleverForms.ShowInlineHidden(this.PopupNode.querySelector('.show-hidden'));
-                    }
-                  }
-                }
+                //console.groupCollapsed('Saved.');
+                //console.log(JSON.stringify(response.data, null, 2));
+                //console.groupEnd();
+                /*
+                public Int32 Id { get; set; }
+                public string GroupName { get; set; }
+                public string Description { get; set; }
+                public Int32 FieldId { get; set; }
+                public Int32 GroupType { get; set; }
+                public string PsCalcMethod { get; set; }
+                public int GroupCategory { get; set; }
+                public string ModelName { get; set; }
+                public string PropertyName { get; set; }
+                public IEnumerable<GenericGroupCode> Codes { get; set; }
+                */
+                this.Config.Details.AffinityField.GenericGroupId = response.data.Id;
+                this.GroupEditorNode.querySelector('input[type="text"]').value = response.data.GroupName;
+                this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = response.data.Description;
+                this._gotGenericList(response.data.Codes);
               }.bind(this))
               .catch(function(error)
               {
