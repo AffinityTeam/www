@@ -19918,7 +19918,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     this.EnableModeSwitching = false; // no mode switching untill we have more info
 
     // TODO: Add a "force OFF" for generic group edit
-    this.ForceGerenicGroupEditorEnabled = true;
+    this.ForceDisableGenericGroupEditor = false;
+    this.ForceDisableGerenicGroupEditor = true;
     this.GerenicGroupEditButtonColors = { Visible: 'blue', Hidden: 'orange' };
 
     this.MaxDialogListSize = 5;
@@ -20055,7 +20056,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         var api = this.CleverForms.GetGenericGroupLookupApi + '?ModelName=' + this.Config.Details.AffinityField.ModelName + '&PropertyName=' + this.Config.Details.AffinityField.FieldName;
         //Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
-        if(this.TemplateNode.querySelector('.generic-group-editor') && this.ForceGerenicGroupEditorEnabled)
+        if(!this.ForceDisableGerenicGroupEditor &&this.TemplateNode.querySelector('.generic-group-editor') && this.ForceDisableGerenicGroupEditor)
         {
           this.GroupEditorNode = this.TemplateNode.querySelector('.generic-group-editor');
           this.GroupEditorNode.classList.remove('hidden');
@@ -21088,7 +21089,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.GenericGroupSelectNode.innerHTML = '';
       var i = 0, addedCount = 0, selected = null, optionData, optionNode;
-      if (response.length > 0 || this.ForceGerenicGroupEditorEnabled)
+      if (!this.ForceDisableGerenicGroupEditor && (response.length > 0 || this.ForceDisableGerenicGroupEditor))
       {
         optionNode = document.createElement('option');
         optionNode.value = '';
@@ -21120,7 +21121,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           this.GenericGroupSelectNode.value = selected;
         }
-        if (addedCount > 0 || this.ForceGerenicGroupEditorEnabled)
+        if (!this.ForceDisableGerenicGroupEditor && (addedCount > 0 || this.ForceDisableGerenicGroupEditor))
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
