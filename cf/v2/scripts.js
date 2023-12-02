@@ -21033,6 +21033,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}`;
       }
       this.GenericGroupLoaderNode.classList.add('show');
+
+      if (this.GenericGroupNode.classList.contains('show-edit'))
+      {
+        let parentNode = this.GenericGroupNode.closest('.scroller');
+        let childNode = this.GenericGroupNode.querySelector('label');
+        let parent = parentNode.getBoundingClientRect();
+        let child = childNode.getBoundingClientRect();
+        let scroll = (child.top - parent.top) + parentNode.scrollTop;
+        this.GenericGroupNode.closest('.scroller').scrollTo(0, scroll);
+      }
+
       axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._gotGenericListForEditFailed(error); }).bind(this));
     }
   }
@@ -21203,13 +21214,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           let key = pair.hasOwnProperty('Key') ? pair.Key : pair.hasOwnProperty('Description') ? pair.Description : null;
           let value = pair.hasOwnProperty('Value') ? pair.Value : pair.hasOwnProperty('Code') ? pair.Code : null;
           let isHidden = pair.hasOwnProperty('IsHidden') && pair.IsHidden;
-          let isModified = groupId == null ? true : pair.hasOwnProperty('IsModified') && pair.IsModified;
           html += this.GenericRowTemplate.format({
             key: key !== null ? key.toString().trim() : '',
             value: value !== null ? value.toString().trim() : '',
             color: isHidden ? this.GerenicGroupEditButtonColors.Hidden : this.GerenicGroupEditButtonColors.Visible,
-            rowClass: isHidden ? 'hide' : '',
-            modified: isModified ? ' data-modified="true"' : 'data-modified="false"'
+            rowClass: isHidden ? 'hide' : ''
           });
         }
       }
@@ -21261,27 +21270,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       /**/
 
-      let groupId = !Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value) ? this.GenericGroupSelectNode.value : null;
-      if (groupId !== null)
-      {
-        var modified = row.dataset.modified.trim().toLowerCase() === 'true';
-        var alreadyTouched = row.dataset.modified.trim().toLowerCase() =='true';
-        if (!modified)
-        {
-          row.dataset.modified = 'true';
-        }
-        else if (modified && alreadyTouched)
-        {
-          row.dataset.modified = 'false';
-        }
-      }
-      else
-      {
-        row.dataset.modified = 'true';
-      }
-
-      /**/
-
       this._rebuildGenericEditList();
     }
   }
@@ -21306,14 +21294,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let cells = this.GroupEditorTableNode.querySelectorAll('tr');
       for (let cell of cells)
       {
-        let id = '';
-        let isHidden = cell.closest('tr').classList.contains('hide');
-        let isModified = cell.closest('tr').dataset.modified.toLowerCase().trim() === 'true';
         this.GenericListEdited.List.push({
           Code: cell.querySelectorAll('td')[1].innerText.trim(),
           Description: cell.querySelector('td').innerText.trim(),
-          IsHidden: cell.closest('tr').classList.contains('hide'),
-          IsModified: !isHidden && groupId === null ? true : isModified
+          IsHidden: cell.closest('tr').classList.contains('hide')
         });
       }
       let totalRows = cells.length;
@@ -21418,15 +21402,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _downloadGenericEditListCSV()
   {
-    let csvContent = 'data:text/csv;charset=utf-8,Key,Value,IsHidden,IsModified\r\n';
+    let csvContent = 'data:text/csv;charset=utf-8,Key,Value,IsHidden\r\n';
     let cells = this.GroupEditorTableNode.querySelectorAll('tr');
     for (let cell of cells)
     {
-      let key = cell.querySelector('td').innerText.trim();
+      let key = cell.querySelector('td').innerText.trim().replaceAll(',', '%2C');
       let value = cell.querySelectorAll('td')[1].innerText.trim();
       let isHidden = cell.classList.contains('hide');
-      let isModified = false; //TODO: Compare to original state and check if this has been modified
-      csvContent += `${key},${value},${isHidden},${isModified}\r\n`;
+      csvContent += `${key},${value},${isHidden}\r\n`;
     }
     let encodedUri = encodeURI(csvContent);
     let fileName = $a.Lang.ReturnPath('app.cf.design_items.filter-edit-label').trim().toLowerCase().replaceAll(' ', '_') + '_data.csv';
@@ -21493,20 +21476,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               for (let row of rows)
               {
                 let rawValues = row.split(',');
-                if (rawValues.length === 4)
+                if (rawValues.length === 3)
                 {
                   if (
                     rawValues[0].trim() !== 'Key'
                     && rawValues[0].trim() !== 'Value'
                     && rawValues[0].trim() !== 'IsHidden'
-                    && rawValues[0].trim() !== 'IsModified'
                   )
                   {
                     newData.push({
-                      Key: rawValues[0].trim(),
+                      Key: rawValues[0].trim().replaceAll('%2C', ','),
                       Value: rawValues[1].trim(),
-                      IsHidden: rawValues[2].trim().toLowerCase() === 'true' ? true : false,
-                      IsModified: rawValues[3].trim().toLowerCase() === 'true' ? true : false
+                      IsHidden: rawValues[2].trim().toLowerCase() === 'true' ? true : false
                     });
                   }
                 }
@@ -22008,7 +21989,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     `;
 
     this.GenericRowTemplate = `
-      <tr class="{rowClass}"{modified}>
+      <tr class="{rowClass}">
         <td>{key}</td>
         <td>{value}</td>
       <td><div class="button {color} icon-eye-block"></div></td>
