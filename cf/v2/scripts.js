@@ -19950,7 +19950,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       '_filterSelected',
       
       '_genericListChanged', '_gotGenericList', '_getGenericListFailed', '_buildGenericListForEdit',
-      '_gotGenericListForEdit', '_getGenericListForEditFailed', '_genericListEditClicked', '_rebuildGenericEditList', '_doRrebuildGenericEditList',
+      '_gotGenericListForEdit', '_gotGenericListForEditFailed', '_genericListEditClicked', '_rebuildGenericEditList', '_doRrebuildGenericEditList',
       '_downloadGenericEditListCSV', '_uploadGenericEditListCSV', 
       '_gotFormList', '_getFormListFailed',
 
@@ -21033,7 +21033,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}`;
       }
       this.GenericGroupLoaderNode.classList.add('show');
-      axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._getGenericListForEditFailed(error); }).bind(this));
+      axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._gotGenericListForEditFailed(error); }).bind(this));
     }
   }
 
@@ -21090,8 +21090,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       && this.GenericGroupNode.querySelector('select')
     )
     {
+      Affinity2018.Apps.Plugins.Autocompletes.Remove(this.GenericGroupSelectNode);
       this.GenericGroupSelectNode.innerHTML = '';
-      var i = 0, addedCount = 0, selected = null, optionData, optionNode;
+      var i = 0, addedCount = 0, selected = null, selectedIndex = -1, pair, optionNode;
       if (!this.ForceDisableGenericGroupEditor && (response.length > 0 || this.ForceGerenicGroupEditorEnabled))
       {
         optionNode = document.createElement('option');
@@ -21100,29 +21101,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.GenericGroupSelectNode.appendChild(optionNode);
         for (; i < response.length; i++)
         {
-          optionData = response[i];
-          if (
-            $a.isObject(optionData)
-            && (($a.isString(optionData.Value) && !optionData.Value.isNullOrEmpty()) || $a.isNumeric(optionData.Value))
-            && (($a.isString(optionData.Key) && !optionData.Key.isNullOrEmpty()) || $a.isNumeric(optionData.Key))
-          )
+          pair = response[i];
+          if ($a.isObject(pair))
           {
-            optionData = response[i];
-            optionNode = document.createElement('option');
-            optionNode.innerHTML = optionData.Value;
-            optionNode.value = optionData.Key;
-            if (this.Config.Details.AffinityField.GenericGroupId.toString() === optionData.Key.toString() && selected === null) 
+            let key = pair.hasOwnProperty('Value') ? pair.Value : pair.hasOwnProperty('Description') ? pair.Description : null;
+            let value = pair.hasOwnProperty('Key') ? pair.Key : pair.hasOwnProperty('Code') ? pair.Code : null;
+            if (!$a.isNullOrEmpty(key) && !$a.isNullOrEmpty(value))
             {
-              optionNode.selected = 'selected';
-              selected = optionData.Key;
+              optionNode = document.createElement('option');
+              optionNode.innerHTML = key;
+              optionNode.value = value;
+              if (this.Config.Details.AffinityField.GenericGroupId.toString() === value.toString() && selected === null) 
+              {
+                optionNode.selected = 'selected';
+                optionNode.setAttribute('selected', 'selected');
+                selected = value.toString();
+                selectedIndex = addedCount + 0;
+              }
+              this.GenericGroupSelectNode.appendChild(optionNode);
+              addedCount++;
             }
-            this.GenericGroupSelectNode.appendChild(optionNode);
-            addedCount++;
           }
         }
         if (selected !== null)
         {
+          this.GenericGroupSelectNode.selectedIndex = selectedIndex;
           this.GenericGroupSelectNode.value = selected;
+          this.GenericGroupSelectNode.dataset.defaultValue = selected;
         }
         if (!this.ForceDisableGenericGroupEditor && (addedCount > 0 || this.ForceGerenicGroupEditorEnabled))
         {
@@ -21156,7 +21161,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this._getGenericListFailed(resposne);
     }
   }
-
   _getGenericListFailed (resposne)
   {
     // TODO: Do we show the editor anyway? 
@@ -21173,11 +21177,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
-  _gotGenericListForEdit (response)
+  _gotGenericListForEdit(response)
   {
     clearTimeout(this._buildGenericListForEditTimeout);
     this._buildGenericListForEditTimeout = setTimeout(this._buildGenericListForEdit, 100, response);
   }
+  _gotGenericListForEditFailed(response)
+  {
+    console.log('%c' + response, 'color: orange');
+  }
+
   _buildGenericListForEdit(data)
   {
     if (Array.isArray(data))
@@ -21229,11 +21238,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.LastGenericListData = data;
     }
     this.GenericGroupLoaderNode.classList.remove('show');
-  }
-
-  _gotGenericListForEditFailed (response)
-  {
-    console.log('%c' + response, 'color: orange');
   }
 
   _genericListEditClicked(ev)
@@ -21374,25 +21378,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               .then(function(response)
               {
                 this._enableButtons();
-                //console.groupCollapsed('Saved.');
-                //console.log(JSON.stringify(response.data, null, 2));
-                //console.groupEnd();
-                /*
-                public Int32 Id { get; set; }
-                public string GroupName { get; set; }
-                public string Description { get; set; }
-                public Int32 FieldId { get; set; }
-                public Int32 GroupType { get; set; }
-                public string PsCalcMethod { get; set; }
-                public int GroupCategory { get; set; }
-                public string ModelName { get; set; }
-                public string PropertyName { get; set; }
-                public IEnumerable<GenericGroupCode> Codes { get; set; }
-                */
                 this.Config.Details.AffinityField.GenericGroupId = response.data.Id;
                 this.GroupEditorNode.querySelector('input[type="text"]').value = response.data.GroupName;
                 this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = response.data.Description;
-                this._gotGenericList(response.data.Codes);
+                this._buildGenericListForEdit(response.data.Codes);
+                if (postData.Id === null)
+                {
+                  let optionNodes = this.GenericGroupSelectNode.querySelectorAll('option:checked');
+                  if (optionNodes.length > 0)
+                  {
+                    for (var node of optionNodes)
+                    {
+                      node.selected = null;
+                      node.removeAttribute('selected');
+                    }
+                  }
+                  let optionNode = document.createElement('option');
+                  optionNode.innerHTML = response.data.Description;
+                  optionNode.value = response.data.Id;
+                  optionNode.selected = 'selected';
+                  optionNode.setAttribute('selected', 'selected');
+                  this.GenericGroupSelectNode.appendChild(optionNode);
+                  this.GenericGroupSelectNode.selectedIndex = this.GenericGroupSelectNode.querySelectorAll('option').length - 1;
+                  this.GenericGroupSelectNode.value = response.data.Id.toString();
+                  this.GenericGroupSelectNode.dataset.defaultValue = response.data.Id.toString();
+                  this.GenericGroupSelectNode.widgets.Autocomplete.refreshFromSelect();
+                }
               }.bind(this))
               .catch(function(error)
               {
@@ -21987,9 +21998,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         </div>
       </div>
     </div>
-    <p class="affinity-form-link-desc">{linkmessage}</p>
+    <p class="affinity-form-link-desc hidden">{linkmessage}</p>
     <div class="edit-row affinity-form-link hidden">
-      <label>{selectlabel}</label>
+      <label>{selectlabel}</label><span class="help icon-help-round ui-has-tooltip" data-tooltip="{linkmessage}"></span>
       <div class="select working">
         <select class=""></select>
       </div>

@@ -18648,7 +18648,19 @@ li.cf-designer-element.disabled * {
   font-style: italic;
 }
 .cf-designer-element-popup .inner .settings .edit-template .affinity-form-link:not(.hidden) {
-  margin: 0 0 10px 0;
+  margin: 20px 0 10px 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-form-link:not(.hidden) label {
+  width: unset;
+  min-width: unset;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-form-link:not(.hidden) .help {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  margin: 0 0 0 5px;
+  font-size: 14px;
 }
 .cf-designer-element-popup .inner .settings .edit-template h2 {
   margin: 0 0 20px 0;
