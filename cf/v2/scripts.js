@@ -16022,6 +16022,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this._processHistory();
   }
 
+
+
+  /**
+   * Summary. Check if any requests are still running
+   * @this    Class scope
+   * @access  private
+   */
   _checkRequests()
   {
     clearTimeout(this._requestsCheckTimer);
@@ -20724,8 +20731,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
         }
       }
-
-      
 
       return this.FormRowNode;
     }
@@ -26294,6 +26299,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
   SetFormRow (target)
   {
+    let label = this.Config.Details.Label;
+    let value = this.Config.Details.IsReadOnly && this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value;
     var fieldDecimal = 2;
     var fieldPrecision = 2;
     if (this.Config.Details.hasOwnProperty('DecimalNumber'))
@@ -26307,10 +26314,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
       fieldPrecision = fieldDecimal;
     }
     var html = this.HtmlRowTemplate.format({
-      label: this.Config.Details.Label,
+      label: label,
       decimals: fieldDecimal,
       rounding: fieldPrecision > 0 ? 'round' : 'none',
-      value: this.Config.Details.Value
+      value: value
     });
     
     this.FormRowNode = super.SetFormRow(target, html);
@@ -26500,7 +26507,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
   SetFormRow (target)
   {
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    let label = this.Config.Details.Label;
+    let value = this.Config.Details.IsReadOnly && this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value;
+    var html = this.HtmlRowTemplate.format(label, value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
@@ -29477,7 +29486,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   SetFormRow (target)
   {
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    let label = this.Config.Details.Label;
+    let value = this.Config.Details.IsReadOnly && this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value;
+    var html = this.HtmlRowTemplate.format(label, value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
