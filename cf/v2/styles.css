@@ -18983,6 +18983,26 @@ li.cf-designer-element.disabled * {
   -khtml-opacity: 1;
   opacity: 1;
 }
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus {
+  outline: none;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus td {
+  background: #8fe1f9;
+  color: white;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus.hide {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus.hide:hover {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
 .cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons {
   position: absolute;
   bottom: 10px;

@@ -19963,8 +19963,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       '_filterSelected',
       
-      '_genericListChanged', '_gotGenericList', '_getGenericListFailed', '_buildGenericListForEdit',
-      '_gotGenericListForEdit', '_gotGenericListForEditFailed', '_genericListEditClicked', '_rebuildGenericEditList', '_doRrebuildGenericEditList',
+      '_genericListChanged', '_scrollToGenericList', '_gotGenericList', '_getGenericListFailed', '_buildGenericListForEdit',
+      '_gotGenericListForEdit', '_gotGenericListForEditFailed', '_genericListEditKeyDown', '_genericListEditClicked', '_rebuildGenericEditList', '_doRrebuildGenericEditList',
       '_downloadGenericEditListCSV', '_uploadGenericEditListCSV', 
       '_gotFormList', '_getFormListFailed',
 
@@ -21045,6 +21045,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}`;
     }
     this.GenericGroupLoaderNode.classList.add('show');
+    this._scrollToGenericList();
+    axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._gotGenericListForEditFailed(error); }).bind(this));
+  }
+
+  _scrollToGenericList()
+  {
     if (this.GenericGroupNode.classList.contains('show-edit'))
     {
        let parentNode = this.GenericGroupNode.closest('.scroller');
@@ -21054,8 +21060,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
        let scroll = (child.top - parent.top) + parentNode.scrollTop;
        this.GenericGroupNode.closest('.scroller').scrollTo(0, scroll);
      }
-
-     axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._gotGenericListForEditFailed(error); }).bind(this));
   }
 
   _gotGroupFilter(response)
@@ -21101,6 +21105,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = description == null ? '' : description;
       setTimeout(_this => { _this.GenericGroupSelectNode.addEventListener('change', _this._genericListChanged); }, 100, this);
     }
+    this._scrollToGenericList();
     this._gotGenericListForEdit(data);
   }
 
@@ -21212,7 +21217,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     if (Array.isArray(data))
     {
+      this._scrollToGenericList();
       let groupId = !Affinity2018.isNullOrEmpty(this.GenericGroupSelectNode.value) ? this.GenericGroupSelectNode.value : null;
+      let tabIndex = 10;
       var html = '';
       for (let pair of data)
       {
@@ -21228,13 +21235,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             key: key !== null ? key.toString().trim() : '',
             value: value !== null ? value.toString().trim() : '',
             color: isHidden ? this.GerenicGroupEditButtonColors.Hidden : this.GerenicGroupEditButtonColors.Visible,
-            rowClass: isHidden ? 'hide' : ''
+            rowClass: isHidden ? 'hide' : '',
+            tabIndex: 0
           });
+          tabIndex++;
         }
       }
       if (!$a.isNullOrEmpty(this.GroupEditorNode.querySelector('tbody').innerHTML.trim()))
       {
         this.GroupEditorTableNode.removeEventListener('click', this._genericListEditClicked);
+        this.GroupEditorTableNode.removeEventListener('keyup', this._genericListEditKeyUp);
         this.GroupEditorNode.querySelector('button.download').removeEventListener('click', this._downloadGenericEditListCSV);
         this.GroupEditorNode.querySelector('button.upload input[type="file"]').removeEventListener('change', this._uploadGenericEditListCSV);
         this.GroupEditorNode.querySelector('button.save').removeEventListener('click', this._rebuildGenericEditList);
@@ -21242,6 +21252,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.GroupEditorNode.querySelector('tbody').innerHTML = html;
       this.GroupEditorTableNode = this.GroupEditorNode.querySelector('tbody');
       this.GroupEditorTableNode.addEventListener('click', this._genericListEditClicked);
+      this.GroupEditorTableNode.addEventListener('keydown', this._genericListEditKeyDown);
       this.GroupEditorNode.querySelector('button.download').addEventListener('click', this._downloadGenericEditListCSV);
       this.GroupEditorNode.querySelector('button.upload input[type="file"]').addEventListener('change', this._uploadGenericEditListCSV);
       this.GroupEditorNode.querySelector('button.save').addEventListener('click', this._rebuildGenericEditList);
@@ -21259,6 +21270,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     this.GenericGroupLoaderNode.classList.remove('show');
   }
 
+  _genericListEditKeyDown(ev)
+  {
+    if (ev)
+    {
+      if (document.activeElement && document.activeElement.classList.contains('group-edit-row'))
+      {
+        if (ev.code.toLowerCase() === 'space' || ev.code.toLowerCase() === 'enter')
+        {
+          ev.stopPropagation();
+          ev.preventDefault();
+          this._genericListEditClicked(document.activeElement.querySelector('div.button'));
+          this._scrollToGenericList();
+        }
+      }
+    }
+  }
+   
   _genericListEditClicked(ev)
   {
     let button = $a.isNode(ev) ? ev : ev.target.classList.contains('div.button') ? ev.target : ev.target.closest('div.button');
@@ -21371,50 +21399,70 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             axios.post(this.CleverForms.GetGenericGroupSave, postData)
               .then(function(response)
               {
+                console.log(response);
                 this._enableButtons();
-                this.Config.Details.AffinityField.GenericGroupId = response.data.Id;
-                this.GroupEditorNode.querySelector('input[type="text"]').value = response.data.GroupName;
-                this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = response.data.Description;
-                this._buildGenericListForEdit(response.data.Codes);
-                if (postData.Id === null)
+                if (response.data.hasOwnProperty('success') && (!response.data.success || response.data.success.toString().toLowerCase() === 'false'))
                 {
-                  let optionNodes = this.GenericGroupSelectNode.querySelectorAll('option:checked');
-                  if (optionNodes.length > 0)
+                  this._enableButtons();
+                  if (response.data.hasOwnProperty('error') && (response.data.error === 409 || response.data.error === "409" || response.data.error.toString().toLowerCase() === 'conflict'))
                   {
-                    for (var node of optionNodes)
-                    {
-                      node.selected = null;
-                      node.removeAttribute('selected');
-                    }
+                    $a.Dialog.Show({
+                      textAlign: 'left',
+                      message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-name-error-message')
+                    });
                   }
-                  let optionNode = document.createElement('option');
-                  optionNode.innerHTML = response.data.Description;
-                  optionNode.value = response.data.Id;
-                  optionNode.selected = 'selected';
-                  optionNode.setAttribute('selected', 'selected');
-                  this.GenericGroupSelectNode.appendChild(optionNode);
-                  this.GenericGroupSelectNode.selectedIndex = this.GenericGroupSelectNode.querySelectorAll('option').length - 1;
-                  this.GenericGroupSelectNode.value = response.data.Id.toString();
-                  this.GenericGroupSelectNode.dataset.defaultValue = response.data.Id.toString();
-                  this.GenericGroupSelectNode.widgets.Autocomplete.refreshFromSelect();
+                  else
+                  {
+                    $a.Dialog.Show({
+                      textAlign: 'left',
+                      message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-error-message')} (${response.data.error}).`
+                    });
+                  }
                 }
-                Affinity2018.Dialog.Show({
-                  message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-message'),
-                  showOk: true,
-                  showCancel: false,
-                  showInput: false,
-                  textAlign: 'center'
-                });
+                else
+                {
+                  this.Config.Details.AffinityField.GenericGroupId = response.data.Id;
+                  this.GroupEditorNode.querySelector('input[type="text"]').value = response.data.GroupName;
+                  this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = response.data.Description;
+                  this._buildGenericListForEdit(response.data.Codes);
+                  if (postData.Id === null)
+                  {
+                    let optionNodes = this.GenericGroupSelectNode.querySelectorAll('option:checked');
+                    if (optionNodes.length > 0)
+                    {
+                      for (var node of optionNodes)
+                      {
+                        node.selected = null;
+                        node.removeAttribute('selected');
+                      }
+                    }
+                    let optionNode = document.createElement('option');
+                    optionNode.innerHTML = response.data.Description;
+                    optionNode.value = response.data.Id;
+                    optionNode.selected = 'selected';
+                    optionNode.setAttribute('selected', 'selected');
+                    this.GenericGroupSelectNode.appendChild(optionNode);
+                    this.GenericGroupSelectNode.selectedIndex = this.GenericGroupSelectNode.querySelectorAll('option').length - 1;
+                    this.GenericGroupSelectNode.value = response.data.Id.toString();
+                    this.GenericGroupSelectNode.dataset.defaultValue = response.data.Id.toString();
+                    this.GenericGroupSelectNode.widgets.Autocomplete.refreshFromSelect();
+                  }
+                  Affinity2018.Dialog.Show({
+                    message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-message'),
+                    showOk: true,
+                    showCancel: false,
+                    showInput: false,
+                    textAlign: 'center'
+                  });
+                }
               }.bind(this))
               .catch(function(error)
               {
-                this._disableButtons();
-
-                $a.Dialog.Show({
-                  textAlign: 'left',
-                  message: `Save failed.`
-                });
-
+                this._enableButtons();
+                  $a.Dialog.Show({
+                    textAlign: 'left',
+                    message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-error-message')}`
+                  });
                 console.log('%cGeneric Group Post failed', 'color: orange', error);
               }.bind(this));
           }
@@ -21549,20 +21597,26 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               else commaError = `s ${commaErrorRows.slice(0, -1).join(', ')}, and ${commaErrorRows[commaErrorRows.length - 1]}`;
               errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-comma-error', { rows: commaError }));
             }
-            if (newData.length > 0)
-            {
-              this._buildGenericListForEdit(newData);
-            }
-            else
-            {
-              //errors.push(`We could not find any usable data in "${file.name}".`);
-            }
             if (errors.length > 0)
             {
               $a.Dialog.Show({
                 textAlign: 'left',
                 message: errors.join('<hr>') + '<hr>' + $a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-error')
               });
+            }
+            else
+            {
+              if (newData.length === 0)
+              {
+                $a.Dialog.Show({
+                  textAlign: 'left',
+                  message: errors.join('<hr>') + '<hr>' + $a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-empty-error', {file: file.name})
+                });
+              }
+              else
+              {
+                this._buildGenericListForEdit(newData);
+              }
             }
             this.GenericFileReader.onload = null;
           }).bind(this);
@@ -21659,6 +21713,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.FormLinkSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.FormLinkSelectNode.classList.add('ui-autocomplete-force-top');
           Affinity2018.Autocompletes.Apply(this.FormLinkSelectNode);
+          this._scrollToGenericList();
         }
         else
         {
@@ -21998,7 +22053,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.HtmlEditTemplate = `
     <div class="edit-row top affinity-generic-group hidable hide hidden">
-      <label>{filterlabel}</label>
+      <label tabindex=1>{filterlabel}</label>
       <div class="select working">
         <select class="ui-autocomplete-force-bottom"></select>
       </div>
@@ -22050,7 +22105,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     `;
 
     this.GenericRowTemplate = `
-      <tr class="{rowClass}">
+      <tr class="{rowClass} group-edit-row" tabindex="{tabIndex}">
         <td>{key}</td>
         <td>{value}</td>
       <td><div class="button {color} icon-eye-block"></div></td>
