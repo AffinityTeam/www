@@ -21409,6 +21409,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               .catch(function(error)
               {
                 this._disableButtons();
+
+                $a.Dialog.Show({
+                  textAlign: 'left',
+                  message: `Save failed.`
+                });
+
                 console.log('%cGeneric Group Post failed', 'color: orange', error);
               }.bind(this));
           }
@@ -21496,7 +21502,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               for (let row of rows)
               {
                 let rawValues = row.split(',');
-                if (rawValues.length === 3)
+                if (rawValues.length === 3 && rawValues.join('').trim() !== '')
                 {
                   if (
                     rawValues[0].trim() !== 'Key'
@@ -21504,17 +21510,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                     && rawValues[2].trim() !== 'IsHidden'
                   )
                   {
-                    newData.push({
-                      Key: rawValues[0].trim().replaceAll('%2C', ','),
-                      Value: rawValues[1].trim(),
-                      IsHidden: rawValues[2].trim().toLowerCase() === 'true' ? true : false
-                    });
+                    if (rawValues[0].trim() === '' || rawValues[1].trim() === '' || rawValues[2].trim() === '')
+                    {
+                      errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-missing-data-error', { row: rowCount }));
+                    }
+                    else
+                    {
+                      newData.push({
+                        Key: rawValues[0].trim().replaceAll('%2C', ','),
+                        Value: rawValues[1].trim(),
+                        IsHidden: rawValues[2].trim().toLowerCase() === 'true' ? true : false
+                      });
+                    }
                   }
                 }
                 else
                 {
-                  commaErrorRows.push(rowCount);
-                  //errors.push(`Row ${rowCount} has a comma in the Key or Value. You can not use comma's in Key or Value names. You can use the code "%2C" if you must use commas.'`);
+                  if (rawValues.join('').trim() !== '')
+                  {
+                    if (rawValues.length > 3)
+                    {
+                      commaErrorRows.push(rowCount);
+                    }
+                    else
+                    {
+                      errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-missing-data-error', { row: rowCount }));
+                    }
+                  }
                 }
                 rowCount++;
               }
@@ -21525,7 +21547,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               let commaError = '';
               if (commaErrorRows.length === 1) commaError = ` ${commaErrorRows[0]}`;
               else commaError = `s ${commaErrorRows.slice(0, -1).join(', ')}, and ${commaErrorRows[commaErrorRows.length - 1]}`;
-              errors.push(`You can not use commas in Key or Value names. You can use the code "%2C" if you must use commas.<br />Please check row${commaError}.`);
+              errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-comma-error', { rows: commaError }));
             }
             if (newData.length > 0)
             {
@@ -21533,13 +21555,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             }
             else
             {
-              errors.push(`We could not find any usable data in "${file.name}".`);
+              //errors.push(`We could not find any usable data in "${file.name}".`);
             }
             if (errors.length > 0)
             {
               $a.Dialog.Show({
                 textAlign: 'left',
-                message: errors.join('<br /><br />')
+                message: errors.join('<hr>') + '<hr>' + $a.Lang.ReturnPath('app.cf.design_items.filter-edit-csv-error')
               });
             }
             this.GenericFileReader.onload = null;
