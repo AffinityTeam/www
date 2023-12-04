@@ -9556,6 +9556,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Country: ''
       };
       this.ProfileStatus = this.LoadStatusEnum.Null;
+      Affinity2018.HidePageLoader();
+      this.ReleaseEmployeeSelect();
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
       return;
     }
@@ -9591,6 +9593,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           {
             Affinity2018.FormProfile = profile;
             this.ProfileStatus = this.LoadStatusEnum.Complete;
+            Affinity2018.HidePageLoader();
+            this.ReleaseEmployeeSelect();
             window.dispatchEvent(new CustomEvent('GotEmployeeData'));
             return;
           }
@@ -21026,32 +21030,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _genericListChanged(ev)
   {
-    if (this.GenericGroupSelectNode.value !== this.GenericGroupSelectValue)
+    this.GenericGroupSelectValue = this.GenericGroupSelectNode.value;
+    let model = this.Config.Details.AffinityField.ModelName;
+    let property = this.Config.Details.AffinityField.FieldName;
+    let apiBase = this.CleverForms.GetLookupApi;
+    let api = `${apiBase}?ModelName=${model}&PropertyName=${property}`;
+    if (!$a.isNullOrEmpty(this.GenericGroupSelectValue))
     {
-      this.GenericGroupSelectValue = this.GenericGroupSelectNode.value;
-      let model = this.Config.Details.AffinityField.ModelName;
-      let property = this.Config.Details.AffinityField.FieldName;
-      let apiBase = this.CleverForms.GetLookupApi;
-      let api = `${apiBase}?ModelName=${model}&PropertyName=${property}`;
-      if (!$a.isNullOrEmpty(this.GenericGroupSelectValue))
-      {
-        apiBase = this.CleverForms.GetGenericGroupCodesLookupApi; 
-        api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}`;
-      }
-      this.GenericGroupLoaderNode.classList.add('show');
-
-      if (this.GenericGroupNode.classList.contains('show-edit'))
-      {
-        let parentNode = this.GenericGroupNode.closest('.scroller');
-        let childNode = this.GenericGroupNode.querySelector('label');
-        let parent = parentNode.getBoundingClientRect();
-        let child = childNode.getBoundingClientRect();
-        let scroll = (child.top - parent.top) + parentNode.scrollTop;
-        this.GenericGroupNode.closest('.scroller').scrollTo(0, scroll);
-      }
-
-      axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._gotGenericListForEditFailed(error); }).bind(this));
+      apiBase = this.CleverForms.GetGenericGroupCodesLookupApi; 
+      api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}`;
     }
+    this.GenericGroupLoaderNode.classList.add('show');
+    if (this.GenericGroupNode.classList.contains('show-edit'))
+    {
+       let parentNode = this.GenericGroupNode.closest('.scroller');
+       let childNode = this.GenericGroupNode.querySelector('label');
+       let parent = parentNode.getBoundingClientRect();
+       let child = childNode.getBoundingClientRect();
+       let scroll = (child.top - parent.top) + parentNode.scrollTop;
+       this.GenericGroupNode.closest('.scroller').scrollTo(0, scroll);
+     }
+
+     axios.get(api).then(((response) => { this._gotGroupFilter(response); }).bind(this)).catch(((error) => { this._gotGenericListForEditFailed(error); }).bind(this));
   }
 
   _gotGroupFilter(response)
