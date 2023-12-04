@@ -22,23 +22,23 @@
 (5691,24-25): run-time error JS1195: Expected expression: )
 (5691,26-27): run-time error JS1004: Expected ';': {
 (5750,6-7): run-time error JS1195: Expected expression: ,
-(10423,52-53): run-time error JS1195: Expected expression: .
-(10435,5-6): run-time error JS1002: Syntax error: }
-(10436,46-47): run-time error JS1004: Expected ';': {
-(10471,6-7): run-time error JS1195: Expected expression: ,
-(10472,42-43): run-time error JS1004: Expected ';': {
-(10494,6-7): run-time error JS1195: Expected expression: ,
-(10495,43-44): run-time error JS1004: Expected ';': {
-(10507,6-7): run-time error JS1195: Expected expression: ,
-(10508,81-82): run-time error JS1004: Expected ';': {
-(10525,6-7): run-time error JS1195: Expected expression: ,
-(10526,54-55): run-time error JS1004: Expected ';': {
-(10553,6-7): run-time error JS1195: Expected expression: ,
-(10554,49-50): run-time error JS1004: Expected ';': {
-(10624,6-7): run-time error JS1195: Expected expression: ,
-(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10434,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10428,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(10424,52-53): run-time error JS1195: Expected expression: .
+(10436,5-6): run-time error JS1002: Syntax error: }
+(10437,46-47): run-time error JS1004: Expected ';': {
+(10472,6-7): run-time error JS1195: Expected expression: ,
+(10473,42-43): run-time error JS1004: Expected ';': {
+(10496,6-7): run-time error JS1195: Expected expression: ,
+(10497,43-44): run-time error JS1004: Expected ';': {
+(10509,6-7): run-time error JS1195: Expected expression: ,
+(10510,81-82): run-time error JS1004: Expected ';': {
+(10527,6-7): run-time error JS1195: Expected expression: ,
+(10528,54-55): run-time error JS1004: Expected ';': {
+(10555,6-7): run-time error JS1195: Expected expression: ,
+(10556,49-50): run-time error JS1004: Expected ';': {
+(10626,6-7): run-time error JS1195: Expected expression: ,
+(10627,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10435,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10429,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5588,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5478,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5497,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -9805,6 +9805,7 @@ var UILeaveDetail = new Class({
     },
     createLeaveDetailsForwardsArea: function (form, container, isManager, leaveHeader) {
         if (!isManager) return;
+
         // this.forwardsAreaRow1 = this.createElementLeaveDetailGroupRow(container); 
         this.forwardsAreaRow1 = new Element('div', { 'class': 'form-row leave-detail-group-row' }).inject(container);
 
@@ -10522,7 +10523,8 @@ var UILeaveDetail = new Class({
 
         for (var i = 0; i < approvers.length; i++) {
             var approver = approvers[i];
-            this.option = new Element('option', { 'value': i, 'html': approver.EmployeeName, 'id': approver.EmployeeNo }).inject(this.forwardSelector);
+            var forwardOptionHtml = approver.EmployeeName + ' (' + approver.EmployeeNo + ')';
+            this.option = new Element('option', { 'value': i, 'html': forwardOptionHtml, 'id': approver.EmployeeNo }).inject(this.forwardSelector);
         }
         this.forwardSelector.removeEvents();
         this.forwardSelector.addEvent('change', function (e) {
@@ -11511,8 +11513,11 @@ var UILeaveDetail = new Class({
         this.leaveTypeSelector.removeClass('hidden');
         this.leaveReasonSelector.removeClass('hidden');
 
-        if (this.forwardsAreaRow1 !== undefined) this.forwardsAreaRow1.removeClass('hidden');
-        if (this.forwardsAreaRow2 !== undefined) this.forwardsAreaRow2.removeClass('hidden');
+        if (this.data.LeaveHeader.StatusCode === 0) {
+            if (this.forwardsAreaRow1 !== undefined) this.forwardsAreaRow1.removeClass('hidden');
+            if (this.forwardsAreaRow2 !== undefined) this.forwardsAreaRow2.removeClass('hidden');
+        }
+        
 
         if (Affinity.leave.employee && !this.isManager) {
             if (this.commentBox !== undefined) {
