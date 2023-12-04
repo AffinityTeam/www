@@ -19449,6 +19449,10 @@ body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-g
 body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper table.grid tbody tr:nth-child(even) {
   background-color: #262626;
 }
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper table.grid tbody tr:focus td {
+  background: #333333;
+  color: white;
+}
 body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader {
   background-color: rgba(34, 34, 34, 0.75);
 }

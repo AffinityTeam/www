@@ -21365,7 +21365,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           {
             errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-description-label-error'));
           }
-          if (this.GenericListEdited.List.length === 0)
+          if (visibleRows === 0)
           {
             errors.push($a.Lang.ReturnPath('app.cf.design_items.filter-edit-list-max-error'));
           }
