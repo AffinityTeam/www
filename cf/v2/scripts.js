@@ -19940,6 +19940,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     this.DefaultFilterOptions = {}; // will get from CleverForms.AffnityFieldModeTypes
     this.FilterOptions = {};
 
+    this.GenericGroupSelectValue = null;
+
     this.GenericFileReader = new FileReader();
 
   }
@@ -20296,6 +20298,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (super.UnsetDesignEditor())
     {
       // unset special html / values
+
+      this.GenericGroupSelectValue = null;
 
       this.FiltersNode.querySelectorAll('.radios input').forEach(function (radioNode)
       {
@@ -21483,6 +21487,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           this.GenericFileReader.onload = (() =>
           {
+            let rowCount = 0;
+            let commaErrorRows = [];
+            let errors = [];
             let rows = this.GenericFileReader.result.split(/\r\n|\n/);
             if (rows.length > 0)
             {
@@ -21493,8 +21500,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 {
                   if (
                     rawValues[0].trim() !== 'Key'
-                    && rawValues[0].trim() !== 'Value'
-                    && rawValues[0].trim() !== 'IsHidden'
+                    && rawValues[1].trim() !== 'Value'
+                    && rawValues[2].trim() !== 'IsHidden'
                   )
                   {
                     newData.push({
@@ -21504,7 +21511,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                     });
                   }
                 }
+                else
+                {
+                  commaErrorRows.push(rowCount);
+                  //errors.push(`Row ${rowCount} has a comma in the Key or Value. You can not use comma's in Key or Value names. You can use the code "%2C" if you must use commas.'`);
+                }
+                rowCount++;
               }
+            }
+
+            if (commaErrorRows.length > 0)
+            {
+              let commaError = '';
+              if (commaErrorRows.length === 1) commaError = ` ${commaErrorRows[0]}`;
+              else commaError = `s ${commaErrorRows.slice(0, -1).join(', ')}, and ${commaErrorRows[commaErrorRows.length - 1]}`;
+              errors.push(`You can not use commas in Key or Value names. You can use the code "%2C" if you must use commas.<br />Please check row${commaError}.`);
             }
             if (newData.length > 0)
             {
@@ -21512,8 +21533,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             }
             else
             {
+              errors.push(`We could not find any usable data in "${file.name}".`);
+            }
+            if (errors.length > 0)
+            {
               $a.Dialog.Show({
-                message: errors.join('We could not find any usable data in "' + file.name + '".')
+                textAlign: 'left',
+                message: errors.join('<br /><br />')
               });
             }
             this.GenericFileReader.onload = null;
