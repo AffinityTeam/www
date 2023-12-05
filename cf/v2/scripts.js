@@ -18105,6 +18105,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       Strings: '.sv',
       TaxNumber: '.ui-taxnumber'
     };
+
   }
 
   constructor(config)
@@ -18271,8 +18272,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    * @this    Class scope
    * @access  private
    */
-  SetDesignEditor()
+  SetDesignEditor(config)
   {
+
+    let genericGroupEditorEnabled = false;
+    let genericGroupCSVEnabled = false;
+    if ($a.isObject(config))
+    {
+      if (config.hasOwnProperty('genericGroupEditorEnabled')) genericGroupEditorEnabled = config.genericGroupEditorEnabled;
+      if (config.hasOwnProperty('genericGroupCSVEnabled')) genericGroupCSVEnabled = config.genericGroupCSVEnabled;
+    }
 
     var label = this.Config.hasOwnProperty('Details') ? this._isNullOrEmpty(this.Config.Details.Label) ? this.Config.Label : this.Config.Details.Label : '';
     var helpText = this.Config.hasOwnProperty('Details') ? this.Config.Details.HelpText : null;
@@ -18308,6 +18317,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.TemplateNode.classList.add('hidden');
     if (this.HtmlEditTemplate && this.HtmlEditTemplate.trim() !== '')
     {
+
+      let groupsDisabled = genericGroupEditorEnabled ? '' : ' disabled';
+      let groupsCSVDisabled = genericGroupCSVEnabled ? '' : ' hidden';
+
       var templateHtml = this.HtmlEditTemplate.trim().format({
         filterlabel: $a.Lang.ReturnPath('app.cf.design_items.filter_label'),
         editButtonLabel: $a.Lang.ReturnPath('app.cf.design_items.filter_edit_button_label'),
@@ -18315,13 +18328,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         groupDescriptionLabel: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-description-label'),
         downloadGroupCSVTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_csv_download_tooltip'),
         uploadGroupCSVTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_csv_upload_tooltip'),
+        groupsDisabled: groupsDisabled,
+        groupsCSVDisabled: groupsCSVDisabled,
         linkmessage: $a.Lang.ReturnPath('app.cf.design_items.link_message'),
         selectlabel: $a.Lang.ReturnPath('app.cf.design_items.link_select_label'),
         sectionHidetitleLable: $a.Lang.ReturnPath('app.cf.design_items.section_hide_title_lebel'),
         sectionCollapseLable: $a.Lang.ReturnPath('app.cf.design_items.section_collapse_lebel'),
         listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
-        listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
+        listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label')
       });
+
       this.TemplateNode.innerHTML = templateHtml;
       this.TemplateNode.classList.remove('hidden');
       if (this.TemplateNode.querySelector('.show-hidden'))
@@ -19929,9 +19945,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     this.DoDeepDiveLogic = false; // no depp dive option logic untill we have more info
     this.EnableModeSwitching = false; // no mode switching untill we have more info
 
-    // TODO: Add a "force OFF" for generic group edit
-    this.ForceDisableGenericGroupEditor = false;
-    this.ForceGerenicGroupEditorEnabled = true;
+    this.GenericGroupEditorEnabled = true;
+    this.GenericGroupCSVEnabled = true;
+    this.ForceGerenicGroupEditorEnabled = true; // if GenericGroupEditorEnabled is true, make sure we show the editor, even if groups select is empty
     this.GerenicGroupEditButtonColors = { Visible: 'blue', Hidden: 'orange' };
 
     this.MaxDialogListSize = 5;
@@ -19939,8 +19955,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.DefaultFilterOptions = {}; // will get from CleverForms.AffnityFieldModeTypes
     this.FilterOptions = {};
-
-    this.GenericGroupSelectValue = null;
 
     this.GenericFileReader = new FileReader();
 
@@ -19989,7 +20003,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   SetDesignEditor()
   {
-    if (super.SetDesignEditor())
+    if (super.SetDesignEditor({
+      genericGroupEditorEnabled: this.GenericGroupEditorEnabled,
+      genericGroupCSVEnabled: this.GenericGroupCSVEnabled
+    }))
     {
       // set special html / values
 
@@ -21119,7 +21136,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       Affinity2018.Apps.Plugins.Autocompletes.Remove(this.GenericGroupSelectNode);
       this.GenericGroupSelectNode.innerHTML = '';
       var i = 0, addedCount = 0, selected = null, selectedIndex = -1, pair, optionNode;
-      if (!this.ForceDisableGenericGroupEditor && (response.length > 0 || this.ForceGerenicGroupEditorEnabled))
+      if (this.GenericGroupEditorEnabled && (response.length > 0 || this.ForceGerenicGroupEditorEnabled))
       {
         optionNode = document.createElement('option');
         optionNode.value = '';
@@ -21155,7 +21172,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.GenericGroupSelectNode.value = selected;
           this.GenericGroupSelectNode.dataset.defaultValue = selected;
         }
-        if (!this.ForceDisableGenericGroupEditor && (addedCount > 0 || this.ForceGerenicGroupEditorEnabled))
+        if (this.GenericGroupEditorEnabled && (addedCount > 0 || this.ForceGerenicGroupEditorEnabled))
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
@@ -21192,7 +21209,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     // TODO: Do we show the editor anyway? 
     //this.GenericGroupNode.classList.add('hide');
     //this.GenericGroupNode.classList.add('hidden');
-    if (!this.ForceDisableGenericGroupEditor && this.ForceGerenicGroupEditorEnabled)
+    if (this.GenericGroupEditorEnabled && this.ForceGerenicGroupEditorEnabled)
     {
       console.log('%cGeneric Group List failed', 'color: orange', resposne);
       this.GenericGroupLoaderNode.classList.remove('show');
@@ -22052,12 +22069,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     super._templates();
 
     this.HtmlEditTemplate = `
-    <div class="edit-row top affinity-generic-group hidable hide hidden">
+    <div class="edit-row top affinity-generic-group hidable hide hidden{groupsDisabled}">
       <label tabindex=1>{filterlabel}</label>
       <div class="select working">
         <select class="ui-autocomplete-force-bottom"></select>
       </div>
-      <div class="generic-group-editor hidden">
+      <div class="generic-group-editor hidden}">
         <a class="show-hidden" data-hidden-target=".affinity-generic-group" data-hidden-target-class="show-edit" data-hidden-target-labels="">{editButtonLabel}</a>
         <div class="generic-group-editor-list">
           <div class="inner-edit-row">
@@ -22083,11 +22100,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               </table>
             </div>
             <div class="group-edit-buttons">
-              <button class="blue download no-label ui-has-tooltip" data-tooltip="{downloadGroupCSVTooltip}"><icon class="icon-download"></icon></button>
-              <button class="green upload no-label ui-has-tooltip" data-tooltip="{uploadGroupCSVTooltip}">
-                <icon class="icon-upload"></icon>
-                <input type="file" accept=".csv" />
-              </button>
+              <button class="blue download no-label{groupsCSVDisabled} ui-has-tooltip" data-tooltip="{downloadGroupCSVTooltip}"><icon class="icon-download"></icon></button>
+              <button class="green upload no-label{groupsCSVDisabled} ui-has-tooltip" data-tooltip="{uploadGroupCSVTooltip}"><icon class="icon-upload"></icon><input type="file" accept=".csv" /></button>
               <button class="green save"><icon class="icon-save"></icon><text>Save</text></button>
             </div>
           </div>
