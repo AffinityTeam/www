@@ -11537,12 +11537,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     /** load all object and HTML templates into class scope. */
     this._templates();
 
-    debugger;
-
     this.CleverForms = Affinity2018.Apps.CleverForms.Default;
     this.CleverForms.Designer = this;
 
     this.GenericGroupEditorEnabled = false;
+    this.GerenicGroupForceEnableEditor = false;
     this.GenericGroupCSVEnabled = false;
     if ($a.isObject(config))
     {
@@ -19993,7 +19992,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.GenericGroupEditorEnabled = this.CleverForms.hasOwnProperty('Designer') ? this.CleverForms.Designer.GenericGroupEditorEnabled : false;
     this.GenericGroupCSVEnabled = this.CleverForms.hasOwnProperty('Designer') ?  this.CleverForms.Designer.GenericGroupCSVEnabled : false;
-    this.ForceGerenicGroupEditorEnabled = true; // if GenericGroupEditorEnabled is true, make sure we show the editor, even if groups select is empty
+    this.GerenicGroupForceEnableEditor = this.CleverForms.hasOwnProperty('Designer') ? this.CleverForms.Designer.GerenicGroupForceEnableEditor : false;
     this.GerenicGroupEditButtonColors = { Visible: 'blue', Hidden: 'orange' };
 
     this.MaxDialogListSize = 5;
@@ -20131,14 +20130,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         var api = this.CleverForms.GetGenericGroupLookupApi + '?ModelName=' + this.Config.Details.AffinityField.ModelName + '&PropertyName=' + this.Config.Details.AffinityField.FieldName;
         //Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
-        if(!this.ForceDisableGerenicGroupEditor &&this.TemplateNode.querySelector('.generic-group-editor') && this.ForceGerenicGroupEditorEnabled)
+        if(this.TemplateNode.querySelector('.generic-group-editor') && this.GenericGroupEditorEnabled)
         {
           this.GroupEditorNode = this.TemplateNode.querySelector('.generic-group-editor');
           this.GroupEditorNode.classList.remove('hidden');
           this.GenericGroupSelectNode.addEventListener('change', this._genericListChanged);
         }
-        this.GenericGroupLoaderNode.classList.add('show');
-        axios.get(api).then(((response) => { this._gotGenericList(response.data); }).bind(this)).catch(((error) => { this._getGenericListFailed(error); }).bind(this));
+        // In the old days, this was always empty except for EMPAD .. now it can be NOT empty for anything that retuirsn a code group list, 
+        //     which will always show the select, regardless of Model.
+        // So for release 7/12/2023, hard code to retrun to old behaviour
+        // When it comes time to enable Generic Group (Code Group) Editor, the 'GerenicGroupForceEnableEditor' property will bypass this condition if true
+        let allowableModelNames = ['EMPAD'];
+        let allowableFeildNames = ['CODE'];
+        if (
+          (
+            allowableModelNames.contains(this.Config.Details.AffinityField.ModelName.toUpperCase())
+            &&  allowableFeildNames.contains(this.Config.Details.AffinityField.FieldName.toUpperCase())
+          ) 
+          || this.GerenicGroupForceEnableEditor
+        )
+        {
+          this.GenericGroupLoaderNode.classList.add('show');
+          axios.get(api).then(((response) => { this._gotGenericList(response.data); }).bind(this)).catch(((error) => { this._getGenericListFailed(error); }).bind(this));
+        }
       }
 
       /* form link select */
@@ -21199,7 +21213,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       Affinity2018.Apps.Plugins.Autocompletes.Remove(this.GenericGroupSelectNode);
       this.GenericGroupSelectNode.innerHTML = '';
       var i = 0, addedCount = 0, selected = null, selectedIndex = -1, pair, optionNode;
-      if ((response.length > 0 || this.ForceGerenicGroupEditorEnabled))
+      if ((response.length > 0 || this.GerenicGroupForceEnableEditor))
       {
         optionNode = document.createElement('option');
         optionNode.value = '';
@@ -21235,7 +21249,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.GenericGroupSelectNode.value = selected;
           this.GenericGroupSelectNode.dataset.defaultValue = selected;
         }
-        if ((addedCount > 0 || this.ForceGerenicGroupEditorEnabled))
+        if ((addedCount > 0 || this.GerenicGroupForceEnableEditor))
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
@@ -21272,7 +21286,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     // TODO: Do we show the editor anyway? 
     //this.GenericGroupNode.classList.add('hide');
     //this.GenericGroupNode.classList.add('hidden');
-    if (this.GenericGroupEditorEnabled && this.ForceGerenicGroupEditorEnabled)
+    if (this.GenericGroupEditorEnabled && this.GerenicGroupForceEnableEditor)
     {
       console.log('%cGeneric Group List failed', 'color: orange', resposne);
       this.GenericGroupLoaderNode.classList.remove('show');
@@ -22174,7 +22188,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     </div>
     <p class="affinity-form-link-desc hidden">{linkmessage}</p>
     <div class="edit-row affinity-form-link hidden">
-      <label>{selectlabel}</label><span class="help icon-help-round ui-has-tooltip" data-tooltip="{linkmessage}"></span>
+      <label>{selectlabel}</label><span class="help icon-help-round ui-has-tooltip" data-tooltip-dir="top-right" data-tooltip="{linkmessage}"></span>
       <div class="select working">
         <select class=""></select>
       </div>
@@ -28412,29 +28426,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
             if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
             {
-              // TODO: Marina: Country code breaks lookups. I am gettign it from the '_getCountryCode' method around line 670 below. Please revise.
-              // I am omiting this for now, but if it is needed, you can swap JUST the two commented lines below.
-              //select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
               select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
                 api: this.CleverForms.GetLookupApi,
                 modelName: this.Config.Details.AffinityField.ModelName,
                 groupid: this.Config.Details.AffinityField.GenericGroupId,
                 employeeNo: this.CleverForms.GetFormEmployeeNo(),
-                instanceId: this.CleverForms.GetInstanceGuid(),
-                countryCode: this._getCountryCode()
+                instanceId: this.CleverForms.GetInstanceGuid()
               });
             }
             else
             {
-              // TODO: Marina: Does this need country code? I am gettign it from the '_getCountryCode' method around line 670 below. PPlease revise.
-              // I am omiting this for now, but if it is needed, you can swap JUST the two commented lines below.
-              //select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
               select.dataset.api = '{api}?modelName={modelName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
                 api: this.CleverForms.GetLookupApi,
                 modelName: this.Config.Details.AffinityField.ModelName,
                 employeeNo: this.CleverForms.GetFormEmployeeNo(),
-                instanceId: this.CleverForms.GetInstanceGuid(),
-                countryCode: this._getCountryCode()
+                instanceId: this.CleverForms.GetInstanceGuid()
               });
             }
 
@@ -28484,31 +28490,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
           {
-            // TODO: Marina: Does this need country code? I am gettign it from the '_getCountryCode' method around line 670 below. Please revise.
-            // I am omiting this for now, but if it is needed, you can swap JUST the two commented lines below.
-            //select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
             select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
               propertyName: this.Config.Details.AffinityField.FieldName,
               groupid: this.Config.Details.AffinityField.GenericGroupId,
               employeeNo: this.CleverForms.GetFormEmployeeNo(),
-              instanceId: this.CleverForms.GetInstanceGuid(),
-              countryCode: this._getCountryCode()
+              instanceId: this.CleverForms.GetInstanceGuid()
             });
           }
           else
           {
-            // TODO: Marina: Does this need country code? I am gettign it from the '_getCountryCode' method around line 670 below. Please revise.
-            // I am omiting this for now, but if it is needed, you can swap JUST the two commented lines below.
-            //select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
             select.dataset.api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
               modelName: this.Config.Details.AffinityField.ModelName,
               propertyName: this.Config.Details.AffinityField.FieldName,
               employeeNo: this.CleverForms.GetFormEmployeeNo(),
-              instanceId: this.CleverForms.GetInstanceGuid(),
-              countryCode: this._getCountryCode()
+              instanceId: this.CleverForms.GetInstanceGuid()
             });
           }
 
