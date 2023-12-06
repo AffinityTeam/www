@@ -18857,6 +18857,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    if ($a.isObject(value) && value.hasOwnProperty('Value'))
+    {
+      let valueData = value;
+      value = value.Value;
+      if (valueData.hasOwnProperty('Key'))
+      {
+        if (!(value.contains(`(${valueData.Key})`) || value.startsWith(`${valueData.Key} `)))
+        {
+          value += ` (${valueData.Key})`;
+        }
+      }
+      if (valueData.hasOwnProperty('CountryCode') && valueData.CountryCode !== null)
+      {
+        if (!(value.startsWith(valueData.CountryCode) || value.endsWith(valueData.CountryCode)))
+        {
+          value += ` - ${valueData.CountryCode}`;
+        }
+      }
+    }
     value = !$a.isString(value) ? value.toString() : value.trim();
     var form = this.CleverForms.hasOwnProperty('Form') ? this.CleverForms.Form : null;
     if (this.FormRowNode)
@@ -28307,7 +28326,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         html = this.HtmlRowTemplate.format(
           this.Config.Details.Label,
-          this.Config.Details.hasOwnProperty('Value') ? this.Config.Details : ''
+          this.Config.Details.hasOwnProperty('Value') ? this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value : ''
         );
       }
     }
