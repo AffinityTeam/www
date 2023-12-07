@@ -26,12 +26,12 @@
 (9515,133): run-time error CSS1030: Expected identifier, found ','
 (9515,274): run-time error CSS1031: Expected selector, found ')'
 (9515,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10095,167): run-time error CSS1030: Expected identifier, found ','
-(10095,309): run-time error CSS1031: Expected selector, found ')'
-(10095,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10346,108): run-time error CSS1030: Expected identifier, found ','
-(10346,250): run-time error CSS1031: Expected selector, found ')'
-(10346,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(10167,167): run-time error CSS1030: Expected identifier, found ','
+(10167,309): run-time error CSS1031: Expected selector, found ')'
+(10167,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10418,108): run-time error CSS1030: Expected identifier, found ','
+(10418,250): run-time error CSS1031: Expected selector, found ')'
+(10418,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -9640,6 +9640,35 @@ body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even) {
   background-color: rgba(239, 239, 239, 0.5);
 }
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .inner-edit-row label,
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .inner-edit-row label {
+  display: block;
+  width: 100%;
+  height: 16px;
+  line-height: 16px;
+  margin: 0 0 5px 0;
+  padding: 0;
+  color: #636e7c;
+  font-size: 14px !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .inner-edit-row input,
+body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-template .edit-row .inner-edit-row input {
+  height: 44px;
+  margin: 0;
+  padding: 0 15px;
+  color: black;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
 body.ui2018.uiupdate .cf-designer-element-popup .inner .settings .settings-box .edit-required .check-row label,
 body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings-box .edit-required .check-row label {
   font-size: 16px;
@@ -9649,7 +9678,7 @@ body.ui2018.uiupdate.cform .cf-designer-element-popup .inner .settings .settings
   top: 420px;
   bottom: 90px;
   right: unset;
-  width: calc(100% - 20px);
+  width: calc(100% - 45px);
   font-size: 14px;
   -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
   -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
@@ -9845,6 +9874,39 @@ body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .section .section-h
 body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .section .section-header .section-title a:hover {
   color: #106eb6;
 }
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top label,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top label {
+  color: white;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top input,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top input {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top div.select,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top div.select {
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top div.select:after,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top div.select:after {
+  color: white;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top div.select select,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top div.select select {
+  color: white;
+  background: #333333;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top div.select select option,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top div.select select option {
+  color: white;
+}
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top a.button,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top a.button,
+body.ui2018.uiupdate.dark .pagewrapper .pagecontent .content .cf-d2-top a.button:hover,
+body.ui2018.uiupdate.cform.dark .pagewrapper .pagecontent .content .cf-d2-top a.button:hover {
+  color: white;
+}
 body.ui2018.uiupdate.dark li.cf-designer-element,
 body.ui2018.uiupdate.cform.dark li.cf-designer-element {
   background: #222222 !important;
@@ -9967,6 +10029,16 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edi
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even),
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even) {
   background-color: rgba(239, 239, 239, 0.5);
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row label,
+body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row label {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row input,
+body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row input {
+  color: #cccccc;
+  background: #333333;
+  border: 2px solid #444444;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .list-builder,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .list-builder {
@@ -11351,6 +11423,10 @@ body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list.above {
   top: auto;
   bottom: 35px;
 }
+body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list.bellow {
+  bottom: auto;
+  top: 35px;
+}
 body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list:hover {
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -11378,10 +11454,13 @@ body.ui2018.dark .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-displa
   background-image: url(data:image/gif;base64,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);
 }
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list {
-  background-color: #222222;
+  background-color: #191919;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li {
-  background-color: #222222;
+  background-color: #191919;
 }
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li.selected,
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li:hover {
@@ -18415,6 +18494,29 @@ li.cf-designer-element.disabled * {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.cf-designer-element-popup .inner .settings .settings-box {
+  overflow: hidden;
+  overflow-y: scroll;
+  height: calc(100% - 260px);
+  padding: 0 10px 0 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .settings-box::-webkit-scrollbar-track {
+  background: #efefef;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+.cf-designer-element-popup .inner .settings .settings-box::-webkit-scrollbar-thumb {
+  border: 2px solid #efefef;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
 .cf-designer-element-popup .inner .settings label {
   display: inline-block;
   vertical-align: top;
@@ -18546,7 +18648,19 @@ li.cf-designer-element.disabled * {
   font-style: italic;
 }
 .cf-designer-element-popup .inner .settings .edit-template .affinity-form-link:not(.hidden) {
-  margin: 0 0 10px 0;
+  margin: 20px 0 10px 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-form-link:not(.hidden) label {
+  width: unset;
+  min-width: unset;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-form-link:not(.hidden) .help {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  margin: 0 0 0 5px;
+  font-size: 14px;
 }
 .cf-designer-element-popup .inner .settings .edit-template h2 {
   margin: 0 0 20px 0;
@@ -18593,6 +18707,39 @@ li.cf-designer-element.disabled * {
 .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-form-error {
   width: 75%;
   margin-left: calc(25% - 10px);
+}
+.cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row {
+  position: relative;
+  height: unset;
+  min-height: unset;
+  line-height: unset;
+  margin: 10px;
+  padding: 0;
+  font-size: 0px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row label {
+  display: block;
+  width: 100%;
+  padding: 0;
+  font-size: 14px !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .edit-template .edit-row .inner-edit-row input {
+  display: block;
+  width: 100%;
+  vertical-align: top;
+  height: 44px;
+  margin: 0;
+  padding: 0 15px;
+  font-size: 16px !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
 }
 .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-autocomplete-container {
   width: 75%;
@@ -18716,6 +18863,237 @@ li.cf-designer-element.disabled * {
   margin-bottom: 0px !important;
   overflow: hidden !important;
 }
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group {
+  min-height: 100px !important;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor {
+  position: relative;
+  font-size: 14px;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  margin: 10px 0 0 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor a.show-hidden {
+  height: 30px;
+  line-height: 30px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 250ms, margin 250ms;
+  -moz-transition: height 250ms, margin 250ms;
+  -o-transition: height 250ms, margin 250ms;
+  transition: height 250ms, margin 250ms;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper {
+  position: relative;
+  width: calc(100% - 30px);
+  height: 306px;
+  margin: 15px 15px 20px 15px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+  box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper {
+  height: 250px;
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid {
+  width: 100% !important;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid thead tr th,
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr th,
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid thead tr td,
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr td {
+  font-size: 14px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid thead tr th {
+  height: 40px;
+  line-height: 20px;
+  padding: 0 10px;
+  text-align: left;
+  background: none;
+  border: none !important;
+  font-weight: bold;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr {
+  background-color: white;
+  -webkit-transition: background-color 250ms, opacity 250ms;
+  -moz-transition: background-color 250ms, opacity 250ms;
+  -o-transition: background-color 250ms, opacity 250ms;
+  transition: background-color 250ms, opacity 250ms;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr td {
+  height: 40px;
+  line-height: 20px;
+  border-top: 1px solid #e6e9ed !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr td div.button {
+  vertical-align: middle;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  margin: 5px 0;
+  padding: 0;
+  text-align: center;
+  font-weight: 100;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr td:nth-child(3) {
+  text-align: right;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr.hide {
+  -moz-opacity: 0.25;
+  -khtml-opacity: 0.25;
+  opacity: 0.25;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr.hide:hover {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus {
+  outline: none;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus td {
+  background: #8fe1f9;
+  color: white;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus.hide {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .grid-wrapper table.grid tbody tr:focus.hide:hover {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  margin: 0;
+  font-weight: 100;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons button,
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons .button {
+  margin: 0 0 0 5px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons button.no-label,
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons .button.no-label {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  padding: 0;
+  text-align: center;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons button.no-label icon,
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper .group-edit-buttons .button.no-label icon {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  touch-action: none;
+  pointer-events: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader * {
+  touch-action: none;
+  pointer-events: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader:after {
+  content: "Loading..";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader.show {
+  display: block;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader.show * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hide).show-edit {
+  height: 577px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hide).show-edit .generic-group-editor {
+  font-size: 14px;
+  line-height: 30px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hide).show-edit .generic-group-editor .generic-group-editor-list {
+  height: 491px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group.disabled {
+  min-height: 60px !important;
+}
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group.disabled .generic-group-editor {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  line-height: 0px !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  pointer-events: none !important;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+}
+.cf-designer-element-popup .inner .settings a.show-hidden {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .cf-designer-element-popup .inner .settings .list-builder {
   position: absolute;
   top: 370px;
@@ -18808,8 +19186,26 @@ li.cf-designer-element.disabled * {
 }
 .cf-designer-element-popup .inner .settings .buttons {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 0;
+  right: 0px;
+  padding: 9px 10px 7px 15px;
+  border-radius: 36px;
+  background-color: rgba(255, 255, 255, 0.75);
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+.cf-designer-element-popup .inner .settings .buttons.disabled {
+  touch-action: none;
+  pointer-events: none;
+  -moz-opacity: 0.25;
+  -khtml-opacity: 0.25;
+  opacity: 0.25;
+}
+.cf-designer-element-popup .inner .settings .buttons.disabled * {
+  touch-action: none;
+  pointer-events: none;
 }
 .cf-designer-element-popup .inner .search h3,
 .cf-designer-element-popup .inner .settings h3 {
@@ -19047,6 +19443,39 @@ body.ui2018.dark .cf-designer-element-popup .inner .settings .example-template .
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .settings-box::-webkit-scrollbar-track {
+  background: #161616;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .settings-box::-webkit-scrollbar-thumb {
+  border: 2px solid #161616;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper table.grid tbody tr {
+  background-color: #222222;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper table.grid tbody tr td {
+  border-top: 1px solid #333333 !important;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper table.grid tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper table.grid tbody tr:focus td {
+  background: #333333;
+  color: white;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader {
+  background-color: rgba(34, 34, 34, 0.75);
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .generic-group-loader:after {
+  color: white;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .buttons {
+  background-color: rgba(34, 34, 34, 0.75);
 }
 body.ui2018.dark .cf-designer-element-popup .inner .search h3,
 body.ui2018.dark .cf-designer-element-popup .inner .settings h3 {
