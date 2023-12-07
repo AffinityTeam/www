@@ -9629,29 +9629,29 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   _gotEmployeeData(response)
   {
     window.removeEventListener('GotEmployee', this._gotEmployeeData);
+    let data = null;
     if ('detail' in response) response = response.detail;
-    if (
-      Affinity2018.isPropObject(response, 'data')
-      && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
-    )
+    if ($a.isPropObject(response, 'data')) data = response.data;
+    if (!$a.isPropInt(data, 'EmployeeNumber')) data.EmployeeNumber = '';
+    if (data !== null)
     {
       var paypoint = "";
-      if (response.data.hasOwnProperty('EmployeePayPoint')) paypoint = $a.toString(response.data.EmployeePayPoint);
-      if (response.data.hasOwnProperty('PayPoint')) paypoint = $a.toString(response.data.PayPoint);
+      if (data.hasOwnProperty('EmployeePayPoint') && $a.toString(data.EmployeePayPoint).trim().toLowerCase() !== 'null') paypoint = $a.toString(response.data.EmployeePayPoint);
+      if (data.hasOwnProperty('PayPoint') && $a.toString(data.PayPoint).trim().toLowerCase() !== 'null') paypoint = $a.toString(response.data.PayPoint);
 
       var country = "A";
-      if (response.data.hasOwnProperty('EmployeeCountry')) country = $a.toString(response.data.EmployeeCountry);
-      if (response.data.hasOwnProperty('PayPointCountry')) country = $a.toString(response.data.PayPointCountry);
+      if (response.data.hasOwnProperty('EmployeeCountry') && $a.toString(data.EmployeeCountry).trim().toLowerCase() !== 'null') country = $a.toString(response.data.EmployeeCountry);
+      if (response.data.hasOwnProperty('PayPointCountry') && $a.toString(data.PayPointCountry).trim().toLowerCase() !== 'null') country = $a.toString(response.data.PayPointCountry);
 
       Affinity2018.FormProfile = {
-        CompanyNumber: $a.toString(response.data.CompanyNumber),
-        EmployeeNumber: $a.toString(response.data.EmployeeNumber),
+        CompanyNumber: $a.toString(data.CompanyNumber),
+        EmployeeNumber: $a.toString(data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
         PayPoint: paypoint,
         Country: country
       };
 
-      if ($a.toString(response.data.EmployeeNumber) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
+      if ($a.toString(data.EmployeeNumber) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
       this.ProfileStatus = this.LoadStatusEnum.Complete;
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
