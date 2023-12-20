@@ -18940,7 +18940,12 @@ li.cf-designer-element.disabled * {
   position: relative;
   width: 100%;
   height: 0;
+  margin: 0;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.05);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   -webkit-transition: height 250ms, margin 250ms;
   -moz-transition: height 250ms, margin 250ms;
   -o-transition: height 250ms, margin 250ms;
@@ -18951,6 +18956,7 @@ li.cf-designer-element.disabled * {
   width: calc(100% - 30px);
   height: 266px;
   margin: 15px 15px 20px 15px;
+  background: white;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -19124,14 +19130,15 @@ li.cf-designer-element.disabled * {
   pointer-events: all;
 }
 .cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hide).show-edit {
-  height: 581px;
+  height: 596px;
 }
 .cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hide).show-edit .generic-group-editor {
   font-size: 14px;
   line-height: 30px;
 }
 .cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hide).show-edit .generic-group-editor .generic-group-editor-list {
-  height: 495px;
+  height: 490px;
+  margin: 5px 0 10px 0;
 }
 .cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group.disabled {
   min-height: 60px !important;
@@ -19508,7 +19515,11 @@ body.ui2018.dark .cf-designer-element-popup .inner .settings .settings-box::-web
 body.ui2018.dark .cf-designer-element-popup .inner .settings .settings-box::-webkit-scrollbar-thumb {
   border: 2px solid #161616;
 }
+body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list {
+  background: rgba(250, 255, 255, 0.05);
+}
 body.ui2018.dark .cf-designer-element-popup .inner .settings .affinity-generic-group .generic-group-editor .generic-group-editor-list .shadow-wrapper {
+  background: #222222;
   -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
   -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;

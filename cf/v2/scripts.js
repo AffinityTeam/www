@@ -10,18 +10,18 @@
 (4410,31-36): run-time error JS1195: Expected expression: class
 (4650,35-40): run-time error JS1195: Expected expression: class
 (4778,33-38): run-time error JS1195: Expected expression: class
-(5000,39-40): run-time error JS1014: Invalid character: `
-(5000,40-41): run-time error JS1195: Expected expression: <
-(5000,100-101): run-time error JS1014: Invalid character: `
-(5019,41-42): run-time error JS1014: Invalid character: `
-(5019,42-43): run-time error JS1195: Expected expression: <
-(5019,104-105): run-time error JS1014: Invalid character: `
-(5019,130-131): run-time error JS1195: Expected expression: .
-(5024,11-12): run-time error JS1002: Syntax error: }
-(5028,11-12): run-time error JS1002: Syntax error: }
-(5038,43-44): run-time error JS1014: Invalid character: `
-(5038,44-45): run-time error JS1195: Expected expression: <
-(5038,45-49): run-time error JS1197: Too many errors. The file might not be a JavaScript file: span
+(5009,39-40): run-time error JS1014: Invalid character: `
+(5009,40-41): run-time error JS1195: Expected expression: <
+(5009,100-101): run-time error JS1014: Invalid character: `
+(5028,41-42): run-time error JS1014: Invalid character: `
+(5028,42-43): run-time error JS1195: Expected expression: <
+(5028,104-105): run-time error JS1014: Invalid character: `
+(5028,130-131): run-time error JS1195: Expected expression: .
+(5033,11-12): run-time error JS1002: Syntax error: }
+(5037,11-12): run-time error JS1002: Syntax error: }
+(5047,43-44): run-time error JS1014: Invalid character: `
+(5047,44-45): run-time error JS1195: Expected expression: <
+(5047,45-49): run-time error JS1197: Too many errors. The file might not be a JavaScript file: span
  */
 (function ()
 {
@@ -4810,7 +4810,7 @@
         'Reset',
         'Show', 'Hide',
         '_setMessage', '_setInput', '_setButtons',
-        '_okClicked', '_okContinue', '_cancelClicked', '_cancelContinue', '_bgClicked'
+        '_okClicked', '_elseClicked', '_cancelClicked', '_bgClicked'
       ].bindEach(this);
 
       this.enabled = false;
@@ -4845,7 +4845,8 @@
           show: false,
           placeholder: '',
           default: '',
-          lines: 1
+          lines: 1,
+          maxLength: -1
         },
         textAlign: 'center',
         canBackgroundClose: true,
@@ -4988,6 +4989,14 @@
           this.inputBox.value = this.data.input.default;
           this.inputBox.classList.remove('hidden');
           this.inputBox.parentElement.classList.remove('hidden');
+          if (this.data.input.maxLength && Affinity2018.isInt(this.data.input.maxLength) && parseInt(this.data.input.maxLength) > -1)
+          {
+            this.inputBox.setAttribute('maxlength', this.data.input.maxLength);
+          }
+          else
+          {
+            this.inputBox.setAttribute('maxlength', null);
+          }
         }
       }
       else
@@ -9662,7 +9671,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     // Manually disaptch employee as though we just got it from an API
     window.dispatchEvent(new CustomEvent('GotEmployee', { detail: {
       data: {
-        CompanyNumber: Affinity2018.FormProfile.CompanyNumber,
+        CompanyNumber: Affinity2018.UserProfile.CompanyNumber, //Affinity2018.FormProfile.CompanyNumber,
         EmployeeNumber: employeeNo,
         PayPointCountry: Affinity2018.FormCountry
       }
@@ -18438,6 +18447,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         editButtonLabel: $a.Lang.ReturnPath('app.cf.design_items.filter_edit_button_label'),
         groupNameLabel: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-name-label'),
         groupDescriptionLabel: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-description-label'),
+        templateRestrictLabel: $a.Lang.ReturnPath('app.cf.design_items.filter_restrict_template_label'),
+        templateRestrictTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_restrict_template_tooltip'),
         downloadGroupCSVTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_csv_download_tooltip'),
         uploadGroupCSVTooltip: $a.Lang.ReturnPath('app.cf.design_items.filter_csv_upload_tooltip'),
         groupsDisabled: groupsDisabled,
@@ -20112,6 +20123,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       
       '_genericListChanged', '_scrollToGenericList', '_gotGenericList', '_getGenericListFailed', '_buildGenericListForEdit',
       '_gotGenericListForEdit', '_gotGenericListForEditFailed', '_genericListEditKeyDown', '_genericListEditClicked', '_rebuildGenericEditList', '_doRrebuildGenericEditList',
+      '_doGenericListPost', '_doGenericListPostOnElementPost',
       '_downloadGenericEditListCSV', '_uploadGenericEditListCSV', 
       '_gotFormList', '_getFormListFailed',
 
@@ -20178,40 +20190,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.GenericEditToggle.dataset.hiddenTargetLabels = `${this.GenericFilterLables.Create},${this.GenericFilterLables.CreateClose}`;
       }
       this.GenericGroupLoaderNode = this.GenericGroupNode.querySelector('.generic-group-loader');
-
-      if (this.GenericGroupNode.querySelector('#restrictGroupToTemplateCheck'))
+      this.GenericListRestrictToTempalteCheckBoxNode = this.GenericGroupNode.querySelector('#restrictGroupToTemplateCheck');
+      if (this.Config.Details.AffinityField.IsRestricted)
       {
-        this.GenericGroupNode.querySelector('#restrictGroupToTemplateCheck').addEventListener('click', () => {
-          
-          Affinity2018.Dialog.Show({
-            message: `This code group is currently used by templates:<br /><ul><li>Template 1</li><li>Template 2</li><li>Template 5</li></ul>Would you like to update it, or do you prefer creating a new one instead?`,
-            textAlign: 'left',
-            buttons: {
-              ok: {
-                show: true,
-                icon: 'tick',
-                text: 'Update',
-                color: 'blue'
-              },
-              else: {
-                show: true,
-                icon: 'tick',
-                text: 'Create New',
-                color: 'green'
-              },
-              cancel: {
-                show: true,
-                icon: 'cross',
-                text: 'Cancel',
-                color: 'grey'
-              }
-            }
-          });
-        
-        });
+        this._disableRestrictGroupToTemplateCheckbox();
+        this.GenericListRestrictToTempalteCheckBoxNode.checked = true;
       }
-
-
+      else
+      {
+        this._enableRestrictGroupToTemplateCheckbox();
+      }
 
       this.FormLinkNode = this.TemplateNode.querySelector('.affinity-form-link');
       this.FormLinkSelectNode = this.FormLinkNode.querySelector('select');
@@ -21249,6 +21237,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     // TODO: Marina: I am trying to get countryCode from the '_getCountryCode' method above. Please revise.
     // What if it is null or empty?
+    this._disableRestrictGroupToTemplateCheckbox();
     this.GenericGroupSelectValue = this.GenericGroupSelectNode.value;
     if (this.GenericGroupEditorEnabled)
     {
@@ -21262,7 +21251,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         api = `${apiBase}?ModelName=${model}&PropertyName=${property}&genericGroupId=${this.GenericGroupSelectValue.trim()}&countryCode=${this._getCountryCode()}`;
         if (this.CleverForms.GetInstanceGuid())
         {
-          api += `&instanceId=${this.CleverForms.GetInstanceGuid()}`;
+          api += `&instanceId=${this.CleverForms.GetInstanceGuid()}`; //hey Ben TODO, if it is instance, we dont need to send this as we have a country above
         }
         else
         {
@@ -21288,8 +21277,34 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
      }
   }
 
+  _enableRestrictGroupToTemplateCheckbox()
+  {
+    if (this.GenericListRestrictToTempalteCheckBoxNode)
+    {
+      this.GenericListRestrictToTempalteCheckBoxNode.disabled = false;
+      this.GenericListRestrictToTempalteCheckBoxNode.classList.remove('disabled');
+    }
+  }
+
+  _disableRestrictGroupToTemplateCheckbox()
+  {
+    if (this.GenericListRestrictToTempalteCheckBoxNode)
+    {
+      this.GenericListRestrictToTempalteCheckBoxNode.checked = false;
+      this.GenericListRestrictToTempalteCheckBoxNode.disabled = true;
+      this.GenericListRestrictToTempalteCheckBoxNode.classList.add('disabled');
+    }
+  }
+
   _gotGroupFilter(response)
   {
+    this._disableRestrictGroupToTemplateCheckbox();
+    if (response.data.hasOwnProperty('IsRestricted') && $a.isBool(response.data.IsRestricted))
+    {
+      this._enableRestrictGroupToTemplateCheckbox();
+      if (response.data.IsRestricted) this.GenericListRestrictToTempalteCheckBoxNode.checked = true;
+      else this.GenericListRestrictToTempalteCheckBoxNode.checked = false;
+    }
     this.GroupEditorNode.querySelector('input[type="text"]').value = '';
     this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = '';
     /**/
@@ -21624,82 +21639,177 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               Id: groupId,
               Codes: this.GenericListEdited.List
             };
-            //console.groupCollapsed('Do save ..');
-            //console.log(JSON.stringify(postData, null, 2));
-            //console.groupEnd();
-            axios.post(this.CleverForms.GetGenericGroupSave, postData)
-              .then(function(response)
-              {
-                console.log(response);
-                this._enableButtons();
-                if (response.data.hasOwnProperty('success') && (!response.data.success || response.data.success.toString().toLowerCase() === 'false'))
+            if (this.GenericListRestrictToTempalteCheckBoxNode.disabled)
+            {
+              postData.TemplateId = this.CleverForms.GetTemplateGuid();
+              postData.IsRestricted =  this.GenericListRestrictToTempalteCheckBoxNode.disabled ? null : this.GenericListRestrictToTempalteCheckBoxNode.checked;
+              let tempaletList = this.Config.Details.AffinityField.TemplatesInUse || []; // ['Template 1', 'Template 2', 'Template 5'];
+              let lsitWarningA = $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-a')
+              let lsitWarningB = $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-b')
+              let message = tempaletList.length === 0 ? lsitWarningB : `${lsitWarningA}<br /><ul><li>${tempaletList.join('</li><li>')}</li></ul>${lsitWarningB}`;
+              Affinity2018.Dialog.Show({
+                message: message,
+                textAlign: 'left',
+                buttons: {
+                  ok: {
+                    show: true,
+                    icon: 'tick',
+                    text: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-button-label-save'),
+                    color: 'blue'
+                  },
+                  else: {
+                    show: true,
+                    icon: 'tick',
+                    text: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-button-label-create-new'),
+                    color: 'green'
+                  },
+                  cancel: {
+                    show: true,
+                    icon: 'cross',
+                    text: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-button-label-cancel'),
+                    color: 'grey'
+                  }
+                },
+                onOk: (() =>
                 {
-                  this._enableButtons();
-                  if (response.data.hasOwnProperty('error') && (response.data.error === 409 || response.data.error === "409" || response.data.error.toString().toLowerCase() === 'conflict'))
-                  {
-                    $a.Dialog.Show({
-                      textAlign: 'left',
-                      message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-name-error-message')
-                    });
-                  }
-                  else
-                  {
-                    $a.Dialog.Show({
-                      textAlign: 'left',
-                      message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-error-message')} (${response.data.error}).`
-                    });
-                  }
-                }
-                else
+                  // Save as
+                  this._doGenericListPost(postData);  
+                }).bind(this),
+                onElse: (() =>
                 {
-                  this.Config.Details.AffinityField.GenericGroupId = response.data.Id;
-                  this.GroupEditorNode.querySelector('input[type="text"]').value = response.data.GroupName;
-                  this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = response.data.Description;
-                  this._buildGenericListForEdit(response.data.Codes);
-                  if (postData.Id === null)
-                  {
-                    let optionNodes = this.GenericGroupSelectNode.querySelectorAll('option:checked');
-                    if (optionNodes.length > 0)
-                    {
-                      for (var node of optionNodes)
-                      {
-                        node.selected = null;
-                        node.removeAttribute('selected');
-                      }
-                    }
-                    let optionNode = document.createElement('option');
-                    optionNode.innerHTML = response.data.Description;
-                    optionNode.value = response.data.Id;
-                    optionNode.selected = 'selected';
-                    optionNode.setAttribute('selected', 'selected');
-                    this.GenericGroupSelectNode.appendChild(optionNode);
-                    this.GenericGroupSelectNode.selectedIndex = this.GenericGroupSelectNode.querySelectorAll('option').length - 1;
-                    this.GenericGroupSelectNode.value = response.data.Id.toString();
-                    this.GenericGroupSelectNode.dataset.defaultValue = response.data.Id.toString();
-                    this.GenericGroupSelectNode.widgets.Autocomplete.refreshFromSelect();
-                  }
-                  Affinity2018.Dialog.Show({
-                    message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-message'),
-                    showOk: true,
-                    showCancel: false,
-                    showInput: false,
-                    textAlign: 'center'
-                  });
-                }
-              }.bind(this))
-              .catch(function(error)
-              {
-                this._enableButtons();
-                  $a.Dialog.Show({
-                    textAlign: 'left',
-                    message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-error-message')}`
-                  });
-                console.log('%cGeneric Group Post failed', 'color: orange', error);
-              }.bind(this));
+                  // Create new
+                  //postData.Id = null;
+                  //postData.GroupName += ' copy';
+                  //this._doGenericListPost(postData); 
+                  this._genericListGetNewNameAndSave(postData);
+                }).bind(this)
+              });
+            }
+            else
+            {
+              postData.IsRestricted =  this.GenericListRestrictToTempalteCheckBoxNode.disabled  ? null : this.GenericListRestrictToTempalteCheckBoxNode.checked;
+              this._doGenericListPost(postData);
+            }
           }
         }
       }
     }
+  }
+
+  _genericListGetNewNameAndSave(postData)
+  {
+    Affinity2018.Dialog.show({
+      message: 'Enter a new unique name',
+      textAlign: 'left',
+      buttons: {
+        ok: {
+          show: true,
+          icon: 'tick',
+          text: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-button-label-save'),
+          color: 'blue'
+        },
+        else: false,
+        cancel: {
+          show: true,
+          icon: 'cross',
+          text: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-warning-popup-button-label-cancel'),
+          color: 'grey'
+        }
+      },
+      input: {
+        show: true,
+        placeholder: '',
+        default: postData.GroupName,
+        lines: 1,
+        maxLength: 30
+      },
+      onOk: ((newName) =>
+      {
+        // Save as
+        postData.Id = null;
+        postData.GroupName = newName;
+        this._doGenericListPost(postData);  
+      }).bind(this),
+    });
+  }
+  
+  _doGenericListPost(postData)
+  {
+    //console.groupCollapsed('Do save ..');
+    //console.log(JSON.stringify(postData, null, 2));
+    //console.groupEnd();
+    $a.ShowPageLoader();
+    this._disableButtons();
+    axios.post(this.CleverForms.GetGenericGroupSave, postData)
+      .then(function(response)
+      {
+        console.log(response);
+        this._enableButtons();
+        $a.HidePageLoader();
+        if (response.data.hasOwnProperty('success') && (!response.data.success || response.data.success.toString().toLowerCase() === 'false'))
+        {
+          if (response.data.hasOwnProperty('error') && (response.data.error === 409 || response.data.error === "409" || response.data.error.toString().toLowerCase() === 'conflict'))
+          {
+            $a.Dialog.Show({
+              textAlign: 'left',
+              message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-name-error-message')
+            });
+          }
+          else
+          {
+            $a.Dialog.Show({
+              textAlign: 'left',
+              message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-error-message')} (${response.data.error}).`
+            });
+          }
+        }
+        else
+        {
+          this.Config.Details.AffinityField.GenericGroupId = response.data.Id;
+          this.GroupEditorNode.querySelector('input[type="text"]').value = response.data.GroupName;
+          this.GroupEditorNode.querySelectorAll('input[type="text"]')[1].value = response.data.Description;
+          this._buildGenericListForEdit(response.data.Codes);
+          if (postData.Id === null)
+          {
+            let optionNodes = this.GenericGroupSelectNode.querySelectorAll('option:checked');
+            if (optionNodes.length > 0)
+            {
+              for (var node of optionNodes)
+              {
+                node.selected = null;
+                node.removeAttribute('selected');
+              }
+            }
+            let optionNode = document.createElement('option');
+            optionNode.innerHTML = response.data.Description;
+            optionNode.value = response.data.Id;
+            optionNode.selected = 'selected';
+            optionNode.setAttribute('selected', 'selected');
+            this.GenericGroupSelectNode.appendChild(optionNode);
+            this.GenericGroupSelectNode.selectedIndex = this.GenericGroupSelectNode.querySelectorAll('option').length - 1;
+            this.GenericGroupSelectNode.value = response.data.Id.toString();
+            this.GenericGroupSelectNode.dataset.defaultValue = response.data.Id.toString();
+            this.GenericGroupSelectNode.widgets.Autocomplete.refreshFromSelect();
+          }
+          Affinity2018.Dialog.Show({
+            message: $a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-message'),
+            showOk: true,
+            showCancel: false,
+            showInput: false,
+            textAlign: 'center'
+          });
+        }
+      }.bind(this))
+      .catch(function(error)
+      {
+        this._enableButtons();
+        $a.HidePageLoader();
+        $a.Dialog.Show({
+          textAlign: 'left',
+          message: `${$a.Lang.ReturnPath('app.cf.design_items.filter-edit-saved-error-message')}`
+        });
+        console.log('%cGeneric Group Post failed', 'color: orange', error);
+      }.bind(this));
   }
 
   _downloadGenericEditListCSV()
@@ -22300,9 +22410,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             <input type="text" />
           </div>
           <div class="inner-edit-checkbox-row">
-            <input type="checkbox" id="restrictGroupToTemplateCheck" checked="checked" />
-            <label for="restrictGroupToTemplateCheck">Restrict to Template</label>
-            <span class="icon-help-round ui-has-tooltip" data-tooltip-dir="top-right" data-tooltip="When checked, the code group will be exclusive to the current form template. If unchecked, the code group will be available for any template."></span>
+            <input type="checkbox" id="restrictGroupToTemplateCheck" checked="checked" disabled class="disabled" />
+            <label for="restrictGroupToTemplateCheck">{templateRestrictLabel}</label>
+            <span class="icon-help-round ui-has-tooltip" data-tooltip-dir="top-right" data-tooltip="{templateRestrictTooltip}"></span>
           </div>
           <div class="shadow-wrapper">
             <div class="grid-wrapper flat-bottom">
