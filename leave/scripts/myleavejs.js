@@ -1240,7 +1240,7 @@ var UILeaveCalendar = new Class({
 
         ).inject(this.target);
 
-        this.section.setStyle('opacity', 0);
+        // this.section.setStyle('opacity', 0);
 
         this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
 
@@ -1318,7 +1318,7 @@ var UILeaveCalendar = new Class({
 
     hide: function (init) {
         if (!init) {
-            this.scrollPosition = this.historyFrame.scrollLeft;
+            // this.scrollPosition = this.historyFrame.scrollLeft;
         }
 
         this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
@@ -1336,12 +1336,12 @@ var UILeaveCalendar = new Class({
 			this.calendarIframe.src = calendarUrl;
 		}
 
-         // if not scroll poisition not initiallized then scroll to mid
-         if (this.scrollPosition === null) {
-            this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
-        } else {
-            this.historyFrame.scrollLeft = this.scrollPosition;
-        }
+        // if not scroll poisition not initiallized then scroll to mid
+        // if (this.scrollPosition === null) {
+        //     this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
+        // } else {
+        //     this.historyFrame.scrollLeft = this.scrollPosition;
+        // }
     },
 
     toggle: function () {
@@ -1985,7 +1985,7 @@ var UITeamLeaveCalendar = new Class({
 
 		).inject(this.target);
 
-		this.section.setStyle('opacity', 0);
+		// this.section.setStyle('opacity', 0);
 
 		this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Team Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
 
@@ -2062,9 +2062,10 @@ var UITeamLeaveCalendar = new Class({
 	},
 
 	hide: function (init) {
-        if (!init) {
-            this.scrollPosition = this.historyFrame.scrollLeft;
-        }
+		if (!init) {
+				// this.scrollPosition = this.historyFrame.scrollLeft;
+		}
+
 		this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
 		this.box.dissolve();
 	   
@@ -2080,11 +2081,11 @@ var UITeamLeaveCalendar = new Class({
 			this.calendarIframe.src = calendarUrl;
 		}
 
-		if (this.scrollPosition === null) {
-            this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
-        } else {
-            this.historyFrame.scrollLeft = this.scrollPosition;
-        }
+		// if (this.scrollPosition === null) {
+		// 	this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
+		// } else {
+		// 	this.historyFrame.scrollLeft = this.scrollPosition;
+		// }
 	},
 
 	toggle: function () {
