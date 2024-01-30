@@ -5,10 +5,7 @@
 (1258,130-131): run-time error JS1004: Expected ';': :
 (1258,160-161): run-time error JS1002: Syntax error: }
 (1258,163-164): run-time error JS1014: Invalid character: `
-(1289,59-60): run-time error JS1195: Expected expression: )
-(1289,61-62): run-time error JS1004: Expected ';': {
-(1303,10-11): run-time error JS1195: Expected expression: .
-(1307,11-19): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(1294,28-29): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
  */
 var EmployeeLeave = new Class({
 
@@ -1249,7 +1246,7 @@ var UILeaveCalendar = new Class({
         this.hiddenBox = new Element('div', { 'class': 'calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
         this.box = new Element('div', { 'class': 'calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
-		this.employeeBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
+		// this.employeeBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
 
         // this.leaveTypes = new Element('div', { 'class': 'leave-types', 'style': 'padding-top: 26px;' }).setStyle('width', '8%').inject(this.employeeBoxWrap, 'top');
 
@@ -1268,7 +1265,7 @@ var UILeaveCalendar = new Class({
 		this.calendarIframeLoaded = false;
 		var screenRatio = (window.screen.height / window.screen.width) * 100;
 		new Element('div', { 'class': 'ss-app-iframe employee-calendar', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
-			.adopt(this.calendarIframe).inject(this.employeeBoxWrap, "top");
+			.adopt(this.calendarIframe).inject(this.box, "top");
 
         /* REQUESTS */
 
@@ -1296,9 +1293,9 @@ var UILeaveCalendar = new Class({
 
         /**/
 
-        this.init();
+        // this.init();
 
-        this.section.addEvent('calendarloaded', function () {
+        // this.section.addEvent('calendarloaded', function () {
 
             this.box.inject(this.calendarForm);
 
@@ -1312,7 +1309,7 @@ var UILeaveCalendar = new Class({
 
             Affinity.tooltips.processNew();
 
-        }.bind(this));
+        // }.bind(this));
 
     },
 
@@ -1994,7 +1991,7 @@ var UITeamLeaveCalendar = new Class({
 		this.hiddenBox = new Element('div', { 'class': 'team-calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
 		this.box = new Element('div', { 'class': 'team-calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
-		this.teamBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
+		// this.teamBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
 
 		// this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.teamBoxWrap, 'top');
 
@@ -2013,7 +2010,7 @@ var UITeamLeaveCalendar = new Class({
 		this.calendarIframeLoaded = false;
 		var screenRatio = (window.screen.height / window.screen.width) * 100;
 		new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
-			.adopt(this.calendarIframe).inject(this.teamBoxWrap, "top");
+			.adopt(this.calendarIframe).inject(this.box, "top");
 
 		/* REQUESTS */
 
@@ -2041,9 +2038,9 @@ var UITeamLeaveCalendar = new Class({
 
 		/**/
 
-		this.init();
+		// this.init();
 
-		this.section.addEvent('teamcalendarloaded', function () {
+		// this.section.addEvent('teamcalendarloaded', function () {
 
 			this.box.inject(this.calendarForm);
 
@@ -2057,7 +2054,7 @@ var UITeamLeaveCalendar = new Class({
 
 			Affinity.tooltips.processNew();
 
-		}.bind(this));
+		// }.bind(this));
 
 	},
 

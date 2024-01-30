@@ -5,8 +5,8 @@
 (400,118-119): run-time error JS1004: Expected ';': :
 (400,148-149): run-time error JS1002: Syntax error: }
 (400,151-152): run-time error JS1014: Invalid character: `
-(412,57-58): run-time error JS1004: Expected ';': :
-(412,134-135): run-time error JS1197: Too many errors. The file might not be a JavaScript file: )
+(413,57-58): run-time error JS1004: Expected ';': :
+(413,134-135): run-time error JS1197: Too many errors. The file might not be a JavaScript file: )
  */
 var TeamLeave = new Class({
 
@@ -407,7 +407,8 @@ var UIManagerLeaveCalendar = new Class({
         this.calendarIframe = new Element('iframe');
         this.calendarIframeLoaded = false;
         var screenRatio = (window.screen.height / window.screen.width) * 100;
-        new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` }).adopt(this.calendarIframe).inject(this.sectionBody, "top");
+        new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
+            .adopt(this.calendarIframe).inject(this.sectionBody, "top");
         
         // //this.filters.toggle(); // <- Commented already
         // this.includeIndirect = new Element('label', { 'class': 'include-indirect-label', 'html': 'Include Indirect' }).inject(this.filters);
