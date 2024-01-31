@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5390,71-72): run-time error JS1195: Expected expression: >
-(5390,98-99): run-time error JS1004: Expected ';': )
-(5392,87-88): run-time error JS1195: Expected expression: >
-(5392,129-130): run-time error JS1004: Expected ';': )
-(5397,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5402,13-14): run-time error JS1002: Syntax error: }
-(5404,34-35): run-time error JS1004: Expected ';': {
-(5408,9-10): run-time error JS1002: Syntax error: }
-(5411,25-26): run-time error JS1004: Expected ';': {
-(5562,5-6): run-time error JS1002: Syntax error: }
-(5563,45-46): run-time error JS1004: Expected ';': {
-(5582,6-7): run-time error JS1195: Expected expression: ,
-(5583,63-64): run-time error JS1004: Expected ';': {
-(5589,6-7): run-time error JS1195: Expected expression: ,
-(5590,26-27): run-time error JS1195: Expected expression: )
-(5590,28-29): run-time error JS1004: Expected ';': {
-(5664,6-7): run-time error JS1195: Expected expression: ,
-(5666,22-23): run-time error JS1195: Expected expression: )
-(5666,24-25): run-time error JS1004: Expected ';': {
-(5689,6-7): run-time error JS1195: Expected expression: ,
-(5691,24-25): run-time error JS1195: Expected expression: )
-(5691,26-27): run-time error JS1004: Expected ';': {
-(5750,6-7): run-time error JS1195: Expected expression: ,
-(10424,52-53): run-time error JS1195: Expected expression: .
-(10436,5-6): run-time error JS1002: Syntax error: }
-(10437,46-47): run-time error JS1004: Expected ';': {
-(10472,6-7): run-time error JS1195: Expected expression: ,
-(10473,42-43): run-time error JS1004: Expected ';': {
-(10496,6-7): run-time error JS1195: Expected expression: ,
-(10497,43-44): run-time error JS1004: Expected ';': {
-(10509,6-7): run-time error JS1195: Expected expression: ,
-(10510,81-82): run-time error JS1004: Expected ';': {
-(10527,6-7): run-time error JS1195: Expected expression: ,
-(10528,54-55): run-time error JS1004: Expected ';': {
-(10555,6-7): run-time error JS1195: Expected expression: ,
-(10556,49-50): run-time error JS1004: Expected ';': {
-(10626,6-7): run-time error JS1195: Expected expression: ,
-(10627,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10435,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10429,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5588,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5478,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5497,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5433,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5406,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5394,71-72): run-time error JS1195: Expected expression: >
+(5394,98-99): run-time error JS1004: Expected ';': )
+(5396,87-88): run-time error JS1195: Expected expression: >
+(5396,129-130): run-time error JS1004: Expected ';': )
+(5401,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5406,13-14): run-time error JS1002: Syntax error: }
+(5408,34-35): run-time error JS1004: Expected ';': {
+(5412,9-10): run-time error JS1002: Syntax error: }
+(5415,25-26): run-time error JS1004: Expected ';': {
+(5566,5-6): run-time error JS1002: Syntax error: }
+(5567,45-46): run-time error JS1004: Expected ';': {
+(5586,6-7): run-time error JS1195: Expected expression: ,
+(5587,63-64): run-time error JS1004: Expected ';': {
+(5593,6-7): run-time error JS1195: Expected expression: ,
+(5594,26-27): run-time error JS1195: Expected expression: )
+(5594,28-29): run-time error JS1004: Expected ';': {
+(5668,6-7): run-time error JS1195: Expected expression: ,
+(5670,22-23): run-time error JS1195: Expected expression: )
+(5670,24-25): run-time error JS1004: Expected ';': {
+(5693,6-7): run-time error JS1195: Expected expression: ,
+(5695,24-25): run-time error JS1195: Expected expression: )
+(5695,26-27): run-time error JS1004: Expected ';': {
+(5754,6-7): run-time error JS1195: Expected expression: ,
+(10428,52-53): run-time error JS1195: Expected expression: .
+(10440,5-6): run-time error JS1002: Syntax error: }
+(10441,46-47): run-time error JS1004: Expected ';': {
+(10476,6-7): run-time error JS1195: Expected expression: ,
+(10477,42-43): run-time error JS1004: Expected ';': {
+(10500,6-7): run-time error JS1195: Expected expression: ,
+(10501,43-44): run-time error JS1004: Expected ';': {
+(10513,6-7): run-time error JS1195: Expected expression: ,
+(10514,81-82): run-time error JS1004: Expected ';': {
+(10531,6-7): run-time error JS1195: Expected expression: ,
+(10532,54-55): run-time error JS1004: Expected ';': {
+(10559,6-7): run-time error JS1195: Expected expression: ,
+(10560,49-50): run-time error JS1004: Expected ';': {
+(10630,6-7): run-time error JS1195: Expected expression: ,
+(10631,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10439,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10433,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5592,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5482,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5501,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5437,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5410,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -2904,6 +2904,10 @@ var UILeaveApply = new Class({
                 totalWeeksAppliedFor = parseFloat(totalWeeksAppliedFor) + parseFloat(weeksField.value);
                 totalWeekDefUnits = parseFloat(totalWeekDefUnits) + parseFloat(weekDefUnitsField.value);
             }
+
+            // fix float percision error by round in 2 decimal
+            // error: parseFloat(7.60) + parseFloat(7.60) + parseFloat(7.60) = 22.799999999999997
+            totalHoursAppliedFor = Math.round(100 * totalHoursAppliedFor) / 100
 
             var totalString = 'Total [days] days / [hours] hours / [weeks] weeks';
             if (totalDaysAppliedFor < 1) {
