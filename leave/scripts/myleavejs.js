@@ -1982,7 +1982,7 @@ var UITeamLeaveCalendar = new Class({
 
 		).inject(this.target);
 
-		// this.section.setStyle('opacity', 0);
+		this.section.setStyle('opacity', 0);
 
 		this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Team Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
 
@@ -2014,16 +2014,24 @@ var UITeamLeaveCalendar = new Class({
 
 		/* REQUESTS */
 
-		// this.leaveRequest = new Request.JSON({
-		// 	onFailure: function (e) {
-		// 		Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
-		// 	},
-		// 	onSuccess: function (response) {
-		// 		if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-		// 			this.processExistingLeave(response.Data);
-		// 		}
-		// 	}.bind(this)
-		// });
+		this.leaveRequest = new Request.JSON({
+			onFailure: function (e) {
+				Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+			},
+			onSuccess: function (response) {
+				if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+					// This is to check wheather it needs to display or not
+					if (response.Data && response.Data.length > 0) {
+						this.section.fireEvent('teamcalendarloaded');
+					} else {
+						this.section.addClass('hidden');
+						this.hiddenBox.addClass('hidden');
+					}
+
+					// this.processExistingLeave(response.Data);
+				}
+			}.bind(this)
+		});
 
 		// this.holidayRequest = new Request.JSON({
 		// 	onFailure: function (e) {
@@ -2036,11 +2044,13 @@ var UITeamLeaveCalendar = new Class({
 		// 	}.bind(this)
 		// });
 
+		this.teamLeave();
+
 		/**/
 
 		// this.init();
 
-		// this.section.addEvent('teamcalendarloaded', function () {
+		this.section.addEvent('teamcalendarloaded', function () {
 
 			this.box.inject(this.calendarForm);
 
@@ -2054,7 +2064,7 @@ var UITeamLeaveCalendar = new Class({
 
 			Affinity.tooltips.processNew();
 
-		// }.bind(this));
+		}.bind(this));
 
 	},
 
