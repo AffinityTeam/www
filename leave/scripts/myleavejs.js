@@ -1,11 +1,15 @@
 /* Minification failed. Returning unminified contents.
-(1258,77-78): run-time error JS1014: Invalid character: `
-(1258,92-93): run-time error JS1100: Expected ',': :
-(1258,108-109): run-time error JS1195: Expected expression: %
-(1258,130-131): run-time error JS1004: Expected ';': :
-(1258,160-161): run-time error JS1002: Syntax error: }
-(1258,163-164): run-time error JS1014: Invalid character: `
-(1294,28-29): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(2002,59-60): run-time error JS1014: Invalid character: `
+(2002,74-75): run-time error JS1100: Expected ',': :
+(2002,90-91): run-time error JS1195: Expected expression: %
+(2002,112-113): run-time error JS1004: Expected ';': :
+(2002,142-143): run-time error JS1002: Syntax error: }
+(2002,145-146): run-time error JS1014: Invalid character: `
+(2008,24-25): run-time error JS1010: Expected identifier: (
+(2010,5-6): run-time error JS1195: Expected expression: ,
+(2011,35-36): run-time error JS1004: Expected ';': {
+(2023,5-6): run-time error JS1195: Expected expression: .
+(2037,19-20): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
  */
 var EmployeeLeave = new Class({
 
@@ -1237,7 +1241,7 @@ var UILeaveCalendar = new Class({
 
         ).inject(this.target);
 
-        // this.section.setStyle('opacity', 0);
+        this.section.setStyle('opacity', 0);
 
         this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
 
@@ -1246,56 +1250,56 @@ var UILeaveCalendar = new Class({
         this.hiddenBox = new Element('div', { 'class': 'calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
         this.box = new Element('div', { 'class': 'calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
-		// this.employeeBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
+		this.employeeBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
 
-        // this.leaveTypes = new Element('div', { 'class': 'leave-types', 'style': 'padding-top: 26px;' }).setStyle('width', '8%').inject(this.employeeBoxWrap, 'top');
+        this.leaveTypes = new Element('div', { 'class': 'leave-types', 'style': 'padding-top: 26px;' }).setStyle('width', '8%').inject(this.employeeBoxWrap, 'top');
 
-        // this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block;' }).setStyle('width', this.visibleWidth).inject(this.employeeBoxWrap);
+        this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block;' }).setStyle('width', this.visibleWidth).inject(this.employeeBoxWrap);
 
-        // this.historyFrame = new Element('div', { 'class': 'calendar-history-frame employee-calendar-frame' }).setStyle('width', '100%').inject(this.historyContainer);
+        this.historyFrame = new Element('div', { 'class': 'calendar-history-frame employee-calendar-frame' }).setStyle('width', '100%').inject(this.historyContainer);
 
-        // this.historyTitles = new Element('div', { 'class': 'calendar-history-titles' }).setStyle('width', this.totalWidth).inject(this.historyFrame);
+        this.historyTitles = new Element('div', { 'class': 'calendar-history-titles' }).setStyle('width', this.totalWidth).inject(this.historyFrame);
 
-        // this.historySlider = new Element('div', { 'class': '', 'html': '' }).inject(this.box);
+        this.historySlider = new Element('div', { 'class': '', 'html': '' }).inject(this.box);
 
         this.scrollPosition = null;
 
-        // Insert IFrame for the new Calendar UI
-		this.calendarIframe = new Element('iframe');
-		this.calendarIframeLoaded = false;
-		var screenRatio = (window.screen.height / window.screen.width) * 100;
-		new Element('div', { 'class': 'ss-app-iframe employee-calendar', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
-			.adopt(this.calendarIframe).inject(this.box, "top");
+        // // Insert IFrame for the new Calendar UI
+		// this.calendarIframe = new Element('iframe');
+		// this.calendarIframeLoaded = false;
+		// var screenRatio = (window.screen.height / window.screen.width) * 100;
+		// new Element('div', { 'class': 'ss-app-iframe employee-calendar', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
+		// 	.adopt(this.calendarIframe).inject(this.box, "top");
 
         /* REQUESTS */
 
-        // this.leaveRequest = new Request.JSON({
-        //     onFailure: function (e) {
-        //         Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
-        //     },
-        //     onSuccess: function (response) {
-        //         if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-        //             this.getExisitingLeave(response.Data.LeaveTypeBlocks);
-        //         }
-        //     }.bind(this)
-        // });
+        this.leaveRequest = new Request.JSON({
+            onFailure: function (e) {
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+            },
+            onSuccess: function (response) {
+                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+                    this.getExisitingLeave(response.Data.LeaveTypeBlocks);
+                }
+            }.bind(this)
+        });
 
-        // this.holidayRequest = new Request.JSON({
-        //     onFailure: function (e) {
-        //         Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
-        //     },
-        //     onSuccess: function (response) {
-        //         if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-        //             this.renderHolidays(response.Data);
-        //         }
-        //     }.bind(this)
-        // });
+        this.holidayRequest = new Request.JSON({
+            onFailure: function (e) {
+                Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+            },
+            onSuccess: function (response) {
+                if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+                    this.renderHolidays(response.Data);
+                }
+            }.bind(this)
+        });
 
         /**/
 
-        // this.init();
+        this.init();
 
-        // this.section.addEvent('calendarloaded', function () {
+        this.section.addEvent('calendarloaded', function () {
 
             this.box.inject(this.calendarForm);
 
@@ -1309,13 +1313,13 @@ var UILeaveCalendar = new Class({
 
             Affinity.tooltips.processNew();
 
-        // }.bind(this));
+        }.bind(this));
 
     },
 
     hide: function (init) {
         if (!init) {
-            // this.scrollPosition = this.historyFrame.scrollLeft;
+            this.scrollPosition = this.historyFrame.scrollLeft;
         }
 
         this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
@@ -1327,18 +1331,17 @@ var UILeaveCalendar = new Class({
         this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
         this.box.reveal();
 
-        if (!this.calendarIframeLoaded) {
-			const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-calendar" : "https://leave-ui.affinitylogon.com/employee-calendar";
-			this.calendarIframeLoaded = true;
-			this.calendarIframe.src = calendarUrl;
-		}
-
-        // if not scroll poisition not initiallized then scroll to mid
-        // if (this.scrollPosition === null) {
-        //     this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
-        // } else {
-        //     this.historyFrame.scrollLeft = this.scrollPosition;
-        // }
+        // if (!this.calendarIframeLoaded) {
+		// 	const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-calendar" : "https://leave-ui.affinitylogon.com/employee-calendar";
+		// 	this.calendarIframeLoaded = true;
+		// 	this.calendarIframe.src = calendarUrl;
+		// }
+         // if not scroll poisition not initiallized then scroll to mid
+         if (this.scrollPosition === null) {
+            this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
+        } else {
+            this.historyFrame.scrollLeft = this.scrollPosition;
+        }
     },
 
     toggle: function () {
@@ -1351,7 +1354,7 @@ var UILeaveCalendar = new Class({
 
     init: function () {
  
-        // this.getHolidays();
+        this.getHolidays();
 
         this.section.addEvent('myScheduleReturned', function () {
 

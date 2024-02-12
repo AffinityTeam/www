@@ -202,8 +202,8 @@ var TeamLeave = new Class({
         var isManager = document.querySelector(".section-nav.leave-nav li.u-blue.selected").classList.contains("manager");
 
         if (isManager) {
-            this.managerBalance(configData);
             this.generateLeaveCalendar();
+            this.managerBalance(configData);
             Affinity.tooltips.processNew();
             this.target.removeClass('hidden');
         }
@@ -455,12 +455,13 @@ var UIManagerLeaveCalendar = new Class({
         /**/
 
         this.init();
-
+        this.box.toggle();
+        
         this.section.addEvent('managercalendarloaded', function () {
 
             this.box.inject(this.sectionBody);
 
-            //this.box.toggle();
+            // this.box.toggle();
             (function () {
                 this.section.setStyle('opacity', null);
             }).delay(500, this);
@@ -1178,7 +1179,7 @@ var UIManagerLeaveBalances = new Class({
         this.leaveTypeRequest.url = this.leaveTypeRequest.options.url = this.leaveTypesUrl;
         this.leaveTypeRequest.get();
         Affinity.uiDateCalendar.processNew();
-        this.teamBalancesBody.toggle();
+        // this.teamBalancesBody.toggle(); // Hide by default
     },
 
     refreshEmployeeSelector: function (selectedEmployeeNo) {
