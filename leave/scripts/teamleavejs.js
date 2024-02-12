@@ -467,9 +467,10 @@ var UIManagerLeaveCalendar = new Class({
             }).delay(500, this);
 
             this.hiddenBox.set('html', '');
-            this.show();
 
             Affinity.tooltips.processNew();
+            this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
+            this.sectionBody.reveal();
 
             // supress the scorll problem caused by reload.
             if (this.preventReloadEvent) {
@@ -483,7 +484,6 @@ var UIManagerLeaveCalendar = new Class({
             }
         }.bind(this));
 
-        this.box.setStyle('opacity', 1).set('reveal', { duration: 250 });
         this.section.fireEvent('managercalendarloaded');
 
     },
