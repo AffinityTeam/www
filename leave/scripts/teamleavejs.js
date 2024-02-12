@@ -458,7 +458,7 @@ var UIManagerLeaveCalendar = new Class({
         this.init();
         
         this.section.addEvent('managercalendarloaded', function () {
-            console.log("Event managercalendarloaded fired!;")
+            // console.log("Event managercalendarloaded fired!");
             // this.box.inject(this.sectionBody);
 
             // this.box.toggle();
