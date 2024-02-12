@@ -8746,7 +8746,7 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   float: right;
 }
 .newui .section .configSelection {
-  width: 1200px;
+  width: 1300px;
   box-sizing: border-box;
 }
 .newui .section .configSelection .configChildren {
@@ -8802,6 +8802,9 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
 .newui .section .configSelection .configActions .button.w-icon-only span {
   padding-left: 0px;
   padding-right: 0px;
+}
+.newui .section .configSelection .selected {
+  background-color: #ffffbe;
 }
 .newui .section .default-form.configDetail .form-row label {
   margin-left: 80px;
