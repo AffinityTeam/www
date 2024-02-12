@@ -1,14 +1,14 @@
 /* Minification failed. Returning unminified contents.
 (274,54-55): run-time error JS1100: Expected ',': =
-(942,65-66): run-time error JS1014: Invalid character: `
-(942,80-81): run-time error JS1100: Expected ',': :
-(942,96-97): run-time error JS1195: Expected expression: %
-(942,118-119): run-time error JS1004: Expected ';': :
-(942,148-149): run-time error JS1002: Syntax error: }
-(942,151-152): run-time error JS1014: Invalid character: `
-(947,38-39): run-time error JS1195: Expected expression: )
-(947,40-41): run-time error JS1004: Expected ';': {
-(952,1-2): run-time error JS1002: Syntax error: }
+(957,65-66): run-time error JS1014: Invalid character: `
+(957,80-81): run-time error JS1100: Expected ',': :
+(957,96-97): run-time error JS1195: Expected expression: %
+(957,118-119): run-time error JS1004: Expected ';': :
+(957,148-149): run-time error JS1002: Syntax error: }
+(957,151-152): run-time error JS1014: Invalid character: `
+(962,38-39): run-time error JS1195: Expected expression: )
+(962,40-41): run-time error JS1004: Expected ';': {
+(967,1-2): run-time error JS1002: Syntax error: }
  */
 var TeamLeave = new Class({
 
@@ -368,6 +368,7 @@ var UIManagerLeaveCalendar = new Class({
         this.fromDate = Date.parse(this.options.fromDate);
         this.toDate = Date.parse(this.options.toDate);
         this.isNewCalendarUI = this.options.isNewCalendarUI;
+        this.disableToggleBtn = false;
 
         this.days = Math.ceil((this.toDate - this.fromDate) / 86400000);
 
@@ -457,7 +458,7 @@ var UIManagerLeaveCalendar = new Class({
 
         this.section.addEvent('managercalendarloaded', function () {
 
-            this.box.inject(this.sectionBody);
+            if (!this.isNewCalendarUI) this.box.inject(this.sectionBody);
 
             //this.box.toggle();
             (function () {
@@ -467,7 +468,20 @@ var UIManagerLeaveCalendar = new Class({
             this.hiddenBox.set('html', '');
             Affinity.tooltips.processNew();
             if (this.isNewCalendarUI) {
+                window.addEventListener('message', function (e) {
+                    this.disableToggleBtn = e.data == "DraggableNavUnLoaded" ? true : false;
+                    switch (e.data) {
+                        case "DraggableNavLoaded":
+                            this.disableToggleBtn = false;
+                            break;
+                        case "DraggableNavUnLoaded":
+                            this.disableToggleBtn = true;
+                            break;
+                    }
+                });
                 this.setUrlForNewUICalendar();
+                this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
+                this.sectionBody.reveal();
             }
 
             // supress the scorll problem caused by reload.
@@ -513,6 +527,7 @@ var UIManagerLeaveCalendar = new Class({
     },
 
     toggle: function () {
+        if (this.disableToggleBtn) return;
         if (this.toggleButton.retrieve('state') === 'open') {
             this.hide();
         } else {
