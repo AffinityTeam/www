@@ -390,7 +390,7 @@ var UIManagerLeaveCalendar = new Class({
         this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Team Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' })
             .addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
 
-        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.titlebox);;
+        this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallUp }).store('state', 'open').inject(this.titlebox);;
 
         this.hiddenBox = new Element('div', { 'class': 'manager-calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
 
@@ -467,6 +467,7 @@ var UIManagerLeaveCalendar = new Class({
             }).delay(500, this);
 
             this.hiddenBox.set('html', '');
+            this.show();
 
             Affinity.tooltips.processNew();
 
