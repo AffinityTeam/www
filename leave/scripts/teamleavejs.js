@@ -456,15 +456,15 @@ var UIManagerLeaveCalendar = new Class({
         /**/
 
         this.init();
-        this.box.show();
         
         this.section.addEvent('managercalendarloaded', function () {
-
+            console.log("Event managercalendarloaded fired!");
             this.box.inject(this.sectionBody);
 
             // this.box.toggle();
             (function () {
                 this.section.setStyle('opacity', null);
+                this.show();
             }).delay(500, this);
 
             this.hiddenBox.set('html', '');
@@ -482,6 +482,9 @@ var UIManagerLeaveCalendar = new Class({
                 }    
             }
         }.bind(this));
+
+        this.toggle();
+        this.section.fireEvent('managercalendarloaded');
 
     },
 
