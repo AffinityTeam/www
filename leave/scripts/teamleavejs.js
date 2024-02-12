@@ -1,12 +1,12 @@
 /* Minification failed. Returning unminified contents.
-(400,65-66): run-time error JS1014: Invalid character: `
-(400,80-81): run-time error JS1100: Expected ',': :
-(400,96-97): run-time error JS1195: Expected expression: %
-(400,118-119): run-time error JS1004: Expected ';': :
-(400,148-149): run-time error JS1002: Syntax error: }
-(400,151-152): run-time error JS1014: Invalid character: `
-(413,57-58): run-time error JS1004: Expected ';': :
-(413,134-135): run-time error JS1197: Too many errors. The file might not be a JavaScript file: )
+(401,65-66): run-time error JS1014: Invalid character: `
+(401,80-81): run-time error JS1100: Expected ',': :
+(401,96-97): run-time error JS1195: Expected expression: %
+(401,118-119): run-time error JS1004: Expected ';': :
+(401,148-149): run-time error JS1002: Syntax error: }
+(401,151-152): run-time error JS1014: Invalid character: `
+(414,57-58): run-time error JS1004: Expected ';': :
+(414,134-135): run-time error JS1197: Too many errors. The file might not be a JavaScript file: )
  */
 var TeamLeave = new Class({
 
@@ -183,6 +183,8 @@ var TeamLeave = new Class({
                         this.configQueue = [];
                     }
 
+                    
+                    this.generateLeaveCalendar();
                     this.managerHistory();
                     if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
                         this.setLeaveApplyV1();
@@ -191,7 +193,11 @@ var TeamLeave = new Class({
                         this.managerApply();
                         this.managerDetail();
                     }
-                    this.initConfig(response.Data);
+                    
+                    var isManager = document.querySelector(".section-nav.leave-nav li.u-blue.selected").classList.contains("manager");
+                    if (isManager) {
+                        this.initConfig(response.Data);
+                    }
 
                 }
             }.bind(this)
@@ -199,14 +205,9 @@ var TeamLeave = new Class({
     },
 
     initConfig: function (configData) {
-        var isManager = document.querySelector(".section-nav.leave-nav li.u-blue.selected").classList.contains("manager");
-
-        if (isManager) {
-            this.generateLeaveCalendar();
-            this.managerBalance(configData);
-            Affinity.tooltips.processNew();
-            this.target.removeClass('hidden');
-        }
+        this.managerBalance(configData);
+        Affinity.tooltips.processNew();
+        this.target.removeClass('hidden');
     },
 
     managerHistory: function () {
@@ -1179,7 +1180,8 @@ var UIManagerLeaveBalances = new Class({
         this.leaveTypeRequest.url = this.leaveTypeRequest.options.url = this.leaveTypesUrl;
         this.leaveTypeRequest.get();
         Affinity.uiDateCalendar.processNew();
-        // this.teamBalancesBody.toggle(); // Hide by default
+        // this.teamBalancesBody.toggle();
+        this.hide(); // Hide by default
     },
 
     refreshEmployeeSelector: function (selectedEmployeeNo) {
