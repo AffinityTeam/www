@@ -459,7 +459,7 @@ var UIManagerLeaveCalendar = new Class({
         
         this.section.addEvent('managercalendarloaded', function () {
             console.log("Event managercalendarloaded fired!;")
-            this.box.inject(this.sectionBody);
+            // this.box.inject(this.sectionBody);
 
             // this.box.toggle();
             (function () {
@@ -471,6 +471,12 @@ var UIManagerLeaveCalendar = new Class({
             Affinity.tooltips.processNew();
             this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
             this.sectionBody.reveal();
+
+            // LOAD IFRAME
+            const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/manager-team-calendar" : "https://leave-ui.affinitylogon.com/manager-team-calendar";
+            this.calendarIframeLoaded = true;
+            this.calendarIframe.src = calendarUrl;
+            this.calendarIframeLoaded = true;
 
             // supress the scorll problem caused by reload.
             if (this.preventReloadEvent) {
