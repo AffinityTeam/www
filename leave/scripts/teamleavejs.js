@@ -1,14 +1,14 @@
 /* Minification failed. Returning unminified contents.
-(274,54-55): run-time error JS1100: Expected ',': =
-(959,65-66): run-time error JS1014: Invalid character: `
-(959,80-81): run-time error JS1100: Expected ',': :
-(959,96-97): run-time error JS1195: Expected expression: %
-(959,118-119): run-time error JS1004: Expected ';': :
-(959,148-149): run-time error JS1002: Syntax error: }
-(959,151-152): run-time error JS1014: Invalid character: `
-(964,38-39): run-time error JS1195: Expected expression: )
-(964,40-41): run-time error JS1004: Expected ';': {
-(969,1-2): run-time error JS1002: Syntax error: }
+(279,54-55): run-time error JS1100: Expected ',': =
+(964,65-66): run-time error JS1014: Invalid character: `
+(964,80-81): run-time error JS1100: Expected ',': :
+(964,96-97): run-time error JS1195: Expected expression: %
+(964,118-119): run-time error JS1004: Expected ';': :
+(964,148-149): run-time error JS1002: Syntax error: }
+(964,151-152): run-time error JS1014: Invalid character: `
+(969,38-39): run-time error JS1195: Expected expression: )
+(969,40-41): run-time error JS1004: Expected ';': {
+(974,1-2): run-time error JS1002: Syntax error: }
  */
 var TeamLeave = new Class({
 
@@ -185,8 +185,9 @@ var TeamLeave = new Class({
                         this.configQueue = [];
                     }
 
-                    
-                    this.generateLeaveCalendar(response.Data.CompanyHasAccessToNewLeaveCalendarUI);
+                    var newCalendarUI = response.Data.CompanyHasAccessToNewLeaveCalendarUI;
+                    // If NEW Calendar UI is enabled, then generate the calendar on TOP
+                    if (newCalendarUI) this.generateLeaveCalendar(newCalendarUI);
                     this.managerHistory();
                     if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
                         this.setLeaveApplyV1();
@@ -208,6 +209,10 @@ var TeamLeave = new Class({
 
     initConfig: function (configData) {
         this.managerBalance(configData);
+        // If NOT NEW Calendar UI is enabled, it should next to Leave Balances tab
+        if (!configData.CompanyHasAccessToNewLeaveCalendarUI) {
+            this.generateLeaveCalendar(configData.CompanyHasAccessToNewLeaveCalendarUI);
+        }
         Affinity.tooltips.processNew();
         this.target.removeClass('hidden');
     },
@@ -1151,10 +1156,6 @@ var UIManagerLeaveBalances = new Class({
 
         this.panels = new Element('div', { 'class': 'leave-info-panels' }).inject(this.teamBalancesBody);
 
-       
-
-       
-
         this.employeeNumber = null;
 
         /* REQUESTS */
@@ -1208,8 +1209,12 @@ var UIManagerLeaveBalances = new Class({
         this.leaveTypeRequest.url = this.leaveTypeRequest.options.url = this.leaveTypesUrl;
         this.leaveTypeRequest.get();
         Affinity.uiDateCalendar.processNew();
-        // this.teamBalancesBody.toggle();
-        this.hide(); // Hide by default
+        // Uncollapse this section when New Calendar Config is enabled
+        if (this.managerConfig.CompanyHasAccessToNewLeaveCalendarUI) {
+            this.hide();
+        } else {
+            this.teamBalancesBody.toggle();
+        }
     },
 
     refreshEmployeeSelector: function (selectedEmployeeNo) {
