@@ -1,14 +1,14 @@
 /* Minification failed. Returning unminified contents.
 (274,54-55): run-time error JS1100: Expected ',': =
-(957,65-66): run-time error JS1014: Invalid character: `
-(957,80-81): run-time error JS1100: Expected ',': :
-(957,96-97): run-time error JS1195: Expected expression: %
-(957,118-119): run-time error JS1004: Expected ';': :
-(957,148-149): run-time error JS1002: Syntax error: }
-(957,151-152): run-time error JS1014: Invalid character: `
-(962,38-39): run-time error JS1195: Expected expression: )
-(962,40-41): run-time error JS1004: Expected ';': {
-(967,1-2): run-time error JS1002: Syntax error: }
+(959,65-66): run-time error JS1014: Invalid character: `
+(959,80-81): run-time error JS1100: Expected ',': :
+(959,96-97): run-time error JS1195: Expected expression: %
+(959,118-119): run-time error JS1004: Expected ';': :
+(959,148-149): run-time error JS1002: Syntax error: }
+(959,151-152): run-time error JS1014: Invalid character: `
+(964,38-39): run-time error JS1195: Expected expression: )
+(964,40-41): run-time error JS1004: Expected ';': {
+(969,1-2): run-time error JS1002: Syntax error: }
  */
 var TeamLeave = new Class({
 
@@ -469,6 +469,7 @@ var UIManagerLeaveCalendar = new Class({
             Affinity.tooltips.processNew();
             if (this.isNewCalendarUI) {
                 window.addEventListener('message', function (e) {
+                    console.log(e.data + " event" + e.origin);
                     this.disableToggleBtn = e.data == "DraggableNavUnLoaded" ? true : false;
                     switch (e.data) {
                         case "DraggableNavLoaded":
@@ -964,6 +965,7 @@ var UIManagerLeaveCalendar = new Class({
 
     setNewUICalendarIFrame: function() {
         // Insert IFrame for the new Calendar UI
+        this.disableToggleBtn = true;
         this.calendarIframe = new Element('iframe');
         var screenRatio = (window.screen.height / window.screen.width) * 100;
         new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })

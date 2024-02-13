@@ -8803,7 +8803,7 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   padding-left: 0px;
   padding-right: 0px;
 }
-.newui .section .configSelection .selected {
+.newui .section .configSelection .selected > .configParent:first-of-type {
   background-color: #ffffbe;
 }
 .newui .section .default-form.configDetail .form-row label {

@@ -1,15 +1,14 @@
 /* Minification failed. Returning unminified contents.
-(2002,59-60): run-time error JS1014: Invalid character: `
-(2002,74-75): run-time error JS1100: Expected ',': :
-(2002,90-91): run-time error JS1195: Expected expression: %
-(2002,112-113): run-time error JS1004: Expected ';': :
-(2002,142-143): run-time error JS1002: Syntax error: }
-(2002,145-146): run-time error JS1014: Invalid character: `
-(2008,24-25): run-time error JS1010: Expected identifier: (
-(2010,5-6): run-time error JS1195: Expected expression: ,
-(2011,35-36): run-time error JS1004: Expected ';': {
-(2023,5-6): run-time error JS1195: Expected expression: .
-(2037,19-20): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(242,58-59): run-time error JS1100: Expected ',': =
+(2493,59-60): run-time error JS1014: Invalid character: `
+(2493,74-75): run-time error JS1100: Expected ',': :
+(2493,90-91): run-time error JS1195: Expected expression: %
+(2493,112-113): run-time error JS1004: Expected ';': :
+(2493,142-143): run-time error JS1002: Syntax error: }
+(2493,145-146): run-time error JS1014: Invalid character: `
+(2497,35-36): run-time error JS1195: Expected expression: )
+(2497,37-38): run-time error JS1004: Expected ';': {
+(2505,1-2): run-time error JS1002: Syntax error: }
  */
 var EmployeeLeave = new Class({
 
@@ -131,7 +130,7 @@ var EmployeeLeave = new Class({
 
 
                     this.generateMyLeaveCalendar();
-                    this.generateTeamLeaveCalendar();
+                    this.generateTeamLeaveCalendar(response.Data.CompanyHasAccessToNewLeaveCalendarUI);
                     Affinity.tooltips.processNew();
                     this.target.removeClass('hidden');
 
@@ -252,7 +251,7 @@ var EmployeeLeave = new Class({
 
     },
 
-    generateTeamLeaveCalendar: function () {
+    generateTeamLeaveCalendar: function (isNewCalendarUI = false) {
         var datefrom = new Date();
         datefrom.setDate(1);
         var from = datefrom.setMonth(datefrom.getMonth() - 13);
@@ -264,7 +263,8 @@ var EmployeeLeave = new Class({
         this.teamcalendar = new UITeamLeaveCalendar({
             target: this.target,
             fromDate: from,
-            toDate: to
+            toDate: to,
+            isNewCalendarUI: isNewCalendarUI,
         });
     },
 
@@ -1936,7 +1936,7 @@ var UITeamLeaveCalendar = new Class({
 		'hide', 'show', 'toggle',
 		'init',
 		'buildHistoryFrames',
-		'getHolidays', 'teamLeave', 'processExistingLeave',
+		'getHolidays', 'teamLeave', 'processExistingLeave', 'setNewUICalendarIFrame', 'setUrlForNewUICalendar',
 		'buildHistoryControls', 'scrollFromMarker', 'positionKeyMarker', 'positionKeyMarkerOnScroll',
 		'reset', 'destroy'
 	],
@@ -1945,7 +1945,8 @@ var UITeamLeaveCalendar = new Class({
 		target: null,
 		fromDate: false,
 		toDate: false,
-		startDay: 0
+		startDay: 0,
+		isNewCalendarUI: false
 	},
 
 	initialize: function (options) {
@@ -1962,6 +1963,7 @@ var UITeamLeaveCalendar = new Class({
 
 		this.fromDate = Date.parse(this.options.fromDate);
 		this.toDate = Date.parse(this.options.toDate);
+		this.isNewCalendarUI = this.options.isNewCalendarUI;
 
 		this.days = Math.ceil((this.toDate - this.fromDate) / 86400000);
 
@@ -1986,34 +1988,22 @@ var UITeamLeaveCalendar = new Class({
 		).inject(this.target);
 
 		this.section.setStyle('opacity', 0);
-
 		this.titlebox = new Element('div', { 'class': 'section-title ui-has-tooltip', 'html': 'Team Leave Calendar', 'data-tooltip': 'Open / Close', 'data-tooltip-dir': 'top' }).addEvent(Affinity.events.click, this.toggle).inject(this.calendarForm);
-
 		this.toggleButton = new Element('div', { 'class': 'toggle-button', 'html': Affinity.icons.ArrowLineSmallDown }).store('state', 'closed').inject(this.titlebox);;
-
 		this.hiddenBox = new Element('div', { 'class': 'team-calendar-generator', 'style': 'opacity: 0;' }).inject(this.target, 'bottom');
-
 		this.box = new Element('div', { 'class': 'team-calendarbox', 'style': 'opacity:1' }).inject(this.hiddenBox);
-		// this.teamBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
-
-		// this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.teamBoxWrap, 'top');
-
-		// this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.teamBoxWrap);
-
-		// this.historyFrame = new Element('div', { 'class': 'calendar-history-frame employee-team-calendar-frame' }).setStyle('width', '100%').inject(this.historyContainer);
-
-		// this.historyTitles = new Element('div', { 'class': 'calendar-history-titles' }).setStyle('width', this.totalWidth).inject(this.historyFrame);
-
-		// this.historySlider = new Element('div', { 'class': '', 'html': '' }).inject(this.box);
-
+		
+		if (!this.isNewCalendarUI) {
+			this.teamBoxWrap = new Element('div', { 'class': 'calendarbox-wrapper' }).inject(this.box);
+			this.teamMembers = new Element('div', { 'class': 'team-members' }).setStyle('width', '8%').inject(this.teamBoxWrap, 'top');
+			this.historyContainer = new Element('div', { 'class': 'calendar-history', 'style': 'display:inline-block' }).setStyle('width', this.visibleWidth).inject(this.teamBoxWrap);
+			this.historyFrame = new Element('div', { 'class': 'calendar-history-frame employee-team-calendar-frame' }).setStyle('width', '100%').inject(this.historyContainer);
+			this.historyTitles = new Element('div', { 'class': 'calendar-history-titles' }).setStyle('width', this.totalWidth).inject(this.historyFrame);
+			this.historySlider = new Element('div', { 'class': '', 'html': '' }).inject(this.box);
+		} else {
+			this.setNewUICalendarIFrame();
+		}
 		this.scrollPosition = null;
-
-		// Insert IFrame for the new Calendar UI
-		this.calendarIframe = new Element('iframe');
-		this.calendarIframeLoaded = false;
-		var screenRatio = (window.screen.height / window.screen.width) * 100;
-		new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
-			.adopt(this.calendarIframe).inject(this.box, "top");
 
 		/* REQUESTS */
 
@@ -2023,35 +2013,40 @@ var UITeamLeaveCalendar = new Class({
 			},
 			onSuccess: function (response) {
 				if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-					// This is to check wheather it needs to display or not
-					if (response.Data && response.Data.length > 0) {
-						this.section.fireEvent('teamcalendarloaded');
+					if (!this.isNewCalendarUI) {
+						this.processExistingLeave(response.Data);
 					} else {
-						this.section.addClass('hidden');
-						this.hiddenBox.addClass('hidden');
+						// This is to check wheather it needs to display or not
+						if (response.Data && response.Data.length > 0) {
+							this.section.fireEvent('teamcalendarloaded');
+						} else {
+							this.section.addClass('hidden');
+							this.hiddenBox.addClass('hidden');
+						}
 					}
-
-					// this.processExistingLeave(response.Data);
 				}
 			}.bind(this)
 		});
 
-		// this.holidayRequest = new Request.JSON({
-		// 	onFailure: function (e) {
-		// 		Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
-		// 	},
-		// 	onSuccess: function (response) {
-		// 		if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-		// 			this.renderHolidays(response.Data);
-		// 		}
-		// 	}.bind(this)
-		// });
-
-		this.teamLeave();
+		if (!this.isNewCalendarUI) {
+			this.holidayRequest = new Request.JSON({
+				onFailure: function (e) {
+					Affinity.leave.handleXHRErrors(e, this._api, this._methodName);
+				},
+				onSuccess: function (response) {
+					if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
+						this.renderHolidays(response.Data);
+					}
+				}.bind(this)
+			});
+			
+			this.init();
+		} else {
+			this.teamLeave();
+		}
 
 		/**/
 
-		// this.init();
 
 		this.section.addEvent('teamcalendarloaded', function () {
 
@@ -2072,10 +2067,9 @@ var UITeamLeaveCalendar = new Class({
 	},
 
 	hide: function (init) {
-		if (!init) {
-				// this.scrollPosition = this.historyFrame.scrollLeft;
+		if (!init && !this.isNewCalendarUI) {
+			this.scrollPosition = this.historyFrame.scrollLeft;
 		}
-
 		this.toggleButton.set('html', Affinity.icons.ArrowLineSmallDown).store('state', 'closed');
 		this.box.dissolve();
 	   
@@ -2085,17 +2079,15 @@ var UITeamLeaveCalendar = new Class({
 		this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
 		this.box.reveal();
 
-		if (!this.calendarIframeLoaded) {
-			const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-team-calendar" : "https://leave-ui.affinitylogon.com/employee-team-calendar";
-			this.calendarIframeLoaded = true;
-			this.calendarIframe.src = calendarUrl;
-		}
+		this.setUrlForNewUICalendar();
 
-		// if (this.scrollPosition === null) {
-		// 	this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
-		// } else {
-		// 	this.historyFrame.scrollLeft = this.scrollPosition;
-		// }
+		if (!this.isNewCalendarUI) {
+			if (this.scrollPosition === null) {
+				this.historyFrame.scrollLeft = this.scrollPosition = this.historyFrame.scrollWidth / 2;
+			} else {
+				this.historyFrame.scrollLeft = this.scrollPosition;
+			}
+		}
 	},
 
 	toggle: function () {
@@ -2108,12 +2100,10 @@ var UITeamLeaveCalendar = new Class({
 
 	init: function () {
 
-		// this.getHolidays();
+		this.getHolidays();
 
 		this.section.addEvent('teamScheduleReturned', function () {
-
 			this.buildHistoryFrames();
-
 		}.bind(this));
 
 	},
@@ -2505,7 +2495,23 @@ var UITeamLeaveCalendar = new Class({
 			this.section.empty();
 			this.section.destroy();
 		}
+	},
 
+	setNewUICalendarIFrame: function() {
+		// Insert IFrame for the new Calendar UI
+		this.calendarIframe = new Element('iframe');
+		this.calendarIframeLoaded = false;
+		var screenRatio = (window.screen.height / window.screen.width) * 100;
+		new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
+			.adopt(this.calendarIframe).inject(this.box, "top");
+	},
+
+	setUrlForNewUICalendar: function() {
+		if (!this.calendarIframeLoaded) {
+			const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-team-calendar" : "https://leave-ui.affinitylogon.com/employee-team-calendar";
+			this.calendarIframeLoaded = true;
+			this.calendarIframe.src = calendarUrl;
+		}
 	}
 
 });
