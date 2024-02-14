@@ -1,45 +1,45 @@
 /* Minification failed. Returning unminified contents.
-(279,54-55): run-time error JS1100: Expected ',': =
-(464,57-58): run-time error JS1195: Expected expression: >
-(466,18-19): run-time error JS1195: Expected expression: ,
-(473,13-15): run-time error JS1009: Expected '}': if
-(473,42-43): run-time error JS1004: Expected ';': {
-(482,9-10): run-time error JS1002: Syntax error: }
-(484,35-39): run-time error JS1004: Expected ';': this
-(485,5-6): run-time error JS1002: Syntax error: }
-(487,39-40): run-time error JS1004: Expected ';': {
-(498,6-7): run-time error JS1195: Expected expression: ,
-(500,27-28): run-time error JS1004: Expected ';': {
-(507,6-7): run-time error JS1195: Expected expression: ,
-(509,21-22): run-time error JS1195: Expected expression: )
-(509,23-24): run-time error JS1004: Expected ';': {
-(525,6-7): run-time error JS1195: Expected expression: ,
-(527,23-24): run-time error JS1195: Expected expression: )
-(527,25-26): run-time error JS1004: Expected ';': {
-(534,6-7): run-time error JS1195: Expected expression: ,
-(536,21-22): run-time error JS1195: Expected expression: )
-(536,23-24): run-time error JS1004: Expected ';': {
-(543,6-7): run-time error JS1195: Expected expression: ,
-(545,26-27): run-time error JS1195: Expected expression: )
-(545,28-29): run-time error JS1004: Expected ';': {
-(566,6-7): run-time error JS1195: Expected expression: ,
-(568,28-29): run-time error JS1195: Expected expression: )
-(568,30-31): run-time error JS1004: Expected ';': {
-(588,6-7): run-time error JS1195: Expected expression: ,
-(590,37-38): run-time error JS1004: Expected ';': {
-(601,6-7): run-time error JS1195: Expected expression: ,
-(603,49-50): run-time error JS1004: Expected ';': {
-(615,6-7): run-time error JS1195: Expected expression: ,
-(617,35-36): run-time error JS1195: Expected expression: )
-(617,37-38): run-time error JS1004: Expected ';': {
-(689,6-7): run-time error JS1195: Expected expression: ,
-(691,43-44): run-time error JS1004: Expected ';': {
-(809,6-7): run-time error JS1195: Expected expression: ,
-(811,37-38): run-time error JS1195: Expected expression: )
-(811,39-40): run-time error JS1004: Expected ';': {
-(913,6-7): run-time error JS1195: Expected expression: ,
-(915,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(528,36-42): run-time error JS1018: 'return' statement outside of function: return
+(280,54-55): run-time error JS1100: Expected ',': =
+(465,57-58): run-time error JS1195: Expected expression: >
+(467,18-19): run-time error JS1195: Expected expression: ,
+(474,13-15): run-time error JS1009: Expected '}': if
+(474,42-43): run-time error JS1004: Expected ';': {
+(483,9-10): run-time error JS1002: Syntax error: }
+(485,35-39): run-time error JS1004: Expected ';': this
+(486,5-6): run-time error JS1002: Syntax error: }
+(488,39-40): run-time error JS1004: Expected ';': {
+(499,6-7): run-time error JS1195: Expected expression: ,
+(501,27-28): run-time error JS1004: Expected ';': {
+(508,6-7): run-time error JS1195: Expected expression: ,
+(510,21-22): run-time error JS1195: Expected expression: )
+(510,23-24): run-time error JS1004: Expected ';': {
+(526,6-7): run-time error JS1195: Expected expression: ,
+(528,23-24): run-time error JS1195: Expected expression: )
+(528,25-26): run-time error JS1004: Expected ';': {
+(535,6-7): run-time error JS1195: Expected expression: ,
+(537,21-22): run-time error JS1195: Expected expression: )
+(537,23-24): run-time error JS1004: Expected ';': {
+(544,6-7): run-time error JS1195: Expected expression: ,
+(546,26-27): run-time error JS1195: Expected expression: )
+(546,28-29): run-time error JS1004: Expected ';': {
+(567,6-7): run-time error JS1195: Expected expression: ,
+(569,28-29): run-time error JS1195: Expected expression: )
+(569,30-31): run-time error JS1004: Expected ';': {
+(589,6-7): run-time error JS1195: Expected expression: ,
+(591,37-38): run-time error JS1004: Expected ';': {
+(602,6-7): run-time error JS1195: Expected expression: ,
+(604,49-50): run-time error JS1004: Expected ';': {
+(616,6-7): run-time error JS1195: Expected expression: ,
+(618,35-36): run-time error JS1195: Expected expression: )
+(618,37-38): run-time error JS1004: Expected ';': {
+(690,6-7): run-time error JS1195: Expected expression: ,
+(692,43-44): run-time error JS1004: Expected ';': {
+(810,6-7): run-time error JS1195: Expected expression: ,
+(812,37-38): run-time error JS1195: Expected expression: )
+(812,39-40): run-time error JS1004: Expected ';': {
+(914,6-7): run-time error JS1195: Expected expression: ,
+(916,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(529,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -219,7 +219,7 @@ var TeamLeave = new Class({
                     var newCalendarUI = response.Data.CompanyHasAccessToNewLeaveCalendarUI;
                     // If NEW Calendar UI is enabled, then generate the calendar on TOP
                     if (newCalendarUI) this.generateLeaveCalendar(newCalendarUI);
-                    this.managerHistory();
+                    this.managerHistory(newCalendarUI);
                     if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
                         this.setLeaveApplyV1();
                         this.setLeaveDetailV1();
@@ -248,10 +248,11 @@ var TeamLeave = new Class({
         this.target.removeClass('hidden');
     },
 
-    managerHistory: function () {
+    managerHistory: function (isNewCalendar) {
         this.leaveHistory = new UILeaveHistory({
             target: this.target,
-            isManager: true
+            isManager: true,
+            isNewCalendarUI: isNewCalendar
         });
         Affinity.leave.manager.history = this.leaveHistory;
     },
