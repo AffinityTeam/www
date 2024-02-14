@@ -1,14 +1,45 @@
 /* Minification failed. Returning unminified contents.
 (279,54-55): run-time error JS1100: Expected ',': =
-(965,65-66): run-time error JS1014: Invalid character: `
-(965,80-81): run-time error JS1100: Expected ',': :
-(965,96-97): run-time error JS1195: Expected expression: %
-(965,118-119): run-time error JS1004: Expected ';': :
-(965,148-149): run-time error JS1002: Syntax error: }
-(965,151-152): run-time error JS1014: Invalid character: `
-(970,38-39): run-time error JS1195: Expected expression: )
-(970,40-41): run-time error JS1004: Expected ';': {
-(975,1-2): run-time error JS1002: Syntax error: }
+(464,57-58): run-time error JS1195: Expected expression: >
+(466,18-19): run-time error JS1195: Expected expression: ,
+(473,13-15): run-time error JS1009: Expected '}': if
+(473,42-43): run-time error JS1004: Expected ';': {
+(482,9-10): run-time error JS1002: Syntax error: }
+(484,35-39): run-time error JS1004: Expected ';': this
+(485,5-6): run-time error JS1002: Syntax error: }
+(487,39-40): run-time error JS1004: Expected ';': {
+(499,6-7): run-time error JS1195: Expected expression: ,
+(501,27-28): run-time error JS1004: Expected ';': {
+(508,6-7): run-time error JS1195: Expected expression: ,
+(510,21-22): run-time error JS1195: Expected expression: )
+(510,23-24): run-time error JS1004: Expected ';': {
+(526,6-7): run-time error JS1195: Expected expression: ,
+(528,23-24): run-time error JS1195: Expected expression: )
+(528,25-26): run-time error JS1004: Expected ';': {
+(535,6-7): run-time error JS1195: Expected expression: ,
+(537,21-22): run-time error JS1195: Expected expression: )
+(537,23-24): run-time error JS1004: Expected ';': {
+(544,6-7): run-time error JS1195: Expected expression: ,
+(546,26-27): run-time error JS1195: Expected expression: )
+(546,28-29): run-time error JS1004: Expected ';': {
+(567,6-7): run-time error JS1195: Expected expression: ,
+(569,28-29): run-time error JS1195: Expected expression: )
+(569,30-31): run-time error JS1004: Expected ';': {
+(589,6-7): run-time error JS1195: Expected expression: ,
+(591,37-38): run-time error JS1004: Expected ';': {
+(602,6-7): run-time error JS1195: Expected expression: ,
+(604,49-50): run-time error JS1004: Expected ';': {
+(616,6-7): run-time error JS1195: Expected expression: ,
+(618,35-36): run-time error JS1195: Expected expression: )
+(618,37-38): run-time error JS1004: Expected ';': {
+(690,6-7): run-time error JS1195: Expected expression: ,
+(692,43-44): run-time error JS1004: Expected ';': {
+(810,6-7): run-time error JS1195: Expected expression: ,
+(812,37-38): run-time error JS1195: Expected expression: )
+(812,39-40): run-time error JS1004: Expected ';': {
+(914,6-7): run-time error JS1195: Expected expression: ,
+(916,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(529,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -473,19 +504,9 @@ var UIManagerLeaveCalendar = new Class({
             this.hiddenBox.set('html', '');
             Affinity.tooltips.processNew();
             if (this.isNewCalendarUI) {
-                window.addEventListener('message', function (e) {
-                    if (e.origin.includes("leave-ui")) {
-                        console.log(e.data + " event" + e.origin);
-                        switch (e.data) {
-                            case "DraggableNavLoaded":
-                                this.disableToggleBtn = false;
-                                break;
-                            case "DraggableNavUnLoaded":
-                                this.disableToggleBtn = true;
-                                break;
-                        }
-                    }
-                });
+                window.addEventListener('message', (e) => {
+                    this.toggleDisableButton(e);
+                }, );
                 this.setUrlForNewUICalendar();
                 this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
                 this.sectionBody.reveal();
@@ -504,6 +525,20 @@ var UIManagerLeaveCalendar = new Class({
         }.bind(this));
 
         if (this.isNewCalendarUI) this.section.fireEvent('managercalendarloaded');
+    },
+
+    toggleDisableButton: function (e) {
+        if (e.origin.includes("leave-ui")) {
+            console.log(e.data + " event" + e.origin);
+            switch (e.data) {
+                case "DraggableNavLoaded":
+                    this.disableToggleBtn = false;
+                    break;
+                case "DraggableNavUnLoaded":
+                    this.disableToggleBtn = true;
+                    break;
+            }
+        }
     },
 
     hide: function (init) {
