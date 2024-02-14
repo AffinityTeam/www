@@ -1,14 +1,14 @@
 /* Minification failed. Returning unminified contents.
 (279,54-55): run-time error JS1100: Expected ',': =
-(964,65-66): run-time error JS1014: Invalid character: `
-(964,80-81): run-time error JS1100: Expected ',': :
-(964,96-97): run-time error JS1195: Expected expression: %
-(964,118-119): run-time error JS1004: Expected ';': :
-(964,148-149): run-time error JS1002: Syntax error: }
-(964,151-152): run-time error JS1014: Invalid character: `
-(969,38-39): run-time error JS1195: Expected expression: )
-(969,40-41): run-time error JS1004: Expected ';': {
-(974,1-2): run-time error JS1002: Syntax error: }
+(965,65-66): run-time error JS1014: Invalid character: `
+(965,80-81): run-time error JS1100: Expected ',': :
+(965,96-97): run-time error JS1195: Expected expression: %
+(965,118-119): run-time error JS1004: Expected ';': :
+(965,148-149): run-time error JS1002: Syntax error: }
+(965,151-152): run-time error JS1014: Invalid character: `
+(970,38-39): run-time error JS1195: Expected expression: )
+(970,40-41): run-time error JS1004: Expected ';': {
+(975,1-2): run-time error JS1002: Syntax error: }
  */
 var TeamLeave = new Class({
 
@@ -474,15 +474,16 @@ var UIManagerLeaveCalendar = new Class({
             Affinity.tooltips.processNew();
             if (this.isNewCalendarUI) {
                 window.addEventListener('message', function (e) {
-                    console.log(e.data + " event" + e.origin);
-                    this.disableToggleBtn = e.data == "DraggableNavUnLoaded" ? true : false;
-                    switch (e.data) {
-                        case "DraggableNavLoaded":
-                            this.disableToggleBtn = false;
-                            break;
-                        case "DraggableNavUnLoaded":
-                            this.disableToggleBtn = true;
-                            break;
+                    if (e.origin.includes("leave-ui")) {
+                        console.log(e.data + " event" + e.origin);
+                        switch (e.data) {
+                            case "DraggableNavLoaded":
+                                this.disableToggleBtn = false;
+                                break;
+                            case "DraggableNavUnLoaded":
+                                this.disableToggleBtn = true;
+                                break;
+                        }
                     }
                 });
                 this.setUrlForNewUICalendar();
