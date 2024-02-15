@@ -1,6 +1,6 @@
 /* Minification failed. Returning unminified contents.
 (8722,20): run-time error CSS1039: Token not allowed after unary operator: '-screen-max-height'
-(8731,21): run-time error CSS1039: Token not allowed after unary operator: '-screen-ratio'
+(8728,21): run-time error CSS1039: Token not allowed after unary operator: '-screen-ratio'
  */
 /* form elements */
 /* default sizes */
@@ -8722,11 +8722,8 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
 }
 .ss-app-iframe {
   position: relative;
-  max-height: 960px;
-  max-height: var(--screen-max-height);
-}
-.ss-app-iframe.employee-calendar {
   max-height: 720px;
+  max-height: var(--screen-max-height);
 }
 .ss-app-iframe::before {
   content: " ";

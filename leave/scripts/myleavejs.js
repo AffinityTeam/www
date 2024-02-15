@@ -1,14 +1,14 @@
 /* Minification failed. Returning unminified contents.
 (242,58-59): run-time error JS1100: Expected ',': =
-(2493,59-60): run-time error JS1014: Invalid character: `
-(2493,74-75): run-time error JS1100: Expected ',': :
-(2493,90-91): run-time error JS1195: Expected expression: %
-(2493,112-113): run-time error JS1004: Expected ';': :
-(2493,142-143): run-time error JS1002: Syntax error: }
-(2493,145-146): run-time error JS1014: Invalid character: `
-(2497,35-36): run-time error JS1195: Expected expression: )
-(2497,37-38): run-time error JS1004: Expected ';': {
-(2505,1-2): run-time error JS1002: Syntax error: }
+(2494,59-60): run-time error JS1014: Invalid character: `
+(2494,74-75): run-time error JS1100: Expected ',': :
+(2494,90-91): run-time error JS1195: Expected expression: %
+(2494,112-113): run-time error JS1004: Expected ';': :
+(2494,125-126): run-time error JS1002: Syntax error: }
+(2494,128-129): run-time error JS1014: Invalid character: `
+(2498,35-36): run-time error JS1195: Expected expression: )
+(2498,37-38): run-time error JS1004: Expected ';': {
+(2506,1-2): run-time error JS1002: Syntax error: }
  */
 var EmployeeLeave = new Class({
 
@@ -2501,8 +2501,9 @@ var UITeamLeaveCalendar = new Class({
 		// Insert IFrame for the new Calendar UI
 		this.calendarIframe = new Element('iframe');
 		this.calendarIframeLoaded = false;
-		var screenRatio = (window.screen.height / window.screen.width) * 100;
-		new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
+		var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
+		var maxHeight = document.body.clientHeight - 320;
+		new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
 			.adopt(this.calendarIframe).inject(this.box, "top");
 	},
 

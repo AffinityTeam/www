@@ -1008,8 +1008,9 @@ var UIManagerLeaveCalendar = new Class({
         // Insert IFrame for the new Calendar UI
         this.disableToggleBtn = true;
         this.calendarIframe = new Element('iframe');
-        var screenRatio = (window.screen.height / window.screen.width) * 100;
-        new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${window.screen.height - 240}px` })
+        var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
+		var maxHeight = document.body.clientHeight - 320;
+        new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
             .adopt(this.calendarIframe).inject(this.sectionBody, "top");
         
     },
