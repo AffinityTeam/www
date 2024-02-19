@@ -13,33 +13,33 @@
 (518,6-7): run-time error JS1195: Expected expression: ,
 (520,21-22): run-time error JS1195: Expected expression: )
 (520,23-24): run-time error JS1004: Expected ';': {
-(536,6-7): run-time error JS1195: Expected expression: ,
-(538,23-24): run-time error JS1195: Expected expression: )
-(538,25-26): run-time error JS1004: Expected ';': {
-(545,6-7): run-time error JS1195: Expected expression: ,
-(547,21-22): run-time error JS1195: Expected expression: )
-(547,23-24): run-time error JS1004: Expected ';': {
-(554,6-7): run-time error JS1195: Expected expression: ,
-(556,26-27): run-time error JS1195: Expected expression: )
-(556,28-29): run-time error JS1004: Expected ';': {
-(577,6-7): run-time error JS1195: Expected expression: ,
-(579,28-29): run-time error JS1195: Expected expression: )
-(579,30-31): run-time error JS1004: Expected ';': {
-(599,6-7): run-time error JS1195: Expected expression: ,
-(601,37-38): run-time error JS1004: Expected ';': {
-(612,6-7): run-time error JS1195: Expected expression: ,
-(614,49-50): run-time error JS1004: Expected ';': {
-(626,6-7): run-time error JS1195: Expected expression: ,
-(628,35-36): run-time error JS1195: Expected expression: )
-(628,37-38): run-time error JS1004: Expected ';': {
-(700,6-7): run-time error JS1195: Expected expression: ,
-(702,43-44): run-time error JS1004: Expected ';': {
-(820,6-7): run-time error JS1195: Expected expression: ,
-(822,37-38): run-time error JS1195: Expected expression: )
-(822,39-40): run-time error JS1004: Expected ';': {
-(924,6-7): run-time error JS1195: Expected expression: ,
-(926,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(539,36-42): run-time error JS1018: 'return' statement outside of function: return
+(538,6-7): run-time error JS1195: Expected expression: ,
+(540,23-24): run-time error JS1195: Expected expression: )
+(540,25-26): run-time error JS1004: Expected ';': {
+(547,6-7): run-time error JS1195: Expected expression: ,
+(549,21-22): run-time error JS1195: Expected expression: )
+(549,23-24): run-time error JS1004: Expected ';': {
+(556,6-7): run-time error JS1195: Expected expression: ,
+(558,26-27): run-time error JS1195: Expected expression: )
+(558,28-29): run-time error JS1004: Expected ';': {
+(579,6-7): run-time error JS1195: Expected expression: ,
+(581,28-29): run-time error JS1195: Expected expression: )
+(581,30-31): run-time error JS1004: Expected ';': {
+(601,6-7): run-time error JS1195: Expected expression: ,
+(603,37-38): run-time error JS1004: Expected ';': {
+(614,6-7): run-time error JS1195: Expected expression: ,
+(616,49-50): run-time error JS1004: Expected ';': {
+(628,6-7): run-time error JS1195: Expected expression: ,
+(630,35-36): run-time error JS1195: Expected expression: )
+(630,37-38): run-time error JS1004: Expected ';': {
+(702,6-7): run-time error JS1195: Expected expression: ,
+(704,43-44): run-time error JS1004: Expected ';': {
+(822,6-7): run-time error JS1195: Expected expression: ,
+(824,37-38): run-time error JS1195: Expected expression: )
+(824,39-40): run-time error JS1004: Expected ';': {
+(926,6-7): run-time error JS1195: Expected expression: ,
+(928,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(541,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -508,7 +508,7 @@ var UIManagerLeaveCalendar = new Class({
                 window.addEventListener('message', (e) => {
                     this.toggleDisableButton(e);
                 }, );
-                this.setUrlForNewUICalendar();
+                // this.setUrlForNewUICalendar();
                 // this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
                 // this.sectionBody.reveal();
             }
@@ -563,6 +563,8 @@ var UIManagerLeaveCalendar = new Class({
     show: function () {
         this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
         this.sectionBody.reveal();
+
+        this.setUrlForNewUICalendar();
 
         if (!this.isNewCalendarUI) {
            // if not scroll poisition not initiallized then scroll to mid
@@ -1028,7 +1030,9 @@ var UIManagerLeaveCalendar = new Class({
         
     setUrlForNewUICalendar: function() {
         if (!this.calendarIframeLoaded) {
-            const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/manager-team-calendar" : "https://leave-ui.affinitylogon.com/manager-team-calendar";
+            const calendarUrl = window.location.href.includes("test") 
+                ? "https://leave-ui.testaffinitylogon.com/manager-team-calendar" 
+                : "https://leave-ui.affinitylogon.com/manager-team-calendar";
             this.calendarIframeLoaded = true;
             this.calendarIframe.src = calendarUrl;
         }
