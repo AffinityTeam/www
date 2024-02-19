@@ -1354,11 +1354,11 @@ var UILeaveHistory = new Class({
 
         this.getHistory();
 
-        if (this.isManager && this.isNewCalendarUI) {
-            this.hide();
-        } else {
-            this.show();
-        }
+        // if (this.isManager && this.isNewCalendarUI) {
+        //     this.hide();
+        // } else {
+        this.show();
+        // }
     },
 
     getHistory: function () {
