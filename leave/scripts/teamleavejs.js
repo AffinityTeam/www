@@ -1018,7 +1018,6 @@ var UIManagerLeaveCalendar = new Class({
 
     setNewUICalendarIFrame: function() {
         // Insert IFrame for the new Calendar UI
-        this.disableToggleBtn = true;
         this.calendarIframeLoaded = false;
         this.calendarIframe = new Element('iframe');
         var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
@@ -1030,6 +1029,7 @@ var UIManagerLeaveCalendar = new Class({
         
     setUrlForNewUICalendar: function() {
         if (!this.calendarIframeLoaded) {
+            this.disableToggleBtn = true;
             const calendarUrl = window.location.href.includes("test") 
                 ? "https://leave-ui.testaffinitylogon.com/manager-team-calendar" 
                 : "https://leave-ui.affinitylogon.com/manager-team-calendar";
