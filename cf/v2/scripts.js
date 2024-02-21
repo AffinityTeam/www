@@ -17393,7 +17393,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
-    this.PostData.ActionName = buttonData.Name;
+    this.PostData.ActionName = buttonData.Name.toLowerCase().contains('save') ? 'Save': 'Other';
     this.PostData.DestinationStateId = buttonData.DestinationStateId;
     //this.PostData.StateType = buttonData.StateType;
 
@@ -17845,6 +17845,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     if (lastCompare !== currentCompare)
     {
       console.log('do auto save');
+      var buttonData = $a.jsonCloneObject(this.SaveButtonData);
+      buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
+      this.SaveButtonData = buttonData;
       this._stopAutoSave();
       this.Save(true); // true = suppress messages
     }
