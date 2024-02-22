@@ -2509,8 +2509,8 @@ var UITeamLeaveCalendar = new Class({
 
 	setUrlForNewUICalendar: function() {
 		if (!this.calendarIframeLoaded) {
-			const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-team-calendar" : "https://leave-ui.affinitylogon.com/employee-team-calendar";
 			this.calendarIframeLoaded = true;
+			const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-team-calendar" : "https://leave-ui.affinitylogon.com/employee-team-calendar";
 			this.calendarIframe.src = calendarUrl;
 		}
 	}

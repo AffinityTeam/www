@@ -15517,7 +15517,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.LogElementOutput = false;
 
     this.RequestCheckCount = 0;
-    this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
+    this.RequestCheckCountMax = 100; // 50 attempts == approx 5 seconds
 
     this.DashboardHeaderHeight = 0;
 
@@ -15526,6 +15526,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.TestErrorStub = false;
 
     this.PostState = 'none';
+
+    this.PostData = null;
 
   }
 
@@ -15588,6 +15590,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_save',
 
       '_getPostData', '_post', '_postCatch', '_postThen', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
+      '_stopAutoSave', '_startAutoSave', '_doAutoSave',
 
       '_submit', '_print', '_close',
 
@@ -16006,6 +16009,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         Affinity2018.HidePageLoader();
         this.ButtonsNode.classList.remove('locked');
         this.Ready = true;
+        this.PostData = this._getPostData();
+        this._startAutoSave();
         return;
       }
       else
@@ -16019,6 +16024,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       Affinity2018.HidePageLoader();
       this.ButtonsNode.classList.remove('locked');
       this.Ready = true;
+      this.PostData = this._getPostData();
+      this._startAutoSave();
     }
   }
 
@@ -17373,6 +17380,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _post(buttonData, suppressMessage)
   {
+    this._stopAutoSave();
+
     //buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '', StateType: 0}, 'object');
     buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '' }, 'object');
 
@@ -17384,7 +17393,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
-    this.PostData.ActionName = buttonData.Name;
+    this.PostData.ActionName = buttonData.Name.toLowerCase().contains('save') ? 'Save': 'Other';
     this.PostData.DestinationStateId = buttonData.DestinationStateId;
     //this.PostData.StateType = buttonData.StateType;
 
@@ -17574,7 +17583,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     console.groupEnd();
     
-    if (this.ViewType === 'Form' && this.SubmitActionName !== 'Save' && Affinity2018.EnablePost)
+    if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePost)
     {
       if (this.PostedErrors.length === 0)
       {
@@ -17597,7 +17606,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       }
     }
-    if (this.SubmitActionName === 'Save' && this.suppressPostMessage) // && this.PostedErrors.length === 0)
+    if (this.SubmitActionName.contains('Save') && !this.suppressPostMessage) // && this.PostedErrors.length === 0)
     {
       // saved
       Affinity2018.Dialog.Show({
@@ -17613,7 +17622,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     $a.HidePageLoader();
 
+    this.PostData = this._getPostData();
+
     this.PostState = 'success';
+    
+    this._startAutoSave();
 
     return true;
   }
@@ -17804,7 +17817,40 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       this.PostState = 'failed';
 
+      this._startAutoSave();
+
     }.bind(this), 500);
+  }
+  
+
+   
+  /**
+   * Summary. Form auto save
+   * @this    Class scope
+   * @access  private
+   */ 
+  _stopAutoSave()
+  {
+    clearInterval(this._autoSaveTimer);
+  }
+  _startAutoSave()
+  {
+    this._stopAutoSave();
+    this._autoSaveTimer = setInterval(this._doAutoSave, 1000);
+  }
+  _doAutoSave()
+  {
+    var lastCompare = JSON.stringify(this.PostData);
+    var currentCompare = JSON.stringify(this._getPostData());
+    if (lastCompare !== currentCompare)
+    {
+      console.log('do auto save');
+      var buttonData = $a.jsonCloneObject(this.SaveButtonData);
+      buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
+      this.SaveButtonData = buttonData;
+      this._stopAutoSave();
+      this.Save(true); // true = suppress messages
+    }
   }
 
 
