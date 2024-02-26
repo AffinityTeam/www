@@ -8515,6 +8515,43 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
+  CleanLookupDisplayValue (display, code, includeCode)
+  {
+    var cleanStr = display && typeof display === 'string' && display.trim() !== '' ? display.trim() : '',
+        codeStr  = code && typeof code === 'string' && code.trim() !== '' ? code.trim() : typeof code === 'number' ? code.toString().trim() : '',
+        lastChar;
+    if (display !== '')
+    {
+      cleanStr = display.trim().replace(/&amp;/gi, '&');
+      lastChar = cleanStr.charAt(cleanStr.length - 1);
+      if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
+      if (includeCode)
+      {
+        if (display.startsWith(`${code}, `))
+        {
+          cleanStr = cleanStr.replace(`${code}, `, '').trim();
+        }
+        if (codeStr !== '' && !cleanStr.contains(codeStr))
+        {
+          cleanStr = cleanStr + ' (' + codeStr + ')';
+        }
+      }
+    }
+    else
+    {
+      if (codeStr !== '') cleanStr = 'Not Set - (' + code + ')';
+      else cleanStr = '';
+    }
+    return cleanStr;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   ShortenString(string, length)
   {
     return string.shorten(50);
@@ -10755,6 +10792,8 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       });
     }
 
+    this.SettingsViewNode.classList.remove('scrollable');
+
     //this._cleanUpOnClose();
     this._resetOnHideTimer = setTimeout(this._resetSettings, 260);
     this.PopupNode.classList.remove('show');
@@ -11247,7 +11286,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
           <div class="preview hide"></div>
         </div>
         <hr />
-        <div class="settings-box scrollable"></div>
+        <div class="settings-box"></div>
         <div class="buttons">
           <div class="button grey cancel"><span class="icon-cross"></span>{cancelLabel}</div>
           <div class="button blue back hidden"><span class="icon-arrow-left"></span>{searchLabel}</div>
@@ -15625,6 +15664,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.PostData = null;
 
+    this.DisableAutoSave = false;
+
   }
 
 
@@ -17936,6 +17977,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
   _doAutoSave()
   {
+    if (this.DisableAutoSave) return;
     var lastCompare = JSON.stringify(this.PostData);
     var currentCompare = JSON.stringify(this._getPostData());
     if (lastCompare !== currentCompare)
@@ -18414,6 +18456,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         sectionHidetitleLable: $a.Lang.ReturnPath('app.cf.design_items.section_hide_title_lebel'),
         sectionCollapseLable: $a.Lang.ReturnPath('app.cf.design_items.section_collapse_lebel'),
 
+        whitelistTitle: $a.Lang.ReturnPath('generic.whitelist.title'),
+        whitelistSearchLabel: $a.Lang.ReturnPath('generic.whitelist.search-label'),
+        whitelistSearchPlaceholder: $a.Lang.ReturnPath('generic.whitelist.search-placeholder'),
+        whitelistUnhideLabel: $a.Lang.ReturnPath('generic.whitelist.unhide-all-options-label'),
+        whitelistHideLabel: $a.Lang.ReturnPath('generic.whitelist.hide-all-options-label'),
+        whitelistShowFilteredLabel: $a.Lang.ReturnPath('generic.whitelist.enable-showhide-option-label'),
+        whitelistShowFilteredTooltip: $a.Lang.ReturnPath('generic.whitelist.enable-showhide-option-tooltip'),
+        whitelistKeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
+        whitelistKeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
+        whitelistValueHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.value_header'),
+        whitelistValueHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.value_help'),
+        //Whitelist: $a.Lang.ReturnPath('generic.whitelist.'),
+
         listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
         listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
       });
@@ -18431,7 +18486,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       && this.Config.Details.hasOwnProperty('ItemSource')
       && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
       && Array.isArray(this.Config.Details.ItemSource.WhiteList)
-      && this.Config.Details.ItemSource.WhiteList.length > 0
+      //&& this.Config.Details.ItemSource.WhiteList.length > 0
     ) // is lookup and has new whitelist filter
     {
       this.SelectFilterContainerNode = this.PopupNode.querySelector('.select-filter-container');
@@ -20099,6 +20154,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.WhitelistSearchNode = this.WhitelistFilterContainerNode.querySelector('input[type="text"]');
       this.WhitelistFilterShowAllNode = this.WhitelistFilterContainerNode.querySelector('#select-filter-view-all');
       this.WhitelistFilterGridWrapperNode = this.WhitelistFilterContainerNode.querySelector('.select-filter-grid-wrapper');
+
+      this.WhiteListButtonColorVisible = 'blue';
+      this.WhiteListButtonColorHidden = 'yellow';
       
       //this.Config.Details.ItemSourceType = 'AffinityCustom';
       //this.Config.Details.ItemSource = {};
@@ -21122,8 +21180,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (description.trim() !== '' && value.trim() !== '')
         {
           this.Config.Details.ItemSource.WhiteList.push({
-            Key: description, 
-            Value: value, 
+            Key: value, 
+            Value: description, 
             IsHidden: isHidden
           });
         }
@@ -21137,13 +21195,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     let html = '';
     let template = this.WhitelistFilterRowTemplate;
+    let addCodeToDisplay = this.Config.hasOwnProperty('IncludeDataInDisplay') ? this.Config.IncludeDataInDisplay : true;
     for(let item of ids)
     {
       html += template.format({
-        description: item.Key,
-        code: item.Value,
+        description: Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay),
+        code: item.Key,
         hidden: item.IsHidden ? ' hide' : '',
-        buttonColor: item.IsHidden ? 'orange' : 'yellow',
+        buttonColor: item.IsHidden ? this.WhiteListButtonColorHidden : this.WhiteListButtonColorVisible,
         buttonIcon: item.IsHidden ? 'icon-eye-block' : 'icon-eye'
       });
     }
@@ -21157,8 +21216,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     for(let row of rows)
     {
       row.classList.remove('hide');
-      row.querySelector('.button').classList.remove('icon-eye', 'yellow', 'icon-eye-block','orange');
-      row.querySelector('.button').classList.add('icon-eye','yellow');
+      row.querySelector('.button').classList.remove('icon-eye', this.WhiteListButtonColorVisible, 'icon-eye-block',this.WhiteListButtonColorHidden);
+      row.querySelector('.button').classList.add('icon-eye',this.WhiteListButtonColorVisible);
     }
   }
   _whitelistHideAll()
@@ -21168,8 +21227,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     for(let row of rows)
     {
       row.classList.add('hide');
-      row.querySelector('.button').classList.remove('icon-eye', 'yellow', 'icon-eye-block','orange');
-      row.querySelector('.button').classList.add('icon-eye-block','orange');
+      row.querySelector('.button').classList.remove('icon-eye', this.WhiteListButtonColorVisible, 'icon-eye-block',this.WhiteListButtonColorHidden);
+      row.querySelector('.button').classList.add('icon-eye-block',this.WhiteListButtonColorHidden);
     }
   }
 
@@ -21234,16 +21293,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       let buttonNode = ev.target;
       let rowNode = buttonNode.parentNode.parentNode;
-      buttonNode.classList.remove('icon-eye-block', 'icon-eye', 'orange', 'yellow');
+      buttonNode.classList.remove('icon-eye-block', 'icon-eye', this.WhiteListButtonColorHidden, this.WhiteListButtonColorVisible);
       if (rowNode.classList.contains('hide'))
       {
         rowNode.classList.remove('hide');
-        buttonNode.classList.add('yellow', 'icon-eye');
+        buttonNode.classList.add(this.WhiteListButtonColorVisible, 'icon-eye');
       }
       else
       {
         rowNode.classList.add('hide');
-        buttonNode.classList.add('orange', 'icon-eye-block');
+        buttonNode.classList.add(this.WhiteListButtonColorHidden, 'icon-eye-block');
       }
     }
     this._getWhitelistFilter();
@@ -21721,19 +21780,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     </div>
     <div class="select-filter-container hidden">
       <div class="select-filter-container-inner">
-        <h3>Whitelist Filter</h3>
+        <h3>{whitelistTitle}</h3>
         <div class="select-filter-row">
-          <label>Search</label>
-          <input type="text" placeholder="type to scroll to item" />
+          <label>{whitelistSearchLabel}</label>
+          <input type="text" placeholder="{whitelistSearchPlaceholder}" />
         </div>
         <div class="select-filter-row">
-          <a class="select-filter-unhide-all">Unhide All</a>
-          <a class="select-filter-hide-all">Hide All</a>
+          <a class="select-filter-unhide-all">{whitelistUnhideLabel}</a>
+          <a class="select-filter-hide-all">{whitelistHideLabel}</a>
         </div>
         <div class="select-filter-row">
           <input type="checkbox" id="select-filter-view-all" />
-          <label class="inline" for="select-filter-view-all">Enable "Show All Items" in form</label>
-          <icon class="icon-help-round ui-has-tooltip" data-tooltip="This is a thing, yo!"></icon>
+          <label class="inline" for="select-filter-view-all">{whitelistShowFilteredLabel}</label>
+          <icon class="icon-help-round ui-has-tooltip" data-tooltip="{whitelistShowFilteredTooltip}"></icon>
         </div>
         <div class="select-filter-grid-container"><!-- this has fixed height with verticval scroll enabled -->
           <div class="select-filter-grid-inner"><!-- this can be any height for ever LOL -->
@@ -21741,8 +21800,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                <table class="select-filter-grid">
                 <thead>
                   <tr>
-                    <th class="key-header">Option Description <icon class="icon-help-round ui-has-tooltip" data-tooltip="Some help here"></icon></th>
-                    <th class="value-header">Reference <icon class="icon-help-round ui-has-tooltip" data-tooltip="Some help here too"></icon></th>
+                    <th class="key-header">{whitelistKeyHeader} <icon class="icon-help-round ui-has-tooltip" data-tooltip="{whitelistKeyHelp}"></icon></th>
+                    <th class="value-header">{whitelistValueHeader} <icon class="icon-help-round ui-has-tooltip" data-tooltip="{whitelistValueHelp}"></icon></th>
                     <th></th>
                   </tr>
                 </thead>
@@ -27971,6 +28030,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       }
       else
       {
+        let showAll = false;
+        let whiteList = null;
+        if (
+          this.CleverForms.IsLookup(this.Config) 
+          && this.Config.Details.hasOwnProperty('ItemSource')
+          && this.Config.Details.hasOwnProperty('ItemSourceType')
+          && this.Config.Details.ItemSourceType === 'AffinityCustom'
+          && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
+          && Array.isArray(this.Config.Details.ItemSource.WhiteList)
+        )
+        {
+          showAll = this.Config.Details.ItemSource.ShowAll;
+          whiteList = this.Config.Details.ItemSource.WhiteList;
+        }
+
         if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
 
         if (
@@ -27986,6 +28060,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             selectConfig = {
               DataKey: 'Value',
               DisplayKey: 'Key',
+              IsHiddenKey: 'IsHidden',
               IncludeDataInDisplay: true,
               AddEmpty: false,
               EmptyKey: this.CleverForms.InsertLookupEmptyValue,
@@ -27994,7 +28069,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
               Required: this.Config.Details.Required,
               Value: Affinity2018.SwapInitatorEmployee,
-              IsSingleValue: true
+              IsSingleValue: true,
+              ShowAll: showAll,
+              WhiteList: whiteList
             };
 
           }
@@ -28026,6 +28103,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             selectConfig = {
               DataKey: 'Value',
               DisplayKey: 'Key',
+              IsHiddenKey: 'IsHidden',
               IncludeDataInDisplay: true,
               AddEmpty: this.CleverForms.InsertLookupEmptyOption,
               EmptyKey: this.CleverForms.InsertLookupEmptyValue,
@@ -28034,7 +28112,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
               Required: this.Config.Details.Required,
               Value: null,
-              IsSingleValue: false
+              IsSingleValue: false,
+              ShowAll: showAll,
+              WhiteList: whiteList
             };
 
           }
@@ -28092,6 +28172,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           selectConfig = {
             DataKey: 'Value',
             DisplayKey: 'Key',
+            IsHiddenKey: 'IsHidden',
             IncludeDataInDisplay: true,
             AddEmpty: this.CleverForms.InsertLookupEmptyOption,
             EmptyDisplay: this.CleverForms.InsertLookupEmptyDisplay,
@@ -28100,7 +28181,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             NoneDisplay: this.CleverForms.InsertLookupEmptyRequiredDisplay,
             Required: this.Config.Details.Required,
             Value: null,
-            IsSingleValue: false
+            IsSingleValue: false,
+            ShowAll: showAll,
+            WhiteList: whiteList
           };
 
           if (this.CleverForms.IsGlobalKey(this.Config))
@@ -28257,7 +28340,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     {
       if (this.FormRowNode.querySelector('select').widgets)
       {
-        this.FormRowNode.querySelector('select').widgets.Autocomplete.setValue(value, false);
+        if (this.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup'))
+        {
+          this.FormRowNode.querySelector('select').widgets.SelectLookup.defaultValue = value;
+          this.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
+        }
+        else if (this.FormRowNode.querySelector('select').widgets.hasOwnProperty('Autocomplete'))
+        {
+          this.FormRowNode.querySelector('select').widgets.Autocomplete.setValue(value, false);
+        }
       }
       else
       {
@@ -41303,6 +41394,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.DefaultConfig = {
       DataKey: 'Key',
 	    DisplayKey: 'Value',
+      IsHiddenKey: 'IsHidden',
       IncludeDataInDisplay: true,
       AddEmpty: false,
       EmptyKey: '',
@@ -41310,7 +41402,10 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       Filters: [],
       NoneKey: '',
       NoneDisplay: 'Select...',
-      Required: false
+      Required: false,
+      ShowAll: false,
+      WhiteList: null,
+      IgnoreWhiteList: false
     };
 
   }
@@ -41323,7 +41418,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
       '_init',
 
-      'IsValid', 'ShowError', 'HideError', 'GetValue',
+      'IsValid', 'ShowError', 'HideError', 'SetValue', 'GetValue',
 
       '_gotResults', '_gotResultsError', '_requestCanceled',
 
@@ -41370,7 +41465,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.ErrorNode.classList.add('ui-form-error');
 
     this.api = $a.isUrl(api) ? api.trim() : $a.isUrl(this.targetNode.dataset.api) ? this.targetNode.dataset.api.trim() : false;
-    this.allapi = $a.isUrl(this.targetNode.dataset.allapi) ? this.targetNode.dataset.allapi.trim() : false;
+    //this.allapi = $a.isUrl(this.targetNode.dataset.allapi) ? this.targetNode.dataset.allapi.trim() : false;
 
     this.config = $a.isObject(config) ? config : $a.isString(this.targetNode.dataset.config) ? JSON.parse(this.targetNode.dataset.config) : false;
     if ($a.isObject(this.config)) this.config = $a.objectDeepMerge([$a.jsonCloneObject(this.DefaultConfig), this.config]);
@@ -41508,6 +41603,11 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     return this.targetNode.value;
   }
 
+  CheckForHidden()
+  {
+    this._checkIfValueisHidden();
+  }
+
   /**/
 
   _gotResults (response)
@@ -41601,7 +41701,11 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       }
       if (this.targetNode.hasOwnProperty('widgets') && this.targetNode.widgets.hasOwnProperty('Autocomplete'))
       {
-        if (this.defaultValue) this.targetNode.widgets.Autocomplete.defaultValue = this.defaultValue;
+        if (this.defaultValue) 
+        {
+          this.targetNode.widgets.Autocomplete.defaultValue = this.defaultValue;
+          this.targetNode.dataset.defaultValue = this.defaultValue;
+        }
         this.targetNode.widgets.Autocomplete.refreshFromSelect();
       }
       else
@@ -41622,14 +41726,32 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.targetNode.removeEventListener('change', this.IsValid);
     this.targetNode.addEventListener('change', this.IsValid);
 
-    if (this.allapi)
+    if (this.config.hasOwnProperty('ShowAll') && this.config.ShowAll)
     {
       this._insertShowAll();
     }
+
+    this.lastResult = resultArray;
   }
 
   _insertResult (data)
   {
+    data[this.config.IsHiddenKey] = false;
+    if (this.config.WhiteList !== null && !this.config.IgnoreWhiteList)
+    {
+      let foundItems = this.config.WhiteList.filter(obj => obj.Key === data[this.config.DataKey]);
+      let found = foundItems.length > 0 ? foundItems[0] : null;
+      if (found !== null && found.hasOwnProperty(this.config.IsHiddenKey))
+      {
+        data[this.config.IsHiddenKey] = found[this.config.IsHiddenKey];
+      }
+    }
+
+    if (data.hasOwnProperty(this.config.IsHiddenKey) && data[this.config.IsHiddenKey])
+    {
+      return false;
+    }
+
     var resultsNode = document.createElement('option'),
         displayStr = this._cleanValue(data[this.config.DisplayKey], data[this.config.DataKey]);
     if (displayStr.trim() !== '')
@@ -41682,17 +41804,69 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   }
 
   /**/
+
+  _checkIfValueisHidden()
+  {
+    if (
+      this.config.hasOwnProperty('ShowAll') 
+      && this.defaultValue !== undefined 
+      && this.defaultValue !== null
+    )
+    {
+      let nodeExists = false;
+      let nodes = this.targetNode.querySelectorAll('option');
+      for (let node of nodes)
+      {
+        if (node.value.toString() === this.defaultValue.toString())
+        {
+          nodeExists = true;
+          if (this.targetNode.widgets.hasOwnProperty('Autocomplete'))
+          {
+            this.targetNode.widgets.Autocomplete.setValue(this.defaultValue, false);
+          }
+          break;
+        }
+      }
+      if (!nodeExists)
+      {
+        if (this.config.ShowAll)
+        {
+          let foundItems = this.config.WhiteList.filter(obj => obj.Key.toString() === this.defaultValue.toString());
+          let found = foundItems.length > 0 ? foundItems[0] : null;
+          if (found !== null && found.hasOwnProperty(this.config.IsHiddenKey) && found[this.config.IsHiddenKey])
+          {
+            let node = this.ShowAllNode.querySelector('span');
+            node.innerText = node.dataset.filteredLabel;
+            this.config.IgnoreWhiteList = true;
+            this._init(this.api);
+          }
+          else
+          {
+            this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavaialble-error'));
+          }
+        }
+        else
+        {
+          this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavaialble-error'));
+        }
+      }
+    }
+  }
   
   _insertShowAll()
   {
-    if (this.api && this.allapi)
+    if (this.config.hasOwnProperty('ShowAll') && this.config.ShowAll)
     {
       if (!this.ShowAllNode)
       {
         this.ShowAllNode = document.createElement('div');
         this.ShowAllNode.classList.add('show-all-filtered');
-        this.ShowAllNode.innerHTML = this.ShowAllTemplate;
+        this.ShowAllNode.innerHTML = this.ShowAllTemplate.format({
+          showFilteredlabel: $a.Lang.ReturnPath('generic.whitelist.show-filtered-list-label'),
+          showUnfilteredlabel: $a.Lang.ReturnPath('generic.whitelist.show-unfiltered-list-label')
+        });
         this.ShowAllNode.addEventListener('click', this._showAllFiltered);
+        this._checkIfValueisHidden();
       }
       if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.parentNode.appendChild(this.ShowAllNode);
       else this.targetNode.parentNode.appendChild(this.ShowAllNode);
@@ -41701,25 +41875,46 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   _showAllFiltered(value)
   {
-    if (this.api && this.allapi)
+    //this.defaultValue = value instanceof Event ? false : value;
+
+    //console.log(this.defaultValue);
+
+    let node = this.ShowAllNode.querySelector('span');
+    let allLabel = node.dataset.allLabel;
+    let filteredLabel = node.dataset.filteredLabel;
+    let currentLabel = node.innerText.trim();
+    if (currentLabel === allLabel)
     {
-      this.defaultValue = value instanceof Event ? false : value;
-      let node = this.ShowAllNode.querySelector('span');
-      let allLabel = node.dataset.allLabel;
-      let filteredLabel = node.dataset.filteredLabel;
-      if (node.innerText.trim() === allLabel)
-      {
-        // show all
-        node.innerText = filteredLabel;
-        this._init(this.allapi);
-      }
-      else
-      {
-        // show filtered
-        node.innerText = allLabel;
-        this._init(this.api);
-      }
+      // show all
+      node.innerText = filteredLabel;
+      this.config.IgnoreWhiteList = true;
+      this._init(this.api);
     }
+    else
+    {
+      // show filtered
+      node.innerText = allLabel;
+      this.config.IgnoreWhiteList = false;
+      this._init(this.api);
+    }
+    //{
+    //  this.defaultValue = value instanceof Event ? false : value;
+    //  let node = this.ShowAllNode.querySelector('span');
+    //  let allLabel = node.dataset.allLabel;
+    //  let filteredLabel = node.dataset.filteredLabel;
+    //  if (node.innerText.trim() === allLabel)
+    //  {
+    //    // show all
+    //    node.innerText = filteredLabel;
+    //    this._init(this.allapi);
+    //  }
+    //  else
+    //  {
+    //    // show filtered
+    //    node.innerText = allLabel;
+    //    this._init(this.api);
+    //  }
+    //}
   }
 
   /**/
@@ -41847,28 +42042,33 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   _cleanValue (str, key)
   {
-    var cleanStr = str && typeof str === 'string' && str.trim() !== '' ? str.trim() : '',
-        keyStr =   key && typeof key === 'string' && key.trim() !== '' ? key.trim() : typeof key === 'number' ? (key + '').trim() : '',
-        lastChar;
-    if (str !== '')
+    if (Affinity2018.Apps.hasOwnProperty('CleverForms')) 
     {
-      cleanStr = str.trim().replace(/&amp;/gi, '&');
-      lastChar = cleanStr.charAt(cleanStr.length - 1);
-      if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
-      if (this.config.IncludeDataInDisplay)
-      {
-        if (keyStr !== '' && !cleanStr.contains(keyStr))
-        {
-          cleanStr = cleanStr + ' (' + keyStr + ')';
-        }
-      }
+      return Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(str, key, this.config.IncludeDataInDisplay);
     }
-    else
-    {
-      if (keyStr !== '') cleanStr = 'Not Set - (' + key + ')';
-      else cleanStr = '';
-    }
-    return cleanStr;
+    return str;
+    //var cleanStr = str && typeof str === 'string' && str.trim() !== '' ? str.trim() : '',
+    //    keyStr =   key && typeof key === 'string' && key.trim() !== '' ? key.trim() : typeof key === 'number' ? (key + '').trim() : '',
+    //    lastChar;
+    //if (str !== '')
+    //{
+    //  cleanStr = str.trim().replace(/&amp;/gi, '&');
+    //  lastChar = cleanStr.charAt(cleanStr.length - 1);
+    //  if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
+    //  if (this.config.IncludeDataInDisplay)
+    //  {
+    //    if (keyStr !== '' && !cleanStr.contains(keyStr))
+    //    {
+    //      cleanStr = cleanStr + ' (' + keyStr + ')';
+    //    }
+    //  }
+    //}
+    //else
+    //{
+    //  if (keyStr !== '') cleanStr = 'Not Set - (' + key + ')';
+    //  else cleanStr = '';
+    //}
+    //return cleanStr;
   }
 
   /**/
@@ -41897,7 +42097,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   {
     this.FilterTemplate = `<input type="checkbox"><label></label>`;
 
-    this.ShowAllTemplate = `<span data-all-label="Show All Values" data-filtered-label="Show Filtered">Show All Values</span>`;
+    this.ShowAllTemplate = `<span data-all-label="{showUnfilteredlabel}" data-filtered-label="{showFilteredlabel}">{showUnfilteredlabel}</span>`;
   }
 
 };

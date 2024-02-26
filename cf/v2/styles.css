@@ -14053,6 +14053,38 @@ body.ui2018 .example-template .preview .default-form .form-row span.inline {
   padding: 10px 0 0 0;
   font-size: 12px;
 }
+body.ui2018.cform form .form-row .show-all-filtered,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered,
+body.ui2018.cform .form .form-row .show-all-filtered,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered,
+body.ui2018.cform .default-form .form-row .show-all-filtered,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered {
+  display: inline-block;
+  margin: 10px 0 0 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+body.ui2018.cform form .form-row .show-all-filtered span,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered span,
+body.ui2018.cform .form .form-row .show-all-filtered span,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered span,
+body.ui2018.cform .default-form .form-row .show-all-filtered span,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered span {
+  color: #106eb6;
+  text-decoration: underline;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.cform form .form-row .show-all-filtered:hover span,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered:hover span,
+body.ui2018.cform .form .form-row .show-all-filtered:hover span,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered:hover span,
+body.ui2018.cform .default-form .form-row .show-all-filtered:hover span,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered:hover span {
+  color: #16c1f3;
+}
 body.ui2018.cform .ui-calendar-buttons,
 body.ui2018 .example-template .preview .ui-calendar-buttons {
   display: inline-block;
@@ -18414,7 +18446,7 @@ li.cf-designer-element.disabled * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  /* 19/02/2024 New Whilte lsit Select Filter */
+  /* 19/02/2024 New White lsit Select Filter */
 
   /**/
 }
@@ -18988,6 +19020,12 @@ li.cf-designer-element.disabled * {
   -webkit-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
   -moz-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
   box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable input[type="text"] {
+  width: calc(100% - 10px) !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable p.affinity-form-link-desc {
+  width: calc(100% - 10px) !important;
 }
 .cf-designer-element-popup .inner .settings .youtube-embed {
   padding: 20px 0 0 0;
