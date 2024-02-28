@@ -1,37 +1,37 @@
 /* Minification failed. Returning unminified contents.
-(6292,59): run-time error CSS1030: Expected identifier, found ','
-(6292,81): run-time error CSS1031: Expected selector, found ')'
-(6292,81): run-time error CSS1025: Expected comma or open brace, found ')'
 (6300,59): run-time error CSS1030: Expected identifier, found ','
 (6300,81): run-time error CSS1031: Expected selector, found ')'
 (6300,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6332,82): run-time error CSS1030: Expected identifier, found ','
-(6332,153): run-time error CSS1031: Expected selector, found ')'
-(6332,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6422,64): run-time error CSS1030: Expected identifier, found ','
-(6422,71): run-time error CSS1031: Expected selector, found ')'
-(6422,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6430,63): run-time error CSS1030: Expected identifier, found ','
-(6430,70): run-time error CSS1031: Expected selector, found ')'
-(6430,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6438,72): run-time error CSS1030: Expected identifier, found ','
-(6438,79): run-time error CSS1031: Expected selector, found ')'
-(6438,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6497,74): run-time error CSS1030: Expected identifier, found ','
-(6497,216): run-time error CSS1031: Expected selector, found ')'
-(6497,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8149,113): run-time error CSS1030: Expected identifier, found ','
-(8149,125): run-time error CSS1031: Expected selector, found ')'
-(8149,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9515,133): run-time error CSS1030: Expected identifier, found ','
-(9515,274): run-time error CSS1031: Expected selector, found ')'
-(9515,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10095,167): run-time error CSS1030: Expected identifier, found ','
-(10095,309): run-time error CSS1031: Expected selector, found ')'
-(10095,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10346,108): run-time error CSS1030: Expected identifier, found ','
-(10346,250): run-time error CSS1031: Expected selector, found ')'
-(10346,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6308,59): run-time error CSS1030: Expected identifier, found ','
+(6308,81): run-time error CSS1031: Expected selector, found ')'
+(6308,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6340,82): run-time error CSS1030: Expected identifier, found ','
+(6340,153): run-time error CSS1031: Expected selector, found ')'
+(6340,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6430,64): run-time error CSS1030: Expected identifier, found ','
+(6430,71): run-time error CSS1031: Expected selector, found ')'
+(6430,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6438,63): run-time error CSS1030: Expected identifier, found ','
+(6438,70): run-time error CSS1031: Expected selector, found ')'
+(6438,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6446,72): run-time error CSS1030: Expected identifier, found ','
+(6446,79): run-time error CSS1031: Expected selector, found ')'
+(6446,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6505,74): run-time error CSS1030: Expected identifier, found ','
+(6505,216): run-time error CSS1031: Expected selector, found ')'
+(6505,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8157,113): run-time error CSS1030: Expected identifier, found ','
+(8157,125): run-time error CSS1031: Expected selector, found ')'
+(8157,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9523,133): run-time error CSS1030: Expected identifier, found ','
+(9523,274): run-time error CSS1031: Expected selector, found ')'
+(9523,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10103,167): run-time error CSS1030: Expected identifier, found ','
+(10103,309): run-time error CSS1031: Expected selector, found ')'
+(10103,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10354,108): run-time error CSS1030: Expected identifier, found ','
+(10354,250): run-time error CSS1031: Expected selector, found ')'
+(10354,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6266,6 +6266,14 @@ body.ui2018.uiupdate.cform .form .form-row,
 body.ui2018.uiupdate .default-form .form-row,
 body.ui2018.uiupdate.cform .default-form .form-row {
   margin: 0 0 20px 0;
+}
+body.ui2018.uiupdate form .form-row:last-child,
+body.ui2018.uiupdate.cform form .form-row:last-child,
+body.ui2018.uiupdate .form .form-row:last-child,
+body.ui2018.uiupdate.cform .form .form-row:last-child,
+body.ui2018.uiupdate .default-form .form-row:last-child,
+body.ui2018.uiupdate.cform .default-form .form-row:last-child {
+  margin: 0 !important;
 }
 body.ui2018.uiupdate form .form-row.error,
 body.ui2018.uiupdate.cform form .form-row.error,
