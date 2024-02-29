@@ -28465,6 +28465,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    value = value.hasOwnProperty('Value') ? value.Value : value;
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       if (this.FormRowNode.querySelector('select').widgets)
@@ -29476,7 +29477,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   SetFormRow (target)
   {
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    let value = this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value;
+    if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
+    {
+      let matches = this.Config.Details.ItemSource.WhiteList.filter(item => item.Key.toString() === value.toString());
+      if (matches.length > 0)
+      {
+        let match = matches[0];
+        value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+      }
+    }
+    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
@@ -29511,6 +29522,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    let code = value.toString();
+    if (typeof value === 'object')
+    {
+      if (value.hasOwnProperty('Key'))
+      {
+        code = value.Key.toString();
+        if (value.hasOwnProperty('Value'))
+        {
+          value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+        }
+        else
+        {
+          value =code;
+        }
+      }
+    }
+
+    if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
+    {
+      let matches = this.Config.Details.ItemSource.WhiteList.filter(item => item.Key.toString() === code);
+      if (matches.length > 0)
+      {
+        let match = matches[0];
+        value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+      }
+    }
+
     super.SetFromValue(value, fromKeyChange);
   }
 
