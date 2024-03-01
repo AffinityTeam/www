@@ -15871,6 +15871,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       this.ButtonsNode.classList.add('locked');
 
+      this.FormSavingNode = document.querySelector('#loading-toast');
+
       // TODO: Add AffinityField Key lookup hooks. If Key is EMPLOYEE_NO, fire event 'GotUser' on change and load.
 
       if (this.ViewType === 'Preview')
@@ -17760,6 +17762,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostedErrors = [];
 
     this._clearErrors(false, this.AutoSaveProgress !== 'saving');
+    this.FormSavingNode.classList.remove('show');
 
     var message = '';
 
@@ -18076,6 +18079,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
       this.SaveButtonData = buttonData;
       this._stopAutoSave();
+      this.FormSavingNode.classList.add('show');
       this.Save(true); // true = suppress messages
     }
   }
