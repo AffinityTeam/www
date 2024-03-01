@@ -18841,8 +18841,11 @@ li.cf-designer-element.disabled * {
 .cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr:nth-child(even) td textarea::-webkit-scrollbar-thumb {
   border: 2px solid #c8c8c8;
 }
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hidden) {
+  margin-bottom: 0 !important;
+}
 .cf-designer-element-popup .inner .settings .edit-template .select-filter-container {
-  margin: 20px 10px 0 10px;
+  margin: 20px 10px 0 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -19015,6 +19018,15 @@ li.cf-designer-element.disabled * {
   height: calc(100% - 210px);
   overflow: hidden;
   overflow-y: scroll;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden) {
+  margin-bottom: 0 !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden).edit-row {
+  min-height: 60px;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden) .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon {
+  right: 10px;
 }
 .cf-designer-element-popup .inner .settings.scrollable .buttons {
   position: absolute;

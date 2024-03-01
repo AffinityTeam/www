@@ -15735,6 +15735,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.PostData = null;
 
+    this.AutoSaveProgress = 'none';
+
     this.DisableAutoSave = false;
 
   }
@@ -17172,6 +17174,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if ($a.isEvent(ev)) $a.stopEvent(ev);
 
+    this.AutoSaveProgress = 'none';
+
     var button = $a.getEventNode(ev, 'button'),
       buttonData = button.buttonData,
       firstErrorRow = { row: false, index: 999999 },
@@ -17503,6 +17507,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     if ($a.isEvent(ev)) $a.stopEvent(ev);
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
     buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
+    this.AutoSaveProgress = 'none';
     $a.ShowPageLoader();
     this._post(buttonData);
   }
@@ -17711,14 +17716,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _clearErrors(revalidate)
+  _clearErrors(revalidate, removeCustoms)
   {
     revalidate = $a.isBool(revalidate) ? revalidate : false;
-    document.querySelectorAll('.form-row.error').forEach(function (rowNode)
+    removeCustoms = $a.isBool(removeCustoms) ? removeCustoms : true;
+    let classIdentifier = removeCustoms ? '.form-row.error' : '.form-row.error:not(.custom-error)';
+    let rowNodes = document.querySelectorAll(classIdentifier);
+    rowNodes.forEach(function (rowNode)
     {
-      rowNode.classList.remove('error', 'flash-error', 'inline-error');
+      rowNode.classList.remove('error', 'flash-error', 'inline-error', 'custom-error');
       if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
       if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
+      if (rowNode.querySelector('.custom-error')) rowNode.querySelector('.custom-error').classList.remove('custom-error');
       if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
       if (revalidate)
       {
@@ -17750,7 +17759,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     this.PostedErrors = [];
 
-    this._clearErrors();
+    this._clearErrors(false, this.AutoSaveProgress !== 'saving');
 
     var message = '';
 
@@ -17791,6 +17800,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _postComplete()
   {
     console.groupEnd();
+
+    if (this.AutoSaveProgress === 'saving') this.AutoSaveProgress = 'saved';
+    else this.AutoSaveProgress = 'none';
     
     if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePost)
     {
@@ -17901,6 +17913,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     console.groupEnd();
     clearTimeout(this._postFailedThrottle);
+
+    if (this.AutoSaveProgress === 'saving') this.AutoSaveProgress = 'failed';
+    else this.AutoSaveProgress = 'none';
 
     this._postFailedThrottle = setTimeout(function ()
     {
@@ -18050,6 +18065,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _doAutoSave()
   {
     if (this.DisableAutoSave) return;
+    //if (this.AutoSaveProgress === 'saving') return;
+    this.AutoSaveProgress = 'saving';
     var lastCompare = JSON.stringify(this.PostData);
     var currentCompare = JSON.stringify(this._getPostData());
     if (lastCompare !== currentCompare)
@@ -20228,7 +20245,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       this.GenericGroupNode.classList.add('hide');
       this.GenericGroupNode.classList.add('hidden');
-      if (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsGlobalKey(this.Config))
+      if (this.CleverForms.IsLookup(this.Config) && !this.CleverForms.IsMasterFile(this.Config))
       {
         var api = this.CleverForms.GetGenericGroupLookupApi + '?ModelName=' + this.Config.Details.AffinityField.ModelName + '&PropertyName=' + this.Config.Details.AffinityField.FieldName;
         Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
@@ -21477,7 +21494,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
           if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
           Affinity2018.Autocompletes.Apply(this.GenericGroupSelectNode);
-          //this.GenericGroupNode.classList.remove('hidden');
+          this.GenericGroupNode.classList.remove('hidden');
           if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Select.Enum)
           {
             this.GenericGroupNode.classList.remove('hide');
@@ -41751,17 +41768,29 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     return this.Valid;
   }
 
-  ShowError(error)
+  ShowError(error, isCustom)
   {
+    isCustom = $a.isBool(isCustom) ? isCustom : false;
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.RowNode) this.RowNode.classList.add('error');
+    if (this.RowNode) 
+    {
+      this.RowNode.classList.add('error');
+      if (isCustom)
+      {
+        this.RowNode.classList.add('custom-error');
+        if (this.Form)
+        {
+          this.Form.FormNode.querySelector('.form-row.error.custom-error').scrollIntoView();
+        }
+      }
+    }
     if (this.Form) this.Form.ResizeSection();
   }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.RowNode) this.RowNode.classList.remove('error');
+    if (this.RowNode) this.RowNode.classList.remove('error', 'custom-error');
     if (this.Form) this.Form.ResizeSection();
   }
 
@@ -42015,12 +42044,12 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           }
           else
           {
-            this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavaialble-error'));
+            this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavailable-error'), true);
           }
         }
         else
         {
-          this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavaialble-error'));
+          this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavailable-error'), true);
         }
       }
     }
