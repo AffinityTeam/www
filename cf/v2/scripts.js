@@ -18574,7 +18574,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     Affinity2018.Tooltips.Apply();
 
     if (
-      this.CleverForms.IsLookup(this.Config) 
+      Affinity2018.FilterEnabled
+      && this.CleverForms.IsLookup(this.Config) 
       && this.Config.Details.hasOwnProperty('AffinityField')
       && this.Config.Details.hasOwnProperty('ItemSource')
       && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
@@ -21209,6 +21210,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _setupWhitelist()
   {
+    if (!Affinity2018.FilterEnabled) return;
+
     this.WhitelistFilterContainerNode = this.PopupNode.querySelector('.select-filter-container');
     this.WhitelistFilterGridScrollableNode = this.WhitelistFilterContainerNode.querySelector('.select-filter-grid-container');
     this.WhitelistFilterHideAll = this.WhitelistFilterContainerNode.querySelector('a.select-filter-hide-all');
@@ -21309,11 +21312,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   
   _getWhitelistFilter()
   {
+    if (!Affinity2018.FilterEnabled) return;
     clearTimeout(this._getWhitelistFilterDebouncer);
     this._getWhitelistFilterDebouncer = setTimeout(this._getWhitelistFilterDebounced, 400);
   }
   _getWhitelistFilterDebounced()
   {
+    if (!Affinity2018.FilterEnabled) return;
     if (this.WhitelistFilterGridWrapperNode != null)
     {
       let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
@@ -28183,7 +28188,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         let showAll = false;
         let whiteList = null;
         if (
-          this.CleverForms.IsLookup(this.Config) 
+          Affinity2018.FilterEnabled
+          && this.CleverForms.IsLookup(this.Config) 
           && this.Config.Details.hasOwnProperty('ItemSource')
           && this.Config.Details.hasOwnProperty('ItemSourceType')
           && this.Config.Details.ItemSourceType === 'AffinityCustom'
