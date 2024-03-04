@@ -9741,7 +9741,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Country: country
       };
 
-      if ($a.toString(response.data.EmployeeNumber.replace(/\D/g, '')) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.replace(/\D/g, '').padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
+      if ($a.toString(response.data.EmployeeNumber.toString().replace(/\D/g, '')) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.replace(/\D/g, '').padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
       this.ProfileStatus = this.LoadStatusEnum.Complete;
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
@@ -15723,7 +15723,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.LogElementOutput = false;
 
     this.RequestCheckCount = 0;
-    this.RequestCheckCountMax = 100; // 50 attempts == approx 5 seconds
+    this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
+    this.RequestChecked = false;
 
     this.DashboardHeaderHeight = 0;
 
@@ -16215,14 +16216,24 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.RequestCheckCount++;
     if (Affinity2018.RequestQueue && Affinity2018.RequestQueue.GetStatus() === 'running')
     {
-      if (this.RequestCheckCount > this.RequestCheckCountMax)
+      if (!this.RequestChecked && this.RequestCheckCount > this.RequestCheckCountMax)
       {
         console.log('%cRequests took to long', 'color:#ff5c00');
         if (this.Ready) Affinity2018.HidePageLoader();
         this.ButtonsNode.classList.remove('locked');
+        Affinity2018.Dialog.Show({
+          message: 'It is taking a while to load all your values. Please be patient.',
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'left'
+        });
         this.Ready = true;
-        this.PostData = this._getPostData();
-        this._startAutoSave();
+        //this.PostData = this._getPostData();
+        //this._startAutoSave();
+        //return;
+        this.RequestChecked = true;
+        this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
         return;
       }
       else
@@ -16236,6 +16247,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (this.Ready) Affinity2018.HidePageLoader();
       this.ButtonsNode.classList.remove('locked');
       this.Ready = true;
+      this.RequestChecked = false;
       this.PostData = this._getPostData();
       this._startAutoSave();
     }
@@ -22375,7 +22387,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ', ' + country;
+      var display = value + ' - ' + country;
       if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
