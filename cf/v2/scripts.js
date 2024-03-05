@@ -1,27 +1,27 @@
 /* Minification failed. Returning unminified contents.
-(2913,32-37): run-time error JS1195: Expected expression: class
-(3452,32-37): run-time error JS1195: Expected expression: class
-(3544,29-30): run-time error JS1004: Expected ';': {
-(3545,29-30): run-time error JS1004: Expected ';': {
-(3546,29-30): run-time error JS1004: Expected ';': {
-(3547,29-30): run-time error JS1004: Expected ';': {
-(4192,36-41): run-time error JS1195: Expected expression: class
-(4305,30-35): run-time error JS1195: Expected expression: class
-(4410,31-36): run-time error JS1195: Expected expression: class
-(4650,35-40): run-time error JS1195: Expected expression: class
-(4778,35-40): run-time error JS1195: Expected expression: class
-(5009,39-40): run-time error JS1014: Invalid character: `
-(5009,40-41): run-time error JS1195: Expected expression: <
-(5009,100-101): run-time error JS1014: Invalid character: `
-(5028,41-42): run-time error JS1014: Invalid character: `
-(5028,42-43): run-time error JS1195: Expected expression: <
-(5028,104-105): run-time error JS1014: Invalid character: `
-(5028,130-131): run-time error JS1195: Expected expression: .
-(5033,11-12): run-time error JS1002: Syntax error: }
-(5037,11-12): run-time error JS1002: Syntax error: }
-(5047,43-44): run-time error JS1014: Invalid character: `
-(5047,44-45): run-time error JS1195: Expected expression: <
-(5047,45-49): run-time error JS1197: Too many errors. The file might not be a JavaScript file: span
+(2918,32-37): run-time error JS1195: Expected expression: class
+(3457,32-37): run-time error JS1195: Expected expression: class
+(3549,29-30): run-time error JS1004: Expected ';': {
+(3550,29-30): run-time error JS1004: Expected ';': {
+(3551,29-30): run-time error JS1004: Expected ';': {
+(3552,29-30): run-time error JS1004: Expected ';': {
+(4197,36-41): run-time error JS1195: Expected expression: class
+(4310,30-35): run-time error JS1195: Expected expression: class
+(4415,31-36): run-time error JS1195: Expected expression: class
+(4655,35-40): run-time error JS1195: Expected expression: class
+(4783,35-40): run-time error JS1195: Expected expression: class
+(5014,39-40): run-time error JS1014: Invalid character: `
+(5014,40-41): run-time error JS1195: Expected expression: <
+(5014,100-101): run-time error JS1014: Invalid character: `
+(5033,41-42): run-time error JS1014: Invalid character: `
+(5033,42-43): run-time error JS1195: Expected expression: <
+(5033,104-105): run-time error JS1014: Invalid character: `
+(5033,130-131): run-time error JS1195: Expected expression: .
+(5038,11-12): run-time error JS1002: Syntax error: }
+(5042,11-12): run-time error JS1002: Syntax error: }
+(5052,43-44): run-time error JS1014: Invalid character: `
+(5052,44-45): run-time error JS1195: Expected expression: <
+(5052,45-49): run-time error JS1197: Too many errors. The file might not be a JavaScript file: span
  */
 (function ()
 {
@@ -896,7 +896,12 @@
   {
     Affinity2018.uuid = function ()
     {
-      return String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.round(Math.random() * 52)) + Math.random().toString(36).substr(2, 9);
+      let uuid = String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.round(Math.random() * 52)) + Math.random().toString(36).substring(2, 11);
+      if (/^\d/.test(uuid)) // starts with a number
+      {
+        uuid = String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.floor(Math.random() * 52)) + uuid.substring(1);
+      }
+      return uuid;
     };
   }
 
