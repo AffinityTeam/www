@@ -16408,14 +16408,23 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
             }.bind(this))
           }
+          else
+          {
+            sectionNode.classList.add('hidden');
+          }
         }
       }.bind(this));
     }
 
     if (anyRequired)
     {
-      this.RequiredMessageNode.classList.remove('hidden');
+      this.UserInstructionsNode.parentNode.classList.remove('hidden');
       this.UserInstructionsNode.classList.remove('hidden');
+      this.RequiredMessageNode.classList.remove('hidden');
+    }
+    else
+    {
+      this.UserInstructionsNode.parentNode.classList.add('hidden');
     }
 
     /**/
@@ -16587,14 +16596,23 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
             }.bind(this))
           }
+          else
+          {
+            sectionNode.classList.add('hidden');
+          }
         }
       }.bind(this));
     }
 
     if (anyRequired)
     {
-      this.RequiredMessageNode.classList.remove('hidden');
+      this.UserInstructionsNode.parentNode.classList.remove('hidden');
       this.UserInstructionsNode.classList.remove('hidden');
+      this.RequiredMessageNode.classList.remove('hidden');
+    }
+    else
+    {
+      this.UserInstructionsNode.parentNode.classList.add('hidden');
     }
 
     if (this.TemplateData)
@@ -18592,7 +18610,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
     if (
       Affinity2018.FilterEnabled
-      && this.CleverForms.IsLookup(this.Config) 
+      && (
+        this.CleverForms.IsLookup(this.Config)
+        || this.CleverForms.IsKey(this.Config)
+      )
       && this.Config.Details.hasOwnProperty('AffinityField')
       && this.Config.Details.hasOwnProperty('ItemSource')
       && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
@@ -20658,6 +20679,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var displayType = this.Config.Details.AffinityField.CleverFormsDisplayType;
     var value = this.Config.Details.Value;
     var isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
+    var isKey = this.CleverForms.IsKey(this.Config);
     var isLookup = this.CleverForms.IsLookup(this.Config);
     var isHidden = false;
     var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Disabled || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
@@ -20734,6 +20756,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           ['False', 'false']
         ]
       };
+    }
+
+    if (
+      Affinity2018.FilterEnabled
+      && displayType !== 'SingleSelectDropdown'
+      && !isLookup 
+      && !isGlobalKey 
+      && isKey
+      && this.Config.Details.hasOwnProperty('ItemSource')
+      && this.Config.Details.hasOwnProperty('ItemSourceType')
+      && this.Config.Details.ItemSourceType === 'AffinityCustom'
+      && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
+      && Array.isArray(this.Config.Details.ItemSource.WhiteList)
+    )
+    {
+      displayType = 'SingleSelectDropdown';
     }
 
     // check for rates and use Float with 5 decimal places
@@ -21259,7 +21297,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     //];
 
     if (
-      this.CleverForms.IsLookup(this.Config) 
+      (
+        this.CleverForms.IsLookup(this.Config)
+        || this.CleverForms.IsKey(this.Config)
+      )
       && !this.CleverForms.IsGlobalKey(this.Config) 
       && this.Config.Details.hasOwnProperty('ItemSource')
       && this.Config.Details.hasOwnProperty('ItemSourceType')
@@ -21277,9 +21318,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.WhitelistFilterGridWrapperNode.addEventListener('click', this._whitelistGridClicked);
     }
     
-    // TODO: Remove below if / when backend gets this for us .. or just leave in place as a fallback, just in case?
+    // Leave in place as a fallback, and for new form elements that IsKey but not IsLookup
     if (
-      this.CleverForms.IsLookup(this.Config) 
+      (
+        this.CleverForms.IsLookup(this.Config)
+        || this.CleverForms.IsKey(this.Config)
+      )
       && !this.CleverForms.IsGlobalKey(this.Config) 
       && !this.Config.Details.hasOwnProperty('ItemSource')
     )
@@ -21406,10 +21450,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   _whitelistGridSearchClear()
   {
     // TODO: Move to WebWorker
-    let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
-    for(let row of rows)
+    let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr.match');
+    for (let row of rows)
     {
       row.classList.remove('match');
+      let cellNodes = row.querySelectorAll('td');
+      cellNodes[0].innerHTML = cellNodes[0].innerText.trim();
+      cellNodes[1].innerHTML = cellNodes[1].innerText.trim();
     }
   }
 
@@ -21435,8 +21482,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     for(let row of rows)
     {
       row.classList.remove('match');
-      let description = row.querySelectorAll('td')[0].innerText.trim();
-      let value = row.querySelectorAll('td')[1].innerText.trim();
+      let cellNodes = row.querySelectorAll('td');
+      let description = cellNodes[0].innerText.trim();
+      let value = cellNodes[1].innerText.trim();
+      cellNodes[0].innerHTML = description;
+      cellNodes[1].innerHTML = value;
       if (new RegExp(searchFor, 'ig').test(description))
       {
         // we have a match, so highlight it
@@ -28206,7 +28256,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         let whiteList = null;
         if (
           Affinity2018.FilterEnabled
-          && this.CleverForms.IsLookup(this.Config) 
+          && (
+            this.CleverForms.IsLookup(this.Config)
+            || this.CleverForms.IsKey(this.Config)
+          )
           && this.Config.Details.hasOwnProperty('ItemSource')
           && this.Config.Details.hasOwnProperty('ItemSourceType')
           && this.Config.Details.ItemSourceType === 'AffinityCustom'
@@ -31217,7 +31270,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.displayNode.addEventListener('focus', this._doFocus);
 
     document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
-    document.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+    window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
 
     //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
     //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
