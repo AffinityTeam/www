@@ -28350,7 +28350,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             selectConfig.Required = true;
           }
           
-          if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
+          if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
             selectConfig.Value = this.Config.Details.Value;
             select.dataset.defaultValue = this.Config.Details.Value;
@@ -28417,7 +28417,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             selectConfig.Required = true;
           }
 
-          if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
+          if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
             var codeValue = this.Config.Details.Value.contains(',') && this.Config.Details.Value.split(',')[0].length < this.Config.Details.Value.split(',')[1].length ? this.Config.Details.Value.split(',')[0].trim() : this.Config.Details.Value;
             selectConfig.Value = codeValue;
@@ -28439,7 +28439,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           {
             selectConfig = false;
 
-            if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
+            if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
             {
               selectConfig = this.Config.Details.Value;
               select.dataset.defaultValue = this.Config.Details.Value;
@@ -41736,6 +41736,29 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     else this.config = $a.jsonCloneObject(this.DefaultConfig);
     delete this.targetNode.dataset.config;
 
+    if (this.targetNode.dataset.defaultValue && !Affinity2018.isNullOrEmpty(this.targetNode.dataset.defaultValue))
+    {
+      this.defaultValue = this.targetNode.dataset.defaultValue;
+    }
+    if (this.config.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.config.Value))
+    {
+      this.defaultValue = this.config.Value;
+    }
+
+    if (
+      this.config.hasOwnProperty('WhiteList')
+      && Array.isArray(this.config.WhiteList)
+      && this.config.WhiteList.length > 0
+    )
+    {
+      // No need to actually do a lookup, just reuse whitelist .. BUT!
+      // Whitelist keys are in the opposite order to lookupo keys so swap LOL
+      let displayKey = this.config.DataKey;
+      let dataKey = this.config.DisplayKey;
+      this.config.DisplayKey = displayKey;
+      this.config.DataKey = dataKey;
+    }
+
     this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : this.hasOwnProperty('config') && this.config.hasOwnProperty('Required') && this.config.Required : false;
 
     this.isSingleValue = this.config.IsSingleValue && !$a.isNullOrEmpty(this.config.Value);
@@ -41795,6 +41818,17 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       this.targetNode.innerHTML = '';
       this.targetNode.classList.add('working');
       if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('working');
+
+      if (
+        this.config.hasOwnProperty('WhiteList')
+        && Array.isArray(this.config.WhiteList)
+        && this.config.WhiteList.length > 0
+      )
+      {
+        this._processResults(this.config.WhiteList);
+        return;
+      }
+
       if (this.useRequestQueue && Affinity2018.RequestQueue)
       {
         Affinity2018.RequestQueue.Add(api, this._gotResults, this._gotResultsError);
@@ -42010,8 +42044,9 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.lastResult = resultArray;
   }
 
-  _insertResult (data)
+  _insertResult(data)
   {
+    data = JSON.parse(JSON.stringify(data));
     data[this.config.IsHiddenKey] = false;
     if (this.config.WhiteList !== null && !this.config.IgnoreWhiteList)
     {
@@ -42101,7 +42136,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           nodeExists = true;
           if (this.targetNode.widgets.hasOwnProperty('Autocomplete'))
           {
-            this.targetNode.widgets.Autocomplete.setValue(this.defaultValue, false);
+            if (this.targetNode.widgets.Autocomplete.Ready)
+            {
+              this.targetNode.widgets.Autocomplete.setValue(this.defaultValue, false);
+            }
+            else
+            {
+              this.targetNode.widgets.Autocomplete.defaultValue = this.defaultValue;
+            }
           }
           break;
         }
