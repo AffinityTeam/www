@@ -21457,8 +21457,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.Config.Details.ItemSourceType = 'AffinityCustom';
       this.Config.Details.ItemSource = {
-        ShowAll: this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false,
-        ShowNewItems: this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true,
+        ShowAll: this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false,
+        ShowNewItems: this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true,
         WhiteList: []
       };
       for (let item of data)
@@ -21479,6 +21479,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.WhitelistFilterHideAll.addEventListener('click', this._whitelistHideAll);
       this.WhitelistFilterUnhideAll.addEventListener('click', this._whitelistUnhideAll);
       this.WhitelistFilterGridWrapperNode.addEventListener('click', this._whitelistGridClicked);
+    }
+    else
+    {
+      console.warn('Get WhiteList had a problem:');
+      console.warn(data);
     }
   }
 
@@ -28369,8 +28374,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           && Array.isArray(this.Config.Details.ItemSource.WhiteList)
         )
         {
-          showAll = this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false;
-          showNewItems = this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true;
+          showAll = this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false;
+          showNewItems = this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true;
           whiteList = this.Config.Details.ItemSource.WhiteList;
         }
 
