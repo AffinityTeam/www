@@ -8544,6 +8544,13 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         {
           cleanStr = cleanStr + ' (' + codeStr + ')';
         }
+        if (cleanStr.startsWith(codeStr) + ' ')
+        {
+          cleanStr = cleanStr.replace(codeStr, '');
+          cleanStr = cleanStr.replaceAll('-', '');
+          cleanStr = cleanStr.replaceAll(',', '');
+          cleanStr = cleanStr.trim() + ' (' + codeStr + ')';
+        }
       }
     }
     else
@@ -11018,7 +11025,14 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
         if (node.hasOwnProperty('controller')) node.controller.Config = config;
         if (this.CleverForms.Designer.CanAllowAffinityField(node, !dontPrompt, true))
         {
-          if (this.CleverForms.IsLookup(config) && !config.Details.hasOwnProperty('ItemSource'))
+          if (
+            (
+              this.CleverForms.IsLookup(this.Config)
+              || this.CleverForms.IsKey(this.Config)
+            )
+            && !this.CleverForms.IsGlobalKey(this.Config) 
+            && !this.Config.Details.hasOwnProperty('ItemSource')
+          )
           {
             let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
               api: this.CleverForms.GetLookupApi,
@@ -18903,7 +18917,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
     if (!this.Saved) this.Changed = true;
 
-    if (this.Config.Details.hasOwnProperty('AffinityField'))
+    if (
+      this.Config.Details.hasOwnProperty('AffinityField')
+      && !this.CleverForms.IsGlobalKey(this.Config) 
+      && (
+        this.CleverForms.IsLookup(this.Config)
+        || this.CleverForms.IsKey(this.Config)
+      )
+    )
     {
       let itemSource = this._getWhitelistFilter();
       if (JSON.stringify(itemSource) !== JSON.stringify(this.Config.Details.ItemSource))
@@ -21412,7 +21433,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       && this.WhiteListModes.contains(mode)
       && !this.CleverForms.IsGlobalKey(this.Config) 
       && (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsKey(this.Config))
-      && (!this.Config.Details.hasOwnProperty('ItemSource') || !this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
+      && (
+        !this.Config.Details.hasOwnProperty('ItemSource') 
+        || !this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
+        || this.Config.Details.ItemSource.WhiteList === null
+      )
     )
     {
       let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
@@ -21432,8 +21457,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.Config.Details.ItemSourceType = 'AffinityCustom';
       this.Config.Details.ItemSource = {
-        ShowAll: false,
-        ShowNewItems: true,
+        ShowAll: this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false,
+        ShowNewItems: this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true,
         WhiteList: []
       };
       for (let item of data)
@@ -28286,7 +28311,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           {
             optionNode = document.createElement('option');
             optionNode.value = listItem[keys[1]];
-            optionNode.innerHTML = listItem[keys[0]];
+            optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
             if (!selected && $a.isBool(listItem.Selected) && listItem.Selected === true)
             {
               optionNode.selected = 'selected';
@@ -28344,8 +28369,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           && Array.isArray(this.Config.Details.ItemSource.WhiteList)
         )
         {
-          showAll = this.Config.Details.ItemSource.ShowAll;
-          ShowNewItems = this.Config.Details.ItemSource.ShowNewItems;
+          showAll = this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false;
+          showNewItems = this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true;
           whiteList = this.Config.Details.ItemSource.WhiteList;
         }
 
@@ -28594,7 +28619,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             {
               optionNode = document.createElement('option');
               optionNode.value = listItem[keys[1]];
-              optionNode.innerHTML = listItem[keys[0]];
+              optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
               if (!selected && listItem.Selected)
               {
                 optionNode.selected = 'selected';
