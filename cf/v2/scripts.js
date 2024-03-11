@@ -8544,7 +8544,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         {
           cleanStr = cleanStr + ' (' + codeStr + ')';
         }
-        if (cleanStr.startsWith(codeStr) + ' ')
+        if (cleanStr.startsWith(codeStr + ' ') && codeStr.trim() !== '')
         {
           cleanStr = cleanStr.replace(codeStr, '');
           cleanStr = cleanStr.replaceAll('-', '');
@@ -28514,7 +28514,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             Value: null,
             IsSingleValue: false,
             ShowAll: showAll,
-            ShwoNew: showNew,
+            ShowNewItems: showNewItems,
             WhiteList: whiteList
           };
 
