@@ -29723,6 +29723,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
         let match = matches[0];
         value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
       }
+      else
+      {
+        if (value.contains(','))
+        {
+          let parts = value.split(',');
+          if (parts.length > 1)
+          {
+            let code = parts[0].length < parts[1].length ? parts[0].trim() : parts[1].trim();
+            value = this.CleverForms.CleanLookupDisplayValue(value, code, true);
+          }
+        }
+      }
     }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Label, value);
     this.FormRowNode = super.SetFormRow(target, html);
