@@ -20280,7 +20280,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       '_setWhitelistFilter',
       '_whitelistUnhideAll', '_whitelistHideAll', 
       '_whitelistGridSearchClear', '_whitelistGridSearch', '_whitelistGridClicked',
-      '_toggleWhiteListFromModeSelect',
+      '_toggleWhiteListFromModeSelect', '_checkWhitelistCheckboxes',
       
       '_gotGenericList', '_getGenericListFailed', 
       '_gotFormList', '_getFormListFailed',
@@ -21492,6 +21492,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     let html = '';
     let template = this.WhitelistFilterRowTemplate;
     let addCodeToDisplay = this.Config.hasOwnProperty('IncludeDataInDisplay') ? this.Config.IncludeDataInDisplay : true;
+    let hiddenCount = 0;
     for(let item of ids)
     {
       html += template.format({
@@ -21501,8 +21502,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         buttonColor: item.IsHidden ? this.WhiteListButtonColorHidden : this.WhiteListButtonColorVisible,
         buttonIcon: item.IsHidden ? 'icon-eye-block' : 'icon-eye'
       });
+      hiddenCount += item.IsHidden ? 1 : 0;
     }
     this.WhitelistFilterGridWrapperNode.querySelector('tbody').innerHTML = html;
+    this._checkWhitelistCheckboxes();
   }
   
   _whitelistUnhideAll()
@@ -21515,6 +21518,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       row.querySelector('.button').classList.remove('icon-eye', this.WhiteListButtonColorVisible, 'icon-eye-block',this.WhiteListButtonColorHidden);
       row.querySelector('.button').classList.add('icon-eye',this.WhiteListButtonColorVisible);
     }
+    this._checkWhitelistCheckboxes();
   }
   _whitelistHideAll()
   {
@@ -21526,6 +21530,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       row.querySelector('.button').classList.remove('icon-eye', this.WhiteListButtonColorVisible, 'icon-eye-block',this.WhiteListButtonColorHidden);
       row.querySelector('.button').classList.add('icon-eye-block',this.WhiteListButtonColorHidden);
     }
+    this._checkWhitelistCheckboxes();
   }
 
   _whitelistGridSearchClear()
@@ -21608,6 +21613,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         buttonNode.classList.add(this.WhiteListButtonColorHidden, 'icon-eye-block');
       }
     }
+    this._checkWhitelistCheckboxes();
   }
 
   _toggleWhiteListFromModeSelect(ev)
@@ -21628,6 +21634,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         this.PopupNode.querySelector('.select-filter-container').classList.add('hidden');
       }
+    }
+  }
+
+  _checkWhitelistCheckboxes()
+  {
+    let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
+    let hiddenRows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr.hide');
+    if (hiddenRows.length === 0 || hiddenRows.length === rows.length)
+    {
+      this.WhitelistFilterShowNewNode.classList.add('disabled');
+      this.WhitelistFilterShowNewNode.setAttribute('disabled', 'disabled');
+      this.WhitelistFilterShowAllNode.checked = false;
+      this.WhitelistFilterShowAllNode.classList.add('disabled');
+      this.WhitelistFilterShowAllNode.setAttribute('disabled', 'disabled');
+    }
+    else
+    {
+      this.WhitelistFilterShowNewNode.classList.remove('disabled');
+      this.WhitelistFilterShowNewNode.removeAttribute('disabled');
+      this.WhitelistFilterShowNewNode.disabled = null;
+      this.WhitelistFilterShowAllNode.classList.remove('disabled');
+      this.WhitelistFilterShowAllNode.removeAttribute('disabled');
+      this.WhitelistFilterShowAllNode.disabled = null;
     }
   }
   
