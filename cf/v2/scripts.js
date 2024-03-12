@@ -8529,6 +8529,23 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     var cleanStr = display && typeof display === 'string' && display.trim() !== '' ? display.trim() : '',
         codeStr  = code && typeof code === 'string' && code.trim() !== '' ? code.trim() : typeof code === 'number' ? code.toString().trim() : '',
         lastChar;
+    if (typeof code === undefined || code === null)
+    {
+      let parts = [];
+      if (display.contains(','))
+      {
+        parts = display.split(',');
+      }
+      else if (display.contains('-'))
+      {
+        parts = display.split('-');
+      }
+      if (parts.length > 1)
+      {
+        code = parts[0].trim().length < parts[1].trim().length ? parts[0].trim() : parts[1].trim();
+        codeStr = code;
+      }
+    }
     if (display !== '')
     {
       cleanStr = display.trim().replace(/&amp;/gi, '&');
@@ -29725,15 +29742,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
       }
       else
       {
-        if (value.contains(','))
-        {
-          let parts = value.split(',');
-          if (parts.length > 1)
-          {
-            let code = parts[0].length < parts[1].length ? parts[0].trim() : parts[1].trim();
-            value = this.CleverForms.CleanLookupDisplayValue(value, code, true);
-          }
-        }
+        value = this.CleverForms.CleanLookupDisplayValue(value, null, true);
       }
     }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Label, value);
