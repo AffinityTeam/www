@@ -6301,7 +6301,7 @@ body.ui2018.uiupdate.cform .default-form .form-row.error .ui-form-error {
   line-height: 20px;
   padding: 5px 10px 5px 30px;
   color: #ea0909;
-  font-size: 14px;
+  font-size: 12px;
   background-color: rgba(234, 9, 9, 0.1);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -13597,8 +13597,9 @@ body.ui2018.cform .form .form-row.error,
 body.ui2018 .example-template .preview .form .form-row.error,
 body.ui2018.cform .default-form .form-row.error,
 body.ui2018 .example-template .preview .default-form .form-row.error {
-  border-left: 3px solid #e33100;
+  margin-bottom: 40px !important;
   padding-left: 10px;
+  border-left: 3px solid #e33100;
 }
 body.ui2018.cform form .form-row.error label,
 body.ui2018 .example-template .preview form .form-row.error label,
