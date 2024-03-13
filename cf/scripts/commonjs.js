@@ -4039,7 +4039,7 @@ var UIAutoCompleteWidget = new Class({
         /**/
 
         document.addEvent('scroll', this.position);
-        window.addEvent('resize', this.position);
+        document.addEvent('resize', this.position);
 
     },
 

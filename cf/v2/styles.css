@@ -1,37 +1,37 @@
 /* Minification failed. Returning unminified contents.
+(6292,59): run-time error CSS1030: Expected identifier, found ','
+(6292,81): run-time error CSS1031: Expected selector, found ')'
+(6292,81): run-time error CSS1025: Expected comma or open brace, found ')'
 (6300,59): run-time error CSS1030: Expected identifier, found ','
 (6300,81): run-time error CSS1031: Expected selector, found ')'
 (6300,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6308,59): run-time error CSS1030: Expected identifier, found ','
-(6308,81): run-time error CSS1031: Expected selector, found ')'
-(6308,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6340,82): run-time error CSS1030: Expected identifier, found ','
-(6340,153): run-time error CSS1031: Expected selector, found ')'
-(6340,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6430,64): run-time error CSS1030: Expected identifier, found ','
-(6430,71): run-time error CSS1031: Expected selector, found ')'
-(6430,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6438,63): run-time error CSS1030: Expected identifier, found ','
-(6438,70): run-time error CSS1031: Expected selector, found ')'
-(6438,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6446,72): run-time error CSS1030: Expected identifier, found ','
-(6446,79): run-time error CSS1031: Expected selector, found ')'
-(6446,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6505,74): run-time error CSS1030: Expected identifier, found ','
-(6505,216): run-time error CSS1031: Expected selector, found ')'
-(6505,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8157,113): run-time error CSS1030: Expected identifier, found ','
-(8157,125): run-time error CSS1031: Expected selector, found ')'
-(8157,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9523,133): run-time error CSS1030: Expected identifier, found ','
-(9523,274): run-time error CSS1031: Expected selector, found ')'
-(9523,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10103,167): run-time error CSS1030: Expected identifier, found ','
-(10103,309): run-time error CSS1031: Expected selector, found ')'
-(10103,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10354,108): run-time error CSS1030: Expected identifier, found ','
-(10354,250): run-time error CSS1031: Expected selector, found ')'
-(10354,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6332,82): run-time error CSS1030: Expected identifier, found ','
+(6332,153): run-time error CSS1031: Expected selector, found ')'
+(6332,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6422,64): run-time error CSS1030: Expected identifier, found ','
+(6422,71): run-time error CSS1031: Expected selector, found ')'
+(6422,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6430,63): run-time error CSS1030: Expected identifier, found ','
+(6430,70): run-time error CSS1031: Expected selector, found ')'
+(6430,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6438,72): run-time error CSS1030: Expected identifier, found ','
+(6438,79): run-time error CSS1031: Expected selector, found ')'
+(6438,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6497,74): run-time error CSS1030: Expected identifier, found ','
+(6497,216): run-time error CSS1031: Expected selector, found ')'
+(6497,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8149,113): run-time error CSS1030: Expected identifier, found ','
+(8149,125): run-time error CSS1031: Expected selector, found ')'
+(8149,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9515,133): run-time error CSS1030: Expected identifier, found ','
+(9515,274): run-time error CSS1031: Expected selector, found ')'
+(9515,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10095,167): run-time error CSS1030: Expected identifier, found ','
+(10095,309): run-time error CSS1031: Expected selector, found ')'
+(10095,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10346,108): run-time error CSS1030: Expected identifier, found ','
+(10346,250): run-time error CSS1031: Expected selector, found ')'
+(10346,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6266,14 +6266,6 @@ body.ui2018.uiupdate.cform .form .form-row,
 body.ui2018.uiupdate .default-form .form-row,
 body.ui2018.uiupdate.cform .default-form .form-row {
   margin: 0 0 20px 0;
-}
-body.ui2018.uiupdate form .form-row:last-child,
-body.ui2018.uiupdate.cform form .form-row:last-child,
-body.ui2018.uiupdate .form .form-row:last-child,
-body.ui2018.uiupdate.cform .form .form-row:last-child,
-body.ui2018.uiupdate .default-form .form-row:last-child,
-body.ui2018.uiupdate.cform .default-form .form-row:last-child {
-  margin: 0 !important;
 }
 body.ui2018.uiupdate form .form-row.error,
 body.ui2018.uiupdate.cform form .form-row.error,
@@ -14061,38 +14053,6 @@ body.ui2018 .example-template .preview .default-form .form-row span.inline {
   padding: 10px 0 0 0;
   font-size: 12px;
 }
-body.ui2018.cform form .form-row .show-all-filtered,
-body.ui2018 .example-template .preview form .form-row .show-all-filtered,
-body.ui2018.cform .form .form-row .show-all-filtered,
-body.ui2018 .example-template .preview .form .form-row .show-all-filtered,
-body.ui2018.cform .default-form .form-row .show-all-filtered,
-body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered {
-  display: inline-block;
-  margin: 10px 0 0 0;
-  font-size: 12px;
-  cursor: pointer;
-}
-body.ui2018.cform form .form-row .show-all-filtered span,
-body.ui2018 .example-template .preview form .form-row .show-all-filtered span,
-body.ui2018.cform .form .form-row .show-all-filtered span,
-body.ui2018 .example-template .preview .form .form-row .show-all-filtered span,
-body.ui2018.cform .default-form .form-row .show-all-filtered span,
-body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered span {
-  color: #106eb6;
-  text-decoration: underline;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
-}
-body.ui2018.cform form .form-row .show-all-filtered:hover span,
-body.ui2018 .example-template .preview form .form-row .show-all-filtered:hover span,
-body.ui2018.cform .form .form-row .show-all-filtered:hover span,
-body.ui2018 .example-template .preview .form .form-row .show-all-filtered:hover span,
-body.ui2018.cform .default-form .form-row .show-all-filtered:hover span,
-body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered:hover span {
-  color: #16c1f3;
-}
 body.ui2018.cform .ui-calendar-buttons,
 body.ui2018 .example-template .preview .ui-calendar-buttons {
   display: inline-block;
@@ -18454,9 +18414,6 @@ li.cf-designer-element.disabled * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  /* 19/02/2024 New White lsit Select Filter */
-
-  /**/
 }
 .cf-designer-element-popup .inner .settings label {
   display: inline-block;
@@ -18840,227 +18797,6 @@ li.cf-designer-element.disabled * {
 }
 .cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr:nth-child(even) td textarea::-webkit-scrollbar-thumb {
   border: 2px solid #c8c8c8;
-}
-.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hidden) {
-  margin-bottom: 0 !important;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container {
-  margin: 20px 10px 0 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner {
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.05);
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner h3 {
-  margin: 0 0 10px 0;
-  font-weight: 600;
-  font-size: 14px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row {
-  margin: 5px 0 5px 0;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row a {
-  display: inline-block;
-  line-height: 16px;
-  margin: 0 10px 0 0;
-  cursor: pointer;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row label {
-  display: inline-block;
-  font-size: 14px;
-  height: 16px;
-  line-height: 16px;
-  margin: 0 0 5px 0;
-  padding: 0;
-  color: #636e7c;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row label.inline {
-  vertical-align: top;
-  height: 30px;
-  line-height: 30px;
-  margin: 0;
-  padding: 0;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row input[type="text"] {
-  height: 44px;
-  padding: 0 15px;
-  font-size: 16px !important;
-  color: black;
-  background: #f7f9fe;
-  border: 2px solid #e3e8ed;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row icon {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-  vertical-align: top;
-  margin: 2px 0 0 2px;
-  font-size: 14px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline {
-  margin: 0;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline label {
-  height: 24px;
-  line-height: 24px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline input[type="checkbox"] {
-  width: 24px;
-  height: 24px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline input[type="checkbox"]:after {
-  top: 2px;
-  left: 2px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container {
-  min-height: 50px;
-  max-height: 300px;
-  margin: 5px 0 10px 0;
-  overflow: hidden;
-  overflow-y: scroll;
-  -webkit-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
-  -moz-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
-  box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper {
-  padding: 10px;
-  background-color: white;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid {
-  width: 100%;
-  padding: 0;
-  border-spacing: 0;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid thead tr {
-  background: transparent;
-  padding: 0;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid thead tr th {
-  height: 40px;
-  line-height: 40px;
-  padding: 0;
-  border: none !important;
-  background: none;
-  font-weight: bold;
-  font-size: 14px;
-  text-align: left;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody:hover {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr {
-  padding: 0;
-  background-color: white;
-  -webkit-transition: backgroundColor 250ms;
-  -moz-transition: backgroundColor 250ms;
-  -o-transition: backgroundColor 250ms;
-  transition: backgroundColor 250ms;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr:nth-child(even) {
-  background-color: #f6f6f6;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr.hide td {
-  -moz-opacity: 0.4;
-  -khtml-opacity: 0.4;
-  opacity: 0.4;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr.match td em {
-  padding: 0 1px;
-  font-weight: 600;
-  background-color: #ffb515;
-  color: white;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td {
-  padding: 0;
-  border: none;
-  border-top: 1px solid #e6e9ed;
-  -webkit-transition: opacity 250ms;
-  -moz-transition: opacity 250ms;
-  -o-transition: opacity 250ms;
-  transition: opacity 250ms;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td:nth-child(1) {
-  padding-left: 10px;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td:nth-child(3) {
-  width: 50px;
-  padding-right: 10px;
-  text-align: right;
-}
-.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td:nth-child(3) .button {
-  width: 36px;
-  height: 36px;
-  line-height: 36px;
-  margin: 4px 0;
-  padding: 0;
-  text-align: center;
-  font-weight: normal !important;
-}
-.cf-designer-element-popup .inner .settings.scrollable {
-  overflow: visible;
-}
-.cf-designer-element-popup .inner .settings.scrollable .settings-box {
-  position: relative;
-  height: calc(100% - 210px);
-  overflow: hidden;
-  overflow-y: scroll;
-}
-.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden) {
-  margin-bottom: 0 !important;
-}
-.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden).edit-row {
-  min-height: 60px;
-}
-.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden) .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon {
-  right: 10px;
-}
-.cf-designer-element-popup .inner .settings.scrollable .buttons {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  padding: 5px 5px 0px 10px;
-  background: rgba(255, 255, 255, 0.755);
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  -webkit-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
-  -moz-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
-  box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
-}
-.cf-designer-element-popup .inner .settings.scrollable input[type="text"] {
-  width: calc(100% - 10px) !important;
-}
-.cf-designer-element-popup .inner .settings.scrollable p.affinity-form-link-desc {
-  width: calc(100% - 10px) !important;
 }
 .cf-designer-element-popup .inner .settings .youtube-embed {
   padding: 20px 0 0 0;
