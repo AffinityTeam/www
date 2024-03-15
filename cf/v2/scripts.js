@@ -21677,7 +21677,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (this.CleverForms.IsCountrySensativeField(this.Config))
       {
         formCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry);
-        if (formCountry !== null)
+        if (formCountry !== null  && formCountry !== undefined)
         {
           let hasCountryCodes = data.find(item => item.hasOwnProperty('CountryCode'));
           if (hasCountryCodes !== undefined)
@@ -21696,8 +21696,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         let includeItem = false;
         let itemCountry = item.hasOwnProperty('CountryCode') && !$a.isNullOrEmpty(item.CountryCode) ? this.CleverForms.GetCountryCodeVariant(item.CountryCode) : null;
-        if (formCountry === null) includeItem = true;
-        else if (itemCountry === null) includeItem = true;
+        if (formCountry === null || formCountry === undefined) includeItem = true;
+        else if (itemCountry === null || itemCountry === undefined) includeItem = true;
         else if (itemCountry === formCountry) includeItem = true;
         if (includeItem)
         {
