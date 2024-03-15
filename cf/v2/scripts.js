@@ -21703,7 +21703,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           this.Config.Details.ItemSource.WhiteList.push({
             CountryCode: item.CountryCode,
-            IsHidden: false,
+            IsHidden: item.IsHidden,
             Value: item.Key, // backwards because f#ck you, that's why .. thansk Yuri ..
             Key: item.Value // backwards becuase see above ..
           });
