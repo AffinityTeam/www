@@ -15782,8 +15782,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostState = 'none';
 
     this.PostData = null;
-
-    this.AutoSaveProgress = 'none';
+    this.OverridePostData = null;
 
     this.SelectedUserData = null;
 
@@ -15851,8 +15850,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_submit',
       '_save',
 
+      '_setupAutoSaveEvents', '_humanModified', 
+
       '_getPostData', '_post', '_postCatch', '_postThen', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
-      '_stopAutoSave', '_startAutoSave', '_doAutoSave',
 
       '_modalChanged', '_checkForHidden', '_scrollToError',
 
@@ -16314,6 +16314,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.RequestChecked = false;
       this.PostData = this._getPostData();;
       Affinity2018.HidePageLoader();
+      this._setupAutoSaveEvents();
       this._checkForHidden()
     }
   }
@@ -17268,8 +17269,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if ($a.isEvent(ev)) $a.stopEvent(ev);
 
-    this.AutoSaveProgress = 'none';
-
     var button = $a.getEventNode(ev, 'button'),
       buttonData = button.buttonData,
       firstErrorRow = { row: false, index: 999999 },
@@ -17601,7 +17600,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     if ($a.isEvent(ev)) $a.stopEvent(ev);
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
     buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
-    this.AutoSaveProgress = 'none';
     $a.ShowPageLoader();
     this._post(buttonData);
   }
@@ -17723,8 +17721,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _post(buttonData, suppressMessage)
   {
-    this._stopAutoSave();
-
     //buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '', StateType: 0}, 'object');
     buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '' }, 'object');
 
@@ -17732,7 +17728,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.SubmitActionName = buttonData.Name;
 
-    this.PostData = this._getPostData();
+    if (this.OverridePostData !== null)
+    {
+      this.PostData = $a.jsonCloneObject(this.OverridePostData);
+      this.OverridePostData = null;
+    }
+    else
+    {
+      this.PostData = this._getPostData();
+    }
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
@@ -17888,7 +17892,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     this.PostedErrors = [];
 
-    this._clearErrors(false, this.AutoSaveProgress !== 'saving');
+    this._clearErrors(false);
     this.FormSavingNode.classList.remove('show');
 
     var message = '';
@@ -17930,9 +17934,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _postComplete()
   {
     console.groupEnd();
-
-    if (this.AutoSaveProgress === 'saving') this.AutoSaveProgress = 'saved';
-    else this.AutoSaveProgress = 'none';
     
     if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePost)
     {
@@ -17976,8 +17977,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostData = this._getPostData();
 
     this.PostState = 'success';
-    
-    this._startAutoSave();
 
     return true;
   }
@@ -18043,9 +18042,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     console.groupEnd();
     clearTimeout(this._postFailedThrottle);
-
-    if (this.AutoSaveProgress === 'saving') this.AutoSaveProgress = 'failed';
-    else this.AutoSaveProgress = 'none';
 
     this._postFailedThrottle = setTimeout(function ()
     {
@@ -18171,44 +18167,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       this.PostState = 'failed';
 
-      this._startAutoSave();
-
     }.bind(this), 500);
-  }
-  
-
-   
-  /**
-   * Summary. Form auto save
-   * @this    Class scope
-   * @access  private
-   */ 
-  _stopAutoSave()
-  {
-    clearInterval(this._autoSaveTimer);
-  }
-  _startAutoSave()
-  {
-    this._stopAutoSave();
-    this._autoSaveTimer = setInterval(this._doAutoSave, 1000);
-  }
-  _doAutoSave()
-  {
-    if (this.DisableAutoSave) return;
-    //if (this.AutoSaveProgress === 'saving') return;
-    this.AutoSaveProgress = 'saving';
-    var lastCompare = JSON.stringify(this.PostData);
-    var currentCompare = JSON.stringify(this._getPostData());
-    if (lastCompare !== currentCompare)
-    {
-      console.log('do auto save');
-      var buttonData = $a.jsonCloneObject(this.SaveButtonData);
-      buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
-      this.SaveButtonData = buttonData;
-      this._stopAutoSave();
-      this.FormSavingNode.classList.add('show');
-      this.Save(true); // true = suppress messages
-    }
   }
 
   _modalChanged(ev)
@@ -18220,7 +18179,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this._checkForHidden(false);
     }
   }
+  
 
+   
+  /**
+   * Summary. Form auto save
+   * @this    Class scope
+   * @access  private
+   */ 
   _checkForHidden(vaidate)
   {
     vaidate = vaidate == undefined ? true: vaidate;
@@ -18236,7 +18202,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           && controller.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup')
         )
         {
-          //console.log(controller.FormRowNode);
           controller.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
         }
       }
@@ -18266,15 +18231,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     let csutomErrors = this.FormNode.querySelectorAll('.row-affinityfield.custom-error');
     if (csutomErrors.length > 0)
     {
-      this._stopAutoSave();
-      this.DisableAutoSave = true;
-      this.ButtonsNode.querySelector('*[data-action="save"]').classList.add('disabled');
+      //this.ButtonsNode.querySelector('*[data-action="save"]').classList.add('disabled');
     }
     else
     {
-      this.DisableAutoSave = false;
-      this._startAutoSave();
-      this.ButtonsNode.querySelector('*[data-action="save"]').classList.remove('disabled');
+      //this.ButtonsNode.querySelector('*[data-action="save"]').classList.remove('disabled');
     }
   }
 
@@ -18288,6 +18249,73 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       window.scrollTo(window.scrollX, window.scrollY - offset - 10);
     }
   }
+  
+  
+
+   
+  /**
+   * Summary. Form auto save
+   * @this    Class scope
+   * @access  private
+   */ 
+  _setupAutoSaveEvents()
+  {
+    if (this.DisableAutoSave) return;
+    var nodes = this.FormNode.querySelectorAll('.form-row');
+    for (let node of nodes)
+    {
+      node.removeEventListener('human_modified', this._humanModified);
+      node.addEventListener('human_modified', this._humanModified);
+    }
+  }
+  _humanModified(ev)
+  {
+    if (this.DisableAutoSave) return;
+    if (ev && 'detail' in ev && 'target' in ev)
+    {
+      setTimeout((() =>
+      {
+        let rowNode = ev.target;
+        let fieldName = rowNode.dataset.name;
+        let label = rowNode.querySelector('label').innerText.trim();
+        let value = ev.detail.value.hasOwnProperty('Value') ? ev.detail.value.Value : ev.detail.value;
+        let lastData = $a.jsonCloneObject(this.PostData);
+        let sectionIndex = 0;
+        for (var section of lastData.Sections)
+        {
+          let found = section.Elements.find(data => data.Name === fieldName);
+          if (found)
+          {
+            let compareLast = $a.isArray(found.Value) || $a.isObject(found.Value) ? JSON.stringify(found.Value) : found.Value;
+            let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
+            if (compareLast !== compareNew)
+            {
+              if (typeof compareLast === 'string' && compareLast.contains(';base64,')) compareLast = compareLast.split(';base64,')[0] + ';base64,...';
+              if (typeof compareNew === 'string' && compareNew.contains(';base64,')) compareNew = compareNew.split(';base64,')[0] + ';base64,...';
+              console.log(`%cChanged "${label}" from "${compareLast}" (${typeof compareLast}) to "${compareNew}" (${typeof compareNew}) - Auto Save it!!`, 'color:#8dca35;');
+              found.Value = value;
+              this.OverridePostData = {
+                Sections: [$a.jsonCloneObject(section)]
+              };
+              this.OverridePostData.Sections[0].Elements = [found];
+            }
+            break;
+          }
+          sectionIndex++;
+        }
+        if (this.OverridePostData !== null)
+        {
+          var buttonData = $a.jsonCloneObject(this.SaveButtonData);
+          buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
+          this.SaveButtonData = buttonData;
+          this.FormSavingNode.classList.add('show');
+          this.Save(true); // true = suppress messages
+        }
+      }).bind(this), 250);
+    }
+  }
+
+
 
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
@@ -20187,6 +20215,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       }
 
       // set any special elements
+
+      input.addEventListener('human_modified', ((ev) =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
 
       return this.FormRowNode;
     }
@@ -22752,6 +22785,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
+
       return this.FormRowNode;
     }
   }
@@ -22997,6 +23035,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('change', (() =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('input').checked }}));
+      }).bind(this));
 
       return this.FormRowNode;
     }
@@ -23245,6 +23288,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(this.FormRowNode.querySelector('input').value.trim()) }}));
+      
+      }).bind(this));
 
       return this.FormRowNode;
     }
@@ -23589,6 +23638,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
+
 
       //this.FormRowNode.querySelector('input').value = date;
       //if (date !== '') this.FormRowNode.querySelector('input').dataset.startDate = date;
@@ -25109,8 +25164,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
       {
         if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
         {
-          input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
-          if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+          input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function ()
+          {
+            Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+          }.bind(this));
+          if (input.widgets.DrawPanel.Ready) 
+          {
+            Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
+            input.widgets.DrawPanel.addEventListener('human_modified', (ev =>
+            {
+              this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+            }).bind(this));
+
+          }
           return;
         }
         setTimeout(checkPanelLoaded, 100);
@@ -25567,6 +25634,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
 
       // set any special elements
 
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('input').value.trim() }}));
+      
+      }).bind(this));
+
       return this.FormRowNode;
     }
   }
@@ -25882,6 +25955,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
 
+      '_fileNodeWidgetReady',
       '_checkHideables',
       '_getDocumentCategories', '_getDocumentTypes',
       '_loadNames'
@@ -26108,6 +26182,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     {
 
       // set any special elements
+
+      let fileNode = this.FormRowNode.querySelector('input[type="file"]');
+      if (fileNode)
+      {
+        if (fileNode.hasOwnProperty('widgets') && fileNode.widgets.hasOwnProperty('FileUpload'))
+        {
+          this._fileNodeWidgetReady();
+        }
+        else
+        {
+          fileNode.addEventListener('widgetReady', this._fileNodeWidgetReady);
+        }
+      }
+
     }
   }
 
@@ -26117,6 +26205,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     {
 
       // get any special elements
+
 
       if ($a.isNode(this.FileNode) && this.FileWidget !== null)
       {
@@ -26135,6 +26224,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   }
 
   /**/
+
+  _fileNodeWidgetReady()
+  {
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('postSuccess', (() =>
+    {
+      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+    }).bind(this));
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('deleteSuccess', (() =>
+    {
+      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+    }).bind(this));
+  }
 
   _checkHideables ()
   {
@@ -26650,6 +26751,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
       // set any special elements
 
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(this.FormRowNode.querySelector('input').value.trim()) }}));
+      
+      }).bind(this));
+
       return this.FormRowNode;
     }
   }
@@ -26837,6 +26944,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseInt(this.FormRowNode.querySelector('input').value.trim()) }}));
+      
+      }).bind(this));
+
 
       return this.FormRowNode;
     }
@@ -27202,6 +27316,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
       // set any special elements
 
+      this.FormRowNode.querySelector('textarea').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('textarea').value.trim() }}));
+      
+      }).bind(this));
+
       return this.FormRowNode;
     }
   }
@@ -27300,7 +27420,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid',
+
+      '_humanInteraction'
 
     ].bindEach(this);
 
@@ -27439,6 +27561,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
             });
             this.FormRowNode.appendChild(checkRow);
             if (this.Config.Details.Required) checkRow.querySelector('input').addEventListener('change', this.CheckValid);
+            else checkRow.querySelector('input').addEventListener('change', this._humanInteraction);
           }.bind(this));
           valueData = $a.stringToObject(this.Config.Details.Value);
           if ($a.isArray(valueData))
@@ -27456,6 +27579,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
             }
           }
         }
+
       }
 
       return this.FormRowNode;
@@ -27536,16 +27660,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     return '';
   }
 
-  CheckValid()
+  CheckValid(ev)
   {
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
+    if (ev && 'isTrusted' in ev && ev.isTrusted)
+    {
+      this._humanInteraction(ev);
+    }
   }
 
   /**/
+
+  _humanInteraction(ev)
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+  }
 
   _templates ()
   {
@@ -28818,6 +28951,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         }
 
+        select.addEventListener('human_modified', (() =>
+        {
+          this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
+        }).bind(this));
+
       }
       if (select && this.Config.Details.Required) select.addEventListener('change', this.CheckValid);
       return this.FormRowNode;
@@ -29073,7 +29211,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid',
+
+      '_humanInteraction'
 
     ].bindEach(this);
 
@@ -29241,6 +29381,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
             if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
+            else selectRow.querySelector('input').addEventListener('change', this._humanInteraction);
           }.bind(this));
           if (isInline)
           {
@@ -29315,7 +29456,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     return '';
   }
 
-  CheckValid()
+  CheckValid(ev)
   {
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
@@ -29323,9 +29464,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+    if (ev && 'isTrusted' in ev && ev.isTrusted)
+    {
+      this._humanInteraction(ev);
+    }
   }
 
   /**/
+
+  _humanInteraction(ev)
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+  }
 
   _templates ()
   {
@@ -29531,6 +29681,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       }
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
 
       return this.FormRowNode;
     }
@@ -29887,6 +30042,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('input').value.trim() }}));
+      
+      }).bind(this));
 
       if (
         this.Config.Type === 'AffinityField'
@@ -30668,6 +30829,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     };
 
+    this.humanInteraction = false;
+
     this.ValidateLengths = false;
     this.ValidationErrors = [];
 
@@ -30693,6 +30856,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       '_validateLengths',
       '_checkAddress', '_getCountryFromPLace', '_fillAddress',
       '_templates',
+
+      '_checkHumanInteraction',
 
       'Destroy'
 
@@ -30961,15 +31126,23 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
   }
 
-  _userUpdateAddress ()
+  _userUpdateAddress (ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     //clearTimeout(this._checkAddressThrottle);
     this.lookupNode.value = this.GetAddress();
     //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
   }
 
-  _userUpdateSubAddress()
+  _userUpdateSubAddress(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     //clearTimeout(this._checkAddressThrottle);
     //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
     this.Valid = this._validateLengths();
@@ -31071,6 +31244,9 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     }
 
     this.lookupNode.dispatchEvent(new Event('LengthValidated'));
+
+    this._checkHumanInteraction();
+
     return this.Valid;
   }
 
@@ -31162,6 +31338,17 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     if (this.AutocompleteListener === null) this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddress);
 
+    this.humanInteraction = true;
+    this._checkHumanInteraction();
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.lookupNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: JSON.stringify(this.GetAddressData()) }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
@@ -31365,6 +31552,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.keeplist = true;
     this.elementChangedOnly = false;
     this.stopInitialChange = false;
+
+    this.humanInteraction = false;
 
     this.fuzzyRunning = false;
     this.workerComplete = true;
@@ -31576,6 +31765,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.listNode.removeEventListener('mouseleave', this._mouseLeave);
     this.listNode.addEventListener('mouseenter', this._mouseEnter);
     this.listNode.addEventListener('mouseleave', this._mouseLeave);
+
+    this.displayNode.addEventListener('blur', this._displayBlur);
 
     this._processOptions();
 
@@ -32444,6 +32635,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     if (ev.keyCode === 13 && selected) // 13 -> enter
     {
+      this.humanInteraction = true;
       this._stopEvents(ev);
       this._itemClicked({ target: selected });
       return;
@@ -32728,6 +32920,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this._fireWindowChangeEvent('autocomplete _elementUp');
 
+
+
+
   }
 
   /**/
@@ -32735,6 +32930,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _itemClicked(ev)
   {
     if (!this.enabled) return false;
+
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
 
     clearTimeout(this._kepListDelay);
 
@@ -32784,6 +32984,21 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this._kepListDelay = setTimeout(this._restoreSelectedList, 1000);
       //this._restoreSelectedList.delay(1000, this);
+    }
+
+    if (this.humanInteraction)
+    {
+      this.targetNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.targetNode.value }}));
+    }
+    this.humanInteraction = false;
+  }
+
+  _displayBlur(ev)
+  {
+    if (!this.enabled) return false;
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.targetNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.targetNode.value }}));
     }
   }
 
@@ -34171,6 +34386,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     this.FirstLoad = true;
 
+    this.humanInteraction = false;
+
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -34189,6 +34406,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       '_getCountryCode', '_setupCountry',
       '_setIcon',
       '_userKey', '_userKeyUp', '_userValidate', '_validate', '_validateSuccess', '_validateFailed', 
+
+      '_checkHumanInteraction',
 
       'Destroy',
 
@@ -34661,8 +34880,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     return this.DefaultCountryCode;
   }
 
-  _setupCountry ()
+  _setupCountry (ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     this._clear(false);
     var country = this._getCountryCode();
     var useCountry = country;
@@ -34734,6 +34957,10 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   }
   _userKeyUp (ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (this.pasting && ev && ev.target === this.inputBankNode)
     {
       var fullValue = this.inputBankNode.value.trim(), numbersValue = fullValue.replace(/[^0-9]/gi, '').trim();
@@ -34807,12 +35034,14 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     else
     {
+      this._checkHumanInteraction();
       return;
     }
 
     if (attemtpCountry == '')
     {
       this._setIcon();
+      this._checkHumanInteraction();
       return;
     }
 
@@ -34999,7 +35228,17 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       this.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
+    this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.initInputNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetData() }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
@@ -35935,6 +36174,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'closed';
     this.mouseState = '';
 
+    this.humanInteraction = false;
+
     this.labelName = '';
     this.postId = '';
     this.postName = '';
@@ -35975,6 +36216,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       '_buildCalendar',
       '_cellClicked',
+      '_checkHumanInteraction',
 
       '_displayKeyUp', '_displayBlur',
 
@@ -36621,6 +36863,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _cellClicked(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (this.datesNode.querySelector('.ui-cal-cell.selected')) this.datesNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
     var cellNode = ev.target.closest('.ui-cal-cell.active'), cellDate;
     if (cellNode)
@@ -36634,6 +36880,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _displayKeyUp(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (
       ev.keyCode === 13 // enter
       || ev.keyCode === 9 // tab
@@ -36645,8 +36895,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _displayBlur()
+  _displayBlur(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (this.nullable && this.displayNode.value.trim() === '') return;
     this._setDateFromStr(this.displayNode.value.trim());
   }
@@ -36666,6 +36920,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.dateDisplayNode.innerHTML = dateStr;
     this._setDisplay(false);
     this.IsValid();
+    this._checkHumanInteraction();
   }
   _setTime()
   {
@@ -36674,6 +36929,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.timeDisplayNode.innerHTML = timeStr;
     this._setDisplay(false);
     this.IsValid();
+    this._checkHumanInteraction();
   }
   _setDisplay(fromBlur)
   {
@@ -36697,7 +36953,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         if (!fromBlur) this.displayNode.value = dateStr;
       }
     }
+
     this.IsValid();
+
+    this._checkHumanInteraction();
   }
   _setReturn(fromBlur)
   {
@@ -36706,6 +36965,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.outputFormat);
     if (output) this.targetNode.value = dateStr;
     this.IsValid();
+    this._checkHumanInteraction();
   }
 
   _setDateFromStr(attemptStr, returnResult)
@@ -36722,6 +36982,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       if (returnResult)
       {
+        debugger;
         if ($a.isDateValid(attempt)) return attempt;
         return 'none';
       }
@@ -36767,6 +37028,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this.dispatchEvent(new CustomEvent('dateChanged', { detail: { dispatchObject: this.date } }));
       this.targetNode.dispatchEvent(new Event('change'));
     }
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.targetNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.getDisplayValue() }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
@@ -37579,7 +37849,7 @@ Affinity2018.Classes.Plugins.DrawPanel = class
 
 };
 
-Affinity2018.Classes.Plugins.DrawPanelWidget = class
+Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassEvents 
 {
   _options()
   {
@@ -37603,6 +37873,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
   constructor(targetNode, config)
   {
+    super();
     this._options();
     [
       '_options',
@@ -37617,6 +37888,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       '_changeBgImage', '_setBgImage',
 
       '_canvasDown', '_canvasUp',
+
+      '_humanInteraction',
 
       'Destroy',
 
@@ -38038,6 +38311,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       this.InitNode.dispatchEvent(new Event('imageSet'));
     }
 
+    if (this.Ready) this._humanInteraction();
+
     if (!this.Ready) this.Ready = true;
   }
 
@@ -38052,7 +38327,14 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
     {
       this._eventIsDown = false;
       this._setData();
+      clearTimeout(this.interactionTimer);
+      this.interactionTimer = setTimeout(this._humanInteraction, 1000);
     }
+  }
+
+  _humanInteraction()
+  {
+    this.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.Get() }}));
   }
 
   /**/
@@ -38100,7 +38382,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
 };
 
-Affinity2018.Classes.Plugins.DrawPad = class
+Affinity2018.Classes.Plugins.DrawPad = class 
 {
   _options ()
   {
@@ -38125,7 +38407,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
       'IsEmpty',
       'ToDataURL','FromDataURL',
 
-      '_strokeUpdate', '_strokeBegin', '_strokeDraw', '_strokeEnd', 
+      '_strokeUpdate', '_strokeBegin', '_strokeDraw', '_strokeEnd',
       '_createPoint','_addPoint','_calculateCurveControlPoints','_addCurve','_drawPoint','_drawCurve', '_strokeWidth',
 
       '_handleMouseEvents',
@@ -43297,6 +43579,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     this.FirstLoad = true;
 
+    this.humanInteraction = false;
+
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -43315,6 +43599,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       '_getCountryCode', '_setupCountry',
       '_setIcon',
       '_userKey', '_userKeyUp', '_userValidate', '_validate', '_validateSuccess', '_validateFailed', 
+
+      '_checkHumanInteraction',
 
       'Destroy',
 
@@ -43743,8 +44029,13 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     return this.DefaultCountryCode;
   }
 
-  _setupCountry()
+  _setupCountry(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
+
     this._clear(false);
     var country = this._getCountryCode();
     switch (country)
@@ -43759,6 +44050,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       default:
 
         break;
+
     }
 
     /**/
@@ -43814,6 +44106,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _userKeyUp(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
+
     if (this.pasting && ev && ev.target === this.input1Node)
     {
       var fullValue = this.input1Node.value.trim(), numbersValue = fullValue.replace(/[^0-9]/gi, '').trim();
@@ -43882,12 +44179,14 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
     else
     {
+      this._checkHumanInteraction();
       return;
     }
 
     if (attemtpCountry == '')
     {
       this._setIcon();
+      this._checkHumanInteraction();
       return;
     }
 
@@ -43929,6 +44228,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       if (this._stringFromNodes() === '') this._setIcon();
       else this._setIcon(this.Valid);
     }
+    this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
@@ -44036,6 +44336,15 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   _validateFailed(error)
   {
     this._validated();
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.initInputNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetData() }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
