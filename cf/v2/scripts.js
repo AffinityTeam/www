@@ -8034,7 +8034,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       //  OnlyInForm: false
       //}
     };
-    this.CountrySensativeFieldNames = ["TAX_CODE", "TAX_NUMBER", "BAL_ACCT", "ACCT1", "ACCT2", "ACCT3", "ACCT4", "ACCT5"];
+    this.CountrySensativeFieldNames = ["TAX_CODE", "PAY_POINT",  "TAX_NUMBER", "BAL_ACCT", "ACCT1", "ACCT2", "ACCT3", "ACCT4", "ACCT5"];
     // Consider this: If we do not know the user or form country, show selects
     this.ShowCountryIfUnknown = true;
 
@@ -8942,6 +8942,18 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       return country.length === 1 ? Object.keys(this.CountryCodeMap).find(key => this.CountryCodeMap[key] === country) : country;
     }
     return country;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  IsCountrySensativeField(config)
+  {
+    return config.Details.hasOwnProperty('AffinityField') ? this.CountrySensativeFieldNames.contains(config.Details.AffinityField.FieldName) : false;
   }
 
 
@@ -14088,6 +14100,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           this.lastUpdateFormDetails = postData;
           this.DesignerSavingNode.classList.remove('show');
           this.FormDetailsProgress = 'done';
+
+          this.CleverForms.FormCountry = postData.FormCountry;
+          Affinity2018.FormCountry = postData.FormCountry;
+
           window.dispatchEvent(new Event('FormDetailsDone'));
         }.bind(this))
         .catch(function (error)
@@ -21605,7 +21621,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.WhitelistFilterShowAllNode.checked = this.Config.Details.ItemSource.ShowAll;
       this.WhitelistFilterShowNewNode.checked = this.Config.Details.ItemSource.ShowNewItems;
-      this._setWhitelistFilter(this.Config.Details.ItemSource.WhiteList);
+      this._gotWhitelistData(this.Config.Details.ItemSource.WhiteList);
       this.WhitelistSearchNode.addEventListener('keyup', this._whitelistGridSearch);
       this.WhitelistFilterHideAll.addEventListener('click', this._whitelistHideAll);
       this.WhitelistFilterUnhideAll.addEventListener('click', this._whitelistUnhideAll);
@@ -21618,9 +21634,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
-  _checkWhiteListLookup(mode)
+  _checkWhiteListLookup(mode, force)
   {
     mode = mode !== undefined && !isNaN(parseInt(mode)) ? parseInt(mode) : parseInt(this.Config.Details.AffinityField.Mode);
+    force = force !== undefined ? force : false;
     if (
       Affinity2018.FilterEnabled
       && this.WhiteListModes.contains(mode)
@@ -21640,6 +21657,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         employeeNo: this.CleverForms.GetFormEmployeeNo(),
         instanceId: this.CleverForms.GetTemplateGuid()
       });
+      if (force) Affinity2018.RequestQueue.Remove(api, 'get');
       Affinity2018.RequestQueue.Add(api, this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
     }
   }
@@ -21648,19 +21666,48 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     if ($a.isArray(data))
     {
+      data = $a.jsonCloneObject(data);
       this.Config.Details.ItemSourceType = 'AffinityCustom';
       this.Config.Details.ItemSource = {
         ShowAll: this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false,
         ShowNewItems: this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true,
         WhiteList: []
       };
+      let formCountry = null;
+      if (this.CleverForms.IsCountrySensativeField(this.Config))
+      {
+        formCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry);
+        if (formCountry !== null)
+        {
+          let hasCountryCodes = data.find(item => item.hasOwnProperty('CountryCode'));
+          if (hasCountryCodes !== undefined)
+          {
+            let countryMatches = data.find(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === formCountry);
+            if (countryMatches === undefined)
+            {
+              this.Config.Details.ItemSource.WhiteList = null;
+              this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
+              return;
+            }
+          }
+        }
+      }
       for (let item of data)
       {
-        this.Config.Details.ItemSource.WhiteList.push({
-          IsHidden: false,
-          Value: item.Key, // backwards because f#ck you, that's why .. thansk Yuri ..
-          Key: item.Value // backwards becuase see above ..
-        });
+        let includeItem = false;
+        let itemCountry = item.hasOwnProperty('CountryCode') && !$a.isNullOrEmpty(item.CountryCode) ? this.CleverForms.GetCountryCodeVariant(item.CountryCode) : null;
+        if (formCountry === null) includeItem = true;
+        else if (itemCountry === null) includeItem = true;
+        else if (itemCountry === formCountry) includeItem = true;
+        if (includeItem)
+        {
+          this.Config.Details.ItemSource.WhiteList.push({
+            CountryCode: item.CountryCode,
+            IsHidden: false,
+            Value: item.Key, // backwards because f#ck you, that's why .. thansk Yuri ..
+            Key: item.Value // backwards becuase see above ..
+          });
+        }
       }
       this.SelectFilterContainerNode = this.PopupNode.querySelector('.select-filter-container');
       this.SelectFilterContainerNode.classList.remove('hidden');
@@ -21838,9 +21885,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.WhitelistFilterShowNewNode.classList.add('disabled');
       this.WhitelistFilterShowNewNode.setAttribute('disabled', 'disabled');
-      this.WhitelistFilterShowAllNode.checked = false;
+      this.WhitelistFilterShowNewNode.checked = true;
       this.WhitelistFilterShowAllNode.classList.add('disabled');
       this.WhitelistFilterShowAllNode.setAttribute('disabled', 'disabled');
+      this.WhitelistFilterShowAllNode.checked = false;
     }
     else
     {
