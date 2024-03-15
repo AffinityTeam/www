@@ -15825,8 +15825,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'GetFormEmployeeNo',
 
-      'CheckForCustomErrors',
-
       '_initTemplatesLoaded',
 
       '_hasValue', '_getValue', '_getLabel',
@@ -15859,8 +15857,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_submit', '_print', '_close',
 
       '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests',
-
-      '_checkForCustomErrors',
 
       '_templates'
 
@@ -16116,11 +16112,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     return value;
   }
 
-  CheckForCustomErrors()
-  {
-    this._checkForCustomErrors();
-  }
-
 
 
   /***************************************************************************************************************************************************/
@@ -16158,8 +16149,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.widgetData[2] = Affinity2018.Apps.Plugins.Address.Apply();
     this.widgetData[3] = Affinity2018.Apps.Plugins.DrawPanel.Apply();
     this.widgetData[4] = Affinity2018.Apps.Plugins.FileUpload.Apply();
-    this._checkWidgetsLoaded();
     Affinity2018.ShowPageLoader();
+    this._checkWidgetsLoaded();
   }
 
 
@@ -16277,46 +16268,74 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _checkRequests()
   {
     clearTimeout(this._requestsCheckTimer);
-    if (!Affinity2018.Dialog.Open) Affinity2018.ShowPageLoader();
-    this.RequestCheckCount++;
-    if (Affinity2018.RequestQueue && Affinity2018.RequestQueue.GetStatus() === 'running')
+    if (Affinity2018.RequestQueue)
     {
-      if (!this.RequestChecked && this.RequestCheckCount > this.RequestCheckCountMax)
+      let queueStatus = Affinity2018.RequestQueue.GetStatus();
+      let totalRequests = Affinity2018.RequestQueue.RunningCount() + Affinity2018.RequestQueue.WaitingCount();
+      if (queueStatus === 'stopped' || queueStatus === 'idle' || totalRequests === 0) // no requests
       {
-        Affinity2018.HidePageLoader(); 
-        Affinity2018.Dialog.Show({
-          message: 'It is taking a while to load all your values. Please be patient.',
-          showOk: true,
-          showCancel: false,
-          showInput: false,
-          textAlign: 'left',
-          onClose: (() => 
-          { 
-            if (this.Ready) Affinity2018.HidePageLoader(); 
-            else Affinity2018.ShowPageLoader(); 
-          }).bind(this)
-        });
-        this.RequestChecked = true;
-        this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
-        return;
+        this._widgestAndRequestDone();
       }
       else
       {
-        this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
-        return;
+        if (!Affinity2018.Dialog.Open) Affinity2018.ShowPageLoader();
+        this.RequestCheckCount++;
+        if (queueStatus === 'running')
+        {
+          if (!this.RequestChecked && this.RequestCheckCount > this.RequestCheckCountMax)
+          {
+            Affinity2018.HidePageLoader(); 
+            Affinity2018.Dialog.Show({
+              message: 'It is taking a while to load all your values. Please be patient.',
+              showOk: true,
+              showCancel: false,
+              showInput: false,
+              textAlign: 'left',
+              onClose: (() => 
+              { 
+                if (this.Ready) Affinity2018.HidePageLoader(); 
+                else Affinity2018.ShowPageLoader(); 
+              }).bind(this)
+            });
+            this.RequestChecked = true;
+            this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
+            return;
+          }
+          else
+          {
+            this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
+            return;
+          }
+        }
+        else
+        {
+          this._widgestAndRequestDone();
+        }
       }
     }
     else
     {
-      if (Affinity2018.Dialog.Open) Affinity2018.Dialog.Hide();
-      this.ButtonsNode.classList.remove('locked');
-      this.Ready = true;
-      this.RequestChecked = false;
-      this.PostData = this._getPostData();;
-      Affinity2018.HidePageLoader();
-      this._setupAutoSaveEvents();
-      this._checkForHidden()
+      this._widgestAndRequestDone();
     }
+  }
+
+
+
+  /**
+   * Summary. All widget and requests are done
+   * @this    Class scope
+   * @access  private
+   */
+  _widgestAndRequestDone()
+  {
+    if (Affinity2018.Dialog.Open) Affinity2018.Dialog.Hide();
+    this.ButtonsNode.classList.remove('locked');
+    this.Ready = true;
+    this.RequestChecked = false;
+    this.PostData = this._getPostData();;
+    Affinity2018.HidePageLoader();
+    this._setupAutoSaveEvents();
+    this._checkForHidden();
   }
 
 
@@ -18223,22 +18242,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       });
       this._scrollToError();
     }
-    this._checkForCustomErrors();
   }
-
-  _checkForCustomErrors()
-  {
-    let csutomErrors = this.FormNode.querySelectorAll('.row-affinityfield.custom-error');
-    if (csutomErrors.length > 0)
-    {
-      //this.ButtonsNode.querySelector('*[data-action="save"]').classList.add('disabled');
-    }
-    else
-    {
-      //this.ButtonsNode.querySelector('*[data-action="save"]').classList.remove('disabled');
-    }
-  }
-
   _scrollToError()
   {
     let targetNode = document.querySelector('#form .form-row.error');
@@ -42493,7 +42497,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     if (this.Form) 
     {
       this.Form.ResizeSection(this.RowNode);
-      this.Form.CheckForCustomErrors();
     }
   }
   HideError()
