@@ -28892,7 +28892,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
-            var codeValue = this.Config.Details.Value.contains(',') && this.Config.Details.Value.split(',')[0].length < this.Config.Details.Value.split(',')[1].length ? this.Config.Details.Value.split(',')[0].trim() : this.Config.Details.Value;
+            var codeValue = this.Config.Details.Value.toString().contains(',') && this.Config.Details.Value.toString().split(',')[0].length < this.Config.Details.Value.toString().split(',')[1].length ? this.Config.Details.Value.toString().split(',')[0].trim() : this.Config.Details.Value;
             selectConfig.Value = codeValue;
             select.dataset.defaultValue = codeValue;
           }
