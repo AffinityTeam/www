@@ -4940,7 +4940,7 @@
       if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onOk)) this.data.onOk = data.onOk;
       if (data.hasOwnProperty('onElse') && Affinity2018.isFunction(data.onElse)) this.data.onElse = data.onElse;
       if (data.hasOwnProperty('onCancel') && Affinity2018.isFunction(data.onCancel)) this.data.onCancel = data.onCancel;
-      if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
+      if (data.hasOwnProperty('onClose') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
       this._setMessage(this.data);
       this._setInput(this.data);
       this._setButtons(this.data);
@@ -7396,11 +7396,22 @@
 
     showLoadLock()
     {
-      document.body.classList.add('load-lock');
+      if (!document.body.classList.contains('load-lock'))
+      {
+        clearTimeout(this._hideLoadLockDelay);
+        document.body.classList.add('load-lock');
+      }
     }
 
     hideLoadLock()
     {
+      clearTimeout(this._hideLoadLockDelay);
+      this._hideLoadLockDelay = setTimeout(this._hideLoadLock, 100);
+    }
+
+    _hideLoadLock()
+    {
+      clearTimeout(this._hideLoadLockDelay);
       document.body.classList.remove('load-lock');
     }
 
@@ -15799,6 +15810,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.PostData = null;
     this.OverridePostData = null;
+    this.OverrideIsKey = false;
 
     this.SelectedUserData = null;
 
@@ -17765,6 +17777,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (this.OverridePostData !== null)
     {
+      let name = this.OverridePostData.Sections[0].Elements[0].Name;
+      let rowNode = this.FormNode.querySelector(`.form-row[data-name="${name}"]`);
+      this.OverrideIsKey = this.CleverForms.IsGlobalKey(rowNode.controller.Config);
       this.PostData = $a.jsonCloneObject(this.OverridePostData);
       this.OverridePostData = null;
     }
@@ -17909,6 +17924,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               {
                 elementNode.widgets[widget].IsValid();
               }
+              if (elementNode.widgets[widget].hasOwnProperty('CheckForHidden'))
+              {
+                elementNode.widgets[widget].CheckForHidden();
+              }
             }
           }
         }.bind(this));
@@ -17926,8 +17945,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _setPosted(response)
   {
     this.PostedErrors = [];
+    
+    if (this.OverrideIsKey) 
+    {
+      this._clearErrors(true, true);
+    }
+    else
+    {
+      this._clearErrors(false);
+    }
+    this.OverrideIsKey = false;
 
-    this._clearErrors(false);
     this.FormSavingNode.classList.remove('show');
 
     var message = '';
@@ -18330,6 +18358,44 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           this.SaveButtonData = buttonData;
           this.FormSavingNode.classList.add('show');
           this.Save(true); // true = suppress messages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
       }).bind(this), 250);
     }
@@ -28673,7 +28739,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         show = false;
         selected = false;
         keys = Object.keys(dataList[0]);
-        dataList.forEach(function (listItem)
+        for (let listItem of dataList)
         {
           show = listItem.hasOwnProperty('IsHidden') || true;
           if (show)
@@ -28688,7 +28754,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             }
             select.appendChild(optionNode);
           }
-        });
+        }
         if (!selected)
         {
           select.value = dataList[0][keys[1]];
@@ -29141,6 +29207,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     //  this.FormRowNode.classList.remove('error', 'flash-error');
     //}
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+  }
+
+
+  CheckForHidden()
+  {
+    debugger;
+    if (this.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup'))
+    {
+      this.FormRowNode.querySelector('select').widgets.SelectLookup.defaultValue = value;
+      this.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
+    }
   }
 
   /**/
@@ -31865,7 +31942,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
             }
             this._itemClicked({ target: this.listNode.querySelector('li'), fireEvents: fireEvents })
           }
-          return this.listNode.querySelector('li').dataset.value;
+          return this.listNode.querySelector('li') ? this.listNode.querySelector('li').dataset.value : '';
         }
         var node = false;
         // TODO: Web Worker here ?
@@ -42314,7 +42391,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
       '_init',
 
-      'IsValid', 'ShowError', 'HideError', 'SetValue', 'GetValue',
+      'IsValid', 'ShowError', 'ShowWarning', 'HideError', 'SetValue', 'GetValue', 'CheckForHidden',
 
       '_gotResults', '_gotResultsError', '_requestCanceled',
 
@@ -42548,10 +42625,18 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       this.Form.ResizeSection(this.RowNode);
     }
   }
+  ShowWarning(error, isCustom)
+  {
+    this.ShowError(error, isCustom);
+    if (this.RowNode)
+    {
+      this.RowNode.classList.add('warning-only');
+    }
+  }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.RowNode) this.RowNode.classList.remove('error', 'custom-error');
+    if (this.RowNode) this.RowNode.classList.remove('error', 'custom-error', 'warning-only');
     if (this.Form)
     {
       this.Form.ResizeSection(this.RowNode);
@@ -42863,13 +42948,13 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           else
           {
             this.SetValue('');
-            this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavailable-error', { name: name, value: requiredValue }), true);
+            this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
           }
         }
         else
         {
           this.SetValue('');
-          this.ShowError($a.Lang.ReturnPath('generic.whitelist.code-unavailable-error', { name: name, value: requiredValue }), true);
+          this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
         }
       }
     }
@@ -42892,16 +42977,16 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       }
       if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.parentNode.appendChild(this.ShowAllNode);
       else this.targetNode.parentNode.appendChild(this.ShowAllNode);
-      if (this.Form) this.Form.ResizeSection(this.RowNode);
+      if (this.Form) 
+      {
+        this.ShowAllNode.closest('.form-row').classList.add('has-whiltelist-switch');
+        this.Form.ResizeSection(this.RowNode);
+      }
     }
   }
 
-  _showAllFiltered(value)
+  _showAllFiltered(ev)
   {
-    //this.defaultValue = value instanceof Event ? false : value;
-
-    //console.log(this.defaultValue);
-
     let node = this.ShowAllNode.querySelector('span');
     let allLabel = node.dataset.allLabel;
     let filteredLabel = node.dataset.filteredLabel;
@@ -42911,6 +42996,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       // show all
       node.innerText = filteredLabel;
       this.config.IgnoreWhiteList = true;
+      this.HideError();
       this._init(this.api);
     }
     else
@@ -42919,6 +43005,28 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       node.innerText = allLabel;
       this.config.IgnoreWhiteList = false;
       this._init(this.api);
+      if (ev && 'isTrusted' in ev && ev.isTrusted)
+      {
+        let label = this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '' ? this.RowNode.querySelector('label').innerText.trim() : '';
+        let name = label !== '' ? label : 'The value';
+        let foundItems = this.config.hasOwnProperty('WhiteList') 
+          && this.config.WhiteList !== null 
+          && this.config.WhiteList !== undefined 
+          ? this.config.WhiteList.filter(obj => obj.Key.toString() === this.defaultValue.toString()) : [];
+        let found = foundItems.length > 0 ? foundItems[0] : null;
+        let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : this.defaultValue;
+        if (found !== null)
+        {
+          if (this.config.Required)
+          {
+            this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error-manual`, { name: name, value: requiredValue }), true);
+          }
+          else
+          {
+            this.ShowWarning($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error-manual`, { name: name, value: requiredValue }), true);
+          }
+        }
+      }
     }
     //{
     //  this.defaultValue = value instanceof Event ? false : value;
