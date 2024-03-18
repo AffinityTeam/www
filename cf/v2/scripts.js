@@ -21621,7 +21621,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.WhitelistFilterShowAllNode.checked = this.Config.Details.ItemSource.ShowAll;
       this.WhitelistFilterShowNewNode.checked = this.Config.Details.ItemSource.ShowNewItems;
-      this._gotWhitelistData(this.Config.Details.ItemSource.WhiteList);
+      this._gotWhitelistData(this.Config.Details.ItemSource.WhiteList, false);
       this.WhitelistSearchNode.addEventListener('keyup', this._whitelistGridSearch);
       this.WhitelistFilterHideAll.addEventListener('click', this._whitelistHideAll);
       this.WhitelistFilterUnhideAll.addEventListener('click', this._whitelistUnhideAll);
@@ -21662,8 +21662,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
-  _gotWhitelistData(data)
+  _gotWhitelistData(data, fromLookup)
   {
+    fromLookup = fromLookup !== undefined ? fromLookup : true;
     if ($a.isArray(data))
     {
       data = $a.jsonCloneObject(data);
@@ -21692,6 +21693,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           }
         }
       }
+      let objectKeys = fromLookup ? { Key: 'Value', Value: 'Key' } : { Key: 'Key', Value: 'Value' };
       for (let item of data)
       {
         let includeItem = false;
@@ -21704,8 +21706,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.Config.Details.ItemSource.WhiteList.push({
             CountryCode: item.CountryCode,
             IsHidden: item.IsHidden,
-            Value: item.Key, // backwards because f#ck you, that's why .. thansk Yuri ..
-            Key: item.Value // backwards becuase see above ..
+            Value: item[objectKeys.Value],
+            Key: item[objectKeys.Key]
           });
         }
       }
@@ -37034,7 +37036,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       if (returnResult)
       {
-        debugger;
         if ($a.isDateValid(attempt)) return attempt;
         return 'none';
       }
