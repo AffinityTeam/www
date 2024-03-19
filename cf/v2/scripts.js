@@ -20648,7 +20648,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.FilterModeWrapperHidden.addEventListener('change', this._toggleWhiteListFromModeSelect);
       this.FilterModeWrapperInitiator.addEventListener('change', this._toggleWhiteListFromModeSelect);
 
-      if (Affinity2018.FilterEnabled && this.WhiteListModes.contains(parseInt(this.Config.Details.AffinityField.Mode)))
+      if (
+        Affinity2018.FilterEnabled
+        && !this.CleverForms.IsGlobalKey(this.Config)
+        && this.WhiteListModes.contains(parseInt(this.Config.Details.AffinityField.Mode))
+      )
       {
         this.PopupNode.querySelector('.select-filter-container').classList.remove('hidden');
       }
@@ -21928,7 +21932,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     if (this.PopupNode.querySelector('.select-filter-container'))
     {
-      if (!Affinity2018.FilterEnabled) 
+      if (!Affinity2018.FilterEnabled || this.CleverForms.IsGlobalKey(this.Config)) 
       {
         this.PopupNode.querySelector('.select-filter-container').classList.add('hidden');
         return;
@@ -28788,6 +28792,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       }
       else
       {
+        let dataKey = 'Value';
+        let displayKey = 'Key';
         let showAll = false;
         let showNewItems = true;
         let whiteList = null;
@@ -28822,8 +28828,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             //this.FormRowNode.classList.add('is-single-value');
             //this.FormRowNode.dataset.singleValue = Affinity2018.SwapInitatorEmployee;
             selectConfig = {
-              DataKey: 'Value',
-              DisplayKey: 'Key',
+              DataKey: dataKey,
+              DisplayKey: displayKey,
               IsHiddenKey: 'IsHidden',
               IncludeDataInDisplay: true,
               AddEmpty: false,
@@ -28847,7 +28853,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
             if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
             {
-              select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
+                select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
                 api: this.CleverForms.GetLookupApi,
                 modelName: this.Config.Details.AffinityField.ModelName,
                 groupid: this.Config.Details.AffinityField.GenericGroupId,
@@ -28866,8 +28872,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             }
 
             selectConfig = {
-              DataKey: 'Value',
-              DisplayKey: 'Key',
+              DataKey: dataKey,
+              DisplayKey: displayKey,
               IsHiddenKey: 'IsHidden',
               IncludeDataInDisplay: true,
               AddEmpty: this.CleverForms.InsertLookupEmptyOption,
@@ -28936,8 +28942,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           }
 
           selectConfig = {
-            DataKey: 'Value',
-            DisplayKey: 'Key',
+            DataKey: dataKey,
+            DisplayKey: displayKey,
             IsHiddenKey: 'IsHidden',
             IncludeDataInDisplay: true,
             AddEmpty: this.CleverForms.InsertLookupEmptyOption,
@@ -42464,8 +42470,11 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       this.defaultValue = this.config.Value;
     }
 
+    this.IsGeneriocGroupLookup = this.api && this.api.contains('genericGroupId');
+
     if (
-      this.config.hasOwnProperty('WhiteList')
+      !this.IsGeneriocGroupLookup
+      && this.config.hasOwnProperty('WhiteList')
       && Array.isArray(this.config.WhiteList)
       && this.config.WhiteList.length > 0
     )
@@ -42539,7 +42548,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('working');
 
       if (
-        this.config.hasOwnProperty('WhiteList')
+        !this.IsGeneriocGroupLookup
+        && this.config.hasOwnProperty('WhiteList')
         && Array.isArray(this.config.WhiteList)
         && this.config.WhiteList.length > 0
       )
