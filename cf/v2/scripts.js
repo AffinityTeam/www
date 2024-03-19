@@ -15814,7 +15814,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.SelectedUserData = null;
 
-    this.DisableAutoSave = false;
+    this.DisableAutoSave = true;
 
   }
 
@@ -16360,10 +16360,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.ButtonsNode.classList.remove('locked');
     this.Ready = true;
     this.RequestChecked = false;
-    this.PostData = this._getPostData();;
+    this.PostData = this._getPostData();
     Affinity2018.HidePageLoader();
     this._setupAutoSaveEvents();
     this._checkForHidden();
+    window.removeEventListener('ModelLookupChanged', this._checkForHidden);
+    window.addEventListener('ModelLookupChanged', this._checkForHidden);
   }
 
 
@@ -16656,6 +16658,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
+    var foundGlobalKey = false;
     window.removeEventListener('GotEmployeeData', this._processInstance);
     if (Affinity2018.isArray(this.FormData))
     {
@@ -16682,6 +16685,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             {
               if (elementConfig.ElementType !== 'Section')
               {
+                if (
+                  elementConfig.Details.hasOwnProperty('AffinityField')
+                  && this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName)
+                )
+                {
+                  foundGlobalKey = true;
+                  if (
+                    elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+                    || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                  )
+                  {
+                    // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
+                    this.DisableAutoSave = false;
+                  }
+                }
                 if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
                 {
                   elementConfig.Details.AffinityField.Mode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
@@ -16707,6 +16725,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }
         }
       }.bind(this));
+
+      if (!foundGlobalKey)
+      {
+        // if we have no global keys at all, enable AutoSave
+        this.DisableAutoSave = false;
+      }
+
     }
 
     if (anyRequired)
@@ -17899,22 +17924,24 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _clearErrors(revalidate, removeCustoms)
+  _clearErrors(revalidate, removeCustoms, fromKey)
   {
     revalidate = $a.isBool(revalidate) ? revalidate : false;
     removeCustoms = $a.isBool(removeCustoms) ? removeCustoms : true;
+    fromKey = $a.isBool(fromKey) ? fromKey : false;
     let classIdentifier = removeCustoms ? '.form-row.error' : '.form-row.error:not(.custom-error)';
-    let rowNodes = document.querySelectorAll(classIdentifier);
-    rowNodes.forEach(function (rowNode)
+    let rowNodes = this.FormNode.querySelectorAll(classIdentifier);
+    let foundHidden = false;
+    for (let rowNode of rowNodes)
     {
       rowNode.classList.remove('error', 'flash-error', 'inline-error', 'custom-error');
       if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
       if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
       if (rowNode.querySelector('.custom-error')) rowNode.querySelector('.custom-error').classList.remove('custom-error');
       if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
-      if (revalidate)
+      if (revalidate && !fromKey)
       {
-        rowNode.querySelectorAll('input,select,textarea').forEach(function (elementNode)
+        for (let elementNode of rowNode.querySelectorAll('input,select,textarea'))
         {
           if (elementNode.hasOwnProperty('widgets'))
           {
@@ -17926,13 +17953,41 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
               if (elementNode.widgets[widget].hasOwnProperty('CheckForHidden'))
               {
-                elementNode.widgets[widget].CheckForHidden();
+                if (elementNode.widgets[widget].CheckForHidden()) checkHidden = true;
               }
             }
           }
-        }.bind(this));
+        }
+        if (foundHidden)
+        {
+          console.log('Found hidden values in _clearErrors with revalidate enabled');
+        }
       }
-    });
+    }
+
+    if (revalidate && fromKey)
+    {
+      for (let rowNode of this.FormNode.querySelectorAll('.form-row:not(.is-global-key)'))
+      {
+        for (let elementNode of rowNode.querySelectorAll('input,select,textarea'))
+        {
+          if (elementNode.hasOwnProperty('widgets'))
+          {
+            for (var widget in elementNode.widgets)
+            {
+              if (elementNode.widgets[widget].hasOwnProperty('IsValid'))
+              {
+                elementNode.widgets[widget].IsValid();
+              }
+            }
+          }
+        }
+      }
+
+
+      this._checkForHidden(true);
+    }
+
   }
 
 
@@ -17948,7 +18003,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     
     if (this.OverrideIsKey) 
     {
-      this._clearErrors(true, true);
+      this._clearErrors(true, true, true);
     }
     else
     {
@@ -18253,9 +18308,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _checkForHidden(vaidate)
   {
     vaidate = vaidate == undefined ? true: vaidate;
+    let foundHidden = false;
     if (vaidate)
     {
-      for (let rowNode of this.FormNode.querySelectorAll('.row-affinityfield'))
+      for (let rowNode of this.FormNode.querySelectorAll('.row-affinityfield:not(.is-global-key)'))
       {
         let controller = rowNode.controller;
         if (
@@ -18265,12 +18321,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           && controller.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup')
         )
         {
-          controller.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
+          if (controller.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden()) foundHidden = true;
         }
       }
     }
     let csutomErrors = this.FormNode.querySelectorAll('.row-affinityfield.custom-error');
-    if (csutomErrors.length > 0)
+    if (csutomErrors.length > 0 || foundHidden)
     {
       Affinity2018.Dialog.Show({
         message: $a.Lang.ReturnPath('generic.whitelist.missing-codes-error'),
@@ -18324,6 +18380,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       setTimeout((() =>
       {
         let rowNode = ev.target;
+        //if (rowNode.classList.contains('.is-global-key')) 
+        //{
+        //  // do not auto save keys (EmployeeNumber) because selcting and loading keys can chaneg multilpe fields automatically.
+        //  return; 
+        //}
         let fieldName = rowNode.dataset.name;
         let label = rowNode.querySelector('label').innerText.trim();
         let value = ev.detail.value.hasOwnProperty('Value') ? ev.detail.value.Value : ev.detail.value;
@@ -18358,44 +18419,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           this.SaveButtonData = buttonData;
           this.FormSavingNode.classList.add('show');
           this.Save(true); // true = suppress messages
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
       }).bind(this), 250);
     }
@@ -22139,7 +22162,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   /**/
 
-  _formRowLookupChanged (ev)
+  _formRowLookupChanged(ev)
   {
     var select = this.FormRowNode.querySelector('select');
 
@@ -29218,11 +29241,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   CheckForHidden()
   {
-    debugger;
     if (this.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup'))
     {
       this.FormRowNode.querySelector('select').widgets.SelectLookup.defaultValue = value;
-      this.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
+      return this.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
     }
   }
 
@@ -42694,7 +42716,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   CheckForHidden()
   {
-    this._checkIfValueisHidden();
+    return this._checkIfValueisHidden();
   }
 
   /**/
@@ -42901,6 +42923,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   _checkIfValueisHidden()
   {
+    let foundHidden = false;
     if (
       this.config.hasOwnProperty('ShowAll') 
       && this.defaultValue !== undefined 
@@ -42957,17 +42980,20 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           }
           else
           {
+            foundHidden = true;
             this.SetValue('');
             this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
           }
         }
         else
         {
+          foundHidden = true;
           this.SetValue('');
           this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
         }
       }
     }
+    return foundHidden;
   }
   
   _insertShowAll()
