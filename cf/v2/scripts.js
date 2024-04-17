@@ -17840,6 +17840,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
   _doAutoSave()
   {
+    if (this.ViewType !== 'Form')
+    {
+      this._stopAutoSave();
+      return;
+    }
+
     var lastCompare = JSON.stringify(this.PostData);
     var currentCompare = JSON.stringify(this._getPostData());
     if (lastCompare !== currentCompare)
@@ -24441,11 +24447,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return this.FormData;
+
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-calendar');
-
-      var fromRow = inputNode.parentNode.parentNode;
 
       var inputWidget = inputNode.widgets.DateTime;
       var date = inputWidget.getRawDate();
