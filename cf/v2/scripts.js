@@ -17840,6 +17840,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
   _doAutoSave()
   {
+    if (this.ViewType !== 'Form')
+    {
+      this._stopAutoSave();
+      return;
+    }
+
     var lastCompare = JSON.stringify(this.PostData);
     var currentCompare = JSON.stringify(this._getPostData());
     if (lastCompare !== currentCompare)
@@ -22664,6 +22670,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
       // set any special elements
 
+
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       //this.FormRowNode.querySelector('input').value = date;
       //if (date !== '') this.FormRowNode.querySelector('input').dataset.startDate = date;
 
@@ -24179,17 +24188,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
       // set any special elements
 
       var input = this.FormRowNode.querySelector('input');
-      var checkPanelLoaded = function ()
+      if (input)
       {
-        if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+        var checkPanelLoaded = function ()
         {
-          input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
-          if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
-          return;
-        }
-        setTimeout(checkPanelLoaded, 100);
-      }.bind(this);
-      checkPanelLoaded();
+          if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+          {
+            input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
+            if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+            return;
+          }
+          setTimeout(checkPanelLoaded, 100);
+        }.bind(this);
+        checkPanelLoaded();
+      }
+      else
+      {
+        this.FormRowNode.querySelector('img').onload = function ()
+        {
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this);
+        Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+      }
 
       // TODO: add files for background images and stuff ....
 
@@ -24201,6 +24221,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return this.FormData;
 
       // get any special elements
 
@@ -24441,11 +24463,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return this.FormData;
+
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-calendar');
-
-      var fromRow = inputNode.parentNode.parentNode;
 
       var inputWidget = inputNode.widgets.DateTime;
       var date = inputWidget.getRawDate();
@@ -28544,6 +28566,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
         else if (this.FormRowNode.querySelector('input.ui-taxnumber')) this.FormRowNode.querySelector('input.ui-taxnumber').addEventListener('widgetReady', this._setupEvents);
         else console.warn('Tax Number element "' + this.Config.Details.Label + '" has no field to check.');
       }
+
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
       // set any special elements
 
