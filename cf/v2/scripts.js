@@ -19705,7 +19705,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -20691,7 +20691,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -21627,6 +21627,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -21636,7 +21638,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -21884,7 +21886,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -22123,6 +22125,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -22132,7 +22136,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -22384,7 +22388,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -22736,7 +22740,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -23099,6 +23103,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
       this._loadIds();
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -23108,7 +23114,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
       
@@ -24277,6 +24283,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
+
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-drawpanel');
@@ -24504,6 +24512,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
 
       // set any special elements
 
+
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       //this.FormRowNode.querySelector('input').value = date;
       //if (date !== '') this.FormRowNode.querySelector('input').dataset.startDate = date;
 
@@ -24515,6 +24526,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -24714,6 +24727,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -24723,7 +24738,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -24917,6 +24932,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -24926,7 +24943,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -25258,6 +25275,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     if (this.FormRowNode)
     {
 
+
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
+      let lookupNode = this.FormRowNode.querySelector('select');
+      let addEvent = true;
+      if (
+        lookupNode
+        && lookupNode.hasOwnProperty('widgets')
+        && lookupNode.widgets.hasOwnProperty('FileUpload')
+      )
+      {
+        if (lookupNode.widgets.FileUpload.Ready)
+        {
+          addEvent = false;
+        }
+      }
+      if (lookupNode && addEvent)
+      {
+        lookupNode.addEventListener('Ready', function ()
+        { 
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this));
+      }
+
+
       // set any special elements
     }
   }
@@ -25267,7 +25309,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -25818,7 +25860,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -26010,7 +26052,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -26192,6 +26234,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -26201,7 +26245,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -26380,7 +26424,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -26640,7 +26684,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -26888,6 +26932,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -26897,7 +26943,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -27172,7 +27218,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -27392,7 +27438,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -27958,6 +28004,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
       }
       if (select && this.Config.Details.Required) select.addEventListener('change', this.CheckValid);
+
+      
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
+      let lookupNode = this.FormRowNode.querySelector('select');
+      let addEvent = true;
+      if (
+        lookupNode
+        && lookupNode.hasOwnProperty('widgets')
+        && lookupNode.widgets.hasOwnProperty('Autocomplete')
+      )
+      {
+        if (lookupNode.widgets.Autocomplete.Ready)
+        {
+          addEvent = false;
+        }
+      }
+      if (lookupNode && addEvent)
+      {
+        lookupNode.addEventListener('Ready', function ()
+        { 
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this));
+      }
+
       return this.FormRowNode;
     }
   }
@@ -27967,7 +28038,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -28388,7 +28459,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -28673,7 +28744,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -29026,7 +29097,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -29198,6 +29269,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -29207,7 +29280,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -29412,6 +29485,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
       }.bind(this);
       checkIframeLoaded();
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -29421,7 +29496,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
 
@@ -37860,6 +37935,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     if (!this.fileNode.widgets) this.fileNode.widgets = {};
     this.fileNode.widgets.FileUpload = this;
+    if (!this.initNode.widgets) this.initNode.widgets = {};
+    this.initNode.widgets.FileUpload = this;
 
     this.PostName = this.fileNode.name;
 
@@ -38053,6 +38130,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     {
       this.Ready = true;
       this.fileNode.dispatchEvent(new CustomEvent('widgetReady'));
+      this.initNode.dispatchEvent(new CustomEvent('Ready'));
     }
 
   }
@@ -38571,6 +38649,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       }
       this.Ready = true;
       this.fileNode.dispatchEvent(new CustomEvent('widgetReady'));
+      this.initNode.dispatchEvent(new CustomEvent('Ready'));
       if (this._deleteThese.length > 0)
       {
         var deleteId = deleteNameless[0];
