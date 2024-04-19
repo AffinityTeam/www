@@ -17321,6 +17321,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _getPostData()
   {
+
+    if (this.ViewType !== 'Form') return null;
+
     this.PostData = {
       Sections: []
     };
@@ -17380,6 +17383,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _post(buttonData, suppressMessage)
   {
+    if (this.ViewType !== 'Form') 
+    {
+      $a.HidePageLoader();
+      return;
+    }
+
     this._stopAutoSave();
 
     //buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '', StateType: 0}, 'object');
@@ -17835,6 +17844,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
   _startAutoSave()
   {
+    clearInterval(this._autoSaveTimer);
+    if (this.ViewType !== 'Form') return;
     this._stopAutoSave();
     this._autoSaveTimer = setInterval(this._doAutoSave, 1000);
   }
@@ -19660,6 +19671,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
         input.addEventListener('LengthValidated', this.SetError);
       }
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
+      let lookupNode = this.FormRowNode.querySelector('input.ui-has-address');
+      let addEvent = true;
+      if (
+        lookupNode
+        && lookupNode.hasOwnProperty('widgets')
+        && lookupNode.widgets.hasOwnProperty('Address')
+      )
+      {
+        if (lookupNode.widgets.Address.Ready)
+        {
+          addEvent = false;
+        }
+      }
+      if (lookupNode && addEvent)
+      {
+        lookupNode.addEventListener('Ready', function ()
+        { 
+          Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+        }.bind(this));
+      }
+
       // set any special elements
 
       return this.FormRowNode;
@@ -19670,6 +19704,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -20655,6 +20691,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       this.FormData = this.ElementController.GetFromFormRow();
@@ -21558,20 +21596,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
       html = this.HtmlRowTemplate.format(label, link);
       var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
-      axios({
-        method: 'GET',
-        url: url,
-      }).then(function (response)
+      if (this.Config.Details.FileId.trim() !== '')
       {
-        if (
-          $a.isObject(response)
-          && $a.isPropObject(response, 'data')
-          && $a.isPropObject(response.data, 'data')
-        )
+        axios({
+          method: 'GET',
+          url: url,
+        }).then(function (response)
         {
-          if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
-        }
-      }.bind(this)).catch(function () { });
+          if (
+            $a.isObject(response)
+            && $a.isPropObject(response, 'data')
+            && $a.isPropObject(response.data, 'data')
+          )
+          {
+            if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
+          }
+        }.bind(this)).catch(function () { });
+      }
     }
 
     this.FormRowNode = super.SetFormRow(target, html);
@@ -21594,6 +21635,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -21841,6 +21884,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-banknumber');
@@ -22087,6 +22132,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       this.FormData.Value = this.FormRowNode.querySelector('input').checked ? true : false;
@@ -22326,6 +22373,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -22334,6 +22383,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -22684,6 +22735,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -23054,6 +23107,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
       
@@ -24222,8 +24277,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return this.FormData;
-
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-drawpanel');
@@ -24463,8 +24516,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
     if (super.GetFromFormRow())
     {
 
-      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return this.FormData;
-
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-calendar');
@@ -24672,6 +24723,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       this.FormData.Value = this.FormRowNode.querySelector('input.sv').value;
@@ -24872,6 +24925,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -25212,6 +25267,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       if ($a.isNode(this.FileNode) && this.FileWidget !== null)
@@ -25412,47 +25469,51 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
-    axios({
-      method: 'GET',
-      url: this.CleverForms.FileGetInfoApi + '?fileIds=' + fileIds,
-    }).then(function (response)
+    if (fileIds.length > 0)
     {
-      if (
-        $a.isPropObject(response, 'data')
-        && $a.isPropObject(response.data, 'data')
-      )
+      axios({
+        method: 'GET',
+        url: this.CleverForms.FileGetInfoApi + '?fileIds=' + fileIds.join(','),
+      }).then(function (response)
       {
-        var dataObj = response.data.data, f = 0, links = [], id;
-        for ( ; f < fileIds.length; f++)
+        if (
+          $a.isPropObject(response, 'data')
+          && $a.isPropObject(response.data, 'data')
+        )
         {
-          if (dataObj.hasOwnProperty(fileIds[f]))
-            links.push('<a href="' + this.CleverForms.FileGetApi + '?documentId=' + fileIds[f] + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
-          else
-            links.push(fileIds[f]);
+          var dataObj = response.data.data, f = 0, links = [], id;
+          for ( ; f < fileIds.length; f++)
+          {
+            if (dataObj.hasOwnProperty(fileIds[f]))
+              links.push('<a href="' + this.CleverForms.FileGetApi + '?documentId=' + fileIds[f] + '" target="_blank">' + dataObj[fileIds[f]] + '</a>');
+            else
+              links.push(fileIds[f]);
+          }
+          if (links.length > 0)
+          {
+            //if (hasDesc)
+            //{
+            //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
+            //    label: this.Config.Details.Label,
+            //    desc: desc,
+            //    links: links.join('<br />')
+            //  });
+            //}
+            //else
+            //{
+              this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesTemplate.format({
+                label: this.Config.Details.Label,
+                links: links.join('<br />')
+              });
+            //}
+          }
         }
-        if (links.length > 0)
-        {
-          //if (hasDesc)
-          //{
-          //  this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesWithDescTemplate.format({
-          //    label: this.Config.Details.Label,
-          //    desc: desc,
-          //    links: links.join('<br />')
-          //  });
-          //}
-          //else
-          //{
-            this.FormRowNode.innerHTML = this.HtmlRowReadOnlyNamesTemplate.format({
-              label: this.Config.Details.Label,
-              links: links.join('<br />')
-            });
-          //}
-        }
-      }
-    }.bind(this)).catch(function ()
-    {
 
-    });
+      }.bind(this)).catch(function ()
+      {
+
+      });
+    }
   }
 
 
@@ -25746,6 +25807,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -25754,6 +25817,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -25934,6 +25999,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -25942,6 +26009,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -26132,6 +26201,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       return this.FormData;
@@ -26298,6 +26369,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
       // set any special elements
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -26306,6 +26379,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -26554,6 +26629,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
         }
       }
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -26562,6 +26639,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -26817,6 +26896,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -27091,6 +27172,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       return this.FormData;
@@ -27296,6 +27379,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
     if (this.FormRowNode)
     {
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       // set any special elements
 
       return this.FormRowNode;
@@ -27306,6 +27391,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -27880,6 +27967,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     if (super.GetFromFormRow())
     {
 
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
+
       // get any special elements
 
       if (this.FormRowNode.querySelector('div.select.hidden select'))
@@ -28288,6 +28377,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
 
       }
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -28296,6 +28387,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -28579,6 +28672,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -28920,6 +29015,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
         this.FormRowNode.querySelector('input').disabled = true;
       }
 
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
       return this.FormRowNode;
     }
   }
@@ -28928,6 +29025,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -29107,6 +29206,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -29319,6 +29420,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
   {
     if (super.GetFromFormRow())
     {
+
+      if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false
 
       // get any special elements
 
@@ -29674,6 +29777,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.StartAddressObject = null;
 
     this.Valid = false;
+
+    this.Ready = false;
   }
 
   constructor(targetNode)
@@ -30807,9 +30912,22 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           if (workerData.data.defaultID)
           {
             defaultSelected = false;
-            if (this.listNode && $a.isNode(this.listNode) && this.listNode.parentNode && this.listNode.querySelector('#' + workerData.data.defaultID))
+            try
             {
-              defaultSelected = this.listNode.querySelector('#' + workerData.data.defaultID);
+              if (
+                this.listNode 
+                && this.listNode !== null 
+                && $a.isNode(this.listNode) 
+                && $a.isNode(this.listNode.parentNode) 
+                && this.listNode.querySelector('#' + workerData.data.defaultID)
+              )
+              {
+                defaultSelected = this.listNode.querySelector('#' + workerData.data.defaultID);
+              }
+            }
+            catch(err)
+            {
+              debugger;
             }
             if (defaultSelected)
             {
@@ -38509,6 +38627,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       if (this.UseFormDataPost) postData.append(key, file);
       else postData[key] = file;
     }.bind(this));
+
     $a.ShowPageLoader();
     axios({
       method: 'POST',
