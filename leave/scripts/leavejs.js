@@ -22,23 +22,23 @@
 (5701,24-25): run-time error JS1195: Expected expression: )
 (5701,26-27): run-time error JS1004: Expected ';': {
 (5760,6-7): run-time error JS1195: Expected expression: ,
-(10434,52-53): run-time error JS1195: Expected expression: .
-(10446,5-6): run-time error JS1002: Syntax error: }
-(10447,46-47): run-time error JS1004: Expected ';': {
-(10482,6-7): run-time error JS1195: Expected expression: ,
-(10483,42-43): run-time error JS1004: Expected ';': {
-(10506,6-7): run-time error JS1195: Expected expression: ,
-(10507,43-44): run-time error JS1004: Expected ';': {
-(10519,6-7): run-time error JS1195: Expected expression: ,
-(10520,81-82): run-time error JS1004: Expected ';': {
-(10537,6-7): run-time error JS1195: Expected expression: ,
-(10538,54-55): run-time error JS1004: Expected ';': {
-(10565,6-7): run-time error JS1195: Expected expression: ,
-(10566,49-50): run-time error JS1004: Expected ';': {
-(10636,6-7): run-time error JS1195: Expected expression: ,
-(10637,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10445,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10439,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(10438,52-53): run-time error JS1195: Expected expression: .
+(10450,5-6): run-time error JS1002: Syntax error: }
+(10451,46-47): run-time error JS1004: Expected ';': {
+(10486,6-7): run-time error JS1195: Expected expression: ,
+(10487,42-43): run-time error JS1004: Expected ';': {
+(10510,6-7): run-time error JS1195: Expected expression: ,
+(10511,43-44): run-time error JS1004: Expected ';': {
+(10523,6-7): run-time error JS1195: Expected expression: ,
+(10524,81-82): run-time error JS1004: Expected ';': {
+(10541,6-7): run-time error JS1195: Expected expression: ,
+(10542,54-55): run-time error JS1004: Expected ';': {
+(10569,6-7): run-time error JS1195: Expected expression: ,
+(10570,49-50): run-time error JS1004: Expected ';': {
+(10640,6-7): run-time error JS1195: Expected expression: ,
+(10641,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10449,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10443,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5598,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5488,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5507,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -9734,6 +9734,10 @@ var UILeaveDetail = new Class({
 
             this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.managerCommentsAreaRow2Column2);
 
+            if (this.data.LeaveHeader.StatusCode !== 0) {
+                this.managerCommentBox.set('disabled', true);
+            }
+
             this.managerCommentEdit = new InputEditWidgetLeaveDays({
                 target: this.managerCommentsAreaRow2Column2Container,
                 input: this.managerCommentBox,
@@ -11005,7 +11009,7 @@ var UILeaveDetail = new Class({
     },
     createEditButton: function (container) {
         var leave = this.data.LeaveHeader;
-        if (leave.StatusCode !== 7) {
+        if (leave.StatusCode === 0) {
             if (this.editButton !== undefined) {
                 this.editButton.destroy();
             }
