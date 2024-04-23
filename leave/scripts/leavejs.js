@@ -10990,7 +10990,6 @@ var UILeaveDetail = new Class({
         this.createApproveButton(container);
         this.createDeclineButton(container);
         this.createCancelButton(container);
-        this.createSubmitButton(container);
         this.createCloseButton(container);
 
     },
@@ -11139,7 +11138,6 @@ var UILeaveDetail = new Class({
         var leave = this.data.LeaveHeader;
         if (!this.isManager) {
             if (leave.StatusCode === 0 ||
-                leave.StatusCode === 2 ||
                 leave.StatusCode === 3) {
 
                 this.cancelButton = new Element('button', {
@@ -11308,6 +11306,9 @@ var UILeaveDetail = new Class({
         var leave = this.data.LeaveHeader;
         if (!leave.isExternal) {
             if (this.isManager) {
+
+                if (leave.StatusCode == 6 || leave.StatusCode == 2) return;
+
                 if (leave.StatusCode !== -1) {
                     this.approveButton = new Element('span', {
                         'class': 'button green w-icon-only leave-detail-button'
@@ -11369,7 +11370,6 @@ var UILeaveDetail = new Class({
 
         this.createApproveButton(this.buttonsBox);
         this.createDeclineButton(this.buttonsBox);
-        this.createSubmitButton(this.buttonsBox, false);
         this.createCancelButton(this.buttonsBox);
         this.createEditButton(this.buttonsBox);
         this.createCloseButton(this.buttonsBox);
