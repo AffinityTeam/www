@@ -16236,7 +16236,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_setupAutoSaveEvents', '_humanModified', 
 
-      '_getPostData', '_post', '_postCatch', '_postThen', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
+      '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
 
       '_modalChanged', '_checkForHidden', '_scrollToError',
 
@@ -16550,6 +16550,26 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if ($a.isNode(formRowNode))
     {
+      //
+      formRowNode.style.paddingBottom = null;
+      if (formRowNode.classList.contains('error'))
+      {
+        let errorNode = formRowNode.querySelector('.ui-form-error');
+        if (errorNode)
+        {
+          let errorHeight = errorNode.getBoundingClientRect().height;
+          if (formRowNode.classList.contains('has-whiltelist-switch'))
+          {
+            errorHeight -= 25; // adjust for whitelist switch link
+          }
+          //if (formRowNode.classList.contains('row-address'))
+          //{
+          //  errorHeight += 20; // adjust for address margins
+          //}
+          formRowNode.style.paddingBottom = (errorHeight + 1) + 'px';
+        }
+      }
+      //
       var id = formRowNode.dataset.hasOwnProperty('resizeId') ? formRowNode.dataset.resizeId : false;
       if (id)
       {
@@ -17711,12 +17731,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     document.querySelectorAll('.form-row.error').forEach(function (rowNode)
     {
-      rowNode.classList.remove('error', 'flash-error');
-      if (rowNode.querySelector('.ui-form-error'))
-      {
-        rowNode.querySelector('.ui-form-error').classList.remove('show');
-      }
-    });
+      this._clearRowError(rowNode);
+    }.bind(this));
 
     document.querySelectorAll('.form-row.required, .form-row.inline-error, .is-global-key').forEach(function (rowNode, rowIndex)
     {
@@ -18068,7 +18084,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       sectionConfig, sectionData,
       elementConfig, elementData;
 
-
     let sectionIndex = -1;
     let elementIndex = -1;
 
@@ -18187,7 +18202,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       let rowNode = this.FormNode.querySelector(`.form-row[data-name="${name}"]`);
       this.OverrideIsKey = this.CleverForms.IsGlobalKey(rowNode.controller.Config);
       this.PostData = $a.jsonCloneObject(this.OverridePostData);
-      this.OverridePostData = null;
+      //this.OverridePostData = null;
     }
     else
     {
@@ -18305,6 +18320,26 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
+  _clearRowError(rowNode)
+  {
+    if (rowNode)
+    {
+      rowNode.classList.remove('error', 'flash-error', 'inline-error', 'custom-error');
+      if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
+      if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
+      if (rowNode.querySelector('.custom-error')) rowNode.querySelector('.custom-error').classList.remove('custom-error');
+      if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+    }
+  }
+
+
+
+  /**
+   * Summary. Form has been submitted
+   * @this    Class scope
+   * @access  private
+   */
   _clearErrors(revalidate, removeCustoms, fromKey)
   {
     revalidate = $a.isBool(revalidate) ? revalidate : false;
@@ -18315,11 +18350,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     let foundHidden = false;
     for (let rowNode of rowNodes)
     {
-      rowNode.classList.remove('error', 'flash-error', 'inline-error', 'custom-error');
-      if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
-      if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
-      if (rowNode.querySelector('.custom-error')) rowNode.querySelector('.custom-error').classList.remove('custom-error');
-      if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
+      this._clearRowError(rowNode);
       if (revalidate && !fromKey)
       {
         for (let elementNode of rowNode.querySelectorAll('input,select,textarea'))
@@ -18364,8 +18395,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }
         }
       }
-
-
       this._checkForHidden(true);
     }
 
@@ -18381,20 +18410,49 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _setPosted(response)
   {
     this.PostedErrors = [];
-    
     if (this.OverrideIsKey) 
     {
       this._clearErrors(true, true, true);
     }
     else
     {
-      this._clearErrors(false);
+      // check for auto-save
+      if (this.OverridePostData !== null && response.hasOwnProperty('config'))
+      {
+        let rows = this.FormNode.querySelectorAll('div.form-row');
+        let postedStr = response.config.data;
+        let postedData = postedStr === '' ? {} : JSON.parse(postedStr);
+        if (
+          postedData.hasOwnProperty('Sections')
+          && postedData.Sections.length === 1
+          && postedData.Sections[0].Elements.length === 1
+          && rows.length > 1
+        )
+        {
+          // remove errors for the auto posted item ONLY
+          let rowNode = this.FormNode.querySelector('div.form-row[data-name="' + postedData.Sections[0].Elements[0].Name + '"]');
+          if (rowNode)
+          {
+            //this._clearRowError(rowNode); // or do nothing?
+          }
+        }
+        else
+        {
+          this._clearErrors(false);
+        }
+      }
+      else
+      {
+        this._clearErrors(false);
+      }
     }
     this.OverrideIsKey = false;
 
     this.FormSavingNode.classList.remove('show');
 
     var message = '';
+
+    //this.OverridePostData = null;
 
     /**/
 
@@ -18486,6 +18544,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostData = this._getPostData();
 
     this.PostState = 'success';
+
+    this.OverridePostData = null;
 
     return true;
   }
@@ -18675,6 +18735,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       $a.HidePageLoader();
 
       this.PostState = 'failed';
+
+      this.OverridePostData = null;
 
     }.bind(this), 500);
   }
@@ -20867,7 +20929,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       {
         if (errorNode) errorNode.classList.remove('show');
         rowNode.classList.remove('error', 'inline-error');
-        rowNode.style.marginBottom = '20px';
+        //rowNode.style.marginBottom = '20px';
         Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
       }
       else
@@ -20883,14 +20945,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
           }
           errorNode.innerHTML = this.InvalidReason();
           errorNode.classList.add('ui-form-error', 'show');
-          var checkBottom = parseFloat(window.getComputedStyle(errorNode, null).getPropertyValue('bottom').replace('px', ''));
-          if (checkBottom < 0)
-          {
-            var errorSize = errorNode.getBoundingClientRect().height;
-            var newMargin = Math.max(errorSize - 30, 0) + 50;
-            rowNode.style.marginBottom = newMargin + 'px';
-            errorNode.style.bottom = (0 - (errorSize + 1)) + 'px';
-          }
+          //var checkBottom = parseFloat(window.getComputedStyle(errorNode, null).getPropertyValue('bottom').replace('px', ''));
+          //if (checkBottom < 0)
+          //{
+          //  var errorSize = errorNode.getBoundingClientRect().height;
+          //  var newMargin = Math.max(errorSize - 30, 0) + 50;
+          //  rowNode.style.marginBottom = newMargin + 'px';
+          //  errorNode.style.bottom = (0 - (errorSize + 1)) + 'px';
+          //}
           Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
         }
       }
@@ -24741,6 +24803,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
   /**/
@@ -25107,6 +25170,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       message = $a.Lang.ReturnPath('app.cf.design_items.docsign_generic_send_error');
       this.CanSend = true;
     }
+
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     
     $a.HidePageLoader();
 
@@ -25217,6 +25282,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
       this.CanSend = false;
     }
+
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
     $a.HidePageLoader();
     
@@ -28377,6 +28444,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
     if (ev && 'isTrusted' in ev && ev.isTrusted)
     {
       this._humanInteraction(ev);
@@ -37398,6 +37466,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         var errorlabel = this.RowNode && this.RowNode.querySelector('label') ? this.RowNode.querySelector('label').innerText.trim().shorten(50) : 'Date';
         this.ShowError($a.Lang.ReturnPath(errorPath, { label: errorlabel }));
       }
+      else
+      {
+        if (this.Form) this.Form.ResizeSection(this.RowNode);
+      }
     }
     return this.Valid;
   }
@@ -40143,7 +40215,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.ShowError('You must select a file.');
       this.Valid = false;
     }
-
+    if (this.Form) this.Form.ResizeSection(this.RowNode);
     return this.Valid;
   }
 
@@ -42172,8 +42244,13 @@ Affinity2018.Classes.Plugins.NumberWidget = class
         // check decimal precision when a number is pressed and prevent typing too many decimals:
         if (isNumberKey && !shiftDown && !ctrlDown && !inlineCheck)
         {
-          let decimalStr = (this.InputNode.value.trim() + String.fromCharCode(keyCode)).trim().split('.')[1].trim();
-          if (decimalStr.length > this.decimals) return false;
+          let caretPosition = this.InputNode.selectionStart;
+          let currentValue = this.InputNode.value.trim();
+          let left = currentValue.slice(0, caretPosition);
+          let right = currentValue.slice(caretPosition);
+          let newStr = left +  String.fromCharCode(keyCode) + right;
+          let decimals = newStr.split('.')[newStr.split('.').length - 1];
+          if (decimals.length > this.decimals) return false;
         }
       }
     }
@@ -42368,6 +42445,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       {
         formRow.classList.add('error', 'inline-error');
       }
+      if (this.Form) this.Form.ResizeSection(formRow);
     }
 
     return this.Valid;
@@ -43270,6 +43348,13 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       }.bind(this));
       this.ShowError(error);
     }
+    else
+    {
+      if (this.Form && this.RowNode) 
+      {
+        this.Form.ResizeSection(this.RowNode);
+      }
+    }
     return this.Valid;
   }
 
@@ -43292,7 +43377,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         }
       }
     }
-    if (this.Form) 
+    if (this.Form && this.RowNode) 
     {
       this.Form.ResizeSection(this.RowNode);
     }
@@ -43309,7 +43394,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   {
     this.ErrorNode.classList.remove('show');
     if (this.RowNode) this.RowNode.classList.remove('error', 'custom-error', 'warning-only');
-    if (this.Form)
+    if (this.Form && this.RowNode)
     {
       this.Form.ResizeSection(this.RowNode);
     }
@@ -44253,6 +44338,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
       {
         formRow.classList.add('error', 'inline-error');
       }
+      if (this.Form) this.Form.ResizeSection(formRow);
     }
 
     return this.Valid;

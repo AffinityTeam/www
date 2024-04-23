@@ -1,55 +1,55 @@
 /* Minification failed. Returning unminified contents.
-(6363,59): run-time error CSS1030: Expected identifier, found ','
-(6363,81): run-time error CSS1031: Expected selector, found ')'
-(6363,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6371,59): run-time error CSS1030: Expected identifier, found ','
-(6371,81): run-time error CSS1031: Expected selector, found ')'
-(6371,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6403,82): run-time error CSS1030: Expected identifier, found ','
-(6403,153): run-time error CSS1031: Expected selector, found ')'
-(6403,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6493,64): run-time error CSS1030: Expected identifier, found ','
-(6493,71): run-time error CSS1031: Expected selector, found ')'
-(6493,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6501,63): run-time error CSS1030: Expected identifier, found ','
-(6501,70): run-time error CSS1031: Expected selector, found ')'
-(6501,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6509,72): run-time error CSS1030: Expected identifier, found ','
-(6509,79): run-time error CSS1031: Expected selector, found ')'
-(6509,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6568,74): run-time error CSS1030: Expected identifier, found ','
-(6568,216): run-time error CSS1031: Expected selector, found ')'
-(6568,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8220,113): run-time error CSS1030: Expected identifier, found ','
-(8220,125): run-time error CSS1031: Expected selector, found ')'
-(8220,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9254,73): run-time error CSS1030: Expected identifier, found ','
-(9254,95): run-time error CSS1031: Expected selector, found ')'
-(9254,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9262,73): run-time error CSS1030: Expected identifier, found ','
-(9262,95): run-time error CSS1031: Expected selector, found ')'
-(9262,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(6354,59): run-time error CSS1030: Expected identifier, found ','
+(6354,81): run-time error CSS1031: Expected selector, found ')'
+(6354,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6362,59): run-time error CSS1030: Expected identifier, found ','
+(6362,81): run-time error CSS1031: Expected selector, found ')'
+(6362,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6394,82): run-time error CSS1030: Expected identifier, found ','
+(6394,153): run-time error CSS1031: Expected selector, found ')'
+(6394,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6484,64): run-time error CSS1030: Expected identifier, found ','
+(6484,71): run-time error CSS1031: Expected selector, found ')'
+(6484,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6492,63): run-time error CSS1030: Expected identifier, found ','
+(6492,70): run-time error CSS1031: Expected selector, found ')'
+(6492,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6500,72): run-time error CSS1030: Expected identifier, found ','
+(6500,79): run-time error CSS1031: Expected selector, found ')'
+(6500,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6559,74): run-time error CSS1030: Expected identifier, found ','
+(6559,216): run-time error CSS1031: Expected selector, found ')'
+(6559,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8211,113): run-time error CSS1030: Expected identifier, found ','
+(8211,125): run-time error CSS1031: Expected selector, found ')'
+(8211,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9245,73): run-time error CSS1030: Expected identifier, found ','
+(9245,95): run-time error CSS1031: Expected selector, found ')'
+(9245,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9253,73): run-time error CSS1030: Expected identifier, found ','
+(9253,95): run-time error CSS1031: Expected selector, found ')'
+(9253,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9275,73): run-time error CSS1030: Expected identifier, found ','
+(9275,95): run-time error CSS1031: Expected selector, found ')'
+(9275,95): run-time error CSS1025: Expected comma or open brace, found ')'
 (9284,73): run-time error CSS1030: Expected identifier, found ','
 (9284,95): run-time error CSS1031: Expected selector, found ')'
 (9284,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9293,73): run-time error CSS1030: Expected identifier, found ','
-(9293,95): run-time error CSS1031: Expected selector, found ')'
-(9293,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9301,73): run-time error CSS1030: Expected identifier, found ','
-(9301,95): run-time error CSS1031: Expected selector, found ')'
-(9301,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9309,73): run-time error CSS1030: Expected identifier, found ','
-(9309,95): run-time error CSS1031: Expected selector, found ')'
-(9309,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9694,133): run-time error CSS1030: Expected identifier, found ','
-(9694,274): run-time error CSS1031: Expected selector, found ')'
-(9694,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10274,167): run-time error CSS1030: Expected identifier, found ','
-(10274,309): run-time error CSS1031: Expected selector, found ')'
-(10274,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10525,108): run-time error CSS1030: Expected identifier, found ','
-(10525,250): run-time error CSS1031: Expected selector, found ')'
-(10525,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9292,73): run-time error CSS1030: Expected identifier, found ','
+(9292,95): run-time error CSS1031: Expected selector, found ')'
+(9292,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9300,73): run-time error CSS1030: Expected identifier, found ','
+(9300,95): run-time error CSS1031: Expected selector, found ')'
+(9300,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9685,133): run-time error CSS1030: Expected identifier, found ','
+(9685,274): run-time error CSS1031: Expected selector, found ')'
+(9685,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10265,167): run-time error CSS1030: Expected identifier, found ','
+(10265,309): run-time error CSS1031: Expected selector, found ')'
+(10265,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10516,108): run-time error CSS1030: Expected identifier, found ','
+(10516,250): run-time error CSS1031: Expected selector, found ')'
+(10516,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -3710,8 +3710,8 @@ body.ui2018 .ui-form-error.show * {
 }
 body.ui2018 .form-row .ui-form-error {
   position: absolute;
-  bottom: -27px;
-  right: 15px;
+  bottom: 0;
+  right: 0;
 }
 body.ui2018 button,
 body.ui2018 .button,
@@ -6293,14 +6293,6 @@ body.ui2018.uiupdate .default-form .form-row:last-child,
 body.ui2018.uiupdate.cform .default-form .form-row:last-child {
   margin: 0 !important;
 }
-body.ui2018.uiupdate form .form-row:last-child.error,
-body.ui2018.uiupdate.cform form .form-row:last-child.error,
-body.ui2018.uiupdate .form .form-row:last-child.error,
-body.ui2018.uiupdate.cform .form .form-row:last-child.error,
-body.ui2018.uiupdate .default-form .form-row:last-child.error,
-body.ui2018.uiupdate.cform .default-form .form-row:last-child.error {
-  margin-bottom: 30px !important;
-}
 body.ui2018.uiupdate form .form-row.error,
 body.ui2018.uiupdate.cform form .form-row.error,
 body.ui2018.uiupdate .form .form-row.error,
@@ -6308,6 +6300,7 @@ body.ui2018.uiupdate.cform .form .form-row.error,
 body.ui2018.uiupdate .default-form .form-row.error,
 body.ui2018.uiupdate.cform .default-form .form-row.error {
   border: none;
+  padding-left: 0;
 }
 body.ui2018.uiupdate form .form-row.error .ui-form-error,
 body.ui2018.uiupdate.cform form .form-row.error .ui-form-error,
@@ -6316,7 +6309,6 @@ body.ui2018.uiupdate.cform .form .form-row.error .ui-form-error,
 body.ui2018.uiupdate .default-form .form-row.error .ui-form-error,
 body.ui2018.uiupdate.cform .default-form .form-row.error .ui-form-error {
   right: 0;
-  bottom: -31px;
   line-height: 20px;
   padding: 5px 10px 5px 30px;
   color: #ea0909;
@@ -6363,8 +6355,7 @@ body.ui2018.uiupdate .form .form-row.error.custom-error.has-whiltelist-switch .u
 body.ui2018.uiupdate.cform .form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
 body.ui2018.uiupdate .default-form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
 body.ui2018.uiupdate.cform .default-form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error {
-  left: 150px;
-  margin-bottom: 25px;
+  max-width: calc(100% - 150px);
 }
 body.ui2018.uiupdate form .form-row.error.warning-only label,
 body.ui2018.uiupdate.cform form .form-row.error.warning-only label,
@@ -13712,24 +13703,6 @@ body.ui2018.cform .default-form .form-row label.as-title,
 body.ui2018 .example-template .preview .default-form .form-row label.as-title {
   font-weight: bold;
   font-size: 14px;
-}
-body.ui2018.cform form .form-row.error,
-body.ui2018 .example-template .preview form .form-row.error,
-body.ui2018.cform .form .form-row.error,
-body.ui2018 .example-template .preview .form .form-row.error,
-body.ui2018.cform .default-form .form-row.error,
-body.ui2018 .example-template .preview .default-form .form-row.error {
-  margin-bottom: 40px !important;
-  padding-left: 10px;
-  border-left: 3px solid #e33100;
-}
-body.ui2018.cform form .form-row.error label,
-body.ui2018 .example-template .preview form .form-row.error label,
-body.ui2018.cform .form .form-row.error label,
-body.ui2018 .example-template .preview .form .form-row.error label,
-body.ui2018.cform .default-form .form-row.error label,
-body.ui2018 .example-template .preview .default-form .form-row.error label {
-  width: 217px;
 }
 body.ui2018.cform form .form-row.error2,
 body.ui2018 .example-template .preview form .form-row.error2,
