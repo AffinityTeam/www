@@ -22323,6 +22323,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _whitelistGridSearchClear()
   {
+    clearTimeout(this._whitelistGridSearchTimer);
     // TODO: Move to WebWorker
     let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr.match');
     for (let row of rows)
@@ -22332,11 +22333,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       cellNodes[0].innerHTML = cellNodes[0].innerText.trim();
       cellNodes[1].innerHTML = cellNodes[1].innerText.trim();
     }
+    this.WhitelistSearchNode.parentNode.classList.remove('working');
   }
 
   _whitelistGridSearch(ev)
   {
-    // TODO: Move to WebWorker
+    // Debounced rather than build a fresh WebWorker, but if this sucks, then it's WebWorker time.
+    // Imagine if we could use async / await?
+    clearTimeout(this._whitelistGridSearchTimer);
     let searchFor = this.WhitelistSearchNode.value.trim();
     // reset on empty if delete reduces value to nothing
     if (searchFor === '')
@@ -22351,36 +22355,41 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this._whitelistGridSearchClear();
       return;
     }
-    let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
-    let firstmatch = null;
-    for(let row of rows)
+    this.WhitelistSearchNode.parentNode.classList.add('working');
+    this._whitelistGridSearchTimer = setTimeout(function()
     {
-      row.classList.remove('match');
-      let cellNodes = row.querySelectorAll('td');
-      let description = cellNodes[0].innerText.trim();
-      let value = cellNodes[1].innerText.trim();
-      cellNodes[0].innerHTML = description;
-      cellNodes[1].innerHTML = value;
-      if (new RegExp(searchFor, 'ig').test(description))
+      let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
+      let firstmatch = null;
+      for(let row of rows)
       {
-        // we have a match, so highlight it
-        row.classList.add('match');
-        row.querySelectorAll('td')[0].innerHTML = description.replace(new RegExp(searchFor, 'ig'), `<em>${searchFor}</em>`);
-        if (firstmatch == null) firstmatch = row;
+        row.classList.remove('match');
+        let cellNodes = row.querySelectorAll('td');
+        let description = cellNodes[0].innerText.trim();
+        let value = cellNodes[1].innerText.trim();
+        cellNodes[0].innerHTML = description;
+        cellNodes[1].innerHTML = value;
+        if (new RegExp(searchFor, 'ig').test(description))
+        {
+          // we have a match, so highlight it
+          row.classList.add('match');
+          row.querySelectorAll('td')[0].innerHTML = description.replace(new RegExp(searchFor, 'ig'), `<em>${searchFor}</em>`);
+          if (firstmatch == null) firstmatch = row;
+        }
+        if (new RegExp(searchFor, 'ig').test(value))
+        {
+          // we have a match, so highlight it
+          row.classList.add('match');
+          row.querySelectorAll('td')[1].innerHTML = value.replace(new RegExp(searchFor, 'ig'), `<em>${searchFor}</em>`);
+          if (firstmatch == null) firstmatch = row;
+        }
       }
-      if (new RegExp(searchFor, 'ig').test(value))
+      if (firstmatch !== null)
       {
-        // we have a match, so highlight it
-        row.classList.add('match');
-        row.querySelectorAll('td')[1].innerHTML = value.replace(new RegExp(searchFor, 'ig'), `<em>${searchFor}</em>`);
-        if (firstmatch == null) firstmatch = row;
+        firstmatch.scrollIntoView({ block: 'start' });
+        this.WhitelistFilterContainerNode.scrollIntoView({ block: 'nearest', inline: 'start' });
       }
-    }
-    if (firstmatch !== null)
-    {
-      firstmatch.scrollIntoView({ block: 'start' });
-      this.WhitelistFilterContainerNode.scrollIntoView({ block: 'nearest', inline: 'start' });
-    }
+      this.WhitelistSearchNode.parentNode.classList.remove('working');
+    }.bind(this), 1000);
   }
 
   _whitelistGridClicked(ev)
@@ -22914,9 +22923,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     <div class="select-filter-container hidden">
       <div class="select-filter-container-inner">
         <h3>{whitelistTitle}</h3>
-        <div class="select-filter-row">
+        <div class="select-filter-row filter-search">
           <label>{whitelistSearchLabel}</label>
           <input type="text" placeholder="{whitelistSearchPlaceholder}" />
+          <icon class="icon-search"></icon>
         </div>
         <div class="select-filter-row">
           <a class="select-filter-unhide-all">{whitelistUnhideLabel}</a>
@@ -43616,14 +43626,28 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           {
             foundHidden = true;
             this.SetValue('');
-            this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
+            if (this.config.Required)
+            {
+              this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
+            }
+            else
+            {
+              this.ShowWarning($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
+            }
           }
         }
         else
         {
           foundHidden = true;
           this.SetValue('');
-          this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
+          if (this.config.Required)
+          {
+            this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
+          }
+          else
+          {
+            this.ShowWarning($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error`, { name: name, value: requiredValue }), true);
+          }
         }
       }
     }

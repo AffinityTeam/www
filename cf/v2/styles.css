@@ -1,55 +1,55 @@
 /* Minification failed. Returning unminified contents.
-(6355,59): run-time error CSS1030: Expected identifier, found ','
-(6355,81): run-time error CSS1031: Expected selector, found ')'
-(6355,81): run-time error CSS1025: Expected comma or open brace, found ')'
 (6363,59): run-time error CSS1030: Expected identifier, found ','
 (6363,81): run-time error CSS1031: Expected selector, found ')'
 (6363,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6395,82): run-time error CSS1030: Expected identifier, found ','
-(6395,153): run-time error CSS1031: Expected selector, found ')'
-(6395,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6485,64): run-time error CSS1030: Expected identifier, found ','
-(6485,71): run-time error CSS1031: Expected selector, found ')'
-(6485,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6493,63): run-time error CSS1030: Expected identifier, found ','
-(6493,70): run-time error CSS1031: Expected selector, found ')'
-(6493,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6501,72): run-time error CSS1030: Expected identifier, found ','
-(6501,79): run-time error CSS1031: Expected selector, found ')'
-(6501,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6560,74): run-time error CSS1030: Expected identifier, found ','
-(6560,216): run-time error CSS1031: Expected selector, found ')'
-(6560,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8212,113): run-time error CSS1030: Expected identifier, found ','
-(8212,125): run-time error CSS1031: Expected selector, found ')'
-(8212,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9246,73): run-time error CSS1030: Expected identifier, found ','
-(9246,95): run-time error CSS1031: Expected selector, found ')'
-(9246,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(6371,59): run-time error CSS1030: Expected identifier, found ','
+(6371,81): run-time error CSS1031: Expected selector, found ')'
+(6371,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6403,82): run-time error CSS1030: Expected identifier, found ','
+(6403,153): run-time error CSS1031: Expected selector, found ')'
+(6403,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6493,64): run-time error CSS1030: Expected identifier, found ','
+(6493,71): run-time error CSS1031: Expected selector, found ')'
+(6493,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6501,63): run-time error CSS1030: Expected identifier, found ','
+(6501,70): run-time error CSS1031: Expected selector, found ')'
+(6501,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6509,72): run-time error CSS1030: Expected identifier, found ','
+(6509,79): run-time error CSS1031: Expected selector, found ')'
+(6509,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6568,74): run-time error CSS1030: Expected identifier, found ','
+(6568,216): run-time error CSS1031: Expected selector, found ')'
+(6568,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8220,113): run-time error CSS1030: Expected identifier, found ','
+(8220,125): run-time error CSS1031: Expected selector, found ')'
+(8220,125): run-time error CSS1025: Expected comma or open brace, found ')'
 (9254,73): run-time error CSS1030: Expected identifier, found ','
 (9254,95): run-time error CSS1031: Expected selector, found ')'
 (9254,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9276,73): run-time error CSS1030: Expected identifier, found ','
-(9276,95): run-time error CSS1031: Expected selector, found ')'
-(9276,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9285,73): run-time error CSS1030: Expected identifier, found ','
-(9285,95): run-time error CSS1031: Expected selector, found ')'
-(9285,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9262,73): run-time error CSS1030: Expected identifier, found ','
+(9262,95): run-time error CSS1031: Expected selector, found ')'
+(9262,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9284,73): run-time error CSS1030: Expected identifier, found ','
+(9284,95): run-time error CSS1031: Expected selector, found ')'
+(9284,95): run-time error CSS1025: Expected comma or open brace, found ')'
 (9293,73): run-time error CSS1030: Expected identifier, found ','
 (9293,95): run-time error CSS1031: Expected selector, found ')'
 (9293,95): run-time error CSS1025: Expected comma or open brace, found ')'
 (9301,73): run-time error CSS1030: Expected identifier, found ','
 (9301,95): run-time error CSS1031: Expected selector, found ')'
 (9301,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9686,133): run-time error CSS1030: Expected identifier, found ','
-(9686,274): run-time error CSS1031: Expected selector, found ')'
-(9686,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10266,167): run-time error CSS1030: Expected identifier, found ','
-(10266,309): run-time error CSS1031: Expected selector, found ')'
-(10266,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10517,108): run-time error CSS1030: Expected identifier, found ','
-(10517,250): run-time error CSS1031: Expected selector, found ')'
-(10517,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9309,73): run-time error CSS1030: Expected identifier, found ','
+(9309,95): run-time error CSS1031: Expected selector, found ')'
+(9309,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9694,133): run-time error CSS1030: Expected identifier, found ','
+(9694,274): run-time error CSS1031: Expected selector, found ')'
+(9694,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10274,167): run-time error CSS1030: Expected identifier, found ','
+(10274,309): run-time error CSS1031: Expected selector, found ')'
+(10274,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10525,108): run-time error CSS1030: Expected identifier, found ','
+(10525,250): run-time error CSS1031: Expected selector, found ')'
+(10525,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -6293,6 +6293,14 @@ body.ui2018.uiupdate .default-form .form-row:last-child,
 body.ui2018.uiupdate.cform .default-form .form-row:last-child {
   margin: 0 !important;
 }
+body.ui2018.uiupdate form .form-row:last-child.error,
+body.ui2018.uiupdate.cform form .form-row:last-child.error,
+body.ui2018.uiupdate .form .form-row:last-child.error,
+body.ui2018.uiupdate.cform .form .form-row:last-child.error,
+body.ui2018.uiupdate .default-form .form-row:last-child.error,
+body.ui2018.uiupdate.cform .default-form .form-row:last-child.error {
+  margin-bottom: 30px !important;
+}
 body.ui2018.uiupdate form .form-row.error,
 body.ui2018.uiupdate.cform form .form-row.error,
 body.ui2018.uiupdate .form .form-row.error,
@@ -6300,7 +6308,6 @@ body.ui2018.uiupdate.cform .form .form-row.error,
 body.ui2018.uiupdate .default-form .form-row.error,
 body.ui2018.uiupdate.cform .default-form .form-row.error {
   border: none;
-  padding: 0;
 }
 body.ui2018.uiupdate form .form-row.error .ui-form-error,
 body.ui2018.uiupdate.cform form .form-row.error .ui-form-error,
@@ -6357,6 +6364,7 @@ body.ui2018.uiupdate.cform .form .form-row.error.custom-error.has-whiltelist-swi
 body.ui2018.uiupdate .default-form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
 body.ui2018.uiupdate.cform .default-form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error {
   left: 150px;
+  margin-bottom: 25px;
 }
 body.ui2018.uiupdate form .form-row.error.warning-only label,
 body.ui2018.uiupdate.cform form .form-row.error.warning-only label,
@@ -19048,6 +19056,7 @@ li.cf-designer-element.disabled * {
   font-size: 14px;
 }
 .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row {
+  position: relative;
   margin: 5px 0 5px 0;
 }
 .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row a {
@@ -19097,6 +19106,34 @@ li.cf-designer-element.disabled * {
   vertical-align: top;
   margin: 2px 0 0 2px;
   font-size: 14px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search input[type="text"] {
+  padding: 0 44px 0 15px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search icon {
+  display: block;
+  position: absolute;
+  top: 21px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  vertical-align: unset;
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  touch-action: none;
+  pointer-events: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search icon * {
+  touch-action: none;
+  pointer-events: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search.working icon {
+  font-size: 0;
+  background-image: url(data:image/gif;base64,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);
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline {
   margin: 0;
