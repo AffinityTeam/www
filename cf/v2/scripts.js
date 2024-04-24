@@ -8546,21 +8546,22 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   CleanLookupDisplayValue (display, code, includeCode, countryCode)
   {
     countryCode = countryCode === undefined ? null : countryCode;
+    let displayString = display === null ? 'null' : display.toString();
     let countryCodeDisplay = countryCode !== null ? this.GetCountryShortVariant(countryCode) : null;
-    let cleanStr = display && typeof display === 'string' && display.trim() !== '' ? display.trim() : '',
+    let cleanStr = displayString && typeof displayString === 'string' && displayString.trim() !== '' ? displayString.trim() : '',
         codeStr  = code && typeof code === 'string' && code.trim() !== '' ? code.trim() : typeof code === 'number' ? code.toString().trim() : '',
         lastChar;
 
     if (typeof code === undefined || code === null)
     {
       let parts = [];
-      if (display.contains(','))
+      if (displayString.contains(','))
       {
-        parts = display.split(',');
+        parts = displayString.split(',');
       }
-      else if (display.contains('-'))
+      else if (displayString.contains('-'))
       {
-        parts = display.split('-');
+        parts = displayString.split('-');
       }
       if (parts.length > 1)
       {
@@ -8568,25 +8569,25 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         codeStr = code;
       }
     }
-    if (display !== '')
+    if (displayString !== '')
     {
-      cleanStr = display.trim().replace(/&amp;/gi, '&');
+      cleanStr = displayString.trim().replace(/&amp;/gi, '&');
       if (cleanStr === codeStr) codeStr = '';
       lastChar = cleanStr.charAt(cleanStr.length - 1);
       if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
       if (includeCode)
       {
-        if (display.startsWith(`${code}, `))
+        if (displayString.startsWith(`${code}, `))
         {
           cleanStr = cleanStr.replace(`${code}, `, '').trim();
         }
 
         let codeInString = false;
-        if (display.contains(`${code} `)) codeInString = true;
-        if (display.contains(` ${code}`)) codeInString = true;
-        if (display.contains(`,${code}`)) codeInString = true;
-        if (display.contains(`${code},`)) codeInString = true;
-        if (display.contains(`(${code})`)) codeInString = true;
+        if (displayString.contains(`${code} `)) codeInString = true;
+        if (displayString.contains(` ${code}`)) codeInString = true;
+        if (displayString.contains(`,${code}`)) codeInString = true;
+        if (displayString.contains(`${code},`)) codeInString = true;
+        if (displayString.contains(`(${code})`)) codeInString = true;
 
         if (codeStr !== '' && !codeInString)
         {
@@ -17140,8 +17141,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     /**/
 
-    if (['Form', 'ViewOnly'].contains(this.ViewType)) this._getWorkflowButtons();
-    else this._ready();
+    if (['Form', 'ViewOnly'].contains(this.ViewType)) 
+    {
+      this._getWorkflowButtons();
+    }
+    else 
+    {
+      this._ready();
+    }
 
   }
 
@@ -17194,7 +17201,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         this.CommentHistoryNode.classList.remove('hidden');
         this.CommentHistoryListNode.innerHTML = commentHistory.join('');
         var height = this.CommentHistoryListNode.getBoundingClientRect().height;
-        var autoShow = historyWithComments.length && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid && historyWithComments[0].Comment !== null && historyWithComments[0].Comment.trim() !== '';
+        var autoShow = 
+          (
+            historyWithComments.length 
+            && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid 
+            && historyWithComments[0].Comment !== null 
+            && historyWithComments[0].Comment.trim() !== ''
+          )
+          || 
+          (
+            this.ViewType === 'ViewOnly'
+            && commentHistory.length > 0
+          )
+        ;
         this.CommentHistoryListNode.dataset.openHeight = height + 'px';
         this.CommentHistoryListNode.dataset.closedHeight = '0px';
         if (this.ViewType !== 'ViewOnly')
@@ -17397,14 +17416,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (['Preview'].contains(this.ViewType))
       {
         backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
-          backData.Color = 'blue';
+        backData.Color = 'blue';
         backData.Icon = 'brush';
         backData.Path = null;
       }
       if (['Form', 'ViewOnly'].contains(this.ViewType))
       {
         backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
-          backData.Color = 'blue';
+        backData.Color = 'blue';
         backData.Icon = 'empty-inbox';
         backData.Path = null;
       }
@@ -22891,7 +22910,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       var label = this.FormRowNode.querySelector('label').innerText.trim();
       var dataValue = newValue.toString().trim();
-      var formValue = this.ElementController.GetFromFormRow().Value.toString().trim();
+      var rowData = this.ElementController.GetFromFormRow();
+      var formValue = rowData.Value !== null ? rowData.Value.toString().trim() : null;
       var formCountry = $a.isNullOrEmpty(this.CleverForms.FormCountry) ? null : this.CleverForms.GetCountryDisplayVariant(this.CleverForms.FormCountry);
       var profileCountry = $a.isNullOrEmpty(Affinity2018.FormProfile.Country) || Affinity2018.FormProfile.Country.toString().trim().toUpperCase() === 'NULL' ? null : this.CleverForms.GetCountryDisplayVariant(Affinity2018.FormProfile.Country);
       //console.log('Check Sensatives: data value: ', dataValue, ' , from value: ', formValue);
@@ -23437,7 +23457,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ' - ' + country;
+      var display = value;
+      if (value.trim() !== '')
+      {
+        display += ' - ' + country;
+      }
       if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -30489,7 +30513,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ' - ' + country;
+      var display = value;
+      if (value.trim() !== '')
+      {
+        display += ' - ' + country;
+      }
       if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -43770,6 +43798,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let allLabel = node.dataset.allLabel;
     let filteredLabel = node.dataset.filteredLabel;
     let currentLabel = node.innerText.trim();
+    let messageKey = null;
     if (currentLabel === allLabel)
     {
       // show all
@@ -43777,54 +43806,41 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       this.config.IgnoreWhiteList = true;
       this.HideError();
       this._init(this.api);
+      if (this.config.Required) messageKey = 'generic.whitelist.code-unavailable-in-full-list-error-manual'; // Jsut in case we later want a different message for 'Required';
+      else messageKey = 'generic.whitelist.code-unavailable-in-full-list-error-manual';
     }
     else
     {
       // show filtered
       node.innerText = allLabel;
       this.config.IgnoreWhiteList = false;
+      this.HideError();
       this._init(this.api);
-      if (ev && 'isTrusted' in ev && ev.isTrusted)
+      if (this.config.Required) messageKey = 'generic.whitelist.code-unavailable-error-manual'; // Jsut in case we later want a different message for 'Required';
+      else messageKey = 'generic.whitelist.code-unavailable-error-manual';
+    }
+    if (ev && 'isTrusted' in ev && ev.isTrusted)
+    {
+      let label = this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '' ? this.RowNode.querySelector('label').innerText.trim() : '';
+      let name = label !== '' ? label : 'The value';
+      let foundItems = this.config.hasOwnProperty('WhiteList') 
+        && this.config.WhiteList !== null 
+        && this.config.WhiteList !== undefined 
+        ? this.config.WhiteList.filter(obj => obj.Key.toString() === this.defaultValue.toString()) : [];
+      let found = foundItems.length > 0 ? foundItems[0] : null;
+      let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : this.defaultValue;
+      if (found === null || found.IsHidden)
       {
-        let label = this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '' ? this.RowNode.querySelector('label').innerText.trim() : '';
-        let name = label !== '' ? label : 'The value';
-        let foundItems = this.config.hasOwnProperty('WhiteList') 
-          && this.config.WhiteList !== null 
-          && this.config.WhiteList !== undefined 
-          ? this.config.WhiteList.filter(obj => obj.Key.toString() === this.defaultValue.toString()) : [];
-        let found = foundItems.length > 0 ? foundItems[0] : null;
-        let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : this.defaultValue;
-        if (found === null || found.IsHidden)
+        if (this.config.Required)
         {
-          if (this.config.Required)
-          {
-            this.ShowError($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error-manual`, { name: name, value: requiredValue }), true);
-          }
-          else
-          {
-            this.ShowWarning($a.Lang.ReturnPath(`generic.whitelist.code-unavailable-error-manual`, { name: name, value: requiredValue }), true);
-          }
+          this.ShowError($a.Lang.ReturnPath(messageKey, { name: name, value: requiredValue }), true);
+        }
+        else
+        {
+          this.ShowWarning($a.Lang.ReturnPath(messageKey, { name: name, value: requiredValue }), true);
         }
       }
     }
-    //{
-    //  this.defaultValue = value instanceof Event ? false : value;
-    //  let node = this.ShowAllNode.querySelector('span');
-    //  let allLabel = node.dataset.allLabel;
-    //  let filteredLabel = node.dataset.filteredLabel;
-    //  if (node.innerText.trim() === allLabel)
-    //  {
-    //    // show all
-    //    node.innerText = filteredLabel;
-    //    this._init(this.allapi);
-    //  }
-    //  else
-    //  {
-    //    // show filtered
-    //    node.innerText = allLabel;
-    //    this._init(this.api);
-    //  }
-    //}
   }
 
   /**/

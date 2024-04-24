@@ -8312,10 +8312,10 @@ body.ui2018.uiupdate .form .form-row.calendar:after,
 body.ui2018.uiupdate.cform .form .form-row.calendar:after,
 body.ui2018.uiupdate .default-form .form-row.calendar:after,
 body.ui2018.uiupdate.cform .default-form .form-row.calendar:after {
-  top: unset;
-  bottom: 0;
-  left: unset;
+  top: 20px;
   right: 0;
+  bottom: unset;
+  left: unset;
   width: 44px;
   height: 44px;
   line-height: 44px;
