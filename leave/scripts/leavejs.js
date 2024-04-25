@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5400,71-72): run-time error JS1195: Expected expression: >
-(5400,98-99): run-time error JS1004: Expected ';': )
-(5402,87-88): run-time error JS1195: Expected expression: >
-(5402,129-130): run-time error JS1004: Expected ';': )
-(5407,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5412,13-14): run-time error JS1002: Syntax error: }
-(5414,34-35): run-time error JS1004: Expected ';': {
-(5418,9-10): run-time error JS1002: Syntax error: }
-(5421,25-26): run-time error JS1004: Expected ';': {
-(5572,5-6): run-time error JS1002: Syntax error: }
-(5573,45-46): run-time error JS1004: Expected ';': {
-(5592,6-7): run-time error JS1195: Expected expression: ,
-(5593,63-64): run-time error JS1004: Expected ';': {
-(5599,6-7): run-time error JS1195: Expected expression: ,
-(5600,26-27): run-time error JS1195: Expected expression: )
-(5600,28-29): run-time error JS1004: Expected ';': {
-(5674,6-7): run-time error JS1195: Expected expression: ,
-(5676,22-23): run-time error JS1195: Expected expression: )
-(5676,24-25): run-time error JS1004: Expected ';': {
-(5699,6-7): run-time error JS1195: Expected expression: ,
-(5701,24-25): run-time error JS1195: Expected expression: )
-(5701,26-27): run-time error JS1004: Expected ';': {
-(5760,6-7): run-time error JS1195: Expected expression: ,
-(10438,52-53): run-time error JS1195: Expected expression: .
-(10450,5-6): run-time error JS1002: Syntax error: }
-(10451,46-47): run-time error JS1004: Expected ';': {
-(10486,6-7): run-time error JS1195: Expected expression: ,
-(10487,42-43): run-time error JS1004: Expected ';': {
-(10510,6-7): run-time error JS1195: Expected expression: ,
-(10511,43-44): run-time error JS1004: Expected ';': {
-(10523,6-7): run-time error JS1195: Expected expression: ,
-(10524,81-82): run-time error JS1004: Expected ';': {
-(10541,6-7): run-time error JS1195: Expected expression: ,
-(10542,54-55): run-time error JS1004: Expected ';': {
-(10569,6-7): run-time error JS1195: Expected expression: ,
-(10570,49-50): run-time error JS1004: Expected ';': {
-(10640,6-7): run-time error JS1195: Expected expression: ,
-(10641,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10449,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10443,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5598,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5488,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5507,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5443,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5416,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5392,71-72): run-time error JS1195: Expected expression: >
+(5392,98-99): run-time error JS1004: Expected ';': )
+(5394,87-88): run-time error JS1195: Expected expression: >
+(5394,129-130): run-time error JS1004: Expected ';': )
+(5399,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5404,13-14): run-time error JS1002: Syntax error: }
+(5406,34-35): run-time error JS1004: Expected ';': {
+(5410,9-10): run-time error JS1002: Syntax error: }
+(5413,25-26): run-time error JS1004: Expected ';': {
+(5564,5-6): run-time error JS1002: Syntax error: }
+(5565,45-46): run-time error JS1004: Expected ';': {
+(5584,6-7): run-time error JS1195: Expected expression: ,
+(5585,63-64): run-time error JS1004: Expected ';': {
+(5591,6-7): run-time error JS1195: Expected expression: ,
+(5592,26-27): run-time error JS1195: Expected expression: )
+(5592,28-29): run-time error JS1004: Expected ';': {
+(5666,6-7): run-time error JS1195: Expected expression: ,
+(5668,22-23): run-time error JS1195: Expected expression: )
+(5668,24-25): run-time error JS1004: Expected ';': {
+(5691,6-7): run-time error JS1195: Expected expression: ,
+(5693,24-25): run-time error JS1195: Expected expression: )
+(5693,26-27): run-time error JS1004: Expected ';': {
+(5752,6-7): run-time error JS1195: Expected expression: ,
+(10426,52-53): run-time error JS1195: Expected expression: .
+(10438,5-6): run-time error JS1002: Syntax error: }
+(10439,46-47): run-time error JS1004: Expected ';': {
+(10474,6-7): run-time error JS1195: Expected expression: ,
+(10475,42-43): run-time error JS1004: Expected ';': {
+(10498,6-7): run-time error JS1195: Expected expression: ,
+(10499,43-44): run-time error JS1004: Expected ';': {
+(10511,6-7): run-time error JS1195: Expected expression: ,
+(10512,81-82): run-time error JS1004: Expected ';': {
+(10529,6-7): run-time error JS1195: Expected expression: ,
+(10530,54-55): run-time error JS1004: Expected ';': {
+(10557,6-7): run-time error JS1195: Expected expression: ,
+(10558,49-50): run-time error JS1004: Expected ';': {
+(10628,6-7): run-time error JS1195: Expected expression: ,
+(10629,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10437,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10431,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5590,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5480,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5499,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5435,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5408,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -2814,7 +2814,6 @@ var UILeaveApply = new Class({
                         'id': 'period-dayexceeds-warning-' + index,
                         'style': 'margin-left: 8px'
                     }).inject(this.leavePeriodDaysBoxValueRow);
-                // this.leavePeriodDaysWarningColumnContainer.set('text', 'Hours exceeds Scheduled amount');
 
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
@@ -2829,10 +2828,6 @@ var UILeaveApply = new Class({
                 var isPublicHoliday = day.IsPublicHoliday;
                 var publicHolidayName = day.PublicHolidayName;
                 var defaultHoursWorkScheduled = parseFloat(schedulesHours);
-
-                if (isPublicHoliday) {
-                    schedulesHours = parseFloat(0).toFixed(2);
-                }
 
                 this.leavePeriodDaysHiddenDateColumnValue = new Element('input', { 'id': 'hiddenDate-' + index, 'type': 'hidden', 'class': 'leave-detail-input-hiddenDate', 'value': dateValue.toDate() }).inject(this.leavePeriodDaysScheduledColumnContainer);
                 this.leavePeriodDaysDateColumnValue = new Element('input', { 'id': 'date-' + index, 'type': 'text', 'class': 'leave-apply-input-date', 'value': dateStringValue, 'readonly': 'true' }).inject(this.leavePeriodDaysDateColumnDivContainer);
@@ -2853,9 +2848,6 @@ var UILeaveApply = new Class({
                 }
 
                 if (isPublicHoliday) {
-                    this.leavePeriodDaysHoursColumnValue.set('readonly', true);
-                    this.leavePeriodDaysHoursColumnValue.removeClass('leave-apply-input-hours');
-                    this.leavePeriodDaysHoursColumnValue.addClass('leave-apply-input-uneditable-hours');
 
 
                     this.leavePeriodDaysScheduledColumnValue.set('readonly', true);
@@ -9343,7 +9335,7 @@ var UILeaveDetail = new Class({
         'postAttachments',
         'deleteLeave',
         'submitLeave',
-
+        
         'acknowledgementModal',
 
         'reset', 'destroy'
@@ -10399,10 +10391,6 @@ var UILeaveDetail = new Class({
                 if (!this.isInEditMode) {
                     var hoursFieldClass = "leave-detail-input-uneditable-hours";
                     var scheduledHoursFieldClass = "leave-detail-input-uneditable-scheduledHours";
-                }
-
-                if (isPublicHoliday) {
-                    scheduledHours = parseFloat(0).toFixed(2);
                 }
 
                 this.leavePeriodDaysHiddenDateColumnValue = new Element('input', { 'id': 'hiddenDate-' + index, 'type': 'hidden', 'class': 'leave-detail-input-hiddenDate', 'value': dateValue.toDate() }).inject(this.leavePeriodDaysScheduledColumnContainer);
@@ -12421,7 +12409,6 @@ var UILeaveDetail = new Class({
         rulesObject.toFormatIn2DecimalPlaces = true;
         rulesObject.formatToReadOnly = function (fieldElement, rulesParams) {
             if (!rulesParams.formEditMode ||
-                rulesParams.isPublicHoliday ||
                 !rulesParams.canEditByDays ||
                 !rulesParams.scheduledHoursEditable ||
                 !rulesParams.isManager) {
@@ -12473,7 +12460,6 @@ var UILeaveDetail = new Class({
         rulesObject.toFormatIn2DecimalPlaces = true;
         rulesObject.formatToReadOnly = function (fieldElement, rulesParams) {
             if (!rulesParams.formEditMode ||
-                rulesParams.isPublicHoliday ||
                 !rulesParams.canEditByDays) {
                 fieldElement.set('readonly', true);
                 fieldElement.removeClass('leave-detail-input-hours');
@@ -12688,9 +12674,7 @@ var UILeaveDetail = new Class({
 
                 if (excludeDaysWithNoScheduledHours === true &&
                     leaveUnitHour > 0) {
-                    if (!leaveUnit.isPublicHoliday) {
                         editedLeaveInstance.leaveUnits.push(leaveUnit);
-                    }
                 }
                 else if (excludeDaysWithNoScheduledHours === null ||
                     excludeDaysWithNoScheduledHours === undefined ||
