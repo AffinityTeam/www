@@ -22,23 +22,23 @@
 (5697,24-25): run-time error JS1195: Expected expression: )
 (5697,26-27): run-time error JS1004: Expected ';': {
 (5756,6-7): run-time error JS1195: Expected expression: ,
-(10430,52-53): run-time error JS1195: Expected expression: .
-(10442,5-6): run-time error JS1002: Syntax error: }
-(10443,46-47): run-time error JS1004: Expected ';': {
-(10478,6-7): run-time error JS1195: Expected expression: ,
-(10479,42-43): run-time error JS1004: Expected ';': {
-(10502,6-7): run-time error JS1195: Expected expression: ,
-(10503,43-44): run-time error JS1004: Expected ';': {
-(10515,6-7): run-time error JS1195: Expected expression: ,
-(10516,81-82): run-time error JS1004: Expected ';': {
-(10533,6-7): run-time error JS1195: Expected expression: ,
-(10534,54-55): run-time error JS1004: Expected ';': {
-(10561,6-7): run-time error JS1195: Expected expression: ,
-(10562,49-50): run-time error JS1004: Expected ';': {
-(10632,6-7): run-time error JS1195: Expected expression: ,
-(10633,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10441,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10435,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(10436,52-53): run-time error JS1195: Expected expression: .
+(10448,5-6): run-time error JS1002: Syntax error: }
+(10449,46-47): run-time error JS1004: Expected ';': {
+(10484,6-7): run-time error JS1195: Expected expression: ,
+(10485,42-43): run-time error JS1004: Expected ';': {
+(10508,6-7): run-time error JS1195: Expected expression: ,
+(10509,43-44): run-time error JS1004: Expected ';': {
+(10521,6-7): run-time error JS1195: Expected expression: ,
+(10522,81-82): run-time error JS1004: Expected ';': {
+(10539,6-7): run-time error JS1195: Expected expression: ,
+(10540,54-55): run-time error JS1004: Expected ';': {
+(10567,6-7): run-time error JS1195: Expected expression: ,
+(10568,49-50): run-time error JS1004: Expected ';': {
+(10638,6-7): run-time error JS1195: Expected expression: ,
+(10639,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10447,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10441,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5594,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5484,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5503,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -10409,7 +10409,13 @@ var UILeaveDetail = new Class({
 
 
                 this.leavePeriodDaysWeeksColumnValue = new Element('input', { 'id': 'weeks-' + index, 'type': 'hidden', 'value': weeksAppliedFor }).inject(this.leavePeriodDaysScheduledColumnContainer);
-              
+
+                if (isPublicHoliday) {
+                    if (parseFloat(hoursAppliedFor) === 0) {
+                        this.leavePeriodDaysHoursColumnValue.set('value', scheduledHours);
+                    }
+                }
+
             }.bind(this));
 
             var viewModel = this;
