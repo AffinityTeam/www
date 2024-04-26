@@ -13417,6 +13417,54 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   * @this    Class scope
   * @access  private
   */
+  _deDuplicate(data)
+  {
+    // Helper function to deduplicate elements based on all properties
+    let deduplicateElements = function(elements)
+    {
+        var uniqueStrings = [];
+        var uniqueElements = [];
+        elements.forEach(function(element)
+        {
+          var stringified = JSON.stringify(element);
+          if (uniqueStrings.indexOf(stringified) === -1)
+          {
+            uniqueStrings.push(stringified);
+            uniqueElements.push(element);
+          }
+        });
+        uniqueStrings = null;
+        return uniqueElements;
+    };
+    // Deduplicate sections considering specific properties and deduplicated elements
+    var uniqueSectionsStrings = [];
+    var uniqueSections = [];
+    data.forEach(function(section)
+    {
+      if (section.ElementType === "Section")
+      {
+        // Deduplicate elements inside each section first
+        section.Elements = deduplicateElements(section.Elements);
+        // Generate a unique key based on the section properties you consider
+        var sectionKey = section.Name + section.Rank + JSON.stringify(section.Elements);
+        if (uniqueSectionsStrings.indexOf(sectionKey) === -1)
+        {
+          uniqueSectionsStrings.push(sectionKey);
+          uniqueSections.push(section);
+        }
+      }
+    });
+    uniqueSectionsStrings = null;
+    return uniqueSections;
+  }
+
+
+
+  /**
+  * Summary. Process template and insert sections and items based on this.TemplateData
+  * @this    Class scope
+  * @access  private
+  */
   _processTemplate (showLoader)
   {
     showLoader = showLoader === undefined ? true : showLoader;
@@ -13459,6 +13507,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         }
 
         // build form fields
+
+        this.TemplateData = this._deDuplicate(this.TemplateData);
         this.TemplateData.sort(this._sortByRank);
         this.TemplateData.forEach(function (sectionConfig, sectionIndex)
         {
@@ -14522,14 +14572,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _hasCountrySensativeFields(formCountry)
   {
     //if (!this.HasMultipleCountries) return false;
-
-
-
-
-
-
-
-
     let formCountryNode = this.TopNode.querySelector('select.form-country');
     let countries = Affinity2018.Apps.CleverForms.Default.TemplateModel.SupportedCountries; // get supported countries
     var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
@@ -15602,9 +15644,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             case 200:
               // all good ..
               break;
-            case 400: // bad request - we need a form country
+            case 406: // form needs country
               Affinity2018.Dialog.Show({
                 message: $a.Lang.ReturnPath('application.cleverfroms.designer.element-requires-form-country'),
+                showOk: true,
+                showCancel: false,
+                showInput: false,
+                canBackgroundClose: false,
+                textAlign: 'left'
+              });
+              this._postComplete();
+              return;
+            case 400: // bad request
+              Affinity2018.Dialog.Show({
+                message: $a.Lang.ReturnPath('application.cleverfroms.form.error_template_save_fail'),
                 showOk: true,
                 showCancel: false,
                 showInput: false,
