@@ -12285,7 +12285,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (config.Type.toLowerCase() === 'section') this._setSectionModelNameLabels();
         if (config.Type.toLowerCase() !== 'section') this._setElementModeLabel(node);
 
-
         if (config.Type === 'AffinityField' && config.Details.AffinityField.FieldName === 'LINK_ID') node.classList.add('hidden');
 
         return node;
@@ -12650,6 +12649,44 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                   });
                 }
                 return false;
+              }
+            }
+            if (IsNew && !AffinityField.IsKeyField)
+            {
+              if (AffinityField.KeyFields.length > 0)
+              {
+                var hasKeyField = false;
+                for(var k = 0; k < AffinityField.KeyFields.length; k++)
+                {
+                  var fieldData = AffinityField.KeyFields[k];
+                  if (
+                    !this.CleverForms.AllowedGlobalKeys.contains(fieldData.FieldName)
+                    && SectionNode.querySelector('li[data-field="' + fieldData.FieldName + '"]')
+                    && SectionNode.querySelector('li[data-field="' + FieldName + '"]')
+                  )
+                  {
+                    hasKeyField = true;
+                    break;
+                  }
+                }
+                if (hasKeyField)
+                {
+                  if (showMessages)
+                  {
+                    Affinity2018.Dialog.Show({
+                      message: $a.Lang.ReturnPath('app.cf.designer.error_duplicate_key_section'),
+                      showOk: true,
+                      showCancel: true,
+                      showInput: false,
+                      textAlign: 'left',
+                      buttons: {
+                        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                        cancel: false
+                      }
+                    });
+                  }
+                  return false;
+                }
               }
             }
             // END - Only one of any Affinity field key per Template ------------------------------------------//
@@ -13960,7 +13997,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     this.LockAffinityNonMasterFileSection(node);
 
     this._checkSave();
-
   }
 
 
@@ -14684,6 +14720,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (this.ld.currentScroll > this.ld.lastScroll) this.ld.scrollDirection = 'down';
     else this.ld.scrollDirection = 'up';
 
+    // old wrapper footer offset
     var dashFooterOffset = 0;
     if (document.body.classList.contains('dashboard') && document.querySelector('#dashFooter'))
     {
@@ -14697,13 +14734,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
 
+    // new wrapper header offset
+    var dashHeaderOffset = 0;
+    if (document.body.classList.contains('ss-dashboard-wrapper'))
+    {
+      dashHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? $a.getSize(document.querySelector('.ss-dashboard-wrap-main-header')).height : 0;
+    }
+
     if (this.ld.scrollDirection === 'down')
     {
       if (!this.ld.locked && this.ld.currentScroll >= this.ld.top - 15)
       {
         this.LeftListNode.style.position = 'fixed';
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) +  'px';
-        this.LeftListNode.style.height = (this.ld.viewHeight - 40) + 'px';
+        this.LeftListNode.style.height = (this.ld.viewHeight - 40 - dashHeaderOffset) + 'px';
         this.LeftListNode.style.overflow = 'hidden';
         this.ld.locked = true;
       }
@@ -14727,7 +14771,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         }
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) + 'px';
       }
-      if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15)
+      if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15 - dashHeaderOffset)
       {
         if ('scrollTo' in this.LeftListNode) this.LeftListNode.scrollTo(0, 0);
         else this.LeftListNode.scrollTop = 0;
@@ -19986,10 +20030,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.Changes = [];
 
     var currentConfig = $a.jsonCloneObject(this.Config),
-      lastConfig = this.ConfigStringCheck.trim() !== '' ? JSON.parse(this.ConfigStringCheck) : {},
+      lastConfig = this.ConfigStringCheck.trim() !== '' ? JSON.parse(this.ConfigStringCheck) : { },
       currentWhitelist = null,
       lastWhitelist = null,
       l, from, to, change;
+
+    if (Object.keys(lastConfig).length === 0) // no 'lastConfig' 'cos is new
+    {
+      return ['New Element'];
+    }
 
     if (this.Config.Type === 'Section')
     {
@@ -20019,10 +20068,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     currentConfig = this.CleverForms.OrderObject(currentConfig);
     lastConfig = this.CleverForms.OrderObject(lastConfig);
 
-    if (Object.keys(lastConfig).length === 0) // no 'lastConfig' 'cos is new
-    {
-      return ['New Element'];
-    }
     let stringTest1 = JSON.stringify(currentConfig);
     let stringTest2 = JSON.stringify(lastConfig);
     if (stringTest1 !== stringTest2)
@@ -33920,7 +33965,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     //console.log('scrolled', ev.target);
     //this.hide('scrolled');
-    this._stopEvents(ev);
+    if (Affinity2018.Apps.hasOwnProperty('CleverForms') && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')) 
+    {
+      // do nothing
+    }
+    else
+    {
+      this._stopEvents(ev);
+    }
     this._position(null, 'scroll');
   }
 
@@ -38037,7 +38089,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _scrolled(ev)
   {
-    this._stopEvents(ev);
+    if (Affinity2018.Apps.hasOwnProperty('CleverForms') && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')) 
+    {
+      // do nothing
+    }
+    else
+    {
+      this._stopEvents(ev);
+    }
     this._position(null, 'scroll');
   }
 
