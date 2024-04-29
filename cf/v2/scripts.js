@@ -1819,11 +1819,11 @@
 
         if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
         {
-          console.log('                   (Is C# date)');
-          console.log('--- Input ---------------------------');
-          console.log('Passed Value:     ', mixed, ' -> ', dateStr);
-          console.log('As JS Date:       ', new Date(parseInt(dateStr)));
-          console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+          //console.log('                   (Is C# date)');
+          //console.log('--- Input ---------------------------');
+          //console.log('Passed Value:     ', mixed, ' -> ', dateStr);
+          //console.log('As JS Date:       ', new Date(parseInt(dateStr)));
+          //console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
           //console.log(luxonDate);
         }
 
@@ -1946,16 +1946,16 @@
 
           if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
           {
-            console.log('--- Output --------------------------');
-            console.log('JS Date parts:    ', JSON.stringify(dateParts));
-            console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
-            console.log('Luxon Date Obj    ', luxonDate);
-            console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
+            //console.log('--- Output --------------------------');
+            //console.log('JS Date parts:    ', JSON.stringify(dateParts));
+            //console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+            //console.log('Luxon Date Obj    ', luxonDate);
+            //console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
             if (format)
             {
-              console.log('Formated Date:    ', luxonDate.toFormat(format));
+              //console.log('Formated Date:    ', luxonDate.toFormat(format));
             }
-            console.groupEnd();
+            //console.groupEnd();
           }
           window.dateLogStart = false;
 
@@ -24382,13 +24382,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '')
     {
       window.dateLogStart = true;
-      console.groupCollapsed('Parse Read Only Date:');
+      //console.groupCollapsed('Parse Read Only Date:');
       //console.log();
-      console.log('Label:            ', this.Config.Details.Label);
-      console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
-      console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
-      console.log('Question Name:    ', this.Config.Name);
-      console.log('Server Value:     ', this.Config.Details.Value);
+      //console.log('Label:            ', this.Config.Details.Label);
+      //console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
+      //console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
+      //console.log('Question Name:    ', this.Config.Name);
+      //console.log('Server Value:     ', this.Config.Details.Value);
       date = $a.getDate(this.Config.Details.Value);
     }
 
@@ -25010,7 +25010,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
       {
         var templateId = this.Config.Details.ExternalTemplateId || null;
         var recipientValues = [];
-
+        
+        this.FormRowNode.classList.remove('docsign-admin-error');
         if (
           this.FormMode
           && this.CleverForms.Form.ViewType === 'Form'
@@ -25085,6 +25086,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
         else
         {
           if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
+          this.FormRowNode.classList.add('docsign-admin-error');
           this.DocSignSelectWrapperNode.classList.add('hidden');
           this.DocSignErrorNode.classList.remove('hidden');
           this.DocSignErrorNode.innerHTML = $a.Lang.ReturnPath('app.cf.design_items.docsign_not_signed_up');
@@ -25144,6 +25146,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
     message = this._returnBackendErrors(errorStr, message);
 
     if (this.DocSignFieldsNode) this.DocSignFieldsNode.classList.add('hidden');
+    this.FormRowNode.classList.add('docsign-admin-error');
     this.DocSignSelectWrapperNode.classList.add('hidden');
     this.DocSignErrorNode.classList.remove('hidden');
     this.DocSignErrorNode.innerHTML = message;
@@ -25781,6 +25784,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
             <div class="button grey send-doc-cancel hidden"><span class="icon-cross"></span>{cancelLabel}</div>
             <div class="button dark-blue send-doc hidden"><span class="icon-mail-tick"></span>{sendLabel}</div>
           </div>
+        </div>
       </div>
       <span class="docsign-error red inline hidden"></span>
     </div>
@@ -33936,6 +33940,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.listNode.querySelector('li.selected')) this.listNode.querySelector('li.selected').classList.remove('selected');
     eventNode.classList.add('selected');
 
+    let lastValue = null;
+    if (this.lastSelected)
+    {
+      lastValue = this.lastSelected.dataset.value;
+    }
+
     this.lastSelected = eventNode;
     this.displayNode.value = this._cleanDisplay(eventNode.innerText);
     this.targetNode.selectedIndex = eventNode.dataset.index;
@@ -33957,14 +33967,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         if (this.targetNode.onchange !== null) this.targetNode.onchange();
         else this.targetNode.dispatchEvent(new Event('change'));
         this._fireWindowChangeEvent('autocomplete _itemClicked');
-        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject: this.targetNode.value }}));
+        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject: this.targetNode.value, previousObject: lastValue }}));
       }
     }
     else
     {
       if (fireEvents)
       {
-        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject:this.targetNode.value }}));
+        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject: this.targetNode.value, previousObject: lastValue }}));
       }
     }
     if (this.keeplist)
@@ -43245,6 +43255,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.api = false;
     this.useRequestQueue = true;
     this.makeAutocomplete = true;
+    this.currentValue = null;
+    this.previousValue = null;
 
     this.request = false;
 
@@ -43285,6 +43297,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       '_processResults', '_insertResult', '_forceSingleValueChange', '_cleanValue',
       '_processFilters', '_insertFilter', '_filterToggled',
 
+      '_setCurrentValue',
       '_insertShowAll', '_showAllFiltered',
 
       '_templates'
@@ -43349,6 +43362,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     {
       this.defaultValue = this.config.Value;
     }
+
+    this.previousValue = this.defaultValue;
 
     this.IsGeneriocGroupLookup = this.api && this.api.contains('genericGroupId');
 
@@ -43702,6 +43717,13 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.targetNode.removeEventListener('change', this.IsValid);
     this.targetNode.addEventListener('change', this.IsValid);
 
+
+    if (this.targetNode.hasOwnProperty('widgets') && this.targetNode.widgets.hasOwnProperty('Autocomplete'))
+    {
+      this.targetNode.widgets.Autocomplete.removeEventListener('elementChanged', this._setCurrentValue);
+      this.targetNode.widgets.Autocomplete.addEventListener('elementChanged', this._setCurrentValue);
+    }
+
     if (this.config.hasOwnProperty('ShowAll') && this.config.ShowAll)
     {
       this._insertShowAll();
@@ -43789,6 +43811,12 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   }
 
   /**/
+
+  _setCurrentValue(event)
+  {
+    this.previousValue = event.detail.previousObject;
+    this.currentValue = event.detail.dispatchObject;
+  }
 
   _checkIfValueisHidden()
   {
@@ -43935,21 +43963,42 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     {
       let label = this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '' ? this.RowNode.querySelector('label').innerText.trim() : '';
       let name = label !== '' ? label : 'The value';
+      
+      let defaultValue = this.defaultValue === 'null' || this.defaultValue === null ? null : this.defaultValue;
+      let configValue = this.config.Value === 'null' || this.config.Value === null ? null : this.config.Value;
+      let nodeValue = this.currentValue === 'null' || this.currentValue === null ? null : this.currentValue;
+
+      //let requiredValue = configValue !== null ? this.config.Value : this.defaultValue;
+      let value = defaultValue !== null ? defaultValue : configValue !== null ? configValue : nodeValue !== null ? nodeValue : 'null';
+
       let foundItems = this.config.hasOwnProperty('WhiteList') 
         && this.config.WhiteList !== null 
         && this.config.WhiteList !== undefined 
-        ? this.config.WhiteList.filter(obj => obj.Key.toString() === this.defaultValue.toString()) : [];
+        ? this.config.WhiteList.filter(obj => obj.Key.toString() === value.toString()) : [];
       let found = foundItems.length > 0 ? foundItems[0] : null;
-      let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : this.defaultValue;
+      if (nodeValue === null)
+      {
+        messageKey = 'generic.whitelist.code-unavailable-in-full-list-error-manual-value-null';
+      }
       if (found === null || found.IsHidden)
       {
         if (this.config.Required)
         {
-          this.ShowError($a.Lang.ReturnPath(messageKey, { name: name, value: requiredValue }), true);
+          this.ShowError($a.Lang.ReturnPath(messageKey, { name: name, value: value }), true);
         }
         else
         {
-          this.ShowWarning($a.Lang.ReturnPath(messageKey, { name: name, value: requiredValue }), true);
+          this.ShowWarning($a.Lang.ReturnPath(messageKey, { name: name, value: value }), true);
+        }
+      }
+      else
+      {
+        if (value !== null && this.targetNode.widgets.Autocomplete.defaultValue !== value) 
+        {
+          this.config.Value = value;
+          this.targetNode.widgets.Autocomplete.defaultValue = value;
+          this.targetNode.dataset.defaultValue = value;
+          this.targetNode.widgets.Autocomplete.refreshFromSelect();
         }
       }
     }
