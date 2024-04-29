@@ -1,14 +1,50 @@
 /* Minification failed. Returning unminified contents.
 (242,58-59): run-time error JS1100: Expected ',': =
-(2494,59-60): run-time error JS1014: Invalid character: `
-(2494,74-75): run-time error JS1100: Expected ',': :
-(2494,90-91): run-time error JS1195: Expected expression: %
-(2494,112-113): run-time error JS1004: Expected ';': :
-(2494,125-126): run-time error JS1002: Syntax error: }
-(2494,128-129): run-time error JS1014: Invalid character: `
-(2498,35-36): run-time error JS1195: Expected expression: )
-(2498,37-38): run-time error JS1004: Expected ';': {
-(2506,1-2): run-time error JS1002: Syntax error: }
+(2054,45-46): run-time error JS1195: Expected expression: >
+(2056,6-7): run-time error JS1195: Expected expression: ,
+(2061,2-3): run-time error JS1002: Syntax error: }
+(2063,36-37): run-time error JS1004: Expected ';': {
+(2087,3-4): run-time error JS1195: Expected expression: ,
+(2089,24-25): run-time error JS1004: Expected ';': {
+(2096,3-4): run-time error JS1195: Expected expression: ,
+(2098,18-19): run-time error JS1195: Expected expression: )
+(2098,20-21): run-time error JS1004: Expected ';': {
+(2111,3-4): run-time error JS1195: Expected expression: ,
+(2113,20-21): run-time error JS1195: Expected expression: )
+(2113,22-23): run-time error JS1004: Expected ';': {
+(2120,3-4): run-time error JS1195: Expected expression: ,
+(2122,18-19): run-time error JS1195: Expected expression: )
+(2122,20-21): run-time error JS1004: Expected ';': {
+(2130,3-4): run-time error JS1195: Expected expression: ,
+(2132,23-24): run-time error JS1195: Expected expression: )
+(2132,25-26): run-time error JS1004: Expected ';': {
+(2146,3-4): run-time error JS1195: Expected expression: ,
+(2148,25-26): run-time error JS1195: Expected expression: )
+(2148,27-28): run-time error JS1004: Expected ';': {
+(2168,3-4): run-time error JS1195: Expected expression: ,
+(2170,34-35): run-time error JS1004: Expected ';': {
+(2181,3-4): run-time error JS1195: Expected expression: ,
+(2183,32-33): run-time error JS1195: Expected expression: )
+(2183,34-35): run-time error JS1004: Expected ';': {
+(2255,3-4): run-time error JS1195: Expected expression: ,
+(2257,40-41): run-time error JS1004: Expected ';': {
+(2370,3-4): run-time error JS1195: Expected expression: ,
+(2372,34-35): run-time error JS1195: Expected expression: )
+(2372,36-37): run-time error JS1004: Expected ';': {
+(2471,3-4): run-time error JS1195: Expected expression: ,
+(2473,30-31): run-time error JS1195: Expected expression: )
+(2473,32-33): run-time error JS1004: Expected ';': {
+(2479,3-4): run-time error JS1195: Expected expression: ,
+(2481,34-35): run-time error JS1004: Expected ';': {
+(2488,3-4): run-time error JS1195: Expected expression: ,
+(2490,39-40): run-time error JS1195: Expected expression: )
+(2490,41-42): run-time error JS1004: Expected ';': {
+(2497,3-4): run-time error JS1195: Expected expression: ,
+(2499,19-20): run-time error JS1195: Expected expression: )
+(2499,21-22): run-time error JS1004: Expected ';': {
+(2506,3-4): run-time error JS1195: Expected expression: ,
+(2508,9-10): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
+(2114,30-36): run-time error JS1018: 'return' statement outside of function: return
  */
 var EmployeeLeave = new Class({
 
@@ -1964,6 +2000,7 @@ var UITeamLeaveCalendar = new Class({
 		this.fromDate = Date.parse(this.options.fromDate);
 		this.toDate = Date.parse(this.options.toDate);
 		this.isNewCalendarUI = this.options.isNewCalendarUI;
+		this.disableToggleBtn = false;
 
 		this.days = Math.ceil((this.toDate - this.fromDate) / 86400000);
 
@@ -2061,9 +2098,40 @@ var UITeamLeaveCalendar = new Class({
 			this.hiddenBox.set('html', '');
 
 			Affinity.tooltips.processNew();
+			if (this.isNewCalendarUI) {
+				window.addEventListener('message', (e) => {
+						this.toggleDisableButton(e);
+				}, );
+		}
 
 		}.bind(this));
 
+	},
+
+	toggleDisableButton: function (e) {
+			if (e.origin.includes("leave-ui")) {
+					switch (e.data.action) {
+							case "DraggableNavLoaded":
+									this.disableToggleBtn = false;
+									break;
+							case "DraggableNavUnLoaded":
+									this.disableToggleBtn = true;
+									break;
+							case "CalendarHeightChanged":
+									this.newCalendarUIFrame.setStyle('height', e.data.height || "auto");
+				break;
+							case "CalendarUI-Unauthorized":
+									const logoutUrl = window.location.href.includes("test") 
+											? "https://www.testaffinitylogon.com/" 
+											: "https://www.affinitylogon.com/";
+									window.location.href = logoutUrl;
+									break;
+							case "CalendarUI-NotFound":
+									break;
+							case "CalendarUI-ServerError":
+									break;
+					}
+			}
 	},
 
 	hide: function (init) {
@@ -2091,6 +2159,7 @@ var UITeamLeaveCalendar = new Class({
 	},
 
 	toggle: function () {
+		if (this.disableToggleBtn) return;
 		if (this.toggleButton.retrieve('state') === 'open') {
 			this.hide();
 		} else {
@@ -2503,12 +2572,13 @@ var UITeamLeaveCalendar = new Class({
 		this.calendarIframeLoaded = false;
 		var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
 		var maxHeight = document.body.clientHeight - 320;
-		new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
+		this.newCalendarUIFrame = new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
 			.adopt(this.calendarIframe).inject(this.box, "top");
 	},
 
 	setUrlForNewUICalendar: function() {
 		if (!this.calendarIframeLoaded) {
+			this.disableToggleBtn = true;
 			this.calendarIframeLoaded = true;
 			const calendarUrl = window.location.href.includes("test") ? "https://leave-ui.testaffinitylogon.com/employee-team-calendar" : "https://leave-ui.affinitylogon.com/employee-team-calendar";
 			this.calendarIframe.src = calendarUrl;
