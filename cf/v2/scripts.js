@@ -8577,35 +8577,34 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
       if (includeCode)
       {
-        if (displayString.startsWith(`${code}, `))
+        if (codeStr !== '')
         {
-          cleanStr = cleanStr.replace(`${code}, `, '').trim();
-        }
-
-        let codeInString = false;
-        if (displayString.contains(`${code} `)) codeInString = true;
-        if (displayString.contains(` ${code}`)) codeInString = true;
-        if (displayString.contains(`,${code}`)) codeInString = true;
-        if (displayString.contains(`${code},`)) codeInString = true;
-        if (displayString.contains(`(${code})`)) codeInString = true;
-
-        if (codeStr !== '' && !codeInString)
-        {
+          cleanStr = cleanStr.replace(`${code} `, '').trim();
+          cleanStr = cleanStr.replace(` ${code}`, '').trim();
+          cleanStr = cleanStr.replace(`,${code}`, '').trim();
+          cleanStr = cleanStr.replace(`${code},`, '').trim();
+          cleanStr = cleanStr.replace(`(${code})`, '').trim();
           cleanStr = cleanStr + ' (' + codeStr + ')';
         }
-        if (cleanStr.startsWith(codeStr + ' ') && codeStr.trim() !== '')
-        {
-          cleanStr = cleanStr.replace(codeStr, '');
-          cleanStr = cleanStr.replaceAll('-', '');
-          cleanStr = cleanStr.replaceAll(',', '');
-          cleanStr = cleanStr.trim() + ' (' + codeStr + ')';
-        }
+
+        if (cleanStr.trim().startsWith('- ')) cleanStr = cleanStr.trim().replace('- ', '').trim();
+        if (cleanStr.trim().startsWith('_ ')) cleanStr = cleanStr.trim().replace('_ ', '').trim();
+        if (cleanStr.charAt(0).toUpperCase() !== cleanStr.charAt(0)) cleanStr = cleanStr.substring(0, 1).toUpperCase() + cleanStr.substring(1);
+
+        //if (cleanStr.startsWith(codeStr + ' ') && codeStr.trim() !== '')
+        //{
+        //  cleanStr = cleanStr.replace(codeStr, '');
+        //  cleanStr = cleanStr.replaceAll('-', '');
+        //  cleanStr = cleanStr.replaceAll(',', '');
+        //  cleanStr = cleanStr.trim() + ' (' + codeStr + ')';
+        //}
       }
     }
     else
     {
-      if (codeStr !== '') cleanStr = 'Not Set - (' + code + ')';
-      else cleanStr = '';
+      //if (codeStr !== '') cleanStr = 'Not Set - (' + code + ')';
+      //else cleanStr = '';
+      cleanStr = codeStr !== '' ? code.trim() : '';
     }
 
     if (countryCode !== null && countryCodeDisplay !== null && countryCodeDisplay !== countryCode)
@@ -8622,6 +8621,43 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
 
     return cleanStr;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetValueFromValueObject(node, value, config)
+  {
+    let setValue = value;
+    if (typeof value === 'object')
+    {
+      setValue = '';
+      let dataKey = 'Key';
+      if (node)
+      {
+        if (config === undefined)
+        {
+          let configString = node.dataset.config;
+          if (configString)
+          {
+            config = JSON.parse(configString);
+          }
+        }
+        if (config && config.hasOwnProperty('DataKey'))
+        {
+          dataKey = config.DataKey
+        }
+        if (value.hasOwnProperty(dataKey))
+        {
+          setValue = value[dataKey];
+        }
+      }
+    }
+    return setValue;
   }
 
 
@@ -22279,10 +22315,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       // If country is diff to this.CleverForms.FormCountry, do a lookup to replace whitlist, else, use exisitng whitelist
       if (this.Config.Details.ItemSource.WhiteList.length > 0)
       {
+        let nullCount = 0;
         let formCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry) || '';
         let listCountries = this.Config.Details.ItemSource.WhiteList.reduce((newList, item) =>
         {
           let variant = this.CleverForms.GetCountryCodeVariant(item.CountryCode);
+          if (variant === null) nullCount++;
           if (variant !== null && variant !== undefined)
           {
             return newList.includes(variant) ? newList : [...newList, variant];
@@ -22304,10 +22342,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         }
         if (formCountry === '' && this.WhitelistUpdated)
         {
-          this.Config.Details.ItemSource.WhiteList = null;
-          this._checkWhiteListLookup();
-          this.WhitelistUpdated = false;
-          return;
+          if (nullCount !== this.Config.Details.ItemSource.WhiteList.length)
+          {
+            this.Config.Details.ItemSource.WhiteList = null;
+            this._checkWhiteListLookup();
+            this.WhitelistUpdated = false;
+            return;
+          }
         }
       }
       this.WhitelistFilterShowAllNode.checked = this.Config.Details.ItemSource.ShowAll;
@@ -29687,8 +29728,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           
           if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
-            selectConfig.Value = this.Config.Details.Value;
-            select.dataset.defaultValue = this.Config.Details.Value;
+            let setValue = this.CleverForms.GetValueFromValueObject(select, this.Config.Details.Value);
+            selectConfig.Value = setValue;
+            select.dataset.defaultValue = setValue;
           }
           //else
           //{
@@ -29755,7 +29797,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
           if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
-            var codeValue = this.Config.Details.Value.toString().contains(',') && this.Config.Details.Value.toString().split(',')[0].length < this.Config.Details.Value.toString().split(',')[1].length ? this.Config.Details.Value.toString().split(',')[0].trim() : this.Config.Details.Value;
+            let setValue = this.CleverForms.GetValueFromValueObject(select, this.Config.Details.Value, selectConfig);
+            var codeValue = setValue.toString().contains(',') && setValue.toString().split(',')[0].length < setValue.toString().split(',')[1].length ? setValue.toString().split(',')[0].trim() : setValue;
             selectConfig.Value = codeValue;
             select.dataset.defaultValue = codeValue;
           }
@@ -29777,8 +29820,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
             if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
             {
-              selectConfig = this.Config.Details.Value;
-              select.dataset.defaultValue = this.Config.Details.Value;
+              let setValue = this.CleverForms.GetValueFromValueObject(select, this.Config.Details.Value);
+              selectConfig = setValue;
+              select.dataset.defaultValue = setValue;
             }
 
             if (this.CleverForms.IsGlobalKey(this.Config))
@@ -34425,12 +34469,21 @@ function cleanDisplay (str, key)
     {
       cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
     }
-  } else cleanStr = 'Not Set';
+  } 
+  //else cleanStr = 'Not Set';
+  else cleanStr = '';
   if (key && typeof key === 'string' && key.trim() !== '')
   {
-    if (cleanStr.indexOf(key) === -1)
+    if (cleanStr.trim() !== '')
     {
-      cleanStr = cleanStr + ' (' + key + ')';
+      if (cleanStr.indexOf(key) === -1)
+      {
+        cleanStr = cleanStr + ' (' + key + ')';
+      }
+    }
+    else
+    {
+      cleanStr = key;
     }
   }
   return cleanStr;
@@ -43694,8 +43747,9 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       {
         if (this.defaultValue) 
         {
-          this.targetNode.widgets.Autocomplete.defaultValue = this.defaultValue;
-          this.targetNode.dataset.defaultValue = this.defaultValue;
+          let defaultValue = this.CleverForms.GetValueFromValueObject(this.targetNode, this.defaultValue);
+          this.targetNode.widgets.Autocomplete.defaultValue = defaultValue;
+          this.targetNode.dataset.defaultValue = defaultValue;
         }
         this.targetNode.widgets.Autocomplete.refreshFromSelect();
       }
@@ -43821,29 +43875,30 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   _checkIfValueisHidden()
   {
     let foundHidden = false;
+    let defaultValue = this.CleverForms.GetValueFromValueObject(this.targetNode, this.defaultValue);
     if (
       this.config.hasOwnProperty('ShowAll') 
-      && this.defaultValue !== undefined 
-      && this.defaultValue !== null
-      && this.defaultValue !== 'null'
+      && defaultValue !== undefined 
+      && defaultValue !== null
+      && defaultValue !== 'null'
     )
     {
       let nodeExists = false;
       let nodes = this.targetNode.querySelectorAll('option');
       for (let node of nodes)
       {
-        if (node.value.toString() === this.defaultValue.toString())
+        if (node.value.toString() === defaultValue.toString())
         {
           nodeExists = true;
           if (this.targetNode.widgets.hasOwnProperty('Autocomplete'))
           {
             if (this.targetNode.widgets.Autocomplete.Ready)
             {
-              this.targetNode.widgets.Autocomplete.setValue(this.defaultValue, false);
+              this.targetNode.widgets.Autocomplete.setValue(defaultValue, false);
             }
             else
             {
-              this.targetNode.widgets.Autocomplete.defaultValue = this.defaultValue;
+              this.targetNode.widgets.Autocomplete.defaultValue = defaultValue;
             }
           }
           break;
@@ -43854,9 +43909,9 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         let foundItems = this.config.hasOwnProperty('WhiteList') 
           && this.config.WhiteList !== null 
           && this.config.WhiteList !== undefined 
-          ? this.config.WhiteList.filter(obj => obj.Key.toString() === this.defaultValue.toString()) : [];
+          ? this.config.WhiteList.filter(obj => obj.Key.toString() === defaultValue.toString()) : [];
         let found = foundItems.length > 0 ? foundItems[0] : null;
-        let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : this.defaultValue;
+        let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : defaultValue;
         if (found !== null)
         {
           requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
@@ -43963,14 +44018,11 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     {
       let label = this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '' ? this.RowNode.querySelector('label').innerText.trim() : '';
       let name = label !== '' ? label : 'The value';
-      
-      let defaultValue = this.defaultValue === 'null' || this.defaultValue === null ? null : this.defaultValue;
+      let defaultValue = this.CleverForms.GetValueFromValueObject(this.targetNode, this.defaultValue);
+          defaultValue = defaultValue === 'null' || defaultValue === null ? null : defaultValue;
       let configValue = this.config.Value === 'null' || this.config.Value === null ? null : this.config.Value;
       let nodeValue = this.currentValue === 'null' || this.currentValue === null ? null : this.currentValue;
-
-      //let requiredValue = configValue !== null ? this.config.Value : this.defaultValue;
       let value = defaultValue !== null ? defaultValue : configValue !== null ? configValue : nodeValue !== null ? nodeValue : 'null';
-
       let foundItems = this.config.hasOwnProperty('WhiteList') 
         && this.config.WhiteList !== null 
         && this.config.WhiteList !== undefined 
