@@ -42349,9 +42349,17 @@ Affinity2018.Classes.Plugins.NumberWidget = class
 
     this.InputNode.classList.add('nv');
     
-    this.ErrorNode = this.InputNode.parentNode && this.InputNode.parentNode.querySelector('.ui-form-error') ? this.InputNode.parentNode.querySelector('.ui-form-error') : document.createElement('div');
-    this.ErrorNode.classList.add('ui-form-error');
-    this.InputNode.parentNode.appendChild(this.ErrorNode);
+    this.ErrorNode = null;
+    if (this.RowNode)
+    {
+      this.ErrorNode = this.RowNode.querySelector('.ui-form-error') || null;
+    }
+    if (this.ErrorNode === null)
+    {
+      this.ErrorNode = this.InputNode.parentNode && this.InputNode.parentNode.querySelector('.ui-form-error') ? this.InputNode.parentNode.querySelector('.ui-form-error') : document.createElement('div');
+      this.ErrorNode.classList.add('ui-form-error');
+      this.InputNode.parentNode.appendChild(this.ErrorNode);
+    }
 
     this._applyEvents();
 
