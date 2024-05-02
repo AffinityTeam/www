@@ -8,38 +8,38 @@
 (485,35-39): run-time error JS1004: Expected ';': this
 (486,5-6): run-time error JS1002: Syntax error: }
 (488,39-40): run-time error JS1004: Expected ';': {
-(509,6-7): run-time error JS1195: Expected expression: ,
-(511,27-28): run-time error JS1004: Expected ';': {
-(518,6-7): run-time error JS1195: Expected expression: ,
-(520,21-22): run-time error JS1195: Expected expression: )
-(520,23-24): run-time error JS1004: Expected ';': {
-(538,6-7): run-time error JS1195: Expected expression: ,
-(540,23-24): run-time error JS1195: Expected expression: )
-(540,25-26): run-time error JS1004: Expected ';': {
-(547,6-7): run-time error JS1195: Expected expression: ,
-(549,21-22): run-time error JS1195: Expected expression: )
-(549,23-24): run-time error JS1004: Expected ';': {
-(556,6-7): run-time error JS1195: Expected expression: ,
-(558,26-27): run-time error JS1195: Expected expression: )
-(558,28-29): run-time error JS1004: Expected ';': {
-(579,6-7): run-time error JS1195: Expected expression: ,
-(581,28-29): run-time error JS1195: Expected expression: )
-(581,30-31): run-time error JS1004: Expected ';': {
-(601,6-7): run-time error JS1195: Expected expression: ,
-(603,37-38): run-time error JS1004: Expected ';': {
-(614,6-7): run-time error JS1195: Expected expression: ,
-(616,49-50): run-time error JS1004: Expected ';': {
-(628,6-7): run-time error JS1195: Expected expression: ,
-(630,35-36): run-time error JS1195: Expected expression: )
-(630,37-38): run-time error JS1004: Expected ';': {
-(702,6-7): run-time error JS1195: Expected expression: ,
-(704,43-44): run-time error JS1004: Expected ';': {
-(822,6-7): run-time error JS1195: Expected expression: ,
-(824,37-38): run-time error JS1195: Expected expression: )
-(824,39-40): run-time error JS1004: Expected ';': {
-(926,6-7): run-time error JS1195: Expected expression: ,
-(928,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(541,36-42): run-time error JS1018: 'return' statement outside of function: return
+(512,6-7): run-time error JS1195: Expected expression: ,
+(514,27-28): run-time error JS1004: Expected ';': {
+(521,6-7): run-time error JS1195: Expected expression: ,
+(523,21-22): run-time error JS1195: Expected expression: )
+(523,23-24): run-time error JS1004: Expected ';': {
+(541,6-7): run-time error JS1195: Expected expression: ,
+(543,23-24): run-time error JS1195: Expected expression: )
+(543,25-26): run-time error JS1004: Expected ';': {
+(550,6-7): run-time error JS1195: Expected expression: ,
+(552,21-22): run-time error JS1195: Expected expression: )
+(552,23-24): run-time error JS1004: Expected ';': {
+(559,6-7): run-time error JS1195: Expected expression: ,
+(561,26-27): run-time error JS1195: Expected expression: )
+(561,28-29): run-time error JS1004: Expected ';': {
+(582,6-7): run-time error JS1195: Expected expression: ,
+(584,28-29): run-time error JS1195: Expected expression: )
+(584,30-31): run-time error JS1004: Expected ';': {
+(604,6-7): run-time error JS1195: Expected expression: ,
+(606,37-38): run-time error JS1004: Expected ';': {
+(617,6-7): run-time error JS1195: Expected expression: ,
+(619,49-50): run-time error JS1004: Expected ';': {
+(631,6-7): run-time error JS1195: Expected expression: ,
+(633,35-36): run-time error JS1195: Expected expression: )
+(633,37-38): run-time error JS1004: Expected ';': {
+(705,6-7): run-time error JS1195: Expected expression: ,
+(707,43-44): run-time error JS1004: Expected ';': {
+(825,6-7): run-time error JS1195: Expected expression: ,
+(827,37-38): run-time error JS1195: Expected expression: )
+(827,39-40): run-time error JS1004: Expected ';': {
+(929,6-7): run-time error JS1195: Expected expression: ,
+(931,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(544,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -530,13 +530,16 @@ var UIManagerLeaveCalendar = new Class({
 
     toggleDisableButton: function (e) {
         if (e.origin.includes("leave-ui")) {
-            switch (e.data) {
+            switch (e.data.action) {
                 case "DraggableNavLoaded":
                     this.disableToggleBtn = false;
                     break;
                 case "DraggableNavUnLoaded":
                     this.disableToggleBtn = true;
                     break;
+                case "CalendarHeightChanged":
+                    this.newCalendarUIFrame.setStyle('height', e.data.height || "auto");
+					break;
                 case "CalendarUI-Unauthorized":
                     const logoutUrl = window.location.href.includes("test") 
                         ? "https://www.testaffinitylogon.com/" 
@@ -1022,7 +1025,7 @@ var UIManagerLeaveCalendar = new Class({
         this.calendarIframe = new Element('iframe');
         var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
 		var maxHeight = document.body.clientHeight - 320;
-        new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
+        this.newCalendarUIFrame = new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
             .adopt(this.calendarIframe).inject(this.sectionBody, "top");
         
     },
