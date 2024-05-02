@@ -12059,6 +12059,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     * @public
     */
     this.ElementDropped = null;
+
+    /**
+    * Description.    The element dropped, save, or edited that triggered a physical post (auto-save).
+    * @type {HtmlElement}
+    * @const
+    * @public
+    */
+    this.SaveInitiator = null;
   }
 
 
@@ -12112,6 +12120,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       '_editElement',
       '_editUpdated',
       '_editCanceled',
+      '_checkForIllegals',
 
       '_editElementClicked',
       '_removeElementClicked', '_clearRemove', '_removeElement', '_setElementForDelete',
@@ -12265,7 +12274,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @param {Object} referenceNode Optional reference node to Insert above or after
    */
 
-  Add(config, autoEdit, targetNode, position, referenceNode)
+  Add(config, autoEdit, targetNode, position, referenceNode, isAutoInjected)
   {
 
     if (this.LeftListNode.querySelector('li[data-type="' + config.Type + '"]'))
@@ -12322,6 +12331,14 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (config.Type.toLowerCase() !== 'section') this._setElementModeLabel(node);
 
         if (config.Type === 'AffinityField' && config.Details.AffinityField.FieldName === 'LINK_ID') node.classList.add('hidden');
+
+        // Check if this Add is a auto injection (a dependancy for the added field)
+        // If it is a global Key, we ned to lock the load until saved, so swap the 
+        // current SaveInitiator for the new Key node.
+        if (isAutoInjected !== undefined && isAutoInjected === true && this.CleverForms.IsGlobalKey(config))
+        {
+          this.SaveInitiator = node;
+        }
 
         return node;
       }
@@ -13720,6 +13737,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
 
       if (!this.Uploading) setTimeout($a.HidePageLoader, 250);
+
+      this._checkForIllegals();
+
       return true;
     }
     setTimeout($a.HidePageLoader, 250);
@@ -14014,6 +14034,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       clearTimeout(this.dragScrollTimer);
       if (data && node && node.hasOwnProperty('controller'))
       {
+
+        this.SaveInitiator = node;
+
         var controller = node.controller;
 
         this.Editor.Set(Affinity2018.jsonCloneObject(data), node);
@@ -14078,6 +14101,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
 
+    this._checkForIllegals();
     this._attemptSetElementAsKey(node, true);
     this._setSectionModelNameLabels();
     this.LockAffinityNonMasterFileSection(node);
@@ -14104,6 +14128,38 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     {
       this._removeElement(node);
     }
+
+    this._checkForIllegals();
+  }
+
+
+
+  /**
+   * Summary. Cancel button in Editor clicked
+   * @this    Class scope
+   * @access  private
+   *
+   */
+  _checkForIllegals()
+  {
+    let allElements = this.RightListNode.querySelectorAll('li[data-type="AffinityField"]');
+    for(let e = allElements.length - 1; e >-1; e--)
+    {
+      let node = allElements[e];
+      let saveState = node.controller.Saved;
+      node.controller.Saved = false;
+      let allowed = this.CanAllowAffinityField(node, false, false, false);
+      if (!allowed)
+      {
+        node.controller.Delete = true;
+        node.controller.Changed = true;
+      }
+      else
+      {
+        node.controller.Saved = saveState;
+      }
+    }
+    this._checkSave();
   }
 
 
@@ -14131,7 +14187,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @access  private
    *
    */
-  _removeElementClicked (ev)
+  _removeElementClicked(ev)
   {
     var node = $a.getEventNode(ev, 'cf-designer-element'); // ev.target.classList.contains('cf-designer-element') ? ev.target : ev.target.closest('.cf-designer-element');
     var config = node.controller.Config;
@@ -15077,7 +15133,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     // check what an affinity field can do ...
     if (node.dataset.type === 'AffinityField')
     {
-      return this.CanAllowAffinityField(node, false, false, true, toListNode, fromListNode);
+      let celemetnAllowed = this.CanAllowAffinityField(node, false, false, true, toListNode, fromListNode);
+      if (celemetnAllowed)
+      {
+        this.SaveInitiator = node;
+      }
+      return celemetnAllowed;
     }
 
 
@@ -15498,6 +15559,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       this.Save(changedNodes);
       return true;
     }
+    this.SaveInitiator = null;
     return false;
   }
 
@@ -15577,6 +15639,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (Object.keys(this.PostData).length > 0)
     {
       this.DesignerSavingNode.classList.add('show');
+      
+      // If we are saving a Global Key (Employee No), save can be slow.
+      // We must wait for it to load before we can interact with designer,
+      // specifically, remove oer edit the field it is in the mioddle of saving, 
+      // else we can end up with doubles.
+      if (this.SaveInitiator !== null)
+      {
+        if (this.CleverForms.IsGlobalKey(this.SaveInitiator.controller.Config))
+        {
+          Affinity2018.ShowPageLoader(); // Lock the UI if global key and do not unlock untill save is DONE!
+        }
+      }
+      this.SaveInitiator = null;
+
       this.PostLocked = true;
       this.LastPostTime = Date.now();
       if (this.UseFormDataPost)
@@ -15822,6 +15898,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (!this.Uploading) $a.HidePageLoader();
     console.groupEnd();
     window.dispatchEvent(new Event('posted'));
+    Affinity2018.HidePageLoader();
     return true;
   }
 
@@ -22149,7 +22226,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   /**/
 
-  _insertDesignerKey (keyName, targetNode, position, referenceNode, keyData)
+  _insertDesignerKey (keyName, targetNode, position, referenceNode, keyData, )
   {
     var consoleColor = '#ffb515';
 
@@ -22203,7 +22280,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       config.Details.AffinityField.Mode = referenceMode;
 
-      this.CleverForms.Designer.Add(config, false, targetNode, position, referenceNode);
+      this.CleverForms.Designer.Add(config, false, targetNode, position, referenceNode, true);
 
     }
   }
