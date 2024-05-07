@@ -1937,21 +1937,18 @@ var UIManagerLeaveBalances = new Class({
     },
     populateLeaveFilters: function (config) {
         this.leaveTypeFilter.empty();
-        new Element('option', { 'value': '0', 'html': 'Annual Leave', 'id': '09' }).inject(this.leaveTypeFilter);
         Array.each(config, function (code, index) {
-            if (code.Code != '09') {
-                var description = code.Description.split("Leave ");
-                var descriptionCharCheck = null;
-                if (description.length > 1) {
-                    descriptionCharCheck = description[1];
-                }
-                if (this.inArray(code.Code, this.availableLeaveCodes) && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
-                    new Element('option', {
-                        'html': code.Description,
-                        'id': code.Code,
-                        'value': config.index
-                    }).inject(this.leaveTypeFilter);
-                }
+            var description = code.Description.split("Leave ");
+            var descriptionCharCheck = null;
+            if (description.length > 1) {
+                descriptionCharCheck = description[1];
+            }
+            if (this.inArray(code.Code, this.availableLeaveCodes) && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
+                new Element('option', {
+                    'html': code.Description,
+                    'id': code.Code,
+                    'value': config.index
+                }).inject(this.leaveTypeFilter);
             }
         }.bind(this));
     },
