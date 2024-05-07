@@ -12676,7 +12676,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     {
                       field: FieldName
                     });
-                  if (SectionNode && SectionNode.querySelector(query))
+                  if (
+                    SectionNode 
+                    && SectionNode.querySelector(query)
+                    && SectionNode.querySelector(query) !== node
+                  )
                   {
                     keyExists = true;
                     //message = 'You already have this key in this section';
@@ -12810,6 +12814,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               && !this.CleverForms.AllowedGlobalKeys.contains(FieldName)
             )
             {
+              // Weeeell .. can not mix Tables (Model) if the original Model is EMPLOYEE and has nothing in it except EMPLOYEE Key, 
+              // and the new Model is one of the MasterfileTableBlacklist.
+              let hasKeyOnly = SectionNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key):not(.item-' + node.dataset.name + ')').length === 0;
+              if (
+                SectionModel === 'EMPLOYEE'
+                && hasKeyOnly
+                && this.CleverForms.MasterfileTableBlacklist.contains(FieldModel)
+              )
+              {
+                return true;
+              }
               //message = '';
               //message += '<p>You can only have Affinity fields from one table per section.</p>';
               //message += '<p>This section already has Affinity fields for "' + SectionModel + '", but "' + config.Details.Label + '" is from "' + FieldModel + '".</p>';
@@ -14634,6 +14649,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           this.FormDetailsProgress = 'done';
           this.CleverForms.FormCountry = postData.FormCountry;
           Affinity2018.FormCountry = postData.FormCountry;
+          //if (postData.FormCountry !== undefined)
+          //{
+          //  this.TopNode.querySelector('select.form-country').value = postData.FormCountry;
+          //}
           if (this.CleverForms.FormCountry !== initialFormCountry)
           {
             window.dispatchEvent(new Event('CountryUpdated'));
@@ -14772,8 +14791,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           }.bind(this));
           if (!hasSensativeFields)
           {
-            formCountryNode.value = '';
-            this._updateFormDetails();
+            let checkCountry = formCountry === undefined ? this.CleverForms.TemplateModel.FormCountry : formCountry;
+            if (checkCountry === undefined && this.CleverForms.TemplateModel.SupportedCountries.length === 1)
+            {
+              checkCountry = this.CleverForms.TemplateModel.SupportedCountries[0];
+            }
+            if (formCountryNode.querySelector('option[value="' + checkCountry + '"]'))
+            {
+              formCountryNode.value = checkCountry;
+            }
+            else
+            {
+              formCountryNode.value = '';
+              this._updateFormDetails();
+            }
           }
         }
       }
@@ -15505,7 +15536,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
         if (!sectionNode.controller.Delete)
         {
-          childrenNodes = sectionNode.querySelectorAll('li.cf-designer-element:not([data-type="Swcrion"])');
+          childrenNodes = sectionNode.querySelectorAll('li.cf-designer-element:not([data-type="Section"])');
           childrenNodes.forEach(function (childNode)
           {
             if (childNode.controller)
@@ -16367,6 +16398,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.RequestCheckCount = 0;
     this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
     this.RequestChecked = false;
+    this.RequestRebooted = false;
 
     this.DashboardHeaderHeight = 0;
 
@@ -16893,7 +16925,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     if (Affinity2018.RequestQueue)
     {
       let queueStatus = Affinity2018.RequestQueue.GetStatus();
-      let totalRequests = Affinity2018.RequestQueue.RunningCount() + Affinity2018.RequestQueue.WaitingCount();
+      let runningRequests = Affinity2018.RequestQueue.RunningCount();
+      let waitingRequests = Affinity2018.RequestQueue.WaitingCount();
+      let totalRequests = runningRequests + waitingRequests;
       if (queueStatus === 'stopped' || queueStatus === 'idle' || totalRequests === 0) // no requests
       {
         this._widgestAndRequestDone();
@@ -16904,6 +16938,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         this.RequestCheckCount++;
         if (queueStatus === 'running')
         {
+          // check for request stall
+          // if running,but nothing is in progress, but we have waiting requests, then reboot
+          if (
+            !this.RequestRebooted 
+            && queueStatus === 'running' 
+            && runningRequests === 0 
+            && waitingRequests > 0
+          )
+          {
+            // reboot request engine
+            this.RequestRebooted = true;
+            Affinity2018.RequestQueue.StartQueue();
+            this._requestsCheckTimer = setTimeout(this._checkRequests, 5000); // give it 5 seconds to recover before recheck
+            return;
+          }
           if (!this.RequestChecked && this.RequestCheckCount > this.RequestCheckCountMax)
           {
             Affinity2018.HidePageLoader(); 
@@ -16952,6 +17001,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     if (Affinity2018.Dialog.Open) Affinity2018.Dialog.Hide();
     this.ButtonsNode.classList.remove('locked');
+    this.RequestRebooted = false;
     this.Ready = true;
     this.RequestChecked = false;
     this.PostData = this._getPostData();
@@ -42824,7 +42874,7 @@ Affinity2018.Classes.Plugins.RequestQueue = class
       'KeyExists', 'ApiExists',
       'StartQueue', 'StopQueue', 'ClearQueue',
       'Keys', 'RunningKeys', 'RunningCount', 'WaitingKeys', 'WaitingCount',
-      'GetStatus',
+      'GetStatus', 'GetInfo',
       '_add', '_remove', '_cancelQueuItem', '_removeQueItem',
       '_doRequest', '_success', '_fail'
     ].bindEach(this);
@@ -43021,6 +43071,16 @@ Affinity2018.Classes.Plugins.RequestQueue = class
     if (this.status === 'stopped') return 'stopped';
     if (this.RunningCount() > 0 || this.WaitingCount() > 0) return 'running';
     else return 'idle';
+  }
+
+  GetInfo()
+  {
+    return {
+      Status: this.GetStatus(),
+      RunningCount: this.RunningCount(),
+      WaitingCount: this.WaitingCount(),
+      RemainingRequests: this.requests
+    }
   }
 
   /**/
