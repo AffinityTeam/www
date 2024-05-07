@@ -9659,7 +9659,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         displayType = 'Float';
         config.Details.AffinityField.FieldDecimal = 2;
-        configDetails.AffinityField.FieldPrecision = 2;
+        config.Details.AffinityField.FieldPrecision = 2;
       }
 
     }
