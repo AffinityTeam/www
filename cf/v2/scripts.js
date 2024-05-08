@@ -23732,8 +23732,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value;
-      if (value.trim() !== '')
+      var display = value === null ? '' : value;
+      if (display.trim() !== '')
       {
         display += ' - ' + country;
       }
@@ -24249,6 +24249,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
     var fieldDecimal = 2;
     var fieldPrecision = 2;
+    var value = this.Config.Details.Value === null ? '' : this.Config.Details.Value;
     if (this.Config.Details.hasOwnProperty('DecimalNumber'))
     {
       fieldDecimal = this.Config.Details.DecimalNumber;
@@ -24264,7 +24265,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
       rounding: fieldPrecision > 0 ? 'round' : 'none',
-      value: this._formatCurrency(this.Config.Details.Value)
+      value: value !== '' ? this._formatCurrency(value) : ''
     });
 
     this.FormRowNode = super.SetFormRow(target, html);
@@ -30811,8 +30812,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value;
-      if (value.trim() !== '')
+      var display = value === null ? '' : value;
+      if (display.trim() !== '')
       {
         display += ' - ' + country;
       }
