@@ -11446,7 +11446,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
         config = this.CleverForms.SelectDefaultModeOnFieldSearch(config);
 
         if (node.hasOwnProperty('controller')) node.controller.Config = config;
-        if (this.CleverForms.Designer.CanAllowAffinityField(node, !dontPrompt, true))
+        if (this.CleverForms.Designer.CanAllowAffinityField(node, !dontPrompt, true, null, null, null, 'editpop._searchSelected'))
         {
           if (
             (
@@ -11686,7 +11686,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     {
       if (this.Config.Type === 'AffinityField' && this.DragNode)
       {
-        if (!this.CleverForms.Designer.CanAllowAffinityField(this.DragNode, true, false))
+        if (!this.CleverForms.Designer.CanAllowAffinityField(this.DragNode, true, false, null, null, null, 'editpop._checkOkToContinue'))
         {
           return false;
         }
@@ -12333,7 +12333,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (config.Type === 'AffinityField' && config.Details.AffinityField.FieldName === 'LINK_ID') node.classList.add('hidden');
 
         // Check if this Add is a auto injection (a dependancy for the added field)
-        // If it is a global Key, we ned to lock the load until saved, so swap the 
+        // If it is a global Key, we need to lock the load until saved, so swap the 
         // current SaveInitiator for the new Key node.
         if (isAutoInjected !== undefined && isAutoInjected === true && this.CleverForms.IsGlobalKey(config))
         {
@@ -12521,8 +12521,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   * @param {Node} toList The destination for the Desinger element
   * @param {String} checkSource Who ias aking for the check (_canDrop, _searchSelected, _canSelectSearch, etc)
   */
-  CanAllowAffinityField (node, showMessages, fromSearch, fromDrag, dragToListNode, dragFromListNode)
+  CanAllowAffinityField (node, showMessages, fromSearch, fromDrag, dragToListNode, dragFromListNode, caller)
   {
+    caller = caller = undefined ? 'Unknown' : caller.toString();
     if ($a.isNode(node))
     {
       showMessages = $a.paramOrDefault(showMessages, true);
@@ -12708,6 +12709,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 return false;
               }
             }
+            // Anytihng that is NOT a KeyField in it's own right, 
+            // treat as key if it requires keys as we can only have ONE of each of these
             if (IsNew && !AffinityField.IsKeyField)
             {
               if (AffinityField.KeyFields.length > 0)
@@ -12720,6 +12723,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     !this.CleverForms.AllowedGlobalKeys.contains(fieldData.FieldName)
                     && SectionNode.querySelector('li[data-field="' + fieldData.FieldName + '"]')
                     && SectionNode.querySelector('li[data-field="' + FieldName + '"]')
+                    && SectionNode.querySelector('li[data-field="' + FieldName + '"]') !== node
                   )
                   {
                     hasKeyField = true;
@@ -13753,7 +13757,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       if (!this.Uploading) setTimeout($a.HidePageLoader, 250);
 
-      this._checkForIllegals();
+      //this._checkForIllegals(); // NO!
 
       return true;
     }
@@ -14116,7 +14120,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
 
-    this._checkForIllegals();
+    //this._checkForIllegals(); // NO!
     this._attemptSetElementAsKey(node, true);
     this._setSectionModelNameLabels();
     this.LockAffinityNonMasterFileSection(node);
@@ -14144,7 +14148,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       this._removeElement(node);
     }
 
-    this._checkForIllegals();
+    //this._checkForIllegals(); // NO!
   }
 
 
@@ -14163,7 +14167,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       let node = allElements[e];
       let saveState = node.controller.Saved;
       node.controller.Saved = false;
-      let allowed = this.CanAllowAffinityField(node, false, false, false);
+      let allowed = this.CanAllowAffinityField(node, false, false, false, null, null, '_checkForIllegals');
       if (!allowed)
       {
         node.controller.Delete = true;
@@ -15164,7 +15168,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     // check what an affinity field can do ...
     if (node.dataset.type === 'AffinityField')
     {
-      let celemetnAllowed = this.CanAllowAffinityField(node, false, false, true, toListNode, fromListNode);
+      let celemetnAllowed = this.CanAllowAffinityField(node, false, false, true, toListNode, fromListNode, '_canDrop');
       if (celemetnAllowed)
       {
         this.SaveInitiator = node;
@@ -15671,16 +15675,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     {
       this.DesignerSavingNode.classList.add('show');
       
-      // If we are saving a Global Key (Employee No), save can be slow.
-      // We must wait for it to load before we can interact with designer,
-      // specifically, remove oer edit the field it is in the mioddle of saving, 
-      // else we can end up with doubles.
+      // Save can be slow. We must wait for it to complete before we can interact with designer.
       if (this.SaveInitiator !== null)
       {
-        if (this.CleverForms.IsGlobalKey(this.SaveInitiator.controller.Config))
-        {
-          Affinity2018.ShowPageLoader(); // Lock the UI if global key and do not unlock untill save is DONE!
-        }
+        document.body.classList.add('lock-post');
       }
       this.SaveInitiator = null;
 
@@ -15930,6 +15928,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     console.groupEnd();
     window.dispatchEvent(new Event('posted'));
     Affinity2018.HidePageLoader();
+    document.body.classList.remove('lock-post');
     return true;
   }
 
@@ -26860,6 +26859,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
   SetFormRow (target)
   {
+    if (this.Config.Details.Text == null || this.Config.Details.Text.trim() === '')
+    {
+      if (this.FormRowNode)
+      {
+        return this.FormRowNode;
+      }
+      return;
+    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.ArrowDirection.toLowerCase().trim(), this.Config.Details.Text);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -28921,6 +28928,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
   SetFormRow (target)
   {
+    if (this.Config.Details.Text == null || this.Config.Details.Text.trim() === '')
+    {
+      if (this.FormRowNode)
+      {
+        return this.FormRowNode;
+      }
+      return;
+    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Text);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -31404,6 +31419,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   SetFormRow (target)
   {
+    if (this.Config.Details.Value == null || this.Config.Details.Value.trim() === '')
+    {
+      if (this.FormRowNode)
+      {
+        return this.FormRowNode;
+      }
+      return;
+    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -32113,7 +32136,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
         this.iconNode.classList.add('invalid', 'icon-cross-round');
       }
       else
@@ -32147,7 +32170,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
         this.lookupNode.value = value;
-        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
         this.iconNode.classList.add('invalid', 'icon-cross-round');
       }
     }
@@ -32483,14 +32506,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
 
       this.lookupNode.value = this.GetAddress();
-      this.iconNode.classList.remove('invalid', 'icon-blocked', 'icon-cross-round');
+      this.iconNode.classList.remove('invalid', 'icon-cf-address', 'icon-cross-round');
       this.iconNode.classList.add('valid', 'icon-tick-round');
 
       this.Valid = this._validateLengths();
     }
     else
     {
-      this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+      this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
       this.iconNode.classList.add('invalid', 'icon-cross-round');
       this.Valid = false;
     }
@@ -32550,7 +32573,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _templates ()
   {
     this.addressTemplate = `
-    <div class="address-indicator icon-blocked"></div>
+    <div class="address-indicator icon-cf-address"></div>
     <div class="address-fields-row steet-fields">
       <input type="text" class="field street_number" placeholder="Number" />
       <input type="text" class="field street" placeholder="Street"/>
@@ -36118,7 +36141,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
+    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-edit');
     switch (state)
     {
       case 'valid':
@@ -36131,7 +36154,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
         break;
       case 'reset':
       default:
-        this.iconNode.classList.add('grey','icon-blocked');
+        this.iconNode.classList.add('grey','icon-edit');
         break;
     }
   }
@@ -36482,7 +36505,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     <input class="account ui-has-integer" type="text" maxlength="7">
     <span class="suffix-span">-</span>
     <input class="suffix ui-has-integer" type="text" maxlength="3">
-    <span class="tickcross grey icon-blocked"></span>
+    <span class="tickcross grey icon-edit"></span>
     <div class="names">
       <div class="bankname hidden"></div>
       <div class="branchname hidden"></div>
@@ -45382,7 +45405,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
+    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-edit');
     switch (state)
     {
       case 'valid':
@@ -45395,7 +45418,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         break;
       case 'reset':
       default:
-        this.iconNode.classList.add('grey', 'icon-blocked');
+        this.iconNode.classList.add('grey', 'icon-edit');
         break;
     }
   }
@@ -45702,7 +45725,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     <input class="tax2 ui-has-integer" type="text" maxlength="3">
     <span> - </span>
     <input class="tax3 ui-has-integer" type="text" maxlength="3">
-    <span class="tickcross grey icon-blocked"></span>
+    <span class="tickcross grey icon-edit"></span>
     `;
   }
 

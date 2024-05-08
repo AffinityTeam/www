@@ -19357,6 +19357,23 @@ li.cf-designer-element.disabled * {
   touch-action: manipulation;
   pointer-events: all;
 }
+body.lock-post div.cf-designer-element-popup button:not(.grey),
+body.lock-post div.cf-designer-element-popup .button:not(.grey) {
+  color: #666666;
+  background-color: #999999;
+  touch-action: none;
+  pointer-events: none;
+}
+body.lock-post div.cf-designer-element-popup button:not(.grey):hover,
+body.lock-post div.cf-designer-element-popup .button:not(.grey):hover {
+  color: white;
+  background-color: #999999;
+}
+body.lock-post div.cf-designer-element-popup button:not(.grey) *,
+body.lock-post div.cf-designer-element-popup .button:not(.grey) * {
+  touch-action: none;
+  pointer-events: none;
+}
 body.ui2018.dark .content .cf-d2-bottom-right ul {
   border: 2px dashed #333333;
   background-color: #111111;
