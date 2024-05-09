@@ -13216,6 +13216,40 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
 
 
+  /**
+  * Summary. Save any item changes
+  * @this    Class scope
+  * @access  public
+  * 
+  * @param {Nodes} nodes Dom nodes in the Right Desinger list to save
+  */
+  GetLabelFromConfig(config)
+  {
+    let title = config.Details.Label;
+    if (Affinity2018.isNullOrEmpty(title))
+    {
+      title = Affinity2018.isNullOrEmpty(config.Label) ? config.Type : config.Label;
+      //if (config.Type === 'AffinityField' && config.hasOwnProperty('Display') && config.Display !== undefined && config.Display !== null)
+      //{
+      //  title = 'Affinity Field - ' + config.Display.Label;
+      //}
+      if (
+        config.Type === 'AffinityField' 
+        && config.Details.hasOwnProperty('AffinityField') 
+        && config.Details.AffinityField !== undefined 
+        && config.Details.AffinityField !== null
+        && !Affinity2018.isNullOrEmpty(config.Details.AffinityField.FieldName)
+      )
+      {
+        //title = 'Affinity Field (' + config.Details.AffinityField.FieldName + ')';
+        title = config.Details.AffinityField.FieldName;
+      }
+    }
+    return title;
+  }
+
+
+
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                                                                                           *********************/
@@ -13332,7 +13366,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (this.CleverForms.PseudoGlobalElementTypes.contains(data.Type)) elementNode.classList.add('pseudo-global-key');
 
       elementNode.querySelector('.main-icon').classList.add(data.Icon.Color, 'icon-cf-' + data.Icon.Name.replace('icon-', '').replace('cf-', ''));
-      elementNode.querySelector('.label').innerHTML = data.Label;
+      elementNode.querySelector('.label').innerHTML = this.GetLabelFromConfig(data);
       elementNode.classList.add('cf-designer-element', 'ui-has-tooltip');
       elementNode.dataset.tooltip = data.Tooltip;
       elementNode.dataset.tooltipDir = 'right';
@@ -13869,11 +13903,13 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _setElementModeLabel (node)
   {
     if (node && $a.isNode(node) && node.controller && node.controller.Config.Type === 'AffinityField')
-    {
-      // Once we have mode switching, we could do this for all Affinty Fields.
+    {      // Once we have mode switching, we could do this for all Affinty Fields.
+
+      let title = this.GetLabelFromConfig(node.controller.Config);
+
       if (node.controller.Config.Details.AffinityField.IsKeyField)
       {
-        node.querySelector('.label').innerHTML = node.controller.Config.Details.Label + ' <em>(' + node.controller.GetModeName() + ')</em>';
+        node.querySelector('.label').innerHTML = title + ' <em>(' + node.controller.GetModeName() + ')</em>';
       }
       else
       {
@@ -13889,8 +13925,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           matches.forEach(function (matchNode)
           {
-            matchNode.querySelector('.label').innerHTML = matchNode.controller.Config.Details.Label + ' <em>(' + matchNode.controller.GetModeName() + ')</em>';
-          });
+            title = this.GetLabelFromConfig(matchNode.controller.Config);
+            matchNode.querySelector('.label').innerHTML = title + ' <em>(' + matchNode.controller.GetModeName() + ')</em>';
+          }.bind(this));
         }
 
       }
@@ -13938,24 +13975,26 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         node.controller = new Affinity2018.Classes.Apps.CleverForms.Elements[config.Type](config);
         node.classList.add('item-' + node.controller.UniqueName);
         node.dataset.name = node.controller.Name;
-        if (
-          node.querySelector('.label')
-          && config.hasOwnProperty('Details')
-          && (
-            config.Details.Label !== null
-            && (
-              $a.isString(config.Details.Label)
-              && config.Details.Label.trim() !== ''
-            )
-          )
-        )
-        {
-          node.querySelector('.label').innerHTML = config.Details.Label;
-        }
-        else
-        {
-          node.querySelector('.label').innerHTML = config.Label;
-        }
+        node.querySelector('.label').innerHTML = this.GetLabelFromConfig(config);
+
+        //if (
+        //  node.querySelector('.label')
+        //  && config.hasOwnProperty('Details')
+        //  && (
+        //    config.Details.Label !== null
+        //    && (
+        //      $a.isString(config.Details.Label)
+        //      && config.Details.Label.trim() !== ''
+        //    )
+        //  )
+        //)
+        //{
+        //  node.querySelector('.label').innerHTML = config.Details.Label;
+        //}
+        //else
+        //{
+        //  node.querySelector('.label').innerHTML = config.Label;
+        //}
 
         /**/
 
