@@ -32765,7 +32765,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.debug = false;
 
-    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js';
+    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?ran=' + Affinity2018.uuid();
 
     this.selectmax = 2000;
 

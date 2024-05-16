@@ -3955,7 +3955,7 @@ var UIAutoCompleteWidget = new Class({
         selectElement: null
     },
 
-    webworkerpath: './scripts/common/ui.autocomplete.web.worker.js?ran=' + Affinty2018.uuid(),
+    webworkerpath: './scripts/common/ui.autocomplete.web.worker.js',
 
     list: [],
 
