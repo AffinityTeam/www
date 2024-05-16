@@ -22,23 +22,23 @@
 (5693,24-25): run-time error JS1195: Expected expression: )
 (5693,26-27): run-time error JS1004: Expected ';': {
 (5752,6-7): run-time error JS1195: Expected expression: ,
-(10422,52-53): run-time error JS1195: Expected expression: .
-(10434,5-6): run-time error JS1002: Syntax error: }
-(10435,46-47): run-time error JS1004: Expected ';': {
-(10470,6-7): run-time error JS1195: Expected expression: ,
-(10471,42-43): run-time error JS1004: Expected ';': {
-(10494,6-7): run-time error JS1195: Expected expression: ,
-(10495,43-44): run-time error JS1004: Expected ';': {
-(10507,6-7): run-time error JS1195: Expected expression: ,
-(10508,81-82): run-time error JS1004: Expected ';': {
-(10525,6-7): run-time error JS1195: Expected expression: ,
-(10526,54-55): run-time error JS1004: Expected ';': {
-(10553,6-7): run-time error JS1195: Expected expression: ,
-(10554,49-50): run-time error JS1004: Expected ';': {
-(10624,6-7): run-time error JS1195: Expected expression: ,
-(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10433,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10427,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(10426,52-53): run-time error JS1195: Expected expression: .
+(10438,5-6): run-time error JS1002: Syntax error: }
+(10439,46-47): run-time error JS1004: Expected ';': {
+(10474,6-7): run-time error JS1195: Expected expression: ,
+(10475,42-43): run-time error JS1004: Expected ';': {
+(10498,6-7): run-time error JS1195: Expected expression: ,
+(10499,43-44): run-time error JS1004: Expected ';': {
+(10511,6-7): run-time error JS1195: Expected expression: ,
+(10512,81-82): run-time error JS1004: Expected ';': {
+(10529,6-7): run-time error JS1195: Expected expression: ,
+(10530,54-55): run-time error JS1004: Expected ';': {
+(10557,6-7): run-time error JS1195: Expected expression: ,
+(10558,49-50): run-time error JS1004: Expected ';': {
+(10628,6-7): run-time error JS1195: Expected expression: ,
+(10629,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10437,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10431,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5590,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5480,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5499,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -9726,6 +9726,10 @@ var UILeaveDetail = new Class({
 
             this.managerCommentBox = new Element('textarea', { 'class': 'leave-detail-text-area', 'rows': '4', 'id': 'comment', 'name': 'comment' }).inject(this.managerCommentsAreaRow2Column2);
 
+            if (this.data.LeaveHeader.StatusCode !== 0) {
+                this.managerCommentBox.set('disabled', true);
+            }
+
             this.managerCommentEdit = new InputEditWidgetLeaveDays({
                 target: this.managerCommentsAreaRow2Column2Container,
                 input: this.managerCommentBox,
@@ -10974,7 +10978,6 @@ var UILeaveDetail = new Class({
         this.createApproveButton(container);
         this.createDeclineButton(container);
         this.createCancelButton(container);
-        this.createSubmitButton(container);
         this.createCloseButton(container);
 
     },
@@ -10993,7 +10996,7 @@ var UILeaveDetail = new Class({
     },
     createEditButton: function (container) {
         var leave = this.data.LeaveHeader;
-        if (leave.StatusCode !== 7) {
+        if (leave.StatusCode === 0) {
             if (this.editButton !== undefined) {
                 this.editButton.destroy();
             }
@@ -11123,7 +11126,6 @@ var UILeaveDetail = new Class({
         var leave = this.data.LeaveHeader;
         if (!this.isManager) {
             if (leave.StatusCode === 0 ||
-                leave.StatusCode === 2 ||
                 leave.StatusCode === 3) {
 
                 this.cancelButton = new Element('button', {
@@ -11292,6 +11294,9 @@ var UILeaveDetail = new Class({
         var leave = this.data.LeaveHeader;
         if (!leave.isExternal) {
             if (this.isManager) {
+
+                if (leave.StatusCode == 6 || leave.StatusCode == 2) return;
+
                 if (leave.StatusCode !== -1) {
                     this.approveButton = new Element('span', {
                         'class': 'button green w-icon-only leave-detail-button'
@@ -11353,7 +11358,6 @@ var UILeaveDetail = new Class({
 
         this.createApproveButton(this.buttonsBox);
         this.createDeclineButton(this.buttonsBox);
-        this.createSubmitButton(this.buttonsBox, false);
         this.createCancelButton(this.buttonsBox);
         this.createEditButton(this.buttonsBox);
         this.createCloseButton(this.buttonsBox);
