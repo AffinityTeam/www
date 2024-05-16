@@ -8256,7 +8256,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     Affinity2018.ShowPageLoader();
 
-    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json';
+    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?ran=' + Affinity2018.uuid();
 
     axios({
       url: url,
