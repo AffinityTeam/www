@@ -7247,7 +7247,7 @@
         // TODO: eventually, use CDN location when it exists:
         // axios.get('https:/'+'/cdn.source63.com/' + Affinity2018.Domain + '/' + Affinity2018.Id + '.' + Affinity2018.Version + '.min.html')
         // In the mean time, use Affinity2018.TemplatesPath + current app location
-        axios.get(Affinity2018.TemplatesPath + 'templates.html')
+        axios.get(Affinity2018.TemplatesPath + 'templates.html?ran=' + Affinity2018.uuid())
           .then(function (response)
           {
             this.templatesHtml = response.data;
