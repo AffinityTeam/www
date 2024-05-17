@@ -48,7 +48,7 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = '0.0.6';
+  Affinity2018.Version = '1.0.1';
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
@@ -4505,7 +4505,7 @@
 
     Load()
     {
-      axios.get('../../Content/v2/languages/english.json').then(function (response)
+      axios.get('../../Content/v2/languages/english.json?ran=' + Affinity2018.uuid()).then(function (response)
       {
         this._process(response.data);
       }.bind(this));
