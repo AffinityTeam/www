@@ -48,7 +48,7 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = '0.0.6';
+  Affinity2018.Version = '1.0.1';
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
@@ -4505,7 +4505,7 @@
 
     Load()
     {
-      axios.get('../../Content/v2/languages/english.json').then(function (response)
+      axios.get('../../Content/v2/languages/english.json?ran=' + Affinity2018.uuid()).then(function (response)
       {
         this._process(response.data);
       }.bind(this));
@@ -7247,7 +7247,7 @@
         // TODO: eventually, use CDN location when it exists:
         // axios.get('https:/'+'/cdn.source63.com/' + Affinity2018.Domain + '/' + Affinity2018.Id + '.' + Affinity2018.Version + '.min.html')
         // In the mean time, use Affinity2018.TemplatesPath + current app location
-        axios.get(Affinity2018.TemplatesPath + 'templates.html')
+        axios.get(Affinity2018.TemplatesPath + 'templates.html?ran=' + Affinity2018.uuid())
           .then(function (response)
           {
             this.templatesHtml = response.data;
@@ -8256,7 +8256,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     Affinity2018.ShowPageLoader();
 
-    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json';
+    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?ran=' + Affinity2018.uuid();
 
     axios({
       url: url,
@@ -24315,7 +24315,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
       this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
       
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(this.FormRowNode.querySelector('input').value.trim()) }}));
+        var inputValue = this.FormRowNode.querySelector('input').value.trim();
+        if (inputValue !== "") {
+           inputValue = inputValue.replace(/,/g, ''); // Remove all commas BenK to review
+        }
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(inputValue) }}));
       
       }).bind(this));
 
@@ -27861,7 +27865,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
       this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
       
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(this.FormRowNode.querySelector('input').value.trim()) }}));
+        var inputValue = this.FormRowNode.querySelector('input').value.trim();
+        if (inputValue !== "") {
+           inputValue = inputValue.replace(/,/g, ''); // Remove all commas BenK to review
+        }
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(inputValue) }}));
       
       }).bind(this));
 
@@ -28059,8 +28067,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
       this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
       
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseInt(this.FormRowNode.querySelector('input').value.trim()) }}));
-      
+       var inputValue = this.FormRowNode.querySelector('input').value.trim();
+        if (inputValue !== "") {
+           inputValue = inputValue.replace(/,/g, ''); // Remove all commas BenK to review
+        }
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(inputValue) }}));
+
       }).bind(this));
 
 
@@ -32765,7 +32777,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.debug = false;
 
-    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js';
+    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?ran=' + Affinity2018.uuid();
 
     this.selectmax = 2000;
 
