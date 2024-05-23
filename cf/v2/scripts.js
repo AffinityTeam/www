@@ -4505,7 +4505,7 @@
 
     Load()
     {
-      axios.get('../../Content/v2/languages/english.json?ran=' + Affinity2018.uuid()).then(function (response)
+      axios.get('../../Content/v2/languages/english.json?version=' + Affinity2018.Version).then(function (response)
       {
         this._process(response.data);
       }.bind(this));
@@ -7247,7 +7247,7 @@
         // TODO: eventually, use CDN location when it exists:
         // axios.get('https:/'+'/cdn.source63.com/' + Affinity2018.Domain + '/' + Affinity2018.Id + '.' + Affinity2018.Version + '.min.html')
         // In the mean time, use Affinity2018.TemplatesPath + current app location
-        axios.get(Affinity2018.TemplatesPath + 'templates.html?ran=' + Affinity2018.uuid())
+        axios.get(Affinity2018.TemplatesPath + 'templates.html?version=' + Affinity2018.Version)
           .then(function (response)
           {
             this.templatesHtml = response.data;
@@ -8256,7 +8256,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     Affinity2018.ShowPageLoader();
 
-    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?ran=' + Affinity2018.uuid();
+    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?version=' + Affinity2018.Version;
 
     axios({
       url: url,
@@ -18389,13 +18389,35 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
   /**
+   * Summary. Get data from this.FormData by Element Unique Name
+   * @this    Class scope
+   * @access  private
+   */
+  _getFromFormDataByName(elemntName)
+  {
+    let result = null;
+    this.FormData.some((section) =>
+    {
+      const elemIdx = section.Elements.findIndex(element => element.Name === elemntName);
+      if (elemIdx !== -1)
+      {
+        result = section.Elements[elemIdx];
+        return true; // Stop iteration once found
+      }
+      return false; // Continue iteration
+    });
+    return result;
+  }
+
+
+
+  /**
    * Summary. Gather all post data from form
    * @this    Class scope
    * @access  private
    */
   _getPostData()
   {
-
     if (this.ViewType !== 'Form') return null;
 
     this.PostData = {
@@ -18406,9 +18428,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       sectionConfig, sectionData,
       elementConfig, elementData;
 
-    let sectionIndex = -1;
-    let elementIndex = -1;
-
     document.querySelectorAll('div.section.row-section').forEach(function (sectionNode)
     {
       if (!addedNames.contains(sectionNode.controller.Name))
@@ -18416,8 +18435,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         sectionConfig = sectionNode.controller.Config;
         if (sectionConfig.Type === 'Section')
         {
-          sectionIndex++;
-          elementIndex = -1;
           sectionData = sectionNode.controller.GetFromFormRow();
           sectionNode.querySelectorAll('div.form-row').forEach(function (node)
           {
@@ -18426,12 +18443,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               elementConfig = node.controller.Config;
               if (elementConfig.Type !== 'Section' && elementConfig.ViewType === 'Question')
               {
-                elementIndex++;
                 if (elementConfig.Type === 'AffinityField')
                 {
                   if (elementConfig.Details.AffinityField.Mode !== this.CleverForms.AffnityFieldModeTypes.Display.Enum)
                   {
-
                     if (node.classList.contains('custom-error'))
                     {
                       let affinityId = node.dataset.name;
@@ -18440,6 +18455,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                         Name: affinityId,
                         Value: node.controller.Config.Details.Value
                       };
+
+                      if (this.SelectedUserData !== null)
+                      {
+                        console.log('');
+                        console.log('SelectedUserData:');
+                        console.log(this.SelectedUserData);
+                        console.log('Field:');
+                        console.log(elementData);
+                        console.log('');
+                      }
+
                       if (
                         Affinity2018.isNullOrEmpty(elementData.Value) 
                         && this.SelectedUserData !== null
@@ -18452,12 +18478,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     else
                     {
                       elementData = node.controller.GetFromFormRow();
-                      if (
-                        Affinity2018.isNullOrEmpty(elementData.Value)
-                        && !Affinity2018.isNullOrEmpty(this.FormData[sectionIndex].Elements[elementIndex].Value)
-                      )
+                      if (Affinity2018.isNullOrEmpty(elementData.Value))
                       {
-                        elementData.Value = this.FormData[sectionIndex].Elements[elementIndex].Value;
+                        let fromData = this._getFromFormDataByName(elementData.Name);
+                        if (fromData !== null)
+                        {
+                          elementData.Value = fromData.Value;
+                        }
                       }
                     }
                     sectionData.Elements.push(elementData);
@@ -18477,7 +18504,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
       addedNames.push(sectionNode.controller.Name);
     }.bind(this))
-
 
     return this.PostData;
   }
@@ -20324,6 +20350,30 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       }
     }
 
+    // Before any monkey business, check for plugins ..
+    let valid = true;
+    if (this.DesignerNode && this.DesignerNode.hasOwnProperty('controller'))
+    {
+      if (this.DesignerNode.controller.hasOwnProperty('InternalWidgets') && this.DesignerNode.controller.InternalWidgets.length > 0)
+      {
+        for (let w = 0; w < this.DesignerNode.controller.InternalWidgets.length; w++)
+        {
+          let widget = this.DesignerNode.controller.InternalWidgets[w];
+          if (widget.hasOwnProperty('IsValid'))
+          {
+            valid = widget.IsValid();
+            if (!valid) break;
+          }
+        }
+      }
+    }
+    if (!valid)
+    {
+      this.Changes = [];
+      return this.Changes;
+    }
+    //
+
     currentConfig = this.CleverForms.OrderObject(currentConfig);
     lastConfig = this.CleverForms.OrderObject(lastConfig);
 
@@ -20337,6 +20387,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         change = s;
         if (!this.Changes.contains(change)) this.Changes.push(change);
       }
+
       if (this.Config.Type === 'Section' && this.Changes.length === 0) // check workflows again
       {
         var sectionWorkflows = currentConfig.Details.SectionWorkflowVisibilitySettings.sort();
@@ -24313,13 +24364,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
       // set any special elements
 
-      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() =>
+      {
       
-        var inputValue = this.FormRowNode.querySelector('input').value.trim();
-        if (inputValue !== "") {
-           inputValue = inputValue.replace(/,/g, ''); // Remove all commas BenK to review
+        var inputValue = this.FormRowNode.querySelector('input').value.replace(/,/g, '').trim();
+        if (!isNaN(parseFloat(inputValue)))
+        {
+           inputValue = parseFloat(inputValue);
         }
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(inputValue) }}));
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: inputValue }}));
       
       }).bind(this));
 
@@ -24338,9 +24391,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
       // get any special elements
 
-      if (this.FormRowNode && !isNaN(parseFloat(this.FormRowNode.querySelector('input.nv').value)))
+      var inputValue = this.FormRowNode.querySelector('input.nv').value.replace(/,/g, '').trim();
+      if (!isNaN(parseFloat(inputValue)))
       {
-        this.FormData.Value = parseFloat(this.FormRowNode.querySelector('input.nv').value.replaceAll(',', ''));
+        this.FormData.Value = parseFloat(inputValue);
       }
       else
       {
@@ -24360,14 +24414,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
   /**/
 
+
+  // var inputValue = this.FormRowNode.querySelector('input').value.replace(/,/g, '').trim();
+
   _formatCurrency(value)
   {
-    if (value == undefined || value === null || isNaN(parseFloat(value))) return value;
-    value = value.toString();
-    //var hasComma = value.contains(',');
+    if (value == undefined || value === null || isNaN(parseFloat(value.toString().replace(/,/g, '')))) return value;
+    value = value.toString().replace(/,/g, '');
     value = parseFloat(value).toLocaleString('en-GB', { style: "currency", currency: "AUD" }).trim();
     value = value.contains('$') ? value.split('$')[1] : value;
-    //if (!hasComma) value = value.replaceAll(',', '');
     return value;
   }
 
@@ -24406,7 +24461,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
       <label>{label}</label>
       <div class="currencybox">
         <div class="symbol"><strong>$</strong></div>
-        <input type="text" class="ui-has-currency" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
+        <input type="text" class="ui-has-currency validate-on-load" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
       </div>
     </div>
     `;
@@ -27863,13 +27918,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
       // set any special elements
 
-      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() =>
+      {
       
-        var inputValue = this.FormRowNode.querySelector('input').value.trim();
-        if (inputValue !== "") {
-           inputValue = inputValue.replace(/,/g, ''); // Remove all commas BenK to review
+        var inputValue = this.FormRowNode.querySelector('input').value.replace(/,/g, '').trim();
+        if (!isNaN(parseFloat(inputValue)))
+        {
+           inputValue = parseFloat(inputValue);
         }
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(inputValue) }}));
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: inputValue }}));
       
       }).bind(this));
 
@@ -27888,9 +27945,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
       // get any special elements
 
-      if (this.FormRowNode && !isNaN(parseFloat(this.FormRowNode.querySelector('input.nv').value)))
+      var inputValue = this.FormRowNode.querySelector('input.nv').value.replace(/,/g, '').trim();
+      if (!isNaN(parseFloat(inputValue)))
       {
-        this.FormData.Value = parseFloat(this.FormRowNode.querySelector('input.nv').value);
+        this.FormData.Value = parseFloat(inputValue);
       }
       else
       {
@@ -27941,7 +27999,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-float" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
+      <input type="text" class="ui-has-float validate-on-load" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
     </div>
     `;
 
@@ -28065,16 +28123,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
       // set any special elements
 
-      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() =>
+      {
       
-       var inputValue = this.FormRowNode.querySelector('input').value.trim();
-        if (inputValue !== "") {
-           inputValue = inputValue.replace(/,/g, ''); // Remove all commas BenK to review
+        var inputValue = this.FormRowNode.querySelector('input').value.replace(/,/g, '').trim();
+        if (!isNaN(parseInt(inputValue)))
+        {
+           inputValue = parseInt(inputValue);
         }
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(inputValue) }}));
+
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: inputValue }}));
 
       }).bind(this));
-
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
@@ -28133,7 +28193,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{0}</label>
-      <input type="number" class="ui-has-integer" value="{1}" />
+      <input type="number" class="ui-has-integer validate-on-load" value="{1}" />
     </div>
     `;
 
@@ -29563,6 +29623,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
     super._options();
 
+    this.InternalWidgets = [];
   }
 
   constructor(config)
@@ -29609,6 +29670,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         if (listBuilder)
         {
+          this.InternalWidgets.push(listBuilder);
           var requiredNode = this.EditNode.querySelector('#-required');
           if (!requiredNode.classList.contains('listenting'))
           {
@@ -32777,7 +32839,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.debug = false;
 
-    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?ran=' + Affinity2018.uuid();
+    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?version=' + Affinity2018.Version;
 
     this.selectmax = 2000;
 
@@ -41351,6 +41413,8 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     this.IllegalKeys = ['none', 'null', 'key', 'value'];
     this.IllegalValues = ['none', 'null', 'key', 'value'];
 
+    this.Valid = false;
+
     this.ColumnHeaders = {
       KeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
       KeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
@@ -41760,9 +41824,11 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     if (reasons.length > 0)
     {
       this.InvalidReason = reasons.join('<br>');
+      this.Valid = false;
       return false;
     }
     this.InvalidReason = false;
+    this.Valid = true;
     return true;
   }
 
@@ -41980,9 +42046,11 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     if (reasons.length > 0)
     {
       this._badRowReason = reasons.join('<br>');
+      this.Valid = false;
       return false;
     }
-
+    
+    this.Valid = true;
     return true;
   }
 
@@ -42573,6 +42641,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
       this.InputNode.parentNode.appendChild(this.ErrorNode);
     }
 
+    if (this.InputNode.classList.contains('validate-on-load'))
+    {
+      this.InputNode.classList.remove('validate-on-load');
+      this._validate();
+    }
+
     this._applyEvents();
 
     //this._validate();
@@ -42751,7 +42825,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
     if (['float', 'decimal', 'currency'].contains(this.type) && this.InputNode.value.trim() !== '')
     {
       //hasComma = !hasComma ? this.InputNode.value.trim().contains(',') : hasComma;
-      value = !isNaN(parseFloat(this.InputNode.value.trim().replaceAll(',', ''))) ? parseFloat(this.InputNode.value.trim().replaceAll(',', '')) : value;
+      value = !isNaN(parseFloat(this.InputNode.value.replace(/,/g, '').trim())) ? parseFloat(this.InputNode.value.replace(/,/g, '').trim()) : value;
 
       if (this.decimals > 0)
       {
@@ -42793,7 +42867,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   _validate (ev)
   {
     var value = this.InputNode.value.trim(),
-        valueAsFloat = parseFloat(value.trim().replaceAll(',', '')),
+        valueAsFloat = parseFloat(value.replace(/,/g, '').trim()),
         isValid = true,
         warning;
 
@@ -44348,10 +44422,10 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
             {
               if (
                 $a.type(filterData.FilterEndabldeValue) === 'number'
-                && !isNaN(parseFloat(checkFor))
+                && !isNaN(parseFloat(checkFor.replace(/,/g, '').trim()))
               )
               {
-                checkFor = parseFloat(checkFor);
+                checkFor = parseFloat(checkFor.replace(/,/g, '').trim());
               }
               if (
                 $a.type(filterData.FilterEndabldeValue) === 'boolean'
