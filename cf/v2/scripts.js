@@ -17754,43 +17754,45 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           redirectWindow.location;
         }
       }
-
-      if (Affinity2018.EnableLog && Affinity2018.EnablePost)
+      // log Post
+      if (Affinity2018.EnableLog)
       {
         Affinity2018.Log({
           Type: Affinity2018.LogType.Information,
-           DocumentId: this.CleverForms.GetInstanceGuid(),
-           Message: 'Form Instance Posted',
-           Details: JSON.stringify(this.PostData),
-           Action: this.PostData.ActionName,
-           Source: ''
+          DocumentId: this.CleverForms.GetInstanceGuid(),
+          Message: 'Form Instance Posted',
+          Details: JSON.stringify(this.PostData),
+          Action: this.PostData.ActionName,
+          Source: ''
         });
       }
-
     }
-    if (this.SubmitActionName.contains('Save') && !this.suppressPostMessage) // && this.PostedErrors.length === 0)
+
+    if (this.SubmitActionName.contains('Save'))
     {
       // saved
-      Affinity2018.Dialog.Show({
-        message: $a.Lang.ReturnPath('app.cf.form.saved'),
-        showOk: true,
-        showCancel: false,
-        showInput: false,
-        textAlign: 'center'
-      });
-
+      if (!this.suppressPostMessage)
+      {
+        Affinity2018.Dialog.Show({
+          message: $a.Lang.ReturnPath('app.cf.form.saved'),
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'center'
+        });
+      }
+      // log saved
       if (Affinity2018.EnableLog && Affinity2018.EnablePost)
       {
         Affinity2018.Log({
           Type: Affinity2018.LogType.Information,
-            DocumentId: this.CleverForms.GetInstanceGuid(),
-            Message: 'Form Instance Saved',
-            Details: JSON.stringify(this.PostData),
-            Action: this.PostData.ActionName,
-            Source: ''
+          DocumentId: this.CleverForms.GetInstanceGuid(),
+          Message: 'Form Instance Saved',
+          Details: JSON.stringify(this.PostData),
+          Action: this.PostData.ActionName,
+          Source: ''
         });
       }
-
     }
 
     this.suppressPostMessage = false;
@@ -17988,15 +17990,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (logError && data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
       if (logError) console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' ')));
       
+      // log error
       if (Affinity2018.EnableLog && Affinity2018.EnablePost)
       {
         Affinity2018.Log({
           Type: Affinity2018.LogType.Error,
-            DocumentId: this.CleverForms.GetInstanceGuid(),
-            Message: 'Form Instance ' + this.PostData.ActionName + 'Failed: ' + message,
-            Details: JSON.stringify(this.PostData),
-            Action: this.PostData.ActionName,
-            Source: ''
+          DocumentId: this.CleverForms.GetInstanceGuid(),
+          Message: 'Form Instance ' + this.PostData.ActionName + 'Failed: ' + errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' '),
+          Details: JSON.stringify(this.PostData),
+          Action: this.PostData.ActionName,
+          Source: ''
         });
       }
 
