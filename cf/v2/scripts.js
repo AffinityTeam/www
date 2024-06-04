@@ -1,58 +1,58 @@
 /* Minification failed. Returning unminified contents.
 (2724,31-32): run-time error JS1195: Expected expression: >
-(2763,25-26): run-time error JS1195: Expected expression: >
-(2763,42-43): run-time error JS1004: Expected ';': )
-(2764,21-22): run-time error JS1195: Expected expression: >
-(2774,9-10): run-time error JS1002: Syntax error: }
-(2778,9-10): run-time error JS1002: Syntax error: }
-(3001,32-37): run-time error JS1195: Expected expression: class
-(3540,32-37): run-time error JS1195: Expected expression: class
+(2761,25-26): run-time error JS1195: Expected expression: >
+(2761,42-43): run-time error JS1004: Expected ';': )
+(2762,21-22): run-time error JS1195: Expected expression: >
+(2772,9-10): run-time error JS1002: Syntax error: }
+(2776,9-10): run-time error JS1002: Syntax error: }
+(2999,32-37): run-time error JS1195: Expected expression: class
+(3538,32-37): run-time error JS1195: Expected expression: class
+(3630,29-30): run-time error JS1004: Expected ';': {
+(3631,29-30): run-time error JS1004: Expected ';': {
 (3632,29-30): run-time error JS1004: Expected ';': {
 (3633,29-30): run-time error JS1004: Expected ';': {
-(3634,29-30): run-time error JS1004: Expected ';': {
-(3635,29-30): run-time error JS1004: Expected ';': {
-(3692,3-4): run-time error JS1002: Syntax error: }
-(3705,37-38): run-time error JS1004: Expected ';': {
-(4280,36-41): run-time error JS1195: Expected expression: class
-(4360,3-4): run-time error JS1002: Syntax error: }
-(4477,3-4): run-time error JS1002: Syntax error: }
-(4496,3-4): run-time error JS1002: Syntax error: }
-(4722,3-4): run-time error JS1002: Syntax error: }
-(4722,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(4704,7-17): run-time error JS1018: 'return' statement outside of function: return obj
-(4691,7-17): run-time error JS1018: 'return' statement outside of function: return str
-(4650,7-29): run-time error JS1018: 'return' statement outside of function: return function () { }
-(4649,78-89): run-time error JS1018: 'return' statement outside of function: return path
-(4640,7-17): run-time error JS1018: 'return' statement outside of function: return str
-(4638,83-130): run-time error JS1018: 'return' statement outside of function: return str.replace('{{' + pathStr + '}}', path)
-(4637,47-104): run-time error JS1018: 'return' statement outside of function: return str.replace('{{' + pathStr + '}}', path.join(' '))
-(4625,7-17): run-time error JS1018: 'return' statement outside of function: return str
-(4624,76-123): run-time error JS1018: 'return' statement outside of function: return str.replace('{{' + pathStr + '}}', path)
-(4615,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4613,9-20): run-time error JS1018: 'return' statement outside of function: return path
-(4589,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4588,48-59): run-time error JS1018: 'return' statement outside of function: return true
-(4586,14-26): run-time error JS1018: 'return' statement outside of function: return false
-(4466,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4464,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4461,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4452,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4438,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4436,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4433,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4429,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4425,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4421,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4420,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4411,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4358,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4356,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4350,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4346,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4337,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4328,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4333,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4294,9,4304,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(3690,3-4): run-time error JS1002: Syntax error: }
+(3703,37-38): run-time error JS1004: Expected ';': {
+(4278,36-41): run-time error JS1195: Expected expression: class
+(4358,3-4): run-time error JS1002: Syntax error: }
+(4475,3-4): run-time error JS1002: Syntax error: }
+(4494,3-4): run-time error JS1002: Syntax error: }
+(4720,3-4): run-time error JS1002: Syntax error: }
+(4720,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
+(4702,7-17): run-time error JS1018: 'return' statement outside of function: return obj
+(4689,7-17): run-time error JS1018: 'return' statement outside of function: return str
+(4648,7-29): run-time error JS1018: 'return' statement outside of function: return function () { }
+(4647,78-89): run-time error JS1018: 'return' statement outside of function: return path
+(4638,7-17): run-time error JS1018: 'return' statement outside of function: return str
+(4636,83-130): run-time error JS1018: 'return' statement outside of function: return str.replace('{{' + pathStr + '}}', path)
+(4635,47-104): run-time error JS1018: 'return' statement outside of function: return str.replace('{{' + pathStr + '}}', path.join(' '))
+(4623,7-17): run-time error JS1018: 'return' statement outside of function: return str
+(4622,76-123): run-time error JS1018: 'return' statement outside of function: return str.replace('{{' + pathStr + '}}', path)
+(4613,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4611,9-20): run-time error JS1018: 'return' statement outside of function: return path
+(4587,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4586,48-59): run-time error JS1018: 'return' statement outside of function: return true
+(4584,14-26): run-time error JS1018: 'return' statement outside of function: return false
+(4464,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4462,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4459,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4450,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4436,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4434,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4431,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4427,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4423,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4419,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4418,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4409,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4356,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4354,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4348,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4344,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4335,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4326,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4331,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4292,9,4302,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -63,18 +63,18 @@
             return v;
           }
         })(value)
-(3705,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3690,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3686,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3682,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3676,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3668,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3656,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3635,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3634,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3633,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3632,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3630,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3703,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3688,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3684,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3680,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3674,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3666,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3654,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3633,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3632,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3631,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3630,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3628,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
  */
 (function ()
 {
@@ -2802,34 +2802,32 @@
     Affinity2018.Log = model =>
     {
       model = Affinity2018.objectDeepMerge(Affinity2018.LogModel, model);
-      if (model.Details.toString().trim() !== '' && model.Source.toString().trim() !== '')
-      {
-        model.Details += '\n';
-      }
-      if (model.Source.toString().trim() !== '')
-      {
-        model.Details += 'Source: ' + model.Source;
-      }
-      let url;
-      switch (logType)
+      if (model.Type.toString().trim() === '') return;
+      if (model.Message.toString().trim() === '') return;
+      if (model.Details.toString().trim() !== '' && model.Source.toString().trim() !== '') model.Details += '\n';
+      if (model.Source.toString().trim() !== '')  model.Details += 'Source: ' + model.Source;
+      if (model.DocumentId.toString().trim() === '') model.DocumentId = 'n/a';
+      if (model.Action.toString().trim() === '') model.Action = 'n/a';
+      let url = Affinity2018.Path;
+      switch (model.Type)
       {
         case Affinity2018.LogType.Error:
-          url = "/Logger/LogError";
+          url += '/Logger/LogError';
           break;
         case Affinity2018.LogType.Information:
-          url = "/Logger/LogInformation";
+          url += '/Logger/LogInformation';
           break;
         case Affinity2018.LogType.Warning:
-          url = "/Logger/LogWarning";
+          url += '/Logger/LogWarning';
           break;
         default:
-          console.error("Invalid log type", model);
+          console.warn('Invalid log type', model);
           return;
       }
       fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": 'application/json'
         },
         body: JSON.stringify({
           Message: model.Message,
@@ -2847,12 +2845,12 @@
           }
           else
           {
-            console.error(logType + " logging failed: " + data.error, model);
+            console.warn(logType + " logging failed: " + data.error, model);
           }
         })
         .catch(error =>
         {
-          console.error(logType + " logging failed: " + error, model);
+          console.warn(logType + " logging failed: " + error, model);
         });
     };
   }
