@@ -2841,16 +2841,16 @@
         {
           if (data.success)
           {
-            console.log(logType + " logged successfully: " + data.message, model);
+            console.log(model.Type + " logged successfully: " + data.message, model);
           }
           else
           {
-            console.warn(logType + " logging failed: " + data.error, model);
+            console.warn(model.Type + " logging failed: " + data.error, model);
           }
         })
         .catch(error =>
         {
-          console.warn(logType + " logging failed: " + error, model);
+          console.warn(model.Type + " logging failed: " + error, model);
         });
     };
   }
