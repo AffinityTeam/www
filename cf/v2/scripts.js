@@ -2781,8 +2781,8 @@
    * @param {string}  model.DocumentId  Template or Instance Id
    * @param {string}  model.Message     Message to log
    * @param {string}  model.Details     Details of log
-   * @param {string}  model.Action      The action is that sent to the log
-   * @param {string}  model.Source      The source that sent the log
+   * @param {string}  model.Action      The action that sent the log
+   * @param {string}  model.Source      Initiator of the action, eg: System, User, AutoSave
    */
   if (!(Affinity2018.hasOwnProperty('Log')))
   {
@@ -2804,10 +2804,9 @@
       model = Affinity2018.objectDeepMerge(Affinity2018.LogModel, model);
       if (model.Type.toString().trim() === '') return;
       if (model.Message.toString().trim() === '') return;
-      if (model.Details.toString().trim() !== '' && model.Source.toString().trim() !== '') model.Details += '\n';
-      if (model.Source.toString().trim() !== '')  model.Details += 'Source: ' + model.Source;
       if (model.DocumentId.toString().trim() === '') model.DocumentId = 'n/a';
       if (model.Action.toString().trim() === '') model.Action = 'n/a';
+      if (model.Source.toString().trim() === '') model.Source = 'n/a';
       let url = Affinity2018.Path;
       switch (model.Type)
       {
@@ -2833,6 +2832,7 @@
           Message: model.Message,
           Details: model.Details,
           Action: model.Action,
+          Source: model.Source,
           DocumentId: model.DocumentId
         })
       })
@@ -15956,10 +15956,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     //this.ResizeSectionTimeout = setTimeout(this._resizeSection, 250, formRowNode);
   }
 
-  Save(suppressMessgae)
+  Save(suppressMessgae, isAutoSave)
   {
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
-    this._post(buttonData, suppressMessgae);
+    this._post(buttonData, suppressMessgae, $a.paramOrDefault(isAutoSave, false, 'boolean'));
   }
 
   GetFormEmployeeNo(emp)
@@ -17519,7 +17519,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _post(buttonData, suppressMessage)
+  _post(buttonData, suppressMessage, isAutoSave)
   {
     if (this.ViewType !== 'Form') 
     {
@@ -17533,6 +17533,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '' }, 'object');
 
     this.suppressPostMessage = $a.paramOrDefault(suppressMessage, false, 'boolean');
+    this.isAutoSave = $a.paramOrDefault(isAutoSave, false, 'boolean');
 
     this.SubmitActionName = buttonData.Name;
 
@@ -17761,7 +17762,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           Message: 'Form Instance Posted',
           Details: JSON.stringify(this.PostData),
           Action: this.PostData.ActionName,
-          Source: ''
+          Source: 'User'
         });
       }
     }
@@ -17788,11 +17789,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           Message: 'Form Instance Saved',
           Details: JSON.stringify(this.PostData),
           Action: this.PostData.ActionName,
-          Source: ''
+          Source: this.isAutoSave ? 'AutoSave' : 'User'
         });
       }
     }
 
+    this.isAutoSave = false;
     this.suppressPostMessage = false;
 
     $a.HidePageLoader();
@@ -17997,13 +17999,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           Message: 'Form Instance ' + this.PostData.ActionName + 'Failed: ' + errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' '),
           Details: JSON.stringify(this.PostData),
           Action: this.PostData.ActionName,
-          Source: ''
+          Source: this.isAutoSave ? 'AutoSave' : 'User'
         });
       }
+      
+      this.isAutoSave = false;
+      this.suppressPostMessage = false;
+      this.PostState = 'failed';
 
       $a.HidePageLoader();
-
-      this.PostState = 'failed';
 
       this._startAutoSave();
 
@@ -18045,7 +18049,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
       this.SaveButtonData = buttonData;
       this._stopAutoSave();
-      this.Save(true); // true = suppress messages
+      this.Save(true, true); // true = suppress messages
     }
   }
 
