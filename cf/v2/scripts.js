@@ -1,31 +1,66 @@
 /* Minification failed. Returning unminified contents.
-(2913,32-37): run-time error JS1195: Expected expression: class
-(3452,32-37): run-time error JS1195: Expected expression: class
-(3544,29-30): run-time error JS1004: Expected ';': {
-(3545,29-30): run-time error JS1004: Expected ';': {
-(3546,29-30): run-time error JS1004: Expected ';': {
-(3547,29-30): run-time error JS1004: Expected ';': {
-(4192,36-41): run-time error JS1195: Expected expression: class
-(4305,30-35): run-time error JS1195: Expected expression: class
-(4410,31-36): run-time error JS1195: Expected expression: class
-(4650,35-40): run-time error JS1195: Expected expression: class
-(4778,33-38): run-time error JS1195: Expected expression: class
-(4989,39-40): run-time error JS1014: Invalid character: `
-(4989,40-41): run-time error JS1195: Expected expression: <
-(4989,100-101): run-time error JS1014: Invalid character: `
-(5008,43-44): run-time error JS1014: Invalid character: `
-(5008,44-45): run-time error JS1195: Expected expression: <
-(5008,108-109): run-time error JS1014: Invalid character: `
-(5076,33-38): run-time error JS1195: Expected expression: class
-(5376,32-37): run-time error JS1195: Expected expression: class
-(5748,33-38): run-time error JS1195: Expected expression: class
-(5830,37-42): run-time error JS1195: Expected expression: class
-(5831,3-4): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
-(1,2-13): run-time error JS1301: End of file encountered before function is properly closed: function ()
-(5832,5-16): run-time error JS1006: Expected ')': constructor
-(5903,3-4): run-time error JS1002: Syntax error: }
-(5903,4-5): run-time error JS1197: Too many errors. The file might not be a JavaScript file: ;
-(5845,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(2733,31-32): run-time error JS1195: Expected expression: >
+(2757,27-28): run-time error JS1195: Expected expression: >
+(2757,44-45): run-time error JS1004: Expected ';': )
+(2758,23-24): run-time error JS1195: Expected expression: >
+(2768,11-12): run-time error JS1002: Syntax error: }
+(2772,11-12): run-time error JS1002: Syntax error: }
+(2777,7-8): run-time error JS1002: Syntax error: }
+(3000,32-37): run-time error JS1195: Expected expression: class
+(3539,32-37): run-time error JS1195: Expected expression: class
+(3631,29-30): run-time error JS1004: Expected ';': {
+(3632,29-30): run-time error JS1004: Expected ';': {
+(3633,29-30): run-time error JS1004: Expected ';': {
+(3634,29-30): run-time error JS1004: Expected ';': {
+(3691,3-4): run-time error JS1002: Syntax error: }
+(3704,37-38): run-time error JS1004: Expected ';': {
+(4279,36-41): run-time error JS1195: Expected expression: class
+(4359,3-4): run-time error JS1002: Syntax error: }
+(4476,3-4): run-time error JS1002: Syntax error: }
+(4495,3-4): run-time error JS1002: Syntax error: }
+(4497,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
+(4465,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4463,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4460,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4451,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4437,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4435,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4432,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4428,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4424,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4420,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4419,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4410,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4357,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4355,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4349,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4345,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4336,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4327,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4332,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4293,9,4303,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+        {
+          try
+          {
+            return JSON.parse(v);
+          }
+          catch (e)
+          {
+            return v;
+          }
+        })(value)
+(3704,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3689,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3685,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3681,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3675,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3667,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3655,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3634,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3633,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3632,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3631,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3629,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
  */
 (function ()
 {
@@ -52,7 +87,7 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = '0.0.6';
+  Affinity2018.Version = '0.1.0';
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
@@ -900,7 +935,12 @@
   {
     Affinity2018.uuid = function ()
     {
-      return String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.round(Math.random() * 52)) + Math.random().toString(36).substr(2, 9);
+      let uuid = String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.round(Math.random() * 52)) + Math.random().toString(36).substring(2, 11);
+      if (/^\d/.test(uuid)) // starts with a number
+      {
+        uuid = String('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.floor(Math.random() * 52)) + uuid.substring(1);
+      }
+      return uuid;
     };
   }
 
@@ -1818,11 +1858,11 @@
 
         if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
         {
-          console.log('                   (Is C# date)');
-          console.log('--- Input ---------------------------');
-          console.log('Passed Value:     ', mixed, ' -> ', dateStr);
-          console.log('As JS Date:       ', new Date(parseInt(dateStr)));
-          console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+          //console.log('                   (Is C# date)');
+          //console.log('--- Input ---------------------------');
+          //console.log('Passed Value:     ', mixed, ' -> ', dateStr);
+          //console.log('As JS Date:       ', new Date(parseInt(dateStr)));
+          //console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
           //console.log(luxonDate);
         }
 
@@ -1945,16 +1985,16 @@
 
           if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
           {
-            console.log('--- Output --------------------------');
-            console.log('JS Date parts:    ', JSON.stringify(dateParts));
-            console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
-            console.log('Luxon Date Obj    ', luxonDate);
-            console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
+            //console.log('--- Output --------------------------');
+            //console.log('JS Date parts:    ', JSON.stringify(dateParts));
+            //console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+            //console.log('Luxon Date Obj    ', luxonDate);
+            //console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
             if (format)
             {
-              console.log('Formated Date:    ', luxonDate.toFormat(format));
+              //console.log('Formated Date:    ', luxonDate.toFormat(format));
             }
-            console.groupEnd();
+            //console.groupEnd();
           }
           window.dateLogStart = false;
 
@@ -2717,6 +2757,88 @@
         htmlMessage: htmlMessage,
         toString: function () { return this.name + ": " + this.message; }
       };
+    };
+  }
+
+
+  /**
+   * Affinity2018.Log()
+   * Post messagesd to backend logs to be read by Grafana
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {Object}  model             Log Model
+   * @param {string}  model.Type        Log Type (Affinity2018.LogLevel)
+   * @param {string}  model.DocumentId  Template or Instance Id
+   * @param {string}  model.Message     Message to log
+   * @param {string}  model.Details     Details of log
+   * @param {string}  model.Action      The action that sent the log
+   * @param {string}  model.Source      Initiator of the action, eg: System, User, AutoSave
+   */
+  if (!(Affinity2018.hasOwnProperty('Log')))
+  {
+    Affinity2018.LogLevel = {
+      Trace: 'Trace',
+      Debug: 'Debug',
+      Information: 'Information',
+      Warning: 'Warning',
+      Error: 'Error',
+      Critical: 'Critical',
+      None: 'None'
+    };
+    Affinity2018.LogModel = {
+      DocumentId: '',
+      Message: '',
+      Details: '',
+      Action: '',
+      Source: '',
+      LogLevel: Affinity2018.LogLevel.Information
+    };
+    Affinity2018.Log = model =>
+    {
+      try
+      {
+        model = Affinity2018.objectDeepMerge(Affinity2018.LogModel, model);
+        if (model.LogLevel.toString().trim() === '') return;
+        if (model.Message.toString().trim() === '') return;
+        if (model.DocumentId.toString().trim() === '') model.DocumentId = 'n/a';
+        if (model.Action.toString().trim() === '') model.Action = 'n/a';
+        if (model.Source.toString().trim() === '') model.Source = 'n/a';
+        fetch(Affinity2018.Path + '/Logger/Log', {
+          method: 'POST',
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify({
+            Message: model.Message,
+            Details: model.Details,
+            Action: model.Action,
+            Source: model.Source,
+            DocumentId: model.DocumentId,
+            LogLevel: model.LogLevel
+          })
+        })
+          .then(response => response.json())
+          .then(data =>
+          {
+            if (data.success)
+            {
+              console.log(model.LogLevel + " logged successfully: " + data.message, model);
+            }
+            else
+            {
+              console.warn(model.LogLevel + " logging failed: " + data.error, model);
+            }
+          })
+          .catch(error =>
+          {
+            console.warn(model.LogLevel + " logging failed: " + error, model);
+          });
+      }
+      catch (err)
+      {
+        console.warn("Logging failed:", err, model);
+      }
     };
   }
 
@@ -7341,11 +7463,22 @@
 
     showLoadLock()
     {
-      document.body.classList.add('load-lock');
+      if (!document.body.classList.contains('load-lock'))
+      {
+        clearTimeout(this._hideLoadLockDelay);
+        document.body.classList.add('load-lock');
+      }
     }
 
     hideLoadLock()
     {
+      clearTimeout(this._hideLoadLockDelay);
+      this._hideLoadLockDelay = setTimeout(this._hideLoadLock, 100);
+    }
+
+    _hideLoadLock()
+    {
+      clearTimeout(this._hideLoadLockDelay);
       document.body.classList.remove('load-lock');
     }
 
@@ -8083,7 +8216,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
       'GetEmployeeData', 'IsEmployeeDataReady',
       'GetFormEmployeeNo',
-      'IsGlobalKey', 'IsPseudoGlobalKey', 'IsKey', 'IsReadOnly', 'IskeyWithNoRequiredKeys', 'IsMasterFile', 'IsLookup', 'SelectDefaultModeOnFieldSearch',
+      'IsGlobalKey', 'IsPseudoGlobalKey', 'IsKey', 'IsReadOnly', 'IskeyWithNoRequiredKeys', 'IsMasterFile', 'IsLookup', 'SelectDefaultModeOnFieldSearch', 'GetDisplayTypeFromConfig', 
 
       'GetCountryOptons', 'GetCountryCodeVariant', 'GetCountryDisplayVariant',
 
@@ -8465,6 +8598,130 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
+  CleanLookupDisplayValue (display, code, includeCode, countryCode)
+  {
+    countryCode = countryCode === undefined ? null : countryCode;
+    let displayString = display === null ? 'null' : display.toString();
+    let countryCodeDisplay = countryCode !== null ? this.GetCountryShortVariant(countryCode) : null;
+    let cleanStr = displayString && typeof displayString === 'string' && displayString.trim() !== '' ? displayString.trim() : '',
+        codeStr  = code && typeof code === 'string' && code.trim() !== '' ? code.trim() : typeof code === 'number' ? code.toString().trim() : '',
+        lastChar;
+
+    if (typeof code === undefined || code === null)
+    {
+      let parts = [];
+      if (displayString.contains(','))
+      {
+        parts = displayString.split(',');
+      }
+      else if (displayString.contains('-'))
+      {
+        parts = displayString.split('-');
+      }
+      if (parts.length > 1)
+      {
+        code = parts[0].trim().length < parts[1].trim().length ? parts[0].trim() : parts[1].trim();
+        codeStr = code;
+      }
+    }
+    if (displayString !== '')
+    {
+      cleanStr = displayString.trim().replace(/&amp;/gi, '&');
+      if (cleanStr === codeStr) codeStr = '';
+      lastChar = cleanStr.charAt(cleanStr.length - 1);
+      if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
+      if (includeCode)
+      {
+        if (codeStr !== '')
+        {
+          cleanStr = cleanStr.replace(`${code} `, '').trim();
+          cleanStr = cleanStr.replace(` ${code}`, '').trim();
+          cleanStr = cleanStr.replace(`,${code}`, '').trim();
+          cleanStr = cleanStr.replace(`${code},`, '').trim();
+          cleanStr = cleanStr.replace(`(${code})`, '').trim();
+          cleanStr = cleanStr + ' (' + codeStr + ')';
+        }
+
+        if (cleanStr.trim().startsWith('- ')) cleanStr = cleanStr.trim().replace('- ', '').trim();
+        if (cleanStr.trim().startsWith('_ ')) cleanStr = cleanStr.trim().replace('_ ', '').trim();
+        if (cleanStr.charAt(0).toUpperCase() !== cleanStr.charAt(0)) cleanStr = cleanStr.substring(0, 1).toUpperCase() + cleanStr.substring(1);
+
+        //if (cleanStr.startsWith(codeStr + ' ') && codeStr.trim() !== '')
+        //{
+        //  cleanStr = cleanStr.replace(codeStr, '');
+        //  cleanStr = cleanStr.replaceAll('-', '');
+        //  cleanStr = cleanStr.replaceAll(',', '');
+        //  cleanStr = cleanStr.trim() + ' (' + codeStr + ')';
+        //}
+      }
+    }
+    else
+    {
+      //if (codeStr !== '') cleanStr = 'Not Set - (' + code + ')';
+      //else cleanStr = '';
+      cleanStr = codeStr !== '' ? code.trim() : '';
+    }
+
+    if (countryCode !== null && countryCodeDisplay !== null && countryCodeDisplay !== countryCode)
+    {
+      if (cleanStr.endsWith(' - ' + countryCode))
+      {
+        // TODO: Use regexp to only replace at end
+        cleanStr = cleanStr.replaceAll(' - ' + countryCode, ' - ' + countryCodeDisplay);
+      }
+      if (cleanStr.contains(' - ' + countryCode + ' ('))
+      {
+        cleanStr = cleanStr.replaceAll(' - ' + countryCode + ' (', ' - ' + countryCodeDisplay + ' (');
+      }
+    }
+
+    return cleanStr;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  GetValueFromValueObject(node, value, config)
+  {
+    let setValue = value;
+    if (typeof value === 'object')
+    {
+      setValue = '';
+      let dataKey = 'Key';
+      if (node)
+      {
+        if (config === undefined)
+        {
+          let configString = node.dataset.config;
+          if (configString)
+          {
+            config = JSON.parse(configString);
+          }
+        }
+        if (config && config.hasOwnProperty('DataKey'))
+        {
+          dataKey = config.DataKey
+        }
+        if (value.hasOwnProperty(dataKey))
+        {
+          setValue = value[dataKey];
+        }
+      }
+    }
+    return setValue;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   ShortenString(string, length)
   {
     return string.shorten(50);
@@ -8513,6 +8770,179 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
     return message;
+  }
+
+
+
+  /**
+   * Summary. Return changes between wtow onjects recursively.
+   * @this    Class scope
+   * @access  private
+   */
+  GetObjectDiffs(propertyName, obj1, obj2, objName1, objName2, path)
+  {
+    let differences = [];
+    try 
+    {
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
+      let isEquivalent = (val1, val2) =>
+      {
+        return (val1 === null || val1 === '') && (val2 === null || val2 === '');
+      };
+      keys1.forEach(key =>
+      {
+        let currentPath = path ? `${path}.${key}` : key;
+        if (!(key in obj2))
+        {
+          if (!isEquivalent(obj1[key], null))
+          {
+            differences.push(`"${currentPath}" is in '${objName1}' but missing in '${objName2}'`);
+          }
+        }
+        else if (isEquivalent(obj1[key], obj2[key]))
+        {
+          // Do nothing if both values are considered equivalent
+        }
+        else if (obj1[key] !== null && typeof obj1[key] === 'object' && obj2[key] !== null && typeof obj2[key] === 'object')
+        {
+          //differences.push(...this.GetObjectDiffs(propertyName, obj1[key], obj2[key], objName1, objName2, currentPath));
+          differences = differences.concat(this.GetObjectDiffs(propertyName, obj1[key], obj2[key], objName1, objName2, currentPath));
+        }
+        else if (obj1[key] !== obj2[key])
+        {
+          differences.push(`"${currentPath}" was "${obj1[key]}" in '${objName1}' and is now "${obj2[key]}" in '${objName2}'`);
+        }
+      });
+      keys2.forEach(key => 
+      {
+        let currentPath = path ? `${path}.${key}` : key;
+        if (!(key in obj1))
+        {
+          if (!isEquivalent(null, obj2[key]))
+          {
+            differences.push(`"${currentPath}" is in '${objName2}' but missing in '${objName1}'`);
+          }
+        }
+      });
+    }
+    catch(error)
+    {
+      debugger;
+    }
+    return differences;
+  }
+
+
+
+  /**
+   * Summary. Return list of changes between two lists of flat objects
+   * @this    Class scope
+   * @access  private
+   */
+  GetObjectListDiffs(list1, list2, convertValue, ignoreValue)
+  {
+    convertValue = convertValue === undefined ? false : convertValue;
+    ignoreValue = ignoreValue === undefined ? false : ignoreValue;
+    let diffs = [];
+    if (
+      Array.isArray(list1) && list1.length > 0
+      && Array.isArray(list2) && list2.length > 0
+    )
+    {
+      let map = new Map();
+      let sortObjectKeys = obj =>
+      {
+        return Object.keys(obj).sort().reduce((acc, key) =>
+        {
+          acc[key] = obj[key];
+          return acc;
+        }, {});
+      };
+      let sortWhitelist = list => {
+        for (let a = 0; a < list.length; a++)
+        {
+          list[a] = sortObjectKeys(list[a]);
+          if (convertValue)
+          {
+            list[a].Value = this.CleanLookupDisplayValue(list[a].Value, list[a].Key, true);
+          }
+          if (ignoreValue)
+          {
+            list[a].Value = undefined;
+            delete list[a].Value;
+          }
+        }
+        return list;
+      };
+      list1 = sortWhitelist(list1);
+      list2 = sortWhitelist(list2);
+      list2.forEach(obj =>
+      {
+        let hash = JSON.stringify(obj);
+        map.set(hash, (map.get(hash) || 0) + 1);
+      });
+      list1.forEach(obj =>
+      {
+        let hash = JSON.stringify(obj);
+        if (map.has(hash))
+        {
+          map.set(hash, map.get(hash) - 1);
+          if (map.get(hash) === 0)
+          {
+            map.delete(hash);
+          }
+        } 
+        else 
+        {
+          map.set(hash, -1);
+        }
+      });
+      //diffs = Array.from(map).filter(([hash, count]) => count !== 0);
+      map.forEach(function(value, key)
+      {
+        if (value.count !== 0)
+        {
+          diffs.push([key, value]);
+        }
+      });
+    }
+    return diffs;
+  }
+
+
+
+  /**
+   * Summary. Take returns from GetObjectListDiffs and output as human readable lsit of strings
+   * @this    Class scope
+   * @access  private
+   */
+  GetObjectListDiffsAsStrings(diffs, outputKey)
+  {
+    outputKey = outputKey === undefined ? 'Value' : outputKey;
+    let changes = [];
+    let list1 = diffs.slice(0, diffs.length / 2);
+    let list2 = diffs.slice(diffs.length / 2);
+    if (list1.length > 0)
+    {
+      for (let d = 0; d < list1.length; d++)
+      {
+        let obj1 = JSON.parse(list1[d][0]);
+        let obj2 = JSON.parse(list2[d][0]);
+        let keys = Object.keys(obj1);
+        for (let k = 0; k < keys.length; k++)
+        {
+          let key = keys[k];
+          let value1 = obj1[key];
+          let value2 = obj2[key];
+          if (value1 !== value2)
+          {
+            changes.push(obj1[outputKey] + ' | ' + key + ': ' + value1 + ' -> ' + value2);
+          }
+        }
+      }
+    }
+    return changes;
   }
 
 
@@ -9154,6 +9584,131 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
+  GetDisplayTypeFromConfig (config)
+  {
+    let displayType = null;
+    if (
+      config.hasOwnProperty('Details') 
+      && config.Details.hasOwnProperty('AffinityField')
+      && config.Details.AffinityField.hasOwnProperty('CleverFormsDisplayType')
+    )
+    {
+      let isGlobalKey = this.IsGlobalKey(config);
+      let isKey = this.IsKey(config);
+      let isLookup = this.IsLookup(config);
+
+      displayType = config.Details.AffinityField.CleverFormsDisplayType;
+
+      if (displayType === 'Lookup')
+      {
+        displayType = 'SingleSelectDropdown'
+      }
+
+      if (isGlobalKey || isLookup)
+      {
+        if (
+          [
+            this.AffnityFieldModeTypes.Edit.Enum,
+            this.AffnityFieldModeTypes.Select.Enum
+          ].contains(config.Details.AffinityField.Mode)
+        ) displayType = 'SingleSelectDropdown';
+        else if (config.Details.AffinityField.Mode === this.AffnityFieldModeTypes.Display.Enum) displayType = 'Text';
+        else displayType = 'Integer';
+      }
+
+      if (!isLookup && this.IskeyWithNoRequiredKeys(config))
+      {
+        if (
+          [
+            this.AffnityFieldModeTypes.Edit.Enum,
+            this.AffnityFieldModeTypes.Select.Enum
+          ].contains(config.Details.AffinityField.Mode)
+        ) displayType = 'SingleSelectDropdown';
+      }
+
+      if (config.Details.AffinityField.Mode === this.AffnityFieldModeTypes.Display.Enum)
+      {
+        var doNotOverride = ['Address', 'BankNumber', 'TaxNumber', 'Date'];
+        if (!doNotOverride.contains(displayType)) displayType = 'Text';
+      }
+
+      if (this.GenderFields.contains(config.Details.AffinityField.FieldName))
+      {
+        displayType = 'SingleSelectRadio';
+        config.Details.ItemSource = {
+          Inline: true,
+          DefaultNone: null,
+          Items: [
+            ['Male', 'M'],
+            ['Female', 'F'],
+            ['Other', 'O']
+          ]
+        };
+      }
+
+      if (this.BooleanToRadioFields.contains(config.Details.AffinityField.FieldName))
+      {
+        displayType = 'SingleSelectRadio';
+        config.Details.ItemSource = {
+          Inline: true,
+          DefaultNone: 'false',
+          Items: [
+            ['True', 'true'],
+            ['False', 'false']
+          ]
+        };
+      }
+
+      if (
+        Affinity2018.FilterEnabled
+        && displayType !== 'SingleSelectDropdown'
+        && !isLookup 
+        && !isGlobalKey 
+        && isKey
+        && config.Details.hasOwnProperty('ItemSource')
+        && config.Details.hasOwnProperty('ItemSourceType')
+        && config.Details.ItemSourceType === 'AffinityCustom'
+        && config.Details.ItemSource.hasOwnProperty('WhiteList')
+        && Array.isArray(config.Details.ItemSource.WhiteList)
+      )
+      {
+        displayType = 'SingleSelectDropdown';
+      }
+
+      // check for rates and use Float with 5 decimal places
+      //if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName))
+      if (/^RATE[1-9]{1}$/.test(config.Details.AffinityField.FieldName) || /( Rate [1-9]{1})/gi.test(config.Details.Label))
+      {
+        if (!config.Details.AffinityField.hasOwnProperty('FieldDecimal') ||config.Details.AffinityField.FieldDecimal === null)
+        {
+          displayType = 'Float';
+          config.Details.AffinityField.FieldDecimal = 5;
+          config.Details.AffinityField.FieldPrecision = 5;
+        }
+      }
+
+      if (config.Details.AffinityField.FieldName.indexOf('STD_HOURS_') === 0)
+      {
+        displayType = 'Float';
+        config.Details.AffinityField.FieldDecimal = 2;
+        config.Details.AffinityField.FieldPrecision = 2;
+      }
+
+    }
+
+    return {
+      Type: displayType,
+      Config: config
+    };
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   OrderObject(obj)
   {
     var orderKeys = function (obj)
@@ -9479,7 +10034,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       this._getUserDataError('Failed to get data from response');
     }
 
-    Affinity2018.HidePageLoader();
+    if (this.Form)
+    {
+      if (this.Form.Ready) Affinity2018.HidePageLoader();
+    }
+    else
+    {
+      Affinity2018.HidePageLoader();
+    }
   }
 
 
@@ -9528,6 +10090,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         Country: ''
       };
       this.ProfileStatus = this.LoadStatusEnum.Null;
+      Affinity2018.HidePageLoader();
+      this.ReleaseEmployeeSelect();
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
       return;
     }
@@ -9563,6 +10127,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           {
             Affinity2018.FormProfile = profile;
             this.ProfileStatus = this.LoadStatusEnum.Complete;
+            Affinity2018.HidePageLoader();
+            this.ReleaseEmployeeSelect();
             window.dispatchEvent(new CustomEvent('GotEmployeeData'));
             return;
           }
@@ -9578,14 +10144,33 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     this.LockEmployeeSelect();
 
     this.ProfileStatus = this.LoadStatusEnum.Loading;
-
+    
     window.addEventListener('GotEmployee', this._gotEmployeeData);
-    axios({
-      method: 'GET',
-      url: api
-    })
-      .then(function (response) { window.dispatchEvent(new CustomEvent('GotEmployee', { detail: response })); }.bind(this))
-      .catch(this._gotEmployeeDataError);
+
+    // We no longer load suer contexts.
+    // We no longer get Country Code from the selected employee and rendering the form for that selected country.
+    // Instead, users select the Country Code at From Designer level, thus always rendering the form as that country. 
+    // As we no longer load user data for any real reason, we need to let everyhitng else know we already have a user.
+
+    // Manually disaptch employee as though we just got it from an API
+    window.dispatchEvent(new CustomEvent('GotEmployee', { detail: {
+      data: {
+        CompanyNumber: Affinity2018.UserProfile.CompanyNumber, //Affinity2018.FormProfile.CompanyNumber,
+        EmployeeNumber: employeeNo,
+        PayPointCountry: Affinity2018.FormCountry
+      }
+    }}));
+
+    //axios({
+    //  method: 'GET',
+    //  url: api
+    //})
+    //  .then(function (response) { window.dispatchEvent(new CustomEvent('GotEmployee', { detail: response })); }.bind(this))
+    //  .catch(this._gotEmployeeDataError);
+
+    // TODO: We need to overview the way the form is rendered based on the above. 
+    // As we no longer need to wait for a user context API, we stil need to inform all components listening to this dispatch.
+
   }
 
 
@@ -9599,8 +10184,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     window.removeEventListener('GotEmployee', this._gotEmployeeData);
     if ('detail' in response) response = response.detail;
     if (
-      Affinity2018.isPropObject(response, 'data')
-      && Affinity2018.isPropInt(response.data, 'EmployeeNumber')
+      'data' in response
+      && 'EmployeeNumber' in response.data
+      && !isNaN(parseInt(response.data.EmployeeNumber.toString().replace(/\D/g, '')))
     )
     {
       var paypoint = "";
@@ -9613,13 +10199,13 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
       Affinity2018.FormProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
-        EmployeeNumber: $a.toString(response.data.EmployeeNumber),
+        EmployeeNumber: $a.toString(response.data.EmployeeNumber).replace(/\D/g, ''),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
         PayPoint: paypoint,
         Country: country
       };
 
-      if ($a.toString(response.data.EmployeeNumber) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
+      if ($a.toString(response.data.EmployeeNumber.toString().replace(/\D/g, '')) !== '') Affinity2018.FormProfile.UserGuid = 'e' + Affinity2018.FormProfile.EmployeeNumber.replace(/\D/g, '').padLeft('0', 7) + '-' + Affinity2018.FormProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('FormProfile', JSON.stringify(Affinity2018.FormProfile));
       this.ProfileStatus = this.LoadStatusEnum.Complete;
       window.dispatchEvent(new CustomEvent('GotEmployeeData'));
@@ -10094,11 +10680,12 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('Required'))                      postData.Required = config.Details.Required;
     if (config.Details.hasOwnProperty('Text'))                          postData.LongText = config.Details.Text;
 
-    if (config.Details.hasOwnProperty('ItemSource'))
+if (config.Details.hasOwnProperty('ItemSource'))
     {
+      if (config.Details.hasOwnProperty('ItemSourceType'))              postData.ItemSourceType = config.Details.ItemSourceType;
+      if (config.Details.ItemSource.hasOwnProperty('ItemSourceType'))   postData.ItemSourceType = config.Details.ItemSource.ItemSourceType;
       if (config.Details.ItemSource.hasOwnProperty('CustomList'))       postData.CustomList = config.Details.ItemSource.CustomList;
       //if (config.Details.ItemSource.hasOwnProperty('Items'))          postData.CustomList = config.Details.ItemSource.Items;
-      if (config.Details.ItemSource.hasOwnProperty('ItemSourceType'))   postData.ItemSourceType = config.Details.ItemSource.ItemSourceType;
       if (config.Details.ItemSource.hasOwnProperty('TableType'))        postData.AffinityTableType = config.Details.ItemSource.TableType;
       if (
         postData.ItemSourceType === "Custom"
@@ -10111,6 +10698,20 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       )
       {
         postData.CustomList = config.Details.ItemSource.Items;
+      }
+      if (
+        postData.ItemSourceType === "AffinityCustom"
+        && (
+          postData.CustomList === undefined
+          || postData.CustomList === null
+          || postData.CustomList === []
+        )
+        && config.Details.ItemSource.hasOwnProperty('WhiteList')
+      )
+      {
+        postData.ShowAll = config.Details.ItemSource.ShowAll;
+        postData.ShowNewItems = config.Details.ItemSource.ShowNewItems;
+        postData.CustomList = config.Details.ItemSource.WhiteList;
       }
     }
 
@@ -15517,7 +16118,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.LogElementOutput = false;
 
     this.RequestCheckCount = 0;
-    this.RequestCheckCountMax = 100; // 50 attempts == approx 5 seconds
+    this.RequestCheckCountMax = 50; // 50 attempts == approx 5 seconds
+    this.RequestChecked = false;
+    this.RequestRebooted = false;
 
     this.DashboardHeaderHeight = 0;
 
@@ -15526,8 +16129,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.TestErrorStub = false;
 
     this.PostState = 'none';
+    this.Repost = null;
 
     this.PostData = null;
+    this.OverridePostData = null;
+    this.OverrideIsKey = false;
+
+    this.SelectedUserData = null;
+
+    this.DisableAutoSave = true;
 
   }
 
@@ -15586,11 +16196,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_checkIdentitySelects',
       '_compileCommentLanguage', '_collpaseComments', '_expandComments', '_toggleComments',
 
-      '_submit',
       '_save',
 
-      '_getPostData', '_post', '_postCatch', '_postThen', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
-      '_stopAutoSave', '_startAutoSave', '_doAutoSave',
+      '_setupAutoSaveEvents', '_humanModified', 
+
+      '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
+
+      '_modalChanged', '_checkForHidden', '_scrollToError',
 
       '_submit', '_print', '_close',
 
@@ -15661,6 +16273,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       this.ButtonsNode.classList.add('locked');
 
+      this.FormSavingNode = document.querySelector('#loading-toast');
+
       // TODO: Add AffinityField Key lookup hooks. If Key is EMPLOYEE_NO, fire event 'GotUser' on change and load.
 
       if (this.ViewType === 'Preview')
@@ -15688,10 +16302,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           buttonNode = null;
           topButtonsNode.classList.remove('hidden');
         }
-
         this._loadTemplate();
       }
-      if (this.ViewType === 'Form') this._loadInstance();
+      if (this.ViewType === 'Form') 
+      {
+        window.addEventListener('ModelLookupChanged', this._modalChanged);
+        this._loadInstance();
+      }
       if (this.ViewType === 'ViewOnly') this._loadInstance();
 
       if (document.querySelector('input.form-name') && document.querySelector('input.form-name').value.trim() !== '')
@@ -15707,8 +16324,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       return;
     }
   }
-
-
 
 
   /***************************************************************************************************************************************************/
@@ -15884,6 +16499,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.widgetData[2] = Affinity2018.Apps.Plugins.Address.Apply();
     this.widgetData[3] = Affinity2018.Apps.Plugins.DrawPanel.Apply();
     this.widgetData[4] = Affinity2018.Apps.Plugins.FileUpload.Apply();
+    Affinity2018.ShowPageLoader();
     this._checkWidgetsLoaded();
   }
 
@@ -15962,6 +16578,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _checkWidgetsLoaded()
   {
+    if (!Affinity2018.Dialog.Open) Affinity2018.ShowPageLoader();
     clearTimeout(this._widgetLoadCheckTimer);
     var total = 0, loaded = 0, i = 0, j = 0;
     for (; i < this.widgetData.length; i++) total += this.widgetData[i].total;
@@ -15991,6 +16608,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _widgetsLoaded()
   {
     clearTimeout(this._widgetLoadCheckTimer);
+    if (!Affinity2018.Dialog.Open) Affinity2018.ShowPageLoader();
     this.widgetData = null;
     this.ResizeSection();
     this._checkRequests();
@@ -16000,33 +16618,94 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _checkRequests()
   {
     clearTimeout(this._requestsCheckTimer);
-    this.RequestCheckCount++;
-    if (Affinity2018.RequestQueue && Affinity2018.RequestQueue.GetStatus() === 'running')
+    if (Affinity2018.RequestQueue)
     {
-      if (this.RequestCheckCount > this.RequestCheckCountMax)
+      let queueStatus = Affinity2018.RequestQueue.GetStatus();
+      let runningRequests = Affinity2018.RequestQueue.RunningCount();
+      let waitingRequests = Affinity2018.RequestQueue.WaitingCount();
+      let totalRequests = runningRequests + waitingRequests;
+      if (queueStatus === 'stopped' || queueStatus === 'idle' || totalRequests === 0) // no requests
       {
-        console.log('%cRequests took to long', 'color:#ff5c00');
-        Affinity2018.HidePageLoader();
-        this.ButtonsNode.classList.remove('locked');
-        this.Ready = true;
-        this.PostData = this._getPostData();
-        this._startAutoSave();
-        return;
+        this._widgestAndRequestDone();
       }
       else
       {
-        this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
-        return;
+        if (!Affinity2018.Dialog.Open) Affinity2018.ShowPageLoader();
+        this.RequestCheckCount++;
+        if (queueStatus === 'running')
+        {
+          // check for request stall
+          // if running,but nothing is in progress, but we have waiting requests, then reboot
+          if (
+            !this.RequestRebooted 
+            && queueStatus === 'running' 
+            && runningRequests === 0 
+            && waitingRequests > 0
+          )
+          {
+            // reboot request engine
+            this.RequestRebooted = true;
+            Affinity2018.RequestQueue.StartQueue();
+            this._requestsCheckTimer = setTimeout(this._checkRequests, 5000); // give it 5 seconds to recover before recheck
+            return;
+          }
+          if (!this.RequestChecked && this.RequestCheckCount > this.RequestCheckCountMax)
+          {
+            Affinity2018.HidePageLoader(); 
+            Affinity2018.Dialog.Show({
+              message: 'It is taking a while to load all your values. Please be patient.',
+              showOk: true,
+              showCancel: false,
+              showInput: false,
+              textAlign: 'left',
+              onClose: (() => 
+              { 
+                if (this.Ready) Affinity2018.HidePageLoader(); 
+                else Affinity2018.ShowPageLoader(); 
+              }).bind(this)
+            });
+            this.RequestChecked = true;
+            this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
+            return;
+          }
+          else
+          {
+            this._requestsCheckTimer = setTimeout(this._checkRequests, 100);
+            return;
+          }
+        }
+        else
+        {
+          this._widgestAndRequestDone();
+        }
       }
     }
     else
     {
-      Affinity2018.HidePageLoader();
-      this.ButtonsNode.classList.remove('locked');
-      this.Ready = true;
-      this.PostData = this._getPostData();
-      this._startAutoSave();
+      this._widgestAndRequestDone();
     }
+  }
+
+
+
+  /**
+   * Summary. All widget and requests are done
+   * @this    Class scope
+   * @access  private
+   */
+  _widgestAndRequestDone()
+  {
+    if (Affinity2018.Dialog.Open) Affinity2018.Dialog.Hide();
+    this.ButtonsNode.classList.remove('locked');
+    this.RequestRebooted = false;
+    this.Ready = true;
+    this.RequestChecked = false;
+    this.PostData = this._getPostData();
+    Affinity2018.HidePageLoader();
+    this._setupAutoSaveEvents();
+    this._checkForHidden();
+    window.removeEventListener('ModelLookupChanged', this._checkForHidden);
+    window.addEventListener('ModelLookupChanged', this._checkForHidden);
   }
 
 
@@ -16239,6 +16918,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (instanceId)
     {
+      $a.ShowPageLoader();
       api = this.CleverForms.GetInstanceApi + '/' + instanceId;
       axios({
         method: 'get',
@@ -16312,6 +16992,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
+    var foundGlobalKey = false;
     window.removeEventListener('GotEmployeeData', this._processInstance);
     if (Affinity2018.isArray(this.FormData))
     {
@@ -16338,6 +17019,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             {
               if (elementConfig.ElementType !== 'Section')
               {
+                if (
+                  elementConfig.Details.hasOwnProperty('AffinityField')
+                  && this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName)
+                )
+                {
+                  foundGlobalKey = true;
+                  if (
+                    elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+                    || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                  )
+                  {
+                    // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
+                    this.DisableAutoSave = false;
+                  }
+                }
                 if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
                 {
                   elementConfig.Details.AffinityField.Mode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
@@ -16359,6 +17055,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }
         }
       }.bind(this));
+
+      if (!foundGlobalKey)
+      {
+        // if we have no global keys at all, enable AutoSave
+        this.DisableAutoSave = false;
+      }
+
     }
 
     if (anyRequired)
@@ -16384,8 +17087,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     /**/
 
-    if (['Form', 'ViewOnly'].contains(this.ViewType)) this._getWorkflowButtons();
-    else this._ready();
+    if (['Form', 'ViewOnly'].contains(this.ViewType)) 
+    {
+      this._getWorkflowButtons();
+    }
+    else 
+    {
+      this._ready();
+    }
 
   }
 
@@ -16975,12 +17684,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     document.querySelectorAll('.form-row.error').forEach(function (rowNode)
     {
-      rowNode.classList.remove('error', 'flash-error');
-      if (rowNode.querySelector('.ui-form-error'))
-      {
-        rowNode.querySelector('.ui-form-error').classList.remove('show');
-      }
-    });
+      this._clearRowError(rowNode);
+    }.bind(this));
 
     document.querySelectorAll('.form-row.required, .form-row.inline-error, .is-global-key').forEach(function (rowNode, rowIndex)
     {
@@ -17332,6 +18037,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       sectionConfig, sectionData,
       elementConfig, elementData;
 
+    let sectionIndex = -1;
+    let elementIndex = -1;
+
     document.querySelectorAll('div.section.row-section').forEach(function (sectionNode)
     {
       if (!addedNames.contains(sectionNode.controller.Name))
@@ -17339,6 +18047,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         sectionConfig = sectionNode.controller.Config;
         if (sectionConfig.Type === 'Section')
         {
+          sectionIndex++;
+          elementIndex = -1;
           sectionData = sectionNode.controller.GetFromFormRow();
           sectionNode.querySelectorAll('div.form-row').forEach(function (node)
           {
@@ -17347,11 +18057,40 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               elementConfig = node.controller.Config;
               if (elementConfig.Type !== 'Section' && elementConfig.ViewType === 'Question')
               {
+                elementIndex++;
                 if (elementConfig.Type === 'AffinityField')
                 {
                   if (elementConfig.Details.AffinityField.Mode !== this.CleverForms.AffnityFieldModeTypes.Display.Enum)
                   {
-                    elementData = node.controller.GetFromFormRow();
+
+                    if (node.classList.contains('custom-error'))
+                    {
+                      let affinityId = node.dataset.name;
+                      elementData = {
+                        ElementType: 'AffinityField',
+                        Name: affinityId,
+                        Value: node.controller.Config.Details.Value
+                      };
+                      if (
+                        Affinity2018.isNullOrEmpty(elementData.Value) 
+                        && this.SelectedUserData !== null
+                        && this.SelectedUserData.hasOwnProperty(affinityId)
+                      )
+                      {
+                        elementData.Value = this.SelectedUserData[affinityId];
+                      }
+                    }
+                    else
+                    {
+                      elementData = node.controller.GetFromFormRow();
+                      if (
+                        Affinity2018.isNullOrEmpty(elementData.Value)
+                        && !Affinity2018.isNullOrEmpty(this.FormData[sectionIndex].Elements[elementIndex].Value)
+                      )
+                      {
+                        elementData.Value = this.FormData[sectionIndex].Elements[elementIndex].Value;
+                      }
+                    }
                     sectionData.Elements.push(elementData);
                   }
                 }
@@ -17388,8 +18127,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       $a.HidePageLoader();
       return;
     }
-
-    this._stopAutoSave();
+    
+    if (this.PostState === 'posting...')
+    {
+      this.Repost = {
+        buttonData: buttonData,
+        suppressMessage: suppressMessage
+      };
+      return;
+    }
+    this.PostState = 'posting...';
 
     //buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '', StateType: 0}, 'object');
     buttonData = $a.paramOrDefault(buttonData, { Name: 'Unknown', DestinationStateId: '' }, 'object');
@@ -17398,7 +18145,22 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.SubmitActionName = buttonData.Name;
 
-    this.PostData = this._getPostData();
+    //console.log('Button Data           : ', buttonData);
+    //console.log('Submit Action         : ', this.SubmitActionName);
+    //console.log('Suppress Post Message : ', this.suppressPostMessage);
+
+    if (this.OverridePostData !== null)
+    {
+      let name = this.OverridePostData.Sections[0].Elements[0].Name;
+      let rowNode = this.FormNode.querySelector(`.form-row[data-name="${name}"]`);
+      this.OverrideIsKey = this.CleverForms.IsGlobalKey(rowNode.controller.Config);
+      this.PostData = $a.jsonCloneObject(this.OverridePostData);
+      //this.OverridePostData = null;
+    }
+    else
+    {
+      this.PostData = this._getPostData();
+    }
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
@@ -17511,18 +18273,68 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _clearErrors(revalidate)
+  _clearRowError(rowNode)
   {
-    revalidate = $a.isBool(revalidate) ? revalidate : false;
-    document.querySelectorAll('.form-row.error').forEach(function (rowNode)
+    if (rowNode)
     {
-      rowNode.classList.remove('error', 'flash-error', 'inline-error');
+      rowNode.classList.remove('error', 'flash-error', 'inline-error', 'custom-error');
       if (rowNode.querySelector('.error')) rowNode.querySelector('.error').classList.remove('error');
       if (rowNode.querySelector('.inline-error')) rowNode.querySelector('.inline-error').classList.remove('inline-error');
+      if (rowNode.querySelector('.custom-error')) rowNode.querySelector('.custom-error').classList.remove('custom-error');
       if (rowNode.querySelector('.ui-form-error.show')) rowNode.querySelector('.ui-form-error.show').classList.remove('show');
-      if (revalidate)
+      Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+    }
+  }
+
+
+
+  /**
+   * Summary. Form has been submitted
+   * @this    Class scope
+   * @access  private
+   */
+  _clearErrors(revalidate, removeCustoms, fromKey)
+  {
+    revalidate = $a.isBool(revalidate) ? revalidate : false;
+    removeCustoms = $a.isBool(removeCustoms) ? removeCustoms : true;
+    fromKey = $a.isBool(fromKey) ? fromKey : false;
+    let classIdentifier = removeCustoms ? '.form-row.error' : '.form-row.error:not(.custom-error)';
+    let rowNodes = this.FormNode.querySelectorAll(classIdentifier);
+    let foundHidden = false;
+    for (let rowNode of rowNodes)
+    {
+      this._clearRowError(rowNode);
+      if (revalidate && !fromKey)
       {
-        rowNode.querySelectorAll('input,select,textarea').forEach(function (elementNode)
+        for (let elementNode of rowNode.querySelectorAll('input,select,textarea'))
+        {
+          if (elementNode.hasOwnProperty('widgets'))
+          {
+            for (var widget in elementNode.widgets)
+            {
+              if (elementNode.widgets[widget].hasOwnProperty('IsValid'))
+              {
+                elementNode.widgets[widget].IsValid();
+              }
+              if (elementNode.widgets[widget].hasOwnProperty('CheckForHidden'))
+              {
+                if (elementNode.widgets[widget].CheckForHidden()) checkHidden = true;
+              }
+            }
+          }
+        }
+        if (foundHidden)
+        {
+          console.log('Found hidden values in _clearErrors with revalidate enabled');
+        }
+      }
+    }
+
+    if (revalidate && fromKey)
+    {
+      for (let rowNode of this.FormNode.querySelectorAll('.form-row:not(.is-global-key)'))
+      {
+        for (let elementNode of rowNode.querySelectorAll('input,select,textarea'))
         {
           if (elementNode.hasOwnProperty('widgets'))
           {
@@ -17534,9 +18346,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
             }
           }
-        }.bind(this));
+        }
       }
-    });
+      this._checkForHidden(true);
+    }
+
   }
 
 
@@ -17549,10 +18363,49 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _setPosted(response)
   {
     this.PostedErrors = [];
+    if (this.OverrideIsKey) 
+    {
+      this._clearErrors(true, true, true);
+    }
+    else
+    {
+      // check for auto-save
+      if (this.OverridePostData !== null && response.hasOwnProperty('config'))
+      {
+        let rows = this.FormNode.querySelectorAll('div.form-row');
+        let postedStr = response.config.data;
+        let postedData = postedStr === '' ? {} : JSON.parse(postedStr);
+        if (
+          postedData.hasOwnProperty('Sections')
+          && postedData.Sections.length === 1
+          && postedData.Sections[0].Elements.length === 1
+          && rows.length > 1
+        )
+        {
+          // remove errors for the auto posted item ONLY
+          let rowNode = this.FormNode.querySelector('div.form-row[data-name="' + postedData.Sections[0].Elements[0].Name + '"]');
+          if (rowNode)
+          {
+            //this._clearRowError(rowNode); // or do nothing?
+          }
+        }
+        else
+        {
+          this._clearErrors(false);
+        }
+      }
+      else
+      {
+        this._clearErrors(false);
+      }
+    }
+    this.OverrideIsKey = false;
 
-    this._clearErrors();
+    this.FormSavingNode.classList.remove('show');
 
     var message = '';
+
+    //this.OverridePostData = null;
 
     /**/
 
@@ -17614,6 +18467,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           redirectWindow.location;
         }
       }
+      // log Post
+      if (Affinity2018.EnableLog)
+      {
+        Affinity2018.Log({
+          LogLevel: Affinity2018.LogLevel.Information,
+          DocumentId: this.CleverForms.GetInstanceGuid(),
+          Message: 'Form Instance Posted',
+          Details: JSON.stringify(this.PostData),
+          Action: this.PostData.ActionName,
+          Source: 'User'
+        });
+      }
     }
     if (this.SubmitActionName.contains('Save') && !this.suppressPostMessage) // && this.PostedErrors.length === 0)
     {
@@ -17625,6 +18490,28 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         showInput: false,
         textAlign: 'center'
       });
+      // log saved
+      if (Affinity2018.EnableLog)
+      {
+        Affinity2018.Log({
+          LogLevel: Affinity2018.LogLevel.Information,
+          DocumentId: this.CleverForms.GetInstanceGuid(),
+          Message: 'Form Instance Saved',
+          Details: JSON.stringify(this.PostData),
+          Action: this.PostData.ActionName,
+          Source: this.OverridePostData !== null ? 'AutoSave' : 'User'
+        });
+      }
+    }
+
+    if (this.Repost !== null)
+    {
+      let buttonData = this.Repost.buttonData;
+      let suppressMessage = this.Repost.suppressMessage;
+      this.Repost = null;
+      this.PostState = 're-posting...';
+      this._post(buttonData, suppressMessage);
+      return;
     }
 
     this.suppressPostMessage = false;
@@ -17634,8 +18521,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostData = this._getPostData();
 
     this.PostState = 'success';
-    
-    this._startAutoSave();
+
+    this.OverridePostData = null;
 
     return true;
   }
@@ -17822,13 +18709,36 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (logError && data && $a.isObject(data) && !$a.isEmptyObject(data)) console.error(data);
       if (logError) console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' ')));
 
+      // log error
+      if (Affinity2018.EnableLog && Affinity2018.EnablePost)
+      {
+        Affinity2018.Log({
+          LogLevel: Affinity2018.LogLevel.Error,
+          DocumentId: this.CleverForms.GetInstanceGuid(),
+          Message: 'Form Instance ' + this.PostData.ActionName + 'Failed: ' + errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' '),
+          Details: JSON.stringify(this.PostData),
+          Action: this.PostData.ActionName,
+          Source: this.OverridePostData !== null ? 'AutoSave' : 'User'
+        });
+      }
+
       $a.HidePageLoader();
 
+      this.suppressPostMessage = false;
+      this.OverridePostData = null;
       this.PostState = 'failed';
 
-      this._startAutoSave();
-
     }.bind(this), 500);
+  }
+
+  _modalChanged(ev)
+  {
+    let fromKeyChange = 'detail' in ev && 'FromKeyChange' in ev.detail ? ev.detail.FromKeyChange : false;
+    if (fromKeyChange)
+    {
+      this.SelectedUserData = ev.detail.Data;
+      this._checkForHidden(false);
+    }
   }
   
 
@@ -17838,35 +18748,126 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */ 
-  _stopAutoSave()
+  _checkForHidden(vaidate)
   {
-    clearInterval(this._autoSaveTimer);
-  }
-  _startAutoSave()
-  {
-    clearInterval(this._autoSaveTimer);
-    if (this.ViewType !== 'Form') return;
-    this._stopAutoSave();
-    this._autoSaveTimer = setInterval(this._doAutoSave, 1000);
-  }
-  _doAutoSave()
-  {
-    if (this.ViewType !== 'Form')
+    vaidate = vaidate == undefined ? true: vaidate;
+    let foundHidden = false;
+    if (vaidate)
     {
-      this._stopAutoSave();
-      return;
+      for (let rowNode of this.FormNode.querySelectorAll('.row-affinityfield:not(.is-global-key)'))
+      {
+        let controller = rowNode.controller;
+        if (
+          controller.FormRowNode 
+          && controller.FormRowNode.querySelector('select')
+          && controller.FormRowNode.querySelector('select').hasOwnProperty('widgets')
+          && controller.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup')
+          && controller.FormRowNode.querySelector('select').widgets.SelectLookup.hasOwnProperty('CheckForHidden')
+        )
+        {
+          if (controller.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden()) foundHidden = true;
+        }
+      }
     }
-
-    var lastCompare = JSON.stringify(this.PostData);
-    var currentCompare = JSON.stringify(this._getPostData());
-    if (lastCompare !== currentCompare)
+    let csutomErrors = this.FormNode.querySelectorAll('.row-affinityfield.custom-error');
+    if (csutomErrors.length > 0 || foundHidden)
     {
-      console.log('do auto save');
-      var buttonData = $a.jsonCloneObject(this.SaveButtonData);
-      buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
-      this.SaveButtonData = buttonData;
-      this._stopAutoSave();
-      this.Save(true); // true = suppress messages
+      Affinity2018.Dialog.Show({
+        message: $a.Lang.ReturnPath('generic.whitelist.missing-codes-error'),
+        showOk: true,
+        showCancel: false,
+        showInput: false,
+        canBackgroundClose: false,
+        textAlign: 'left',
+        buttons: {
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+        },
+        onClose: this._scrollToError
+      });
+      this._scrollToError();
+    }
+  }
+  _scrollToError()
+  {
+    let targetNode = document.querySelector('#form .form-row.error');
+    if (targetNode)
+    {
+      var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+      targetNode.scrollIntoView({ behavior: 'auto', block: 'start' });
+      window.scrollTo(window.scrollX, window.scrollY - offset - 10);
+    }
+  }
+  
+  
+
+   
+  /**
+   * Summary. Form auto save
+   * @this    Class scope
+   * @access  private
+   */ 
+  _setupAutoSaveEvents()
+  {
+    if (this.DisableAutoSave) return;
+    var nodes = this.FormNode.querySelectorAll('.form-row');
+    for (let node of nodes)
+    {
+      node.removeEventListener('human_modified', this._humanModified);
+      node.addEventListener('human_modified', this._humanModified);
+    }
+  }
+  _humanModified(ev)
+  {
+    if (this.DisableAutoSave) return;
+    if (ev && 'detail' in ev && 'target' in ev)
+    {
+      setTimeout((() =>
+      {
+        let rowNode = ev.target;
+        //if (rowNode.classList.contains('.is-global-key')) 
+        //{
+        //  // do not auto save keys (EmployeeNumber) because selcting and loading keys can chaneg multilpe fields automatically.
+        //  return; 
+        //}
+        let fieldName = rowNode.dataset.name;
+        let label = rowNode.querySelector('label').innerText.trim();
+        let value = ev.detail.value.hasOwnProperty('Value') ? ev.detail.value.Value : ev.detail.value;
+        let lastData = $a.jsonCloneObject(this.PostData);
+        let sectionIndex = 0;
+        for (var section of lastData.Sections)
+        {
+          let found = section.Elements.find(data => data.Name === fieldName);
+          if (found)
+          {
+            let compareLast = $a.isArray(found.Value) || $a.isObject(found.Value) ? JSON.stringify(found.Value) : found.Value;
+            let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
+            if (compareLast !== compareNew)
+            {
+              if (typeof compareLast === 'string' && compareLast.contains(';base64,')) compareLast = compareLast.split(';base64,')[0] + ';base64,...';
+              if (typeof compareNew === 'string' && compareNew.contains(';base64,')) compareNew = compareNew.split(';base64,')[0] + ';base64,...';
+              console.log(`%cChanged "${label}" from "${compareLast}" (${typeof compareLast}) to "${compareNew}" (${typeof compareNew}) - Auto Save it!!`, 'color:#8dca35;');
+              found.Value = value;
+              this.OverridePostData = {
+                Sections: [$a.jsonCloneObject(section)]
+              };
+              this.OverridePostData.Sections[0].Elements = [found];
+            }
+            break;
+          }
+          sectionIndex++;
+        }
+        if (this.OverridePostData !== null)
+        {
+          var buttonData = $a.jsonCloneObject(this.SaveButtonData);
+          buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
+          this.SaveButtonData = buttonData;
+          this.FormSavingNode.classList.add('show');
+          this.Save(true); // true = suppress messages
+
+          //console.log("Auto Save would be triggered here");
+
+        }
+      }).bind(this), 250);
     }
   }
 
@@ -18010,7 +19011,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     `;
 
     this.buttonTemplate = `
-    <div class="button {Color}" data-type="{Type}">
+    <div class="button {Color}" data-type="{Type}" data-action="{ActionType}">
       <icon class="icon-{Icon}"></icon>{Name}
     </div>
     `;
@@ -18095,6 +19096,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   {
     // this.Config = null; // set by constructor
 
+    this.ControllerName = 'ElementBase';
+
     this.Type = null;
     this.SectionName = null;
     this.Saved = false;
@@ -18102,6 +19105,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.Changes = [];
     this.Delete = false;
     this.IsNewElement = this.IsNewElement || false;
+    this.FromInitialLoad = true;
 
     this.Ready = false;
 
@@ -18131,7 +19135,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     };
   }
 
-  constructor(config)
+  constructor(config, name)
   {
     super();
     [
@@ -18320,7 +19324,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.FilterRadiosBoxNode = this.FiltersNode.querySelector('.radios');
 
     this.RequiredBoxNode = this.SettingsViewNode.querySelector('.edit-required');
-    this.BackButtonNode = this.SettingsViewNode.querySelector('.button.back');
 
     if (!this.DesignerNode) this.DesignerNode = document.querySelector('.item-' + this.UniqueName);
 
@@ -18341,6 +19344,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       });
       this.TemplateNode.innerHTML = templateHtml;
       this.TemplateNode.classList.remove('hidden');
+    }
+
+    this.BackButtonNode = this.SettingsViewNode.querySelector('.button.back');
+    
+    Affinity2018.Tooltips.Apply();
+
+    if (
+      Affinity2018.FilterEnabled
+      && (
+        this.CleverForms.IsLookup(this.Config)
+        || this.CleverForms.IsKey(this.Config)
+      )
+      && this.Config.Details.hasOwnProperty('AffinityField')
+      && this.Config.Details.hasOwnProperty('ItemSource')
+      && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
+      && Array.isArray(this.Config.Details.ItemSource.WhiteList)
+      && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName)
+      //&& this.Config.Details.ItemSource.WhiteList.length > 0
+    ) // is lookup and has new whitelist filter
+    {
+      this.SelectFilterContainerNode = this.PopupNode.querySelector('.select-filter-container');
+      this.WhitelistFilterShowAllNode = this.SelectFilterContainerNode.querySelector('#select-filter-view-all');
+      this.WhitelistFilterShowNewNode = this.SelectFilterContainerNode.querySelector('#select-filter-show-new');
+      this.WhitelistFilterGridWrapperNode = this.SelectFilterContainerNode.querySelector('.select-filter-grid-wrapper');
+      this.SelectFilterContainerNode.classList.remove('hidden');
+      this.SettingsViewNode.classList.add('scrollable');
     }
 
     /* label / help text */
@@ -18482,6 +19511,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
       this.PopupNode.classList.add('large', 'has-list');
     }
+
+    /**/
+
+    if (this.FromInitialLoad)
+    {
+      this.ConfigStringCheck = JSON.stringify(this.Config);
+    }
+    this.FromInitialLoad = false;
 
     /**/
 
@@ -18890,64 +19927,76 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     this.Changes = [];
 
     var currentConfig = $a.jsonCloneObject(this.Config),
-      lastConfig = this.ConfigStringCheck.trim() !== '' ? JSON.parse(this.ConfigStringCheck) : {},
-      configLines, lastConfigLines, allLines, filteredLines, uniqueLines,
-      doubles, l, from, to, change;
-
-    if (this.Config.Type === 'Section')
-    {
-      currentConfig.Elements = [];
-      if (lastConfig !== {}) lastConfig.Elements = [];
-    }
-
-    currentConfig = this.CleverForms.OrderObject(currentConfig);
-    lastConfig = this.CleverForms.OrderObject(lastConfig);
+      lastConfig = this.ConfigStringCheck.trim() !== '' ? JSON.parse(this.ConfigStringCheck) : { },
+      currentWhitelist = null,
+      lastWhitelist = null,
+      l, from, to, change;
 
     if (Object.keys(lastConfig).length === 0) // no 'lastConfig' 'cos is new
     {
       return ['New Element'];
     }
 
-    var cleanLines = function (lines)
+    if (this.Config.Type === 'Section')
     {
-      return lines.filter(function (a)
-      {
-        var returnIF =
-          a.trim() !== '{'
-          && a.trim() !== '}'
-          && a.trim() !== '},'
-          && a.trim() !== '['
-          && a.trim() !== ']'
-          && a.trim() !== '],'
-          && a.trim() !== ''
-          && !a.trim().endsWith(': {')
-          && !a.trim().endsWith(': [')
-          ;
-        return returnIF;
-      });
-    };
-
-    if (JSON.stringify(currentConfig) !== JSON.stringify(lastConfig))
+      currentConfig.Elements = [];
+      if (lastConfig !== {}) lastConfig.Elements = [];
+    }
+    else
     {
-      configLines = JSON.stringify(currentConfig, null, 2).trim().split('\n');
-      lastConfigLines = JSON.stringify(lastConfig, null, 2).trim().split('\n');
-
-      allLines = configLines.concat(lastConfigLines);
-      filteredLines = cleanLines(allLines);
-      uniqueLines = filteredLines.unique();
-
-      doubles = [];
-      for (l = 0; l < uniqueLines.length; l++)
+      if (currentConfig.Details.hasOwnProperty('ItemSource'))
       {
-        if (configLines.contains(uniqueLines[l]) && lastConfigLines.contains(uniqueLines[l])) { }
-        else doubles.push(uniqueLines[l].replace(/,/g, '').trim());
+        currentWhitelist = 
+          currentConfig.Details.ItemSource.WhiteList === undefined ? null :
+            currentConfig.Details.ItemSource.WhiteList === null ? null : 
+              JSON.parse(JSON.stringify(currentConfig.Details.ItemSource.WhiteList));
+        currentConfig.Details.ItemSource.WhiteList = null;
       }
-
-      for (l = 0; l < doubles.length / 2; l++)
+      if (lastConfig.Details.hasOwnProperty('ItemSource'))
       {
-        from = doubles[l + doubles.length / 2];
-        to = doubles[l];
-        change = ($a.isString(from) ? from : '(not set)') + ' -> ' + to;
+        lastWhitelist = 
+          lastConfig.Details.ItemSource.WhiteList === undefined ? null :
+            lastConfig.Details.ItemSource.WhiteList === null ? null : 
+              JSON.parse(JSON.stringify(lastConfig.Details.ItemSource.WhiteList));
+        lastConfig.Details.ItemSource.WhiteList = null;
+      }
+    }
+
+    // Before any monkey business, check for plugins ..
+    let valid = true;
+    if (this.DesignerNode && this.DesignerNode.hasOwnProperty('controller'))
+    {
+      if (this.DesignerNode.controller.hasOwnProperty('InternalWidgets') && this.DesignerNode.controller.InternalWidgets.length > 0)
+      {
+        for (let w = 0; w < this.DesignerNode.controller.InternalWidgets.length; w++)
+        {
+          let widget = this.DesignerNode.controller.InternalWidgets[w];
+          if (widget.hasOwnProperty('IsValid'))
+          {
+            valid = widget.IsValid();
+            if (!valid) break;
+          }
+        }
+      }
+    }
+    if (!valid)
+    {
+      this.Changes = [];
+      return this.Changes;
+    }
+    //
+
+    currentConfig = this.CleverForms.OrderObject(currentConfig);
+    lastConfig = this.CleverForms.OrderObject(lastConfig);
+
+    let stringTest1 = JSON.stringify(currentConfig);
+    let stringTest2 = JSON.stringify(lastConfig);
+    if (stringTest1 !== stringTest2)
+    {
+      let objectChanges = this.CleverForms.GetObjectDiffs(`'${currentConfig.Details.Label}'`, lastConfig, currentConfig, 'Original Config', 'Modified Config');
+      for (let s of objectChanges)
+      {
+        change = s;
         if (!this.Changes.contains(change)) this.Changes.push(change);
       }
 
@@ -18999,6 +20048,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         }
       }
     }
+
+    if (
+      Array.isArray(currentWhitelist) && currentWhitelist.length > 0
+      && Array.isArray(lastWhitelist) && lastWhitelist.length > 0
+    )
+    {
+      // list one, list two, force clean value, ignore value
+      let diffs = this.CleverForms.GetObjectListDiffs(currentWhitelist, lastWhitelist, false, true);
+      if (diffs.length > 0)
+      {
+        // diffs from above, display property for messaging
+        let diffChanges = this.CleverForms.GetObjectListDiffsAsStrings(diffs, 'Key');
+        if (diffChanges.length > 0)
+        {
+          change = 'Whitelist has been modified:';
+          if (!this.Changes.contains(change)) this.Changes.push(change);
+          for (let c = 0; c < diffChanges.length; c++)
+          {
+            change = '\t' + diffChanges[c];
+            if (!this.Changes.contains(change)) this.Changes.push(change);
+          }
+        }
+      }
+    }
+
     return this.Changes;
   }
 
@@ -19289,7 +20363,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           employeeNo: employeeNo,
           instanceId: instanceId || ''
         });
-    if (this.ListSourceSelectNode.value === '0')
+    if (this.ListSourceSelectNode.value === '0' || this.ListSourceSelectNode.value === 'custom')
     {
       Affinity2018.Apps.Plugins.ListBuilder.RestoreBackup();
       this.ListSourceSelected = this.ListSourceSelectNode.value;
@@ -19696,6 +20770,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
 
       // set any special elements
 
+      input.addEventListener('human_modified', ((ev) =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
+
       return this.FormRowNode;
     }
   }
@@ -19906,6 +20985,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     super._options();
 
+    this.ControllerName = 'AffinityField';
+
     this.DoDeepDiveLogic = false; // no depp dive option logic untill we have more info
     this.EnableModeSwitching = false; // no mode switching untill we have more info
 
@@ -19914,6 +20995,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.DefaultFilterOptions = {}; // will get from CleverForms.AffnityFieldModeTypes
     this.FilterOptions = {};
+
+    this.ElementController = null;
 
   }
 
@@ -20016,7 +21099,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       this.GenericGroupNode.classList.add('hide');
       this.GenericGroupNode.classList.add('hidden');
-      if (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsGlobalKey(this.Config))
+      if (this.CleverForms.IsLookup(this.Config) && !this.CleverForms.IsMasterFile(this.Config))
       {
         var api = this.CleverForms.GetGenericGroupLookupApi + '?ModelName=' + this.Config.Details.AffinityField.ModelName + '&PropertyName=' + this.Config.Details.AffinityField.FieldName;
         Affinity2018.RequestQueue.Add(api, this._gotGenericList, this._getGenericListFailed); // api, onSuccess, onFail, priority
@@ -20405,8 +21488,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var displayType = this.Config.Details.AffinityField.CleverFormsDisplayType;
     var value = this.Config.Details.Value;
     var isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
-    var isLookup = this.CleverForms.IsLookup(this.Config);
-    var isHidden = false;
+    //var isKey = this.CleverForms.IsKey(this.Config);
+    //var isLookup = this.CleverForms.IsLookup(this.Config);
+    //var isHidden = false;
     var isReadOnly = this.Config.Details.IsReadOnly || this.Config.Disabled || this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum;
 
     this.IsReadOnly = isReadOnly;
@@ -20419,89 +21503,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       isReadOnly = true;
     }
 
-    if (isGlobalKey || isLookup)
-    {
-      // edit or select
-      if (
-        [
-          this.CleverForms.AffnityFieldModeTypes.Edit.Enum,
-          this.CleverForms.AffnityFieldModeTypes.Select.Enum
-        ].contains(this.Config.Details.AffinityField.Mode)
-      ) displayType = 'SingleSelectDropdown';
-      else if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum) displayType = 'Text';
-      else displayType = 'Integer';
-    }
+    let displayUpdates = this.CleverForms.GetDisplayTypeFromConfig(this.Config);
+    displayType = displayUpdates.Type;
+    this.Config = displayUpdates.Config;
 
-    if (!isLookup && this.CleverForms.IskeyWithNoRequiredKeys(this.Config))
-    {
-      // edit or select
-      if (
-        [
-          this.CleverForms.AffnityFieldModeTypes.Edit.Enum,
-          this.CleverForms.AffnityFieldModeTypes.Select.Enum
-        ].contains(this.Config.Details.AffinityField.Mode)
-      ) displayType = 'SingleSelectDropdown';
-    }
+    /////////////////////////////////////////////////////////
 
     var elements = Affinity2018.Classes.Apps.CleverForms.Elements;
 
     if (!elements.hasOwnProperty(displayType))
     {
-      if (this.CleverForms.ElementControllerMap.hasOwnProperty(displayType)) displayType = this.CleverForms.ElementControllerMap[displayType];
-    }
-
-    if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum)
-    {
-      var doNotOverride = ['Address', 'BankNumber', 'TaxNumber', 'Date'];
-      if (!doNotOverride.contains(displayType)) displayType = 'Text';
-    }
-
-    if (this.CleverForms.GenderFields.contains(this.Config.Details.AffinityField.FieldName))
-    {
-      displayType = 'SingleSelectRadio';
-      this.Config.Details.ItemSource = {
-        Inline: true,
-        DefaultNone: null,
-        Items: [
-          ['Male', 'M'],
-          ['Female', 'F'],
-          ['Other', 'O']
-        ]
-      };
-    }
-
-    if (this.CleverForms.BooleanToRadioFields.contains(this.Config.Details.AffinityField.FieldName))
-    {
-      displayType = 'SingleSelectRadio';
-      this.Config.Details.ItemSource = {
-        Inline: true,
-        DefaultNone: 'false',
-        Items: [
-          ['True', 'true'],
-          ['False', 'false']
-        ]
-      };
-    }
-
-    // check for rates and use Float with 5 decimal places
-    //if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName))
-    if (/^RATE[1-9]{1}$/.test(this.Config.Details.AffinityField.FieldName) || /( Rate [1-9]{1})/gi.test(this.Config.Details.Label))
-    {
-      if (!this.Config.Details.AffinityField.hasOwnProperty('FieldDecimal') || this.Config.Details.AffinityField.FieldDecimal === null)
+      if (this.CleverForms.ElementData.hasOwnProperty(displayType))
       {
-        displayType = 'Float';
-        this.Config.Details.AffinityField.FieldDecimal = 5;
-        this.Config.Details.AffinityField.FieldPrecision = 5;
+        displayType = this.CleverForms.ElementData[displayType].Type;
       }
     }
-    if (this.Config.Details.AffinityField.FieldName.indexOf('STD_HOURS_') === 0)
-    {
-      displayType = 'Float';
-      this.Config.Details.AffinityField.FieldDecimal = 2;
-      this.Config.Details.AffinityField.FieldPrecision = 2;
-    }
-
-    /////////////////////////////////////////////////////////
 
     if (elements.hasOwnProperty(displayType))
     {
@@ -20679,8 +21695,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           this.FormRowNode.querySelector('select').addEventListener('ready', inserter);
         }
       }
-
-      
 
       return this.FormRowNode;
     }
@@ -20913,12 +21927,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       //if we added Display field we set SELECT of the key as we dont have Display mode on the key anymore
       if (referenceMode === editMode && this.CleverForms.IsMasterFile(refernceConfig) || this.CleverForms.IsKey(config) && referenceMode === displayMode) referenceMode = selectMode;
       else if (!this.CleverForms.IsMasterFile(refernceConfig) && (this.CleverForms.IsLookup(config) || this.CleverForms.IsGlobalKey(config)) && referenceMode === createMode) referenceMode = selectMode;
+      else if(!this.CleverForms.IsLookup(config) && this.CleverForms.MasterfileTableBlacklist.contains(config.Details.AffinityField.ModelName) && this.CleverForms.IsKey(config)) referenceMode = createMode;
       //if ([createMode, editMode].contains(referenceMode) && this.CleverForms.IsLookup(config)) referenceMode = selectMode;
       //else if (referenceMode === editMode && this.CleverForms.IsGlobalKey(config)) referenceMode = selectMode;
 
       config.Details.AffinityField.Mode = referenceMode;
 
-      this.CleverForms.Designer.Add(config, false, targetNode, position, referenceNode);
+      this.CleverForms.Designer.Add(config, false, targetNode, position, referenceNode, true);
 
     }
   }
@@ -20954,10 +21969,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (copyOwnerConfig.IsKeyField) keyConfig.KeyFields.push(copyOwnerConfig);
       config.Details.AffinityField.KeyFields = keyConfig.KeyFields;
     }
-      
+
     // TODO: These should be in the search return. NO MUTATORS!!!
     config = this.CleverForms.__PORT_G_G_G_GET_AFFINITYFIELD_DATA({ Details: { AffinityField: keyConfig } }, config);
     // End bad mutatorness
+
+
+
+    let displayType = this.CleverForms.GetDisplayTypeFromConfig(config);
+    config.Display = this.CleverForms.ElementData[displayType.Type];
+
 
     config.Details.AffinityField.TableName = keyConfig.TableName;
     config.Label = keyConfig.DefaultLabel;
@@ -21266,10 +22287,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   _modelLookupChanged (ev)
   {
     let fromKeyChange = 'detail' in ev && 'FromKeyChange' in ev.detail ? ev.detail.FromKeyChange : false;
-    //console.log('Modal data changed:');
-    //console.log('ProfileStatus ', this.CleverForms.ProfileStatus);
-    //console.log('ModelStatus   ', this.CleverForms.ModelStatus);
-    var color, messageStr, messgae;
+    var color, messageStr, message;
     var model = ev.detail.Model;
     var data = ev.detail.Data;
     var key = ev.detail.FieldKey;
@@ -21280,60 +22298,55 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (!$a.isString(from) && isNaN(parseInt(from))) from = JSON.stringify(from);
     if (this.Config.Details.AffinityField.ModelName === model && Object.keys(data).contains(this.Config.Name))
     {
-      if (data[this.Config.Name] !== null)
+      if (data[this.Config.Name] !== null && data[this.Config.Name] !== 'null')
       {
         to = data[this.Config.Name];
         if ($a.isObject(to) && to.hasOwnProperty('Value')) to = to.Value;
         if (!$a.isString(to) && isNaN(parseInt(to))) to = JSON.stringify(to);
+        // set Configs with new data
+        this.Config.Details.Value = to;
+        this.ElementController.Config.Details.Value = this.Config.Details.Value;
+        //
         color = '#8dca35';
-        messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) from "{From}" to "{To}"';
-        messgae = messageStr.format({
+        messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) from "{From}" ({FromType}) to "{To}" ({ToType})';
+        message = messageStr.format({
           Label: this.Config.Details.Label,
           FieldName: this.Config.Details.AffinityField.FieldName,
           Type: this.ElementControllerType,
           From: from,
-          To: to
+          FromType: (typeof from),
+          To: to,
+          ToType: (typeof to)
         });
-        //console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        //console.log(data);
-        console.log('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-
-        this.ElementController.SetFromValue(data[this.Config.Name], fromKeyChange);
-
+        if (from !== to)
+        {
+          console.log('%c' + message, 'color:' + color + ';font-weight:bold;');
+          this.ElementController.SetFromValue(data[this.Config.Name], fromKeyChange);
+        }
         checkValue = data[this.Config.Name];
-
       }
       else
       {
-        if (key === '')
-        {
-          color = '#8dca35';
-          messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) was cleared because value is null';
-        }
-        else
-        {
-          //color = '#ff5c00';
-          //messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) was not set because value is null';
-          color = '#8dca35';
-          messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) was cleared because value is null';
-        }
-        messgae = messageStr.format({
+        if (this.Config.Details.Required) to = ''; // Select..
+        else to = 'null'; // None
+        // set Configs with new data
+        this.Config.Details.Value = to;
+        this.ElementController.Config.Details.Value = this.Config.Details.Value;
+        //
+        color = '#8dca35';
+        messageStr = 'Change "{Label}" ({FieldName} - {Type} Element) was cleared because value is null';
+        message = messageStr.format({
           Label: this.Config.Details.Label,
           FieldName: this.Config.Details.AffinityField.FieldName,
           Type: this.ElementControllerType
         });
-        //console.groupCollapsed('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-        //console.log(data);
-        console.log('%c' + messgae, 'color:' + color + ';font-weight:bold;');
-
-        if (key === '') this.ElementController.SetFromValue('', fromKeyChange);
-        else this.ElementController.SetFromValue('', fromKeyChange);
-
+        if (from !== to)
+        {
+          console.log('%c' + message, 'color:' + color + ';font-weight:bold;');
+          this.ElementController.SetFromValue('', fromKeyChange);
+        }
         checkValue = '';
-
       }
-      //console.groupEnd();
-
 
       if (checkValue !== null) this._checkCountrySensative(checkValue, fromKeyChange);
 
@@ -21352,8 +22365,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName))
     {
       var label = this.FormRowNode.querySelector('label').innerText.trim();
-      var dataValue = newValue.toString().trim();
-      var formValue = this.ElementController.GetFromFormRow().Value.toString().trim();
+      var rowData = this.ElementController.GetFromFormRow();
+      var formValue = rowData.Value !== null ? rowData.Value.toString().trim() : null;
       var formCountry = $a.isNullOrEmpty(this.CleverForms.FormCountry) ? null : this.CleverForms.GetCountryDisplayVariant(this.CleverForms.FormCountry);
       var profileCountry = $a.isNullOrEmpty(Affinity2018.FormProfile.Country) || Affinity2018.FormProfile.Country.toString().trim().toUpperCase() === 'NULL' ? null : this.CleverForms.GetCountryDisplayVariant(Affinity2018.FormProfile.Country);
       //console.log('Check Sensatives: data value: ', dataValue, ' , from value: ', formValue);
@@ -21850,7 +22863,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ', ' + country;
+      var display = value === null ? '' : value;
+      if (display.trim() !== '')
+      {
+        display += ' - ' + country;
+      }
       if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -21876,6 +22893,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       }
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
 
       return this.FormRowNode;
     }
@@ -22125,6 +23147,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
       // set any special elements
 
+      this.FormRowNode.querySelector('input').addEventListener('change', (() =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('input').checked }}));
+      }).bind(this));
+
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
       return this.FormRowNode;
@@ -22353,6 +23380,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
     var fieldDecimal = 2;
     var fieldPrecision = 2;
+    var value = this.Config.Details.Value === null ? '' : this.Config.Details.Value;
     if (this.Config.Details.hasOwnProperty('DecimalNumber'))
     {
       fieldDecimal = this.Config.Details.DecimalNumber;
@@ -22368,7 +23396,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
       label: this.Config.Details.Label,
       decimals: fieldDecimal,
       rounding: fieldPrecision > 0 ? 'round' : 'none',
-      value: this._formatCurrency(this.Config.Details.Value)
+      value: value !== '' ? this._formatCurrency(value) : ''
     });
 
     this.FormRowNode = super.SetFormRow(target, html);
@@ -22376,6 +23404,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(this.FormRowNode.querySelector('input').value.trim()) }}));
+      
+      }).bind(this));
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
@@ -22657,13 +23691,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '')
     {
       window.dateLogStart = true;
-      console.groupCollapsed('Parse Read Only Date:');
+      //console.groupCollapsed('Parse Read Only Date:');
       //console.log();
-      console.log('Label:            ', this.Config.Details.Label);
-      console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
-      console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
-      console.log('Question Name:    ', this.Config.Name);
-      console.log('Server Value:     ', this.Config.Details.Value);
+      //console.log('Label:            ', this.Config.Details.Label);
+      //console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
+      //console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
+      //console.log('Question Name:    ', this.Config.Name);
+      //console.log('Server Value:     ', this.Config.Details.Value);
       date = $a.getDate(this.Config.Details.Value);
     }
 
@@ -22724,6 +23758,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
+
 
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
@@ -24249,14 +25289,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
       // set any special elements
 
       var input = this.FormRowNode.querySelector('input');
+
       if (input)
       {
         var checkPanelLoaded = function ()
         {
           if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
           {
-            input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function () { Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode); }.bind(this));
-            if (input.widgets.DrawPanel.Ready) Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+            input.widgets.DrawPanel.CanvasNode.addEventListener('CanvasReady', function ()
+            {
+              Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+            }.bind(this));
+            if (input.widgets.DrawPanel.Ready) 
+            {
+              Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+              input.widgets.DrawPanel.addEventListener('human_modified', (ev =>
+              {
+                this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+              }).bind(this));
+            }
             return;
           }
           setTimeout(checkPanelLoaded, 100);
@@ -24727,6 +25778,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
 
       // set any special elements
 
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('input').value.trim() }}));
+      
+      }).bind(this));
+
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
       return this.FormRowNode;
@@ -25050,6 +26107,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
 
+      '_fileNodeWidgetReady',
       '_checkHideables',
       '_getDocumentCategories', '_getDocumentTypes',
       '_loadNames'
@@ -25301,6 +26359,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
 
       // set any special elements
+
+      let fileNode = this.FormRowNode.querySelector('input[type="file"]');
+      if (fileNode)
+      {
+        if (fileNode.hasOwnProperty('widgets') && fileNode.widgets.hasOwnProperty('FileUpload'))
+        {
+          this._fileNodeWidgetReady();
+        }
+        else
+        {
+          fileNode.addEventListener('widgetReady', this._fileNodeWidgetReady);
+        }
+      }
+
     }
   }
 
@@ -25312,6 +26384,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       if (this.CleverForms && this.CleverForms.ViewType !== 'Form') return false;
 
       // get any special elements
+
 
       if ($a.isNode(this.FileNode) && this.FileWidget !== null)
       {
@@ -25330,6 +26403,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   }
 
   /**/
+
+  _fileNodeWidgetReady()
+  {
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('postSuccess', (() =>
+    {
+      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+    }).bind(this));
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('deleteSuccess', (() =>
+    {
+      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+    }).bind(this));
+  }
 
   _checkHideables ()
   {
@@ -25849,6 +26934,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
       // set any special elements
 
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseFloat(this.FormRowNode.querySelector('input').value.trim()) }}));
+      
+      }).bind(this));
+
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
       return this.FormRowNode;
@@ -26040,6 +27131,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: parseInt(this.FormRowNode.querySelector('input').value.trim()) }}));
+      
+      }).bind(this));
+
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
@@ -26413,6 +27511,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
       // set any special elements
 
+      this.FormRowNode.querySelector('textarea').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('textarea').value.trim() }}));
+      
+      }).bind(this));
+
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
       return this.FormRowNode;
@@ -26515,7 +27619,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid',
+
+      '_humanInteraction'
 
     ].bindEach(this);
 
@@ -26654,6 +27760,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
             });
             this.FormRowNode.appendChild(checkRow);
             if (this.Config.Details.Required) checkRow.querySelector('input').addEventListener('change', this.CheckValid);
+            else checkRow.querySelector('input').addEventListener('change', this._humanInteraction);
           }.bind(this));
           valueData = $a.stringToObject(this.Config.Details.Value);
           if ($a.isArray(valueData))
@@ -26671,6 +27778,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
             }
           }
         }
+
       }
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
@@ -26755,16 +27863,26 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
     return '';
   }
 
-  CheckValid()
+  CheckValid(ev)
   {
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
       this.FormRowNode.querySelector('.ui-form-error').classList.remove('show');
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+    if (ev && 'isTrusted' in ev && ev.isTrusted)
+    {
+      this._humanInteraction(ev);
+    }
   }
 
   /**/
+
+  _humanInteraction(ev)
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+  }
 
   _templates ()
   {
@@ -27500,6 +28618,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   {
     super._options();
 
+    this.InternalWidgets = [];
   }
 
   constructor(config)
@@ -27546,6 +28665,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         if (listBuilder)
         {
+          this.InternalWidgets.push(listBuilder);
           var requiredNode = this.EditNode.querySelector('#-required');
           if (!requiredNode.classList.contains('listenting'))
           {
@@ -27624,7 +28744,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   SetFormRow (target)
   {
-
     var html = null;
     if (this.IsReadOnly || this.Config.Details.IsReadOnly)
     {
@@ -27664,7 +28783,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       {
         html = this.HtmlRowTemplate.format(
           this.Config.Details.Label,
-          this.Config.Details.hasOwnProperty('Value') ? this.Config.Details : ''
+          this.Config.Details.hasOwnProperty('Value') ? this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value : ''
         );
       }
     }
@@ -27677,7 +28796,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       // set any special elements
 
       var select = this.FormRowNode.querySelector('select'),
-          selectConfig, keys, dataList, selected, optionNode, i;
+          selectConfig, keys, dataList, selected, show, optionNode, i;
 
       if (this.CleverForms.ViewType === 'Preview')
       {
@@ -27704,25 +28823,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         dataList = this.CleverForms.InsertEmptyListItem(dataList, this.Config.Details.Required, false);
 
+        show = false;
         selected = false;
         keys = Object.keys(dataList[0]);
-        dataList.forEach(function (listItem)
+        for (let listItem of dataList)
         {
-          optionNode = document.createElement('option');
-          optionNode.value = listItem[keys[1]];
-          optionNode.innerHTML = listItem[keys[0]];
-          if (!selected && $a.isBool(listItem.Selected) && listItem.Selected === true)
+          show = listItem.hasOwnProperty('IsHidden') || true;
+          if (show)
           {
-            optionNode.selected = 'selected';
-            selected = true;
+            optionNode = document.createElement('option');
+            optionNode.value = listItem[keys[1]];
+            optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+            if (!selected && $a.isBool(listItem.Selected) && listItem.Selected === true)
+            {
+              optionNode.selected = 'selected';
+              selected = true;
+            }
+            select.appendChild(optionNode);
           }
-          select.appendChild(optionNode);
-        });
+        }
         if (!selected)
         {
           select.value = dataList[0][keys[1]];
         }
-
       }
       else if (this.CleverForms.ViewType === 'ViewOnly')
       {
@@ -27786,7 +28909,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
             if (this.Config.Details.AffinityField.GenericGroupId !== 0 && this.Config.Details.AffinityField.GenericGroupId !== '0')
             {
-              select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
+                select.dataset.api = '{api}?modelName={modelName}&genericGroupId={groupid}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
                 api: this.CleverForms.GetLookupApi,
                 modelName: this.Config.Details.AffinityField.ModelName,
                 groupid: this.Config.Details.AffinityField.GenericGroupId,
@@ -27825,10 +28948,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             selectConfig.Required = true;
           }
           
-          if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
+          if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
-            selectConfig.Value = this.Config.Details.Value;
-            select.dataset.defaultValue = this.Config.Details.Value;
+            let setValue = this.CleverForms.GetValueFromValueObject(select, this.Config.Details.Value);
+            selectConfig.Value = setValue;
+            select.dataset.defaultValue = setValue;
           }
           //else
           //{
@@ -27889,9 +29013,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             selectConfig.Required = true;
           }
 
-          if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
+          if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
           {
-            var codeValue = this.Config.Details.Value.contains(',') && this.Config.Details.Value.split(',')[0].length < this.Config.Details.Value.split(',')[1].length ? this.Config.Details.Value.split(',')[0].trim() : this.Config.Details.Value;
+            let setValue = this.CleverForms.GetValueFromValueObject(select, this.Config.Details.Value, selectConfig);
+            var codeValue = setValue.toString().contains(',') && setValue.toString().split(',')[0].length < setValue.toString().split(',')[1].length ? setValue.toString().split(',')[0].trim() : setValue;
             selectConfig.Value = codeValue;
             select.dataset.defaultValue = codeValue;
           }
@@ -27911,10 +29036,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           {
             selectConfig = false;
 
-            if (this.Config.Details.hasOwnProperty('Value') && $a.isString(this.Config.Details.Value) && this.Config.Details.Value.trim() !== '')
+            if (this.Config.Details.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(this.Config.Details.Value))
             {
-              selectConfig = this.Config.Details.Value;
-              select.dataset.defaultValue = this.Config.Details.Value;
+              let setValue = this.CleverForms.GetValueFromValueObject(select, this.Config.Details.Value);
+              selectConfig = setValue;
+              select.dataset.defaultValue = setValue;
             }
 
             if (this.CleverForms.IsGlobalKey(this.Config))
@@ -27985,7 +29111,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             {
               optionNode = document.createElement('option');
               optionNode.value = listItem[keys[1]];
-              optionNode.innerHTML = listItem[keys[0]];
+              optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
               if (!selected && listItem.Selected)
               {
                 optionNode.selected = 'selected';
@@ -28001,6 +29127,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           }
 
         }
+
+        select.addEventListener('human_modified', (() =>
+        {
+          this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
+        }).bind(this));
 
       }
       if (select && this.Config.Details.Required) select.addEventListener('change', this.CheckValid);
@@ -28061,11 +29192,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    value = value.hasOwnProperty('Value') ? value.Value : value;
+    if (value === null || value === 'null' || value.toString().trim() === '')
+    {
+      if (this.Config.Details.Required) value = ''; // Select..
+      else value = 'null'; // None
+    }
     if (this.FormRowNode && this.FormRowNode.querySelector('select'))
     {
       if (this.FormRowNode.querySelector('select').widgets)
       {
-        this.FormRowNode.querySelector('select').widgets.Autocomplete.setValue(value, false);
+        if (
+          this.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup') 
+          && this.FormRowNode.querySelector('select').widgets.SelectLookup.hasOwnProperty('CheckForHidden')
+        )
+        {
+          this.FormRowNode.querySelector('select').widgets.SelectLookup.defaultValue = value;
+          this.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
+        }
+        else if (this.FormRowNode.querySelector('select').widgets.hasOwnProperty('Autocomplete'))
+        {
+          this.FormRowNode.querySelector('select').widgets.Autocomplete.setValue(value, false);
+        }
       }
       else
       {
@@ -28146,6 +29294,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     //  this.FormRowNode.classList.remove('error', 'flash-error');
     //}
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+  }
+
+
+  CheckForHidden()
+  {
+    if (
+      this.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup')
+      && this.FormRowNode.querySelector('select').widgets.SelectLookup.hasOwnProperty('CheckForHidden')
+    )
+    {
+      this.FormRowNode.querySelector('select').widgets.SelectLookup.defaultValue = value;
+      return this.FormRowNode.querySelector('select').widgets.SelectLookup.CheckForHidden();
+    }
   }
 
   /**/
@@ -28270,7 +29431,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
-      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid'
+      'SetFormRow', 'GetFromFormRow', 'SetFromValue', 'IsValid', 'InvalidReason', 'CheckValid',
+
+      '_humanInteraction'
 
     ].bindEach(this);
 
@@ -28438,6 +29601,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
             if (value === listItem[keys[1]] || ([null, ''].contains(value) && defaultValue === listItem[keys[1]])) selectRow.querySelector('input').checked = true;
             this.FormRowNode.appendChild(selectRow);
             if (this.Config.Details.Required) selectRow.querySelector('input').addEventListener('change', this.CheckValid);
+            else selectRow.querySelector('input').addEventListener('change', this._humanInteraction);
           }.bind(this));
           if (isInline)
           {
@@ -28516,7 +29680,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     return '';
   }
 
-  CheckValid()
+  CheckValid(ev)
   {
     if (this.FormRowNode.querySelector('.ui-form-error') && this.IsValid())
     {
@@ -28524,9 +29688,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
       this.FormRowNode.classList.remove('error', 'flash-error');
     }
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
+    if (ev && 'isTrusted' in ev && ev.isTrusted)
+    {
+      this._humanInteraction(ev);
+    }
   }
 
   /**/
+
+  _humanInteraction(ev)
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
+  }
 
   _templates ()
   {
@@ -28710,7 +29883,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     var html = '';
     if (this.IsReadOnly || this.CleverForms.ViewType === 'ViewOnly')
     {
-      var display = value + ' - ' + country;
+      var display = value === null ? '' : value;
+      if (display.trim() !== '')
+      {
+        display += ' - ' + country;
+      }
       if (value === null || value === 'null') display = '';
       html = this.HtmlRowReadOnlyTemplate.format({
         label: this.Config.Details.Label,
@@ -28734,6 +29911,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
 
       return this.FormRowNode;
     }
@@ -29072,12 +30254,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   SetFormRow (target)
   {
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    let value = this.Config.Details.Value.hasOwnProperty('Value') ? this.Config.Details.Value.Value : this.Config.Details.Value;
+    if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
+    {
+      let matches = this.Config.Details.ItemSource.WhiteList.filter(item => item.Key.toString() === value.toString());
+      if (matches.length > 0)
+      {
+        let match = matches[0];
+        value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+      }
+      else
+      {
+        value = this.CleverForms.CleanLookupDisplayValue(value, null, true);
+      }
+    }
+    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
 
       // set any special elements
+
+      this.FormRowNode.querySelector('input').addEventListener('blur', (() => {
+      
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.FormRowNode.querySelector('input').value.trim() }}));
+      
+      }).bind(this));
 
       if (
         this.Config.Type === 'AffinityField'
@@ -29111,6 +30313,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    let code = value.toString();
+    if (typeof value === 'object')
+    {
+      if (value.hasOwnProperty('Key'))
+      {
+        code = value.Key.toString();
+        if (value.hasOwnProperty('Value'))
+        {
+          value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+        }
+        else
+        {
+          value =code;
+        }
+      }
+    }
+
+    if (this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
+    {
+      let matches = this.Config.Details.ItemSource.WhiteList.filter(item => item.Key.toString() === code);
+      if (matches.length > 0)
+      {
+        let match = matches[0];
+        value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+      }
+    }
+
     super.SetFromValue(value, fromKeyChange);
   }
 
@@ -29754,7 +30983,7 @@ Affinity2018.Classes.Plugins.Address = class
     this.scriptNode = document.createElement('script');
     this.scriptNode.onload = this._scriptLoaded;
     this.scriptNode.type = 'text/javascript';
-    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback';
+    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
     this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
     document.head.appendChild(this.scriptNode);
     this._loadScriptFailTimer = setTimeout(function ()
@@ -29844,6 +31073,10 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     };
 
+    this.preChangeAddress = '';
+
+    this.humanInteraction = false;
+
     this.ValidateLengths = false;
     this.ValidationErrors = [];
 
@@ -29866,11 +31099,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       'IsValid', 'IsLenghtsValid',
 
       '_waitUntilready', '_ready',
+      '_storePreChange',
       '_userUpdateAddress',
       '_userUpdateSubAddress',
       '_validateLengths',
-      '_checkAddress', '_getCountryFromPLace', '_fillAddress',
+      '_checkAddressSelected', '_checkAddress', '_getCountryFromPlace', '_fillAddress',
       '_templates',
+
+      '_checkHumanInteraction',
 
       'Destroy'
 
@@ -29909,8 +31145,10 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.addressNode.innerHTML = this.addressTemplate;
     this.lookupNode.parentNode.appendChild(this.addressNode);
 
+    this.lookupNode.addEventListener('focus', this._storePreChange);
     this.addressNode.querySelectorAll('input').forEach(function (node)
     {
+      node.addEventListener('focus', this._storePreChange);
       node.addEventListener('blur', this._userUpdateSubAddress);
     }.bind(this));
 
@@ -29922,6 +31160,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       component = this.formComponents.Default[key];
       if (this.addressNode.querySelector('.' + component.formMap))
       {
+        this.addressNode.querySelector('.' + component.formMap).addEventListener('focus', this._storePreChange);
         this.addressNode.querySelector('.' + component.formMap).addEventListener('keyup', this._userUpdateAddress);
         this.addressNode.querySelector('.' + component.formMap).addEventListener('blur', this._userUpdateAddress);
       }
@@ -30086,14 +31325,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     if (document.querySelectorAll('.pac-container').length === pacCount)
     {
-      var pacContaimnerCheck = setInterval(function ()
+      var pacContainerCheck = setInterval(function ()
       {
         var pacContainers = document.querySelectorAll('.pac-container');
         if (pacContainers.length > pacCount)
         {
-          clearInterval(pacContaimnerCheck);
+          clearInterval(pacContainerCheck);
           this.PacContaner = pacContainers[pacContainers.length - 1];
-          pacContaimnerCheck = null;
+          pacContainerCheck = null;
           pacCount = null;
           if (this.lookupNode.dataset.position === 'fixed')
           {
@@ -30131,32 +31370,59 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     }
 
-    if (!checkExisitng) this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddress);
+    if (!checkExisitng) 
+    {
+      this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddressSelected);
+    }
 
     /**/
+
+    this.preChangeAddress = this.GetAddress();
     
     this.Ready = true;
     this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
   }
-
-  _userUpdateAddress ()
+  
+  _storePreChange(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.preChangeAddress = this.GetAddress();
+    }
+  }
+
+  _userUpdateAddress(ev)
+  {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     //clearTimeout(this._checkAddressThrottle);
     this.lookupNode.value = this.GetAddress();
     //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
   }
 
-  _userUpdateSubAddress()
+  _userUpdateSubAddress(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     //clearTimeout(this._checkAddressThrottle);
     //this._checkAddressThrottle = setTimeout(this._checkAddress, 1000);
     this.Valid = this._validateLengths();
   }
 
-  _checkAddress ()
+  _checkAddressSelected()
+  {
+    this.humanInteraction = true;
+    this._checkAddress();
+  }
+
+  _checkAddress()
   {
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback')
+    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async')
     .then(function (response)
     {
       if (
@@ -30174,7 +31440,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     }.bind(this));
   }
 
-  _getCountryFromPLace (place)
+  _getCountryFromPlace (place)
   {
     var component, i = 0;
     if(place && place.hasOwnProperty('address_components'))
@@ -30249,6 +31515,9 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     }
 
     this.lookupNode.dispatchEvent(new Event('LengthValidated'));
+
+    this._checkHumanInteraction();
+
     return this.Valid;
   }
 
@@ -30260,7 +31529,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       if (this.IsRequired) this.SetAddress('');
       return;
     }
-    var countryCode = this._getCountryFromPLace(place),
+    var countryCode = this._getCountryFromPlace(place),
         formComponents = this.formComponents[countryCode] ? this.formComponents[countryCode] : this.formComponents.Default,
         unitnum = false,
         streetnum = false,
@@ -30338,8 +31607,27 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       this.Valid = false;
     }
 
-    if (this.AutocompleteListener === null) this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddress);
+    if (this.AutocompleteListener === null) 
+    {
+      this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddressSelected);
+    }
 
+    //this.humanInteraction = true;
+    this._checkHumanInteraction();
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      if (this.GetAddress().trim() !== this.preChangeAddress)
+      {
+        debugger;
+        this.lookupNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: JSON.stringify(this.GetAddressData()) }}));
+        this.preChangeAddress = this.GetAddress();
+      }
+    }
+    this.humanInteraction = false;
   }
 
   /**/
@@ -30544,6 +31832,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.elementChangedOnly = false;
     this.stopInitialChange = false;
 
+    this.humanInteraction = false;
+
     this.fuzzyRunning = false;
     this.workerComplete = true;
     this.status = 'closed';
@@ -30645,7 +31935,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           }
           else
           {
-            this.RowNode.insertBefore(this.autocompleteNode, this.RowNode.querySelector('label').nextSibling);
+            this.RowNode.insertBefore(this.autocompleteNode, this.RowNode.querySelector('label').nextElementSibling);
           }
         }
         else
@@ -30655,12 +31945,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }
       else
       {
-        this.RowNode.insertBefore(this.autocompleteNode, this.targetNode.parentNode.nextSibling);
+        this.RowNode.insertBefore(this.autocompleteNode, this.targetNode.parentNode.nextElementSibling);
       }
     }
     else
     {
-      //this.targetNode.parentNode.insertBefore(this.autocompleteNode, this.targetNode.nextSibling);
+      //this.targetNode.parentNode.insertBefore(this.autocompleteNode, this.targetNode.nextElementSibling);
       this.RowNode.appendChild(this.autocompleteNode);
     }
 
@@ -30701,6 +31991,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.forceTop = true;
     }
 
+    this.forceBottom = false;
+    if (this.targetNode.classList.contains('ui-autocomplete-force-bottom'))
+    {
+      this.targetNode.classList.remove('ui-autocomplete-force-bottom');
+      this.forceBottom = true;
+      this.forceTop = false;
+    }
+
     this.bestguess = null;
 
     this.fieldType = this.targetNode.id ? this.targetNode.id.substring(this.targetNode.id.lastIndexOf('-') + 1) : 'none';
@@ -30737,7 +32035,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.displayNode.addEventListener('focus', this._doFocus);
 
     document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
-    document.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+    window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
 
     //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
     //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
@@ -30746,6 +32044,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.listNode.removeEventListener('mouseleave', this._mouseLeave);
     this.listNode.addEventListener('mouseenter', this._mouseEnter);
     this.listNode.addEventListener('mouseleave', this._mouseLeave);
+
+    this.displayNode.addEventListener('blur', this._displayBlur);
 
     this._processOptions();
 
@@ -30790,7 +32090,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
             }
             this._itemClicked({ target: this.listNode.querySelector('li'), fireEvents: fireEvents })
           }
-          return this.listNode.querySelector('li').dataset.value;
+          return this.listNode.querySelector('li') ? this.listNode.querySelector('li').dataset.value : '';
         }
         var node = false;
         // TODO: Web Worker here ?
@@ -31627,6 +32927,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     if (ev.keyCode === 13 && selected) // 13 -> enter
     {
+      this.humanInteraction = true;
       this._stopEvents(ev);
       this._itemClicked({ target: selected });
       return;
@@ -31911,6 +33212,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this._fireWindowChangeEvent('autocomplete _elementUp');
 
+
+
+
   }
 
   /**/
@@ -31918,6 +33222,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _itemClicked(ev)
   {
     if (!this.enabled) return false;
+
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
 
     clearTimeout(this._kepListDelay);
 
@@ -31931,6 +33240,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     if (this.listNode.querySelector('li.selected')) this.listNode.querySelector('li.selected').classList.remove('selected');
     eventNode.classList.add('selected');
+
+    let lastValue = null;
+    if (this.lastSelected)
+    {
+      lastValue = this.lastSelected.dataset.value;
+    }
 
     this.lastSelected = eventNode;
     this.displayNode.value = this._cleanDisplay(eventNode.innerText);
@@ -31953,20 +33268,35 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         if (this.targetNode.onchange !== null) this.targetNode.onchange();
         else this.targetNode.dispatchEvent(new Event('change'));
         this._fireWindowChangeEvent('autocomplete _itemClicked');
-        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject: this.targetNode.value }}));
+        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject: this.targetNode.value, previousObject: lastValue }}));
       }
     }
     else
     {
       if (fireEvents)
       {
-        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject:this.targetNode.value }}));
+        this.dispatchEvent(new CustomEvent('elementChanged', { detail: { dispatchObject: this.targetNode.value, previousObject: lastValue }}));
       }
     }
     if (this.keeplist)
     {
       this._kepListDelay = setTimeout(this._restoreSelectedList, 1000);
       //this._restoreSelectedList.delay(1000, this);
+    }
+
+    if (this.humanInteraction)
+    {
+      this.targetNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.targetNode.value }}));
+    }
+    this.humanInteraction = false;
+  }
+
+  _displayBlur(ev)
+  {
+    if (!this.enabled) return false;
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.targetNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.targetNode.value }}));
     }
   }
 
@@ -31999,7 +33329,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     //console.log('scrolled', ev.target);
     //this.hide('scrolled');
-    this._stopEvents(ev);
+    if (Affinity2018.Apps.hasOwnProperty('CleverForms') && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')) 
+    {
+      // do nothing
+    }
+    else
+    {
+      this._stopEvents(ev);
+    }
     this._position(null, 'scroll');
   }
 
@@ -32015,10 +33352,19 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._positionDelay);
     if (this.forceTop)
     {
+      this.listNode.classList.remove('below');
       this.listNode.classList.add('above');
       if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
       return;
     }
+    if (this.forceBottom)
+    {
+      this.listNode.classList.remove('above');
+      this.listNode.classList.add('below');
+      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      return;
+    }
+
     delay = typeof delay === 'number' ? delay : 100;
     this._positionDelay = setTimeout(this._setPosition, delay, calledFrom);
   }
@@ -33345,6 +34691,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     this.FirstLoad = true;
 
+    this.humanInteraction = false;
+
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -33363,6 +34711,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       '_getCountryCode', '_setupCountry',
       '_setIcon',
       '_userKey', '_userKeyUp', '_userValidate', '_validate', '_validateSuccess', '_validateFailed', 
+
+      '_checkHumanInteraction',
 
       'Destroy',
 
@@ -33835,8 +35185,12 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     return this.DefaultCountryCode;
   }
 
-  _setupCountry ()
+  _setupCountry (ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     this._clear(false);
     var country = this._getCountryCode();
     var useCountry = country;
@@ -33908,6 +35262,10 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   }
   _userKeyUp (ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (this.pasting && ev && ev.target === this.inputBankNode)
     {
       var fullValue = this.inputBankNode.value.trim(), numbersValue = fullValue.replace(/[^0-9]/gi, '').trim();
@@ -33981,12 +35339,14 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     else
     {
+      this._checkHumanInteraction();
       return;
     }
 
     if (attemtpCountry == '')
     {
       this._setIcon();
+      this._checkHumanInteraction();
       return;
     }
 
@@ -34173,7 +35533,17 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       this.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
+    this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.initInputNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetData() }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
@@ -35109,6 +36479,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'closed';
     this.mouseState = '';
 
+    this.humanInteraction = false;
+
     this.labelName = '';
     this.postId = '';
     this.postName = '';
@@ -35149,6 +36521,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       '_buildCalendar',
       '_cellClicked',
+      '_checkHumanInteraction',
 
       '_displayKeyUp', '_displayBlur',
 
@@ -35537,6 +36910,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         var errorlabel = this.RowNode && this.RowNode.querySelector('label') ? this.RowNode.querySelector('label').innerText.trim().shorten(50) : 'Date';
         this.ShowError($a.Lang.ReturnPath(errorPath, { label: errorlabel }));
       }
+      else
+      {
+        if (this.Form) this.Form.ResizeSection(this.RowNode);
+      }
     }
     return this.Valid;
   }
@@ -35545,12 +36922,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form) this.Form.ResizeSection(this.RowNode);
   }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form) this.Form.ResizeSection(this.RowNode);
   }
 
   /**/
@@ -35795,6 +37172,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _cellClicked(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (this.datesNode.querySelector('.ui-cal-cell.selected')) this.datesNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
     var cellNode = ev.target.closest('.ui-cal-cell.active'), cellDate;
     if (cellNode)
@@ -35808,6 +37189,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _displayKeyUp(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (
       ev.keyCode === 13 // enter
       || ev.keyCode === 9 // tab
@@ -35819,8 +37204,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
   }
 
-  _displayBlur()
+  _displayBlur(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
     if (this.nullable && this.displayNode.value.trim() === '') return;
     this._setDateFromStr(this.displayNode.value.trim());
   }
@@ -35840,6 +37229,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.dateDisplayNode.innerHTML = dateStr;
     this._setDisplay(false);
     this.IsValid();
+    this._checkHumanInteraction();
   }
   _setTime()
   {
@@ -35848,6 +37238,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.timeDisplayNode.innerHTML = timeStr;
     this._setDisplay(false);
     this.IsValid();
+    this._checkHumanInteraction();
   }
   _setDisplay(fromBlur)
   {
@@ -35871,7 +37262,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         if (!fromBlur) this.displayNode.value = dateStr;
       }
     }
+
     this.IsValid();
+
+    this._checkHumanInteraction();
   }
   _setReturn(fromBlur)
   {
@@ -35880,6 +37274,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.outputFormat);
     if (output) this.targetNode.value = dateStr;
     this.IsValid();
+    this._checkHumanInteraction();
   }
 
   _setDateFromStr(attemptStr, returnResult)
@@ -35941,6 +37336,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this.dispatchEvent(new CustomEvent('dateChanged', { detail: { dispatchObject: this.date } }));
       this.targetNode.dispatchEvent(new Event('change'));
     }
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.targetNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.getDisplayValue() }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
@@ -36049,7 +37453,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _scrolled(ev)
   {
-    this._stopEvents(ev);
+    if (Affinity2018.Apps.hasOwnProperty('CleverForms') && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')) 
+    {
+      // do nothing
+    }
+    else
+    {
+      this._stopEvents(ev);
+    }
     this._position(null, 'scroll');
   }
 
@@ -36753,7 +38164,7 @@ Affinity2018.Classes.Plugins.DrawPanel = class
 
 };
 
-Affinity2018.Classes.Plugins.DrawPanelWidget = class
+Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassEvents 
 {
   _options()
   {
@@ -36777,6 +38188,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
   constructor(targetNode, config)
   {
+    super();
     this._options();
     [
       '_options',
@@ -36791,6 +38203,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       '_changeBgImage', '_setBgImage',
 
       '_canvasDown', '_canvasUp',
+
+      '_humanInteraction',
 
       'Destroy',
 
@@ -37212,11 +38626,14 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
       this.InitNode.dispatchEvent(new Event('imageSet'));
     }
 
+    if (this.Ready) this._humanInteraction();
+
     if (!this.Ready) this.Ready = true;
   }
 
   _canvasDown ()
   {
+    clearTimeout(this.interactionTimer);
     this._eventIsDown = true;
   }
 
@@ -37224,9 +38641,16 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
   {
     if (this._eventIsDown)
     {
+      clearTimeout(this.interactionTimer);
       this._eventIsDown = false;
       this._setData();
+      this.interactionTimer = setTimeout(this._humanInteraction, 1000);
     }
+  }
+
+  _humanInteraction()
+  {
+    this.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.Get() }}));
   }
 
   /**/
@@ -37274,7 +38698,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class
 
 };
 
-Affinity2018.Classes.Plugins.DrawPad = class
+Affinity2018.Classes.Plugins.DrawPad = class 
 {
   _options ()
   {
@@ -37299,7 +38723,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
       'IsEmpty',
       'ToDataURL','FromDataURL',
 
-      '_strokeUpdate', '_strokeBegin', '_strokeDraw', '_strokeEnd', 
+      '_strokeUpdate', '_strokeBegin', '_strokeDraw', '_strokeEnd',
       '_createPoint','_addPoint','_calculateCurveControlPoints','_addCurve','_drawPoint','_drawCurve', '_strokeWidth',
 
       '_handleMouseEvents',
@@ -42178,6 +43602,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
     this.FirstLoad = true;
 
+    this.humanInteraction = false;
+
     this.hasPayPoint = false;
     this.PayPoint = false;
     this.Valid = false;
@@ -42196,6 +43622,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       '_getCountryCode', '_setupCountry',
       '_setIcon',
       '_userKey', '_userKeyUp', '_userValidate', '_validate', '_validateSuccess', '_validateFailed', 
+
+      '_checkHumanInteraction',
 
       'Destroy',
 
@@ -42624,8 +44052,13 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     return this.DefaultCountryCode;
   }
 
-  _setupCountry()
+  _setupCountry(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
+
     this._clear(false);
     var country = this._getCountryCode();
     switch (country)
@@ -42640,6 +44073,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       default:
 
         break;
+
     }
 
     /**/
@@ -42695,6 +44129,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _userKeyUp(ev)
   {
+    if (ev && 'isTrusted' in ev && ev.isTrusted) 
+    {
+      this.humanInteraction = true;
+    }
+
     if (this.pasting && ev && ev.target === this.input1Node)
     {
       var fullValue = this.input1Node.value.trim(), numbersValue = fullValue.replace(/[^0-9]/gi, '').trim();
@@ -42763,12 +44202,14 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
     else
     {
+      this._checkHumanInteraction();
       return;
     }
 
     if (attemtpCountry == '')
     {
       this._setIcon();
+      this._checkHumanInteraction();
       return;
     }
 
@@ -42810,6 +44251,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       if (this._stringFromNodes() === '') this._setIcon();
       else this._setIcon(this.Valid);
     }
+    this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
   }
 
@@ -42917,6 +44359,15 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   _validateFailed(error)
   {
     this._validated();
+  }
+  
+  _checkHumanInteraction()
+  {
+    if (this.humanInteraction)
+    {
+      this.initInputNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetData() }}));
+    }
+    this.humanInteraction = false;
   }
 
   /**/
