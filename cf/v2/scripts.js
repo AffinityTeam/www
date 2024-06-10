@@ -21034,6 +21034,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.CleverForms = Affinity2018.Apps.CleverForms.Default;
 
+    this.ElementController = null;
+
     return this;
   }
 
@@ -21052,6 +21054,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.PopupNode = document.querySelector('.cf-designer-element-popup');
       this.SettingsViewNode = this.PopupNode.querySelector('.settings');
 
+      this.SettingsNode = this.SettingsViewNode.querySelector('.settings-box');
+
       this.FiltersNode = this.SettingsViewNode.querySelector('.filters');
       this.FilterRadiosBoxNode = this.FiltersNode.querySelector('.radios');
       this.FilterModeWrapperCreate = this.FilterRadiosBoxNode.querySelector('.mode-create-wrapper');
@@ -21060,7 +21064,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.FilterModeWrapperDisplay = this.FilterRadiosBoxNode.querySelector('.mode-display-wrapper');
       this.FilterModeWrapperHidden = this.FilterRadiosBoxNode.querySelector('.mode-hidden-wrapper');
       this.FilterModeWrapperInitiator = this.FilterRadiosBoxNode.querySelector('.mode-initiator-wrapper');
-      
+
       this.TemplateNode = this.SettingsViewNode.querySelector('.edit-template');
       this.GenericGroupNode = this.TemplateNode.querySelector('.affinity-generic-group');
       this.GenericGroupSelectNode = this.GenericGroupNode.querySelector('select');
@@ -21082,11 +21086,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       /* if is global or a key, always tick and disable required. */
 
       this.RequiredBoxNode.classList.remove('hidden');
-      if (this.CleverForms.IsMasterFile(this.Config) && (
-        this.CleverForms.PseudoGlobalElementTypes.contains(this.Config.Type)
-        || this.CleverForms.IsGlobalKey(this.Config)
-        || this.CleverForms.IsKey(this.Config)
-        || this.Config.Details.AffinityField.IsRequired)
+      if (this.CleverForms.IsMasterFile(this.Config) 
+        && (
+          this.CleverForms.PseudoGlobalElementTypes.contains(this.Config.Type)
+          || this.CleverForms.IsGlobalKey(this.Config)
+          || this.CleverForms.IsKey(this.Config)
+          || this.Config.Details.AffinityField.IsRequired
+        )
       )
       {
         this.Config.Details.Required = true;
@@ -21532,6 +21538,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.ElementControllerType = displayType;
       this.ElementController = new elements[displayType](this.Config);
       this.FormRowNode = this.ElementController.SetFormRow(target);
+
+      // Add field name to original element for TESTS to read
+      let testAutomationNode = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : this.FormRowNode.querySelector('input') ? this.FormRowNode.querySelector('input') : null;
+      let testAutomationId = this.UniqueName ? this.UniqueName : this.Config.UniqueName ? this.Config.UniqueName : null;
+      if (testAutomationNode)
+      {
+        testAutomationNode.classList.add('test-target');
+        testAutomationNode.dataset.modelName = this.Config.Details.AffinityField.ModelName;
+        testAutomationNode.dataset.propertyName = this.Config.Details.AffinityField.FieldName;
+        testAutomationNode.dataset.propertyValue = value;
+        if (testAutomationId) testAutomationNode.dataset.questionName = testAutomationId;
+      }
+      // TODO: Do we need to do the same as above for checkboxes, radios, etc? OR, should we move this to each Element type?
 
       if (displayType === 'Address')
       {
@@ -31622,7 +31641,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     {
       if (this.GetAddress().trim() !== this.preChangeAddress)
       {
-        debugger;
         this.lookupNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: JSON.stringify(this.GetAddressData()) }}));
         this.preChangeAddress = this.GetAddress();
       }
