@@ -21544,7 +21544,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let testAutomationId = this.UniqueName ? this.UniqueName : this.Config.UniqueName ? this.Config.UniqueName : null;
       if (testAutomationNode)
       {
-        testAutomationNode.classList.add('test-target');
+        testAutomationNode.classList.add('qa-target');
         testAutomationNode.dataset.modelName = this.Config.Details.AffinityField.ModelName;
         testAutomationNode.dataset.propertyName = this.Config.Details.AffinityField.FieldName;
         testAutomationNode.dataset.propertyValue = value;
