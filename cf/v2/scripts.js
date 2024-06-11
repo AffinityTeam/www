@@ -18495,16 +18495,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         });
       }
     }
-    if (this.SubmitActionName.contains('Save') && !this.suppressPostMessage) // && this.PostedErrors.length === 0)
+    if (this.SubmitActionName.contains('Save')) // && this.PostedErrors.length === 0)
     {
-      // saved
-      Affinity2018.Dialog.Show({
-        message: $a.Lang.ReturnPath('app.cf.form.saved'),
-        showOk: true,
-        showCancel: false,
-        showInput: false,
-        textAlign: 'center'
-      });
+      if (!this.suppressPostMessage)
+      {
+        // saved
+        Affinity2018.Dialog.Show({
+          message: $a.Lang.ReturnPath('app.cf.form.saved'),
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'center'
+        });
+      }
       // log saved
       if (Affinity2018.EnableLog)
       {
@@ -21555,7 +21558,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.FormRowNode = this.ElementController.SetFormRow(target);
 
       // Add field name to original element for TESTS to read
-      let testAutomationNode = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : this.FormRowNode.querySelector('input') ? this.FormRowNode.querySelector('input') : null;
+      let testAutomationNode = this.FormRowNode ? this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : this.FormRowNode.querySelector('input') ? this.FormRowNode.querySelector('input') : null : null;
       let testAutomationId = this.UniqueName ? this.UniqueName : this.Config.UniqueName ? this.Config.UniqueName : null;
       if (testAutomationNode)
       {
