@@ -10698,7 +10698,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (config.Details.hasOwnProperty('Required'))                      postData.Required = config.Details.Required;
     if (config.Details.hasOwnProperty('Text'))                          postData.LongText = config.Details.Text;
 
-if (config.Details.hasOwnProperty('ItemSource'))
+    if (config.Details.hasOwnProperty('ItemSource'))
     {
       if (config.Details.hasOwnProperty('ItemSourceType'))              postData.ItemSourceType = config.Details.ItemSourceType;
       if (config.Details.ItemSource.hasOwnProperty('ItemSourceType'))   postData.ItemSourceType = config.Details.ItemSource.ItemSourceType;
@@ -16218,7 +16218,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_setupAutoSaveEvents', '_humanModified', 
 
-      '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
+      '_getFromFormDataByName', '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
 
       '_modalChanged', '_checkForHidden', '_scrollToError',
 
@@ -18038,6 +18038,29 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
   /**
+   * Summary. Get data from this.FormData by Element Unique Name
+   * @this    Class scope
+   * @access  private
+   */
+  _getFromFormDataByName(elemntName)
+  {
+    let result = null;
+    this.FormData.some((section) =>
+    {
+      let elemIdx = section.Elements.findIndex(element => element.Name === elemntName);
+      if (elemIdx !== -1)
+      {
+        result = section.Elements[elemIdx];
+        return true; // Stop iteration once found
+      }
+      return false; // Continue iteration
+    });
+    return result;
+  }
+
+
+
+  /**
    * Summary. Gather all post data from form
    * @this    Class scope
    * @access  private
@@ -18055,9 +18078,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       sectionConfig, sectionData,
       elementConfig, elementData;
 
-    let sectionIndex = -1;
-    let elementIndex = -1;
-
     document.querySelectorAll('div.section.row-section').forEach(function (sectionNode)
     {
       if (!addedNames.contains(sectionNode.controller.Name))
@@ -18065,8 +18085,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         sectionConfig = sectionNode.controller.Config;
         if (sectionConfig.Type === 'Section')
         {
-          sectionIndex++;
-          elementIndex = -1;
           sectionData = sectionNode.controller.GetFromFormRow();
           sectionNode.querySelectorAll('div.form-row').forEach(function (node)
           {
@@ -18075,7 +18093,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               elementConfig = node.controller.Config;
               if (elementConfig.Type !== 'Section' && elementConfig.ViewType === 'Question')
               {
-                elementIndex++;
                 if (elementConfig.Type === 'AffinityField')
                 {
                   if (elementConfig.Details.AffinityField.Mode !== this.CleverForms.AffnityFieldModeTypes.Display.Enum)
@@ -18101,12 +18118,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     else
                     {
                       elementData = node.controller.GetFromFormRow();
-                      if (
-                        Affinity2018.isNullOrEmpty(elementData.Value)
-                        && !Affinity2018.isNullOrEmpty(this.FormData[sectionIndex].Elements[elementIndex].Value)
-                      )
+                      if (Affinity2018.isNullOrEmpty(elementData.Value))
                       {
-                        elementData.Value = this.FormData[sectionIndex].Elements[elementIndex].Value;
+                        let fromData = this._getFromFormDataByName(elementData.Name);
+                        if (fromData !== null)
+                        {
+                          elementData.Value = fromData.Value;
+                        }
                       }
                     }
                     sectionData.Elements.push(elementData);
@@ -18125,8 +18143,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       }
       addedNames.push(sectionNode.controller.Name);
-    }.bind(this))
-
+    }.bind(this));
 
     return this.PostData;
   }
