@@ -8308,6 +8308,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
 
+    var enableLogStr = Affinity2018.hasOwnProperty('EnableLog') ? Affinity2018.EnableLog.toLowerCase().trim() : '';
+    Affinity2018.EnableLog = enableLogStr !== 'false';
+
     var enablePostStr = Affinity2018.hasOwnProperty('EnablePost') ? Affinity2018.EnablePost.toLowerCase().trim() : '';
     Affinity2018.EnablePost = enablePostStr !== 'false';
 
