@@ -1,44 +1,44 @@
 /* Minification failed. Returning unminified contents.
-(2733,31-32): run-time error JS1195: Expected expression: >
-(2757,27-28): run-time error JS1195: Expected expression: >
-(2757,44-45): run-time error JS1004: Expected ';': )
-(2758,23-24): run-time error JS1195: Expected expression: >
-(2768,11-12): run-time error JS1002: Syntax error: }
-(2772,11-12): run-time error JS1002: Syntax error: }
-(2777,7-8): run-time error JS1002: Syntax error: }
-(3000,32-37): run-time error JS1195: Expected expression: class
-(3539,32-37): run-time error JS1195: Expected expression: class
-(3631,29-30): run-time error JS1004: Expected ';': {
-(3632,29-30): run-time error JS1004: Expected ';': {
-(3633,29-30): run-time error JS1004: Expected ';': {
-(3634,29-30): run-time error JS1004: Expected ';': {
-(3691,3-4): run-time error JS1002: Syntax error: }
-(3704,37-38): run-time error JS1004: Expected ';': {
-(4279,36-41): run-time error JS1195: Expected expression: class
-(4359,3-4): run-time error JS1002: Syntax error: }
-(4476,3-4): run-time error JS1002: Syntax error: }
-(4495,3-4): run-time error JS1002: Syntax error: }
-(4497,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
-(4465,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4463,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4460,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4451,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4437,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4435,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4432,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4428,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4424,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4420,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4419,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4410,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4357,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4355,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4349,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4345,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4336,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4327,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4332,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4293,9,4303,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(2748,31-32): run-time error JS1195: Expected expression: >
+(2772,27-28): run-time error JS1195: Expected expression: >
+(2772,44-45): run-time error JS1004: Expected ';': )
+(2773,23-24): run-time error JS1195: Expected expression: >
+(2783,11-12): run-time error JS1002: Syntax error: }
+(2787,11-12): run-time error JS1002: Syntax error: }
+(2792,7-8): run-time error JS1002: Syntax error: }
+(3015,32-37): run-time error JS1195: Expected expression: class
+(3554,32-37): run-time error JS1195: Expected expression: class
+(3646,29-30): run-time error JS1004: Expected ';': {
+(3647,29-30): run-time error JS1004: Expected ';': {
+(3648,29-30): run-time error JS1004: Expected ';': {
+(3649,29-30): run-time error JS1004: Expected ';': {
+(3706,3-4): run-time error JS1002: Syntax error: }
+(3719,37-38): run-time error JS1004: Expected ';': {
+(4294,36-41): run-time error JS1195: Expected expression: class
+(4374,3-4): run-time error JS1002: Syntax error: }
+(4491,3-4): run-time error JS1002: Syntax error: }
+(4510,3-4): run-time error JS1002: Syntax error: }
+(4512,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
+(4480,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4478,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4475,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4466,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4452,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4450,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4447,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4443,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4439,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4435,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4434,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4425,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4372,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4370,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4364,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4360,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4351,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4342,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4347,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4308,9,4318,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -49,18 +49,18 @@
             return v;
           }
         })(value)
-(3704,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3689,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3685,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3681,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3675,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3667,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3655,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3634,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3633,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3632,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3631,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3629,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3719,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3704,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3700,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3696,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3690,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3682,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3670,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3649,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3648,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3647,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3646,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3644,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
  */
 (function ()
 {
@@ -1858,12 +1858,12 @@
 
         if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
         {
-          //console.log('                   (Is C# date)');
-          //console.log('--- Input ---------------------------');
-          //console.log('Passed Value:     ', mixed, ' -> ', dateStr);
-          //console.log('As JS Date:       ', new Date(parseInt(dateStr)));
-          //console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
-          //console.log(luxonDate);
+          console.log('                   (Is C# date)');
+          console.log('--- Input ---------------------------');
+          console.log('Passed Value:     ', mixed, ' -> ', dateStr);
+          console.log('As JS Date:       ', new Date(parseInt(dateStr)));
+          console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+          console.log(luxonDate);
         }
 
         dateParts = {
@@ -1940,7 +1940,16 @@
               }
             }
           }
-          luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
+          //luxonDate = luxon.DateTime.fromFormat(mixed, parserFormat);
+          luxonDate = luxon.DateTime.fromJSDate(new Date(
+            dateParts.year,
+            dateParts.month,
+            dateParts.day,
+            dateParts.hour,
+            dateParts.min,
+            dateParts.sec,
+            0
+          ), parserFormat);
         }
         else
         {
@@ -1966,6 +1975,9 @@
           {
             // I don't know what the hell mixed is .. 
             luxonDate = null;
+            if (window.dateLogStart) console.log('Luxon parse failed');
+            console.groupEnd();
+            window.dateLogStart = false;
           }
         }
       }
@@ -1985,16 +1997,16 @@
 
           if (window.hasOwnProperty('dateLogStart') && window.dateLogStart)
           {
-            //console.log('--- Output --------------------------');
-            //console.log('JS Date parts:    ', JSON.stringify(dateParts));
-            //console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
-            //console.log('Luxon Date Obj    ', luxonDate);
-            //console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
+            console.log('--- Output --------------------------');
+            console.log('JS Date parts:    ', JSON.stringify(dateParts));
+            console.log('As Luxon Date     ', JSON.stringify(luxonDate.c));
+            console.log('Luxon Date Obj    ', luxonDate);
+            console.log('Luxon to JS Obj   ', luxonDate.toJSDate());
             if (format)
             {
-              //console.log('Formated Date:    ', luxonDate.toFormat(format));
+              console.log('Formated Date:    ', luxonDate.toFormat(format));
             }
-            //console.groupEnd();
+            console.groupEnd();
           }
           window.dateLogStart = false;
 
@@ -2008,6 +2020,9 @@
       // I don't know what the hell mixed is .. soooooo .. return "now" ..
       luxonDate = luxon.DateTime.fromJSDate(new Date());
       date = format ? luxonDate.toFormat(format) : luxonDate.toJSDate();
+      if (window.dateLogStart) console.log('Luxon parse failed');
+      console.groupEnd();
+      window.dateLogStart = false;
       return date
     }
     return null;
@@ -23710,13 +23725,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
     if ($a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '')
     {
       window.dateLogStart = true;
-      //console.groupCollapsed('Parse Read Only Date:');
-      //console.log();
-      //console.log('Label:            ', this.Config.Details.Label);
-      //console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
-      //console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
-      //console.log('Question Name:    ', this.Config.Name);
-      //console.log('Server Value:     ', this.Config.Details.Value);
+      console.groupCollapsed('Parse Read Only Date:');
+      console.log();
+      console.log('Label:            ', this.Config.Details.Label);
+      console.log('Instance ID:      ', this.CleverForms.GetInstanceGuid());
+      console.log('Template ID:      ', this.CleverForms.Form.FormData[0].TemplateId);
+      console.log('Question Name:    ', this.Config.Name);
+      console.log('Server Value:     ', this.Config.Details.Value);
       date = $a.getDate(this.Config.Details.Value);
     }
 
