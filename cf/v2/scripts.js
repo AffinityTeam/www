@@ -16845,11 +16845,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _processTemplate()
   {
     window.removeEventListener('GotEmployeeData', this._processTemplate);
+    let foundRequired = false;
     if (Affinity2018.isArray(this.FormData))
     {
-
-      var sectionNode, elementNode, anyRequired = false;
-
+      let sectionNode = null;
+      let elementNode = null;
       this.FormData.sort(this._sortByRank);
       this.FormData.reverse();
       this.FormData.forEach(function (sectionConfig)
@@ -16872,7 +16872,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               if (elementConfig.ElementType !== 'Section')
               {
                 elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
-                if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) anyRequired = true;
+                if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) 
+                {
+                  foundRequired = true;
+                }
               }
             }.bind(this))
           }
@@ -16880,7 +16883,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }.bind(this));
     }
 
-    if (anyRequired)
+    if (foundRequired)
     {
       this.RequiredMessageNode.classList.remove('hidden');
       this.UserInstructionsNode.classList.remove('hidden');
@@ -17010,15 +17013,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
-    let diableAutoSaveFromModes = [
-      this.CleverForms.AffnityFieldModeTypes.Update.Enum
+    // Disable 
+    let diableAutoSaveFromKeyModes = [
+      this.CleverForms.AffnityFieldModeTypes.Select.Enum // Select === Update + IsKeyField
     ];
-    let foundDisableAutoSaveMode = false;
+    let foundDisableAutoSaveKeyMode = false;
     let foundGlobalKey = false;
+    let foundRequired = false;
     window.removeEventListener('GotEmployeeData', this._processInstance);
     if (Affinity2018.isArray(this.FormData))
     {
-      let sectionNode, elementNode, anyRequired = false;
+      let sectionNode = null;
+      let elementNode = null;
       this.FormData.sort(this._sortByRank);
       this.FormData.reverse();
       this.FormData.forEach(function (sectionConfig)
@@ -17054,9 +17060,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                       this.DisableAutoSave = false;
                     }
                   }
-                  if (diableAutoSaveFromModes.contains(elementConfig.Details.AffinityField.Mode))
+                  if (
+                    elementConfig.Details.AffinityField.IsKeyField
+                    && diableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
+                  )
                   {
-                    foundDisableAutoSaveMode = true;
+                    // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like
+                    foundDisableAutoSaveKeyMode = true;
                   }
                 }
                 if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
@@ -17073,8 +17083,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                   elementConfig.Details.Required = false;
                 }
                 elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
-                if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) anyRequired = true;
-
+                if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) 
+                {
+                  foundRequired = true;
+                }
               }
             }.bind(this))
           }
@@ -17089,12 +17101,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     }
 
-    if (foundDisableAutoSaveMode)
+    if (foundDisableAutoSaveKeyMode)
     {
       this.DisableAutoSave = true;
     }
 
-    if (anyRequired)
+    if (foundRequired)
     {
       this.RequiredMessageNode.classList.remove('hidden');
       this.UserInstructionsNode.classList.remove('hidden');
