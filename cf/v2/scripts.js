@@ -17010,12 +17010,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
-    var foundGlobalKey = false;
+    let diableAutoSaveFromModes = [
+      this.CleverForms.AffnityFieldModeTypes.Update.Enum
+    ];
+    let foundDisableAutoSaveMode = false;
+    let foundGlobalKey = false;
     window.removeEventListener('GotEmployeeData', this._processInstance);
     if (Affinity2018.isArray(this.FormData))
     {
-      var sectionNode, elementNode, anyRequired = false;
-
+      let sectionNode, elementNode, anyRequired = false;
       this.FormData.sort(this._sortByRank);
       this.FormData.reverse();
       this.FormData.forEach(function (sectionConfig)
@@ -17037,19 +17040,23 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             {
               if (elementConfig.ElementType !== 'Section')
               {
-                if (
-                  elementConfig.Details.hasOwnProperty('AffinityField')
-                  && this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName)
-                )
+                if (elementConfig.Details.hasOwnProperty('AffinityField'))
                 {
-                  foundGlobalKey = true;
-                  if (
-                    elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-                    || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
-                  )
+                  if (this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName))
                   {
-                    // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
-                    this.DisableAutoSave = false;
+                    foundGlobalKey = true;
+                    if (
+                      elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+                      || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                    )
+                    {
+                      // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
+                      this.DisableAutoSave = false;
+                    }
+                  }
+                  if (diableAutoSaveFromModes.contains(elementConfig.Details.AffinityField.Mode))
+                  {
+                    foundDisableAutoSaveMode = true;
                   }
                 }
                 if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
@@ -17080,6 +17087,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         this.DisableAutoSave = false;
       }
 
+    }
+
+    if (foundDisableAutoSaveMode)
+    {
+      this.DisableAutoSave = true;
     }
 
     if (anyRequired)
