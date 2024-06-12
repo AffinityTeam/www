@@ -17013,8 +17013,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
-    // Disable 
-    let diableAutoSaveFromKeyModes = [
+    // Disable auto-save for any fey filed that has the following Mode(s)
+    let disableAutoSaveFromKeyModes = [
       this.CleverForms.AffnityFieldModeTypes.Select.Enum // Select === Update + IsKeyField
     ];
     let foundDisableAutoSaveKeyMode = false;
@@ -17062,7 +17062,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                   }
                   if (
                     elementConfig.Details.AffinityField.IsKeyField
-                    && diableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
+                    && disableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
+                    && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
                   )
                   {
                     // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like
@@ -17095,7 +17096,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       if (!foundGlobalKey)
       {
-        // if we have no global keys at all, enable AutoSave
+        // If we have no global keys at all, enable AutoSave
         this.DisableAutoSave = false;
       }
 
