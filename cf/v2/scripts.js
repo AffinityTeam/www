@@ -25620,6 +25620,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
 
       // set any special elements
 
+      this.FormRowNode.querySelector('input').addEventListener('human_modified', (ev =>
+      {
+        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+      }).bind(this));
+
 
       Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
 
