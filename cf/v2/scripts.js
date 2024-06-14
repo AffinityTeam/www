@@ -18143,14 +18143,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     else
                     {
                       elementData = node.controller.GetFromFormRow();
-                      if (Affinity2018.isNullOrEmpty(elementData.Value))
-                      {
-                        let fromData = this._getFromFormDataByName(elementData.Name);
-                        if (fromData !== null)
-                        {
-                          elementData.Value = fromData.Value;
-                        }
-                      }
+                      // We may still need this for filtered picklists when we introduce new feature.
+                      //if (Affinity2018.isNullOrEmpty(elementData.Value))
+                      //{
+                      //  let fromData = this._getFromFormDataByName(elementData.Name);
+                      //  if (fromData !== null)
+                      //  {
+                      //    elementData.Value = fromData.Value;
+                      //  }
+                      //}
                     }
                     sectionData.Elements.push(elementData);
                   }
