@@ -17099,8 +17099,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
                   )
                   {
-                    // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like
-                    foundDisableAutoSaveKeyMode = true;
+                    if (!elementConfig.Disabled)
+                    {
+                      // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like and is not disabled
+                      foundDisableAutoSaveKeyMode = true;
+                    }
+                    else
+                    {
+                      // if it is disabled, it can not be changed, so we can treat this as though it is not there!
+                      foundGlobalKey = false;
+                    }
                   }
                 }
                 if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
