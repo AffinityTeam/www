@@ -16528,33 +16528,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  _resizeSection(formRowNode, ignoreRowChecks)
+  _resizeSection(formRowNode)
   {
-    ignoreRowChecks = ignoreRowChecks === undefined ? false : ignoreRowChecks === true ? true : false;
     if ($a.isNode(formRowNode))
     {
-      if (!ignoreRowChecks)
-      {
-        formRowNode.style.paddingBottom = null;
-        if (formRowNode.classList.contains('error'))
-        {
-          let errorNode = formRowNode.querySelector('.ui-form-error');
-          if (errorNode)
-          {
-            let errorHeight = errorNode.getBoundingClientRect().height;
-            if (formRowNode.classList.contains('has-whiltelist-switch'))
-            {
-              errorHeight -= 25; // adjust for whitelist switch link
-            }
-            //if (formRowNode.classList.contains('row-address'))
-            //{
-            //  errorHeight += 20; // adjust for address margins
-            //}
-            formRowNode.style.paddingBottom = (errorHeight + 1) + 'px';
-          }
-        }
-      }
-      //
       var id = formRowNode.dataset.hasOwnProperty('resizeId') ? formRowNode.dataset.resizeId : false;
       if (id)
       {
@@ -16567,23 +16544,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (node.querySelector('.collapser'))
       {
         node.querySelector('.section-body').style.maxHeight = null;
-        if (node.classList.contains('collapsed') || node.classList.contains('start-collapsed'))
+        if (node.classList.contains('collapsed'))
         {
           collpase = true;
-          node.classList.remove('collapsed', 'start-collapsed', 'animating');
+          node.classList.remove('collapsed');
         }
         var size = Affinity2018.getSize(node.querySelector('.section-body'));
-        if (size.height > 0) 
-        {
-          node.querySelector('.section-body').dataset.maxHeight = Math.ceil(size.height + 60) + 'px';
-          node.querySelector('.section-body').style.maxHeight = Math.ceil(size.height + 60) + 'px';
-        }
-
-        if (collpase)
-        {
-          //console.log(size.height, node);
-          node.classList.add('collapsed');
-        }
+        if (size.height > 0) node.querySelector('.section-body').style.maxHeight = Math.ceil(size.height + 60) + 'px';
+        if (collpase) node.classList.add('collapsed');
       }
     }
     else
@@ -16604,9 +16572,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     document.querySelectorAll('.section').forEach(function (node)
     {
-      if (node.querySelector('.collapser') && node.querySelector('.form-row'))
+      if (node.querySelector('.collapser'))
       {
-        this._resizeSection(node.querySelector('.form-row'), true);
+        var size = Affinity2018.getSize(node.querySelector('.section-body'));
+        node.querySelector('.collapser').addEventListener('click', this._toggleSection);
+        if (size.height > 0) node.querySelector('.section-body').style.maxHeight = Math.ceil(size.height + 60) + 'px';
+        if (node.classList.contains('start-collapsed'))
+        {
+          node.classList.remove('start-collapsed');
+          node.classList.add('collapsed');
+        }
       }
     }.bind(this));
   }
@@ -16904,10 +16879,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
             }.bind(this))
           }
-          else
-          {
-            sectionNode.classList.add('hidden');
-          }
         }
       }.bind(this));
     }
@@ -16916,10 +16887,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       this.RequiredMessageNode.classList.remove('hidden');
       this.UserInstructionsNode.classList.remove('hidden');
-    }
-    else
-    {
-      this.UserInstructionsNode.parentNode.classList.add('hidden');
     }
 
     /**/
@@ -17099,16 +17066,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
                   )
                   {
-                    if (!elementConfig.Disabled)
-                    {
-                      // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like and is not disabled
-                      foundDisableAutoSaveKeyMode = true;
-                    }
-                    else
-                    {
-                      // if it is disabled, it can not be changed, so we can treat this as though it is not there!
-                      foundGlobalKey = false;
-                    }
+                    // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like
+                    foundDisableAutoSaveKeyMode = true;
                   }
                 }
                 if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
@@ -17132,10 +17091,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               }
             }.bind(this))
           }
-          else
-          {
-            sectionNode.classList.add('hidden');
-          }
         }
       }.bind(this));
 
@@ -17156,10 +17111,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       this.RequiredMessageNode.classList.remove('hidden');
       this.UserInstructionsNode.classList.remove('hidden');
-    }
-    else
-    {
-      this.UserInstructionsNode.parentNode.classList.add('hidden');
     }
 
     if (this.TemplateData)
@@ -17239,19 +17190,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         this.CommentHistoryNode.classList.remove('hidden');
         this.CommentHistoryListNode.innerHTML = commentHistory.join('');
         var height = this.CommentHistoryListNode.getBoundingClientRect().height;
-        var autoShow = 
-          (
-            historyWithComments.length 
-            && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid 
-            && historyWithComments[0].Comment !== null 
-            && historyWithComments[0].Comment.trim() !== ''
-          )
-          || 
-          (
-            this.ViewType === 'ViewOnly'
-            && commentHistory.length > 0
-          )
-        ;
+        var autoShow = historyWithComments.length && historyWithComments[0].Assignee === Affinity2018.UserProfile.UserGuid && historyWithComments[0].Comment !== null && historyWithComments[0].Comment.trim() !== '';
         this.CommentHistoryListNode.dataset.openHeight = height + 'px';
         this.CommentHistoryListNode.dataset.closedHeight = '0px';
         if (this.ViewType !== 'ViewOnly')
@@ -17454,14 +17393,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (['Preview'].contains(this.ViewType))
       {
         backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
-        backData.Color = 'blue';
+          backData.Color = 'blue';
         backData.Icon = 'brush';
         backData.Path = null;
       }
       if (['Form', 'ViewOnly'].contains(this.ViewType))
       {
         backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
-        backData.Color = 'blue';
+          backData.Color = 'blue';
         backData.Icon = 'empty-inbox';
         backData.Path = null;
       }
@@ -18204,15 +18143,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     else
                     {
                       elementData = node.controller.GetFromFormRow();
-                      // We may still need this for filtered picklists when we introduce new feature.
-                      //if (Affinity2018.isNullOrEmpty(elementData.Value))
-                      //{
-                      //  let fromData = this._getFromFormDataByName(elementData.Name);
-                      //  if (fromData !== null)
-                      //  {
-                      //    elementData.Value = fromData.Value;
-                      //  }
-                      //}
+                      if (Affinity2018.isNullOrEmpty(elementData.Value))
+                      {
+                        let fromData = this._getFromFormDataByName(elementData.Name);
+                        if (fromData !== null)
+                        {
+                          elementData.Value = fromData.Value;
+                        }
+                      }
                     }
                     sectionData.Elements.push(elementData);
                   }
