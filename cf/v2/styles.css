@@ -15976,10 +15976,27 @@ html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-
 html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section,
 html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section {
   break-after: page !important;
-  break-inside: avoid !important;
   margin: 0 0 10px 0 !important;
   padding: 10px 0 0 0 !important;
   border-bottom: 2px solid black !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)) {
+  break-inside: avoid !important;
 }
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
@@ -17821,10 +17838,27 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018 .example-template .preview div.content div#form div.section.row-section,
   body.ui2018.dark .example-template .preview div.content div#form div.section.row-section {
     break-after: page !important;
-    break-inside: avoid !important;
     margin: 0 0 10px 0 !important;
     padding: 10px 0 0 0 !important;
     border-bottom: 2px solid black !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)) {
+    break-inside: avoid !important;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
