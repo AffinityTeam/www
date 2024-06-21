@@ -19020,8 +19020,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _print (ev)
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
-    //document.documentElement.classList.add('print');
-    window.print();
+    document.body.classList.add('load-lock');
+    document.documentElement.classList.add('print');
+    document.body.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('load-lock');
+        document.documentElement.classList.remove('print');
+      }, 500);
+    }, 500);
   }
 
 
