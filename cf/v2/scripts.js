@@ -87,7 +87,7 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = '0.1.0';
+  Affinity2018.Version = Affinity2018.Version == undefined ? '0.1.0' : Affinity2018.Version; // comming from Web.Config and set in _Layout2.cshtml
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
@@ -4641,7 +4641,7 @@
 
     Load()
     {
-      axios.get('../../Content/v2/languages/english.json').then(function (response)
+      axios.get('../../Content/v2/languages/english.json?version=' + Affinity2018.Version).then(function (response)
       {
         this._process(response.data);
       }.bind(this));
@@ -7329,7 +7329,7 @@
         // TODO: eventually, use CDN location when it exists:
         // axios.get('https:/'+'/cdn.source63.com/' + Affinity2018.Domain + '/' + Affinity2018.Id + '.' + Affinity2018.Version + '.min.html')
         // In the mean time, use Affinity2018.TemplatesPath + current app location
-        axios.get(Affinity2018.TemplatesPath + 'templates.html')
+        axios.get(Affinity2018.TemplatesPath + 'templates.html?version=' + Affinity2018.Version)
           .then(function (response)
           {
             this.templatesHtml = response.data;
@@ -8308,12 +8308,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
 
-    var enableLogStr = Affinity2018.hasOwnProperty('EnableLog') ? Affinity2018.EnableLog.toLowerCase().trim() : '';
-    Affinity2018.EnableLog = enableLogStr !== 'false';
-
-    var enablePostStr = Affinity2018.hasOwnProperty('EnablePost') ? Affinity2018.EnablePost.toLowerCase().trim() : '';
-    Affinity2018.EnablePost = enablePostStr !== 'false';
-
     // apply global API values
     Affinity2018.ApiEndpoints.BankValidationApi = this.BankValidationApi;
     Affinity2018.ApiEndpoints.TaxValidationApi = this.TaxValidationApi;
@@ -8331,7 +8325,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     Affinity2018.ShowPageLoader();
 
-    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json';
+    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?version=' + Affinity2018.Version;
 
     axios({
       url: url,
@@ -11892,16 +11886,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   {
 
     /**
-    * Description.    Allows designer to post element creation and edits.
-    *                 Set to false while developing and testing code.
-    *                 WARNING! If set to false, DO NOT forget to set back 
-    *                 to true when you are done :D
-    * @type {Boolean}
-    * @public
-    */
-    this.EnablePost = true;
-
-    /**
     * Description.    Enables left list autoscroll to make it easier to 
     *                 get to items if your tight list huge :O
     * @type {Boolean}
@@ -15450,7 +15434,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         }
         console.groupEnd();
 
-        if (this.EnablePost)
+        if (Affinity2018.EnablePosting)
         {
           axios({
             method: 'POST',
@@ -15476,7 +15460,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         console.log('Post Payload');
         console.log(JSON.stringify({ formElements: { FormElements: this.PostData } }));
 
-        if (this.EnablePost)
+        if (Affinity2018.EnablePosting)
         {
           axios({
             method: 'POST',
@@ -18306,7 +18290,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     console.groupCollapsed("%c✉ FORM POST (" + this.SubmitActionName + ") =========================================", 'color:#16c1f3');
     console.log(this.PostData);
 
-    if (Affinity2018.EnablePost)
+    if (Affinity2018.EnablePosting)
     {
       axios({
         method: 'POST',
@@ -18567,7 +18551,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   {
     console.groupEnd();
     
-    if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePost)
+    if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePosting)
     {
       if (this.PostedErrors.length === 0)
       {
@@ -18590,7 +18574,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       }
       // log Post
-      if (Affinity2018.EnableLog)
+      if (Affinity2018.EnableLogging)
       {
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Information,
@@ -18616,7 +18600,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         });
       }
       // log saved
-      if (Affinity2018.EnableLog)
+      if (Affinity2018.EnableLogging)
       {
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Information,
@@ -18835,7 +18819,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (logError) console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' ')));
 
       // log error
-      if (Affinity2018.EnableLog && Affinity2018.EnablePost)
+      if (Affinity2018.EnableLogging && Affinity2018.EnablePosting)
       {
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Error,
@@ -31979,7 +31963,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.debug = false;
 
-    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js';
+    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?version=' + Affinity2018.Version;
 
     this.selectmax = 2000;
 
