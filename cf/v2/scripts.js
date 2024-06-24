@@ -16141,6 +16141,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.DisableAutoSave = true;
 
+    this.History = [];
+
   }
 
 
@@ -16178,6 +16180,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'GetFormEmployeeNo',
 
+      'GetLastHistoryByName',
+
+      'Reset',
+
       '_initTemplatesLoaded',
 
       '_hasValue', '_getValue', '_getLabel',
@@ -16190,13 +16196,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_loadTemplate', '_processTemplate', '_loadTemplateError',
 
-      '_loadinstance', '_processInstance', '_loadInstanceError',
+      '_loadInstance', '_processInstance', '_loadInstanceError',
 
       '_processHistory',
 
       '_getWorkflowButtons', '_gotWorkflowButtons', '_getWorkflowButtonsFailed',
       '_checkIdentitySelects',
       '_compileCommentLanguage', '_collpaseComments', '_expandComments', '_toggleComments',
+
+      '_reset', '_doReset',
 
       '_save',
 
@@ -16402,6 +16410,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * Summary. Set section heights for animated expand / collapse
    * @this    Class scope
    * @access  private
+   * 
+   * @param {node} formRowNode (optional) Resize thie section this form row node is in, else resize all
    */
   ResizeSection(formRowNode)
   {
@@ -16435,12 +16445,31 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     //this.ResizeSectionTimeout = setTimeout(this._resizeSection, 250, formRowNode);
   }
 
+
+
+  /**
+   * Summary. Set section heights for animated expand / collapse
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {boolean} suppressMessgae If true, do not show any Saveing or Saved dialogs.
+   */
   Save(suppressMessgae)
   {
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
     this._post(buttonData, suppressMessgae);
   }
+  
 
+
+
+  /**
+   * Summary. Get employee for this form
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {int} emp The default / fallback employee number
+   */
   GetFormEmployeeNo(emp)
   {
     var emp = emp === undefined ? null : emp === -1 ? null : emp;
@@ -16463,7 +16492,63 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     }
     return value;
   }
+  
 
+
+
+  /**
+   * Summary. Get employee for this form
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {int} emp The default / fallback employee number
+   */
+  GetLastHistoryByName(name)
+  {
+    function flatten(arr)
+    {
+      return [].concat.apply([], arr);
+    }
+    var flattenedElements = flatten(this.History.map(function(obj)
+    {
+      return flatten(obj.Sections.map(function(section)
+      {
+        return section.Elements;
+      }));
+    }));
+    flattenedElements.reverse();
+    return flattenedElements.find(function(element)
+    {
+      return element.Name === name;
+    });
+  }
+  
+
+
+
+  /**
+   * Summary. Clears the entire form of all values
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {bool} warnFirst (optional) Pop a warning before clearing the entire form
+   */
+  Reset(warnFirst)
+  {
+    var root = this;
+    return new Promise(function(resolve, reject)
+    {
+      root._reset(warnFirst)
+      .then(function ()
+      {
+        resolve();
+      })
+      .catch(function ()
+      {
+        reject();
+      })
+    });
+  }
 
 
   /***************************************************************************************************************************************************/
@@ -16728,6 +16813,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.Ready = true;
     this.RequestChecked = false;
     this.PostData = this._getPostData();
+    this.History.push($a.jsonCloneObject(this.PostData));
     Affinity2018.HidePageLoader();
     this._setupAutoSaveEvents();
     this._checkForHidden();
@@ -17030,147 +17116,156 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
+    // enable autosave by default
+    this.DisableAutoSave = false;
     // Disable auto-save for any fey filed that has the following Mode(s)
     let disableAutoSaveFromKeyModes = [
-      this.CleverForms.AffnityFieldModeTypes.Select.Enum // Select === Update + IsKeyField
+      //this.CleverForms.AffnityFieldModeTypes.Select.Enum // Select === Update + IsKeyField
     ];
     let foundDisableAutoSaveKeyMode = false;
     let foundGlobalKey = false;
     let foundRequired = false;
     window.removeEventListener('GotEmployeeData', this._processInstance);
-    if (Affinity2018.isArray(this.FormData))
+    // Clear the entire form first :O
+    this.Reset(false) // do not warn first
+    .then(function ()
     {
-      let sectionNode = null;
-      let elementNode = null;
-      this.FormData.sort(this._sortByRank);
-      this.FormData.reverse();
-      this.FormData.forEach(function (sectionConfig)
+      if (Affinity2018.isArray(this.FormData))
       {
-        if (sectionConfig.ElementType === 'Section')
+        let sectionNode = null;
+        let elementNode = null;
+        this.FormData.sort(this._sortByRank);
+        this.FormData.reverse();
+        this.FormData.forEach(function (sectionConfig)
         {
-          sectionNode = this.Add('Section', sectionConfig, this.FormNode);
-          if (
-            sectionNode
-            && sectionConfig.hasOwnProperty('Elements')
-            && Affinity2018.isArray(sectionConfig.Elements)
-            && sectionConfig.Elements.length > 0
-          )
+          if (sectionConfig.ElementType === 'Section')
           {
-            // Loop over section elements
-            sectionConfig.Elements.sort(this._sortByRank);
-            sectionConfig.Elements = sectionConfig.Elements.reverse();
-            sectionConfig.Elements.forEach(function (elementConfig)
+            sectionNode = this.Add('Section', sectionConfig, this.FormNode);
+            if (
+              sectionNode
+              && sectionConfig.hasOwnProperty('Elements')
+              && Affinity2018.isArray(sectionConfig.Elements)
+              && sectionConfig.Elements.length > 0
+            )
             {
-              if (elementConfig.ElementType !== 'Section')
+              // Loop over section elements
+              sectionConfig.Elements.sort(this._sortByRank);
+              sectionConfig.Elements = sectionConfig.Elements.reverse();
+              sectionConfig.Elements.forEach(function (elementConfig)
               {
-                if (elementConfig.Details.hasOwnProperty('AffinityField'))
+                if (elementConfig.ElementType !== 'Section')
                 {
-                  if (this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName))
+                  if (elementConfig.Details.hasOwnProperty('AffinityField'))
                   {
-                    foundGlobalKey = true;
+                    if (this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName))
+                    {
+                      foundGlobalKey = true;
+                      if (
+                        elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+                        || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                      )
+                      {
+                        // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
+                        //this.DisableAutoSave = false;
+                      }
+                    }
                     if (
-                      elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-                      || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                      elementConfig.Details.AffinityField.IsKeyField
+                      && disableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
+                      && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
                     )
                     {
-                      // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
-                      this.DisableAutoSave = false;
+                      if (!elementConfig.Disabled)
+                      {
+                        // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like and is not disabled
+                        foundDisableAutoSaveKeyMode = true;
+                      }
+                      else
+                      {
+                        // if it is disabled, it can not be changed, so we can treat this as though it is not there!
+                        foundGlobalKey = false;
+                      }
                     }
                   }
-                  if (
-                    elementConfig.Details.AffinityField.IsKeyField
-                    && disableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
-                    && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
-                  )
+                  if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
                   {
-                    if (!elementConfig.Disabled)
-                    {
-                      // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like and is not disabled
-                      foundDisableAutoSaveKeyMode = true;
-                    }
-                    else
-                    {
-                      // if it is disabled, it can not be changed, so we can treat this as though it is not there!
-                      foundGlobalKey = false;
-                    }
+                    elementConfig.Details.AffinityField.Mode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
+                    elementConfig.Details.AffinityField.IsRequired = false;
+                    elementConfig.Details.AffinityField.IsReadOnly = true;
+                    elementConfig.Details.Required = false;
+                    elementConfig.Details.IsReadOnly = true;
+                  }
+                  if (this.ViewType === 'ViewOnly' && elementConfig.ElementType !== 'AffinityField')
+                  {
+                    elementConfig.Details.IsReadOnly = true;
+                    elementConfig.Details.Required = false;
+                  }
+                  elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
+                  if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) 
+                  {
+                    foundRequired = true;
                   }
                 }
-                if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
-                {
-                  elementConfig.Details.AffinityField.Mode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
-                  elementConfig.Details.AffinityField.IsRequired = false;
-                  elementConfig.Details.AffinityField.IsReadOnly = true;
-                  elementConfig.Details.Required = false;
-                  elementConfig.Details.IsReadOnly = true;
-                }
-                if (this.ViewType === 'ViewOnly' && elementConfig.ElementType !== 'AffinityField')
-                {
-                  elementConfig.Details.IsReadOnly = true;
-                  elementConfig.Details.Required = false;
-                }
-                elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
-                if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) 
-                {
-                  foundRequired = true;
-                }
-              }
-            }.bind(this))
+              }.bind(this))
+            }
+            else
+            {
+              sectionNode.classList.add('hidden');
+            }
           }
-          else
-          {
-            sectionNode.classList.add('hidden');
-          }
+        }.bind(this));
+
+        //if (!foundGlobalKey)
+        //{
+        //  // If we have no global keys at all, enable AutoSave
+        //  this.DisableAutoSave = false;
+        //}
+
+      }
+
+      if (foundDisableAutoSaveKeyMode)
+      {
+        debugger;
+        this.DisableAutoSave = true;
+      }
+
+      if (foundRequired)
+      {
+        this.RequiredMessageNode.classList.remove('hidden');
+        this.UserInstructionsNode.classList.remove('hidden');
+      }
+      else
+      {
+        this.UserInstructionsNode.parentNode.classList.add('hidden');
+      }
+
+      if (this.TemplateData)
+      {
+        var titleStr = this.TemplateData.Description;
+        var nameStr = this.TemplateData.Description;
+        if (!$a.isNullOrEmpty(this.TemplateData.Revision))
+        {
+          nameStr += ' <small>V ' + this.TemplateData.Revision + '</small>';
+          titleStr += '  v' + this.TemplateData.Revision;
         }
-      }.bind(this));
-
-      if (!foundGlobalKey)
-      {
-        // If we have no global keys at all, enable AutoSave
-        this.DisableAutoSave = false;
+        document.querySelector('.form-name').innerHTML = nameStr;
+        document.title = 'Edit ' + titleStr;
+        if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
+        if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
       }
 
-    }
+      /**/
 
-    if (foundDisableAutoSaveKeyMode)
-    {
-      this.DisableAutoSave = true;
-    }
-
-    if (foundRequired)
-    {
-      this.RequiredMessageNode.classList.remove('hidden');
-      this.UserInstructionsNode.classList.remove('hidden');
-    }
-    else
-    {
-      this.UserInstructionsNode.parentNode.classList.add('hidden');
-    }
-
-    if (this.TemplateData)
-    {
-      var titleStr = this.TemplateData.Description;
-      var nameStr = this.TemplateData.Description;
-      if (!$a.isNullOrEmpty(this.TemplateData.Revision))
+      if (['Form', 'ViewOnly'].contains(this.ViewType)) 
       {
-        nameStr += ' <small>V ' + this.TemplateData.Revision + '</small>';
-        titleStr += '  v' + this.TemplateData.Revision;
+        this._getWorkflowButtons();
       }
-      document.querySelector('.form-name').innerHTML = nameStr;
-      document.title = 'Edit ' + titleStr;
-      if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
-      if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
-    }
+      else 
+      {
+        this._ready();
+      }
 
-    /**/
-
-    if (['Form', 'ViewOnly'].contains(this.ViewType)) 
-    {
-      this._getWorkflowButtons();
-    }
-    else 
-    {
-      this._ready();
-    }
+    }.bind(this));
 
   }
 
@@ -17736,6 +17831,110 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
 
+  /**
+   * Summary. Clears the entire form of all values
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {bool} warnFirst (optional) Pop a warning before clearing the entire form
+   */
+  _reset(warnFirst)
+  {
+    warnFirst = warnFirst === undefined ? true : warnFirst;
+    var root = this;
+    return new Promise(function(resolve, reject)
+    {
+      if (warnFirst)
+      {
+        $a.Dialog.Show({
+          message: 'You sure you want to clear this form?', // $a.Lang.ReturnPath('application.cleverfroms.designer.preview_test_validation_message'),
+          buttons: {
+            ok: { show: true, icon: 'tick', text: 'Yes' }, // $a.Lang.ReturnPath('generic.buttons.ok') },
+            cancel: { show: true }
+          },
+          onOk: function ()
+          {
+            root._doReset()
+            .then(function ()
+            {
+              resolve();
+            })
+            .catch(function ()
+            {
+              reject();
+            })
+          }.bind(root),
+          onCancel: function ()
+          {
+            reject();
+          },
+        });
+      }
+      else
+      {
+        root._doReset()
+        .then(function ()
+        {
+          resolve();
+        })
+        .catch(function ()
+        {
+          reject();
+        })
+      }
+    });
+  }
+  _doReset()
+  {
+    let root = this;
+    return new Promise(function(resolve, reject)
+    {
+      document.querySelectorAll('div.section.row-section').forEach(function (sectionNode)
+      {
+        if (sectionNode.controller.Config.Type === 'Section')
+        {
+          sectionNode.querySelectorAll('div.form-row').forEach(function (node)
+          {
+
+            console.log(node.controller);
+
+            if (node.controller.hasOwnProperty('Reset'))
+            {
+              node.controller.Reset();
+            }
+            else
+            {
+              if (node.controller.hasOwnProperty('SetValue'))
+              {
+                node.controller.SetValue('');
+              }
+              else if (node.controller.hasOwnProperty('SetFromValue'))
+              {
+                node.controller.SetFromValue('');
+              }
+              else
+              {
+                if (node.querySelector('input'))
+                {
+                  node.querySelector('input').value = '';
+                }
+                else if (node.querySelector('select'))
+                {
+                  node.querySelector('select').value = '';
+                }
+                // TODO: Overwrite othe fields with check boxes and radios?
+              }
+            }
+          });
+        }
+      });
+      root._clearErrors();
+      resolve();
+    });
+  }
+
+
+
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                     *******************************************************************************************/
@@ -18267,6 +18466,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       this.PostData = this._getPostData();
     }
+
+    this.History.push($a.jsonCloneObject(this._getPostData()));
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
@@ -18932,10 +19133,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       setTimeout((() =>
       {
+        let isKey = false;
         let rowNode = ev.target;
         //if (rowNode.classList.contains('.is-global-key')) 
         //{
-        //  // do not auto save keys (EmployeeNumber) because selcting and loading keys can chaneg multilpe fields automatically.
+        //  // do not auto save keys (EmployeeNumber) because selecting and loading keys can change multilpe fields automatically.
         //  return; 
         //}
         let fieldName = rowNode.dataset.name;
@@ -18948,33 +19150,40 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           let found = section.Elements.find(data => data.Name === fieldName);
           if (found)
           {
+            let foundConfig = rowNode.controller.Config;
             let compareLast = $a.isArray(found.Value) || $a.isObject(found.Value) ? JSON.stringify(found.Value) : found.Value;
             let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
             if (compareLast !== compareNew)
             {
-              if (typeof compareLast === 'string' && compareLast.contains(';base64,')) compareLast = compareLast.split(';base64,')[0] + ';base64,...';
-              if (typeof compareNew === 'string' && compareNew.contains(';base64,')) compareNew = compareNew.split(';base64,')[0] + ';base64,...';
-              console.log(`%cChanged "${label}" from "${compareLast}" (${typeof compareLast}) to "${compareNew}" (${typeof compareNew}) - Auto Save it!!`, 'color:#8dca35;');
-              found.Value = value;
-              this.OverridePostData = {
-                Sections: [$a.jsonCloneObject(section)]
-              };
-              this.OverridePostData.Sections[0].Elements = [found];
+              if (this.CleverForms.IsKey(foundConfig))
+              {
+                isKey = true;
+                break;
+              }
+              else
+              {
+                if (typeof compareLast === 'string' && compareLast.contains(';base64,')) compareLast = compareLast.split(';base64,')[0] + ';base64,...';
+                if (typeof compareNew === 'string' && compareNew.contains(';base64,')) compareNew = compareNew.split(';base64,')[0] + ';base64,...';
+                console.log(`%cChanged "${label}" from "${compareLast}" (${typeof compareLast}) to "${compareNew}" (${typeof compareNew}) - Auto Save it!!`, 'color:#8dca35;');
+                found.Value = value;
+                this.OverridePostData = {
+                  Sections: [$a.jsonCloneObject(section)]
+                };
+                this.OverridePostData.Sections[0].Elements = [found];
+              }
             }
             break;
           }
           sectionIndex++;
         }
-        if (this.OverridePostData !== null)
+        if (this.OverridePostData !== null || isKey)
         {
           var buttonData = $a.jsonCloneObject(this.SaveButtonData);
           buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
           this.SaveButtonData = buttonData;
           this.FormSavingNode.classList.add('show');
           this.Save(true); // true = suppress messages
-
           //console.log("Auto Save would be triggered here");
-
         }
       }).bind(this), 250);
     }
@@ -22388,17 +22597,67 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
     */
     // Fire event to set (and validate) AffinityFields
+    let fieldKey = this.FormRowNode.querySelector('select').value;
+    let model = this.Config.Details.AffinityField.ModelName;
+    let isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
     var event = new CustomEvent('ModelLookupChanged', {
       detail: {
-        FieldKey: this.FormRowNode.querySelector('select').value,
-        Model: this.Config.Details.AffinityField.ModelName,
+        FieldKey: fieldKey,
+        Model: model,
         Data: this.ModelData,
-        FromKeyChange: this.CleverForms.IsGlobalKey(this.Config)
+        FromKeyChange: isGlobalKey
       }
     });
     $a.HidePageLoader();
-    if (this.CleverForms.IsGlobalKey(this.Config)) this.CleverForms.ReleaseEmployeeSelect();
-    window.dispatchEvent(event);
+    if (this.CleverForms.IsGlobalKey(this.Config)) 
+    {
+      this.CleverForms.ReleaseEmployeeSelect();
+    }
+
+    if (this.CleverForms.IsKey(this.Config))
+    {
+      if (this.FormRowNode)
+      {
+        // Clear the entire form first :O
+        Affinity2018.Apps.CleverForms.Form.Reset(false) // do not warn first
+        .then(function ()
+        {
+          let mydata = {};
+          mydata[this.Config.Name] = fieldKey;
+          this._modelLookupChanged({
+            detail: {
+              FromKeyChange: false,
+              Model: model,
+              FieldKey: fieldKey,
+              Data: mydata
+            }
+          });
+          window.dispatchEvent(event);
+        }.bind(this))
+        .catch(function()
+        {
+          let found = Affinity2018.Apps.CleverForms.Form.GetLastHistoryByName(this.Config.Name);
+          if (found)
+          {
+            let mydata = {};
+            mydata[this.Config.Name] = found.Value;
+            this._modelLookupChanged({
+              detail: {
+                FromKeyChange: false,
+                Model: model,
+                FieldKey: fieldKey,
+                Data: mydata
+              }
+            });
+          }
+          // TODO: Dunno what to do here? Reset back to last value as above? Do we need to restore anytihng else?
+        }.bind(this))
+      }
+    }
+    else
+    {
+      window.dispatchEvent(event);
+    }
   }
 
   _lookupModelFailed (error)
