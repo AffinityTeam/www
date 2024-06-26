@@ -4951,7 +4951,7 @@
         'Reset',
         'Show', 'Hide',
         '_setMessage', '_setInput', '_setButtons',
-        '_okClicked', '_okContinue', '_cancelClicked', '_cancelContinue', '_bgClicked'
+        '_okClicked', '_elseClicked', '_cancelClicked', '_bgClicked'
       ].bindEach(this);
 
       this.enabled = false;
@@ -4969,6 +4969,12 @@
             text: 'OK',
             color: 'blue'
           },
+          else: {
+            show: false,
+            icon: 'tick',
+            text: 'Else',
+            color: 'blue'
+          },
           cancel: {
             show: true,
             icon: 'cross',
@@ -4980,11 +4986,13 @@
           show: false,
           placeholder: '',
           default: '',
-          lines: 1
+          lines: 1,
+          maxLength: -1
         },
         textAlign: 'center',
         canBackgroundClose: true,
         showOk: true, // depricated
+        showElse: true, // depricated
         showCancel: true, // depricated
         showInput: false, // depricated
         inputLines: 1, // depricated
@@ -5002,6 +5010,7 @@
       this.ContentNode = document.getElementById('dialog-content');
       this.buttonsEl = document.getElementById('dialog-buttons');
       this.cancelButton = document.getElementById('dialog-cancel');
+      this.elseButton = document.getElementById('dialog-else');
       this.okButton = document.getElementById('dialog-ok');
       this.inputEl = document.getElementById('dialog-inputs');
       this.inputBox = document.getElementById('dialog-input');
@@ -5009,6 +5018,7 @@
 
       this.dialogBgEl.addEventListener('click', this._bgClicked);
       this.cancelButton.addEventListener('click', this._cancelClicked);
+      this.elseButton.addEventListener('click', this._elseClicked);
       this.okButton.addEventListener('click', this._okClicked);
 
       this.Reset();
@@ -5060,11 +5070,13 @@
       else
         this.data = Affinity2018.objectDeepMerge({}, this.default);
       this.data.onOk = function () { };
+      this.data.onElse = function () { };
       this.data.onCancel = function () { };
       this.data.onClose = function () { };
       if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onOk)) this.data.onOk = data.onOk;
+      if (data.hasOwnProperty('onElse') && Affinity2018.isFunction(data.onElse)) this.data.onElse = data.onElse;
       if (data.hasOwnProperty('onCancel') && Affinity2018.isFunction(data.onCancel)) this.data.onCancel = data.onCancel;
-      if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
+      if (data.hasOwnProperty('onClose') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
       this._setMessage(this.data);
       this._setInput(this.data);
       this._setButtons(this.data);
@@ -5118,6 +5130,14 @@
           this.inputBox.value = this.data.input.default;
           this.inputBox.classList.remove('hidden');
           this.inputBox.parentElement.classList.remove('hidden');
+          if (this.data.input.maxLength && Affinity2018.isInt(this.data.input.maxLength) && parseInt(this.data.input.maxLength) > -1)
+          {
+            this.inputBox.setAttribute('maxlength', this.data.input.maxLength);
+          }
+          else
+          {
+            this.inputBox.setAttribute('maxlength', null);
+          }
         }
       }
       else
@@ -5141,7 +5161,7 @@
 
     _setButtons()
     {
-      var gotOk = false, gotCancel = false;
+      var gotOk = false, gotElse = false, gotCancel = false;
       if (this.data.buttons)
       {
         if (this.data.buttons.ok)
@@ -5161,6 +5181,25 @@
           else
           {
             this.okButton.classList.add('hidden');
+          }
+        }
+        if (this.data.buttons.else)
+        {
+          if (
+            this.data.buttons.else.hasOwnProperty('show')
+            && typeof this.data.buttons.else.show === 'boolean'
+            && this.data.buttons.else.show === true
+          )
+          {
+            this.elseButton.innerHTML = `<span class="icon-` + this.data.buttons.else.icon + `"></span>` + this.data.buttons.else.text;
+            this.elseButton.className = 'button else';
+            this.elseButton.classList.add(this.data.buttons.else.color);
+            this.buttonsEl.classList.remove('hidden');
+            gotElse = true;
+          }
+          else
+          {
+            this.elseButton.classList.add('hidden');
           }
         }
         if (this.data.buttons.cancel)
@@ -5189,16 +5228,30 @@
         this.okButton.classList.add('hidden');
         gotOk = false;
       }
+      // support depricated 'showElse'
+      if (!this.data.showElse)
+      {
+        this.elseButton.classList.add('hidden');
+        gotElse = false;
+      }
       // support depricated 'showCancel'
       if (!this.data.showCancel)
       {
         this.cancelButton.classList.add('hidden');
         gotCancel = false;
       }
-      if (gotOk === false && gotCancel === false)
+      if (gotOk === false && gotElse === false && gotCancel === false)
       {
         this.buttonsEl.classList.add('hidden');
       }
+    }
+
+    _elseClicked()
+    {
+      this.Hide();
+      if (!this.inputBox.classList.contains('hidden')) this.data.onElse(this.inputBox.value);
+      else if (!this.textareaBox.classList.contains('hidden')) this.data.onElse(this.textareaBox.value);
+      else this.data.onElse();
     }
 
     _okClicked()
@@ -17849,38 +17902,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         $a.Dialog.Show({
           message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning'),
           buttons: {
-            ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
-            cancel: { show: true, icon: 'cancel', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
+            ok: { show: true, icon: 'tick', color: 'green', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
+            else: { show: true, icon: 'tick', color: 'blue', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_else') },
+            cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
           },
           onOk: function ()
           {
-            root._doReset()
-            .then(function ()
-            {
-              resolve();
-            })
-            .catch(function ()
-            {
-              reject();
-            })
-          }.bind(root),
-          onCancel: function ()
-          {
-            reject();
+            root._doReset().then(resolve).catch(reject);
           },
+          onElse: resolve,
+          onCancel: reject
         });
       }
       else
       {
-        root._doReset()
-        .then(function ()
-        {
-          resolve();
-        })
-        .catch(function ()
-        {
-          reject();
-        })
+        root._doReset().then(resolve).catch(reject);
       }
     });
   }
