@@ -16550,11 +16550,31 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
   /**
-   * Summary. Get employee for this form
+   * Summary. Get an array of all elelenmts in the last item in the History
+   * @this    Class scope
+   * @access  private
+   */
+  GetLastHistoryElements()
+  {
+    if (this.History.length > 0)
+    {
+      return [].concat.apply([], this.History[this.History.length - 1].Sections.map(function(section)
+      {
+        return section.Elements;
+      }));
+    }
+    return [];
+  }
+  
+
+
+
+  /**
+   * Summary. Get the last item in the History by Field Name
    * @this    Class scope
    * @access  private
    * 
-   * @param {int} emp The default / fallback employee number
+   * @param {string} name The name of the Field
    */
   GetLastHistoryByName(name)
   {
@@ -22651,29 +22671,42 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       if (this.FormRowNode)
       {
-        // Clear the entire form first :O
-        Affinity2018.Apps.CleverForms.Form.Reset(true) // Warn user we are about to clear the form first (no undo)
-        .then(function ()
+        // Check if the form is blank, not including returned data ..
+        let form = Affinity2018.Apps.CleverForms.Form;
+        let hasValues = false;
+        let hasDiff = false;
+        let returnedNames = Object.keys(this.ModelData)
+        let lastElementHistory = form.GetLastHistoryElements();
+        for (let e in lastElementHistory)
         {
-          let mydata = {};
-          mydata[this.Config.Name] = fieldKey;
-          this._modelLookupChanged({
-            detail: {
-              FromKeyChange: false,
-              Model: model,
-              FieldKey: fieldKey,
-              Data: mydata
+          if (!returnedNames.contains(e.Name) && e.Value !== null && e.Value !== '')
+          {
+            hasValues = true;
+            break;
+          }
+        }
+        // If the form is blank, check if we have any diffs in returned data ..
+        if (!hasValues)
+        {
+          for (let key in this.ModelData)
+          {
+            let lastValue = form.GetLastHistoryByName(key);
+            if (lastValue && lastValue.toString() !== this.ModelData[key].toString())
+            {
+              hasDiff = true;
+              break;
             }
-          });
-          window.dispatchEvent(event);
-        }.bind(this))
-        .catch(function()
+          }
+        }
+        // If the form has values, or we have diffs in the returned data ..
+        if (hasValues || hasDiff)
         {
-          let found = Affinity2018.Apps.CleverForms.Form.GetLastHistoryByName(this.Config.Name);
-          if (found)
+          // Clear the entire form first :O
+          form.Reset(true) // Ask user to choose to clear form, jsut update, or do nothing
+          .then(function ()
           {
             let mydata = {};
-            mydata[this.Config.Name] = found.Value;
+            mydata[this.Config.Name] = fieldKey;
             this._modelLookupChanged({
               detail: {
                 FromKeyChange: false,
@@ -22682,9 +22715,27 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 Data: mydata
               }
             });
-          }
-          // TODO: Dunno what to do here? Reset back to last value as above? Do we need to restore anytihng else?
-        }.bind(this))
+            window.dispatchEvent(event);
+          }.bind(this))
+          .catch(function()
+          {
+            let found = form.GetLastHistoryByName(this.Config.Name);
+            if (found)
+            {
+              let mydata = {};
+              mydata[this.Config.Name] = found.Value;
+              this._modelLookupChanged({
+                detail: {
+                  FromKeyChange: false,
+                  Model: model,
+                  FieldKey: fieldKey,
+                  Data: mydata
+                }
+              });
+            }
+            // TODO: Dunno what to do here? Reset back to last value as above? Do we need to restore anytihng else?
+          }.bind(this))
+        }
       }
     }
     else
