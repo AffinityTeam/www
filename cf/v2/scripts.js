@@ -17847,10 +17847,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (warnFirst)
       {
         $a.Dialog.Show({
-          message: 'You sure you want to clear this form?', // $a.Lang.ReturnPath('application.cleverfroms.designer.preview_test_validation_message'),
+          message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning'),
           buttons: {
-            ok: { show: true, icon: 'tick', text: 'Yes' }, // $a.Lang.ReturnPath('generic.buttons.ok') },
-            cancel: { show: true }
+            ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
+            cancel: { show: true, icon: 'cancel', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
           },
           onOk: function ()
           {
@@ -17895,34 +17895,31 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           sectionNode.querySelectorAll('div.form-row').forEach(function (node)
           {
-
-            console.log(node.controller);
-
             if (node.controller.hasOwnProperty('Reset'))
             {
               node.controller.Reset();
             }
+            else if (node.controller.hasOwnProperty('SetValue'))
+            {
+              node.controller.SetValue('');
+            }
+            else if (node.controller.hasOwnProperty('SetFromValue'))
+            {
+              node.controller.SetFromValue('');
+            }
             else
             {
-              if (node.controller.hasOwnProperty('SetValue'))
+              if (node.querySelector('textarea'))
               {
-                node.controller.SetValue('');
+                node.querySelector('textarea').value = '';
               }
-              else if (node.controller.hasOwnProperty('SetFromValue'))
+              if (node.querySelector('input'))
               {
-                node.controller.SetFromValue('');
+                node.querySelector('input').value = '';
               }
-              else
+              else if (node.querySelector('select'))
               {
-                if (node.querySelector('input'))
-                {
-                  node.querySelector('input').value = '';
-                }
-                else if (node.querySelector('select'))
-                {
-                  node.querySelector('select').value = '';
-                }
-                // TODO: Overwrite othe fields with check boxes and radios?
+                node.querySelector('select').value = '';
               }
             }
           });
@@ -22619,7 +22616,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (this.FormRowNode)
       {
         // Clear the entire form first :O
-        Affinity2018.Apps.CleverForms.Form.Reset(false) // do not warn first
+        Affinity2018.Apps.CleverForms.Form.Reset(true) // Warn user we are about to clear the form first (no undo)
         .then(function ()
         {
           let mydata = {};
@@ -25573,6 +25570,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+      'Reset',
 
       '_imageSet'
 
@@ -25747,7 +25745,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    // TODO: How to set from value?
+  }
 
+  Reset()
+  {
+    if (this.FormRowNode)
+    {
+      var input = this.FormRowNode.querySelector('input');
+      if (input)
+      {
+        if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+        {
+          input.widgets.DrawPanel.Clear();
+        }
+      }
+    }
   }
 
   /**/
