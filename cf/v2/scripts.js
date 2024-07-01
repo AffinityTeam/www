@@ -22666,40 +22666,44 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       this.CleverForms.ReleaseEmployeeSelect();
     }
-
-    if (this.CleverForms.IsKey(this.Config))
+    // Form Reset waring logic:
+    if (this.CleverForms.IsGlobalKey(this.Config)) //if (this.CleverForms.IsKey(this.Config))
     {
       if (this.FormRowNode)
       {
         // Check if the form is blank, not including returned data ..
         let form = Affinity2018.Apps.CleverForms.Form;
-        let hasValues = false;
-        let hasDiff = false;
+        let lastValue = form.GetLastHistoryByName(key);
+        let hasValue = form.History.length > 1 || $a.isNullOrEmpty(lastValue);
+        let hasFormValues = false;
+        let hasDiffs = false;
         let returnedNames = Object.keys(this.ModelData)
         let lastElementHistory = form.GetLastHistoryElements();
         for (let e in lastElementHistory)
         {
-          if (!returnedNames.contains(e.Name) && e.Value !== null && e.Value !== '')
+          if (!returnedNames.contains(e.Name) && !$a.isNullOrEmpty(e.Value)) // e.Value !== null && e.Value !== '')
           {
-            hasValues = true;
+            hasFormValues = true;
             break;
           }
         }
         // If the form is blank, check if we have any diffs in returned data ..
-        if (!hasValues)
+        if (!hasFormValues)
         {
           for (let key in this.ModelData)
           {
-            let lastValue = form.GetLastHistoryByName(key);
             if (lastValue && lastValue.toString() !== this.ModelData[key].toString())
             {
-              hasDiff = true;
+              hasDiffs = true;
               break;
             }
           }
         }
-        // If the form has values, or we have diffs in the returned data ..
-        if (hasValues || hasDiff)
+        // based ion the gather info, should we warn?
+        let showWarning = false;
+        if (!hasValue && hasFormValues) showWarning = true;
+        if (hasValue && (hasFormValues || hasDiffs)) showWarning = true;
+        if (showWarning)
         {
           // Clear the entire form first :O
           form.Reset(true) // Ask user to choose to clear form, jsut update, or do nothing
@@ -22735,6 +22739,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             }
             // TODO: Dunno what to do here? Reset back to last value as above? Do we need to restore anytihng else?
           }.bind(this))
+        }
+        else
+        {
+          window.dispatchEvent(event);
         }
       }
     }
