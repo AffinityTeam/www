@@ -8253,6 +8253,16 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
     this.EmployeeSelectLocked = false;
     this.FormCountry = null;
+
+
+
+
+    /**
+    * Description.    If we have a key change, and it belongs to on of these models, perfrom a full auto-save isntad of individual.
+    * @type {Array}
+    * @public
+    */
+    this.FullFormSaveOnKeyChanegModels = ["EMPLOYEE", "POSITION"];
   }
 
 
@@ -8361,6 +8371,12 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
 
+    var enableLogStr = Affinity2018.hasOwnProperty('EnableLogging') ? Affinity2018.EnableLogging.toLowerCase().trim() : '';
+    Affinity2018.EnableLogging = enableLogStr !== 'false';
+
+    var enablePostStr = Affinity2018.hasOwnProperty('EnablePosting') ? Affinity2018.EnablePosting.toLowerCase().trim() : '';
+    Affinity2018.EnablePosting = enablePostStr !== 'false';
+
     // apply global API values
     Affinity2018.ApiEndpoints.BankValidationApi = this.BankValidationApi;
     Affinity2018.ApiEndpoints.TaxValidationApi = this.TaxValidationApi;
@@ -8378,7 +8394,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     Affinity2018.ShowPageLoader();
 
-    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?version=' + Affinity2018.Version;
+    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json';
 
     axios({
       url: url,
@@ -16194,7 +16210,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.DisableAutoSave = true;
 
-    this.History = [];
+    this.FormHistory = [];
 
   }
 
@@ -16233,7 +16249,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'GetFormEmployeeNo',
 
-      'GetLastHistoryByName',
+      'GetLastFormHistoryByName', 'GetLastFormHistoryElements',
 
       'Reset',
 
@@ -16269,7 +16285,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_submit', '_print', '_close',
 
-      '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests',
+      '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests', '_checkLookupWidgetsReady',
 
       '_templates'
 
@@ -16554,11 +16570,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  GetLastHistoryElements()
+  GetLastFormHistoryElements()
   {
-    if (this.History.length > 0)
+    if (this.FormHistory.length > 0)
     {
-      return [].concat.apply([], this.History[this.History.length - 1].Sections.map(function(section)
+      return [].concat.apply([], this.FormHistory[this.FormHistory.length - 1].Sections.map(function(section)
       {
         return section.Elements;
       }));
@@ -16576,13 +16592,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * 
    * @param {string} name The name of the Field
    */
-  GetLastHistoryByName(name)
+  GetLastFormHistoryByName(name)
   {
     function flatten(arr)
     {
       return [].concat.apply([], arr);
     }
-    var flattenedElements = flatten(this.History.map(function(obj)
+    var flattenedElements = flatten(this.FormHistory.map(function(obj)
     {
       return flatten(obj.Sections.map(function(section)
       {
@@ -16811,7 +16827,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       let totalRequests = runningRequests + waitingRequests;
       if (queueStatus === 'stopped' || queueStatus === 'idle' || totalRequests === 0) // no requests
       {
-        this._widgestAndRequestDone();
+        this._checkLookupWidgetsReady();
       }
       else
       {
@@ -16861,14 +16877,47 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
         else
         {
-          this._widgestAndRequestDone();
+          this._checkLookupWidgetsReady();
         }
       }
     }
     else
     {
-      this._widgestAndRequestDone();
+      this._checkLookupWidgetsReady();
     }
+  }
+
+
+
+  /**
+   * Summary. All widget and requests are done
+   * @this    Class scope
+   * @access  private
+   */
+  _checkLookupWidgetsReady()
+  {
+    clearTimeout(this._lookupWidgetCheckTimer);
+    let lookupRows = document.querySelectorAll('.form-row.row-singleselectdropdown');
+    if (lookupRows.length > 0)
+    {
+      for (let row of lookupRows)
+      {
+        let lookupNode = row.querySelector('select');
+        if (
+          lookupNode
+          && lookupNode.hasOwnProperty('widgets')
+          && lookupNode.widgets.hasOwnProperty('Autocomplete')
+        )
+        {
+          if (!lookupNode.widgets.Autocomplete.Ready)
+          {
+            this._lookupWidgetCheckTimer = setTimeout(this._checkLookupWidgetsReady, 100);
+            return;
+          }
+        }
+      }
+    }
+    this._widgestAndRequestDone();
   }
 
 
@@ -16886,7 +16935,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.Ready = true;
     this.RequestChecked = false;
     this.PostData = this._getPostData();
-    this.History.push($a.jsonCloneObject(this.PostData));
+    this.FormHistory.push($a.jsonCloneObject(this.PostData));
     Affinity2018.HidePageLoader();
     this._setupAutoSaveEvents();
     this._checkForHidden();
@@ -17298,7 +17347,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       if (foundDisableAutoSaveKeyMode)
       {
-        debugger;
         this.DisableAutoSave = true;
       }
 
@@ -18513,18 +18561,30 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       let rowNode = this.FormNode.querySelector(`.form-row[data-name="${name}"]`);
       this.OverrideIsKey = this.CleverForms.IsGlobalKey(rowNode.controller.Config);
       this.PostData = $a.jsonCloneObject(this.OverridePostData);
-      //this.OverridePostData = null;
     }
     else
     {
       this.PostData = this._getPostData();
+      if (buttonData.ActionType.contains('save'))
+      {
+        let previousState = this.FormHistory.length > 0 ? JSON.stringify(this.FormHistory[this.FormHistory.length - 1]) : '';
+        let currentState = JSON.stringify(this.PostData);
+        if (previousState === currentState)
+        {
+          this.suppressPostMessage = false;
+          this.PostData = this._getPostData();
+          this.PostState = 'none';
+          this.OverridePostData = null;
+          this.FormSavingNode.classList.remove('show');
+          $a.HidePageLoader();
+          return;
+        }
+      }
     }
-
-    this.History.push($a.jsonCloneObject(this._getPostData()));
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
-    this.PostData.ActionName = buttonData.Name.toLowerCase().contains('save') ? 'Save': 'Other';
+    this.PostData.ActionName = buttonData.ActionType.contains('save') ? 'Save': 'Other';
     this.PostData.DestinationStateId = buttonData.DestinationStateId;
     //this.PostData.StateType = buttonData.StateType;
 
@@ -18804,8 +18864,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _postComplete()
   {
     console.groupEnd();
-    
-    if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePosting)
+    if (this.ViewType === 'Form' && this.PostData.ActionName !== 'Save' && Affinity2018.EnablePosting)
     {
       if (this.PostedErrors.length === 0)
       {
@@ -18821,10 +18880,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
         else
         {
-          var path = this.CleverForms.InboxPath;
-          if (window.location.hash) path += window.location.hash
-          var redirectWindow = window.open(path, '_self');
-          redirectWindow.location;
+          $a.ShowPageLoader();
+          setTimeout(function()
+          {
+            var path = this.CleverForms.InboxPath;
+            if (window.location.hash) path += window.location.hash
+            var redirectWindow = window.open(path, '_self');
+            redirectWindow.location;
+          }.bind(this), 500);
+          return;
         }
       }
       // log Post
@@ -18840,7 +18904,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         });
       }
     }
-    if (this.SubmitActionName.contains('Save')) // && this.PostedErrors.length === 0)
+    if (this.PostData.ActionName === 'Save')
     {
       if (!this.suppressPostMessage)
       {
@@ -18882,6 +18946,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     $a.HidePageLoader();
 
     this.PostData = this._getPostData();
+    this.FormHistory.push($a.jsonCloneObject(this.PostData));
 
     this.PostState = 'success';
 
@@ -19186,7 +19251,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       setTimeout((() =>
       {
-        let isKey = false;
+        let isFullSaveKey = false;
         let rowNode = ev.target;
         //if (rowNode.classList.contains('.is-global-key')) 
         //{
@@ -19208,9 +19273,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
             if (compareLast !== compareNew)
             {
-              if (this.CleverForms.IsKey(foundConfig))
+              if (this.CleverForms.IsKey(foundConfig) && this.CleverForms.FullFormSaveOnKeyChanegModels.contains(foundConfig.Details.AffinityField.ModelName))
               {
-                isKey = true;
+                isFullSaveKey = true;
                 break;
               }
               else
@@ -19229,7 +19294,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }
           sectionIndex++;
         }
-        if (this.OverridePostData !== null || isKey)
+        if (this.OverridePostData !== null || isFullSaveKey)
         {
           var buttonData = $a.jsonCloneObject(this.SaveButtonData);
           buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
@@ -21416,8 +21481,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.ElementController = null;
 
-    this.WarnOnKeyChanegModels = ["EMPLOYEE", "POSITION"];
-
     return this;
   }
 
@@ -22654,34 +22717,36 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     // Fire event to set (and validate) AffinityFields
     let fieldKey = this.FormRowNode.querySelector('select').value;
     let model = this.Config.Details.AffinityField.ModelName;
+    let isKey = this.CleverForms.IsKey(this.Config);
     let isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
     var event = new CustomEvent('ModelLookupChanged', {
       detail: {
         FieldKey: fieldKey,
         Model: model,
         Data: this.ModelData,
-        FromKeyChange: isGlobalKey
+        //FromKeyChange: isGlobalKey
+        FromKeyChange: isKey
       }
     });
     $a.HidePageLoader();
-    if (this.CleverForms.IsGlobalKey(this.Config)) 
+    if (isGlobalKey) 
     {
       this.CleverForms.ReleaseEmployeeSelect();
     }
     // Form Reset waring logic:
-    if (this.CleverForms.IsKey(this.Config) && this.WarnOnKeyChanegModels.contains(this.Config.Details.AffinityField.ModelName))
+    if (this.CleverForms.IsKey(this.Config) && this.CleverForms.FullFormSaveOnKeyChanegModels.contains(this.Config.Details.AffinityField.ModelName))
     {
       if (this.FormRowNode)
       {
         // Check if the form is blank, not including returned data ..
         let form = Affinity2018.Apps.CleverForms.Form;
-        let lastValueData = form.GetLastHistoryByName(this.Config.Name);
+        let lastValueData = form.GetLastFormHistoryByName(this.Config.Name);
         let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : lastValueData.toString();
-        let hasValue = form.History.length > 1 || !$a.isNullOrEmpty(lastValue);
+        let hasValue = form.FormHistory.length > 1 || !$a.isNullOrEmpty(lastValue);
         let hasFormValues = false;
         let hasDiffs = false;
         let returnedNames = Object.keys(this.ModelData)
-        let lastElementHistory = form.GetLastHistoryElements();
+        let lastElementHistory = form.GetLastFormHistoryElements();
         for (let elm of lastElementHistory)
         {
           if (!returnedNames.contains(elm.Name) && !$a.isNullOrEmpty(elm.Value))
@@ -22695,10 +22760,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           for (let key in this.ModelData)
           {
-            let checkValueData = form.GetLastHistoryByName(key);
+            let checkValueData = form.GetLastFormHistoryByName(key);
             let checkValue = checkValueData.Value !== null ? checkValueData.Value.toString() : null;
             let newValue = this.ModelData[key] !== null ? this.ModelData[key].toString() : null;
-            if (checkValue !== newValue)
+            if (!$a.isNullOrEmpty(checkValue) && checkValue !== newValue)
             {
               hasDiffs = true;
               break;
@@ -22719,17 +22784,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             mydata[this.Config.Name] = fieldKey;
             this._modelLookupChanged({
               detail: {
-                FromKeyChange: false,
+                FromKeyChange: isKey,
                 Model: model,
                 FieldKey: fieldKey,
                 Data: mydata
               }
             });
             window.dispatchEvent(event);
+            form.Save(true);
           }.bind(this))
           .catch(function()
           {
-            let found = form.GetLastHistoryByName(this.Config.Name);
+            let found = form.GetLastFormHistoryByName(this.Config.Name);
             if (found)
             {
               let mydata = {};
@@ -22743,17 +22809,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 }
               });
             }
-            // TODO: Dunno what to do here? Reset back to last value as above? Do we need to restore anytihng else?
           }.bind(this))
         }
         else
         {
           window.dispatchEvent(event);
+          form.Save(true);
         }
       }
     }
     else
     {
+      // Under what conditions does this get hit?
+      debugger;
       window.dispatchEvent(event);
     }
   }
@@ -22849,7 +22917,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.PayPointInfo.DefaultValue = data[this.Config.Name];
         this.PayPointInfo.CurrentValue = data[this.Config.Name];
       }
-
     }
   }
 
