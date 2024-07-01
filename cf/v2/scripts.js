@@ -105,7 +105,7 @@
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.0.13/fontfaceobserver.js',
       // 'https:/' + '/cdnjs.cloudflare.com/ajax/libs/qs/6.9.1/qs.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js',
-      'https:/' + '/cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en',
+      'https:/' + '/cdnjs.cloudflare.com/polyfill/v3/polyfill.js?features=Intl.~locale.en',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
@@ -6869,7 +6869,7 @@
         Affinity2018.SupportsElementScrollTo = false;
         var script = document.createElement('script');
         script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
-        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.scroll%2CElement.prototype.scrollIntoView%2CElement.prototype.scrollBy';
+        script.src = 'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.js?features=Element.prototype.scroll%2CElement.prototype.scrollIntoView%2CElement.prototype.scrollBy';
         script.onerror = function ()
         {
           Element.prototype.scrollTo = function (x, y)
@@ -21416,6 +21416,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.ElementController = null;
 
+    this.WarnOnKeyChanegModels = ["EMPLOYEE", "POSITION"];
+
     return this;
   }
 
@@ -22667,21 +22669,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.CleverForms.ReleaseEmployeeSelect();
     }
     // Form Reset waring logic:
-    if (this.CleverForms.IsGlobalKey(this.Config)) //if (this.CleverForms.IsKey(this.Config))
+    if (this.CleverForms.IsKey(this.Config) && this.WarnOnKeyChanegModels.contains(this.Config.Details.AffinityField.ModelName))
     {
       if (this.FormRowNode)
       {
         // Check if the form is blank, not including returned data ..
         let form = Affinity2018.Apps.CleverForms.Form;
-        let lastValue = form.GetLastHistoryByName(key);
-        let hasValue = form.History.length > 1 || $a.isNullOrEmpty(lastValue);
+        let lastValueData = form.GetLastHistoryByName(this.Config.Name);
+        let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : lastValueData.toString();
+        let hasValue = form.History.length > 1 || !$a.isNullOrEmpty(lastValue);
         let hasFormValues = false;
         let hasDiffs = false;
         let returnedNames = Object.keys(this.ModelData)
         let lastElementHistory = form.GetLastHistoryElements();
-        for (let e in lastElementHistory)
+        for (let elm of lastElementHistory)
         {
-          if (!returnedNames.contains(e.Name) && !$a.isNullOrEmpty(e.Value)) // e.Value !== null && e.Value !== '')
+          if (!returnedNames.contains(elm.Name) && !$a.isNullOrEmpty(elm.Value))
           {
             hasFormValues = true;
             break;
@@ -22692,7 +22695,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           for (let key in this.ModelData)
           {
-            if (lastValue && lastValue.toString() !== this.ModelData[key].toString())
+            let checkValueData = form.GetLastHistoryByName(key);
+            let checkValue = checkValueData.Value !== null ? checkValueData.Value.toString() : null;
+            let newValue = this.ModelData[key] !== null ? this.ModelData[key].toString() : null;
+            if (checkValue !== newValue)
             {
               hasDiffs = true;
               break;
