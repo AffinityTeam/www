@@ -8371,12 +8371,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       }
     }
 
-    var enableLogStr = Affinity2018.hasOwnProperty('EnableLogging') ? Affinity2018.EnableLogging.toLowerCase().trim() : '';
-    Affinity2018.EnableLogging = enableLogStr !== 'false';
-
-    var enablePostStr = Affinity2018.hasOwnProperty('EnablePosting') ? Affinity2018.EnablePosting.toLowerCase().trim() : '';
-    Affinity2018.EnablePosting = enablePostStr !== 'false';
-
     // apply global API values
     Affinity2018.ApiEndpoints.BankValidationApi = this.BankValidationApi;
     Affinity2018.ApiEndpoints.TaxValidationApi = this.TaxValidationApi;
