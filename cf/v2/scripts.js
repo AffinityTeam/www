@@ -22636,7 +22636,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         instanceId: this.CleverForms.GetInstanceGuid()
       });
 
-      console.clear();
+      //console.clear();
       if (this.CleverForms.IsGlobalKey(this.Config)) this.CleverForms.LockEmployeeSelect();
       this.CleverForms.ModelStatus = this.CleverForms.LoadStatusEnum.Loading;
       $a.RequestQueue.Add(this.FormLookupApi, this._lookupModelLoaded, this._lookupModelFailed);
@@ -22693,22 +22693,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _lookupModelDispatch()
   {
-    // becuase setting AffinityFields will validate, also validate NON AffinityFields
-    /*
-    if (this.CleverForms.IsGlobalKey(this.Config))
-    {
-      document.querySelectorAll('#form .form-row.required:not(.row-affinityfield)').forEach(function (rowNode)
-      {
-        var node = rowNode.querySelector('select,input,textarea');
-        var widgets = node ? node.widgets : {};
-        for (var widget in widgets)
-        {
-          if (widgets[widget].hasOwnProperty('IsValid')) widgets[widget].IsValid();
-        }
-      });
-    }
-    */
-    // Fire event to set (and validate) AffinityFields
     let fieldKey = this.FormRowNode.querySelector('select').value;
     let model = this.Config.Details.AffinityField.ModelName;
     let isKey = this.CleverForms.IsKey(this.Config);
@@ -22743,8 +22727,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         let lastElementHistory = form.GetLastFormHistoryElements();
         for (let elm of lastElementHistory)
         {
-          if (!returnedNames.contains(elm.Name) && !$a.isNullOrEmpty(elm.Value))
+          if (
+            !returnedNames.contains(elm.Name) 
+            && !$a.isNullOrEmpty(elm.Value)
+            && ($a.isBool(elm.Value) && elm.Value)
+          )
           {
+            console.groupCollapsed('Form is not clear:');
+            console.log('\tform value      : ', elm.Value);
+            console.log('\tform node       : ', document.querySelector('.form-row[data-name="' + elm.Name + '"]'));
+            console.groupEnd();
             hasFormValues = true;
             break;
           }
@@ -22757,21 +22749,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             let checkValueData = form.GetLastFormHistoryByName(key);
             let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') && checkValueData.Value !== null ? checkValueData.Value.toString() : null;
             let newValue = this.ModelData[key] !== null ? this.ModelData[key].toString() : null;
-            if (!$a.isNullOrEmpty(checkValue) && checkValue !== newValue)
+            if (
+              !$a.isNullOrEmpty(checkValue) 
+              && checkValue !== newValue
+            )
             {
+              console.groupCollapsed('form is clear but found a form diff with returned masterfile data:');
+              console.log('\tform value     : ', checkValue);
+              console.log('\treturned value : ', newValue);
+              console.groupEnd();
               hasDiffs = true;
               break;
             }
           }
         }
-        // based ion the gather info, should we warn?
+        // Based ion the gathered info above, should we warn?
         let showWarning = false;
         if (!hasValue && hasFormValues) showWarning = true;
         if (hasValue && (hasFormValues || hasDiffs)) showWarning = true;
         if (showWarning)
         {
           // Clear the entire form first :O
-          form.Reset(true) // Ask user to choose to clear form, jsut update, or do nothing
+          form.Reset(true) // Param 'true' -> Ask user to choose to clear form, jsut update, or do nothing
           .then(function ()
           {
             let mydata = {};
