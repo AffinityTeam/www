@@ -23731,6 +23731,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    if (this.FormRowNode.querySelector('input[type="checkbox"][value="' + value + '"]'))
+    {
+      this.FormRowNode.querySelector('input[type="checkbox"][value="' + value + '"]').checked = true;
+    }
+    else
+    {
+      let checkboxes = this.FormRowNode.querySelectorAll('input[type="checkbox"]');
+      for (let checkbox of checkboxes)
+      {
+        checkbox.checked = false;
+      }
+    }
     this.CheckValid();
   }
 
@@ -26681,6 +26693,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+      'Reset',
 
       '_fileNodeWidgetReady',
       '_checkHideables',
@@ -26974,7 +26987,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    // TODO: How to set a file from a value here?
+  }
 
+  Reset()
+  {
+    let inputNode = this.FormRowNode.querySelector('input[type="file"]');
+    if (
+      inputNode
+      && inputNode.hasOwnProperty('widgets')
+      && inputNode.widgets.hasOwnProperty('FileUpload')
+    )
+    {
+      if (inputNode.widgets.FileUpload.Ready)
+      {
+        inputNode.widgets.FileUpload.DeleteFiles();
+      }
+    }
   }
 
   /**/
@@ -28117,7 +28146,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-
+    this.FormRowNode.querySelector('textarea').value = value;
   }
 
   /**/
