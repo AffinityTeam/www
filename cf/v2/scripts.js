@@ -22755,7 +22755,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           for (let key in this.ModelData)
           {
             let checkValueData = form.GetLastFormHistoryByName(key);
-            let checkValue = checkValueData.Value !== null ? checkValueData.Value.toString() : null;
+            let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') && checkValueData.Value !== null ? checkValueData.Value.toString() : null;
             let newValue = this.ModelData[key] !== null ? this.ModelData[key].toString() : null;
             if (!$a.isNullOrEmpty(checkValue) && checkValue !== newValue)
             {
