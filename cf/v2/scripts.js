@@ -5085,6 +5085,7 @@
       this.dialogBgEl.classList.add('show');
       this.dialogEl.classList.add('show');
       this.Position();
+      setTimeout(this.Position, 25);
       this.Open = true;
     }
 
@@ -37395,7 +37396,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       yearNode = this.calendarNode.querySelector('.ui-cal-years'),
       r = 0,
       m = 0,
-      y = new Date().getFullYear() - 100,
+      y = 1900,
       newRow, d, newMonth, newYear;
     for (; r < 6; r++)
     {

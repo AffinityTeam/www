@@ -4431,7 +4431,7 @@ body.ui2018 #dialog {
   left: 50%;
   z-index: 481;
   min-width: 250px;
-  max-width: 500px;
+  max-width: 600px;
   background-color: white;
   pointer-events: none;
   touch-action: none;
