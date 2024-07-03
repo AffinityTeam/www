@@ -9120,6 +9120,27 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     return false;
   }
 
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  CanKeyChangeMultipleFields (config)
+  {
+    if (!config.hasOwnProperty('Details')) return false;
+    if (!config.Details.hasOwnProperty('AffinityField')) return false;
+    if (config.Details.AffinityField.IsKeyField)
+    {
+      return this.FullFormSaveOnKeyChanegModels.some(function(model)
+      {
+        return model.Model === config.Details.AffinityField.ModelName;
+      }.bind(this));
+    }
+    return false;
+  }
+
     /**
  * Summary. ?
  * @this    Class scope
@@ -19312,13 +19333,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
             if (compareLast !== compareNew)
             {
-              let modelCanChangeMulti = this.CleverForms.FullFormSaveOnKeyChanegModels.some(function(model)
+              if (this.CleverForms.CanKeyChangeMultipleFields(foundConfig))
               {
-                return model.Model === foundConfig.Details.AffinityField.ModelName;
-              });
-              if (this.CleverForms.IsKey(foundConfig) && modelCanChangeMulti)
-              {
-                debugger;
                 isFullSaveKey = true;
                 break;
               }
@@ -22858,7 +22874,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
               }
             }
-          }) // Param 'true' -> Ask user to choose to clear form, jsut update, or do nothing
+          })
           .then(function ()
           {
             let mydata = {};
@@ -29892,16 +29908,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         select.addEventListener('human_modified', (() =>
         {
-          if (this.Config.Details.hasOwnProperty('AffinityField'))
+          if (this.CleverForms.CanKeyChangeMultipleFields(this.Config))
           {
-            if (this.CleverForms.IsKey(this.Config))
-            {
-              let modelCanChangeMulti = this.CleverForms.FullFormSaveOnKeyChanegModels.some(function(model)
-              {
-                return model.Model === this.Config.Details.AffinityField.ModelName;
-              }.bind(this));
-              if (modelCanChangeMulti) return;
-            }
+            return;
           }
           this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
         }).bind(this));
