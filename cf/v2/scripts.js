@@ -29892,14 +29892,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         select.addEventListener('human_modified', (() =>
         {
-          let modelCanChangeMulti = this.CleverForms.FullFormSaveOnKeyChanegModels.some(function(model)
+          if (this.Config.Details.hasOwnProperty('AffinityField'))
           {
-            return model.Model === this.Config.Details.AffinityField.ModelName;
-          }.bind(this));
-          if (!modelCanChangeMulti)
-          {
-            this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
+            if (this.CleverForms.IsKey(this.Config))
+            {
+              let modelCanChangeMulti = this.CleverForms.FullFormSaveOnKeyChanegModels.some(function(model)
+              {
+                return model.Model === this.Config.Details.AffinityField.ModelName;
+              }.bind(this));
+              if (modelCanChangeMulti) return;
+            }
           }
+          this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
         }).bind(this));
 
       }
