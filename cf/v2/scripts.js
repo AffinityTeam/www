@@ -8264,7 +8264,17 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @type {Array}
     * @public
     */
-    this.FullFormSaveOnKeyChanegModels = ["EMPLOYEE", "POSITION"];
+    this.FullFormSaveOnKeyChanegModels = [
+      {
+        Model: 'EMPLOYEE',
+        Description: 'Employee'
+      },
+      {
+        Model: 'POSTS',
+        Description: 'Position'
+      }
+    ];
+
   }
 
 
@@ -16616,14 +16626,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    * 
-   * @param {bool} warnFirst (optional) Pop a warning before clearing the entire form
+   * @param {object} data 
+   * @param {bool} data.ShowWarning Pop a warning before clearing the entire form
+   * @param {object} data.MessageData The data to use to defien the popup message and it's buttons (see Dialog data)
    */
-  Reset(warnFirst)
+  Reset(data)
   {
     var root = this;
     return new Promise(function(resolve, reject)
     {
-      root._reset(warnFirst)
+      root._reset(data)
       .then(function ()
       {
         resolve();
@@ -17953,23 +17965,22 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    * 
-   * @param {bool} warnFirst (optional) Pop a warning before clearing the entire form
+   * @param {object} data 
+   * @param {bool} data.ShowWarning Pop a warning before clearing the entire form
+   * @param {object} data.MessageData The data to use to defien the popup message and it's buttons (see Dialog data)
    */
-  _reset(warnFirst)
+  _reset(data)
   {
-    warnFirst = warnFirst === undefined ? true : warnFirst;
     var root = this;
     return new Promise(function(resolve, reject)
     {
-      if (warnFirst)
+      if (data && data.ShowWarning)
       {
         $a.Dialog.Show({
-          message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning'),
-          buttons: {
-            ok: { show: true, icon: 'tick', color: 'green', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
-            else: { show: true, icon: 'tick', color: 'blue', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_else') },
-            cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
-          },
+          message: data.MessageData.message,
+          buttons: data.MessageData.buttons,
+          textAlign: 'left',
+          canBackgroundClose: false,
           onOk: function ()
           {
             root._doReset().then(resolve).catch(reject);
@@ -19286,11 +19297,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         let isFullSaveKey = false;
         let rowNode = ev.target;
-        //if (rowNode.classList.contains('.is-global-key')) 
-        //{
-        //  // do not auto save keys (EmployeeNumber) because selecting and loading keys can change multilpe fields automatically.
-        //  return; 
-        //}
         let fieldName = rowNode.dataset.name;
         let label = rowNode.querySelector('label').innerText.trim();
         let value = ev.detail.value.hasOwnProperty('Value') ? ev.detail.value.Value : ev.detail.value;
@@ -19306,8 +19312,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
             if (compareLast !== compareNew)
             {
-              if (this.CleverForms.IsKey(foundConfig) && this.CleverForms.FullFormSaveOnKeyChanegModels.contains(foundConfig.Details.AffinityField.ModelName))
+              let modelCanChangeMulti = this.CleverForms.FullFormSaveOnKeyChanegModels.some(function(model)
               {
+                return model.Model === foundConfig.Details.AffinityField.ModelName;
+              });
+              if (this.CleverForms.IsKey(foundConfig) && modelCanChangeMulti)
+              {
+                debugger;
                 isFullSaveKey = true;
                 break;
               }
@@ -22769,7 +22780,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.CleverForms.ReleaseEmployeeSelect();
     }
     // Form Reset waring logic:
-    if (this.CleverForms.IsKey(this.Config) && this.CleverForms.FullFormSaveOnKeyChanegModels.contains(this.Config.Details.AffinityField.ModelName))
+    let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
+    {
+      return model.Model === this.Config.Details.AffinityField.ModelName;
+    }.bind(this)) || {}).Description || null;
+    if (this.CleverForms.IsKey(this.Config) && modelDescription !== null)
     {
       if (this.FormRowNode)
       {
@@ -22833,14 +22848,24 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (showWarning)
         {
           // Clear the entire form first :O
-          form.Reset(true) // Param 'true' -> Ask user to choose to clear form, jsut update, or do nothing
+          form.Reset({
+            ShowWarning: true,
+            MessageData: {
+              message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning', { model: modelDescription }),
+              buttons: {
+                ok: { show: true, icon: 'tick', color: 'green', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
+                else: { show: true, icon: 'tick', color: 'blue', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_else', { model: modelDescription }) },
+                cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
+              }
+            }
+          }) // Param 'true' -> Ask user to choose to clear form, jsut update, or do nothing
           .then(function ()
           {
             let mydata = {};
             mydata[this.Config.Name] = fieldKey;
             this._modelLookupChanged({
               detail: {
-                FromKeyChange: isKey,
+                FromKeyChange: false,
                 Model: model,
                 FieldKey: fieldKey,
                 Data: mydata
@@ -22876,8 +22901,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
     else
     {
-      // Under what conditions does this get hit?
-      debugger;
       window.dispatchEvent(event);
     }
   }
@@ -22888,27 +22911,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (this.FormRowNode)
     {
       let form = Affinity2018.Apps.CleverForms.Form;
+      // Check Addresses
+      // Make sure Google is down doing lookups and has retunred a value ...
       let addressRows = document.querySelectorAll('.form-row.row-address');
       if (addressRows.length > 0)
       {
-        // kill all human events
+        // kill all human events before we check status ..
         for (let row of addressRows)
         {
           row.controller.RemoveEvents();
         }
-        // Cherck for status ...
+        // No cherck for status ...
         for (let row of addressRows)
         {
           let input = row.querySelector('input');
           if (input.widgets.Address.Status !== 'Ready')
           {
+            // Still loading, so break out and try again in 100ms
             clearTimeout(this._checkForSaveTimer);
             this._checkForSaveTimer = setTimeout(this._checkForSave, 100);
             return;
           }
         }
+        // All done!
         clearTimeout(this._checkForSaveTimer);
-        // All are "Ready", so restore all human events
+        // Restore all human events ..
         for (let row of addressRows)
         {
           row.controller.SetEvents();
@@ -29865,7 +29892,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         select.addEventListener('human_modified', (() =>
         {
-          this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
+          let modelCanChangeMulti = this.CleverForms.FullFormSaveOnKeyChanegModels.some(function(model)
+          {
+            return model.Model === this.Config.Details.AffinityField.ModelName;
+          }.bind(this));
+          if (!modelCanChangeMulti)
+          {
+            this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
+          }
         }).bind(this));
 
       }
