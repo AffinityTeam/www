@@ -14,31 +14,31 @@
 (3649,29-30): run-time error JS1004: Expected ';': {
 (3706,3-4): run-time error JS1002: Syntax error: }
 (3719,37-38): run-time error JS1004: Expected ';': {
-(4294,36-41): run-time error JS1195: Expected expression: class
-(4374,3-4): run-time error JS1002: Syntax error: }
-(4491,3-4): run-time error JS1002: Syntax error: }
-(4510,3-4): run-time error JS1002: Syntax error: }
-(4512,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
-(4480,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4478,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4475,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4466,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4452,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4450,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4447,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4443,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4439,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4435,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4434,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4425,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4372,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4370,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4364,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4360,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4351,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4342,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4347,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4308,9,4318,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(4296,36-41): run-time error JS1195: Expected expression: class
+(4376,3-4): run-time error JS1002: Syntax error: }
+(4493,3-4): run-time error JS1002: Syntax error: }
+(4512,3-4): run-time error JS1002: Syntax error: }
+(4514,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
+(4482,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4480,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4477,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4468,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4454,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4452,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4449,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4445,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4441,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4437,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4436,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4427,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4374,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4372,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4366,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4362,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4353,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4344,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4349,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4310,9,4320,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -4218,7 +4218,9 @@
   {
     String.prototype.isNullOrEmpty = function ()
     {
-      return Affinity2018.isNullOrEmpty(this);
+      return this === null || this === undefined || this.trim() === '' ? true : false;
+      // Param "this" is now {""} isntead of "", so use above instead of below.
+      //return Affinity2018.isNullOrEmpty(this);
     };
   }
 
@@ -17987,6 +17989,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     let root = this;
     return new Promise(function(resolve, reject)
     {
+      let fileControllers = [];
       document.querySelectorAll('div.section.row-section').forEach(function (sectionNode)
       {
         if (sectionNode.controller.Config.Type === 'Section')
@@ -17995,7 +17998,14 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           {
             if (node.controller.hasOwnProperty('Reset'))
             {
-              node.controller.Reset();
+              if (node.controller.Config.Type === 'FileUploadMulti')
+              {
+                fileControllers.push(node.controller);
+              }
+              else
+              {
+                node.controller.Reset();
+              }
             }
             else if (node.controller.hasOwnProperty('SetValue'))
             {
@@ -18023,8 +18033,37 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           });
         }
       });
-      root._clearErrors();
-      resolve();
+      if (fileControllers.length === 0)
+      {
+        root._clearErrors();
+        resolve();
+      }
+      else
+      {
+        $a.ShowPageLoader();
+        let deletedCount = 0;
+        let inlineTest = function()
+        {
+          deletedCount++;
+          if (deletedCount === fileControllers.length)
+          {
+            for (let file of fileControllers)
+            {
+              file.removeEventListener('BulkDeleteComplete', inlineTest);
+            }
+            deletedCount = 0;
+            fileControllers = [];
+            root._clearErrors();
+            resolve();
+            return;
+          }
+        }.bind(this);
+        for (let file of fileControllers)
+        {
+          file.addEventListener('BulkDeleteComplete', inlineTest);
+          file.Reset(false);
+        }
+      }
     });
   }
 
@@ -21064,7 +21103,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid', 'InvalidReason', 'CheckValid', 'SetError', 'ClearError'
+      'IsValid', 'InvalidReason', 'CheckValid', 'SetError', 'ClearError',
+
+      'SetEvents', 'RemoveEvents', 
+      
+      '_dispatchHumanModified'
 
     ].bindEach(this);
 
@@ -21209,10 +21252,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
 
       // set any special elements
 
-      input.addEventListener('human_modified', ((ev) =>
-      {
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
-      }).bind(this));
+      this.SetEvents();
 
       return this.FormRowNode;
     }
@@ -21343,7 +21383,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     }
   }
 
+  SetEvents()
+  {
+    this.RemoveEvents();
+    this.FormRowNode.querySelector('input').addEventListener('human_modified', this._dispatchHumanModified);
+  }
+
+  RemoveEvents()
+  {
+    this.FormRowNode.querySelector('input').removeEventListener('human_modified', this._dispatchHumanModified);
+  }
+
   /**/
+
+  _dispatchHumanModified()
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+  }
 
   _objectToAdressString(addressObject)
   {
@@ -21464,7 +21520,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       '_insertDesignerKey',
 
       '_formRowLookupChanged', '_payPointChanged',
-      '_lookupModelLoaded', '_lookupModelDispatch', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
+      '_lookupModelLoaded', '_lookupModelDispatch', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields',
+      '_checkForSave'
 
     ].bindEach(this);
 
@@ -22475,8 +22532,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           optionData = response[i];
           if (
             $a.isObject(optionData)
-            && (($a.isString(optionData.Value) && !optionData.Value.isNullOrEmpty()) || $a.isNumeric(optionData.Value))
-            && (($a.isString(optionData.Key) && !optionData.Key.isNullOrEmpty()) || $a.isNumeric(optionData.Key))
+            && (($a.isString(optionData.Value) && !$a.isNullOrEmpty(optionData.Value)) || $a.isNumeric(optionData.Value))
+            && (($a.isString(optionData.Key) && !$a.isNullOrEmpty(optionData.Key)) || $a.isNumeric(optionData.Key))
           )
           {
             optionData = response[i];
@@ -22747,8 +22804,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           for (let key in this.ModelData)
           {
             let checkValueData = form.GetLastFormHistoryByName(key);
-            let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') && checkValueData.Value !== null ? checkValueData.Value.toString() : null;
-            let newValue = this.ModelData[key] !== null ? this.ModelData[key].toString() : null;
+            let stringifyValue = function (mixed)
+            {
+              if (mixed === null || mixed === undefined) return null;
+              if ($a.isArray(mixed) || $a.isObject(mixed)) return JSON.stringify(mixed);
+              return mixed.toString();
+            };
+            let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') ? stringifyValue(checkValueData.Value) : null;
+            let newValue = stringifyValue(this.ModelData[key]);
             if (
               !$a.isNullOrEmpty(checkValue) 
               && checkValue !== newValue
@@ -22784,7 +22847,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               }
             });
             window.dispatchEvent(event);
-            form.Save(true);
+            this._checkForSave();
           }.bind(this))
           .catch(function()
           {
@@ -22807,7 +22870,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         else
         {
           window.dispatchEvent(event);
-          form.Save(true);
+          this._checkForSave();
         }
       }
     }
@@ -22816,6 +22879,47 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       // Under what conditions does this get hit?
       debugger;
       window.dispatchEvent(event);
+    }
+  }
+
+  _checkForSave()
+  {
+    clearTimeout(this._checkForSaveTimer);
+    if (this.FormRowNode)
+    {
+      let form = Affinity2018.Apps.CleverForms.Form;
+      let addressRows = document.querySelectorAll('.form-row.row-address');
+      if (addressRows.length > 0)
+      {
+        // kill all human events
+        for (let row of addressRows)
+        {
+          row.controller.RemoveEvents();
+        }
+        // Cherck for status ...
+        for (let row of addressRows)
+        {
+          let input = row.querySelector('input');
+          if (input.widgets.Address.Status !== 'Ready')
+          {
+            clearTimeout(this._checkForSaveTimer);
+            this._checkForSaveTimer = setTimeout(this._checkForSave, 100);
+            return;
+          }
+        }
+        clearTimeout(this._checkForSaveTimer);
+        // All are "Ready", so restore all human events
+        for (let row of addressRows)
+        {
+          row.controller.SetEvents();
+        }
+        // Now it is safe to save.
+        form.Save(true);
+      }
+      else
+      {
+        form.Save(true);
+      }
     }
   }
 
@@ -26695,10 +26799,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
       'Reset',
 
-      '_fileNodeWidgetReady',
+      '_fileNodeWidgetReady', '_dispatchHumanModified',
       '_checkHideables',
       '_getDocumentCategories', '_getDocumentTypes',
-      '_loadNames'
+      '_loadNames',
+      '_bulkDeleteDone'
 
     ].bindEach(this);
 
@@ -27001,6 +27106,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     {
       if (inputNode.widgets.FileUpload.Ready)
       {
+        inputNode.widgets.FileUpload.removeEventListener('postSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.removeEventListener('deleteSuccess', this._dispatchHumanModified);
+        inputNode.addEventListener('BulkDeleteComplete', this._bulkDeleteDone);
         inputNode.widgets.FileUpload.DeleteFiles();
       }
     }
@@ -27010,14 +27118,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   _fileNodeWidgetReady()
   {
-    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('postSuccess', (() =>
-    {
-      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
-    }).bind(this));
-    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('deleteSuccess', (() =>
-    {
-      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
-    }).bind(this));
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.removeEventListener('postSuccess', this._dispatchHumanModified);
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.removeEventListener('deleteSuccess', this._dispatchHumanModified);
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('postSuccess', this._dispatchHumanModified);
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('deleteSuccess', this._dispatchHumanModified);
+  }
+
+  _dispatchHumanModified()
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
   }
 
   _checkHideables ()
@@ -27244,6 +27353,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       {
 
       });
+    }
+  }
+
+
+  _bulkDeleteDone()
+  {
+    let inputNode = this.FormRowNode.querySelector('input[type="file"]');
+    if (
+      inputNode
+      && inputNode.hasOwnProperty('widgets')
+      && inputNode.widgets.hasOwnProperty('FileUpload')
+    )
+    {
+      if (inputNode.widgets.FileUpload.Ready)
+      {
+        inputNode.removeEventListener('BulkDeleteComplete', this._bulkDeleteDone);
+        inputNode.widgets.FileUpload.removeEventListener('postSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.removeEventListener('deleteSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.addEventListener('postSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.addEventListener('deleteSuccess', this._dispatchHumanModified);
+        this.dispatchEvent(new CustomEvent('BulkDeleteComplete', { details: { controller: this } }));
+      }
     }
   }
 
@@ -28421,7 +28552,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     if ($a.isString(value) && $a.isStringifiedObject(value)) value = $a.stringToObject(value);
-    if ($a.isString(value) && value.isNullOrEmpty())
+    if ($a.isString(value) && $a.isNullOrEmpty(value))
     {
       this.FormRowNode.querySelectorAll('input[type="checkbox"]:checked').forEach(function (node)
       {
@@ -31584,17 +31715,26 @@ Affinity2018.Classes.Plugins.Address = class
   _loadScript ()
   {
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    this.scriptNode = document.createElement('script');
-    this.scriptNode.onload = this._scriptLoaded;
-    this.scriptNode.type = 'text/javascript';
-    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
-    this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
-    document.head.appendChild(this.scriptNode);
-    this._loadScriptFailTimer = setTimeout(function ()
+    if (!document.head.querySelector('#googlemapsapiscript'))
     {
-      this.Ready = true;
-      console.warn('google maps api failed to load');
-    }.bind(this), 10000)
+      this.scriptNode = document.createElement('script');
+      this.scriptNode.id = 'googlemapsapiscript';
+      this.scriptNode.onload = this._scriptLoaded;
+      this.scriptNode.type = 'text/javascript';
+      this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
+      this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
+      document.head.appendChild(this.scriptNode);
+      this._loadScriptFailTimer = setTimeout(function ()
+      {
+        this.Ready = true;
+        console.warn('google maps api failed to load');
+      }.bind(this), 10000)
+    }
+    else
+    {
+      this.scriptNode = document.head.querySelector('#googlemapsapiscript');
+      this._scriptLoaded();
+    }
   }
   _scriptLoaded ()
   {
@@ -31691,6 +31831,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.Valid = false;
 
     this.Ready = false;
+
+    this.Status = 'None';
   }
 
   constructor(targetNode)
@@ -31724,6 +31866,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     }
 
     this.Ready = false;
+
+    this.Status = 'Initialising';
 
     targetNode.classList.remove('ui-has-address');
     targetNode.classList.add('ui-address', 'no-validate');
@@ -31815,6 +31959,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
       else
       {
+        this.Status = 'WaitingForGoogle';
         this.lookupNode.value = strings.join(',');
         google.maps.event.trigger(this.Autocomplete, 'place_changed');
         this._checkAddress();
@@ -31983,6 +32128,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     this.preChangeAddress = this.GetAddress();
     
+    this.Status = 'Ready';
     this.Ready = true;
     this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
   }
@@ -32036,11 +32182,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       {
         if (response.data.results.length > 0) this._fillAddress(response.data.results[0]);
         else this._fillAddress();
+        this.Status = 'Ready';
       }
     }.bind(this))
     .catch(function (error)
     {
       this._fillAddress();
+      this.Status = 'Ready';
     }.bind(this));
   }
 
@@ -39926,7 +40074,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       '_sizeGrid',
       '_addFile', '_contunueAddFile',
       '_gridClicked',
-      '_deleteRow',
+      '_deleteRow', '_doBulkDelete', '_bulkDeleteRowDone',
 
       '_getFileFromId', '_getFileFromIdOk', '_gotFileFromIdFail',
       '_postFile', '_postFileOk', '_postFileFail', '_postAllFiles',
@@ -40246,11 +40394,15 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   DeleteFiles()
   {
-    this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
-    //if (this.Files.length > 0)
-    //{
-    //  this._deleteMissingFiles();
-    //}
+    //this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
+    this.bulkDelete = [];
+    let rows = this.gridBody.querySelectorAll('tr');
+    if (rows.length > 0)
+    {
+      $a.ShowPageLoader();
+      this.bulkDelete = [].slice.call(rows, 0);
+    }
+    this._doBulkDelete();
   }
 
   /**/
@@ -40527,12 +40679,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     rowNode = document.createElement('tr');
     rowNode.innerHTML = this.rowTemplate;
     rowNode.querySelector('td.file').innerHTML = fileName;
-    if (filePath && !filePath.isNullOrEmpty())
+    if (filePath && !$a.isNullOrEmpty(filePath))
     {
       rowNode.querySelector('td.file').innerHTML = '<a href="' + filePath + '" target="_blank">' + fileName + '</a>';
     }
     if (
-      ($a.isString(fileId) && !fileId.isNullOrEmpty())
+      ($a.isString(fileId) && !$a.isNullOrEmpty(fileId))
       || $a.isInt(fileId)
     )
     {
@@ -40586,6 +40738,27 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       }
       this._resetFileNode();
     }
+  }
+
+  _doBulkDelete()
+  {
+    this.removeEventListener('deleteFailed', this._bulkDeleteRowDone);
+    this.removeEventListener('deleteSuccess', this._bulkDeleteRowDone);
+    if (this.bulkDelete && this.bulkDelete.length > 0)
+    {
+      $a.ShowPageLoader();
+      this.addEventListener('deleteSuccess', this._bulkDeleteRowDone);
+      this.addEventListener('deleteFailed', this._bulkDeleteRowDone);
+      this._deleteRow(this.bulkDelete[0]);
+      return;
+    }
+    this.fileNode.dispatchEvent(new Event('BulkDeleteComplete'));
+    $a.HidePageLoader();
+  }
+  _bulkDeleteRowDone()
+  {
+    this.bulkDelete.shift();
+    this._doBulkDelete();
   }
 
   _resetFileNode()
