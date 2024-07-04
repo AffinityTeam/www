@@ -14,31 +14,31 @@
 (3649,29-30): run-time error JS1004: Expected ';': {
 (3706,3-4): run-time error JS1002: Syntax error: }
 (3719,37-38): run-time error JS1004: Expected ';': {
-(4294,36-41): run-time error JS1195: Expected expression: class
-(4374,3-4): run-time error JS1002: Syntax error: }
-(4491,3-4): run-time error JS1002: Syntax error: }
-(4510,3-4): run-time error JS1002: Syntax error: }
-(4512,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
-(4480,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4478,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4475,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4466,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4452,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4450,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4447,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4443,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4439,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4435,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4434,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4425,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4372,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4370,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4364,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4360,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4351,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4342,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4347,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4308,9,4318,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(4296,36-41): run-time error JS1195: Expected expression: class
+(4376,3-4): run-time error JS1002: Syntax error: }
+(4493,3-4): run-time error JS1002: Syntax error: }
+(4512,3-4): run-time error JS1002: Syntax error: }
+(4514,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
+(4482,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4480,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4477,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4468,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4454,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4452,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4449,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4445,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4441,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4437,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4436,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4427,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4374,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4372,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4366,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4362,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4353,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4344,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4349,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4310,9,4320,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -87,7 +87,7 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = '0.1.0';
+  Affinity2018.Version = Affinity2018.Version == undefined ? '0.1.0' : Affinity2018.Version; // comming from Web.Config and set in _Layout2.cshtml
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
@@ -105,7 +105,7 @@
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.0.13/fontfaceobserver.js',
       // 'https:/' + '/cdnjs.cloudflare.com/ajax/libs/qs/6.9.1/qs.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js',
-      'https:/' + '/cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en',
+      'https:/' + '/cdnjs.cloudflare.com/polyfill/v3/polyfill.js?features=Intl.~locale.en',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
@@ -4218,7 +4218,9 @@
   {
     String.prototype.isNullOrEmpty = function ()
     {
-      return Affinity2018.isNullOrEmpty(this);
+      return this === null || this === undefined || this.trim() === '' ? true : false;
+      // Param "this" is now {""} isntead of "", so use above instead of below.
+      //return Affinity2018.isNullOrEmpty(this);
     };
   }
 
@@ -4641,7 +4643,7 @@
 
     Load()
     {
-      axios.get('../../Content/v2/languages/english.json').then(function (response)
+      axios.get('../../Content/v2/languages/english.json?version=' + Affinity2018.Version).then(function (response)
       {
         this._process(response.data);
       }.bind(this));
@@ -4951,7 +4953,7 @@
         'Reset',
         'Show', 'Hide',
         '_setMessage', '_setInput', '_setButtons',
-        '_okClicked', '_okContinue', '_cancelClicked', '_cancelContinue', '_bgClicked'
+        '_okClicked', '_elseClicked', '_cancelClicked', '_bgClicked'
       ].bindEach(this);
 
       this.enabled = false;
@@ -4969,6 +4971,12 @@
             text: 'OK',
             color: 'blue'
           },
+          else: {
+            show: false,
+            icon: 'tick',
+            text: 'Else',
+            color: 'blue'
+          },
           cancel: {
             show: true,
             icon: 'cross',
@@ -4980,11 +4988,13 @@
           show: false,
           placeholder: '',
           default: '',
-          lines: 1
+          lines: 1,
+          maxLength: -1
         },
         textAlign: 'center',
         canBackgroundClose: true,
         showOk: true, // depricated
+        showElse: true, // depricated
         showCancel: true, // depricated
         showInput: false, // depricated
         inputLines: 1, // depricated
@@ -5002,6 +5012,7 @@
       this.ContentNode = document.getElementById('dialog-content');
       this.buttonsEl = document.getElementById('dialog-buttons');
       this.cancelButton = document.getElementById('dialog-cancel');
+      this.elseButton = document.getElementById('dialog-else');
       this.okButton = document.getElementById('dialog-ok');
       this.inputEl = document.getElementById('dialog-inputs');
       this.inputBox = document.getElementById('dialog-input');
@@ -5009,6 +5020,7 @@
 
       this.dialogBgEl.addEventListener('click', this._bgClicked);
       this.cancelButton.addEventListener('click', this._cancelClicked);
+      this.elseButton.addEventListener('click', this._elseClicked);
       this.okButton.addEventListener('click', this._okClicked);
 
       this.Reset();
@@ -5060,17 +5072,20 @@
       else
         this.data = Affinity2018.objectDeepMerge({}, this.default);
       this.data.onOk = function () { };
+      this.data.onElse = function () { };
       this.data.onCancel = function () { };
       this.data.onClose = function () { };
       if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onOk)) this.data.onOk = data.onOk;
+      if (data.hasOwnProperty('onElse') && Affinity2018.isFunction(data.onElse)) this.data.onElse = data.onElse;
       if (data.hasOwnProperty('onCancel') && Affinity2018.isFunction(data.onCancel)) this.data.onCancel = data.onCancel;
-      if (data.hasOwnProperty('onOk') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
+      if (data.hasOwnProperty('onClose') && Affinity2018.isFunction(data.onClose)) this.data.onClose = data.onClose;
       this._setMessage(this.data);
       this._setInput(this.data);
       this._setButtons(this.data);
       this.dialogBgEl.classList.add('show');
       this.dialogEl.classList.add('show');
       this.Position();
+      setTimeout(this.Position, 25);
       this.Open = true;
     }
 
@@ -5118,6 +5133,14 @@
           this.inputBox.value = this.data.input.default;
           this.inputBox.classList.remove('hidden');
           this.inputBox.parentElement.classList.remove('hidden');
+          if (this.data.input.maxLength && Affinity2018.isInt(this.data.input.maxLength) && parseInt(this.data.input.maxLength) > -1)
+          {
+            this.inputBox.setAttribute('maxlength', this.data.input.maxLength);
+          }
+          else
+          {
+            this.inputBox.setAttribute('maxlength', null);
+          }
         }
       }
       else
@@ -5141,7 +5164,7 @@
 
     _setButtons()
     {
-      var gotOk = false, gotCancel = false;
+      var gotOk = false, gotElse = false, gotCancel = false;
       if (this.data.buttons)
       {
         if (this.data.buttons.ok)
@@ -5161,6 +5184,25 @@
           else
           {
             this.okButton.classList.add('hidden');
+          }
+        }
+        if (this.data.buttons.else)
+        {
+          if (
+            this.data.buttons.else.hasOwnProperty('show')
+            && typeof this.data.buttons.else.show === 'boolean'
+            && this.data.buttons.else.show === true
+          )
+          {
+            this.elseButton.innerHTML = `<span class="icon-` + this.data.buttons.else.icon + `"></span>` + this.data.buttons.else.text;
+            this.elseButton.className = 'button else';
+            this.elseButton.classList.add(this.data.buttons.else.color);
+            this.buttonsEl.classList.remove('hidden');
+            gotElse = true;
+          }
+          else
+          {
+            this.elseButton.classList.add('hidden');
           }
         }
         if (this.data.buttons.cancel)
@@ -5189,16 +5231,30 @@
         this.okButton.classList.add('hidden');
         gotOk = false;
       }
+      // support depricated 'showElse'
+      if (!this.data.showElse)
+      {
+        this.elseButton.classList.add('hidden');
+        gotElse = false;
+      }
       // support depricated 'showCancel'
       if (!this.data.showCancel)
       {
         this.cancelButton.classList.add('hidden');
         gotCancel = false;
       }
-      if (gotOk === false && gotCancel === false)
+      if (gotOk === false && gotElse === false && gotCancel === false)
       {
         this.buttonsEl.classList.add('hidden');
       }
+    }
+
+    _elseClicked()
+    {
+      this.Hide();
+      if (!this.inputBox.classList.contains('hidden')) this.data.onElse(this.inputBox.value);
+      else if (!this.textareaBox.classList.contains('hidden')) this.data.onElse(this.textareaBox.value);
+      else this.data.onElse();
     }
 
     _okClicked()
@@ -6816,7 +6872,7 @@
         Affinity2018.SupportsElementScrollTo = false;
         var script = document.createElement('script');
         script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
-        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.scroll%2CElement.prototype.scrollIntoView%2CElement.prototype.scrollBy';
+        script.src = 'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.js?features=Element.prototype.scroll%2CElement.prototype.scrollIntoView%2CElement.prototype.scrollBy';
         script.onerror = function ()
         {
           Element.prototype.scrollTo = function (x, y)
@@ -7329,7 +7385,7 @@
         // TODO: eventually, use CDN location when it exists:
         // axios.get('https:/'+'/cdn.source63.com/' + Affinity2018.Domain + '/' + Affinity2018.Id + '.' + Affinity2018.Version + '.min.html')
         // In the mean time, use Affinity2018.TemplatesPath + current app location
-        axios.get(Affinity2018.TemplatesPath + 'templates.html')
+        axios.get(Affinity2018.TemplatesPath + 'templates.html?version=' + Affinity2018.Version)
           .then(function (response)
           {
             this.templatesHtml = response.data;
@@ -8200,6 +8256,26 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
     this.EmployeeSelectLocked = false;
     this.FormCountry = null;
+
+
+
+
+    /**
+    * Description.    If we have a key change, and it belongs to on of these models, perfrom a full auto-save isntad of individual.
+    * @type {Array}
+    * @public
+    */
+    this.FullFormSaveOnKeyChanegModels = [
+      {
+        Model: 'EMPLOYEE',
+        Description: 'Employee'
+      },
+      {
+        Model: 'POSTS',
+        Description: 'Position'
+      }
+    ];
+
   }
 
 
@@ -8307,12 +8383,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         this.ArrowTypeEnum[this.ArrowTypes[key].Enum] = this.ArrowTypes[key];
       }
     }
-
-    var enableLogStr = Affinity2018.hasOwnProperty('EnableLog') ? Affinity2018.EnableLog.toLowerCase().trim() : '';
-    Affinity2018.EnableLog = enableLogStr !== 'false';
-
-    var enablePostStr = Affinity2018.hasOwnProperty('EnablePost') ? Affinity2018.EnablePost.toLowerCase().trim() : '';
-    Affinity2018.EnablePost = enablePostStr !== 'false';
 
     // apply global API values
     Affinity2018.ApiEndpoints.BankValidationApi = this.BankValidationApi;
@@ -9048,6 +9118,27 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (!config.hasOwnProperty('Details')) return false;
     if (!config.Details.hasOwnProperty('AffinityField')) return false;
     if (config.Details.AffinityField.IsKeyField) return true;
+    return false;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  CanKeyChangeMultipleFields (config)
+  {
+    if (!config.hasOwnProperty('Details')) return false;
+    if (!config.Details.hasOwnProperty('AffinityField')) return false;
+    if (config.Details.AffinityField.IsKeyField)
+    {
+      return this.FullFormSaveOnKeyChanegModels.some(function(model)
+      {
+        return model.Model === config.Details.AffinityField.ModelName;
+      }.bind(this));
+    }
     return false;
   }
 
@@ -11890,16 +11981,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _options()
   {
-
-    /**
-    * Description.    Allows designer to post element creation and edits.
-    *                 Set to false while developing and testing code.
-    *                 WARNING! If set to false, DO NOT forget to set back 
-    *                 to true when you are done :D
-    * @type {Boolean}
-    * @public
-    */
-    this.EnablePost = true;
 
     /**
     * Description.    Enables left list autoscroll to make it easier to 
@@ -15450,7 +15531,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         }
         console.groupEnd();
 
-        if (this.EnablePost)
+        if (Affinity2018.EnablePosting)
         {
           axios({
             method: 'POST',
@@ -15476,7 +15557,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         console.log('Post Payload');
         console.log(JSON.stringify({ formElements: { FormElements: this.PostData } }));
 
-        if (this.EnablePost)
+        if (Affinity2018.EnablePosting)
         {
           axios({
             method: 'POST',
@@ -16157,6 +16238,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.DisableAutoSave = true;
 
+    this.FormHistory = [];
+
   }
 
 
@@ -16194,6 +16277,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'GetFormEmployeeNo',
 
+      'GetLastFormHistoryByName', 'GetLastFormHistoryElements',
+
+      'Reset',
+
       '_initTemplatesLoaded',
 
       '_hasValue', '_getValue', '_getLabel',
@@ -16206,13 +16293,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_loadTemplate', '_processTemplate', '_loadTemplateError',
 
-      '_loadinstance', '_processInstance', '_loadInstanceError',
+      '_loadInstance', '_processInstance', '_loadInstanceError',
 
       '_processHistory',
 
       '_getWorkflowButtons', '_gotWorkflowButtons', '_getWorkflowButtonsFailed',
       '_checkIdentitySelects',
       '_compileCommentLanguage', '_collpaseComments', '_expandComments', '_toggleComments',
+
+      '_reset', '_doReset',
 
       '_save',
 
@@ -16224,7 +16313,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_submit', '_print', '_close',
 
-      '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests',
+      '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests', '_checkLookupWidgetsReady',
 
       '_templates'
 
@@ -16418,6 +16507,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * Summary. Set section heights for animated expand / collapse
    * @this    Class scope
    * @access  private
+   * 
+   * @param {node} formRowNode (optional) Resize thie section this form row node is in, else resize all
    */
   ResizeSection(formRowNode)
   {
@@ -16451,12 +16542,31 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     //this.ResizeSectionTimeout = setTimeout(this._resizeSection, 250, formRowNode);
   }
 
+
+
+  /**
+   * Summary. Set section heights for animated expand / collapse
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {boolean} suppressMessgae If true, do not show any Saveing or Saved dialogs.
+   */
   Save(suppressMessgae)
   {
     var buttonData = $a.jsonCloneObject(this.SaveButtonData);
     this._post(buttonData, suppressMessgae);
   }
+  
 
+
+
+  /**
+   * Summary. Get employee for this form
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {int} emp The default / fallback employee number
+   */
   GetFormEmployeeNo(emp)
   {
     var emp = emp === undefined ? null : emp === -1 ? null : emp;
@@ -16479,7 +16589,85 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     }
     return value;
   }
+  
 
+
+
+  /**
+   * Summary. Get an array of all elelenmts in the last item in the History
+   * @this    Class scope
+   * @access  private
+   */
+  GetLastFormHistoryElements()
+  {
+    if (this.FormHistory.length > 0)
+    {
+      return [].concat.apply([], this.FormHistory[this.FormHistory.length - 1].Sections.map(function(section)
+      {
+        return section.Elements;
+      }));
+    }
+    return [];
+  }
+  
+
+
+
+  /**
+   * Summary. Get the last item in the History by Field Name
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {string} name The name of the Field
+   */
+  GetLastFormHistoryByName(name)
+  {
+    function flatten(arr)
+    {
+      return [].concat.apply([], arr);
+    }
+    var flattenedElements = flatten(this.FormHistory.map(function(obj)
+    {
+      return flatten(obj.Sections.map(function(section)
+      {
+        return section.Elements;
+      }));
+    }));
+    flattenedElements.reverse();
+    return flattenedElements.find(function(element)
+    {
+      return element.Name === name;
+    });
+  }
+  
+
+
+
+  /**
+   * Summary. Clears the entire form of all values
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {object} data 
+   * @param {bool} data.ShowWarning Pop a warning before clearing the entire form
+   * @param {object} data.MessageData The data to use to defien the popup message and it's buttons (see Dialog data)
+   */
+  Reset(data)
+  {
+    var root = this;
+    return new Promise(function(resolve, reject)
+    {
+      root._reset(data)
+      .then(function ()
+      {
+        resolve();
+      })
+      .catch(function ()
+      {
+        reject();
+      })
+    });
+  }
 
 
   /***************************************************************************************************************************************************/
@@ -16669,7 +16857,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       let totalRequests = runningRequests + waitingRequests;
       if (queueStatus === 'stopped' || queueStatus === 'idle' || totalRequests === 0) // no requests
       {
-        this._widgestAndRequestDone();
+        this._checkLookupWidgetsReady();
       }
       else
       {
@@ -16719,14 +16907,47 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
         else
         {
-          this._widgestAndRequestDone();
+          this._checkLookupWidgetsReady();
         }
       }
     }
     else
     {
-      this._widgestAndRequestDone();
+      this._checkLookupWidgetsReady();
     }
+  }
+
+
+
+  /**
+   * Summary. All widget and requests are done
+   * @this    Class scope
+   * @access  private
+   */
+  _checkLookupWidgetsReady()
+  {
+    clearTimeout(this._lookupWidgetCheckTimer);
+    let lookupRows = document.querySelectorAll('.form-row.row-singleselectdropdown');
+    if (lookupRows.length > 0)
+    {
+      for (let row of lookupRows)
+      {
+        let lookupNode = row.querySelector('select');
+        if (
+          lookupNode
+          && lookupNode.hasOwnProperty('widgets')
+          && lookupNode.widgets.hasOwnProperty('Autocomplete')
+        )
+        {
+          if (!lookupNode.widgets.Autocomplete.Ready)
+          {
+            this._lookupWidgetCheckTimer = setTimeout(this._checkLookupWidgetsReady, 100);
+            return;
+          }
+        }
+      }
+    }
+    this._widgestAndRequestDone();
   }
 
 
@@ -16744,6 +16965,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.Ready = true;
     this.RequestChecked = false;
     this.PostData = this._getPostData();
+    this.FormHistory.push($a.jsonCloneObject(this.PostData));
     Affinity2018.HidePageLoader();
     this._setupAutoSaveEvents();
     this._checkForHidden();
@@ -17046,147 +17268,155 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    */
   _processInstance()
   {
+    // enable autosave by default
+    this.DisableAutoSave = false;
     // Disable auto-save for any fey filed that has the following Mode(s)
     let disableAutoSaveFromKeyModes = [
-      this.CleverForms.AffnityFieldModeTypes.Select.Enum // Select === Update + IsKeyField
+      //this.CleverForms.AffnityFieldModeTypes.Select.Enum // Select === Update + IsKeyField
     ];
     let foundDisableAutoSaveKeyMode = false;
     let foundGlobalKey = false;
     let foundRequired = false;
     window.removeEventListener('GotEmployeeData', this._processInstance);
-    if (Affinity2018.isArray(this.FormData))
+    // Clear the entire form first :O
+    this.Reset(false) // do not warn first
+    .then(function ()
     {
-      let sectionNode = null;
-      let elementNode = null;
-      this.FormData.sort(this._sortByRank);
-      this.FormData.reverse();
-      this.FormData.forEach(function (sectionConfig)
+      if (Affinity2018.isArray(this.FormData))
       {
-        if (sectionConfig.ElementType === 'Section')
+        let sectionNode = null;
+        let elementNode = null;
+        this.FormData.sort(this._sortByRank);
+        this.FormData.reverse();
+        this.FormData.forEach(function (sectionConfig)
         {
-          sectionNode = this.Add('Section', sectionConfig, this.FormNode);
-          if (
-            sectionNode
-            && sectionConfig.hasOwnProperty('Elements')
-            && Affinity2018.isArray(sectionConfig.Elements)
-            && sectionConfig.Elements.length > 0
-          )
+          if (sectionConfig.ElementType === 'Section')
           {
-            // Loop over section elements
-            sectionConfig.Elements.sort(this._sortByRank);
-            sectionConfig.Elements = sectionConfig.Elements.reverse();
-            sectionConfig.Elements.forEach(function (elementConfig)
+            sectionNode = this.Add('Section', sectionConfig, this.FormNode);
+            if (
+              sectionNode
+              && sectionConfig.hasOwnProperty('Elements')
+              && Affinity2018.isArray(sectionConfig.Elements)
+              && sectionConfig.Elements.length > 0
+            )
             {
-              if (elementConfig.ElementType !== 'Section')
+              // Loop over section elements
+              sectionConfig.Elements.sort(this._sortByRank);
+              sectionConfig.Elements = sectionConfig.Elements.reverse();
+              sectionConfig.Elements.forEach(function (elementConfig)
               {
-                if (elementConfig.Details.hasOwnProperty('AffinityField'))
+                if (elementConfig.ElementType !== 'Section')
                 {
-                  if (this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName))
+                  if (elementConfig.Details.hasOwnProperty('AffinityField'))
                   {
-                    foundGlobalKey = true;
+                    if (this.CleverForms.AllowedGlobalKeys.contains(elementConfig.Details.AffinityField.FieldName))
+                    {
+                      foundGlobalKey = true;
+                      if (
+                        elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
+                        || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                      )
+                      {
+                        // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
+                        //this.DisableAutoSave = false;
+                      }
+                    }
                     if (
-                      elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Create.Enum
-                      || elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Initiator.Enum
+                      elementConfig.Details.AffinityField.IsKeyField
+                      && disableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
+                      && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
                     )
                     {
-                      // If Employee Number exists, and mode is Create or Initiator, enable AutoSave
-                      this.DisableAutoSave = false;
+                      if (!elementConfig.Disabled)
+                      {
+                        // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like and is not disabled
+                        foundDisableAutoSaveKeyMode = true;
+                      }
+                      else
+                      {
+                        // if it is disabled, it can not be changed, so we can treat this as though it is not there!
+                        foundGlobalKey = false;
+                      }
                     }
                   }
-                  if (
-                    elementConfig.Details.AffinityField.IsKeyField
-                    && disableAutoSaveFromKeyModes.contains(elementConfig.Details.AffinityField.Mode)
-                    && !this.CleverForms.MasterfileTableBlacklist.contains(elementConfig.Details.AffinityField.ModelName)
-                  )
+                  if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
                   {
-                    if (!elementConfig.Disabled)
-                    {
-                      // Temporarely disable auto-save in any form that has a key that is in a Mode we do not like and is not disabled
-                      foundDisableAutoSaveKeyMode = true;
-                    }
-                    else
-                    {
-                      // if it is disabled, it can not be changed, so we can treat this as though it is not there!
-                      foundGlobalKey = false;
-                    }
+                    elementConfig.Details.AffinityField.Mode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
+                    elementConfig.Details.AffinityField.IsRequired = false;
+                    elementConfig.Details.AffinityField.IsReadOnly = true;
+                    elementConfig.Details.Required = false;
+                    elementConfig.Details.IsReadOnly = true;
+                  }
+                  if (this.ViewType === 'ViewOnly' && elementConfig.ElementType !== 'AffinityField')
+                  {
+                    elementConfig.Details.IsReadOnly = true;
+                    elementConfig.Details.Required = false;
+                  }
+                  elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
+                  if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) 
+                  {
+                    foundRequired = true;
                   }
                 }
-                if (this.ViewType === 'ViewOnly' && elementConfig.ElementType === 'AffinityField')
-                {
-                  elementConfig.Details.AffinityField.Mode = this.CleverForms.AffnityFieldModeTypes.Display.Enum;
-                  elementConfig.Details.AffinityField.IsRequired = false;
-                  elementConfig.Details.AffinityField.IsReadOnly = true;
-                  elementConfig.Details.Required = false;
-                  elementConfig.Details.IsReadOnly = true;
-                }
-                if (this.ViewType === 'ViewOnly' && elementConfig.ElementType !== 'AffinityField')
-                {
-                  elementConfig.Details.IsReadOnly = true;
-                  elementConfig.Details.Required = false;
-                }
-                elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
-                if (Affinity2018.isPropObject(elementConfig, 'Details') && elementConfig.Details.Required) 
-                {
-                  foundRequired = true;
-                }
-              }
-            }.bind(this))
+              }.bind(this))
+            }
+            else
+            {
+              sectionNode.classList.add('hidden');
+            }
           }
-          else
-          {
-            sectionNode.classList.add('hidden');
-          }
+        }.bind(this));
+
+        //if (!foundGlobalKey)
+        //{
+        //  // If we have no global keys at all, enable AutoSave
+        //  this.DisableAutoSave = false;
+        //}
+
+      }
+
+      if (foundDisableAutoSaveKeyMode)
+      {
+        this.DisableAutoSave = true;
+      }
+
+      if (foundRequired)
+      {
+        this.RequiredMessageNode.classList.remove('hidden');
+        this.UserInstructionsNode.classList.remove('hidden');
+      }
+      else
+      {
+        this.UserInstructionsNode.parentNode.classList.add('hidden');
+      }
+
+      if (this.TemplateData)
+      {
+        var titleStr = this.TemplateData.Description;
+        var nameStr = this.TemplateData.Description;
+        if (!$a.isNullOrEmpty(this.TemplateData.Revision))
+        {
+          nameStr += ' <small>V ' + this.TemplateData.Revision + '</small>';
+          titleStr += '  v' + this.TemplateData.Revision;
         }
-      }.bind(this));
-
-      if (!foundGlobalKey)
-      {
-        // If we have no global keys at all, enable AutoSave
-        this.DisableAutoSave = false;
+        document.querySelector('.form-name').innerHTML = nameStr;
+        document.title = 'Edit ' + titleStr;
+        if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
+        if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
       }
 
-    }
+      /**/
 
-    if (foundDisableAutoSaveKeyMode)
-    {
-      this.DisableAutoSave = true;
-    }
-
-    if (foundRequired)
-    {
-      this.RequiredMessageNode.classList.remove('hidden');
-      this.UserInstructionsNode.classList.remove('hidden');
-    }
-    else
-    {
-      this.UserInstructionsNode.parentNode.classList.add('hidden');
-    }
-
-    if (this.TemplateData)
-    {
-      var titleStr = this.TemplateData.Description;
-      var nameStr = this.TemplateData.Description;
-      if (!$a.isNullOrEmpty(this.TemplateData.Revision))
+      if (['Form', 'ViewOnly'].contains(this.ViewType)) 
       {
-        nameStr += ' <small>V ' + this.TemplateData.Revision + '</small>';
-        titleStr += '  v' + this.TemplateData.Revision;
+        this._getWorkflowButtons();
       }
-      document.querySelector('.form-name').innerHTML = nameStr;
-      document.title = 'Edit ' + titleStr;
-      if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
-      if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
-    }
+      else 
+      {
+        this._ready();
+      }
 
-    /**/
-
-    if (['Form', 'ViewOnly'].contains(this.ViewType)) 
-    {
-      this._getWorkflowButtons();
-    }
-    else 
-    {
-      this._ready();
-    }
+    }.bind(this));
 
   }
 
@@ -17752,6 +17982,126 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
 
+  /**
+   * Summary. Clears the entire form of all values
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {object} data 
+   * @param {bool} data.ShowWarning Pop a warning before clearing the entire form
+   * @param {object} data.MessageData The data to use to defien the popup message and it's buttons (see Dialog data)
+   */
+  _reset(data)
+  {
+    var root = this;
+    return new Promise(function(resolve, reject)
+    {
+      if (data && data.ShowWarning)
+      {
+        $a.Dialog.Show({
+          message: data.MessageData.message,
+          buttons: data.MessageData.buttons,
+          textAlign: 'left',
+          canBackgroundClose: false,
+          onOk: function ()
+          {
+            root._doReset().then(resolve).catch(reject);
+          },
+          onElse: resolve,
+          onCancel: reject
+        });
+      }
+      else
+      {
+        root._doReset().then(resolve).catch(reject);
+      }
+    });
+  }
+  _doReset()
+  {
+    let root = this;
+    return new Promise(function(resolve, reject)
+    {
+      let fileControllers = [];
+      document.querySelectorAll('div.section.row-section').forEach(function (sectionNode)
+      {
+        if (sectionNode.controller.Config.Type === 'Section')
+        {
+          sectionNode.querySelectorAll('div.form-row').forEach(function (node)
+          {
+            if (node.controller.hasOwnProperty('Reset'))
+            {
+              if (node.controller.Config.Type === 'FileUploadMulti')
+              {
+                fileControllers.push(node.controller);
+              }
+              else
+              {
+                node.controller.Reset();
+              }
+            }
+            else if (node.controller.hasOwnProperty('SetValue'))
+            {
+              node.controller.SetValue('');
+            }
+            else if (node.controller.hasOwnProperty('SetFromValue'))
+            {
+              node.controller.SetFromValue('');
+            }
+            else
+            {
+              if (node.querySelector('textarea'))
+              {
+                node.querySelector('textarea').value = '';
+              }
+              if (node.querySelector('input'))
+              {
+                node.querySelector('input').value = '';
+              }
+              else if (node.querySelector('select'))
+              {
+                node.querySelector('select').value = '';
+              }
+            }
+          });
+        }
+      });
+      if (fileControllers.length === 0)
+      {
+        root._clearErrors();
+        resolve();
+      }
+      else
+      {
+        $a.ShowPageLoader();
+        let deletedCount = 0;
+        let inlineTest = function()
+        {
+          deletedCount++;
+          if (deletedCount === fileControllers.length)
+          {
+            for (let file of fileControllers)
+            {
+              file.removeEventListener('BulkDeleteComplete', inlineTest);
+            }
+            deletedCount = 0;
+            fileControllers = [];
+            root._clearErrors();
+            resolve();
+            return;
+          }
+        }.bind(this);
+        for (let file of fileControllers)
+        {
+          file.addEventListener('BulkDeleteComplete', inlineTest);
+          file.Reset(false);
+        }
+      }
+    });
+  }
+
+
+
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                     *******************************************************************************************/
@@ -18277,16 +18627,30 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       let rowNode = this.FormNode.querySelector(`.form-row[data-name="${name}"]`);
       this.OverrideIsKey = this.CleverForms.IsGlobalKey(rowNode.controller.Config);
       this.PostData = $a.jsonCloneObject(this.OverridePostData);
-      //this.OverridePostData = null;
     }
     else
     {
       this.PostData = this._getPostData();
+      if (buttonData.ActionType.contains('save'))
+      {
+        let previousState = this.FormHistory.length > 0 ? JSON.stringify(this.FormHistory[this.FormHistory.length - 1]) : '';
+        let currentState = JSON.stringify(this.PostData);
+        if (previousState === currentState)
+        {
+          this.suppressPostMessage = false;
+          this.PostData = this._getPostData();
+          this.PostState = 'none';
+          this.OverridePostData = null;
+          this.FormSavingNode.classList.remove('show');
+          $a.HidePageLoader();
+          return;
+        }
+      }
     }
 
     this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostData.Comment = this.CommentInputNode.value.trim();
-    this.PostData.ActionName = buttonData.Name.toLowerCase().contains('save') ? 'Save': 'Other';
+    this.PostData.ActionName = buttonData.ActionType.contains('save') ? 'Save': 'Other';
     this.PostData.DestinationStateId = buttonData.DestinationStateId;
     //this.PostData.StateType = buttonData.StateType;
 
@@ -18306,7 +18670,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     console.groupCollapsed("%c✉ FORM POST (" + this.SubmitActionName + ") =========================================", 'color:#16c1f3');
     console.log(this.PostData);
 
-    if (Affinity2018.EnablePost)
+    if (Affinity2018.EnablePosting)
     {
       axios({
         method: 'POST',
@@ -18566,8 +18930,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _postComplete()
   {
     console.groupEnd();
-    
-    if (this.ViewType === 'Form' && !this.SubmitActionName.contains('Save') && Affinity2018.EnablePost)
+    if (this.ViewType === 'Form' && this.PostData.ActionName !== 'Save' && Affinity2018.EnablePosting)
     {
       if (this.PostedErrors.length === 0)
       {
@@ -18583,14 +18946,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
         else
         {
-          var path = this.CleverForms.InboxPath;
-          if (window.location.hash) path += window.location.hash
-          var redirectWindow = window.open(path, '_self');
-          redirectWindow.location;
+          $a.ShowPageLoader();
+          setTimeout(function()
+          {
+            var path = this.CleverForms.InboxPath;
+            if (window.location.hash) path += window.location.hash
+            var redirectWindow = window.open(path, '_self');
+            redirectWindow.location;
+          }.bind(this), 500);
+          return;
         }
       }
       // log Post
-      if (Affinity2018.EnableLog)
+      if (Affinity2018.EnableLogging)
       {
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Information,
@@ -18602,7 +18970,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         });
       }
     }
-    if (this.SubmitActionName.contains('Save')) // && this.PostedErrors.length === 0)
+    if (this.PostData.ActionName === 'Save')
     {
       if (!this.suppressPostMessage)
       {
@@ -18616,7 +18984,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         });
       }
       // log saved
-      if (Affinity2018.EnableLog)
+      if (Affinity2018.EnableLogging)
       {
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Information,
@@ -18644,6 +19012,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     $a.HidePageLoader();
 
     this.PostData = this._getPostData();
+    this.FormHistory.push($a.jsonCloneObject(this.PostData));
 
     this.PostState = 'success';
 
@@ -18835,7 +19204,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (logError) console.error('Form Post ({0})\nError:\n{1}\n '.format(this.SubmitActionName, errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' ')));
 
       // log error
-      if (Affinity2018.EnableLog && Affinity2018.EnablePost)
+      if (Affinity2018.EnableLogging && Affinity2018.EnablePosting)
       {
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Error,
@@ -18948,12 +19317,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       setTimeout((() =>
       {
+        let isFullSaveKey = false;
         let rowNode = ev.target;
-        //if (rowNode.classList.contains('.is-global-key')) 
-        //{
-        //  // do not auto save keys (EmployeeNumber) because selcting and loading keys can chaneg multilpe fields automatically.
-        //  return; 
-        //}
         let fieldName = rowNode.dataset.name;
         let label = rowNode.querySelector('label').innerText.trim();
         let value = ev.detail.value.hasOwnProperty('Value') ? ev.detail.value.Value : ev.detail.value;
@@ -18964,33 +19329,40 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           let found = section.Elements.find(data => data.Name === fieldName);
           if (found)
           {
+            let foundConfig = rowNode.controller.Config;
             let compareLast = $a.isArray(found.Value) || $a.isObject(found.Value) ? JSON.stringify(found.Value) : found.Value;
             let compareNew = $a.isArray(value) || $a.isObject(value) ? JSON.stringify(value) : value;
             if (compareLast !== compareNew)
             {
-              if (typeof compareLast === 'string' && compareLast.contains(';base64,')) compareLast = compareLast.split(';base64,')[0] + ';base64,...';
-              if (typeof compareNew === 'string' && compareNew.contains(';base64,')) compareNew = compareNew.split(';base64,')[0] + ';base64,...';
-              console.log(`%cChanged "${label}" from "${compareLast}" (${typeof compareLast}) to "${compareNew}" (${typeof compareNew}) - Auto Save it!!`, 'color:#8dca35;');
-              found.Value = value;
-              this.OverridePostData = {
-                Sections: [$a.jsonCloneObject(section)]
-              };
-              this.OverridePostData.Sections[0].Elements = [found];
+              if (this.CleverForms.CanKeyChangeMultipleFields(foundConfig))
+              {
+                isFullSaveKey = true;
+                break;
+              }
+              else
+              {
+                if (typeof compareLast === 'string' && compareLast.contains(';base64,')) compareLast = compareLast.split(';base64,')[0] + ';base64,...';
+                if (typeof compareNew === 'string' && compareNew.contains(';base64,')) compareNew = compareNew.split(';base64,')[0] + ';base64,...';
+                console.log(`%cChanged "${label}" from "${compareLast}" (${typeof compareLast}) to "${compareNew}" (${typeof compareNew}) - Auto Save it!!`, 'color:#8dca35;');
+                found.Value = value;
+                this.OverridePostData = {
+                  Sections: [$a.jsonCloneObject(section)]
+                };
+                this.OverridePostData.Sections[0].Elements = [found];
+              }
             }
             break;
           }
           sectionIndex++;
         }
-        if (this.OverridePostData !== null)
+        if (this.OverridePostData !== null || isFullSaveKey)
         {
           var buttonData = $a.jsonCloneObject(this.SaveButtonData);
           buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
           this.SaveButtonData = buttonData;
           this.FormSavingNode.classList.add('show');
           this.Save(true); // true = suppress messages
-
           //console.log("Auto Save would be triggered here");
-
         }
       }).bind(this), 250);
     }
@@ -19020,8 +19392,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _print (ev)
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
-    //document.documentElement.classList.add('print');
-    window.print();
+    document.body.classList.add('load-lock');
+    document.documentElement.classList.add('print');
+    document.body.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('load-lock');
+        document.documentElement.classList.remove('print');
+      }, 500);
+    }, 500);
   }
 
 
@@ -20750,7 +21131,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
-      'IsValid', 'InvalidReason', 'CheckValid', 'SetError', 'ClearError'
+      'IsValid', 'InvalidReason', 'CheckValid', 'SetError', 'ClearError',
+
+      'SetEvents', 'RemoveEvents', 
+      
+      '_dispatchHumanModified'
 
     ].bindEach(this);
 
@@ -20895,10 +21280,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
 
       // set any special elements
 
-      input.addEventListener('human_modified', ((ev) =>
-      {
-        this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
-      }).bind(this));
+      this.SetEvents();
 
       return this.FormRowNode;
     }
@@ -21029,7 +21411,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     }
   }
 
+  SetEvents()
+  {
+    this.RemoveEvents();
+    this.FormRowNode.querySelector('input').addEventListener('human_modified', this._dispatchHumanModified);
+  }
+
+  RemoveEvents()
+  {
+    this.FormRowNode.querySelector('input').removeEventListener('human_modified', this._dispatchHumanModified);
+  }
+
   /**/
+
+  _dispatchHumanModified(ev)
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: ev.detail.value }}));
+  }
 
   _objectToAdressString(addressObject)
   {
@@ -21150,7 +21548,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       '_insertDesignerKey',
 
       '_formRowLookupChanged', '_payPointChanged',
-      '_lookupModelLoaded', '_lookupModelDispatch', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields'
+      '_lookupModelLoaded', '_lookupModelDispatch', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields',
+      '_checkForSave'
 
     ].bindEach(this);
 
@@ -22161,8 +22560,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           optionData = response[i];
           if (
             $a.isObject(optionData)
-            && (($a.isString(optionData.Value) && !optionData.Value.isNullOrEmpty()) || $a.isNumeric(optionData.Value))
-            && (($a.isString(optionData.Key) && !optionData.Key.isNullOrEmpty()) || $a.isNumeric(optionData.Key))
+            && (($a.isString(optionData.Value) && !$a.isNullOrEmpty(optionData.Value)) || $a.isNumeric(optionData.Value))
+            && (($a.isString(optionData.Key) && !$a.isNullOrEmpty(optionData.Key)) || $a.isNumeric(optionData.Key))
           )
           {
             optionData = response[i];
@@ -22322,7 +22721,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         instanceId: this.CleverForms.GetInstanceGuid()
       });
 
-      console.clear();
+      //console.clear();
       if (this.CleverForms.IsGlobalKey(this.Config)) this.CleverForms.LockEmployeeSelect();
       this.CleverForms.ModelStatus = this.CleverForms.LoadStatusEnum.Loading;
       $a.RequestQueue.Add(this.FormLookupApi, this._lookupModelLoaded, this._lookupModelFailed);
@@ -22379,33 +22778,193 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _lookupModelDispatch()
   {
-    // becuase setting AffinityFields will validate, also validate NON AffinityFields
-    /*
-    if (this.CleverForms.IsGlobalKey(this.Config))
-    {
-      document.querySelectorAll('#form .form-row.required:not(.row-affinityfield)').forEach(function (rowNode)
-      {
-        var node = rowNode.querySelector('select,input,textarea');
-        var widgets = node ? node.widgets : {};
-        for (var widget in widgets)
-        {
-          if (widgets[widget].hasOwnProperty('IsValid')) widgets[widget].IsValid();
-        }
-      });
-    }
-    */
-    // Fire event to set (and validate) AffinityFields
+    let fieldKey = this.FormRowNode.querySelector('select').value;
+    let model = this.Config.Details.AffinityField.ModelName;
+    let isKey = this.CleverForms.IsKey(this.Config);
+    let isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
     var event = new CustomEvent('ModelLookupChanged', {
       detail: {
-        FieldKey: this.FormRowNode.querySelector('select').value,
-        Model: this.Config.Details.AffinityField.ModelName,
+        FieldKey: fieldKey,
+        Model: model,
         Data: this.ModelData,
-        FromKeyChange: this.CleverForms.IsGlobalKey(this.Config)
+        //FromKeyChange: isGlobalKey
+        FromKeyChange: isKey
       }
     });
     $a.HidePageLoader();
-    if (this.CleverForms.IsGlobalKey(this.Config)) this.CleverForms.ReleaseEmployeeSelect();
-    window.dispatchEvent(event);
+    if (isGlobalKey) 
+    {
+      this.CleverForms.ReleaseEmployeeSelect();
+    }
+    // Form Reset waring logic:
+    let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
+    {
+      return model.Model === this.Config.Details.AffinityField.ModelName;
+    }.bind(this)) || {}).Description || null;
+    if (this.CleverForms.IsKey(this.Config) && modelDescription !== null)
+    {
+      if (this.FormRowNode)
+      {
+        // Check if the form is blank, not including returned data ..
+        let form = Affinity2018.Apps.CleverForms.Form;
+        let lastValueData = form.GetLastFormHistoryByName(this.Config.Name);
+        let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : lastValueData.toString();
+        let hasValue = form.FormHistory.length > 1 || !$a.isNullOrEmpty(lastValue);
+        let hasFormValues = false;
+        let hasDiffs = false;
+        let returnedNames = Object.keys(this.ModelData)
+        let lastElementHistory = form.GetLastFormHistoryElements();
+        for (let elm of lastElementHistory)
+        {
+          if (
+            !returnedNames.contains(elm.Name) 
+            && !$a.isNullOrEmpty(elm.Value)
+            && ($a.isBool(elm.Value) && elm.Value)
+          )
+          {
+            console.groupCollapsed('Form is not clear:');
+            console.log('\tform value      : ', elm.Value);
+            console.log('\tform node       : ', document.querySelector('.form-row[data-name="' + elm.Name + '"]'));
+            console.groupEnd();
+            hasFormValues = true;
+            break;
+          }
+        }
+        // If the form is blank, check if we have any diffs in returned data ..
+        if (!hasFormValues)
+        {
+          for (let key in this.ModelData)
+          {
+            let checkValueData = form.GetLastFormHistoryByName(key);
+            let stringifyValue = function (mixed)
+            {
+              if (mixed === null || mixed === undefined) return null;
+              if ($a.isArray(mixed) || $a.isObject(mixed)) return JSON.stringify(mixed);
+              return mixed.toString();
+            };
+            let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') ? stringifyValue(checkValueData.Value) : null;
+            let newValue = stringifyValue(this.ModelData[key]);
+            if (
+              !$a.isNullOrEmpty(checkValue) 
+              && checkValue !== newValue
+            )
+            {
+              console.groupCollapsed('form is clear but found a form diff with returned masterfile data:');
+              console.log('\tform value     : ', checkValue);
+              console.log('\treturned value : ', newValue);
+              console.groupEnd();
+              hasDiffs = true;
+              break;
+            }
+          }
+        }
+        // Based ion the gathered info above, should we warn?
+        let showWarning = false;
+        if (!hasValue && hasFormValues) showWarning = true;
+        if (hasValue && (hasFormValues || hasDiffs)) showWarning = true;
+        if (showWarning)
+        {
+          // Clear the entire form first :O
+          form.Reset({
+            ShowWarning: true,
+            MessageData: {
+              message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning', { model: modelDescription }),
+              buttons: {
+                ok: { show: true, icon: 'tick', color: 'green', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
+                else: { show: true, icon: 'tick', color: 'blue', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_else', { model: modelDescription }) },
+                cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
+              }
+            }
+          })
+          .then(function ()
+          {
+            let mydata = {};
+            mydata[this.Config.Name] = fieldKey;
+            this._modelLookupChanged({
+              detail: {
+                FromKeyChange: false,
+                Model: model,
+                FieldKey: fieldKey,
+                Data: mydata
+              }
+            });
+            window.dispatchEvent(event);
+            this._checkForSave();
+          }.bind(this))
+          .catch(function()
+          {
+            let found = form.GetLastFormHistoryByName(this.Config.Name);
+            if (found)
+            {
+              let mydata = {};
+              mydata[this.Config.Name] = found.Value;
+              this._modelLookupChanged({
+                detail: {
+                  FromKeyChange: false,
+                  Model: model,
+                  FieldKey: fieldKey,
+                  Data: mydata
+                }
+              });
+            }
+          }.bind(this))
+        }
+        else
+        {
+          window.dispatchEvent(event);
+          this._checkForSave();
+        }
+      }
+    }
+    else
+    {
+      window.dispatchEvent(event);
+    }
+  }
+
+  _checkForSave()
+  {
+    clearTimeout(this._checkForSaveTimer);
+    if (this.FormRowNode)
+    {
+      let form = Affinity2018.Apps.CleverForms.Form;
+      // Check Addresses
+      // Make sure Google is down doing lookups and has retunred a value ...
+      let addressRows = document.querySelectorAll('.form-row.row-address');
+      if (addressRows.length > 0)
+      {
+        // kill all human events before we check status ..
+        for (let row of addressRows)
+        {
+          row.controller.RemoveEvents();
+        }
+        // No cherck for status ...
+        for (let row of addressRows)
+        {
+          let input = row.querySelector('input');
+          if (input.widgets.Address.Status !== 'Ready')
+          {
+            // Still loading, so break out and try again in 100ms
+            clearTimeout(this._checkForSaveTimer);
+            this._checkForSaveTimer = setTimeout(this._checkForSave, 100);
+            return;
+          }
+        }
+        // All done!
+        clearTimeout(this._checkForSaveTimer);
+        // Restore all human events ..
+        for (let row of addressRows)
+        {
+          row.controller.SetEvents();
+        }
+        // Now it is safe to save.
+        form.Save(true);
+      }
+      else
+      {
+        form.Save(true);
+      }
+    }
   }
 
   _lookupModelFailed (error)
@@ -22499,7 +23058,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.PayPointInfo.DefaultValue = data[this.Config.Name];
         this.PayPointInfo.CurrentValue = data[this.Config.Name];
       }
-
     }
   }
 
@@ -23321,6 +23879,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    if (this.FormRowNode.querySelector('input[type="checkbox"][value="' + value + '"]'))
+    {
+      this.FormRowNode.querySelector('input[type="checkbox"][value="' + value + '"]').checked = true;
+    }
+    else
+    {
+      let checkboxes = this.FormRowNode.querySelectorAll('input[type="checkbox"]');
+      for (let checkbox of checkboxes)
+      {
+        checkbox.checked = false;
+      }
+    }
     this.CheckValid();
   }
 
@@ -25321,6 +25891,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+      'Reset',
 
       '_imageSet'
 
@@ -25495,7 +26066,22 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    // TODO: How to set from value?
+  }
 
+  Reset()
+  {
+    if (this.FormRowNode)
+    {
+      var input = this.FormRowNode.querySelector('input');
+      if (input)
+      {
+        if (input.hasOwnProperty('widgets') && input.widgets.hasOwnProperty('DrawPanel') && input.widgets.DrawPanel.hasOwnProperty('CanvasNode'))
+        {
+          input.widgets.DrawPanel.Clear();
+        }
+      }
+    }
   }
 
   /**/
@@ -26255,11 +26841,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       'SetDesignEditor', 'UnsetDesignEditor', 'GetFromDesignEditor', 'RemoveDesignerElement',
       'RemoveDesignerElement',
       'SetFormRow', 'GetFromFormRow', 'SetFromValue',
+      'Reset',
 
-      '_fileNodeWidgetReady',
+      '_fileNodeWidgetReady', '_dispatchHumanModified',
       '_checkHideables',
       '_getDocumentCategories', '_getDocumentTypes',
-      '_loadNames'
+      '_loadNames',
+      '_bulkDeleteDone'
 
     ].bindEach(this);
 
@@ -26548,21 +27136,41 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    // TODO: How to set a file from a value here?
+  }
 
+  Reset()
+  {
+    let inputNode = this.FormRowNode.querySelector('input[type="file"]');
+    if (
+      inputNode
+      && inputNode.hasOwnProperty('widgets')
+      && inputNode.widgets.hasOwnProperty('FileUpload')
+    )
+    {
+      if (inputNode.widgets.FileUpload.Ready)
+      {
+        inputNode.widgets.FileUpload.removeEventListener('postSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.removeEventListener('deleteSuccess', this._dispatchHumanModified);
+        inputNode.addEventListener('BulkDeleteComplete', this._bulkDeleteDone);
+        inputNode.widgets.FileUpload.DeleteFiles();
+      }
+    }
   }
 
   /**/
 
   _fileNodeWidgetReady()
   {
-    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('postSuccess', (() =>
-    {
-      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
-    }).bind(this));
-    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('deleteSuccess', (() =>
-    {
-      this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
-    }).bind(this));
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.removeEventListener('postSuccess', this._dispatchHumanModified);
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.removeEventListener('deleteSuccess', this._dispatchHumanModified);
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('postSuccess', this._dispatchHumanModified);
+    this.FormRowNode.querySelector('input[type="file"]').widgets.FileUpload.addEventListener('deleteSuccess', this._dispatchHumanModified);
+  }
+
+  _dispatchHumanModified()
+  {
+    this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: this.GetFromFormRow() }}));
   }
 
   _checkHideables ()
@@ -26789,6 +27397,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       {
 
       });
+    }
+  }
+
+
+  _bulkDeleteDone()
+  {
+    let inputNode = this.FormRowNode.querySelector('input[type="file"]');
+    if (
+      inputNode
+      && inputNode.hasOwnProperty('widgets')
+      && inputNode.widgets.hasOwnProperty('FileUpload')
+    )
+    {
+      if (inputNode.widgets.FileUpload.Ready)
+      {
+        inputNode.removeEventListener('BulkDeleteComplete', this._bulkDeleteDone);
+        inputNode.widgets.FileUpload.removeEventListener('postSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.removeEventListener('deleteSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.addEventListener('postSuccess', this._dispatchHumanModified);
+        inputNode.widgets.FileUpload.addEventListener('deleteSuccess', this._dispatchHumanModified);
+        this.dispatchEvent(new CustomEvent('BulkDeleteComplete', { details: { controller: this } }));
+      }
     }
   }
 
@@ -27691,7 +28321,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
-
+    this.FormRowNode.querySelector('textarea').value = value;
   }
 
   /**/
@@ -27966,7 +28596,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     if ($a.isString(value) && $a.isStringifiedObject(value)) value = $a.stringToObject(value);
-    if ($a.isString(value) && value.isNullOrEmpty())
+    if ($a.isString(value) && $a.isNullOrEmpty(value))
     {
       this.FormRowNode.querySelectorAll('input[type="checkbox"]:checked').forEach(function (node)
       {
@@ -29279,6 +29909,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
         select.addEventListener('human_modified', (() =>
         {
+          if (this.CleverForms.CanKeyChangeMultipleFields(this.Config))
+          {
+            return;
+          }
           this.FormRowNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: select.value }}));
         }).bind(this));
 
@@ -31129,17 +31763,26 @@ Affinity2018.Classes.Plugins.Address = class
   _loadScript ()
   {
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    this.scriptNode = document.createElement('script');
-    this.scriptNode.onload = this._scriptLoaded;
-    this.scriptNode.type = 'text/javascript';
-    this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
-    this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
-    document.head.appendChild(this.scriptNode);
-    this._loadScriptFailTimer = setTimeout(function ()
+    if (!document.head.querySelector('#googlemapsapiscript'))
     {
-      this.Ready = true;
-      console.warn('google maps api failed to load');
-    }.bind(this), 10000)
+      this.scriptNode = document.createElement('script');
+      this.scriptNode.id = 'googlemapsapiscript';
+      this.scriptNode.onload = this._scriptLoaded;
+      this.scriptNode.type = 'text/javascript';
+      this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
+      this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
+      document.head.appendChild(this.scriptNode);
+      this._loadScriptFailTimer = setTimeout(function ()
+      {
+        this.Ready = true;
+        console.warn('google maps api failed to load');
+      }.bind(this), 10000)
+    }
+    else
+    {
+      this.scriptNode = document.head.querySelector('#googlemapsapiscript');
+      this._scriptLoaded();
+    }
   }
   _scriptLoaded ()
   {
@@ -31236,6 +31879,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.Valid = false;
 
     this.Ready = false;
+
+    this.Status = 'None';
   }
 
   constructor(targetNode)
@@ -31269,6 +31914,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     }
 
     this.Ready = false;
+
+    this.Status = 'Initialising';
 
     targetNode.classList.remove('ui-has-address');
     targetNode.classList.add('ui-address', 'no-validate');
@@ -31360,6 +32007,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
       else
       {
+        this.Status = 'WaitingForGoogle';
         this.lookupNode.value = strings.join(',');
         google.maps.event.trigger(this.Autocomplete, 'place_changed');
         this._checkAddress();
@@ -31528,6 +32176,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     this.preChangeAddress = this.GetAddress();
     
+    this.Status = 'Ready';
     this.Ready = true;
     this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
   }
@@ -31581,11 +32230,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       {
         if (response.data.results.length > 0) this._fillAddress(response.data.results[0]);
         else this._fillAddress();
+        this.Status = 'Ready';
       }
     }.bind(this))
     .catch(function (error)
     {
       this._fillAddress();
+      this.Status = 'Ready';
     }.bind(this));
   }
 
@@ -31970,7 +32621,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.debug = false;
 
-    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js';
+    this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?version=' + Affinity2018.Version;
 
     this.selectmax = 2000;
 
@@ -36745,7 +37396,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       yearNode = this.calendarNode.querySelector('.ui-cal-years'),
       r = 0,
       m = 0,
-      y = new Date().getFullYear() - 100,
+      y = 1900,
       newRow, d, newMonth, newYear;
     for (; r < 6; r++)
     {
@@ -39471,7 +40122,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       '_sizeGrid',
       '_addFile', '_contunueAddFile',
       '_gridClicked',
-      '_deleteRow',
+      '_deleteRow', '_doBulkDelete', '_bulkDeleteRowDone',
 
       '_getFileFromId', '_getFileFromIdOk', '_gotFileFromIdFail',
       '_postFile', '_postFileOk', '_postFileFail', '_postAllFiles',
@@ -39791,11 +40442,15 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   DeleteFiles()
   {
-    this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
-    //if (this.Files.length > 0)
-    //{
-    //  this._deleteMissingFiles();
-    //}
+    //this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
+    this.bulkDelete = [];
+    let rows = this.gridBody.querySelectorAll('tr');
+    if (rows.length > 0)
+    {
+      $a.ShowPageLoader();
+      this.bulkDelete = [].slice.call(rows, 0);
+    }
+    this._doBulkDelete();
   }
 
   /**/
@@ -40072,12 +40727,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     rowNode = document.createElement('tr');
     rowNode.innerHTML = this.rowTemplate;
     rowNode.querySelector('td.file').innerHTML = fileName;
-    if (filePath && !filePath.isNullOrEmpty())
+    if (filePath && !$a.isNullOrEmpty(filePath))
     {
       rowNode.querySelector('td.file').innerHTML = '<a href="' + filePath + '" target="_blank">' + fileName + '</a>';
     }
     if (
-      ($a.isString(fileId) && !fileId.isNullOrEmpty())
+      ($a.isString(fileId) && !$a.isNullOrEmpty(fileId))
       || $a.isInt(fileId)
     )
     {
@@ -40131,6 +40786,27 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       }
       this._resetFileNode();
     }
+  }
+
+  _doBulkDelete()
+  {
+    this.removeEventListener('deleteFailed', this._bulkDeleteRowDone);
+    this.removeEventListener('deleteSuccess', this._bulkDeleteRowDone);
+    if (this.bulkDelete && this.bulkDelete.length > 0)
+    {
+      $a.ShowPageLoader();
+      this.addEventListener('deleteSuccess', this._bulkDeleteRowDone);
+      this.addEventListener('deleteFailed', this._bulkDeleteRowDone);
+      this._deleteRow(this.bulkDelete[0]);
+      return;
+    }
+    this.fileNode.dispatchEvent(new Event('BulkDeleteComplete'));
+    $a.HidePageLoader();
+  }
+  _bulkDeleteRowDone()
+  {
+    this.bulkDelete.shift();
+    this._doBulkDelete();
   }
 
   _resetFileNode()

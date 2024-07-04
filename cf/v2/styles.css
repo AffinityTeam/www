@@ -1,37 +1,37 @@
 /* Minification failed. Returning unminified contents.
-(6292,59): run-time error CSS1030: Expected identifier, found ','
-(6292,81): run-time error CSS1031: Expected selector, found ')'
-(6292,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6300,59): run-time error CSS1030: Expected identifier, found ','
-(6300,81): run-time error CSS1031: Expected selector, found ')'
-(6300,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6332,82): run-time error CSS1030: Expected identifier, found ','
-(6332,153): run-time error CSS1031: Expected selector, found ')'
-(6332,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6422,64): run-time error CSS1030: Expected identifier, found ','
-(6422,71): run-time error CSS1031: Expected selector, found ')'
-(6422,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6430,63): run-time error CSS1030: Expected identifier, found ','
-(6430,70): run-time error CSS1031: Expected selector, found ')'
-(6430,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6438,72): run-time error CSS1030: Expected identifier, found ','
-(6438,79): run-time error CSS1031: Expected selector, found ')'
-(6438,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6497,74): run-time error CSS1030: Expected identifier, found ','
-(6497,216): run-time error CSS1031: Expected selector, found ')'
-(6497,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8149,113): run-time error CSS1030: Expected identifier, found ','
-(8149,125): run-time error CSS1031: Expected selector, found ')'
-(8149,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9515,133): run-time error CSS1030: Expected identifier, found ','
-(9515,274): run-time error CSS1031: Expected selector, found ')'
-(9515,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10095,167): run-time error CSS1030: Expected identifier, found ','
-(10095,309): run-time error CSS1031: Expected selector, found ')'
-(10095,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10346,108): run-time error CSS1030: Expected identifier, found ','
-(10346,250): run-time error CSS1031: Expected selector, found ')'
-(10346,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6291,59): run-time error CSS1030: Expected identifier, found ','
+(6291,81): run-time error CSS1031: Expected selector, found ')'
+(6291,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6299,59): run-time error CSS1030: Expected identifier, found ','
+(6299,81): run-time error CSS1031: Expected selector, found ')'
+(6299,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6331,82): run-time error CSS1030: Expected identifier, found ','
+(6331,153): run-time error CSS1031: Expected selector, found ')'
+(6331,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6421,64): run-time error CSS1030: Expected identifier, found ','
+(6421,71): run-time error CSS1031: Expected selector, found ')'
+(6421,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6429,63): run-time error CSS1030: Expected identifier, found ','
+(6429,70): run-time error CSS1031: Expected selector, found ')'
+(6429,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6437,72): run-time error CSS1030: Expected identifier, found ','
+(6437,79): run-time error CSS1031: Expected selector, found ')'
+(6437,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6496,74): run-time error CSS1030: Expected identifier, found ','
+(6496,216): run-time error CSS1031: Expected selector, found ')'
+(6496,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8148,113): run-time error CSS1030: Expected identifier, found ','
+(8148,125): run-time error CSS1031: Expected selector, found ')'
+(8148,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9514,133): run-time error CSS1030: Expected identifier, found ','
+(9514,274): run-time error CSS1031: Expected selector, found ')'
+(9514,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10094,167): run-time error CSS1030: Expected identifier, found ','
+(10094,309): run-time error CSS1031: Expected selector, found ')'
+(10094,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10345,108): run-time error CSS1030: Expected identifier, found ','
+(10345,250): run-time error CSS1031: Expected selector, found ')'
+(10345,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -4431,7 +4431,7 @@ body.ui2018 #dialog {
   left: 50%;
   z-index: 481;
   min-width: 250px;
-  max-width: 500px;
+  max-width: 600px;
   background-color: white;
   pointer-events: none;
   touch-action: none;
@@ -4454,7 +4454,6 @@ body.ui2018 #dialog #dialog-content {
   width: 100%;
   margin: 0;
   padding: 20px;
-  font-size: 1.2em;
   line-height: 2em;
   text-align: center;
   -webkit-box-sizing: border-box;
@@ -14520,6 +14519,77 @@ html.print body.ui2018 .example-template .preview a.attach,
 html.print body.ui2018.dark .example-template .preview a.attach {
   display: none !important;
 }
+html.print body.ui2018.cform .ss-dashboard-wrap-main-header,
+html.print body.ui2018.dark.cform .ss-dashboard-wrap-main-header,
+html.print body.ui2018.uiupdate .ss-dashboard-wrap-main-header,
+html.print body.ui2018.dark.uiupdate .ss-dashboard-wrap-main-header,
+html.print body.ui2018.cform.uiupdate .ss-dashboard-wrap-main-header,
+html.print body.ui2018.dark.cform.uiupdate .ss-dashboard-wrap-main-header,
+html.print body.ui2018 .example-template .preview .ss-dashboard-wrap-main-header,
+html.print body.ui2018.dark .example-template .preview .ss-dashboard-wrap-main-header,
+html.print body.ui2018.cform .ss-dashboard-wrap-navigator,
+html.print body.ui2018.dark.cform .ss-dashboard-wrap-navigator,
+html.print body.ui2018.uiupdate .ss-dashboard-wrap-navigator,
+html.print body.ui2018.dark.uiupdate .ss-dashboard-wrap-navigator,
+html.print body.ui2018.cform.uiupdate .ss-dashboard-wrap-navigator,
+html.print body.ui2018.dark.cform.uiupdate .ss-dashboard-wrap-navigator,
+html.print body.ui2018 .example-template .preview .ss-dashboard-wrap-navigator,
+html.print body.ui2018.dark .example-template .preview .ss-dashboard-wrap-navigator {
+  display: none !important;
+}
+html.print body.ui2018.cform.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018.dark.cform.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018.uiupdate.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018.dark.uiupdate.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018.cform.uiupdate.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018.dark.cform.uiupdate.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018 .example-template .preview.ss-dashboard-wrapper div.pagecontent,
+html.print body.ui2018.dark .example-template .preview.ss-dashboard-wrapper div.pagecontent {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html.print body.ui2018.cform div#loader-bg,
+html.print body.ui2018.dark.cform div#loader-bg,
+html.print body.ui2018.uiupdate div#loader-bg,
+html.print body.ui2018.dark.uiupdate div#loader-bg,
+html.print body.ui2018.cform.uiupdate div#loader-bg,
+html.print body.ui2018.dark.cform.uiupdate div#loader-bg,
+html.print body.ui2018 .example-template .preview div#loader-bg,
+html.print body.ui2018.dark .example-template .preview div#loader-bg,
+html.print body.ui2018.cform div#loader,
+html.print body.ui2018.dark.cform div#loader,
+html.print body.ui2018.uiupdate div#loader,
+html.print body.ui2018.dark.uiupdate div#loader,
+html.print body.ui2018.cform.uiupdate div#loader,
+html.print body.ui2018.dark.cform.uiupdate div#loader,
+html.print body.ui2018 .example-template .preview div#loader,
+html.print body.ui2018.dark .example-template .preview div#loader,
+html.print body.ui2018.cform div#dialog-bg,
+html.print body.ui2018.dark.cform div#dialog-bg,
+html.print body.ui2018.uiupdate div#dialog-bg,
+html.print body.ui2018.dark.uiupdate div#dialog-bg,
+html.print body.ui2018.cform.uiupdate div#dialog-bg,
+html.print body.ui2018.dark.cform.uiupdate div#dialog-bg,
+html.print body.ui2018 .example-template .preview div#dialog-bg,
+html.print body.ui2018.dark .example-template .preview div#dialog-bg,
+html.print body.ui2018.cform div#dialog,
+html.print body.ui2018.dark.cform div#dialog,
+html.print body.ui2018.uiupdate div#dialog,
+html.print body.ui2018.dark.uiupdate div#dialog,
+html.print body.ui2018.cform.uiupdate div#dialog,
+html.print body.ui2018.dark.cform.uiupdate div#dialog,
+html.print body.ui2018 .example-template .preview div#dialog,
+html.print body.ui2018.dark .example-template .preview div#dialog,
+html.print body.ui2018.cform div#tooltip,
+html.print body.ui2018.dark.cform div#tooltip,
+html.print body.ui2018.uiupdate div#tooltip,
+html.print body.ui2018.dark.uiupdate div#tooltip,
+html.print body.ui2018.cform.uiupdate div#tooltip,
+html.print body.ui2018.dark.cform.uiupdate div#tooltip,
+html.print body.ui2018 .example-template .preview div#tooltip,
+html.print body.ui2018.dark .example-template .preview div#tooltip {
+  display: none !important;
+}
 html.print body.ui2018.cform .header,
 html.print body.ui2018.dark.cform .header,
 html.print body.ui2018.uiupdate .header,
@@ -14528,6 +14598,10 @@ html.print body.ui2018.cform.uiupdate .header,
 html.print body.ui2018.dark.cform.uiupdate .header,
 html.print body.ui2018 .example-template .preview .header,
 html.print body.ui2018.dark .example-template .preview .header {
+  display: block !important;
+  height: 60px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   color: black;
   background: none !important;
   -webkit-box-shadow: none;
@@ -14554,6 +14628,11 @@ html.print body.ui2018.cform.uiupdate .header .title,
 html.print body.ui2018.dark.cform.uiupdate .header .title,
 html.print body.ui2018 .example-template .preview .header .title,
 html.print body.ui2018.dark .example-template .preview .header .title {
+  display: block !important;
+  height: 60px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
   color: black;
   font-size: 13.2pt;
 }
@@ -14564,8 +14643,16 @@ html.print body.ui2018.dark.uiupdate .header .title .logo,
 html.print body.ui2018.cform.uiupdate .header .title .logo,
 html.print body.ui2018.dark.cform.uiupdate .header .title .logo,
 html.print body.ui2018 .example-template .preview .header .title .logo,
-html.print body.ui2018.dark .example-template .preview .header .title .logo {
-  display: none;
+html.print body.ui2018.dark .example-template .preview .header .title .logo,
+html.print body.ui2018.cform .header .title img,
+html.print body.ui2018.dark.cform .header .title img,
+html.print body.ui2018.uiupdate .header .title img,
+html.print body.ui2018.dark.uiupdate .header .title img,
+html.print body.ui2018.cform.uiupdate .header .title img,
+html.print body.ui2018.dark.cform.uiupdate .header .title img,
+html.print body.ui2018 .example-template .preview .header .title img,
+html.print body.ui2018.dark .example-template .preview .header .title img {
+  display: none !important;
 }
 html.print body.ui2018.cform .header .title .print-logo,
 html.print body.ui2018.dark.cform .header .title .print-logo,
@@ -14575,13 +14662,30 @@ html.print body.ui2018.cform.uiupdate .header .title .print-logo,
 html.print body.ui2018.dark.cform.uiupdate .header .title .print-logo,
 html.print body.ui2018 .example-template .preview .header .title .print-logo,
 html.print body.ui2018.dark .example-template .preview .header .title .print-logo {
-  display: inline !important;
-  vertical-align: top;
+  display: inline-block !important;
+  vertical-align: top !important;
+  margin: 0 !important;
+  padding: 0 !important;
   filter: grayscale(100%);
   width: auto;
-  height: 60px;
-  margin: 5px 20px 0 0;
+  height: 60px !important;
+  margin: 0 20px 0 0;
   content: url(data:image/png;base64,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);
+}
+html.print body.ui2018.cform .header .title .form-name,
+html.print body.ui2018.dark.cform .header .title .form-name,
+html.print body.ui2018.uiupdate .header .title .form-name,
+html.print body.ui2018.dark.uiupdate .header .title .form-name,
+html.print body.ui2018.cform.uiupdate .header .title .form-name,
+html.print body.ui2018.dark.cform.uiupdate .header .title .form-name,
+html.print body.ui2018 .example-template .preview .header .title .form-name,
+html.print body.ui2018.dark .example-template .preview .header .title .form-name {
+  display: inline-block !important;
+  vertical-align: top !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 60px !important;
+  line-height: 60px !important;
 }
 html.print body.ui2018.cform .header .title .form-name small,
 html.print body.ui2018.dark.cform .header .title .form-name small,
@@ -15854,41 +15958,162 @@ html.print body.ui2018 .example-template .preview div.content div.section .secti
 html.print body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video {
   min-height: 420px;
 }
-html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.cform div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark.cform div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.uiupdate div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark.uiupdate div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.cform.uiupdate div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018 .example-template .preview div.content div#form div.section:nth-child(n+2),
-html.print body.ui2018.dark .example-template .preview div.content div#form div.section:nth-child(n+2) {
-  break-inside: avoid;
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+html.print body.ui2018.cform div.content div#form div.section.row-section,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section {
+  break-after: page !important;
+  margin: 0 0 10px 0 !important;
+  padding: 10px 0 0 0 !important;
+  border-bottom: 2px solid black !important;
 }
-html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.cform div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark.cform div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
-html.print body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
-  break-inside: avoid;
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)),
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)) {
+  break-inside: avoid !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.cform div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-header,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-header {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.cform div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-header span.section-title,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-header span.section-title {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row {
+  break-inside: avoid !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row label {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row input {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+}
+html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+html.print body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help {
+  display: none !important;
 }
 html.print body.ui2018.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
 html.print body.ui2018.dark.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
@@ -16156,6 +16381,77 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018.dark .example-template .preview a.attach {
     display: none !important;
   }
+  body.ui2018.cform .ss-dashboard-wrap-main-header,
+  body.ui2018.dark.cform .ss-dashboard-wrap-main-header,
+  body.ui2018.uiupdate .ss-dashboard-wrap-main-header,
+  body.ui2018.dark.uiupdate .ss-dashboard-wrap-main-header,
+  body.ui2018.cform.uiupdate .ss-dashboard-wrap-main-header,
+  body.ui2018.dark.cform.uiupdate .ss-dashboard-wrap-main-header,
+  body.ui2018 .example-template .preview .ss-dashboard-wrap-main-header,
+  body.ui2018.dark .example-template .preview .ss-dashboard-wrap-main-header,
+  body.ui2018.cform .ss-dashboard-wrap-navigator,
+  body.ui2018.dark.cform .ss-dashboard-wrap-navigator,
+  body.ui2018.uiupdate .ss-dashboard-wrap-navigator,
+  body.ui2018.dark.uiupdate .ss-dashboard-wrap-navigator,
+  body.ui2018.cform.uiupdate .ss-dashboard-wrap-navigator,
+  body.ui2018.dark.cform.uiupdate .ss-dashboard-wrap-navigator,
+  body.ui2018 .example-template .preview .ss-dashboard-wrap-navigator,
+  body.ui2018.dark .example-template .preview .ss-dashboard-wrap-navigator {
+    display: none !important;
+  }
+  body.ui2018.cform.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018.dark.cform.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018.uiupdate.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018.dark.uiupdate.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018.cform.uiupdate.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018.dark.cform.uiupdate.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018 .example-template .preview.ss-dashboard-wrapper div.pagecontent,
+  body.ui2018.dark .example-template .preview.ss-dashboard-wrapper div.pagecontent {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body.ui2018.cform div#loader-bg,
+  body.ui2018.dark.cform div#loader-bg,
+  body.ui2018.uiupdate div#loader-bg,
+  body.ui2018.dark.uiupdate div#loader-bg,
+  body.ui2018.cform.uiupdate div#loader-bg,
+  body.ui2018.dark.cform.uiupdate div#loader-bg,
+  body.ui2018 .example-template .preview div#loader-bg,
+  body.ui2018.dark .example-template .preview div#loader-bg,
+  body.ui2018.cform div#loader,
+  body.ui2018.dark.cform div#loader,
+  body.ui2018.uiupdate div#loader,
+  body.ui2018.dark.uiupdate div#loader,
+  body.ui2018.cform.uiupdate div#loader,
+  body.ui2018.dark.cform.uiupdate div#loader,
+  body.ui2018 .example-template .preview div#loader,
+  body.ui2018.dark .example-template .preview div#loader,
+  body.ui2018.cform div#dialog-bg,
+  body.ui2018.dark.cform div#dialog-bg,
+  body.ui2018.uiupdate div#dialog-bg,
+  body.ui2018.dark.uiupdate div#dialog-bg,
+  body.ui2018.cform.uiupdate div#dialog-bg,
+  body.ui2018.dark.cform.uiupdate div#dialog-bg,
+  body.ui2018 .example-template .preview div#dialog-bg,
+  body.ui2018.dark .example-template .preview div#dialog-bg,
+  body.ui2018.cform div#dialog,
+  body.ui2018.dark.cform div#dialog,
+  body.ui2018.uiupdate div#dialog,
+  body.ui2018.dark.uiupdate div#dialog,
+  body.ui2018.cform.uiupdate div#dialog,
+  body.ui2018.dark.cform.uiupdate div#dialog,
+  body.ui2018 .example-template .preview div#dialog,
+  body.ui2018.dark .example-template .preview div#dialog,
+  body.ui2018.cform div#tooltip,
+  body.ui2018.dark.cform div#tooltip,
+  body.ui2018.uiupdate div#tooltip,
+  body.ui2018.dark.uiupdate div#tooltip,
+  body.ui2018.cform.uiupdate div#tooltip,
+  body.ui2018.dark.cform.uiupdate div#tooltip,
+  body.ui2018 .example-template .preview div#tooltip,
+  body.ui2018.dark .example-template .preview div#tooltip {
+    display: none !important;
+  }
   body.ui2018.cform .header,
   body.ui2018.dark.cform .header,
   body.ui2018.uiupdate .header,
@@ -16164,6 +16460,10 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018.dark.cform.uiupdate .header,
   body.ui2018 .example-template .preview .header,
   body.ui2018.dark .example-template .preview .header {
+    display: block !important;
+    height: 60px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     color: black;
     background: none !important;
     -webkit-box-shadow: none;
@@ -16190,6 +16490,11 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018.dark.cform.uiupdate .header .title,
   body.ui2018 .example-template .preview .header .title,
   body.ui2018.dark .example-template .preview .header .title {
+    display: block !important;
+    height: 60px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
     color: black;
     font-size: 13.2pt;
   }
@@ -16200,8 +16505,16 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018.cform.uiupdate .header .title .logo,
   body.ui2018.dark.cform.uiupdate .header .title .logo,
   body.ui2018 .example-template .preview .header .title .logo,
-  body.ui2018.dark .example-template .preview .header .title .logo {
-    display: none;
+  body.ui2018.dark .example-template .preview .header .title .logo,
+  body.ui2018.cform .header .title img,
+  body.ui2018.dark.cform .header .title img,
+  body.ui2018.uiupdate .header .title img,
+  body.ui2018.dark.uiupdate .header .title img,
+  body.ui2018.cform.uiupdate .header .title img,
+  body.ui2018.dark.cform.uiupdate .header .title img,
+  body.ui2018 .example-template .preview .header .title img,
+  body.ui2018.dark .example-template .preview .header .title img {
+    display: none !important;
   }
   body.ui2018.cform .header .title .print-logo,
   body.ui2018.dark.cform .header .title .print-logo,
@@ -16211,13 +16524,30 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018.dark.cform.uiupdate .header .title .print-logo,
   body.ui2018 .example-template .preview .header .title .print-logo,
   body.ui2018.dark .example-template .preview .header .title .print-logo {
-    display: inline !important;
-    vertical-align: top;
+    display: inline-block !important;
+    vertical-align: top !important;
+    margin: 0 !important;
+    padding: 0 !important;
     filter: grayscale(100%);
     width: auto;
-    height: 60px;
-    margin: 5px 20px 0 0;
+    height: 60px !important;
+    margin: 0 20px 0 0;
     content: url(data:image/png;base64,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);
+  }
+  body.ui2018.cform .header .title .form-name,
+  body.ui2018.dark.cform .header .title .form-name,
+  body.ui2018.uiupdate .header .title .form-name,
+  body.ui2018.dark.uiupdate .header .title .form-name,
+  body.ui2018.cform.uiupdate .header .title .form-name,
+  body.ui2018.dark.cform.uiupdate .header .title .form-name,
+  body.ui2018 .example-template .preview .header .title .form-name,
+  body.ui2018.dark .example-template .preview .header .title .form-name {
+    display: inline-block !important;
+    vertical-align: top !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 60px !important;
+    line-height: 60px !important;
   }
   body.ui2018.cform .header .title .form-name small,
   body.ui2018.dark.cform .header .title .form-name small,
@@ -17490,41 +17820,162 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018.dark .example-template .preview div.content div.section .section-body .default-form .form-row iframe.video {
     min-height: 420px;
   }
-  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section:nth-child(n+2),
-  body.ui2018.cform div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark.cform div.content div#form div.section:nth-child(n+2),
-  body.ui2018.uiupdate div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark.uiupdate div.content div#form div.section:nth-child(n+2),
-  body.ui2018.cform.uiupdate div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark.cform.uiupdate div.content div#form div.section:nth-child(n+2),
-  body.ui2018 .example-template .preview div.content div#form div.section:nth-child(n+2),
-  body.ui2018.dark .example-template .preview div.content div#form div.section:nth-child(n+2) {
-    break-inside: avoid;
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section,
+  body.ui2018.cform div.content div#form div.section.row-section,
+  body.ui2018.dark.cform div.content div#form div.section.row-section,
+  body.ui2018.uiupdate div.content div#form div.section.row-section,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section {
+    break-after: page !important;
+    margin: 0 0 10px 0 !important;
+    padding: 10px 0 0 0 !important;
+    border-bottom: 2px solid black !important;
   }
-  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.cform div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark.cform div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark.cform.uiupdate div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018 .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row,
-  body.ui2018.dark .example-template .preview div.content div#form div.section div.section-body div.default-form div.form-row {
-    break-inside: avoid;
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)),
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section:not(:nth-child(1)) {
+    break-inside: avoid !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header,
+  body.ui2018.cform div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark.cform div.content div#form div.section.row-section div.section-header,
+  body.ui2018.uiupdate div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-header,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-header,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-header,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-header {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.cform div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark.cform div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-header span.section-title,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-header span.section-title {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row {
+    break-inside: avoid !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row label,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row label {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row input,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row input {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+  }
+  body.ui2018.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark.cform.uiupdate div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018 .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark .example-template .preview div.pagewrapper div.pagecontent div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark.cform div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark.cform.uiupdate div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018 .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help,
+  body.ui2018.dark .example-template .preview div.content div#form div.section.row-section div.section-body div.default-form div.form-row span.help {
+    display: none !important;
   }
   body.ui2018.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
   body.ui2018.dark.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
