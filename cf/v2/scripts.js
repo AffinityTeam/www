@@ -32002,7 +32002,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
         this.iconNode.classList.add('invalid', 'icon-cross-round');
       }
       else
@@ -32037,7 +32037,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
         this.lookupNode.value = value;
-        this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
         this.iconNode.classList.add('invalid', 'icon-cross-round');
       }
     }
@@ -32395,14 +32395,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
 
       this.lookupNode.value = this.GetAddress();
-      this.iconNode.classList.remove('invalid', 'icon-blocked', 'icon-cross-round');
+      this.iconNode.classList.remove('invalid', 'icon-cf-address', 'icon-cross-round');
       this.iconNode.classList.add('valid', 'icon-tick-round');
 
       this.Valid = this._validateLengths();
     }
     else
     {
-      this.iconNode.classList.remove('valid', 'icon-blocked', 'icon-tick-round');
+      this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
       this.iconNode.classList.add('invalid', 'icon-cross-round');
       this.Valid = false;
     }
@@ -32469,7 +32469,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _templates ()
   {
     this.addressTemplate = `
-    <div class="address-indicator icon-blocked"></div>
+    <div class="address-indicator icon-cf-address"></div>
     <div class="address-fields-row steet-fields">
       <input type="text" class="field street_number" placeholder="Number" />
       <input type="text" class="field street" placeholder="Street"/>
@@ -36028,7 +36028,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
+    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-edit');
     switch (state)
     {
       case 'valid':
@@ -36041,7 +36041,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
         break;
       case 'reset':
       default:
-        this.iconNode.classList.add('grey','icon-blocked');
+        this.iconNode.classList.add('grey','icon-edit');
         break;
     }
   }
@@ -36392,7 +36392,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     <input class="account ui-has-integer" type="text" maxlength="7">
     <span class="suffix-span">-</span>
     <input class="suffix ui-has-integer" type="text" maxlength="3">
-    <span class="tickcross grey icon-blocked"></span>
+    <span class="tickcross grey icon-edit"></span>
     <div class="names">
       <div class="bankname hidden"></div>
       <div class="branchname hidden"></div>
@@ -44919,7 +44919,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     var state = 'reset';
     if (typeof valid === 'boolean' && valid === true) state = 'valid';
     if (typeof valid === 'boolean' && valid === false) state = 'invalid';
-    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-blocked');
+    this.iconNode.classList.remove('green', 'icon-tick', 'icon-tick-round', 'red', 'icon-cross', 'icon-cross-round', 'grey', 'icon-edit');
     switch (state)
     {
       case 'valid':
@@ -44932,7 +44932,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
         break;
       case 'reset':
       default:
-        this.iconNode.classList.add('grey', 'icon-blocked');
+        this.iconNode.classList.add('grey', 'icon-edit');
         break;
     }
   }
@@ -45239,7 +45239,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     <input class="tax2 ui-has-integer" type="text" maxlength="3">
     <span> - </span>
     <input class="tax3 ui-has-integer" type="text" maxlength="3">
-    <span class="tickcross grey icon-blocked"></span>
+    <span class="tickcross grey icon-edit"></span>
     `;
   }
 
