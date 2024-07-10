@@ -20,18 +20,18 @@
 (6496,74): run-time error CSS1030: Expected identifier, found ','
 (6496,216): run-time error CSS1031: Expected selector, found ')'
 (6496,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8148,113): run-time error CSS1030: Expected identifier, found ','
-(8148,125): run-time error CSS1031: Expected selector, found ')'
-(8148,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9514,133): run-time error CSS1030: Expected identifier, found ','
-(9514,274): run-time error CSS1031: Expected selector, found ')'
-(9514,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10094,167): run-time error CSS1030: Expected identifier, found ','
-(10094,309): run-time error CSS1031: Expected selector, found ')'
-(10094,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10345,108): run-time error CSS1030: Expected identifier, found ','
-(10345,250): run-time error CSS1031: Expected selector, found ')'
-(10345,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(8215,113): run-time error CSS1030: Expected identifier, found ','
+(8215,125): run-time error CSS1031: Expected selector, found ')'
+(8215,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9581,133): run-time error CSS1030: Expected identifier, found ','
+(9581,274): run-time error CSS1031: Expected selector, found ')'
+(9581,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10161,167): run-time error CSS1030: Expected identifier, found ','
+(10161,309): run-time error CSS1031: Expected selector, found ')'
+(10161,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10412,108): run-time error CSS1030: Expected identifier, found ','
+(10412,250): run-time error CSS1031: Expected selector, found ')'
+(10412,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -7115,6 +7115,73 @@ body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields input[
 body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields input[type="password"].country,
 body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields input[type="password"].country {
   width: 70%;
+}
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly {
+  width: 680px;
+  max-width: 680px;
+  min-width: 680px;
+  margin: 10px 0 0 0;
+}
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="text"].suburb,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="text"].suburb,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="text"].suburb,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="text"].suburb,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="text"].suburb,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="text"].suburb,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="number"].suburb,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="number"].suburb,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="number"].suburb,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="number"].suburb,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="number"].suburb,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="number"].suburb,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="password"].suburb,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="password"].suburb,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="password"].suburb,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="password"].suburb,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="password"].suburb,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="password"].suburb,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="text"].city,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="text"].city,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="text"].city,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="text"].city,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="text"].city,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="text"].city,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="number"].city,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="number"].city,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="number"].city,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="number"].city,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="number"].city,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="number"].city,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="password"].city,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="password"].city,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="password"].city,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="password"].city,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="password"].city,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="password"].city,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="text"].state,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="text"].state,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="text"].state,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="text"].state,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="text"].state,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="text"].state,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="number"].state,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="number"].state,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="number"].state,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="number"].state,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="number"].state,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="number"].state,
+body.ui2018.uiupdate form .form-row.row-address .ui-address-fields.readonly input[type="password"].state,
+body.ui2018.uiupdate.cform form .form-row.row-address .ui-address-fields.readonly input[type="password"].state,
+body.ui2018.uiupdate .form .form-row.row-address .ui-address-fields.readonly input[type="password"].state,
+body.ui2018.uiupdate.cform .form .form-row.row-address .ui-address-fields.readonly input[type="password"].state,
+body.ui2018.uiupdate .default-form .form-row.row-address .ui-address-fields.readonly input[type="password"].state,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address .ui-address-fields.readonly input[type="password"].state {
+  width: 680px;
 }
 body.ui2018.uiupdate form .form-row.row-address.error,
 body.ui2018.uiupdate.cform form .form-row.row-address.error,

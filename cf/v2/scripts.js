@@ -21345,9 +21345,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-address');
-      var inputWidget = inputNode.widgets.Address;
-
-      this.FormData.Value = JSON.stringify(inputWidget.GetAddressData());
+      var inputWidget = inputNode ? inputNode.widgets.Address : null;
+      if (inputWidget)
+      {
+        this.FormData.Value = JSON.stringify(inputWidget.GetAddressData());
+      }
 
       return this.FormData;
     }
@@ -21359,8 +21361,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
 
     var inputNode = this.FormRowNode.querySelector('input.ui-address');
-    var inputWidget = inputNode.widgets.Address;
-    if (!this.IsReadOnly && inputWidget)
+    var inputWidget = inputNode ? inputNode.widgets.Address : null;
+    if (inputWidget)
     {
       if (value === null || ($a.isString(value) && (value.trim() === '' || value === 'null')))
       {
@@ -21517,7 +21519,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
     this.HtmlRowReadOnlyTemplate =  `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" disabled value="{value}" />
+      <input type="text" class="ui-has-address" disabled value="{value}" />
     </div>
     `;
 
@@ -23102,7 +23104,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       if (checkValue !== null) this._checkCountrySensative(checkValue, fromKeyChange);
 
-      if (this.Config.Details.AffinityField.FieldName === 'PAY_POINT')
+      if (
+        this.Config.Details.AffinityField.FieldName === 'PAY_POINT'
+        && this.FormRowNode.querySelector('select')
+        && this.Config.Details.AffinityField.Mode !== this.CleverForms.AffnityFieldModeTypes.Create.Enum
+      )
       {
         this.PayPointInfo.DefaultValue = data[this.Config.Name];
         this.PayPointInfo.CurrentValue = data[this.Config.Name];
@@ -23689,8 +23695,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     var inputNode = this.FormRowNode.querySelector('input.ui-banknumber');
-    var inputWidget = inputNode.widgets.BankNumber;
-    if (!this.IsReadOnly && inputWidget)
+    var inputWidget = inputNode ? inputNode.widgets.BankNumber : null;
+    if (inputWidget)
     {
       if (value === null || ($a.isString(value) && (value.trim() === '' || value === 'null')))
       {
@@ -23766,7 +23772,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     this.HtmlRowReadOnlyTemplate =  `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" disabled value="{value}" />
+      <input type="text" class="ui-has-banknumber" disabled value="{value}" />
     </div>
     `;
 
@@ -30808,8 +30814,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     this.DisableDepnedancy = true;
     var inputNode = this.FormRowNode.querySelector('input.ui-taxnumber');
-    var inputWidget = inputNode.widgets.TaxNumber;
-    if (!this.IsReadOnly && inputWidget)
+    var inputWidget = inputNode ? inputNode.widgets.TaxNumber : null;
+    if (inputWidget)
     {
       if (value === null || ($a.isString(value) && (value.trim() === '' || value === 'null')))
       {
@@ -30984,7 +30990,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this.HtmlRowReadOnlyTemplate =  `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" disabled value="{value}" />
+      <input type="text" class="ui-has-taxnumber" disabled value="{value}" />
     </div>
     `;
 
@@ -32022,6 +32028,12 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     }.bind(this));
 
     this.iconNode = this.addressNode.querySelector('.address-indicator');
+    if (this.lookupNode.disabled)
+    {
+      this.lookupNode.classList.add('hidden');
+      this.iconNode.classList.add('hidden');
+      this.addressNode.classList.add('readonly');
+    }
 
     var key, component;
     for (key in this.formComponents.Default)
@@ -32029,9 +32041,16 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       component = this.formComponents.Default[key];
       if (this.addressNode.querySelector('.' + component.formMap))
       {
-        this.addressNode.querySelector('.' + component.formMap).addEventListener('focus', this._storePreChange);
-        this.addressNode.querySelector('.' + component.formMap).addEventListener('keyup', this._userUpdateAddress);
-        this.addressNode.querySelector('.' + component.formMap).addEventListener('blur', this._userUpdateAddress);
+        if (this.lookupNode.disabled)
+        {
+          this.addressNode.querySelector('.' + component.formMap).disabled = true;
+        }
+        else
+        {
+          this.addressNode.querySelector('.' + component.formMap).addEventListener('focus', this._storePreChange);
+          this.addressNode.querySelector('.' + component.formMap).addEventListener('keyup', this._userUpdateAddress);
+          this.addressNode.querySelector('.' + component.formMap).addEventListener('blur', this._userUpdateAddress);
+        }
       }
     }
 
@@ -32292,6 +32311,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _checkAddress()
   {
+    if (this.lookupNode.disabled) return;
+
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
     axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async')
     .then(function (response)
@@ -32335,6 +32356,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _validateLengths () 
   {
+    if (this.lookupNode.disabled) return true;
+
     var valid = true;
     this.ValidationErrors = [];
     if (this.ValidateLengths)
@@ -35628,6 +35651,16 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.branchNameNode = this.NamesBoxNode.querySelector('.branchname');
     this.iconNode = this.banknumberNode.querySelector('.tickcross');
 
+    if (this.initInputNode.disabled)
+    {
+      this.countrySelectNode.parentElement.classList.add('disabled');
+      this.inputBankNode.disabled = true;
+      this.inputBranchkNode.disabled = true;
+      this.inputAccountNode.disabled = true;
+      this.inputSuffixNode.disabled = true;
+      this.iconNode.classList.add('hidden');
+    }
+
     window.bcs = this.countrySelectNode;
 
     // widgets.Number
@@ -36183,6 +36216,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   _validate(attemtpCountry)
   {
+    if (this.initInputNode.disabled) return;
+
     //this.Valid = false;
     attemtpCountry = attemtpCountry || this._getCountryCode();
 
@@ -44561,6 +44596,15 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.input3Node = this.taxnumberNode.querySelector('input.tax3');
     this.iconNode = this.taxnumberNode.querySelector('.tickcross');
 
+    if (this.initInputNode.disabled)
+    {
+      this.countrySelectNode.parentElement.classList.add('disabled');
+      this.input1Node.disabled= true;
+      this.input2Node.disabled= true;
+      this.input3Node.disabled= true;
+      this.iconNode.classList.add('hidden');
+    }
+
     window.tcs = this.countrySelectNode;
 
     /**/
@@ -45073,6 +45117,8 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
 
   _validate(attemtpCountry)
   {
+    if (this.initInputNode.disabled) return;
+
     attemtpCountry = attemtpCountry || this._getCountryCode();
 
     if (this.MessageNode && this.MessageNode.parentNode) this.MessageNode.parentNode.removeChild(this.MessageNode);
