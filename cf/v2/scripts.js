@@ -13204,6 +13204,40 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
 
 
+  /**
+  * Summary. Save any item changes
+  * @this    Class scope
+  * @access  public
+  * 
+  * @param {Nodes} nodes Dom nodes in the Right Desinger list to save
+  */
+  GetLabelFromConfig(config)
+  {
+    let title = config.Details.Label;
+    if (Affinity2018.isNullOrEmpty(title))
+    {
+      title = Affinity2018.isNullOrEmpty(config.Label) ? config.Type : config.Label;
+      //if (config.Type === 'AffinityField' && config.hasOwnProperty('Display') && config.Display !== undefined && config.Display !== null)
+      //{
+      //  title = 'Affinity Field - ' + config.Display.Label;
+      //}
+      if (
+        config.Type === 'AffinityField' 
+        && config.Details.hasOwnProperty('AffinityField') 
+        && config.Details.AffinityField !== undefined 
+        && config.Details.AffinityField !== null
+        && !Affinity2018.isNullOrEmpty(config.Details.AffinityField.FieldName)
+      )
+      {
+        //title = 'Affinity Field (' + config.Details.AffinityField.FieldName + ')';
+        title = config.Details.AffinityField.FieldName;
+      }
+    }
+    return title;
+  }
+
+
+
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                                                                                           *********************/
@@ -13320,7 +13354,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (this.CleverForms.PseudoGlobalElementTypes.contains(data.Type)) elementNode.classList.add('pseudo-global-key');
 
       elementNode.querySelector('.main-icon').classList.add(data.Icon.Color, 'icon-cf-' + data.Icon.Name.replace('icon-', '').replace('cf-', ''));
-      elementNode.querySelector('.label').innerHTML = data.Label;
+      elementNode.querySelector('.label').innerHTML = this.GetLabelFromConfig(data);
       elementNode.classList.add('cf-designer-element', 'ui-has-tooltip');
       elementNode.dataset.tooltip = data.Tooltip;
       elementNode.dataset.tooltipDir = 'right';
@@ -13803,11 +13837,13 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _setElementModeLabel (node)
   {
     if (node && $a.isNode(node) && node.controller && node.controller.Config.Type === 'AffinityField')
-    {
-      // Once we have mode switching, we could do this for all Affinty Fields.
+    {      // Once we have mode switching, we could do this for all Affinty Fields.
+
+      let title = this.GetLabelFromConfig(node.controller.Config);
+
       if (node.controller.Config.Details.AffinityField.IsKeyField)
       {
-        node.querySelector('.label').innerHTML = node.controller.Config.Details.Label + ' <em>(' + node.controller.GetModeName() + ')</em>';
+        node.querySelector('.label').innerHTML = title + ' <em>(' + node.controller.GetModeName() + ')</em>';
       }
       else
       {
@@ -13823,8 +13859,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           matches.forEach(function (matchNode)
           {
-            matchNode.querySelector('.label').innerHTML = matchNode.controller.Config.Details.Label + ' <em>(' + matchNode.controller.GetModeName() + ')</em>';
-          });
+            title = this.GetLabelFromConfig(matchNode.controller.Config);
+            matchNode.querySelector('.label').innerHTML = title + ' <em>(' + matchNode.controller.GetModeName() + ')</em>';
+          }.bind(this));
         }
 
       }
@@ -13872,24 +13909,26 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         node.controller = new Affinity2018.Classes.Apps.CleverForms.Elements[config.Type](config);
         node.classList.add('item-' + node.controller.UniqueName);
         node.dataset.name = node.controller.Name;
-        if (
-          node.querySelector('.label')
-          && config.hasOwnProperty('Details')
-          && (
-            config.Details.Label !== null
-            && (
-              $a.isString(config.Details.Label)
-              && config.Details.Label.trim() !== ''
-            )
-          )
-        )
-        {
-          node.querySelector('.label').innerHTML = config.Details.Label;
-        }
-        else
-        {
-          node.querySelector('.label').innerHTML = config.Label;
-        }
+        node.querySelector('.label').innerHTML = this.GetLabelFromConfig(config);
+
+        //if (
+        //  node.querySelector('.label')
+        //  && config.hasOwnProperty('Details')
+        //  && (
+        //    config.Details.Label !== null
+        //    && (
+        //      $a.isString(config.Details.Label)
+        //      && config.Details.Label.trim() !== ''
+        //    )
+        //  )
+        //)
+        //{
+        //  node.querySelector('.label').innerHTML = config.Details.Label;
+        //}
+        //else
+        //{
+        //  node.querySelector('.label').innerHTML = config.Label;
+        //}
 
         /**/
 
@@ -14748,6 +14787,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (this.ld.currentScroll > this.ld.lastScroll) this.ld.scrollDirection = 'down';
     else this.ld.scrollDirection = 'up';
 
+    // old wrapper footer offset
     var dashFooterOffset = 0;
     if (document.body.classList.contains('dashboard') && document.querySelector('#dashFooter'))
     {
@@ -14761,13 +14801,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
 
+    // new wrapper header offset
+    var dashHeaderOffset = 0;
+    if (document.body.classList.contains('ss-dashboard-wrapper'))
+    {
+      dashHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? $a.getSize(document.querySelector('.ss-dashboard-wrap-main-header')).height : 0;
+    }
+
     if (this.ld.scrollDirection === 'down')
     {
       if (!this.ld.locked && this.ld.currentScroll >= this.ld.top - 15)
       {
         this.LeftListNode.style.position = 'fixed';
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) +  'px';
-        this.LeftListNode.style.height = (this.ld.viewHeight - 40) + 'px';
+        this.LeftListNode.style.height = (this.ld.viewHeight - 40 - dashHeaderOffset) + 'px';
         this.LeftListNode.style.overflow = 'hidden';
         this.ld.locked = true;
       }
@@ -14791,7 +14838,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         }
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) + 'px';
       }
-      if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15)
+      if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15 - dashHeaderOffset)
       {
         if ('scrollTo' in this.LeftListNode) this.LeftListNode.scrollTo(0, 0);
         else this.LeftListNode.scrollTop = 0;
@@ -26719,6 +26766,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
   SetFormRow (target)
   {
+    if (this.Config.Details.Text == null || this.Config.Details.Text.trim() === '')
+    {
+      if (this.FormRowNode)
+      {
+        return this.FormRowNode;
+      }
+      return;
+    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.ArrowDirection.toLowerCase().trim(), this.Config.Details.Text);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -28824,6 +28879,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
   SetFormRow (target)
   {
+    if (this.Config.Details.Text == null || this.Config.Details.Text.trim() === '')
+    {
+      if (this.FormRowNode)
+      {
+        return this.FormRowNode;
+      }
+      return;
+    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Text);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -31276,6 +31339,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   SetFormRow (target)
   {
+    if (this.Config.Details.Value == null || this.Config.Details.Value.trim() === '')
+    {
+      if (this.FormRowNode)
+      {
+        return this.FormRowNode;
+      }
+      return;
+    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
