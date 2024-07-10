@@ -14259,7 +14259,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _getDependantFields(keyConfig)
   {
-    var allNodes = this.RightListNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
+      let isGlobalKey = this.CleverForms.IsGlobalKey(keyConfig),
+        targetNode = isGlobalKey ? this.RightListNode : this.RightListNode.querySelector('li.item-' + keyConfig.Name).closest('li[data-type="Section"]'),
+        allNodes = targetNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
         dependantNodes = [],
         dependantNames = [],
         plural = '',
