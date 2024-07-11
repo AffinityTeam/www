@@ -8141,15 +8141,49 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       'N': 'New Zealand'
     };
     this.CountryCodes = [];
-    this.CountrySensativeFields = {};
-    this.CountrySensativeFieldNames = [];
-    // TODO: Do we need these in Elments.json in the CountrySensativeFields list too?
-    /*
-      "AWARD_ID": {
-        "Name": "Award ID",
-        "OnlyInForm": true
+    this.CountrySensativeFields = {
+      'PAY_POINT': {
+        Name: 'Pay Point',
+        OnlyInForm: false
+      },
+      'AWARD_ID ': {
+        Name: 'Award ID',
+        OnlyInForm: true
+      },
+      'TAX_CODE': {
+        Name: 'Tax Code',
+        OnlyInForm: false
       }
-    */
+      //'TAX_NUMBER': {
+      //  Name: 'Tax Number',
+      //  OnlyInForm: false
+      //},
+      //'BAL_ACCT': {
+      //  Name: 'Balance Account',
+      //  OnlyInForm: false
+      //},
+      //'ACCT1': {
+      //  Name: 'Account 1',
+      //  OnlyInForm: false
+      //},
+      //'ACCT2': {
+      //  Name: 'Account 2',
+      //  OnlyInForm: false
+      //},
+      //'ACCT3': {
+      //  Name: 'Account 3',
+      //  OnlyInForm: false
+      //},
+      //'ACCT4': {
+      //  Name: 'Account 4',
+      //  OnlyInForm: false
+      //},
+      //'ACCT5': {
+      //  Name: 'Account 5',
+      //  OnlyInForm: false
+      //}
+    };
+    this.CountrySensativeFieldNames = ["TAX_CODE", "TAX_NUMBER", "BAL_ACCT", "ACCT1", "ACCT2", "ACCT3", "ACCT4", "ACCT5"];
     // Consider this: If we do not know the user or form country, show selects
     this.ShowCountryIfUnknown = true;
 
@@ -8300,18 +8334,17 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
             ? this.GetCountryCodeVariant(Affinity2018.FormCountry)
             : null;
 
-      console.groupCollapsed('Getting FormCountry:');
-      console.log('\tInjected FormCountry: ', Affinity2018.FormCountry);
-      console.log('\tIs Valid? ', Affinity2018.FormCountry !== null && Affinity2018.FormCountry !== undefined ? this.CountryShortMap[Affinity2018.FormCountry.trim().toUpperCase()] ? true : false : false);
-      console.log('\tConfig: ', config);
-      if (config.hasOwnProperty('TemplateModel') && config.TemplateModel.hasOwnProperty('FormCountry'))
-      {
-        console.log('\tTemplateModel: ', config.TemplateModel);
-        console.log('\tTemplateModel FormCountry: ', config.TemplateModel.FormCountry);
-        console.log('\tIs Valid? ', config.TemplateModel.FormCountry !== null && config.TemplateModel.FormCountry !== undefined ? this.CountryShortMap[config.TemplateModel.FormCountry.trim().toUpperCase()] ? true : false : false);
-      }
-      else console.log('\tTemplateModel not found');
-      console.groupEnd();
+      //console.log('Getting FormCountry:');
+      //console.log('\tInjected FormCountry: ', Affinity2018.FormCountry);
+      //console.log('\tIs Valid? ', this.CountryShortMap[Affinity2018.FormCountry.trim().toUpperCase()] ? true : false);
+      //console.log('\tConfig: ', config);
+      //if (config.hasOwnProperty('TemplateModel') && config.TemplateModel.hasOwnProperty('FormCountry'))
+      //{
+      //  console.log('\tTemplateModel: ', config.TemplateModel);
+      //  console.log('\tTemplateModel FormCountry: ', config.TemplateModel.FormCountry);
+      //  console.log('\tIs Valid? ', this.CountryShortMap[config.TemplateModel.FormCountry.trim().toUpperCase()] ? true : false);
+      //}
+      //else console.log('\tTemplateModel not found');
 
       // copy and overwrite default config with passed in config
       var key, mergedConfig = Affinity2018.objectDeepMerge(this.defaultConfig, config);
@@ -8326,9 +8359,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     {
       this.FormCountry = !Affinity2018.isNullOrEmpty(Affinity2018.FormCountry) ? this.GetCountryCodeVariant(Affinity2018.FormCountry) : null;
     }
-
-    // Once we have figured out what country we are, set it back to the global root
-    Affinity2018.FormCountry = this.FormCountry;
 
     /* fix paths */
     
@@ -8371,7 +8401,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     Affinity2018.ShowPageLoader();
 
-    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json';
+    var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?version=' + Affinity2018.Version;
 
     axios({
       url: url,
@@ -8392,8 +8422,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.ArrowTypes = response.data.ArrowTypes;
           this.TypeMap = response.data.TypeMap;
           this.DocumentCategories = response.data.DocumentCategories;
-          this.CountrySensativeFields = response.data.CountrySensativeFields;
-          this.CountrySensativeFieldNames = Object.keys(this.CountrySensativeFields);
           this.ElementControllerMap = {};
 
           this.TableTypes.sort(function (a, b)
@@ -11538,13 +11566,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
         if (sectionMode !== null) config.Details.AffinityField.Mode = sectionMode;
         config.Label = AffinityField.DisplayLabel;
         config.Details.Label = AffinityField.DisplayLabel;
-        //config.Display = this.CleverForms.ElementData[AffinityField.CleverFormsDisplayType];
-
-        let displayUpdates = this.CleverForms.GetDisplayTypeFromConfig(config);
-        let displayType = displayUpdates.Type;
-        config = displayUpdates.Config;
-
-        config.Display = this.CleverForms.ElementData[displayType];
+        config.Display = this.CleverForms.ElementData[AffinityField.CleverFormsDisplayType];
 
         config = this.CleverForms.SelectDefaultModeOnFieldSearch(config);
 
@@ -12144,7 +12166,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
       '_clearForm',
       '_loadTemplate', '_loadTemplateError', '_processTemplate',
-      '_checkToggleCountrySelect',
 
       '_insertFormElement', '_updateFormElement',
       '_updateDroppedElement', '_attemptSetElementAsKey',
@@ -12255,7 +12276,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
     /** Kick off data loader ... */
     Affinity2018.ShowPageLoader();
-    this._updateFormDetails();
     this._insertFormElements();
 
     if (this.TopNode.querySelector('input.form-name').value.trim() !== '')
@@ -12364,15 +12384,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
 
         if (config.Type === 'AffinityField' && config.Details.AffinityField.FieldName === 'LINK_ID') node.classList.add('hidden');
-        
-        this._checkToggleCountrySelect();
 
         return node;
       }
 
     }
-
-    this._checkToggleCountrySelect();
 
     return false;
   }
@@ -13188,40 +13204,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
 
 
-  /**
-  * Summary. Save any item changes
-  * @this    Class scope
-  * @access  public
-  * 
-  * @param {Nodes} nodes Dom nodes in the Right Desinger list to save
-  */
-  GetLabelFromConfig(config)
-  {
-    let title = config.Details.Label;
-    if (Affinity2018.isNullOrEmpty(title))
-    {
-      title = Affinity2018.isNullOrEmpty(config.Label) ? config.Type : config.Label;
-      //if (config.Type === 'AffinityField' && config.hasOwnProperty('Display') && config.Display !== undefined && config.Display !== null)
-      //{
-      //  title = 'Affinity Field - ' + config.Display.Label;
-      //}
-      if (
-        config.Type === 'AffinityField' 
-        && config.Details.hasOwnProperty('AffinityField') 
-        && config.Details.AffinityField !== undefined 
-        && config.Details.AffinityField !== null
-        && !Affinity2018.isNullOrEmpty(config.Details.AffinityField.FieldName)
-      )
-      {
-        //title = 'Affinity Field (' + config.Details.AffinityField.FieldName + ')';
-        title = config.Details.AffinityField.FieldName;
-      }
-    }
-    return title;
-  }
-
-
-
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                                                                                           *********************/
@@ -13338,7 +13320,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       if (this.CleverForms.PseudoGlobalElementTypes.contains(data.Type)) elementNode.classList.add('pseudo-global-key');
 
       elementNode.querySelector('.main-icon').classList.add(data.Icon.Color, 'icon-cf-' + data.Icon.Name.replace('icon-', '').replace('cf-', ''));
-      elementNode.querySelector('.label').innerHTML = this.GetLabelFromConfig(data);
+      elementNode.querySelector('.label').innerHTML = data.Label;
       elementNode.classList.add('cf-designer-element', 'ui-has-tooltip');
       elementNode.dataset.tooltip = data.Tooltip;
       elementNode.dataset.tooltipDir = 'right';
@@ -13720,51 +13702,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
 
   /**
-   * Summary. Lock / Unlock Country selector based on if there are country sensative fields in the form
-   * @this    Class scope
-   * @access  private
-   */
-  _checkToggleCountrySelect()
-  {
-    let countrySelect = this.TopNode.querySelector('select.form-country');
-    let countries = Affinity2018.Apps.CleverForms.Default.TemplateModel.SupportedCountries; // get supported countries
-    let country = countries[0];
-    if (countries.length === 1)
-    {
-      // If we have only ONE supported contry, and we have country senesative fields, lock the country select :P
-      if (this._hasCountrySensativeFields(null, true) && !countrySelect.parentElement.classList.contains('disabled'))
-      {
-        countrySelect.innerHTML = `<option value="${country}">${this.CleverForms.GetCountryDisplayVariant(country)}</option>`;
-        countrySelect.parentElement.classList.add('disabled');
-        countrySelect.value = country;
-        let descNode = countrySelect.parentElement.nextElementSibling;
-        if (descNode && descNode.nodeName.toLowerCase() === 'p')
-        {
-          descNode.classList.add('hidden');
-        }
-      }
-      // If we have only ONE supported contry, and we have NO country senesative fields, unlock the country select :P
-      else if (!this._hasCountrySensativeFields(null, true) && countrySelect.parentElement.classList.contains('disabled'))
-      {
-        countrySelect.innerHTML = '<option value="">N/A</option>';
-        for (let c of countries)
-        {
-          countrySelect.innerHTML += `<option value="${c}">${this.CleverForms.GetCountryDisplayVariant(c)}</option>`;
-        }
-        countrySelect.parentElement.classList.remove('disabled');
-        countrySelect.value = country;
-        let descNode = countrySelect.parentElement.nextElementSibling;
-        if (descNode && descNode.nodeName.toLowerCase() === 'p')
-        {
-          descNode.classList.remove('hidden');
-        }
-      }
-    }
-  }
-
-
-
-  /**
    * Summary. Check if section config requires global SectionWorkflowVisibilitySettings
    * @this    Class scope
    * @access  private
@@ -13866,13 +13803,11 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   _setElementModeLabel (node)
   {
     if (node && $a.isNode(node) && node.controller && node.controller.Config.Type === 'AffinityField')
-    {      // Once we have mode switching, we could do this for all Affinty Fields.
-
-      let title = this.GetLabelFromConfig(node.controller.Config);
-
+    {
+      // Once we have mode switching, we could do this for all Affinty Fields.
       if (node.controller.Config.Details.AffinityField.IsKeyField)
       {
-        node.querySelector('.label').innerHTML = title + ' <em>(' + node.controller.GetModeName() + ')</em>';
+        node.querySelector('.label').innerHTML = node.controller.Config.Details.Label + ' <em>(' + node.controller.GetModeName() + ')</em>';
       }
       else
       {
@@ -13888,9 +13823,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         {
           matches.forEach(function (matchNode)
           {
-            title = this.GetLabelFromConfig(matchNode.controller.Config);
-            matchNode.querySelector('.label').innerHTML = title + ' <em>(' + matchNode.controller.GetModeName() + ')</em>';
-          }.bind(this));
+            matchNode.querySelector('.label').innerHTML = matchNode.controller.Config.Details.Label + ' <em>(' + matchNode.controller.GetModeName() + ')</em>';
+          });
         }
 
       }
@@ -13938,26 +13872,24 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         node.controller = new Affinity2018.Classes.Apps.CleverForms.Elements[config.Type](config);
         node.classList.add('item-' + node.controller.UniqueName);
         node.dataset.name = node.controller.Name;
-        node.querySelector('.label').innerHTML = this.GetLabelFromConfig(config);
-
-        //if (
-        //  node.querySelector('.label')
-        //  && config.hasOwnProperty('Details')
-        //  && (
-        //    config.Details.Label !== null
-        //    && (
-        //      $a.isString(config.Details.Label)
-        //      && config.Details.Label.trim() !== ''
-        //    )
-        //  )
-        //)
-        //{
-        //  node.querySelector('.label').innerHTML = config.Details.Label;
-        //}
-        //else
-        //{
-        //  node.querySelector('.label').innerHTML = config.Label;
-        //}
+        if (
+          node.querySelector('.label')
+          && config.hasOwnProperty('Details')
+          && (
+            config.Details.Label !== null
+            && (
+              $a.isString(config.Details.Label)
+              && config.Details.Label.trim() !== ''
+            )
+          )
+        )
+        {
+          node.querySelector('.label').innerHTML = config.Details.Label;
+        }
+        else
+        {
+          node.querySelector('.label').innerHTML = config.Label;
+        }
 
         /**/
 
@@ -14121,8 +14053,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
     this._attemptSetElementAsKey(node, true);
     this._setSectionModelNameLabels();
-    this._checkToggleCountrySelect();
     this.LockAffinityNonMasterFileSection(node);
+
     this._checkSave();
 
   }
@@ -14310,7 +14242,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           //removed = node.controller.RemoveDesignerElement(this._removeElement);
           this._setElementForDelete(node);
           this._setSectionModelNameLabels();
-          this._checkToggleCountrySelect();
         }.bind(this),
         onCancel: this._clearRemove,
         onClose: this._clearRemove
@@ -14328,9 +14259,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _getDependantFields(keyConfig)
   {
-      let isGlobalKey = this.CleverForms.IsGlobalKey(keyConfig),
-        targetNode = isGlobalKey ? this.RightListNode : this.RightListNode.querySelector('li.item-' + keyConfig.Name).closest('li[data-type="Section"]'),
-        allNodes = targetNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
+    var allNodes = this.RightListNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
         dependantNodes = [],
         dependantNames = [],
         plural = '',
@@ -14545,7 +14474,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     var countryNode = this.TopNode.querySelector('select.form-country');
     var formCountry = this.CleverForms.GetCountryCodeVariant(countryNode.value);
     if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === 'NULL' || formCountry === '') formCountry = null;
-    Affinity2018.FormCountry = countryNode.value;
 
     if (this._hasCountrySensativeFields())
     {
@@ -14553,12 +14481,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       {
         countryNode.value = Affinity2018.Apps.CleverForms.Default.TemplateModel.FormCountry;
       }
-      Affinity2018.FormCountry = countryNode.value;
       this.FormDetailsProgress = 'none';
-      if (!$a.isEvent(ev))
-      {
-        countryNode.value = Affinity2018.FormCountry;
-      }
       window.dispatchEvent(new Event('FormDetailsDone'));
       return;
     }
@@ -14641,75 +14564,66 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    * @this    Class scope
    * @access  private
    */
-  _hasCountrySensativeFields(formCountry, simpleReturn)
+  _hasCountrySensativeFields(formCountry)
   {
     //if (!this.HasMultipleCountries) return false;
-    simpleReturn = simpleReturn === undefined ? false : simpleReturn;
     let formCountryNode = this.TopNode.querySelector('select.form-country');
     let countries = Affinity2018.Apps.CleverForms.Default.TemplateModel.SupportedCountries; // get supported countries
-    let elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]:not(.hidden)');
-    if (elementNodes.length > 0)
+    var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
+    var checkFeilds = this.CleverForms.CountrySensativeFieldNames;
+    var hasSensativeFields = false;
+    if (formCountry === undefined)
     {
-      let checkFeilds = this.CleverForms.CountrySensativeFieldNames;
-      let hasSensativeFields = false;
-      if (formCountry === undefined)
+      formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
+      if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === 'NULL' || formCountry === '') formCountry = null;
+    }
+    if (formCountry === null)
+    {
+      elementNodes.forEach(function (elementNode)
       {
-        formCountry = this.CleverForms.GetCountryCodeVariant(this.TopNode.querySelector('select.form-country').value);
-        if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === 'NULL' || formCountry === '') formCountry = null;
-      }
-      if (formCountry === null)
+        if (elementNode.hasOwnProperty('controller'))
+        {
+          var elementConfig = elementNode.controller.Config;
+          if (
+            elementConfig.Details.hasOwnProperty('AffinityField')
+            && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
+          )
+          {
+            hasSensativeFields = true;
+          }
+        }
+      }.bind(this));
+      if (hasSensativeFields)
       {
-        for (let elementNode of elementNodes)
+        if ($a.isNullOrEmpty(formCountryNode.value)) // form contry selector is N/A
         {
-          if (elementNode.hasOwnProperty('controller'))
+          if (countries.length == 1) // is only on, is is NOT multi country
           {
-            let elementConfig = elementNode.controller.Config;
-            if (
-              elementConfig.Details.hasOwnProperty('AffinityField')
-              && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
-            )
-            {
-              hasSensativeFields = true;
-              break;
-            }
+            formCountryNode.value = countries[0]; // set to default ..
+            this._updateFormDetails(); // and save :P
+            return false; // then return, NO! We do NOT have illegal country sensative fields in a N/A template :P
           }
         }
-        if (simpleReturn)
+        let fieldSpecific = false;
+        if (this.ElementDropped !== null)
         {
-          return hasSensativeFields;
-        }
-        if (hasSensativeFields)
-        {
-          if ($a.isNullOrEmpty(formCountryNode.value)) // form contry selector is N/A
+          fieldSpecific = true;
+          if (this.ElementDropped.parentNode)
           {
-            if (countries.length == 1) // is only one, so is NOT multi country
-            {
-              formCountryNode.value = countries[0]; // set to default ..
-              this._updateFormDetails(); // and save :P
-              return false; // then return, NO! We do NOT have illegal country sensative fields in a N/A template :P
-            }
+            this.ElementDropped.parentNode.removeChild(this.ElementDropped);
+            // TODO:" Do we need to remove keys too?
           }
-          let fieldSpecific = false;
-          if (this.ElementDropped !== null)
-          {
-            fieldSpecific = true;
-            if (this.ElementDropped.parentNode)
-            {
-              this.ElementDropped.parentNode.removeChild(this.ElementDropped);
-              // TODO:" Do we need to remove keys too?
-            }
-          }
-          let lang = $a.Lang.ReturnPath('application.cleverfroms.designer.' + (fieldSpecific ? 'element-requires-form-country' : 'has-country-sensative-fields'));
-          Affinity2018.Dialog.Show({
-            message: lang,
-            showOk: true,
-            showCancel: false,
-            showInput: false,
-            canBackgroundClose: false,
-            textAlign: 'left'
-          });
-          return true;
         }
+        let lang = $a.Lang.ReturnPath('application.cleverfroms.designer.' + (fieldSpecific ? 'element-requires-form-country' : 'has-country-sensative-fields'));
+        Affinity2018.Dialog.Show({
+          message: lang,
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          canBackgroundClose: false,
+          textAlign: 'left'
+        });
+        return true;
       }
     }
     this._checkResetFormCountry();
@@ -14729,33 +14643,30 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (countries.length === 1)
     {
       let formCountryNode = this.TopNode.querySelector('select.form-country');
-      let elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
-      let checkFeilds = this.CleverForms.CountrySensativeFieldNames;
-      let hasSensativeFields = false;
-      if (elementNodes.length > 0)
+      var elementNodes = this.RightListNode.querySelectorAll('li.cf-designer-element[data-type="AffinityField"]');
+      var checkFeilds = this.CleverForms.CountrySensativeFieldNames;
+      var hasSensativeFields = false;
+      if (!$a.isNullOrEmpty(formCountryNode.value))
       {
-        if (!$a.isNullOrEmpty(formCountryNode.value))
+        elementNodes.forEach(function (elementNode)
         {
-          for (let elementNode of elementNodes)
+          if (elementNode.hasOwnProperty('controller'))
           {
-            if (elementNode.hasOwnProperty('controller'))
+            var elementConfig = elementNode.controller.Config;
+            if (
+              elementConfig.Details.hasOwnProperty('AffinityField')
+              && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
+            )
             {
-              var elementConfig = elementNode.controller.Config;
-              if (
-                elementConfig.Details.hasOwnProperty('AffinityField')
-                && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
-              )
-              {
-                hasSensativeFields = true;
-                break;
-              }
+              hasSensativeFields = true;
+              return;
             }
           }
-          if (!hasSensativeFields)
-          {
-            formCountryNode.value = '';
-            this._updateFormDetails();
-          }
+        }.bind(this));
+        if (!hasSensativeFields)
+        {
+          formCountryNode.value = '';
+          this._updateFormDetails();
         }
       }
     }
@@ -14835,7 +14746,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (this.ld.currentScroll > this.ld.lastScroll) this.ld.scrollDirection = 'down';
     else this.ld.scrollDirection = 'up';
 
-    // old wrapper footer offset
     var dashFooterOffset = 0;
     if (document.body.classList.contains('dashboard') && document.querySelector('#dashFooter'))
     {
@@ -14849,20 +14759,13 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       }
     }
 
-    // new wrapper header offset
-    var dashHeaderOffset = 0;
-    if (document.body.classList.contains('ss-dashboard-wrapper'))
-    {
-      dashHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? $a.getSize(document.querySelector('.ss-dashboard-wrap-main-header')).height : 0;
-    }
-
     if (this.ld.scrollDirection === 'down')
     {
       if (!this.ld.locked && this.ld.currentScroll >= this.ld.top - 15)
       {
         this.LeftListNode.style.position = 'fixed';
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) +  'px';
-        this.LeftListNode.style.height = (this.ld.viewHeight - 40 - dashHeaderOffset) + 'px';
+        this.LeftListNode.style.height = (this.ld.viewHeight - 40) + 'px';
         this.LeftListNode.style.overflow = 'hidden';
         this.ld.locked = true;
       }
@@ -14886,7 +14789,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         }
         this.LeftListNode.style.bottom = (15 + dashFooterOffset) + 'px';
       }
-      if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15 - dashHeaderOffset)
+      if (this.ld.locked && this.ld.currentScroll <= this.ld.top - 15)
       {
         if ('scrollTo' in this.LeftListNode) this.LeftListNode.scrollTo(0, 0);
         else this.LeftListNode.scrollTop = 0;
@@ -26862,14 +26765,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
   SetFormRow (target)
   {
-    if (this.Config.Details.Text == null || this.Config.Details.Text.trim() === '')
-    {
-      if (this.FormRowNode)
-      {
-        return this.FormRowNode;
-      }
-      return;
-    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.ArrowDirection.toLowerCase().trim(), this.Config.Details.Text);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -28975,14 +28870,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
   SetFormRow (target)
   {
-    if (this.Config.Details.Text == null || this.Config.Details.Text.trim() === '')
-    {
-      if (this.FormRowNode)
-      {
-        return this.FormRowNode;
-      }
-      return;
-    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Text);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -31435,14 +31322,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   SetFormRow (target)
   {
-    if (this.Config.Details.Value == null || this.Config.Details.Value.trim() === '')
-    {
-      if (this.FormRowNode)
-      {
-        return this.FormRowNode;
-      }
-      return;
-    }
     var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
@@ -43974,7 +43853,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       {
         node.querySelector('input').checked = true;
         this._filterToggled({ target: node });
-        if (this.Form) this.Form.ResizeSection();
       }
     }
 
