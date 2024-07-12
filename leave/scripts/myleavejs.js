@@ -2572,7 +2572,7 @@ var UITeamLeaveCalendar = new Class({
 		this.calendarIframeLoaded = false;
 		var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
 		var maxHeight = document.body.clientHeight - 320;
-		this.newCalendarUIFrame = new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
+		this.newCalendarUIFrame = new Element('div', { 'class': 'ss-app-iframe', 'data-hj-allow-iframe' : 'true', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
 			.adopt(this.calendarIframe).inject(this.box, "top");
 	},
 
