@@ -19064,6 +19064,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         else
         {
           $a.ShowPageLoader();
+          // log Post
+          if (Affinity2018.EnableLogging)
+          {
+            Affinity2018.Log({
+              LogLevel: Affinity2018.LogLevel.Information,
+              DocumentId: this.CleverForms.GetInstanceGuid(),
+              Message: 'Form Instance Posted',
+              Details: JSON.stringify(this.PostData),
+              Action: this.PostData.ActionName,
+              Source: 'User'
+            });
+          }
           setTimeout(function()
           {
             var path = this.CleverForms.InboxPath;
@@ -19073,18 +19085,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }.bind(this), 500);
           return;
         }
-      }
-      // log Post
-      if (Affinity2018.EnableLogging)
-      {
-        Affinity2018.Log({
-          LogLevel: Affinity2018.LogLevel.Information,
-          DocumentId: this.CleverForms.GetInstanceGuid(),
-          Message: 'Form Instance Posted',
-          Details: JSON.stringify(this.PostData),
-          Action: this.PostData.ActionName,
-          Source: 'User'
-        });
       }
     }
     if (this.PostData.ActionName === 'Save')
@@ -32099,10 +32099,26 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     var startData = Affinity2018.getObjectFromDataset(this.lookupNode, 'address');
     if (Affinity2018.isObject(startData)) this.StartAddressObject = startData;
+    if (this.StartAddressObject === null)
+    {
+      startData = this.lookupNode.value.trim();
+      if (startData.length > 2)
+      {
+        try
+        {
+          startData = JSON.parse(startData);
+        } catch {}
+        if (Affinity2018.isObject(startData))
+        {
+          this.StartAddressObject = startData;
+        }
+      }
+    }
 
     if (!this.lookupNode.hasOwnProperty('widgets')) this.lookupNode.widgets = {};
     this.lookupNode.widgets.Address = this;
-
+    
+    this.Autocomplete = null;
     this.AutocompleteListener = null;
 
     this.addressNode = document.createElement('div');
@@ -32110,12 +32126,15 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     this.addressNode.innerHTML = this.addressTemplate;
     this.lookupNode.parentNode.appendChild(this.addressNode);
 
-    this.lookupNode.addEventListener('focus', this._storePreChange);
-    this.addressNode.querySelectorAll('input').forEach(function (node)
+    if (!this.lookupNode.disabled)
     {
-      node.addEventListener('focus', this._storePreChange);
-      node.addEventListener('blur', this._userUpdateSubAddress);
-    }.bind(this));
+      this.lookupNode.addEventListener('focus', this._storePreChange);
+      this.addressNode.querySelectorAll('input').forEach(function (node)
+      {
+        node.addEventListener('focus', this._storePreChange);
+        node.addEventListener('blur', this._userUpdateSubAddress);
+      }.bind(this));
+    }
 
     this.iconNode = this.addressNode.querySelector('.address-indicator');
     if (this.lookupNode.disabled)
@@ -32137,9 +32156,12 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         }
         else
         {
-          this.addressNode.querySelector('.' + component.formMap).addEventListener('focus', this._storePreChange);
-          this.addressNode.querySelector('.' + component.formMap).addEventListener('keyup', this._userUpdateAddress);
-          this.addressNode.querySelector('.' + component.formMap).addEventListener('blur', this._userUpdateAddress);
+          if (!this.lookupNode.disabled)
+          {
+            this.addressNode.querySelector('.' + component.formMap).addEventListener('focus', this._storePreChange);
+            this.addressNode.querySelector('.' + component.formMap).addEventListener('keyup', this._userUpdateAddress);
+            this.addressNode.querySelector('.' + component.formMap).addEventListener('blur', this._userUpdateAddress);
+          }
         }
       }
     }
@@ -32292,33 +32314,36 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       radius: this.bounds[2]
     });
 
-    var pacCount = document.querySelectorAll('.pac-container').length;
-    this.Autocomplete = new google.maps.places.Autocomplete(this.lookupNode);
-    this.Autocomplete.setOptions({
-      types: ['geocode'],
-      fields: ['address_components'],
-      bounds: circle.getBounds(),
-      //strictBounds: true
-      strictBounds: true
-    });
-
-    if (document.querySelectorAll('.pac-container').length === pacCount)
+    if (!this.lookupNode.disabled)
     {
-      var pacContainerCheck = setInterval(function ()
+      var pacCount = document.querySelectorAll('.pac-container').length;
+      this.Autocomplete = new google.maps.places.Autocomplete(this.lookupNode);
+      this.Autocomplete.setOptions({
+        types: ['geocode'],
+        fields: ['address_components'],
+        bounds: circle.getBounds(),
+        //strictBounds: true
+        strictBounds: true
+      });
+
+      if (document.querySelectorAll('.pac-container').length === pacCount)
       {
-        var pacContainers = document.querySelectorAll('.pac-container');
-        if (pacContainers.length > pacCount)
+        var pacContainerCheck = setInterval(function ()
         {
-          clearInterval(pacContainerCheck);
-          this.PacContaner = pacContainers[pacContainers.length - 1];
-          pacContainerCheck = null;
-          pacCount = null;
-          if (this.lookupNode.dataset.position === 'fixed')
+          var pacContainers = document.querySelectorAll('.pac-container');
+          if (pacContainers.length > pacCount)
           {
-            this.PacContaner.classList.add('force-fixed');
+            clearInterval(pacContainerCheck);
+            this.PacContaner = pacContainers[pacContainers.length - 1];
+            pacContainerCheck = null;
+            pacCount = null;
+            if (this.lookupNode.dataset.position === 'fixed')
+            {
+              this.PacContaner.classList.add('force-fixed');
+            }
           }
-        }
-      }.bind(this), 10);
+        }.bind(this), 10);
+      }
     }
 
     /**/
@@ -32349,7 +32374,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     }
 
-    if (!checkExisitng) 
+    if (!checkExisitng && !this.lookupNode.disabled) 
     {
       this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddressSelected);
     }
@@ -32401,8 +32426,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _checkAddress()
   {
-    if (this.lookupNode.disabled) return;
-
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
     axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async')
     .then(function (response)
@@ -32509,7 +32532,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _fillAddress (place)
   {
-    place = place || this.Autocomplete.getPlace();
+    place = place === undefined ? this.Autocomplete ? this.Autocomplete.getPlace() : place : place;
+
     if (place === null || place === undefined)
     {
       if (this.IsRequired) this.SetAddress('');
@@ -32524,10 +32548,10 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         component, types, addresstype, val;
     for (component in formComponents)
     {
-      if(this.addressNode.querySelector('.' + formComponents[component].formMap))
+      if (this.addressNode.querySelector('.' + formComponents[component].formMap))
       {
         this.addressNode.querySelector('.' + formComponents[component].formMap).value = '';
-        this.addressNode.querySelector('.' + formComponents[component].formMap).disabled = false;
+        this.addressNode.querySelector('.' + formComponents[component].formMap).disabled = this.lookupNode.disabled;
       }
     }
     if (formComponents)
@@ -36103,6 +36127,14 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     //if (parts.length === 4) countryCode = 'N';
     //this.SetCountry(countryCode);
 
+    if (
+      parts[parts.length - 1] === this.CleverForms.GetCountryCodeVariant(countryCode) 
+      || this.CleverForms.GetCountryDisplayVariant(parts[parts.length - 1])
+    )
+    {
+      parts.pop();
+    }
+
     switch(countryCode)
     {
       case 'A':
@@ -36299,6 +36331,8 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
   _userValidate ()
   {
+    if (this.initInputNode.disabled) return;
+
     clearTimeout(this._userValidateDelay);
     this._userValidateDelay = setTimeout(this._validate, 500);
   }
