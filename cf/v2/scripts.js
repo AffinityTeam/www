@@ -36129,7 +36129,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
 
     if (
       parts[parts.length - 1] === this.CleverForms.GetCountryCodeVariant(countryCode) 
-      || this.CleverForms.GetCountryDisplayVariant(parts[parts.length - 1])
+      || parts[parts.length - 1] === this.CleverForms.GetCountryDisplayVariant(countryCode)
     )
     {
       parts.pop();
