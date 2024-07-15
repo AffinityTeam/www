@@ -15132,7 +15132,7 @@ var UIFormValidation = new Class({
         }
 
         this.banknumValidationRequests[key] = new Request.JSON({
-            url: Affinity.apiroot + '/api/Validation/BankNumber',
+            url: Affinity.apiroot + '/Validation/BankNumber',
             method: 'post',
             onSuccess: function(result) {
                 if ('success' in result && result.success) {
@@ -15184,7 +15184,7 @@ var UIFormValidation = new Class({
         }
 
         this.taxValidationRequests[key] = new Request.JSON({
-            url: Affinity.apiroot + '/api/Validation/TaxNumber',
+            url: Affinity.apiroot + '/Validation/TaxNumber',
             method: 'post',
             onSuccess: function(result) {
                 if ('success' in result && result.success) {
