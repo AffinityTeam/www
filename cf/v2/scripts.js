@@ -12828,7 +12828,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             if (
               IsNew
               && this.CleverForms.PseudoGlobalElementTypes.contains(FieldName)
-              && SectionNode.querySelector('li[data-name="' + FieldName + '"]')
+              //&& SectionNode.querySelector('li[data-name="' + FieldName + '"]')
+              && SectionNode.querySelector('li[data-field="' + FieldName + '"]')
             )
             {
               Affinity2018.Dialog.Show({
@@ -12872,6 +12873,34 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             }
             // END - Can only have one of each global key in the form -----------------------------------------//
             //-------------------------------------------------------------------------------------------------//
+
+
+            //-------------------------------------------------------------------------------------------------//
+            // Can only have one of each field with a global key in each section ------------------------------//
+            if (
+              IsNew
+              && ExisitngKeyNode !== null
+              && SectionModel === FieldModel
+              //&& SectionNode.querySelector('li[data-name="' + FieldName + '"]')
+              && SectionNode.querySelector('li[data-field="' + FieldName + '"]')
+            )
+            {
+              Affinity2018.Dialog.Show({
+                //message: 'Oops! You can only have one "' + config.Label + '" per section.',
+                message: $a.Lang.ReturnPath('app.cf.designer.error_one_pseudo_key_per_section', { label: config.Label }),
+                showOk: true,
+                showCancel: false,
+                showInput: false,
+                buttons: {
+                  ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                  cancel: { shoe: false }
+                }
+              });
+              return false;
+            }
+            // END - Can only have one of each field with a global key in each section ------------------------//
+            //-------------------------------------------------------------------------------------------------//
+
 
             //-------------------------------------------------------------------------------------------------//
             // Check for address ------------------------------------------------------------------------------//
