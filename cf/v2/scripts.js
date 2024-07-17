@@ -8450,6 +8450,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.AllowedGlobalKeys = response.data.AllowedGlobalKeys;
           this.PseudoGlobalElementTypes = response.data.PseudoGlobalElementTypes;
           this.MasterfileTableBlacklist = response.data.MasterfileTableBlacklist;
+          this.EmployeeLikeModels = response.data.EmployeeLikeModels;
 
           this.GenderFields = response.data.GenderFields;
           this.BooleanToRadioFields = response.data.BooleanToRadioFields;
@@ -12562,8 +12563,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         AffinityField = config != null && config.Type === 'AffinityField' ? config.Details.AffinityField : null,
         AffinityFieldLabel = config != null && config.Type === 'AffinityField' ? config.Details.Label : null,
         SectionNode, DragToSectionModel,
-        SectionMode, SectionModel,
-        FieldModel, FieldMode, FieldModeName, FieldName, FieldNameLower, FieldLabel,
+        SectionMode, SectionModeName, SectionModel,
+        FieldMode, FieldModeName, FieldModel, FieldName, FieldNameLower, FieldLabel,
         ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName, ExisitngKeyLabel,
         IsNew,
         message, query;
@@ -12575,21 +12576,26 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         if (SectionNode !== null)
         {
           SectionMode = this.GetElementSectionFilterMode(node);
+          SectionModeName = $a.isNumeric(SectionMode) ? this.CleverForms.AffnityFieldModeEnums[SectionMode].Label : null;
           SectionModel = this.GetElementSectionNodelName(node);
-          FieldModel = AffinityField.ModelName;
           FieldMode = AffinityField.Mode;
           FieldModeName = $a.isNumeric(FieldMode) ? this.CleverForms.AffnityFieldModeEnums[FieldMode].Label : null;
+          FieldModel = AffinityField.ModelName;
           FieldName = AffinityField.FieldName;
           FieldNameLower = FieldName !== null ? FieldName.toLowerCase() : null;
           FieldLabel = config.Details.Label;
-          ExisitngKeyNode = this.RightListNode.querySelector('li[data-model="{0}"].is-global-key'.format(FieldMode))
-          ExisitngKeyNode = ExisitngKeyNode === null ? this.RightListNode.querySelector('li[data-model="{0}"].is-key-field'.format(FieldModel)) : null;
+          // attempt to get any GLOBAL key where the MODE is the same as our field
+          ExisitngKeyNode = this.RightListNode.querySelector(`li[data-model="${FieldMode}"].is-global-key`);
+          // if null, try to get ANY key where the the MODEL is the same as our field, else null
+          ExisitngKeyNode = ExisitngKeyNode === null ? this.RightListNode.querySelector(`li[data-model="${FieldModel}"].is-key-field`) : null;
+          // if STILL null, check if our field MODEL is in the EmployeeLikeModels list, and if so, try ANY key where MODEL is "EMPLOYEE"
+          ExisitngKeyNode = ExisitngKeyNode === null && this.CleverForms.EmployeeLikeModels.contains(FieldModel) ? this.RightListNode.querySelector(`li[data-model="EMPLOYEE"].is-key-field`) : null;
+          // if not null, collect key nformation
           ExisitngKeyMode = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.AffinityField.Mode : null;
           ExisitngKeyModeName = ExisitngKeyMode !== null ? this.CleverForms.AffnityFieldModeEnums[ExisitngKeyMode].Label : null;
           ExisitngKeyLabel = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.Label : null;
           IsNew = node.controller.Saved ? false : true;
           message = '';
-
 
           // LOGIC START ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
 
@@ -12791,7 +12797,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           if (fromSearch) // apply to search resutls only
           {
 
-
             //-------------------------------------------------------------------------------------------------//
             // Can not mix Affinity field Tables --------------------------------------------------------------//
             if (
@@ -12876,7 +12881,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
 
             //-------------------------------------------------------------------------------------------------//
-            // Can only have one of each field with a global key in each section ------------------------------//
+            // Can only have one of each field with a generic key in each section -----------------------------//
             if (
               IsNew
               && ExisitngKeyNode !== null
@@ -12898,7 +12903,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               });
               return false;
             }
-            // END - Can only have one of each field with a global key in each section ------------------------//
+            // END - Can only have one of each field with a generic key in each section -----------------------//
             //-------------------------------------------------------------------------------------------------//
 
 
