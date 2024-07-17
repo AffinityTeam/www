@@ -22879,7 +22879,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var value = null;
     if (node)
     {
-      debugger;
       value = node.value.trim()
     }
 
@@ -31914,7 +31913,7 @@ Affinity2018.Classes.Plugins.Address = class
       'Apply', 'Remove',
 
       '_apply',
-      '_loadScript', '_scriptLoaded',
+      '_loadScript', '_scriptLoaded', '_checkGoogleReady',
 
       '_templates'
 
@@ -31975,11 +31974,6 @@ Affinity2018.Classes.Plugins.Address = class
       this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
       this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       document.head.appendChild(this.scriptNode);
-      this._loadScriptFailTimer = setTimeout(function ()
-      {
-        this.Ready = true;
-        console.warn('google maps api failed to load');
-      }.bind(this), 10000)
     }
     else
     {
@@ -31989,9 +31983,29 @@ Affinity2018.Classes.Plugins.Address = class
   }
   _scriptLoaded ()
   {
-    clearTimeout(this._loadScriptFailTimer);
-    this.Ready = true;
+    clearTimeout(this._googelReadyCheck);
+    this._checkGoogleReady();
+    //clearTimeout(this._loadScriptFailTimer);
+    //this.Ready = true;
   }
+  _checkGoogleReady()
+  {
+    clearTimeout(this._googelReadyCheck);
+    if (
+      google 
+      && google.hasOwnProperty('maps') 
+      && google.maps.hasOwnProperty('LatLng')
+      && google.maps.hasOwnProperty('places')
+      && google.maps.places.hasOwnProperty('Autocomplete')
+    )
+    {
+      this.Ready = true;
+      return;
+    }
+    this._googelReadyCheck = setTimeout(this._checkGoogleReady, 100);
+  }
+
+
 
   /**/
 
@@ -32341,24 +32355,29 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   {
     clearTimeout(this._waitingTimer);
 
-    var geolocation = new google.maps.LatLng(this.bounds[0], this.bounds[1]);
-
-    var circle = new google.maps.Circle({
-      center: geolocation,
-      radius: this.bounds[2]
-    });
+    var geolocation = google && google.hasOwnProperty('maps') && google.maps.hasOwnProperty('LatLng') ? new google.maps.LatLng(this.bounds[0], this.bounds[1]) : false;
+    if (geolocation)
+    {
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: this.bounds[2]
+      });
+    }
 
     if (!this.lookupNode.disabled)
     {
       var pacCount = document.querySelectorAll('.pac-container').length;
-      this.Autocomplete = new google.maps.places.Autocomplete(this.lookupNode);
-      this.Autocomplete.setOptions({
-        types: ['geocode'],
-        fields: ['address_components'],
-        bounds: circle.getBounds(),
-        //strictBounds: true
-        strictBounds: true
-      });
+      if (geolocation)
+      {
+        this.Autocomplete = new google.maps.places.Autocomplete(this.lookupNode);
+        this.Autocomplete.setOptions({
+          types: ['geocode'],
+          fields: ['address_components'],
+          bounds: circle.getBounds(),
+          //strictBounds: true
+          strictBounds: true
+        });
+      }
 
       if (document.querySelectorAll('.pac-container').length === pacCount)
       {
@@ -32408,7 +32427,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     }
 
-    if (!checkExisitng && !this.lookupNode.disabled) 
+    if (geolocation && !checkExisitng && !this.lookupNode.disabled) 
     {
       this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddressSelected);
     }
