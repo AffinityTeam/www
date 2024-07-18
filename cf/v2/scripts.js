@@ -12589,7 +12589,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           // if null, try to get ANY key where the the MODEL is the same as our field, else null
           ExisitngKeyNode = ExisitngKeyNode === null ? this.RightListNode.querySelector(`li[data-model="${FieldModel}"].is-key-field`) : null;
           // if STILL null, check if our field MODEL is in the EmployeeLikeModels list, and if so, try ANY key where MODEL is "EMPLOYEE"
-          ExisitngKeyNode = ExisitngKeyNode === null && this.CleverForms.EmployeeLikeModels.contains(FieldModel) ? this.RightListNode.querySelector(`li[data-model="EMPLOYEE"].is-key-field`) : null;
+          ExisitngKeyNode = ExisitngKeyNode === null && this.CleverForms.EmployeeLikeModels.contains(FieldModel) ? this.RightListNode.querySelector(`li[data-model="EMPLOYEE"].is-key-field`) : ExisitngKeyNode;
           // if not null, collect key nformation
           ExisitngKeyMode = ExisitngKeyNode !== null ? ExisitngKeyNode.controller.Config.Details.AffinityField.Mode : null;
           ExisitngKeyModeName = ExisitngKeyMode !== null ? this.CleverForms.AffnityFieldModeEnums[ExisitngKeyMode].Label : null;
