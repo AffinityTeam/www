@@ -9193,7 +9193,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     // POSITION
     // DEPT
-    return this.IsKey(config) && this.IsMasterFile(config));
+    return this.IsKey(config) && this.IsMasterFile(config);
   }
 
 
