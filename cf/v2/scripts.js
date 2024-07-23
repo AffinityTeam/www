@@ -9189,6 +9189,20 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
+  IsPsuedoLookup (config)
+  {
+    // POSITION
+    // DEPT
+    return this.IsKey(config) && this.IsMasterFile(config));
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
   InsertEmptyListItem (dataList, required, selected)
   {
     if (this.InsertLookupEmptyOption)
@@ -18996,15 +19010,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     }
                     else
                     {
-                      elementData = node.controller.GetFromFormRow();
-                      if (Affinity2018.isNullOrEmpty(elementData.Value))
+                      if (this.CleverForms.IsLookup(node.controller.Config) || this.CleverForms.IsPsuedoLookup(node.controller.Config))
                       {
-                        let fromData = this._getFromFormDataByName(elementData.Name);
-                        if (fromData !== null)
+                        elementData = node.controller.GetFromFormRow();
+                        if (Affinity2018.isNullOrEmpty(elementData.Value))
                         {
-                          elementData.Value = fromData.Value;
-                          debugger;
-                          // TODO: Do we need to make sure we can still set vlaues to null or empty?
+                          let fromData = this._getFromFormDataByName(elementData.Name);
+                          if (fromData !== null && fromData.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(fromData.value))
+                          {
+                            debugger;
+                            // TODO: Do we need to make sure we can still set vlaues to null or empty?
+                            elementData.Value = fromData.Value;
+                          }
                         }
                       }
                     }
