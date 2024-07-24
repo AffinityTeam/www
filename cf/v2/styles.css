@@ -41,15 +41,18 @@
 (9391,73): run-time error CSS1030: Expected identifier, found ','
 (9391,95): run-time error CSS1031: Expected selector, found ')'
 (9391,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9776,133): run-time error CSS1030: Expected identifier, found ','
-(9776,274): run-time error CSS1031: Expected selector, found ')'
-(9776,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10356,167): run-time error CSS1030: Expected identifier, found ','
-(10356,309): run-time error CSS1031: Expected selector, found ')'
-(10356,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10607,108): run-time error CSS1030: Expected identifier, found ','
-(10607,250): run-time error CSS1031: Expected selector, found ')'
-(10607,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(9399,73): run-time error CSS1030: Expected identifier, found ','
+(9399,95): run-time error CSS1031: Expected selector, found ')'
+(9399,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9784,133): run-time error CSS1030: Expected identifier, found ','
+(9784,274): run-time error CSS1031: Expected selector, found ')'
+(9784,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10364,167): run-time error CSS1030: Expected identifier, found ','
+(10364,309): run-time error CSS1031: Expected selector, found ')'
+(10364,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10615,108): run-time error CSS1030: Expected identifier, found ','
+(10615,250): run-time error CSS1031: Expected selector, found ')'
+(10615,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -9433,13 +9436,21 @@ body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-erro
 body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after {
   color: #16c1f3;
 }
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-onl) .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-onl) .ui-form-error,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-onl) .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-onl) .ui-form-error,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-onl) .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-onl) .ui-form-error {
+  color: #ff6666;
+}
 body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
 body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
 body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
 body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
 body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child {
-  color: #ea0909;
+  color: #ff6666;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),

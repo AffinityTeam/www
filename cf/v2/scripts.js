@@ -8300,19 +8300,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
             ? this.GetCountryCodeVariant(Affinity2018.FormCountry)
             : null;
 
-      console.groupCollapsed('Getting FormCountry:');
-      console.log('\tInjected FormCountry: ', Affinity2018.FormCountry);
-      console.log('\tIs Valid? ', Affinity2018.FormCountry !== null && Affinity2018.FormCountry !== undefined ? this.CountryShortMap[Affinity2018.FormCountry.trim().toUpperCase()] ? true : false : false);
-      console.log('\tConfig: ', config);
-      if (config.hasOwnProperty('TemplateModel') && config.TemplateModel.hasOwnProperty('FormCountry'))
-      {
-        console.log('\tTemplateModel: ', config.TemplateModel);
-        console.log('\tTemplateModel FormCountry: ', config.TemplateModel.FormCountry);
-        console.log('\tIs Valid? ', config.TemplateModel.FormCountry !== null && config.TemplateModel.FormCountry !== undefined ? this.CountryShortMap[config.TemplateModel.FormCountry.trim().toUpperCase()] ? true : false : false);
-      }
-      else console.log('\tTemplateModel not found');
-      console.groupEnd();
-
       // copy and overwrite default config with passed in config
       var key, mergedConfig = Affinity2018.objectDeepMerge(this.defaultConfig, config);
       // apply new config to class root
@@ -8329,6 +8316,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
     // Once we have figured out what country we are, set it back to the global root
     Affinity2018.FormCountry = this.FormCountry;
+
+    Affinity2018.LogCountry = (function ()
+    {
+      console.log('Current Form Country: ', [undefined, null, false].contains(Affinity2018.FormCountry) ? 'N/A' :  Affinity2018.FormCountry + ' (' + this.GetCountryDisplayVariant(Affinity2018.FormCountry) + ')');
+
+    }).bind(this);
+
+    Affinity2018.LogCountry();
 
     /* fix paths */
     
@@ -14853,6 +14848,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         countryNode.value = Affinity2018.FormCountry;
       }
       window.dispatchEvent(new Event('FormDetailsDone'));
+
+      Affinity2018.LogCountry();
+
       return;
     }
 
@@ -14922,6 +14920,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             window.dispatchEvent(new Event('CountryUpdated'));
           }
           window.dispatchEvent(new Event('FormDetailsDone'));
+
+          Affinity2018.LogCountry();
+
         }.bind(this))
         .catch(function (error)
         {
@@ -19312,7 +19313,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostedErrors = [];
     if (this.OverrideIsKey) 
     {
-      this._clearErrors(true, true, true);
+      //this._clearErrors(true, true, true);
+      // we made the decision to celar ALLLLL errors if we are a global key auto-save ... BUT! We need to kee the relevant CUSTOM errors :/
+      this._clearErrors(true, false, true);
     }
     else
     {
@@ -19338,12 +19341,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
         else
         {
-          this._clearErrors(false);
+          this._clearErrors(false, false);
         }
       }
       else
       {
-        this._clearErrors(false);
+        this._clearErrors(false, false);
       }
     }
     this.OverrideIsKey = false;
@@ -23774,6 +23777,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         Affinity2018.Dialog.Show({
           message: $a.Lang.ReturnPath('app.cf.form.country_popup_warning'),
           textAlign: 'left',
+
           buttons: {
             ok: {
               show: true,
@@ -23783,9 +23787,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             },
             cancel: false
           },
-          onOk: function ()
+          onClose: function ()
           {
-            // Do nothing yet .. keep it simple ..
+            // make sure human_modified for auto-save get's triggered ..
+            let input = this.FormRowNode ? this.FormRowNode.querySelector('input') : null;
+            if (input)
+            {
+              input.blur();
+            }
           }.bind(this)
         });
       }
@@ -45305,6 +45314,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let filteredLabel = node.dataset.filteredLabel;
     let currentLabel = node.innerText.trim();
     let messageKey = null;
+
+
     if (currentLabel === allLabel)
     {
       // show all
@@ -45333,25 +45344,40 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           defaultValue = defaultValue === 'null' || defaultValue === null ? null : defaultValue;
       let configValue = this.config.Value === 'null' || this.config.Value === null ? null : this.config.Value;
       let nodeValue = this.currentValue === 'null' || this.currentValue === null ? null : this.currentValue;
-      let value = defaultValue !== null ? defaultValue : configValue !== null ? configValue : nodeValue !== null ? nodeValue : 'null';
+      let value = nodeValue !== null ? nodeValue : defaultValue !== null ? defaultValue : configValue !== null ? configValue : null;
+      let requiredValue = value;
+
+      if (defaultValue === null && value === null && this.IsRequired)
+      {
+        // Whitelist will not have null, so we need to select "Select..." which is the default select in this case, so simply return?
+        return;
+      }
+
       let foundItems = this.config.hasOwnProperty('WhiteList') 
         && this.config.WhiteList !== null 
         && this.config.WhiteList !== undefined 
         ? this.config.WhiteList.filter(obj => obj.Key.toString() === value.toString()) : [];
       let found = foundItems.length > 0 ? foundItems[0] : null;
-      if (nodeValue === null)
+
+      if (found !== null)
+      {
+        requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+      }
+
+      if (value === null)
       {
         messageKey = 'generic.whitelist.code-unavailable-in-full-list-error-manual-value-null';
       }
-      if (found === null || found.IsHidden)
+
+      if ((found === null || found.IsHidden) && currentLabel === filteredLabel) // we are filtering and no macth was found in the filterd list ..
       {
         if (this.config.Required)
         {
-          this.ShowError($a.Lang.ReturnPath(messageKey, { name: name, value: value }), true);
+          this.ShowError($a.Lang.ReturnPath(messageKey, { name: name, value: requiredValue }), true);
         }
         else
         {
-          this.ShowWarning($a.Lang.ReturnPath(messageKey, { name: name, value: value }), true);
+          this.ShowWarning($a.Lang.ReturnPath(messageKey, { name: name, value: requiredValue }), true);
         }
       }
       else
