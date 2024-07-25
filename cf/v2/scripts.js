@@ -10168,7 +10168,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     var error = 'Could not get logged in user data. ' + subError + '. CleverForms Default failed.';
     Affinity2018.LogError('Bootstrap Error', 'critical', error);
     this.OnError(error);
-
     Affinity2018.HidePageLoader();
   }
 
@@ -10328,7 +10327,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       this.ProfileStatus = this.LoadStatusEnum.Error;
       this._gotEmployeeDataError('Failed to get data from response');
     }
-
     Affinity2018.HidePageLoader();
     if (this.EmployeeSelectLocked && this.ModelStatus === this.LoadStatusEnum.Complete) this.ReleaseEmployeeSelect();
   }
@@ -10346,7 +10344,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     var error = 'Could not get employee user data. ' + subError + '. CleverForms Default failed.';
     Affinity2018.LogError('Bootstrap Error', 'critical', error);
     this.OnError(error);
-
     Affinity2018.HidePageLoader();
     this.ReleaseEmployeeSelect();
   }
@@ -13607,7 +13604,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (templateId)
     {
       api = this.CleverForms.GetTemplateApi + '?templateId=' + templateId;
-      $a.ShowPageLoader();
+      this.alwaysShowLoader = setInterval($a.ShowPageLoader, 100);
       axios({
         method: 'get',
         url: api
@@ -13675,6 +13672,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   {
     clearInterval(this._tempLoadCheckTimer);
     delete this['_tempLoadCheckTimer'];
+    clearInterval(this.alwaysShowLoader);
     $a.HidePageLoader();
     $a.LogError('Design Error', 'Critical', error + '\n' + this.CleverForms.GetTemplateApi + '?templateId=' + this.CleverForms.GetTemplateGuid());
     $a.Dialog.Show({
@@ -13958,12 +13956,17 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         });
       }
 
-      if (!this.Uploading) setTimeout($a.HidePageLoader, 250);
+      if (!this.Uploading)
+      {
+        clearInterval(this.alwaysShowLoader);
+        setTimeout($a.HidePageLoader, 250);
+      }
 
       //this._checkForIllegals(); // NO!
 
       return true;
     }
+    clearInterval(this.alwaysShowLoader);
     setTimeout($a.HidePageLoader, 250);
     return false;
   }
@@ -14973,8 +14976,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
             )
             {
-              hasSensativeFields = true;
-              break;
+              let fieldName = elementConfig.Details.AffinityField.FieldName;
+              let extendedData = this.CleverForms.CountrySensativeFields.hasOwnProperty(fieldName) ?  this.CleverForms.CountrySensativeFields[fieldName] : null;
+              if (extendedData === null || !extendedData.IgnoreCountryWarningInDesigner)
+              {
+                hasSensativeFields = true;
+              }
             }
           }
         }
@@ -15044,7 +15051,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           {
             if (elementNode.hasOwnProperty('controller'))
             {
-              var elementConfig = elementNode.controller.Config;
+              let elementConfig = elementNode.controller.Config;
               if (
                 elementConfig.Details.hasOwnProperty('AffinityField')
                 && checkFeilds.contains(elementConfig.Details.AffinityField.FieldName)
@@ -15057,8 +15064,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           }
           if (!hasSensativeFields)
           {
-            formCountryNode.value = '';
-            this._updateFormDetails();
+            let checkCountry = formCountry === undefined ? this.CleverForms.TemplateModel.FormCountry : formCountry;
+            if (checkCountry === undefined && this.CleverForms.TemplateModel.SupportedCountries.length === 1)
+            {
+              checkCountry = this.CleverForms.TemplateModel.SupportedCountries[0];
+            }
+            if (formCountryNode.querySelector('option[value="' + checkCountry + '"]'))
+            {
+              formCountryNode.value = checkCountry;
+            }
+            else
+            {
+              formCountryNode.value = '';
+              this._updateFormDetails();
+            }
           }
         }
       }
@@ -16174,7 +16193,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (!this.RightListNode.querySelector('li[data-type="Section"]') && !this.Uploading) this._injectDefaultSection();
     this.PostLocked = false;
     this.DesignerSavingNode.classList.remove('show');
-    if (!this.Uploading) $a.HidePageLoader();
+    if (!this.Uploading) 
+    {
+      $a.HidePageLoader();
+    }
     console.groupEnd();
     window.dispatchEvent(new Event('posted'));
     document.body.classList.remove('lock-post');
