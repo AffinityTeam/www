@@ -32449,7 +32449,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   SetFormRow (target)
   {
-    if (this.Config.Details.Value == null || this.Config.Details.Value.trim() === '')
+    if (this.Config.Details.Label == null || this.Config.Details.Label.trim() === '')
     {
       if (this.FormRowNode)
       {
@@ -32457,7 +32457,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
       }
       return;
     }
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, this.Config.Details.Value);
+    var html = this.HtmlRowTemplate.format(this.Config.Details.Label);
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
