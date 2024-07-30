@@ -10263,7 +10263,7 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   background: #fff !important;
   height: 26px !important;
   width: 189px !important;
-  background-color: #F8F8F8 !important;
+  background-color: #f8f8f8 !important;
   border: none !important;
   /*border-radius: 10px;*/
   box-shadow: none !important;
@@ -10280,7 +10280,7 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   background: #fff !important;
   height: 26px !important;
   width: 200px !important;
-  background-color: #F8F8F8 !important;
+  background-color: #f8f8f8 !important;
   border: none !important;
   /*border-radius: 10px;*/
   box-shadow: none !important;
@@ -10299,7 +10299,7 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   height: 26px !important;
   width: 50px !important;
   text-align: center;
-  background-color: #F8F8F8 !important;
+  background-color: #f8f8f8 !important;
   border: none !important;
   /*border-radius: 10px;*/
   box-shadow: none !important;
@@ -10332,7 +10332,7 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   height: 26px !important;
   width: 50px !important;
   text-align: center;
-  background-color: #F8F8F8 !important;
+  background-color: #f8f8f8 !important;
   border: none !important;
   /*border-radius: 10px;*/
   box-shadow: none !important;
@@ -10354,7 +10354,7 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   height: 26px !important;
   width: 50px !important;
   text-align: center;
-  background-color: #F8F8F8 !important;
+  background-color: #f8f8f8 !important;
   border: none !important;
   /*border-radius: 10px;*/
   box-shadow: none !important;
@@ -10434,6 +10434,32 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
 }
 .margin-top-20 {
   margin-top: 20px;
+}
+.leave-cancel-label {
+  background-color: #fffaea;
+  margin-left: -20px;
+  margin-right: -20px;
+  border-radius: 8px;
+}
+.leave-cancel-label > div {
+  padding: 4px 20px;
+  font-weight: bold;
+  line-height: 1.75em;
+}
+.leave-cancel-label > div > span.icon-info-round {
+  margin-right: 4px;
+  color: #ffc04c;
+  vertical-align: text-bottom;
+  font-size: 14px;
+}
+@media screen and (max-width: 767px) {
+  .leave-cancel-label {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  .leave-cancel-label > div {
+    padding: 4px 25px;
+  }
 }
 .newui .section .leave-history .history-table .section-table .leave .history-table-body .col-id-rowbutton {
   width: 106px;
