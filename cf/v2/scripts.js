@@ -9783,6 +9783,10 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         && config.Details.ItemSourceType === 'AffinityCustom'
         && config.Details.ItemSource.hasOwnProperty('WhiteList')
         && Array.isArray(config.Details.ItemSource.WhiteList)
+        && [
+          Affinity2018.Apps.CleverForms.Default.AffnityFieldModeTypes.Select.Enum,
+          Affinity2018.Apps.CleverForms.Default.AffnityFieldModeTypes.Initiator.Enum
+        ].contains(config.Details.AffinityField.Mode)
       )
       {
         displayType = 'SingleSelectDropdown';
