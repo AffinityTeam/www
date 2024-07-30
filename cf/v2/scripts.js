@@ -18998,11 +18998,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
               elementConfig = node.controller.Config;
               if (elementConfig.Type !== 'Section' && elementConfig.ViewType === 'Question')
               {
+                elementData = null;
                 if (elementConfig.Type === 'AffinityField')
                 {
                   if (elementConfig.Details.AffinityField.Mode !== this.CleverForms.AffnityFieldModeTypes.Display.Enum)
                   {
-
                     if (node.classList.contains('custom-error'))
                     {
                       let affinityId = node.dataset.name;
@@ -19047,8 +19047,20 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                           }
                         }
                       }
+                      else
+                      {
+                        elementData = node.controller.GetFromFormRow();
+                      }
                     }
-                    sectionData.Elements.push(elementData);
+                    if (elementData !== null)
+                    {
+                      sectionData.Elements.push(elementData);
+                    }
+                    else
+                    {
+                      console.warn('We did not get post data for ' + elementConfig.Details.Label);
+                      debugger;
+                    }
                   }
                 }
                 else
