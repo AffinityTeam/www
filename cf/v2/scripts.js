@@ -17880,7 +17880,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         this._getWorkflowButtons();
       }
-      else 
+      else
       {
         this._ready();
       }
@@ -19432,6 +19432,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       if (this.PostedErrors.length === 0)
       {
+        // log Post
+        if (Affinity2018.EnableLogging)
+        {
+          Affinity2018.Log({
+            LogLevel: Affinity2018.LogLevel.Information,
+            DocumentId: this.CleverForms.GetInstanceGuid(),
+            Message: 'Form Instance Posted',
+            Details: JSON.stringify(this.PostData),
+            Action: this.PostData.ActionName,
+            Source: 'User'
+          });
+        }
         if (Affinity2018.DashboardTemplate)
         {
           Affinity2018.Dialog.Show({
@@ -19445,18 +19457,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         else
         {
           $a.ShowPageLoader();
-          // log Post
-          if (Affinity2018.EnableLogging)
-          {
-            Affinity2018.Log({
-              LogLevel: Affinity2018.LogLevel.Information,
-              DocumentId: this.CleverForms.GetInstanceGuid(),
-              Message: 'Form Instance Posted',
-              Details: JSON.stringify(this.PostData),
-              Action: this.PostData.ActionName,
-              Source: 'User'
-            });
-          }
           setTimeout(function()
           {
             var path = this.CleverForms.InboxPath;
@@ -19518,7 +19518,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (this.ForceResetEmployeeData !== null)
     {
-      window.location.href = window.location.href;
+      //window.location.href = window.location.href;
+      redirectWindow = window.open(window.location.href, '_self');
+      redirectWindow.location;
     }
 
     return true;
