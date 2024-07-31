@@ -19164,7 +19164,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.PostData = this._getPostData();
       let previousState = this.FormHistory.length > 0 ? JSON.stringify(this.FormHistory[this.FormHistory.length - 1]) : '';
       let currentState = JSON.stringify(this.PostData);
-      if (previousState === currentState)
+      if (buttonData.ActionType !== 'post' && previousState === currentState)
       {
         this.suppressPostMessage = false;
         this.PostData = this._getPostData();
