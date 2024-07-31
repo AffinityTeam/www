@@ -11835,13 +11835,33 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       }
     }
 
-    // check foir valid list items
+    // check for valid list items
     if (this.PopupNode.classList.contains('has-list') && $a.Apps.Plugins.ListBuilder && button === "OK")
     {
       if (!$a.Apps.Plugins.ListBuilder.IsValid() && $a.Apps.Plugins.ListBuilder.InvalidReason)
       {
         Affinity2018.Dialog.Show({
           message: $a.Apps.Plugins.ListBuilder.InvalidReason,
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          textAlign: 'left'
+        });
+        return false;
+      }
+    }
+
+    // check for whitlist builder list items
+    if (!this.PopupNode.querySelector('.select-filter-container').classList.contains('hidden'))
+    {
+      let rows = this.PopupNode.querySelector('.select-filter-grid-wrapper tbody tr');
+      let hiddenRows = this.PopupNode.querySelector('.select-filter-grid-wrapper tbody tr.hide');
+      rows = rows === null ? [] : rows;
+      hiddenRows = hiddenRows === null ? [] : hiddenRows;
+      if (hiddenRows.length == rows.length)
+      {
+        Affinity2018.Dialog.Show({
+          message: $a.Lang.ReturnPath('generic.whitelist.hide-all-warning'),
           showOk: true,
           showCancel: false,
           showInput: false,
@@ -23587,6 +23607,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
     let hiddenRows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr.hide');
+    rows = rows === null ? [] : rows;
+    hiddenRows = hiddenRows === null ? [] : hiddenRows;
+    if (rows.length === 1)
+    {
+      this.WhitelistFilterShowNewNode.classList.remove('disabled');
+      this.WhitelistFilterShowNewNode.removeAttribute('disabled');
+      this.WhitelistFilterShowNewNode.disabled = null;
+      this.WhitelistFilterShowAllNode.classList.add('disabled');
+      this.WhitelistFilterShowAllNode.setAttribute('disabled', 'disabled');
+      this.WhitelistFilterShowAllNode.disabled = true;
+      this.WhitelistFilterShowAllNode.checked = false;
+      return;
+    }
     if (hiddenRows.length === 0 || hiddenRows.length === rows.length)
     {
       this.WhitelistFilterShowNewNode.classList.add('disabled');
