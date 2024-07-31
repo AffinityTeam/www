@@ -18619,6 +18619,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if ($a.isEvent(ev)) $a.stopEvent(ev);
 
+    clearTimeout(this.AutoSaveTimer);
+
     var button = $a.getEventNode(ev, 'button'),
       buttonData = button.buttonData,
       firstErrorRow = { row: false, index: 999999 },
@@ -19086,6 +19088,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                       debugger;
                     }
                   }
+                  else
+                  {
+                    if (this.CleverForms.IsGlobalKey(elementConfig))
+                    {
+                      addedNames.push(node.controller.Name);
+                      elementData = node.controller.GetFromFormRow();
+                      sectionData.Elements.push(elementData);
+                    }
+                  }
                 }
                 else
                 {
@@ -19151,20 +19162,25 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     else
     {
       this.PostData = this._getPostData();
-      if (buttonData.ActionType.contains('save'))
+      let previousState = this.FormHistory.length > 0 ? JSON.stringify(this.FormHistory[this.FormHistory.length - 1]) : '';
+      let currentState = JSON.stringify(this.PostData);
+      if (previousState === currentState)
       {
-        let previousState = this.FormHistory.length > 0 ? JSON.stringify(this.FormHistory[this.FormHistory.length - 1]) : '';
-        let currentState = JSON.stringify(this.PostData);
-        if (previousState === currentState)
-        {
-          this.suppressPostMessage = false;
-          this.PostData = this._getPostData();
-          this.PostState = 'none';
-          this.OverridePostData = null;
-          this.FormSavingNode.classList.remove('show');
-          $a.HidePageLoader();
-          return;
-        }
+        this.suppressPostMessage = false;
+        this.PostData = this._getPostData();
+        this.PostState = 'none';
+        this.OverridePostData = null;
+        this.FormSavingNode.classList.remove('show');
+        $a.HidePageLoader();
+        //Affinity2018.Log({
+        //  LogLevel: Affinity2018.LogLevel.Information,
+        //  DocumentId: this.CleverForms.GetInstanceGuid(),
+        //  Message: 'Form Instance Not Posted - Submit clicked with no change detected',
+        //  Details: JSON.stringify(this.PostData),
+        //  Action: this.PostData.ActionName,
+        //  Source: 'User'
+        //});
+        return;
       }
     }
 
@@ -19237,12 +19253,36 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           if ($a.isPropObject(response.config, 'data')) requestData = response.config.data;
           if ($a.isPropString(response.config, 'data')) requestData = JSON.parse(response.config.data);
-          console.log(JSON.stringify(requestData));
+          if (response.config.data === null) requestData = null;
+          if (requestData !== null)
+          {
+            console.log(JSON.stringify(requestData));
+          }
         }
+
+        if (requestData === null)
+        {
+          this._postFailed(this.PostData, 'Backend failed');
+          return true;
+        }
+
         if (requestData)
         {
 
           if (this.TestErrorStub) response.data = this.TestErrorStub;
+          
+          // TODO: Check Success and ErrorMessages in data
+          //       This is currenty disabled becuase rabbit can throw false errors as it tries different ports, for example
+          //if (response.data.hasOwnProperty('Success') && !response.data.Success)
+          //{
+          //  let error = 'Backend failed';
+          //  if (response.data.hasOwnProperty('ErrorMessages') && response.data.ErrorMessages.length > 0)
+          //  {
+          //    error = error + '<br />    ' + response.data.ErrorMessages.join('<br />    ');
+          //  }
+          //  this._postFailed(this.PostData, error);
+          //  return true;
+          //}
 
           var checkForError = this.CleverForms.CheckResponseForErrorPage(response.data);
           if (checkForError === 'OK')
@@ -19618,7 +19658,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var logError = true;
 
       if (!errorMessage) errorMessage = '';
-      else if (this.CleverForms.IsErrorPage(errorMessage))errorMessage = this.CleverForms.GetErrorPageOutputString(response);
+      else if (this.CleverForms.IsErrorPage(errorMessage)) errorMessage = this.CleverForms.GetErrorPageOutputString(response);
       
       var message = $a.Lang.ReturnPath('app.cf.form.error_template_post_fail', { message: errorMessage });
 
@@ -19855,7 +19895,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     if (this.DisableAutoSave) return;
     if (ev && 'detail' in ev && 'target' in ev)
     {
-      setTimeout((() =>
+      this.AutoSaveTimer = setTimeout((() =>
       {
         let isFullSaveKey = false;
         let rowNode = ev.target;
