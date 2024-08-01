@@ -15142,7 +15142,7 @@ var UIFormValidation = new Class({
         }
         if (document.location.href.toLowerCase().indexOf('ess.'))
         {
-            apiPath = apiPath.replace('cleverforms.', 'ess.').replace('affinitylogon.com/', 'affinitylogon.com/CleverFormsApp/');
+            apiPath = apiPath.replace('cleverforms.', 'ess.').replace('cleverformsess.', 'ess.').replace('affinitylogon.com/', 'affinitylogon.com/CleverFormsApp/');
         }
 
         this.banknumValidationRequests[key] = new Request.JSON({
@@ -15205,7 +15205,7 @@ var UIFormValidation = new Class({
         }
         if (document.location.href.toLowerCase().indexOf('ess.'))
         {
-            apiPath = apiPath.replace('cleverforms.', 'ess.').replace('affinitylogon.com/', 'affinitylogon.com/CleverFormsApp/');
+            apiPath = apiPath.replace('cleverforms.', 'ess.').replace('cleverformsess.', 'ess.').replace('affinitylogon.com/', 'affinitylogon.com/CleverFormsApp/');
         }
 
         this.taxValidationRequests[key] = new Request.JSON({
