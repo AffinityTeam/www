@@ -11854,8 +11854,8 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     // check for whitlist builder list items
     if (this.PopupNode.querySelector('.select-filter-container') && !this.PopupNode.querySelector('.select-filter-container').classList.contains('hidden'))
     {
-      let rows = this.PopupNode.querySelector('.select-filter-grid-wrapper tbody tr');
-      let hiddenRows = this.PopupNode.querySelector('.select-filter-grid-wrapper tbody tr.hide');
+      let rows = this.PopupNode.querySelectorAll('.select-filter-grid-wrapper tbody tr');
+      let hiddenRows = this.PopupNode.querySelectorAll('.select-filter-grid-wrapper tbody tr.hide');
       rows = rows === null ? [] : rows;
       hiddenRows = hiddenRows === null ? [] : hiddenRows;
       if (hiddenRows.length == rows.length)
