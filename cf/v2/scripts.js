@@ -16752,7 +16752,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'GetFormEmployeeNo',
 
-      'GetLastFormHistoryByName', 'GetLastFormHistoryElements',
+      'GetLastFormHistoryByName', 'GetLastFormHistoryElements', 'UpdateLastFormHistory',
 
       'Reset',
 
@@ -17101,18 +17101,36 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       return [].concat.apply([], arr);
     }
-    var flattenedElements = flatten(this.FormHistory.map(function(obj)
+    if (this.FormHistory.length > 0)
     {
-      return flatten(obj.Sections.map(function(section)
+      var flattenedElements = flatten(this.FormHistory.map(function(obj)
       {
-        return section.Elements;
+        return flatten(obj.Sections.map(function(section)
+        {
+          return section.Elements;
+        }));
       }));
-    }));
-    flattenedElements.reverse();
-    return flattenedElements.find(function(element)
-    {
-      return element.Name === name;
-    });
+      flattenedElements.reverse();
+      return flattenedElements.find(function(element)
+      {
+        return element.Name === name;
+      });
+    }
+    return [];
+  }
+  
+
+
+
+  /**
+   * Summary. Rebuild the lsat history state
+   * @this    Class scope
+   * @access  private
+   */
+  UpdateLastFormHistory(data)
+  {
+    this.PostData = this._getPostData();
+    this.FormHistory[this.FormHistory.length - 1] = $a.jsonCloneObject(this.PostData);
   }
   
 
@@ -19184,17 +19202,17 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
     }
 
-    this.PostData.InstanceId = this.CleverForms.GetInstanceGuid();
-    this.PostData.Comment = this.CommentInputNode.value.trim();
-    this.PostData.ActionName = buttonData.ActionType.contains('save') ? 'Save': 'Other';
-    this.PostData.DestinationStateId = buttonData.DestinationStateId;
-    //this.PostData.StateType = buttonData.StateType;
+    this.PostableData = $a.jsonCloneObject(this.PostData);
+    this.PostableData.InstanceId = this.CleverForms.GetInstanceGuid();
+    this.PostableData.Comment = this.CommentInputNode.value.trim();
+    this.PostableData.ActionName = buttonData.ActionType.contains('save') ? 'Save': 'Other';
+    this.PostableData.DestinationStateId = buttonData.StateType;
 
     if (document.querySelector('.identity[data-ref-id="' + buttonData.id + '"]'))
     {
       var identityNode = document.querySelector('.identity[data-ref-id="' + buttonData.id + '"]');
-      if (identityNode.dataset.guid) this.PostData.SelectedIdentity = identityNode.dataset.guid;
-      else this.PostData.SelectedIdentity = identityNode.value;
+      if (identityNode.dataset.guid) this.PostableData.SelectedIdentity = identityNode.dataset.guid;
+      else this.PostableData.SelectedIdentity = identityNode.value;
     }
 
     if (this.ViewType === 'Preview')
@@ -19204,22 +19222,22 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     console.groupEnd();
     console.groupCollapsed("%c✉ FORM POST (" + this.SubmitActionName + ") =========================================", 'color:#16c1f3');
-    console.log(this.PostData);
+    console.log(this.PostableData);
 
     if (Affinity2018.EnablePosting)
     {
       axios({
         method: 'POST',
         url: this.CleverForms.SubmitFormApi,
-        data: this.PostData
+        data: this.PostableData
       })
         .then(this._postThen)
         .catch(this._postCatch);
     }
     else
     {
-      this._postThen({ status: 200, config: { data: this.PostData }, data: { Success: true, Data: [] } });
-      //this._postThen({status: 200, config: { data: this.PostData }, data: { Success: false, Data: ['Some busted thing!','Some other broken thing.','The last messed up thing,'] }  });
+      this._postThen({ status: 200, config: { data: this.PostableData }, data: { Success: true, Data: [] } });
+      //this._postThen({status: 200, config: { data: this.PostableData }, data: { Success: false, Data: ['Some busted thing!','Some other broken thing.','The last messed up thing,'] }  });
     }
   }
 
@@ -19262,7 +19280,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
         if (requestData === null)
         {
-          this._postFailed(this.PostData, 'Backend failed');
+          this._postFailed(this.PostableData, 'Backend failed');
           return true;
         }
 
@@ -19280,7 +19298,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           //  {
           //    error = error + '<br />    ' + response.data.ErrorMessages.join('<br />    ');
           //  }
-          //  this._postFailed(this.PostData, error);
+          //  this._postFailed(this.PostableData, error);
           //  return true;
           //}
 
@@ -19294,11 +19312,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             }
             else
             {
-              this._postFailed(this.PostData, false, response);
+              this._postFailed(this.PostableData, false, response);
               return true;
             }
           }
-          this._postFailed(this.PostData, checkForError);
+          this._postFailed(this.PostableData, checkForError);
           return true;
         }
         else
@@ -19308,7 +19326,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       }
     }
-    this._postFailed(this.PostData, 'Unknown error');
+    this._postFailed(this.PostableData, 'Unknown error');
     return true;
   }
 
@@ -19492,7 +19510,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _postComplete()
   {
     console.groupEnd();
-    if (this.ViewType === 'Form' && this.PostData.ActionName !== 'Save' && Affinity2018.EnablePosting)
+    if (this.ViewType === 'Form' && this.PostableData.ActionName !== 'Save' && Affinity2018.EnablePosting)
     {
       if (this.PostedErrors.length === 0)
       {
@@ -19503,8 +19521,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             LogLevel: Affinity2018.LogLevel.Information,
             DocumentId: this.CleverForms.GetInstanceGuid(),
             Message: 'Form Instance Posted',
-            Details: JSON.stringify(this.PostData),
-            Action: this.PostData.ActionName,
+            Details: JSON.stringify(this.PostableData),
+            Action: this.PostableData.ActionName,
             Source: 'User'
           });
         }
@@ -19532,7 +19550,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       }
     }
-    if (this.PostData.ActionName === 'Save')
+    if (this.PostableData.ActionName === 'Save')
     {
       if (!this.suppressPostMessage)
       {
@@ -19552,8 +19570,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           LogLevel: Affinity2018.LogLevel.Information,
           DocumentId: this.CleverForms.GetInstanceGuid(),
           Message: 'Form Instance Saved',
-          Details: JSON.stringify(this.PostData),
-          Action: this.PostData.ActionName,
+          Details: JSON.stringify(this.PostableData),
+          Action: this.PostableData.ActionName,
           Source: this.OverridePostData !== null ? 'AutoSave' : 'User'
         });
       }
@@ -19573,6 +19591,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     $a.HidePageLoader();
 
+    this.PostableData = null;
     this.PostData = this._getPostData();
     this.FormHistory.push($a.jsonCloneObject(this.PostData));
 
@@ -19606,13 +19625,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       console.log('_postCatch Error');
       console.log(this.CleverForms.GetErrorPageOutputString(response));
       console.log('');
-      this._postFailed(this.PostData, this.CleverForms.GetErrorPageOutputString(response));
+      this._postFailed(this.PostableData, this.CleverForms.GetErrorPageOutputString(response));
       return;
     }
 
     if ($a.type(response) === 'error')
     {
-      this._postFailed(this.PostData, response.message);
+      this._postFailed(this.PostableData, response.message);
       return;
     }
 
@@ -19633,11 +19652,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if ($a.type(response) === 'string')
     {
-      this._postFailed(this.PostData, response);
+      this._postFailed(this.PostableData, response);
       return;
     }
 
-    this._postFailed(this.PostData, 'Unknown error');
+    this._postFailed(this.PostableData, 'Unknown error');
   }
   
 
@@ -19778,9 +19797,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         Affinity2018.Log({
           LogLevel: Affinity2018.LogLevel.Error,
           DocumentId: this.CleverForms.GetInstanceGuid(),
-          Message: 'Form Instance ' + this.PostData.ActionName + 'Failed: ' + errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' '),
-          Details: JSON.stringify(this.PostData),
-          Action: this.PostData.ActionName,
+          Message: 'Form Instance ' + this.PostableData.ActionName + 'Failed: ' + errorMessage.replace(/\<br\>/g, '\n').replace(/\&nbsp\;/g, ' '),
+          Details: JSON.stringify(this.PostableData),
+          Action: this.PostableData.ActionName,
           Source: this.OverridePostData !== null ? 'AutoSave' : 'User'
         });
       }
@@ -23931,126 +23950,116 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   _lookupModelDispatch()
   {
-    let fieldKey = this.FormRowNode.querySelector('select').value;
-    let model = this.Config.Details.AffinityField.ModelName;
-    let isKey = this.CleverForms.IsKey(this.Config);
-    let isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
-    var event = new CustomEvent('ModelLookupChanged', {
-      detail: {
-        FieldKey: fieldKey,
-        Model: model,
-        Data: this.ModelData,
-        //FromKeyChange: isGlobalKey
-        FromKeyChange: isKey
-      }
-    });
-    $a.HidePageLoader();
-    if (isGlobalKey) 
+    if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form'))
     {
-      this.CleverForms.ReleaseEmployeeSelect();
-    }
-    // Form Reset waring logic:
-    let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
-    {
-      return model.Model === this.Config.Details.AffinityField.ModelName;
-    }.bind(this)) || {}).Description || null;
-    if (this.CleverForms.IsKey(this.Config) && modelDescription !== null)
-    {
-      if (this.FormRowNode)
+      if (Affinity2018.Apps.CleverForms.Form.FormHistory.length === 0)
       {
-        // Check if the form is blank, not including returned data ..
-        let form = Affinity2018.Apps.CleverForms.Form;
-        let lastValueData = form.GetLastFormHistoryByName(this.Config.Name);
-        let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : '';
-        let hasValue = form.FormHistory.length > 1 || !$a.isNullOrEmpty(lastValue);
-        let hasFormValues = false;
-        let hasDiffs = false;
-        let returnedNames = Object.keys(this.ModelData)
-        let lastElementHistory = form.GetLastFormHistoryElements();
-        for (let elm of lastElementHistory)
-        {
-          if (
-            !returnedNames.contains(elm.Name) 
-            && !$a.isNullOrEmpty(elm.Value)
-            && ($a.isBool(elm.Value) && elm.Value)
-          )
-          {
-            console.groupCollapsed('Form is not clear:');
-            console.log('\tform value      : ', elm.Value);
-            console.log('\tform node       : ', document.querySelector('.form-row[data-name="' + elm.Name + '"]'));
-            console.groupEnd();
-            hasFormValues = true;
-            break;
-          }
+        setTimeout(this._lookupModelDispatch, 250);
+        return;
+      }
+      Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
+      let fieldKey = this.FormRowNode.querySelector('select').value;
+      let model = this.Config.Details.AffinityField.ModelName;
+      let isKey = this.CleverForms.IsKey(this.Config);
+      let isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
+      var event = new CustomEvent('ModelLookupChanged', {
+        detail: {
+          FieldKey: fieldKey,
+          Model: model,
+          Data: this.ModelData,
+          //FromKeyChange: isGlobalKey
+          FromKeyChange: isKey
         }
-        // If the form is blank, check if we have any diffs in returned data ..
-        if (!hasFormValues)
+      });
+      $a.HidePageLoader();
+      if (isGlobalKey) 
+      {
+        this.CleverForms.ReleaseEmployeeSelect();
+      }
+      // Form Reset waring logic:
+      let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
+      {
+        return model.Model === this.Config.Details.AffinityField.ModelName;
+      }.bind(this)) || {}).Description || null;
+      if (this.CleverForms.IsKey(this.Config) && modelDescription !== null)
+      {
+        if (this.FormRowNode)
         {
-          for (let key in this.ModelData)
+          // Check if the form is blank, not including returned data ..
+          let form = Affinity2018.Apps.CleverForms.Form;
+          let lastValueData = form.GetLastFormHistoryByName(this.Config.Name);
+          let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : '';
+          let hasValue = form.FormHistory.length > 1 || !$a.isNullOrEmpty(lastValue);
+          let hasFormValues = false;
+          let hasDiffs = false;
+          let returnedNames = Object.keys(this.ModelData)
+          let lastElementHistory = form.GetLastFormHistoryElements();
+          for (let elm of lastElementHistory)
           {
-            let checkValueData = form.GetLastFormHistoryByName(key);
-            let stringifyValue = function (mixed)
-            {
-              if (mixed === null || mixed === undefined) return null;
-              if ($a.isArray(mixed) || $a.isObject(mixed)) return JSON.stringify(mixed);
-              return mixed.toString();
-            };
-            let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') ? stringifyValue(checkValueData.Value) : null;
-            let newValue = stringifyValue(this.ModelData[key]);
             if (
-              !$a.isNullOrEmpty(checkValue) 
-              && checkValue !== newValue
+              !returnedNames.contains(elm.Name) 
+              && !$a.isNullOrEmpty(elm.Value)
+              && ($a.isBool(elm.Value) && elm.Value)
             )
             {
-              console.groupCollapsed('form is clear but found a form diff with returned masterfile data:');
-              console.log('\tform value     : ', checkValue);
-              console.log('\treturned value : ', newValue);
+              console.groupCollapsed('Form is not clear:');
+              console.log('\tform value      : ', elm.Value);
+              console.log('\tform node       : ', document.querySelector('.form-row[data-name="' + elm.Name + '"]'));
               console.groupEnd();
-              hasDiffs = true;
+              hasFormValues = true;
               break;
             }
           }
-        }
-        // Based ion the gathered info above, should we warn?
-        let showWarning = false;
-        if (!hasValue && hasFormValues) showWarning = true;
-        if (hasValue && (hasFormValues || hasDiffs)) showWarning = true;
-        if (showWarning)
-        {
-          // Clear the entire form first :O
-          form.Reset({
-            ShowWarning: true,
-            MessageData: {
-              message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning', { model: modelDescription }),
-              buttons: {
-                ok: { show: true, icon: 'tick', color: 'green', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
-                else: { show: true, icon: 'tick', color: 'blue', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_else', { model: modelDescription }) },
-                cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
+          // If the form is blank, check if we have any diffs in returned data ..
+          if (!hasFormValues)
+          {
+            for (let key in this.ModelData)
+            {
+              let checkValueData = form.GetLastFormHistoryByName(key);
+              let stringifyValue = function (mixed)
+              {
+                if (mixed === null || mixed === undefined) return null;
+                if ($a.isArray(mixed) || $a.isObject(mixed)) return JSON.stringify(mixed);
+                return mixed.toString();
+              };
+              let checkValue = checkValueData && checkValueData.hasOwnProperty('Value') ? stringifyValue(checkValueData.Value) : null;
+              let newValue = stringifyValue(this.ModelData[key]);
+              if (
+                !$a.isNullOrEmpty(checkValue) 
+                && checkValue !== newValue
+              )
+              {
+                console.groupCollapsed('form is clear but found a form diff with returned masterfile data:');
+                console.log('\tform value     : ', checkValue);
+                console.log('\treturned value : ', newValue);
+                console.groupEnd();
+                hasDiffs = true;
+                break;
               }
             }
-          })
-          .then(function ()
+          }
+          // Based ion the gathered info above, should we warn?
+          let showWarning = false;
+          if (!hasValue && hasFormValues) showWarning = true;
+          if (hasValue && (hasFormValues || hasDiffs)) showWarning = true;
+          if (showWarning)
           {
-            let mydata = {};
-            mydata[this.Config.Name] = fieldKey;
-            this._modelLookupChanged({
-              detail: {
-                FromKeyChange: false,
-                Model: model,
-                FieldKey: fieldKey,
-                Data: mydata
+            // Clear the entire form first :O
+            form.Reset({
+              ShowWarning: true,
+              MessageData: {
+                message: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_warning', { model: modelDescription }),
+                buttons: {
+                  ok: { show: true, icon: 'tick', color: 'green', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_ok') },
+                  else: { show: true, icon: 'tick', color: 'blue', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_else', { model: modelDescription }) },
+                  cancel: { show: true, icon: 'cancel', color: 'grey', text: $a.Lang.ReturnPath('app.cf.form.global_key_change_reset_cancel') }
+                }
               }
-            });
-            window.dispatchEvent(event);
-            this._checkForSave();
-          }.bind(this))
-          .catch(function()
-          {
-            let found = form.GetLastFormHistoryByName(this.Config.Name);
-            if (found)
+            })
+            .then(function ()
             {
               let mydata = {};
-              mydata[this.Config.Name] = found.Value;
+              mydata[this.Config.Name] = fieldKey;
               this._modelLookupChanged({
                 detail: {
                   FromKeyChange: false,
@@ -24059,19 +24068,38 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                   Data: mydata
                 }
               });
-            }
-          }.bind(this))
-        }
-        else
-        {
-          window.dispatchEvent(event);
-          this._checkForSave();
+              window.dispatchEvent(event);
+              this._checkForSave();
+            }.bind(this))
+            .catch(function()
+            {
+              let found = form.GetLastFormHistoryByName(this.Config.Name);
+              if (found)
+              {
+                let mydata = {};
+                mydata[this.Config.Name] = found.Value;
+                this._modelLookupChanged({
+                  detail: {
+                    FromKeyChange: false,
+                    Model: model,
+                    FieldKey: fieldKey,
+                    Data: mydata
+                  }
+                });
+              }
+            }.bind(this))
+          }
+          else
+          {
+            window.dispatchEvent(event);
+            this._checkForSave();
+          }
         }
       }
-    }
-    else
-    {
-      window.dispatchEvent(event);
+      else
+      {
+        window.dispatchEvent(event);
+      }
     }
   }
 
