@@ -16752,6 +16752,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       'GetFormEmployeeNo',
 
+      'GetAllFormHistoryByName',
       'GetLastFormHistoryByName', 'GetLastFormHistoryElements', 'UpdateLastFormHistory',
 
       'Reset',
@@ -17069,6 +17070,40 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
   /**
+   * Summary. Get the all item in the History by Field Name
+   * @this    Class scope
+   * @access  private
+   * 
+   * @param {string} name The name of the Field
+   */
+  GetAllFormHistoryByName(name)
+  {
+    function flatten(arr)
+    {
+      return [].concat.apply([], arr);
+    }
+    if (this.FormHistory.length > 0)
+    {
+      var flattenedElements = flatten(this.FormHistory.map(function(obj)
+      {
+        return flatten(obj.Sections.map(function(section)
+        {
+          return section.Elements;
+        }));
+      }));
+      flattenedElements.reverse();
+      return flattenedElements.filter(function(element)
+      {
+        return element.Name === name;
+      });
+    }
+    return [];
+  }
+  
+
+
+
+  /**
    * Summary. Get an array of all elelenmts in the last item in the History
    * @this    Class scope
    * @access  private
@@ -17116,7 +17151,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         return element.Name === name;
       });
     }
-    return [];
+    return null;
   }
   
 
@@ -19206,7 +19241,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostableData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostableData.Comment = this.CommentInputNode.value.trim();
     this.PostableData.ActionName = buttonData.ActionType.contains('save') ? 'Save': 'Other';
-    this.PostableData.DestinationStateId = buttonData.StateType;
+    this.PostableData.DestinationStateId = buttonData.DestinationStateId;
 
     if (document.querySelector('.identity[data-ref-id="' + buttonData.id + '"]'))
     {
@@ -23957,11 +23992,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         setTimeout(this._lookupModelDispatch, 250);
         return;
       }
-      Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
       let fieldKey = this.FormRowNode.querySelector('select').value;
       let model = this.Config.Details.AffinityField.ModelName;
       let isKey = this.CleverForms.IsKey(this.Config);
       let isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
+      let initialHistory = Affinity2018.Apps.CleverForms.Form.GetAllFormHistoryByName(this.Config.Name);
       var event = new CustomEvent('ModelLookupChanged', {
         detail: {
           FieldKey: fieldKey,
@@ -23976,6 +24011,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         this.CleverForms.ReleaseEmployeeSelect();
       }
+      Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
       // Form Reset waring logic:
       let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
       {
@@ -24042,6 +24078,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           let showWarning = false;
           if (!hasValue && hasFormValues) showWarning = true;
           if (hasValue && (hasFormValues || hasDiffs)) showWarning = true;
+          if (showWarning && initialHistory.length > 0 && $a.isNullOrEmpty(initialHistory[0].Value.toString().trim()))
+          {
+            // we had no emp to start with, so no need to wearn anybody about an emp change
+            showWarning = false;
+          }
           if (showWarning)
           {
             // Clear the entire form first :O
