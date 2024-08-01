@@ -11353,6 +11353,18 @@ var UILeaveDetail = new Class({
         if (this.buttonsBox !== undefined) {
             this.buttonsBox.empty();
         }
+        // Carried over from the old code
+        if (this.data.LeaveHeader.StatusCode === 7) {
+            var LCWrap = new Element('div', {
+                'class': 'leave-cancel-label',
+            });
+            new Element('div', {
+                'html': '<span class="icon-info-round"></span><span>Leave Cancellation</span>'
+            }).inject(LCWrap);
+            
+            LCWrap.inject(form);
+        }
+
         this.buttonsBox = new Element('div', { 'class': 'leave-detail-button-container' }).inject(form);
 
         this.createApproveButton(this.buttonsBox);

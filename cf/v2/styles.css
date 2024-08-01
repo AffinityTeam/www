@@ -1,37 +1,58 @@
 /* Minification failed. Returning unminified contents.
-(6302,59): run-time error CSS1030: Expected identifier, found ','
-(6302,81): run-time error CSS1031: Expected selector, found ')'
-(6302,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6310,59): run-time error CSS1030: Expected identifier, found ','
-(6310,81): run-time error CSS1031: Expected selector, found ')'
-(6310,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6342,82): run-time error CSS1030: Expected identifier, found ','
-(6342,153): run-time error CSS1031: Expected selector, found ')'
-(6342,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6432,64): run-time error CSS1030: Expected identifier, found ','
-(6432,71): run-time error CSS1031: Expected selector, found ')'
-(6432,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6440,63): run-time error CSS1030: Expected identifier, found ','
-(6440,70): run-time error CSS1031: Expected selector, found ')'
-(6440,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6448,72): run-time error CSS1030: Expected identifier, found ','
-(6448,79): run-time error CSS1031: Expected selector, found ')'
-(6448,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6507,74): run-time error CSS1030: Expected identifier, found ','
-(6507,216): run-time error CSS1031: Expected selector, found ')'
-(6507,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8226,113): run-time error CSS1030: Expected identifier, found ','
-(8226,125): run-time error CSS1031: Expected selector, found ')'
-(8226,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9592,133): run-time error CSS1030: Expected identifier, found ','
-(9592,274): run-time error CSS1031: Expected selector, found ')'
-(9592,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10172,167): run-time error CSS1030: Expected identifier, found ','
-(10172,309): run-time error CSS1031: Expected selector, found ')'
-(10172,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10423,108): run-time error CSS1030: Expected identifier, found ','
-(10423,250): run-time error CSS1031: Expected selector, found ')'
-(10423,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6388,59): run-time error CSS1030: Expected identifier, found ','
+(6388,81): run-time error CSS1031: Expected selector, found ')'
+(6388,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6396,59): run-time error CSS1030: Expected identifier, found ','
+(6396,81): run-time error CSS1031: Expected selector, found ')'
+(6396,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6428,82): run-time error CSS1030: Expected identifier, found ','
+(6428,153): run-time error CSS1031: Expected selector, found ')'
+(6428,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6518,64): run-time error CSS1030: Expected identifier, found ','
+(6518,71): run-time error CSS1031: Expected selector, found ')'
+(6518,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6526,63): run-time error CSS1030: Expected identifier, found ','
+(6526,70): run-time error CSS1031: Expected selector, found ')'
+(6526,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6534,72): run-time error CSS1030: Expected identifier, found ','
+(6534,79): run-time error CSS1031: Expected selector, found ')'
+(6534,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6593,74): run-time error CSS1030: Expected identifier, found ','
+(6593,216): run-time error CSS1031: Expected selector, found ')'
+(6593,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8326,113): run-time error CSS1030: Expected identifier, found ','
+(8326,125): run-time error CSS1031: Expected selector, found ')'
+(8326,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9360,73): run-time error CSS1030: Expected identifier, found ','
+(9360,95): run-time error CSS1031: Expected selector, found ')'
+(9360,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9368,73): run-time error CSS1030: Expected identifier, found ','
+(9368,95): run-time error CSS1031: Expected selector, found ')'
+(9368,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9390,73): run-time error CSS1030: Expected identifier, found ','
+(9390,95): run-time error CSS1031: Expected selector, found ')'
+(9390,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9399,73): run-time error CSS1030: Expected identifier, found ','
+(9399,95): run-time error CSS1031: Expected selector, found ')'
+(9399,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9407,73): run-time error CSS1030: Expected identifier, found ','
+(9407,95): run-time error CSS1031: Expected selector, found ')'
+(9407,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9415,73): run-time error CSS1030: Expected identifier, found ','
+(9415,95): run-time error CSS1031: Expected selector, found ')'
+(9415,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9423,73): run-time error CSS1030: Expected identifier, found ','
+(9423,95): run-time error CSS1031: Expected selector, found ')'
+(9423,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9808,133): run-time error CSS1030: Expected identifier, found ','
+(9808,274): run-time error CSS1031: Expected selector, found ')'
+(9808,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10388,167): run-time error CSS1030: Expected identifier, found ','
+(10388,309): run-time error CSS1031: Expected selector, found ')'
+(10388,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10639,108): run-time error CSS1030: Expected identifier, found ','
+(10639,250): run-time error CSS1031: Expected selector, found ')'
+(10639,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -1725,6 +1746,18 @@
 
 
 
+/** ALIGNING TO NEW UI **/
+/***************************************************************************************************************************************************/
+/***************************************************************************************************************************************************/
+/***                                                 ***********************************************************************************************/
+/***   ███    ██ ███████ ██     ██     ██    ██ ██   ***********************************************************************************************/
+/***   ████   ██ ██      ██     ██     ██    ██ ██   ***********************************************************************************************/
+/***   ██ ██  ██ █████   ██  █  ██     ██    ██ ██   ***********************************************************************************************/
+/***   ██  ██ ██ ██      ██ ███ ██     ██    ██ ██   ***********************************************************************************************/
+/***   ██   ████ ███████  ███ ███       ██████  ██   ***********************************************************************************************/
+/***                                                 ***********************************************************************************************/
+/***************************************************************************************************************************************************/
+/*************************************************************************************************************************** Source63 *** new UI ***/
 /***************************************************************************************************************************************************/
 
 /***************************************************************************************************************************************************/
@@ -2436,6 +2469,18 @@ body.ui2018 .logo-icon-bg {
 /***************************************************************************************************************************************************/
 
 /************************************************************************************************************************* Source63 *** defaults ***/
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3703,8 +3748,8 @@ body.ui2018 .ui-form-error.show * {
 }
 body.ui2018 .form-row .ui-form-error {
   position: absolute;
-  bottom: -27px;
-  right: 15px;
+  bottom: 0;
+  right: 0;
 }
 body.ui2018 button,
 body.ui2018 .button,
@@ -6277,6 +6322,14 @@ body.ui2018.uiupdate .default-form .form-row,
 body.ui2018.uiupdate.cform .default-form .form-row {
   margin: 0 0 20px 0;
 }
+body.ui2018.uiupdate form .form-row:last-child,
+body.ui2018.uiupdate.cform form .form-row:last-child,
+body.ui2018.uiupdate .form .form-row:last-child,
+body.ui2018.uiupdate.cform .form .form-row:last-child,
+body.ui2018.uiupdate .default-form .form-row:last-child,
+body.ui2018.uiupdate.cform .default-form .form-row:last-child {
+  margin: 0 !important;
+}
 body.ui2018.uiupdate form .form-row.error,
 body.ui2018.uiupdate.cform form .form-row.error,
 body.ui2018.uiupdate .form .form-row.error,
@@ -6284,7 +6337,7 @@ body.ui2018.uiupdate.cform .form .form-row.error,
 body.ui2018.uiupdate .default-form .form-row.error,
 body.ui2018.uiupdate.cform .default-form .form-row.error {
   border: none;
-  padding: 0;
+  padding-left: 0;
 }
 body.ui2018.uiupdate form .form-row.error .ui-form-error,
 body.ui2018.uiupdate.cform form .form-row.error .ui-form-error,
@@ -6293,11 +6346,10 @@ body.ui2018.uiupdate.cform .form .form-row.error .ui-form-error,
 body.ui2018.uiupdate .default-form .form-row.error .ui-form-error,
 body.ui2018.uiupdate.cform .default-form .form-row.error .ui-form-error {
   right: 0;
-  bottom: -31px;
   line-height: 20px;
   padding: 5px 10px 5px 30px;
   color: #ea0909;
-  font-size: 14px;
+  font-size: 12px;
   background-color: rgba(234, 9, 9, 0.1);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -6333,6 +6385,61 @@ body.ui2018.uiupdate.cform .default-form .form-row.error .ui-form-error:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+body.ui2018.uiupdate form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
+body.ui2018.uiupdate .form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.error.custom-error.has-whiltelist-switch .ui-form-error {
+  max-width: calc(100% - 150px);
+}
+body.ui2018.uiupdate form .form-row.error.warning-only label,
+body.ui2018.uiupdate.cform form .form-row.error.warning-only label,
+body.ui2018.uiupdate .form .form-row.error.warning-only label,
+body.ui2018.uiupdate.cform .form .form-row.error.warning-only label,
+body.ui2018.uiupdate .default-form .form-row.error.warning-only label,
+body.ui2018.uiupdate.cform .default-form .form-row.error.warning-only label {
+  color: #636e7c !important;
+}
+body.ui2018.uiupdate form .form-row.error.warning-only select,
+body.ui2018.uiupdate.cform form .form-row.error.warning-only select,
+body.ui2018.uiupdate .form .form-row.error.warning-only select,
+body.ui2018.uiupdate.cform .form .form-row.error.warning-only select,
+body.ui2018.uiupdate .default-form .form-row.error.warning-only select,
+body.ui2018.uiupdate.cform .default-form .form-row.error.warning-only select,
+body.ui2018.uiupdate form .form-row.error.warning-only .select input,
+body.ui2018.uiupdate.cform form .form-row.error.warning-only .select input,
+body.ui2018.uiupdate .form .form-row.error.warning-only .select input,
+body.ui2018.uiupdate.cform .form .form-row.error.warning-only .select input,
+body.ui2018.uiupdate .default-form .form-row.error.warning-only .select input,
+body.ui2018.uiupdate.cform .default-form .form-row.error.warning-only .select input,
+body.ui2018.uiupdate form .form-row.error.warning-only input[type="text"],
+body.ui2018.uiupdate.cform form .form-row.error.warning-only input[type="text"],
+body.ui2018.uiupdate .form .form-row.error.warning-only input[type="text"],
+body.ui2018.uiupdate.cform .form .form-row.error.warning-only input[type="text"],
+body.ui2018.uiupdate .default-form .form-row.error.warning-only input[type="text"],
+body.ui2018.uiupdate.cform .default-form .form-row.error.warning-only input[type="text"] {
+  color: black !important;
+  background-color: #f7f9fe !important;
+  border-color: #e3e8ed !important;
+}
+body.ui2018.uiupdate form .form-row.error.warning-only .ui-form-error,
+body.ui2018.uiupdate.cform form .form-row.error.warning-only .ui-form-error,
+body.ui2018.uiupdate .form .form-row.error.warning-only .ui-form-error,
+body.ui2018.uiupdate.cform .form .form-row.error.warning-only .ui-form-error,
+body.ui2018.uiupdate .default-form .form-row.error.warning-only .ui-form-error,
+body.ui2018.uiupdate.cform .default-form .form-row.error.warning-only .ui-form-error {
+  color: black;
+  background-color: rgba(22, 193, 243, 0.25);
+}
+body.ui2018.uiupdate form .form-row.error.warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform form .form-row.error.warning-only .ui-form-error::after,
+body.ui2018.uiupdate .form .form-row.error.warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform .form .form-row.error.warning-only .ui-form-error::after,
+body.ui2018.uiupdate .default-form .form-row.error.warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform .default-form .form-row.error.warning-only .ui-form-error::after {
+  color: #16c1f3;
 }
 body.ui2018.uiupdate form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
 body.ui2018.uiupdate.cform form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
@@ -7530,6 +7637,20 @@ body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent .docsign-f
 body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child,
 body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent .docsign-fields .docsign-row div.row-inline-buttons .button span:first-child {
   margin: 0 2px 0 0;
+}
+body.ui2018.uiupdate form .form-row.row-documentsigning.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate form .form-row.row-documentsigning.indent.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate.cform form .form-row.row-documentsigning.indent.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate .form .form-row.row-documentsigning.indent.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate.cform .form .form-row.row-documentsigning.indent.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate .default-form .form-row.row-documentsigning.indent.docsign-admin-error .docsign-error,
+body.ui2018.uiupdate.cform .default-form .form-row.row-documentsigning.indent.docsign-admin-error .docsign-error {
+  display: block;
 }
 body.ui2018.uiupdate form .form-row.row-documentsigning.error .ui-form-error,
 body.ui2018.uiupdate.cform form .form-row.row-documentsigning.error .ui-form-error,
@@ -9292,9 +9413,125 @@ body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row select:-webkit-
   color: white !important;
   -webkit-text-fill-color: 100% !important;
 }
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only label,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only label,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only label,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only label,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only label,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only label {
+  color: #cccccc !important;
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only select,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only select,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only select,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only select,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only select,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only select,
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .select input,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .select input,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .select input,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .select input,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .select input,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .select input,
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only input[type="text"],
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only input[type="text"],
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only input[type="text"],
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only input[type="text"],
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only input[type="text"],
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only input[type="text"] {
+  color: white !important;
+  background-color: #333333 !important;
+  border-color: #444444 !important;
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error {
+  color: white;
+  background-color: rgba(22, 193, 243, 0.25);
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning).warning-only .ui-form-error::after {
+  color: #16c1f3;
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-only) .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-only) .ui-form-error,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-only) .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-only) .ui-form-error,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-only) .ui-form-error,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning):not(.warning-only) .ui-form-error {
+  color: #ff6666;
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) label:first-child {
+  color: #ff6666;
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) textarea:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) .select:not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code),
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.error:not(.flash-error, .row-documentsigning) input:not([type=checkbox]):not([type=radio]):not(.no-row-error, .street_number, .street, .suburb, .city, .state, .country, .countrycode, .postal_code) {
+  background-color: #330000;
+  border-color: #660000;
+}
 body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments label,
 body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments label {
   color: #cccccc;
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-collapser,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-collapser {
+  color: #106eb6;
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-collapser:hover,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-collapser:hover {
+  color: #16c1f3;
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment {
+  background: #333333;
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment:before,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment:before {
+  border-color: #333333 transparent;
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.submit,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.submit,
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.initiaite,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.initiaite,
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.approve,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.approve {
+  background-color: rgba(141, 202, 53, 0.5);
+}
+body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.decline,
+body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments .comment-history .comment-history-list .history-comment .info .action.decline {
+  background-color: rgba(227, 49, 0, 0.5);
 }
 body.ui2018.uiupdate.cform.v2.dark .content .section#buttons .comments textarea,
 body.ui2018.uiupdate.cform.cform.v2.dark .content .section#buttons .comments textarea {
@@ -10777,6 +11014,18 @@ body div.test-device-info * {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 #affinity-login {
   position: fixed;
   top: 0;
@@ -11154,6 +11403,18 @@ body.ui2018.show-citrix #affinity-login .affinity-login-box .form .form-row.citr
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 body.ui2018 .ui-address,
 body.ui2018 .example-template .preview .ui-address {
   width: 450px;
@@ -11235,6 +11496,18 @@ body.ui2018 .pac-container.force-fixed,
 body.ui2018 .example-template .preview .pac-container.force-fixed {
   position: fixed !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -11557,6 +11830,18 @@ body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li:hover {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 body.ui2018 .ui-banknumber {
   display: none !important;
 }
@@ -11663,6 +11948,18 @@ body.ui2018 .banknumber-box.au input.account {
 body.ui2018.dark .banknumber-box .tickcross {
   background-image: url(data:image/gif;base64,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);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -11997,6 +12294,18 @@ body.ui2018.dark .affinity2018.search-form-container .search-results .search-res
     transform: rotate(450deg);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -12920,6 +13229,18 @@ body.ui2018.mobile .form-row.calendar .ui-calendar-container {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 body.ui2018 .draw-panel .draw-panel-box canvas {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -12933,6 +13254,18 @@ body.ui2018.dark .draw-panel .draw-panel-box canvas {
   -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.49), 0 3px 3px rgba(0, 0, 0, 0.83);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.49), 0 3px 3px rgba(0, 0, 0, 0.83);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -13212,6 +13545,18 @@ body.ui2018 .ui-file-list table tbody tr th:last-child {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 body.ui2018 .ui-taxnumber {
   display: none !important;
 }
@@ -13301,6 +13646,18 @@ body.ui2018 .taxnumber-box.au input.tax2 {
 body.ui2018 .taxnumber-box.au input.tax3 {
   width: 36px !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -13592,23 +13949,6 @@ body.ui2018.cform .default-form .form-row label.as-title,
 body.ui2018 .example-template .preview .default-form .form-row label.as-title {
   font-weight: bold;
   font-size: 14px;
-}
-body.ui2018.cform form .form-row.error,
-body.ui2018 .example-template .preview form .form-row.error,
-body.ui2018.cform .form .form-row.error,
-body.ui2018 .example-template .preview .form .form-row.error,
-body.ui2018.cform .default-form .form-row.error,
-body.ui2018 .example-template .preview .default-form .form-row.error {
-  border-left: 3px solid #e33100;
-  padding-left: 10px;
-}
-body.ui2018.cform form .form-row.error label,
-body.ui2018 .example-template .preview form .form-row.error label,
-body.ui2018.cform .form .form-row.error label,
-body.ui2018 .example-template .preview .form .form-row.error label,
-body.ui2018.cform .default-form .form-row.error label,
-body.ui2018 .example-template .preview .default-form .form-row.error label {
-  width: 217px;
 }
 body.ui2018.cform form .form-row.error2,
 body.ui2018 .example-template .preview form .form-row.error2,
@@ -14129,6 +14469,38 @@ body.ui2018 .example-template .preview .default-form .form-row span.inline {
   line-height: 20px;
   padding: 10px 0 0 0;
   font-size: 12px;
+}
+body.ui2018.cform form .form-row .show-all-filtered,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered,
+body.ui2018.cform .form .form-row .show-all-filtered,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered,
+body.ui2018.cform .default-form .form-row .show-all-filtered,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered {
+  display: inline-block;
+  margin: 10px 0 0 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+body.ui2018.cform form .form-row .show-all-filtered span,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered span,
+body.ui2018.cform .form .form-row .show-all-filtered span,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered span,
+body.ui2018.cform .default-form .form-row .show-all-filtered span,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered span {
+  color: #106eb6;
+  text-decoration: underline;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.cform form .form-row .show-all-filtered:hover span,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered:hover span,
+body.ui2018.cform .form .form-row .show-all-filtered:hover span,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered:hover span,
+body.ui2018.cform .default-form .form-row .show-all-filtered:hover span,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered:hover span {
+  color: #16c1f3;
 }
 body.ui2018.cform .ui-calendar-buttons,
 body.ui2018 .example-template .preview .ui-calendar-buttons {
@@ -18617,6 +18989,18 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /* icon remap */
 
 .icon-cf-affinityfield:before {
@@ -19283,6 +19667,9 @@ li.cf-designer-element.disabled * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  /* 19/02/2024 New White lsit Select Filter */
+
+  /**/
 }
 .cf-designer-element-popup .inner .settings label {
   display: inline-block;
@@ -19667,6 +20054,256 @@ li.cf-designer-element.disabled * {
 .cf-designer-element-popup .inner .settings .list-builder .grid-wrapper table.grid tbody tr:nth-child(even) td textarea::-webkit-scrollbar-thumb {
   border: 2px solid #c8c8c8;
 }
+.cf-designer-element-popup .inner .settings .edit-template .affinity-generic-group:not(.hidden) {
+  margin-bottom: 0 !important;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container {
+  margin: 20px 10px 0 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.05);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner h3 {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row {
+  position: relative;
+  margin: 5px 0 5px 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row a {
+  display: inline-block;
+  line-height: 16px;
+  margin: 0 10px 0 0;
+  cursor: pointer;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row label {
+  display: inline-block;
+  font-size: 14px;
+  height: 16px;
+  line-height: 16px;
+  margin: 0 0 5px 0;
+  padding: 0;
+  color: #636e7c;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row label.inline {
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+  padding: 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row input[type="text"] {
+  height: 44px;
+  padding: 0 15px;
+  font-size: 16px !important;
+  color: black;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  vertical-align: top;
+  margin: 2px 0 0 2px;
+  font-size: 14px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search input[type="text"] {
+  padding: 0 44px 0 15px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search icon {
+  display: block;
+  position: absolute;
+  top: 21px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  vertical-align: unset;
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  touch-action: none;
+  pointer-events: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search icon * {
+  touch-action: none;
+  pointer-events: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.filter-search.working icon {
+  font-size: 0;
+  background-image: url(data:image/gif;base64,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);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline {
+  margin: 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline label {
+  height: 24px;
+  line-height: 24px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row.inline input[type="checkbox"]:after {
+  top: 2px;
+  left: 2px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container {
+  min-height: 50px;
+  max-height: 300px;
+  margin: 5px 0 10px 0;
+  overflow: hidden;
+  overflow-y: scroll;
+  -webkit-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+  -moz-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+  box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper {
+  padding: 10px;
+  background-color: white;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid {
+  width: 100%;
+  padding: 0;
+  border-spacing: 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid thead tr {
+  background: transparent;
+  padding: 0;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid thead tr th {
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  border: none !important;
+  background: none;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: left;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr {
+  padding: 0;
+  background-color: white;
+  -webkit-transition: backgroundColor 250ms;
+  -moz-transition: backgroundColor 250ms;
+  -o-transition: backgroundColor 250ms;
+  transition: backgroundColor 250ms;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr.hide td {
+  -moz-opacity: 0.4;
+  -khtml-opacity: 0.4;
+  opacity: 0.4;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr.match td em {
+  padding: 0 1px;
+  font-weight: 600;
+  background-color: #ffb515;
+  color: white;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td {
+  padding: 0;
+  border: none;
+  border-top: 1px solid #e6e9ed;
+  -webkit-transition: opacity 250ms;
+  -moz-transition: opacity 250ms;
+  -o-transition: opacity 250ms;
+  transition: opacity 250ms;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td:nth-child(1) {
+  padding-left: 10px;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td:nth-child(3) {
+  width: 50px;
+  padding-right: 10px;
+  text-align: right;
+}
+.cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td:nth-child(3) .button {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  margin: 4px 0;
+  padding: 0;
+  text-align: center;
+  font-weight: normal !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable {
+  overflow: visible;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box {
+  position: relative;
+  height: calc(100% - 210px);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden) {
+  margin-bottom: 0 !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden).edit-row {
+  min-height: 60px;
+}
+.cf-designer-element-popup .inner .settings.scrollable .settings-box .edit-template .affinity-generic-group:not(.hidden) .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon {
+  right: 10px;
+}
+.cf-designer-element-popup .inner .settings.scrollable .buttons {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  padding: 5px 5px 0px 10px;
+  background: rgba(255, 255, 255, 0.755);
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -webkit-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+  -moz-box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+  box-shadow: 0px 5px 10px rgba(0, 55, 128, 0.2) !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable input[type="text"] {
+  width: calc(100% - 10px) !important;
+}
+.cf-designer-element-popup .inner .settings.scrollable p.affinity-form-link-desc {
+  width: calc(100% - 10px) !important;
+}
 .cf-designer-element-popup .inner .settings .youtube-embed {
   padding: 20px 0 0 0;
 }
@@ -19756,20 +20393,95 @@ li.cf-designer-element.disabled * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.dark .content .cf-d2-bottom-right ul {
+body.lock-post div.cf-designer-element-popup button:not(.grey),
+body.lock-post div.cf-designer-element-popup .button:not(.grey) {
+  color: #666666;
+  background-color: #999999;
+  touch-action: none;
+  pointer-events: none;
+}
+body.lock-post div.cf-designer-element-popup button:not(.grey):hover,
+body.lock-post div.cf-designer-element-popup .button:not(.grey):hover {
+  color: white;
+  background-color: #999999;
+}
+body.lock-post div.cf-designer-element-popup button:not(.grey) *,
+body.lock-post div.cf-designer-element-popup .button:not(.grey) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row label {
+  color: #cccccc;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="text"],
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="number"],
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="password"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="text"]:disabled,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="number"]:disabled,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="password"]:disabled {
+  background: #161616 !important;
+  border: 2px solid #2c2c2c !important;
+  color: rgba(255, 255, 255, 0.5);
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="text"]:-webkit-autofill,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="number"]:-webkit-autofill,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row input[type="password"]:-webkit-autofill,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row textarea:-webkit-autofill,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row select:-webkit-autofill {
+  color: white !important;
+  -webkit-text-fill-color: 100% !important;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row select {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row select option {
+  color: white;
+  background: #333333;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select {
+  background: #f7f9fe;
+  border: 2px solid #444444;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select:focus,
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select:hover {
+  background: #f7f9fe;
+  border: 2px solid #444444;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select:after {
+  color: #cccccc;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select.working:after {
+  filter: invert(1);
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select select {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.dark .content div.cf-d2-top div.form div.form-row .select select option {
+  color: white;
+  background: #333333;
+}
+body.ui2018.dark .content div.cf-d2-bottom-right ul {
   border: 2px dashed #333333;
   background-color: #111111;
 }
-body.ui2018.dark .content .cf-d2-bottom-right ul::before {
+body.ui2018.dark .content div.cf-d2-bottom-right ul::before {
   color: #333333;
   text-shadow: 0px -1px 2px black;
 }
-body.ui2018.dark .content .cf-d2-bottom-right ul li[data-type="Section"] ul,
-body.ui2018.dark .content .cf-d2-bottom-right ul li[data-type="section"] ul {
+body.ui2018.dark .content div.cf-d2-bottom-right ul li[data-type="Section"] ul,
+body.ui2018.dark .content div.cf-d2-bottom-right ul li[data-type="section"] ul {
   border: 1px dashed #333333;
 }
-body.ui2018.dark .content .cf-d2-bottom-right ul li[data-type="Section"] ul::before,
-body.ui2018.dark .content .cf-d2-bottom-right ul li[data-type="section"] ul::before {
+body.ui2018.dark .content div.cf-d2-bottom-right ul li[data-type="Section"] ul::before,
+body.ui2018.dark .content div.cf-d2-bottom-right ul li[data-type="section"] ul::before {
   color: #444444;
   text-shadow: 0px -1px 2px black;
 }
@@ -19913,6 +20625,47 @@ body.ui2018.dark .cf-designer-element-popup .inner .close {
 }
 body.ui2018.dark .cf-designer-element-popup .inner .settings .example-template .preview {
   background: rgba(255, 255, 255, 0.05);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner {
+  background: rgba(255, 255, 255, 0.05);
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row label {
+  color: #cccccc;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-row input[type="text"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container {
+  -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2) !important;
+  -moz-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2) !important;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper {
+  background-color: #222222;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid thead tr {
+  background: transparent;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr {
+  background-color: #222222;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr.match td em {
+  background-color: #ffb515;
+  color: white;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper table.select-filter-grid tbody tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2018.dark .cf-designer-element-popup .inner .settings.scrollable .buttons {
+  background: rgba(34, 34, 34, 0.755);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 1px 2px rgba(0, 0, 0, 0.54);
