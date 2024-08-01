@@ -23961,7 +23961,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         // Check if the form is blank, not including returned data ..
         let form = Affinity2018.Apps.CleverForms.Form;
         let lastValueData = form.GetLastFormHistoryByName(this.Config.Name);
-        let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : lastValueData.toString();
+        let lastValue = $a.isObject(lastValueData) && lastValueData.hasOwnProperty('Value') ? lastValueData.Value : '';
         let hasValue = form.FormHistory.length > 1 || !$a.isNullOrEmpty(lastValue);
         let hasFormValues = false;
         let hasDiffs = false;
