@@ -1022,7 +1022,7 @@ var UIManagerLeaveCalendar = new Class({
     setNewUICalendarIFrame: function() {
         // Insert IFrame for the new Calendar UI
         this.calendarIframeLoaded = false;
-        this.calendarIframe = new Element('iframe', {'data-hj-allow-iframe' : 'true'});
+        this.calendarIframe = new Element('iframe');
         var screenRatio = (document.body.clientHeight / document.body.clientWidth) * 100;
 		var maxHeight = document.body.clientHeight - 320;
         this.newCalendarUIFrame = new Element('div', { 'class': 'ss-app-iframe', 'style': `--screen-ratio: ${screenRatio}%; --screen-max-height: ${maxHeight}px` })
