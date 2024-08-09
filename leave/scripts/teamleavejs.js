@@ -7,39 +7,20 @@
 (483,9-10): run-time error JS1002: Syntax error: }
 (485,35-39): run-time error JS1004: Expected ';': this
 (486,5-6): run-time error JS1002: Syntax error: }
-(488,39-40): run-time error JS1004: Expected ';': {
-(512,6-7): run-time error JS1195: Expected expression: ,
-(514,27-28): run-time error JS1004: Expected ';': {
-(521,6-7): run-time error JS1195: Expected expression: ,
-(523,21-22): run-time error JS1195: Expected expression: )
-(523,23-24): run-time error JS1004: Expected ';': {
-(541,6-7): run-time error JS1195: Expected expression: ,
-(543,23-24): run-time error JS1195: Expected expression: )
-(543,25-26): run-time error JS1004: Expected ';': {
-(550,6-7): run-time error JS1195: Expected expression: ,
-(552,21-22): run-time error JS1195: Expected expression: )
-(552,23-24): run-time error JS1004: Expected ';': {
-(559,6-7): run-time error JS1195: Expected expression: ,
-(561,26-27): run-time error JS1195: Expected expression: )
-(561,28-29): run-time error JS1004: Expected ';': {
-(582,6-7): run-time error JS1195: Expected expression: ,
-(584,28-29): run-time error JS1195: Expected expression: )
-(584,30-31): run-time error JS1004: Expected ';': {
-(604,6-7): run-time error JS1195: Expected expression: ,
-(606,37-38): run-time error JS1004: Expected ';': {
-(617,6-7): run-time error JS1195: Expected expression: ,
-(619,49-50): run-time error JS1004: Expected ';': {
-(631,6-7): run-time error JS1195: Expected expression: ,
-(633,35-36): run-time error JS1195: Expected expression: )
-(633,37-38): run-time error JS1004: Expected ';': {
-(705,6-7): run-time error JS1195: Expected expression: ,
-(707,43-44): run-time error JS1004: Expected ';': {
-(825,6-7): run-time error JS1195: Expected expression: ,
-(827,37-38): run-time error JS1195: Expected expression: )
-(827,39-40): run-time error JS1004: Expected ';': {
-(929,6-7): run-time error JS1195: Expected expression: ,
-(931,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(544,36-42): run-time error JS1018: 'return' statement outside of function: return
+(488,46-47): run-time error JS1004: Expected ';': {
+(507,27-28): run-time error JS1010: Expected identifier: {
+(507,55-56): run-time error JS1195: Expected expression: =
+(516,6-7): run-time error JS1195: Expected expression: ,
+(518,27-28): run-time error JS1004: Expected ';': {
+(525,6-7): run-time error JS1195: Expected expression: ,
+(527,21-22): run-time error JS1195: Expected expression: )
+(527,23-24): run-time error JS1004: Expected ';': {
+(545,6-7): run-time error JS1195: Expected expression: ,
+(547,23-24): run-time error JS1195: Expected expression: )
+(547,25-26): run-time error JS1004: Expected ';': {
+(554,6-7): run-time error JS1195: Expected expression: ,
+(556,5-9): run-time error JS1197: Too many errors. The file might not be a JavaScript file: init
+(548,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -506,7 +487,7 @@ var UIManagerLeaveCalendar = new Class({
             Affinity.tooltips.processNew();
             if (this.isNewCalendarUI) {
                 window.addEventListener('message', (e) => {
-                    this.toggleDisableButton(e);
+                    this.registerIFrameMessageEvent(e);
                 }, );
                 // this.setUrlForNewUICalendar();
                 // this.toggleButton.set('html', Affinity.icons.ArrowLineSmallUp).store('state', 'open');
@@ -528,7 +509,7 @@ var UIManagerLeaveCalendar = new Class({
         if (this.isNewCalendarUI) this.section.fireEvent('managercalendarloaded');
     },
 
-    toggleDisableButton: function (e) {
+    registerIFrameMessageEvent: function (e) {
         if (e.origin.includes("leave-ui")) {
             switch (e.data.action) {
                 case "DraggableNavLoaded":
@@ -545,6 +526,10 @@ var UIManagerLeaveCalendar = new Class({
                         ? "https://www.testaffinitylogon.com/" 
                         : "https://www.affinitylogon.com/";
                     window.location.href = logoutUrl;
+                    break;
+                case "CalendarUI-OpenLeaveDetail":
+                    const {employeeNo, leaveId, auth} = e.data.detail;
+                    Affinity.leave.manager.leaveDetail.getDetail(employeeNo, leaveId, auth);
                     break;
                 case "CalendarUI-NotFound":
                     break;
