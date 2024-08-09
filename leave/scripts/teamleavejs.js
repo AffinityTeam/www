@@ -19,7 +19,7 @@
 (547,23-24): run-time error JS1195: Expected expression: )
 (547,25-26): run-time error JS1004: Expected ';': {
 (554,6-7): run-time error JS1195: Expected expression: ,
-(556,5-9): run-time error JS1197: Too many errors. The file might not be a JavaScript file: init
+(556,11-19): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
 (548,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
@@ -528,7 +528,7 @@ var UIManagerLeaveCalendar = new Class({
                     window.location.href = logoutUrl;
                     break;
                 case "CalendarUI-OpenLeaveDetail":
-                    const {employeeNo, leaveId, auth} = e.data.detail;
+                    const {employeeNo, leaveId, auth} = e.data;
                     Affinity.leave.manager.leaveDetail.getDetail(employeeNo, leaveId, auth);
                     break;
                 case "CalendarUI-NotFound":
