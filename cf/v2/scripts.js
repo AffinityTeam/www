@@ -5713,6 +5713,7 @@
     showLogin()
     {
       if (!this.enabled) return false;
+      if (this.loginPanel.clasList.contains('hidden')) this.loginPanel.clasList.remove('hidden');
       window.removeEventListener('keyup', this.loginCaptureEscape);
       window.addEventListener('keyup', this.loginCaptureEscape);
       this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
@@ -20193,7 +20194,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.historyCommentComplexTemplate = `
     <div class="{ItemClass}">
-      <div class="info"><span>{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
+      <div class="info"><span class="from">{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
       <div class="{CommentClass}">{Comment}</div>
     </div>
     `;
@@ -41208,6 +41209,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleMouseMouseDown (ev)
   {
+    Affinity2018.lockBodyScroll();
     if (ev.which === 1)
     {
       this._mouseButtonDown = true;
@@ -41223,6 +41225,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocMouseUp (ev)
   {
+    Affinity2018.unlockBodyScroll();
     if (ev.which === 1 && this._mouseButtonDown)
     {
       this._mouseButtonDown = false;
@@ -41239,6 +41242,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleTouchStart (ev)
   {
+    Affinity2018.lockBodyScroll();
     var touch = ev.changedTouches[0];
     this._strokeBegin(touch);
   }
@@ -41251,9 +41255,11 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocTouchEnd (ev)
   {
+    Affinity2018.unlockBodyScroll();
     var wasCanvasTouched = ev.target === this.canvas;
     if (wasCanvasTouched) this._strokeEnd();
   }
+
 
   /**/
 
