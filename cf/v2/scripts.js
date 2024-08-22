@@ -34041,6 +34041,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.fuzzyRunning = false;
     this.workerComplete = true;
     this.status = 'closed';
+
+    this.autoOpenOnEmpty = false;
   }
 
   constructor(targetNode)
@@ -34059,6 +34061,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       '_fuzzyWorkerComplete',
       '_updateOptions', '_processOptions', '_continueProcessOptions',
+
+      '_checkDeferToPlaceholder',
 
       '_fuzzySearch',  '_continueWithFuzzySearch',
 
@@ -34162,6 +34166,25 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.iconNode = this.autocompleteNode.querySelector('.ui-ac-display-icon');
     this.listNode = this.autocompleteNode.querySelector('ul');
 
+    if (
+      this.displayNode
+      && this.targetNode.hasOwnProperty('widgets')
+      && this.targetNode.widgets.hasOwnProperty('SelectLookup')
+      && this.targetNode.widgets.SelectLookup.hasOwnProperty('config')
+      && this.targetNode.widgets.SelectLookup.config.hasOwnProperty('AddEmpty')
+      && this.targetNode.widgets.SelectLookup.config.hasOwnProperty('NoneDisplay')
+      && this.targetNode.widgets.SelectLookup.config.AddEmpty
+      && this.targetNode.widgets.SelectLookup.config.NoneDisplay !== ''
+    )
+    {
+      this.autoOpenOnEmpty = true;
+      this.displayNode.placeholder = this.targetNode.widgets.SelectLookup.config.NoneDisplay;
+      if (this.displayNode.value === this.targetNode.widgets.SelectLookup.config.NoneDisplay)
+      {
+        this.displayNode.value = '';
+      }
+    }
+
     if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('hidden');
     else this.targetNode.classList.add('hidden');
 
@@ -34246,8 +34269,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.listNode.removeEventListener('mouseenter', this._mouseEnter);
     this.listNode.removeEventListener('mouseleave', this._mouseLeave);
+    this.listNode.removeEventListener('touchstart', this._mouseEnter);
+    this.listNode.removeEventListener('touchend', this._mouseLeave);
+
     this.listNode.addEventListener('mouseenter', this._mouseEnter);
     this.listNode.addEventListener('mouseleave', this._mouseLeave);
+    this.listNode.addEventListener('touchstart', this._mouseEnter);
+    this.listNode.addEventListener('touchend', this._mouseLeave);
 
     this.displayNode.addEventListener('blur', this._displayBlur);
 
@@ -34535,6 +34563,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this._setListEvents();
 
         this._position(0, 'worker getSelectedList');
+
+        this._checkDeferToPlaceholder();
         
         this.workerComplete = true;
         break;
@@ -34572,6 +34602,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
         this.items = this.listNode.querySelectorAll('li');
         eventsSet = this._setListEvents();
+
+        this._checkDeferToPlaceholder();
 
         this._fireWindowChangeEvent('autocomplete _fuzzyWorkerComplete resetList');
         
@@ -34829,11 +34861,39 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.targetNode.dispatchEvent(new Event('workerComplete'));
       this.workerComplete = true;
+      if (!defaultSelected || defaultSelected.innerText.trim() === 'Not Set')
+      {
+        this._checkDeferToPlaceholder();
+      }
     }
 
     this.targetNode.dispatchEvent(new Event('autocompleteReady'));
 
     return true;
+  }
+
+  _checkDeferToPlaceholder()
+  {
+    if (
+      this.targetNode.hasOwnProperty('widgets')
+      && this.targetNode.widgets.hasOwnProperty('SelectLookup')
+      && this.targetNode.widgets.SelectLookup.hasOwnProperty('config')
+      && this.targetNode.widgets.SelectLookup.config.hasOwnProperty('AddEmpty')
+      && this.targetNode.widgets.SelectLookup.config.hasOwnProperty('NoneDisplay')
+      && this.targetNode.widgets.SelectLookup.config.AddEmpty
+      && this.targetNode.widgets.SelectLookup.config.NoneDisplay !== ''
+    )
+    {
+      // use placeholder
+      this.displayNode.placeholder = this.targetNode.widgets.SelectLookup.config.NoneDisplay;
+      if (
+        this.displayNode.value.trim() === 'Not Set'
+        || this.displayNode.value.trim() === this.targetNode.widgets.SelectLookup.config.NoneDisplay
+      )
+      {
+        this.displayNode.value = '';
+      }
+    }
   }
 
   /**/
@@ -35255,6 +35315,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.displayNode.selectionStart = 0;
       this.displayNode.selectionEnd = 999999;
     }
+    if (this.autoOpenOnEmpty && this.displayNode.value.trim() === '')
+    {
+      this.show('displayNode focus');
+    }
   }
 
   _doClick(ev)
@@ -35415,9 +35479,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
 
     this._fireWindowChangeEvent('autocomplete _elementUp');
-
-
-
 
   }
 
@@ -35816,6 +35877,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this.displayNode.classList.remove('hidden')
       }
       */
+      this._checkDeferToPlaceholder();
     }
   }
 
@@ -35863,6 +35925,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     //this.autocompleteNode.removeEventListener('mouseleave', this._mouseLeave);
     this.listNode.removeEventListener('mouseenter', this._mouseEnter);
     this.listNode.removeEventListener('mouseleave', this._mouseLeave);
+    this.listNode.removeEventListener('touchstart', this._mouseEnter);
+    this.listNode.removeEventListener('touchend', this._mouseLeave);
     if (this.fuzzyWorker)
     {
       this.fuzzyWorker.onmessage = null;
@@ -41204,7 +41268,8 @@ Affinity2018.Classes.Plugins.DrawPad = class
     this._mouseButtonDown = false;
     ['_handleMouseMouseDown', '_handleMouseMove', '_handleDocMouseUp'].bindEach(this);
     this.canvas.addEventListener("mousedown", this._handleMouseMouseDown);
-    this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
+    //this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
+    this.canvas.addEventListener("mousemove", this._handleMouseMove);
     document.addEventListener("mouseup", this._handleDocMouseUp);
   }
   _handleMouseMouseDown (ev)
@@ -41950,12 +42015,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     {
       rowNode = this.initNode.closest('div[class*="row"]');
       labelNode = rowNode.querySelector('label');
-      minWidth = labelNode ? parseInt(window.getComputedStyle(labelNode).width) + parseInt(window.getComputedStyle(this.initNode).width) : false;
+      //minWidth = labelNode ? parseInt(window.getComputedStyle(labelNode).width) + parseInt(window.getComputedStyle(this.initNode).width) : false;
     }
-    if (minWidth && !isNaN(minWidth) && minWidth > 0)
-    {
-      this.gridNode.style.minWidth = (minWidth + 8) + 'px';
-    }
+    //if (minWidth && !isNaN(minWidth) && minWidth > 0)
+    //{
+    //  this.gridNode.style.minWidth = (minWidth + 8) + 'px';
+    //}
 
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () { this.dispatchEvent(new CustomEvent('resized')); }.bind(this), 1000);
@@ -45246,6 +45311,10 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     var filtersInserted = this._processFilters();
     if (this.makeAutocomplete && Affinity2018.Autocompletes)
     {
+      if (this.config.AddEmpty)
+      {
+        this.targetNode.querySelector('option').innerHTML = '';
+      }
       this.targetNode.classList.remove('prevent-autocomplete');
       if (this.isSingleValue)
       {
@@ -45274,6 +45343,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         this.targetNode.dispatchEvent(new Event('change'));
       }
     }
+
     this.targetNode.classList.remove('working');
     if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.remove('working');
     this.targetNode.removeEventListener('change', this.IsValid);
