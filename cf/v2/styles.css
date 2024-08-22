@@ -47,12 +47,12 @@
 (9808,133): run-time error CSS1030: Expected identifier, found ','
 (9808,274): run-time error CSS1031: Expected selector, found ')'
 (9808,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10400,167): run-time error CSS1030: Expected identifier, found ','
-(10400,309): run-time error CSS1031: Expected selector, found ')'
-(10400,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10682,108): run-time error CSS1030: Expected identifier, found ','
-(10682,250): run-time error CSS1031: Expected selector, found ')'
-(10682,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(10388,167): run-time error CSS1030: Expected identifier, found ','
+(10388,309): run-time error CSS1031: Expected selector, found ')'
+(10388,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10639,108): run-time error CSS1030: Expected identifier, found ','
+(10639,250): run-time error CSS1031: Expected selector, found ')'
+(10639,250): run-time error CSS1025: Expected comma or open brace, found ')'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -10373,20 +10373,14 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .close {
 body.ui2018.uiupdate.mobile,
 body.ui2018.uiupdate.cform.mobile {
   width: 100vw;
-  margin: 0;
-  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper {
   width: 100vw;
-  margin: 0;
-  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent {
   width: 100vw;
-  margin: 0;
-  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.header,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.header {
@@ -10394,20 +10388,14 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.header {
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content {
-  width: 100%;
+  width: 100vw;
   padding: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section {
-  width: calc(100% - 10px);
-  min-width: calc(100% - 10px);
-  max-width: calc(100% - 10px);
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title {
@@ -10486,10 +10474,6 @@ body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.sect
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-affinityfield .select {
   width: 100%;
 }
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address input.ui-address,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address input.ui-address {
-  padding-right: 35px !important;
-}
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields {
   width: calc(100% - 20px);
@@ -10553,39 +10537,39 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input {
-  padding: 0;
+  padding: 0 10px;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.bank,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.bank {
-  width: calc(20% - 15px) !important;
+  width: 60px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.branch,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.branch {
-  width: calc(23% - 15px) !important;
+  width: 70px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.account,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.account {
-  width: calc(57% - 15px) !important;
+  width: 170px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input {
-  padding: 0;
+  padding: 0 10px;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.bank,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.bank {
-  width: calc(20% - 13.75px) !important;
+  width: 60px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.branch,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.branch {
-  width: calc(25% - 13.75px) !important;
+  width: 70px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.account,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.account {
-  width: calc(33% - 13.75px) !important;
+  width: 95px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.suffix,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.suffix {
-  width: calc(22% - 13.75px) !important;
+  width: 65px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box {
@@ -10598,35 +10582,35 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input {
-  padding: 0;
+  padding: 0 10px;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax1,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax1 {
-  width: calc(33% - 15px) !important;
+  width: 100px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax2,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax2 {
-  width: calc(33% - 15px) !important;
+  width: 100px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax3,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax3 {
-  width: calc(33% - 15px) !important;
+  width: 100px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input {
-  padding: 0;
+  padding: 0 10px;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax1,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax1 {
-  width: calc(33% - 15px) !important;
+  width: 100px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax2,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax2 {
-  width: calc(33% - 15px) !important;
+  width: 100px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3 {
-  width: calc(33% - 15px) !important;
+  width: 100px !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel {
@@ -10635,33 +10619,6 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel .draw-panel-box,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel .draw-panel-box {
   width: 100%;
-}
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label {
-  max-width: 585px;
-}
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label.ui-file,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label.ui-file {
-  width: 95px;
-  min-width: 95px;
-  max-width: 95px;
-}
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list {
-  width: 100%;
-  min-width: 100% !important;
-  max-width: 100% !important;
-}
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table {
-  width: 100%;
-  min-width: 100% !important;
-  max-width: 100% !important;
-}
-body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table tbody tr td a,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table tbody tr td a {
-  word-break: break-word;
-  overflow-wrap: anywhere;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons {
