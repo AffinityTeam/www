@@ -54,7 +54,7 @@
 (10692,250): run-time error CSS1031: Expected selector, found ')'
 (10692,250): run-time error CSS1025: Expected comma or open brace, found ')'
 (11601,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11743,40): run-time error CSS1039: Token not allowed after unary operator: '-header-size'
+(11743,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -11656,7 +11656,7 @@ body.ui2018 .example-template .preview .pac-container.force-fixed {
 
 
 :root {
-  --header-size: 0px;
+  --mobile-list-height: 200px;
 }
 body.ui2018 .ui-autocomplete-container {
   position: relative;
@@ -11798,7 +11798,7 @@ body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li:hover {
 }
 body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
   width: 100%;
-  min-height: calc(100vh - 64px - var(--header-size));
+  min-height: var(--mobile-list-height);
 }
 
 

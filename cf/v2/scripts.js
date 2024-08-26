@@ -34216,7 +34216,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.forceBottom = true;
       this.forceTop = false;
-      this.listNode.style.setProperty('--header-size', this.wrapperHeaderOffset + 'px');
+      this.listNode.style.setProperty('--mobile-list-height', (window.innerHeight - this.wrapperHeaderOffset - 20) + 'px');
     }
 
     this.bestguess = null;
@@ -35568,7 +35568,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       console.log(this.displayNode);
       var pos = Affinity2018.getPosition(this.displayNode);
-      var offset = this.wrapperHeaderOffset;
+      var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
       var scroll = pos.top - offset - 10;
       window.scrollTo(window.scrollX, scroll);
     }
@@ -35797,6 +35797,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
       if (this.IsMobile)
       {
+        var wrapperHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+        var displayHeight = this.displayNode.getBoundingClientRect().height;
+        this.listNode.style.setProperty('--mobile-list-height', (window.innerHeight - wrapperHeaderOffset - displayHeight - 20) + 'px');
         Affinity2018.lockBodyScroll();
       }
     }
