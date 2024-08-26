@@ -5713,6 +5713,7 @@
     showLogin()
     {
       if (!this.enabled) return false;
+      if (this.loginPanel.clasList.contains('hidden')) this.loginPanel.clasList.remove('hidden');
       window.removeEventListener('keyup', this.loginCaptureEscape);
       window.addEventListener('keyup', this.loginCaptureEscape);
       this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
@@ -20193,7 +20194,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.historyCommentComplexTemplate = `
     <div class="{ItemClass}">
-      <div class="info"><span>{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
+      <div class="info"><span class="from">{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
       <div class="{CommentClass}">{Comment}</div>
     </div>
     `;
@@ -34019,6 +34020,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.Ready = false;
 
+    this.IsMobile = false;
+
     this.enabled = true;
 
     this.uuid = '';
@@ -34036,6 +34039,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.stopInitialChange = false;
 
     this.humanInteraction = false;
+
+    this.wrapperHeaderOffset = 0;
 
     this.fuzzyRunning = false;
     this.workerComplete = true;
@@ -34074,6 +34079,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       '_cleanDisplay',
       '_encodeValue',
+      '_setDisplayValue',
       '_resetListEvents', '_setListEvents',
       '_fireWindowChangeEvent',
       '_escapeRegExp',
@@ -34102,6 +34108,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       return;
     }
 
+    this.IsMobile = (Affinity2018.mobile || Affinity2018.IsMobile);
+
     this.targetNode = targetNode;
 
     this.uuid = this.targetNode.id ? this.targetNode.id : Affinity2018.uuid();
@@ -34111,6 +34119,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       Affinity2018.Autocompletes.widgets[this.uuid] = this;
     }
+
+    this.wrapperHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
 
     this.targetNode.classList.remove('ui-has-autocomplete');
     this.targetNode.classList.add('ui-autocomplete');
@@ -34171,7 +34181,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.fuzzyWorker.onmessage = this._fuzzyWorkerComplete;
     }
 
-    this.searchMode = Affinity2018.IsMobile ? true : false;
+    this.searchMode = this.IsMobile ? true : false;
 
     this.center = false;
     if (this.targetNode.classList.contains('ui-autocomplete-center'))
@@ -34202,6 +34212,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.forceTop = false;
     }
 
+    if (this.IsMobile)
+    {
+      this.forceBottom = true;
+      this.forceTop = false;
+      this.listNode.style.setProperty('--header-size', this.wrapperHeaderOffset + 'px');
+    }
+
     this.bestguess = null;
 
     this.fieldType = this.targetNode.id ? this.targetNode.id.substring(this.targetNode.id.lastIndexOf('-') + 1) : 'none';
@@ -34230,7 +34247,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _init()
   {
 
-    if (Affinity2018.IsMobile)
+    if (this.IsMobile)
     {
       window.addEventListener('mobileback', function () { this.hide(); }.bind(this));
     }
@@ -34398,7 +34415,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       var html = this._cleanDisplay(this.defaultValue.innerText);
       if (this.listNode.querySelector('li.selected')) this.listNode.querySelector('li.selected').classList.remove('selected');
       this.defaultValue.classList.add('selected');
-      this.displayNode.value = html;
+      this._setDisplayValue(html);
       this.targetNode.selectedIndex = this.defaultValue.dataset.index;
       this.targetNode.value = this.defaultValue.dataset.value;
     }
@@ -34427,7 +34444,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       html = this._cleanDisplay(node.innerText);
       if (this.listNode.querySelector('li.selected')) this.listNode.querySelector('li.selected').classList.remove('selected');
       node.classList.add('selected');
-      this.displayNode.value = html;
+      this._setDisplayValue(html);
       this.targetNode.selectedIndex = node.dataset.index;
       this.targetNode.value = node.dataset.value;
       return true;
@@ -34437,7 +34454,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   refreshFromSelect()
   {
-    this.displayNode.value = '';
+    this._setDisplayValue('');
     this._updateOptions();
   }
 
@@ -34546,7 +34563,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this.listNode.innerHTML = workerData.html;
         this._position(0, 'worker resetList');
 
-        this.displayNode.value = '';
+        this._setDisplayValue('');
         this.listNode.scrollTo(0, 0);
         this.targetNode.selectedIndex = 0;
 
@@ -34665,7 +34682,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       || this.displayNode.classList.contains('width-full')
     )
     {
-      this.listNode.styles.width = Affinity2018.getBoundingClientRect().width + 'px';
+      var measureNode = document.querySelector('#form') ? document.querySelector('#form') : document.body;
+      var measureSize = Affinity2018.getOffsetRect(measureNode);
+      this.listNode.style.width = measureSize.width + 'px';
     }
 
     this._resetListEvents();
@@ -35249,11 +35268,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this.show('displayNode focus');
       }
     }.bind(this), 100);
-    if (Affinity2018.ismobile)
-    {
-      this.displayNode.selectionStart = 0;
-      this.displayNode.selectionEnd = 999999;
-    }
+    //if (this.IsMobile)
+    //{
+    //  this.displayNode.selectionStart = 0;
+    //  this.displayNode.selectionEnd = 999999;
+    //}
   }
 
   _doClick(ev)
@@ -35451,7 +35470,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
 
     this.lastSelected = eventNode;
-    this.displayNode.value = this._cleanDisplay(eventNode.innerText);
+    this._setDisplayValue(this._cleanDisplay(eventNode.innerText));
     this.targetNode.selectedIndex = eventNode.dataset.index;
     this.targetNode.value = eventNode.dataset.value;
 
@@ -35545,9 +35564,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   _scrollIntoView()
   {
-    var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
-    this.listNode.scrollIntoView({ behavior: 'auto', block: 'start' });
-    window.scrollTo(window.scrollX, window.scrollY - offset - 10);
+    if (this.workerComplete && this.Ready)
+    {
+      console.log(this.displayNode);
+      var pos = Affinity2018.getPosition(this.displayNode);
+      var offset = this.wrapperHeaderOffset;
+      var scroll = pos.top - offset - 10;
+      window.scrollTo(window.scrollX, scroll);
+    }
   }
 
   _position(delay, calledFrom)
@@ -35557,14 +35581,20 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.classList.remove('below');
       this.listNode.classList.add('above');
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
       return;
     }
     if (this.forceBottom)
     {
       this.listNode.classList.remove('above');
       this.listNode.classList.add('below');
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
       return;
     }
 
@@ -35578,7 +35608,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
       return;
     }
     if (
@@ -35596,7 +35629,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       {
         this.listNode.classList.add('above');
       }
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
     }
   }
 
@@ -35629,6 +35665,25 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     var dom = document.createElement('div');
     dom.innerHTML = str;
     return dom.innerHTML;
+  }
+
+  _setDisplayValue(value)
+  {
+    let placeholder = '';
+    if (this.targetNode.dataset.hasOwnProperty('placeholder'))
+    {
+      placeholder = this.targetNode.dataset.placeholder;
+      if (placeholder.trim() !== '')
+      {
+        this.displayNode.placeholder = placeholder;
+      }
+    }
+    if (placeholder !== '' && value.trim().toLowerCase() === placeholder.toLowerCase())
+    {
+      this.displayNode.value = '';
+      return;
+    }
+    this.displayNode.value = value.trim();
   }
 
   _resetListEvents()
@@ -35723,7 +35778,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       && this.listNode.querySelectorAll('li.visible').length > 0
     )
     {
-
       if (Affinity2018.Calendars) Affinity2018.Calendars.HideAll();
       Affinity2018.Autocompletes.HideAll(this);
       clearTimeout(this._focusDelay);
@@ -35741,6 +35795,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this._setPosition('show');
       this._setHideShowEvents();
       if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
+      if (this.IsMobile)
+      {
+        Affinity2018.lockBodyScroll();
+      }
     }
   }
 
@@ -35764,7 +35822,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
-      if (Affinity2018.hasOwnProperty('unlockBodyScroll') && document.body.classList.contains('disable-scroll')) Affinity2018.unlockBodyScroll();
+      if (this.IsMobile)
+      {
+        Affinity2018.unlockBodyScroll();
+      }
     }
   }
 
@@ -35803,7 +35864,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         {
           liNode.classList.add('selected');
           this.listNode.scrollTo(0, Affinity2018.getOffsetRect(liNode).y - 5);
-          this.displayNode.value = this._cleanDisplay(selectedNode.innerText);
+          this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
         }
       }.bind(this));
       /*
@@ -35837,7 +35898,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
       }
     }
-    if (unlockScroll) Affinity2018.unlockBodyScroll();
+    if (unlockScroll) 
+    {
+      Affinity2018.unlockBodyScroll();
+    }
   }
 
   /**/
@@ -40469,6 +40533,23 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     /**/
 
+    this.FormRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
+
+    this.CanvasWidth = this.MinWidth;
+    this.CanvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
+    if (this.FormRowNode) 
+    {
+      this.CanvasHeight = this.FormRowNode.getBoundingClientRect().width;
+    }
+
+    if (Affinity2018.IsMobile)
+    {
+      this.MaxWidth = this.CanvasWidth;
+      this.MaxHeight = this.CanvasHeight;
+    }
+
+    /**/
+
     if (this.InitNode.dataset.getApi)
     {
       if (this.InitNode.dataset.getApi.toLowerCase().trim() !== 'false')
@@ -40508,10 +40589,6 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
   _init()
   {
 
-    var canvasWidth = this.MinWidth, canvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
-
-    this.FormRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
-
     /*
     if (this.BgImageData.length > 0)
     {
@@ -40525,7 +40602,6 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     if (this.FormRowNode)
     {
-      if (document.body.classList.contains('cform')) canvasWidth = this.FormRowNode.getBoundingClientRect().width;
       this.FormRowNode.appendChild(this.InnerNode);
       this.FormRowNode.classList.add('draw-panel');
       this.InitNode.classList.add('hidden');
@@ -40537,14 +40613,14 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     }
 
     this.InnerNode.innerHTML = this.template
-      .replace('{{width}}', canvasWidth)
-      .replace('{{height}}', canvasHeight);
+      .replace('{{width}}', this.CanvasWidth)
+      .replace('{{height}}', this.CanvasHeight);
 
     this.CanvasNode = this.InnerNode.querySelector('canvas');
-    this.CanvasNode.width = canvasWidth;
-    this.CanvasNode.height = canvasHeight;
-    this.CanvasNode.style.width = canvasWidth + 'px';
-    this.CanvasNode.style.height = canvasHeight + 'px';
+    this.CanvasNode.width = this.CanvasWidth;
+    this.CanvasNode.height = this.CanvasHeight;
+    this.CanvasNode.style.width = this.CanvasWidth + 'px';
+    this.CanvasNode.style.height = this.CanvasHeight + 'px';
 
     this.SelectBoxNode = this.InnerNode.querySelector('.bg-image-select');
     this.SelectNode = this.SelectBoxNode.querySelector('select');
@@ -41203,11 +41279,13 @@ Affinity2018.Classes.Plugins.DrawPad = class
     this._mouseButtonDown = false;
     ['_handleMouseMouseDown', '_handleMouseMove', '_handleDocMouseUp'].bindEach(this);
     this.canvas.addEventListener("mousedown", this._handleMouseMouseDown);
-    this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
+    //this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
+    this.canvas.addEventListener("mousemove", this._handleMouseMove);
     document.addEventListener("mouseup", this._handleDocMouseUp);
   }
   _handleMouseMouseDown (ev)
   {
+    Affinity2018.lockBodyScroll();
     if (ev.which === 1)
     {
       this._mouseButtonDown = true;
@@ -41223,6 +41301,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocMouseUp (ev)
   {
+    Affinity2018.unlockBodyScroll();
     if (ev.which === 1 && this._mouseButtonDown)
     {
       this._mouseButtonDown = false;
@@ -41239,6 +41318,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleTouchStart (ev)
   {
+    Affinity2018.lockBodyScroll();
     var touch = ev.changedTouches[0];
     this._strokeBegin(touch);
   }
@@ -41251,9 +41331,11 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocTouchEnd (ev)
   {
+    Affinity2018.unlockBodyScroll();
     var wasCanvasTouched = ev.target === this.canvas;
     if (wasCanvasTouched) this._strokeEnd();
   }
+
 
   /**/
 
@@ -41944,12 +42026,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     {
       rowNode = this.initNode.closest('div[class*="row"]');
       labelNode = rowNode.querySelector('label');
-      minWidth = labelNode ? parseInt(window.getComputedStyle(labelNode).width) + parseInt(window.getComputedStyle(this.initNode).width) : false;
+      //minWidth = labelNode ? parseInt(window.getComputedStyle(labelNode).width) + parseInt(window.getComputedStyle(this.initNode).width) : false;
     }
-    if (minWidth && !isNaN(minWidth) && minWidth > 0)
-    {
-      this.gridNode.style.minWidth = (minWidth + 8) + 'px';
-    }
+    //if (minWidth && !isNaN(minWidth) && minWidth > 0)
+    //{
+    //  this.gridNode.style.minWidth = (minWidth + 8) + 'px';
+    //}
 
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () { this.dispatchEvent(new CustomEvent('resized')); }.bind(this), 1000);
@@ -44947,6 +45029,17 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       console.error(this.targetNode);
       return;
     }
+
+    /* placeholder text */
+
+    this.placeholder = this.config.EmptyDisplay;
+    if (this.config.Required && !this.isSingleValue)
+    {
+      this.placeholder = this.config.NoneDisplay;
+    }
+    this.targetNode.dataset.placeholder = this.placeholder;
+
+    /**/
 
     if (!this.targetNode.hasOwnProperty('widgets')) this.targetNode.widgets = {};
     this.targetNode.widgets.SelectLookup = this;

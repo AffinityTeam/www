@@ -1,58 +1,60 @@
 /* Minification failed. Returning unminified contents.
-(6388,59): run-time error CSS1030: Expected identifier, found ','
-(6388,81): run-time error CSS1031: Expected selector, found ')'
-(6388,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6396,59): run-time error CSS1030: Expected identifier, found ','
-(6396,81): run-time error CSS1031: Expected selector, found ')'
-(6396,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6428,82): run-time error CSS1030: Expected identifier, found ','
-(6428,153): run-time error CSS1031: Expected selector, found ')'
-(6428,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6518,64): run-time error CSS1030: Expected identifier, found ','
-(6518,71): run-time error CSS1031: Expected selector, found ')'
-(6518,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6526,63): run-time error CSS1030: Expected identifier, found ','
-(6526,70): run-time error CSS1031: Expected selector, found ')'
-(6526,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6534,72): run-time error CSS1030: Expected identifier, found ','
-(6534,79): run-time error CSS1031: Expected selector, found ')'
-(6534,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6593,74): run-time error CSS1030: Expected identifier, found ','
-(6593,216): run-time error CSS1031: Expected selector, found ')'
-(6593,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8326,113): run-time error CSS1030: Expected identifier, found ','
-(8326,125): run-time error CSS1031: Expected selector, found ')'
-(8326,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9360,73): run-time error CSS1030: Expected identifier, found ','
-(9360,95): run-time error CSS1031: Expected selector, found ')'
-(9360,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9368,73): run-time error CSS1030: Expected identifier, found ','
-(9368,95): run-time error CSS1031: Expected selector, found ')'
-(9368,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9390,73): run-time error CSS1030: Expected identifier, found ','
-(9390,95): run-time error CSS1031: Expected selector, found ')'
-(9390,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9399,73): run-time error CSS1030: Expected identifier, found ','
-(9399,95): run-time error CSS1031: Expected selector, found ')'
-(9399,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9407,73): run-time error CSS1030: Expected identifier, found ','
-(9407,95): run-time error CSS1031: Expected selector, found ')'
-(9407,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9415,73): run-time error CSS1030: Expected identifier, found ','
-(9415,95): run-time error CSS1031: Expected selector, found ')'
-(9415,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9423,73): run-time error CSS1030: Expected identifier, found ','
-(9423,95): run-time error CSS1031: Expected selector, found ')'
-(9423,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9808,133): run-time error CSS1030: Expected identifier, found ','
-(9808,274): run-time error CSS1031: Expected selector, found ')'
-(9808,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10388,167): run-time error CSS1030: Expected identifier, found ','
-(10388,309): run-time error CSS1031: Expected selector, found ')'
-(10388,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10639,108): run-time error CSS1030: Expected identifier, found ','
-(10639,250): run-time error CSS1031: Expected selector, found ')'
-(10639,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6398,59): run-time error CSS1030: Expected identifier, found ','
+(6398,81): run-time error CSS1031: Expected selector, found ')'
+(6398,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6406,59): run-time error CSS1030: Expected identifier, found ','
+(6406,81): run-time error CSS1031: Expected selector, found ')'
+(6406,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6438,82): run-time error CSS1030: Expected identifier, found ','
+(6438,153): run-time error CSS1031: Expected selector, found ')'
+(6438,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6528,64): run-time error CSS1030: Expected identifier, found ','
+(6528,71): run-time error CSS1031: Expected selector, found ')'
+(6528,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6536,63): run-time error CSS1030: Expected identifier, found ','
+(6536,70): run-time error CSS1031: Expected selector, found ')'
+(6536,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6544,72): run-time error CSS1030: Expected identifier, found ','
+(6544,79): run-time error CSS1031: Expected selector, found ')'
+(6544,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6603,74): run-time error CSS1030: Expected identifier, found ','
+(6603,216): run-time error CSS1031: Expected selector, found ')'
+(6603,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8336,113): run-time error CSS1030: Expected identifier, found ','
+(8336,125): run-time error CSS1031: Expected selector, found ')'
+(8336,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9370,73): run-time error CSS1030: Expected identifier, found ','
+(9370,95): run-time error CSS1031: Expected selector, found ')'
+(9370,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9378,73): run-time error CSS1030: Expected identifier, found ','
+(9378,95): run-time error CSS1031: Expected selector, found ')'
+(9378,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9400,73): run-time error CSS1030: Expected identifier, found ','
+(9400,95): run-time error CSS1031: Expected selector, found ')'
+(9400,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9409,73): run-time error CSS1030: Expected identifier, found ','
+(9409,95): run-time error CSS1031: Expected selector, found ')'
+(9409,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9417,73): run-time error CSS1030: Expected identifier, found ','
+(9417,95): run-time error CSS1031: Expected selector, found ')'
+(9417,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9425,73): run-time error CSS1030: Expected identifier, found ','
+(9425,95): run-time error CSS1031: Expected selector, found ')'
+(9425,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9433,73): run-time error CSS1030: Expected identifier, found ','
+(9433,95): run-time error CSS1031: Expected selector, found ')'
+(9433,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9818,133): run-time error CSS1030: Expected identifier, found ','
+(9818,274): run-time error CSS1031: Expected selector, found ')'
+(9818,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10410,167): run-time error CSS1030: Expected identifier, found ','
+(10410,309): run-time error CSS1031: Expected selector, found ')'
+(10410,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10692,108): run-time error CSS1030: Expected identifier, found ','
+(10692,250): run-time error CSS1031: Expected selector, found ')'
+(10692,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(11601,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11743,40): run-time error CSS1039: Token not allowed after unary operator: '-header-size'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -4559,6 +4561,16 @@ body.ui2018.dark #dialog {
 }
 body.ui2018.dark #dialog #dialog-content {
   color: #cccccc;
+}
+body.ui2018.mobile #dialog {
+  top: 50vh;
+  left: 10px;
+  min-width: calc(100vw - 20px);
+  max-width: calc(100vw - 20px);
+  margin: 0 !important;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 body.ui2018 .content {
   margin: 5px;
@@ -10373,14 +10385,20 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .close {
 body.ui2018.uiupdate.mobile,
 body.ui2018.uiupdate.cform.mobile {
   width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper {
   width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent {
   width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.header,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.header {
@@ -10388,14 +10406,20 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.header {
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content {
-  width: 100vw;
+  width: 100%;
   padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section {
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
+  width: calc(100% - 10px);
+  min-width: calc(100% - 10px);
+  max-width: calc(100% - 10px);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-header div.section-title {
@@ -10474,6 +10498,10 @@ body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.sect
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-affinityfield .select {
   width: 100%;
 }
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address input.ui-address,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address input.ui-address {
+  padding-right: 35px !important;
+}
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-address div.ui-address-fields {
   width: calc(100% - 20px);
@@ -10537,39 +10565,39 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input {
-  padding: 0 10px;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.bank,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.bank {
-  width: 60px !important;
+  width: calc(20% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.branch,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.branch {
-  width: 70px !important;
+  width: calc(23% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.account,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.au input.account {
-  width: 170px !important;
+  width: calc(57% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input {
-  padding: 0 10px;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.bank,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.bank {
-  width: 60px !important;
+  width: calc(20% - 13.75px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.branch,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.branch {
-  width: 70px !important;
+  width: calc(25% - 13.75px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.account,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.account {
-  width: 95px !important;
+  width: calc(33% - 13.75px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.suffix,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-banknumber div.banknumber-box.nz input.suffix {
-  width: 65px !important;
+  width: calc(22% - 13.75px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box {
@@ -10582,35 +10610,35 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input {
-  padding: 0 10px;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax1,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax1 {
-  width: 100px !important;
+  width: calc(33% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax2,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax2 {
-  width: 100px !important;
+  width: calc(33% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax3,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.au input.tax3 {
-  width: 100px !important;
+  width: calc(33% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input {
-  padding: 0 10px;
+  padding: 0;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax1,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax1 {
-  width: 100px !important;
+  width: calc(33% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax2,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax2 {
-  width: 100px !important;
+  width: calc(33% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-taxnumber div.taxnumber-box.nz input.tax3 {
-  width: 100px !important;
+  width: calc(33% - 15px) !important;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel {
@@ -10619,6 +10647,33 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel .draw-panel-box,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-drawpanel .draw-panel-box {
   width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label {
+  max-width: 585px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label.ui-file,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti label.ui-file {
+  width: 95px;
+  min-width: 95px;
+  max-width: 95px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list {
+  width: 100%;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table {
+  width: 100%;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table tbody tr td a,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body *.default-form div.form-row.row-fileuploadmulti div.ui-file-list table tbody tr td a {
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section div.section-body div.workflow-buttons {
@@ -11600,6 +11655,9 @@ body.ui2018 .example-template .preview .pac-container.force-fixed {
 
 
 
+:root {
+  --header-size: 0px;
+}
 body.ui2018 .ui-autocomplete-container {
   position: relative;
   display: inline-block;
@@ -11737,6 +11795,10 @@ body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li.selected,
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li:hover {
   color: white;
   background-color: #5fd4f7;
+}
+body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
+  width: 100%;
+  min-height: calc(100vh - 64px - var(--header-size));
 }
 
 
