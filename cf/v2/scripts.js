@@ -35169,6 +35169,30 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       return;
     }
 
+    var key = ev.key;
+    if (
+        key === 'Backspace' ||   // Backspace
+        key === 'Shift' ||       // Shift
+        key === 'Delete' ||      // Delete
+        key === ' ' ||           // Space
+        (key >= '0' && key <= '9') ||  // 0-9
+        (key >= 'a' && key <= 'z') ||  // a-z lower
+        (key >= 'A' && key <= 'Z')     // A-Z upper
+    ) 
+    {
+      if (this.status == 'closed')
+      {
+        this._position(null, 'typing');
+        this.show('typing');
+      }
+      // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
+    } 
+    else 
+    {
+      ev.preventDefault();
+      return;
+    }
+    /*
     if (
       (ev.keyCode === 8) || // backspace
       (ev.keyCode === 16) || // shift
@@ -35183,12 +35207,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this._position(null, 'typing');
         this.show('typing');
       }
-      /* search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9 */
+      // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
     }
     else
     {
       return;
     }
+    */
 
     if (this.debug)
     {
