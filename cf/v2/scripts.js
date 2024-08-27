@@ -34073,7 +34073,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       '_itemClicked',
       '_restoreSelectedList', '_clearList',
-
+      
+      '_unsetScrollEvents', '_setScrollEvents', 
       '_scrolled', '_scrollIntoView',
       '_position', '_setPosition',
 
@@ -34085,7 +34086,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_escapeRegExp',
       '_stopEvents',
 
+      '_clearWindowClick', '_setWindowClick', 
       '_clearShowHideEvents', '_windowClicked',
+      '_setListHeight',
       '_show', '_hide',
       '_reset',
 
@@ -34216,7 +34219,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.forceBottom = true;
       this.forceTop = false;
-      this.listNode.style.setProperty('--mobile-list-height', (window.innerHeight - this.wrapperHeaderOffset - 20) + 'px');
+      //this.listNode.style.setProperty('--mobile-list-height', (window.innerHeight - this.wrapperHeaderOffset - 20) + 'px');
     }
 
     this.bestguess = null;
@@ -34254,8 +34257,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.displayNode.addEventListener('focus', this._doFocus);
 
-    document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
-    window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+    //document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    //window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
 
     //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
     //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
@@ -35169,51 +35172,55 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       return;
     }
 
-    var key = ev.key;
-    if (
-        key === 'Backspace' ||   // Backspace
-        key === 'Shift' ||       // Shift
-        key === 'Delete' ||      // Delete
-        key === ' ' ||           // Space
-        (key >= '0' && key <= '9') ||  // 0-9
-        (key >= 'a' && key <= 'z') ||  // a-z lower
-        (key >= 'A' && key <= 'Z')     // A-Z upper
-    ) 
+    if (this.IsMobile)
     {
-      if (this.status == 'closed')
+      var key = ev.key;
+      if (
+          key === 'Backspace' ||   // Backspace
+          key === 'Shift' ||       // Shift
+          key === 'Delete' ||      // Delete
+          key === ' ' ||           // Space
+          (key >= '0' && key <= '9') ||  // 0-9
+          (key >= 'a' && key <= 'z') ||  // a-z lower
+          (key >= 'A' && key <= 'Z')     // A-Z upper
+      ) 
       {
-        this._position(null, 'typing');
-        this.show('typing');
-      }
-      // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
-    } 
-    else 
-    {
-      ev.preventDefault();
-      return;
-    }
-    /*
-    if (
-      (ev.keyCode === 8) || // backspace
-      (ev.keyCode === 16) || // shift
-      (ev.keyCode === 32) || // delete
-      (ev.keyCode === 46) || // space
-      (ev.keyCode >= 48 && ev.keyCode <= 57) || // a-z upper
-      (ev.keyCode >= 65 && ev.keyCode <= 90) || // a-z lower
-      (ev.keyCode >= 96 && ev.keyCode <= 105) // num pad
-    ) {
-      if (this.status == 'closed')
+        if (this.status == 'closed')
+        {
+          this._position(null, 'typing');
+          this.show('typing');
+        }
+        // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
+      } 
+      else 
       {
-        this._position(null, 'typing');
-        this.show('typing');
+        ev.preventDefault();
+        return;
       }
-      // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
     }
     else
     {
-      return;
+      if (
+        (ev.keyCode === 8) || // backspace
+        (ev.keyCode === 16) || // shift
+        (ev.keyCode === 32) || // delete
+        (ev.keyCode === 46) || // space
+        (ev.keyCode >= 48 && ev.keyCode <= 57) || // a-z upper
+        (ev.keyCode >= 65 && ev.keyCode <= 90) || // a-z lower
+        (ev.keyCode >= 96 && ev.keyCode <= 105) // num pad
+      ) {
+        if (this.status == 'closed')
+        {
+          this._position(null, 'typing');
+          this.show('typing');
+        }
+        // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
+      }
+      else
+      {
+        return;
+      }
     }
-    */
 
     if (this.debug)
     {
@@ -35458,10 +35465,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
 
     this._fireWindowChangeEvent('autocomplete _elementUp');
-
-
-
-
   }
 
   /**/
@@ -35572,10 +35575,23 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
+  _unsetScrollEvents()
+  {
+    document.removeEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    window.removeEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+  }
+
+  _setScrollEvents()
+  {
+    document.removeEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    window.removeEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+    document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+  }
+
   _scrolled(ev)
   {
-    //console.log('scrolled', ev.target);
-    //this.hide('scrolled');
+    if (this.status === 'closed') return;
     if (Affinity2018.Apps.hasOwnProperty('CleverForms') && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')) 
     {
       // do nothing
@@ -35591,7 +35607,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     if (this.workerComplete && this.Ready)
     {
-      console.log(this.displayNode);
       var pos = Affinity2018.getPosition(this.displayNode);
       var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
       var scroll = pos.top - offset - 10;
@@ -35602,6 +35617,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _position(delay, calledFrom)
   {
     clearTimeout(this._positionDelay);
+    if (this.status === 'closed') return;
     if (this.forceTop)
     {
       this.listNode.classList.remove('below');
@@ -35769,24 +35785,42 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
+  _clearWindowClick()
+  {
+    window.removeEventListener('click', this._windowClicked);
+  }
+  _setWindowClick()
+  {
+    window.removeEventListener('click', this._windowClicked);
+    window.addEventListener('click', this._windowClicked);
+  }
   _clearShowHideEvents()
   {
-    clearTimeout(this.bgEventListenerDelay);
-    window.removeEventListener('click', this._windowClicked);
+    clearTimeout(this._setWindowClickDelay);
     this.displayNode.removeEventListener('click', this._stopEvents);
     this.autocompleteNode.removeEventListener('click', this._stopEvents);
+    this._clearWindowClick();
   }
   _setHideShowEvents()
   {
-    clearTimeout(this.bgEventListenerDelay);
+    clearTimeout(this._setWindowClickDelay);
     this._clearShowHideEvents();
-    this.bgEventListenerDelay = setTimeout(function() { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
     this.displayNode.addEventListener('click', this._stopEvents);
     this.autocompleteNode.addEventListener('click', this._stopEvents);
+    this._setWindowClickDelay = setTimeout(this._setWindowClick, 100);
   }
 
   _windowClicked(ev)
   {
+    if (this.IsMobile)
+    {
+      console.log('window clicked', ev);
+      if (this.status === 'open')
+      {
+        this.hide();
+        return;
+      }
+    }
     if (document.activeElement !== this.displayNode)
     {
       this.hide();
@@ -35794,6 +35828,21 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   }
 
   /**/
+
+  _setListHeight()
+  {
+    if (this.IsMobile)
+    {
+      var padding = 20;
+      var viewHeight = window.visualViewport.height;
+      var headerHeight = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+      var displayheight = this.displayNode.getBoundingClientRect().height;
+      var listWidth = this.displayNode.getBoundingClientRect().width;
+      var listHeight = viewHeight - headerHeight - displayheight - padding;
+      this.listNode.style.setProperty('--mobile-list-width', listWidth + 'px');
+      this.listNode.style.setProperty('--mobile-list-height', listHeight + 'px');
+    }
+  }
 
   _show(calledFrom)
   {
@@ -35803,6 +35852,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       && this.listNode.querySelectorAll('li.visible').length > 0
     )
     {
+      //console.log('show called from : ' + calledFrom, this);
       if (Affinity2018.Calendars) Affinity2018.Calendars.HideAll();
       Affinity2018.Autocompletes.HideAll(this);
       clearTimeout(this._focusDelay);
@@ -35819,14 +35869,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }
       this._setPosition('show');
       this._setHideShowEvents();
-      if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
+      this._setScrollEvents();
+
       if (this.IsMobile)
       {
-        var wrapperHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
-        var displayHeight = this.displayNode.getBoundingClientRect().height;
-        this.listNode.style.setProperty('--mobile-list-height', (window.innerHeight - wrapperHeaderOffset - displayHeight - 20) + 'px');
-        Affinity2018.lockBodyScroll();
+        clearTimeout(this._setListHeightDelay1);
+        clearTimeout(this._setListHeightDelay2);
+        this._setListHeightDelay1 = setTimeout(this._setListHeight, 250);
+        this._setListHeightDelay2 = setTimeout(this._setListHeight, 500);
       }
+
+      if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
+      Affinity2018.lockBodyScroll();
     }
   }
 
@@ -35835,6 +35889,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.status !== 'closed')
     {
       //console.log('hide called from : ' + calledFrom, this);
+      this._unsetScrollEvents();
       clearTimeout(this._focusDelay);
       clearTimeout(this._fuzzySearchDelay);
       clearTimeout(this._hideResetTimer);
@@ -35850,10 +35905,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
-      if (this.IsMobile)
-      {
-        Affinity2018.unlockBodyScroll();
-      }
+      Affinity2018.unlockBodyScroll();
     }
   }
 
@@ -35862,7 +35914,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     // TODO: Implement Search Mode
     this.searchMode = false;
-
+    
+    this._unsetScrollEvents();
     if (!this.searchMode)
     {
       var selectedNode = false;
@@ -35895,15 +35948,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
         }
       }.bind(this));
-      /*
-      if (
-        this.displayNode
-        && this.displayNode.classList.contains('hidden')
-      )
-      {
-        this.displayNode.classList.remove('hidden')
-      }
-      */
     }
   }
 
