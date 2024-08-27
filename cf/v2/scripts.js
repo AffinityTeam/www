@@ -24012,7 +24012,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         this.CleverForms.ReleaseEmployeeSelect();
       }
-      Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
+	  
+	    // dev/CF-1214: Fix forms where all Employee fields are disabled so are not saved after poulation.
+      // Force save all if all affected fields are disabled by NOT updating history with selected key value
+      let checkPaths = [
+         `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) input:not(:disabled)`,
+         `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) select:not(:disabled)`,
+         `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) textarea:not(:disabled)`
+      ];
+      let affectedNodes = document.querySelectorAll(checkPaths.join(', '));
+      if (affectedNodes.length > 0)
+      {
+        Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
+      }
+      //
+
       // Form Reset waring logic:
       let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
       {
