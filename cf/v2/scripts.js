@@ -17947,7 +17947,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           titleStr += '  v' + this.TemplateData.Revision;
         }
         document.querySelector('.form-name').innerHTML = nameStr;
-        document.title = 'Edit ' + titleStr;
+        document.title = (this.ViewType === 'ViewOnly' ? 'View ' : 'Edit ') + titleStr;
         if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
         if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
       }
