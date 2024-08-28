@@ -16897,7 +16897,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       if (document.querySelector('input.form-name') && document.querySelector('input.form-name').value.trim() !== '')
       {
-        document.title = 'Edit ' + document.querySelector('input.form-name').value.trim();
+        document.title = (this.ViewType === 'ViewOnly' ? 'View ' : 'Edit ') + document.querySelector('input.form-name').value.trim();
         document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
       }
     }
