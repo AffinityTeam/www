@@ -41411,7 +41411,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   _handleTouchMove (ev)
   {
     // Prevent scrolling;
-    ev.preventDefault();
+    if (!Affinity2018.SupportsPassiveEvents) ev.preventDefault();
     var touch = ev.changedTouches[0];
     this._strokeUpdate(touch);
   }
