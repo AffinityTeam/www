@@ -5713,6 +5713,7 @@
     showLogin()
     {
       if (!this.enabled) return false;
+      if (this.loginPanel.clasList.contains('hidden')) this.loginPanel.clasList.remove('hidden');
       window.removeEventListener('keyup', this.loginCaptureEscape);
       window.addEventListener('keyup', this.loginCaptureEscape);
       this.loginPanel.querySelectorAll('.affinity-login-box').forEach(function (flowNode) { flowNode.classList.remove('show'); });
@@ -16896,7 +16897,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       if (document.querySelector('input.form-name') && document.querySelector('input.form-name').value.trim() !== '')
       {
-        document.title = 'Edit ' + document.querySelector('input.form-name').value.trim();
+        document.title = (this.ViewType === 'ViewOnly' ? 'View ' : 'Edit ') + document.querySelector('input.form-name').value.trim();
         document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
       }
     }
@@ -17946,7 +17947,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           titleStr += '  v' + this.TemplateData.Revision;
         }
         document.querySelector('.form-name').innerHTML = nameStr;
-        document.title = 'Edit ' + titleStr;
+        document.title = (this.ViewType === 'ViewOnly' ? 'View ' : 'Edit ') + titleStr;
         if (document.querySelector('link[rel="icon"]')) document.querySelector('link[rel="icon"]').href = 'https://cdn.jsdelivr.net/gh/affinityteam/www-assets/v1/favicon1.ico';
         if (!$a.isNullOrEmpty(this.TemplateData.UserInstructions)) document.querySelector('.form-instructions').innerHTML = this.TemplateData.UserInstructions;
       }
@@ -20193,7 +20194,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.historyCommentComplexTemplate = `
     <div class="{ItemClass}">
-      <div class="info"><span>{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
+      <div class="info"><span class="from">{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
       <div class="{CommentClass}">{Comment}</div>
     </div>
     `;
@@ -23772,7 +23773,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (addedCount > 0)
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
-          if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
+          if (!Affinity2018.IsMobile) 
+          {
+            this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
+          }
           Affinity2018.Autocompletes.Apply(this.GenericGroupSelectNode);
           this.GenericGroupNode.classList.remove('hidden');
           if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Select.Enum)
@@ -23870,7 +23874,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           this.FormLinkNode.classList.remove('hidden');
           this.FormLinkSelectNode.classList.add('ui-has-autocomplete');
-          if (!Affinity2018.IsMobile) this.FormLinkSelectNode.classList.add('ui-autocomplete-force-top');
+          if (!Affinity2018.IsMobile) 
+          {
+            this.FormLinkSelectNode.classList.add('ui-autocomplete-force-top');
+          }
           Affinity2018.Autocompletes.Apply(this.FormLinkSelectNode);
         }
         else
@@ -24011,7 +24018,21 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         this.CleverForms.ReleaseEmployeeSelect();
       }
-      Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
+	  
+	    // dev/CF-1214: Fix forms where all Employee fields are disabled so are not saved after poulation.
+      // Force save all if all affected fields are disabled by NOT updating history with selected key value
+      let checkPaths = [
+         `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) input:not(:disabled)`,
+         `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) select:not(:disabled)`,
+         `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) textarea:not(:disabled)`
+      ];
+      let affectedNodes = document.querySelectorAll(checkPaths.join(', '));
+      if (affectedNodes.length > 0)
+      {
+        Affinity2018.Apps.CleverForms.Form.UpdateLastFormHistory();
+      }
+      //
+
       // Form Reset waring logic:
       let modelDescription = (this.CleverForms.FullFormSaveOnKeyChanegModels.find(function(model)
       {
@@ -30977,7 +30998,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           whiteList = this.Config.Details.ItemSource.WhiteList;
         }
 
-        if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
+        if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) 
+        {
+          //select.classList.add('ui-autocomplete-force-top');
+        }
 
         if (
           this.CleverForms.IsGlobalKey(this.Config)
@@ -34019,6 +34043,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.Ready = false;
 
+    this.IsMobile = false;
+
     this.enabled = true;
 
     this.uuid = '';
@@ -34036,6 +34062,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.stopInitialChange = false;
 
     this.humanInteraction = false;
+
+    this.wrapperHeaderOffset = 0;
 
     this.fuzzyRunning = false;
     this.workerComplete = true;
@@ -34068,18 +34096,22 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       '_itemClicked',
       '_restoreSelectedList', '_clearList',
-
+      
+      '_unsetScrollEvents', '_setScrollEvents', 
       '_scrolled', '_scrollIntoView',
       '_position', '_setPosition',
 
       '_cleanDisplay',
       '_encodeValue',
+      '_setDisplayValue',
       '_resetListEvents', '_setListEvents',
       '_fireWindowChangeEvent',
       '_escapeRegExp',
       '_stopEvents',
 
+      '_clearWindowClick', '_setWindowClick', 
       '_clearShowHideEvents', '_windowClicked',
+      '_setListHeight',
       '_show', '_hide',
       '_reset',
 
@@ -34102,6 +34134,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       return;
     }
 
+    this.IsMobile = (Affinity2018.mobile || Affinity2018.IsMobile);
+
     this.targetNode = targetNode;
 
     this.uuid = this.targetNode.id ? this.targetNode.id : Affinity2018.uuid();
@@ -34111,6 +34145,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       Affinity2018.Autocompletes.widgets[this.uuid] = this;
     }
+
+    this.wrapperHeaderOffset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
 
     this.targetNode.classList.remove('ui-has-autocomplete');
     this.targetNode.classList.add('ui-autocomplete');
@@ -34171,7 +34207,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.fuzzyWorker.onmessage = this._fuzzyWorkerComplete;
     }
 
-    this.searchMode = Affinity2018.IsMobile ? true : false;
+    this.searchMode = this.IsMobile ? true : false;
 
     this.center = false;
     if (this.targetNode.classList.contains('ui-autocomplete-center'))
@@ -34199,7 +34235,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.targetNode.classList.remove('ui-autocomplete-force-bottom');
       this.forceBottom = true;
+    }
+
+    if (this.IsMobile)
+    {
+      this.forceBottom = true;
       this.forceTop = false;
+      //this.listNode.style.setProperty('--mobile-list-height', (window.innerHeight - this.wrapperHeaderOffset - 20) + 'px');
     }
 
     this.bestguess = null;
@@ -34230,15 +34272,15 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _init()
   {
 
-    if (Affinity2018.IsMobile)
+    if (this.IsMobile)
     {
       window.addEventListener('mobileback', function () { this.hide(); }.bind(this));
     }
 
     this.displayNode.addEventListener('focus', this._doFocus);
 
-    document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
-    window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+    //document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    //window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
 
     //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
     //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
@@ -34398,7 +34440,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       var html = this._cleanDisplay(this.defaultValue.innerText);
       if (this.listNode.querySelector('li.selected')) this.listNode.querySelector('li.selected').classList.remove('selected');
       this.defaultValue.classList.add('selected');
-      this.displayNode.value = html;
+      this._setDisplayValue(html);
       this.targetNode.selectedIndex = this.defaultValue.dataset.index;
       this.targetNode.value = this.defaultValue.dataset.value;
     }
@@ -34427,7 +34469,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       html = this._cleanDisplay(node.innerText);
       if (this.listNode.querySelector('li.selected')) this.listNode.querySelector('li.selected').classList.remove('selected');
       node.classList.add('selected');
-      this.displayNode.value = html;
+      this._setDisplayValue(html);
       this.targetNode.selectedIndex = node.dataset.index;
       this.targetNode.value = node.dataset.value;
       return true;
@@ -34437,7 +34479,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   refreshFromSelect()
   {
-    this.displayNode.value = '';
+    this._setDisplayValue('');
     this._updateOptions();
   }
 
@@ -34546,7 +34588,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this.listNode.innerHTML = workerData.html;
         this._position(0, 'worker resetList');
 
-        this.displayNode.value = '';
+        this._setDisplayValue('');
         this.listNode.scrollTo(0, 0);
         this.targetNode.selectedIndex = 0;
 
@@ -34665,7 +34707,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       || this.displayNode.classList.contains('width-full')
     )
     {
-      this.listNode.styles.width = Affinity2018.getBoundingClientRect().width + 'px';
+      var measureNode = document.querySelector('#form') ? document.querySelector('#form') : document.body;
+      var measureSize = Affinity2018.getOffsetRect(measureNode);
+      this.listNode.style.width = measureSize.width + 'px';
     }
 
     this._resetListEvents();
@@ -35150,25 +35194,54 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       return;
     }
 
-    if (
-      (ev.keyCode === 8) || // backspace
-      (ev.keyCode === 16) || // shift
-      (ev.keyCode === 32) || // delete
-      (ev.keyCode === 46) || // space
-      (ev.keyCode >= 48 && ev.keyCode <= 57) || // a-z upper
-      (ev.keyCode >= 65 && ev.keyCode <= 90) || // a-z lower
-      (ev.keyCode >= 96 && ev.keyCode <= 105) // num pad
-    ) {
-      if (this.status == 'closed')
+    if (this.IsMobile)
+    {
+      var key = ev.key;
+      if (
+          key === 'Backspace' ||   // Backspace
+          key === 'Shift' ||       // Shift
+          key === 'Delete' ||      // Delete
+          key === ' ' ||           // Space
+          (key >= '0' && key <= '9') ||  // 0-9
+          (key >= 'a' && key <= 'z') ||  // a-z lower
+          (key >= 'A' && key <= 'Z')     // A-Z upper
+      ) 
       {
-        this._position(null, 'typing');
-        this.show('typing');
+        if (this.status == 'closed')
+        {
+          this._position(null, 'typing');
+          this.show('typing');
+        }
+        // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
+      } 
+      else 
+      {
+        ev.preventDefault();
+        return;
       }
-      /* search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9 */
     }
     else
     {
-      return;
+      if (
+        (ev.keyCode === 8) || // backspace
+        (ev.keyCode === 16) || // shift
+        (ev.keyCode === 32) || // delete
+        (ev.keyCode === 46) || // space
+        (ev.keyCode >= 48 && ev.keyCode <= 57) || // a-z upper
+        (ev.keyCode >= 65 && ev.keyCode <= 90) || // a-z lower
+        (ev.keyCode >= 96 && ev.keyCode <= 105) // num pad
+      ) {
+        if (this.status == 'closed')
+        {
+          this._position(null, 'typing');
+          this.show('typing');
+        }
+        // search when key pressed is space, backspace, delete, a-z, 0-9 or num pad 0-9
+      }
+      else
+      {
+        return;
+      }
     }
 
     if (this.debug)
@@ -35249,11 +35322,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this.show('displayNode focus');
       }
     }.bind(this), 100);
-    if (Affinity2018.ismobile)
-    {
-      this.displayNode.selectionStart = 0;
-      this.displayNode.selectionEnd = 999999;
-    }
+    //if (this.IsMobile)
+    //{
+    //  this.displayNode.selectionStart = 0;
+    //  this.displayNode.selectionEnd = 999999;
+    //}
   }
 
   _doClick(ev)
@@ -35414,10 +35487,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
 
     this._fireWindowChangeEvent('autocomplete _elementUp');
-
-
-
-
   }
 
   /**/
@@ -35451,7 +35520,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
 
     this.lastSelected = eventNode;
-    this.displayNode.value = this._cleanDisplay(eventNode.innerText);
+    this._setDisplayValue(this._cleanDisplay(eventNode.innerText));
     this.targetNode.selectedIndex = eventNode.dataset.index;
     this.targetNode.value = eventNode.dataset.value;
 
@@ -35528,10 +35597,23 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
+  _unsetScrollEvents()
+  {
+    document.removeEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    window.removeEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+  }
+
+  _setScrollEvents()
+  {
+    document.removeEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    window.removeEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+    document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
+    window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
+  }
+
   _scrolled(ev)
   {
-    //console.log('scrolled', ev.target);
-    //this.hide('scrolled');
+    if (this.status === 'closed') return;
     if (Affinity2018.Apps.hasOwnProperty('CleverForms') && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer')) 
     {
       // do nothing
@@ -35545,26 +35627,37 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   _scrollIntoView()
   {
-    var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
-    this.listNode.scrollIntoView({ behavior: 'auto', block: 'start' });
-    window.scrollTo(window.scrollX, window.scrollY - offset - 10);
+    if (this.workerComplete && this.Ready)
+    {
+      var pos = Affinity2018.getPosition(this.displayNode);
+      var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+      var scroll = pos.top - offset - 10;
+      window.scrollTo(window.scrollX, scroll);
+    }
   }
 
   _position(delay, calledFrom)
   {
     clearTimeout(this._positionDelay);
+    if (this.status === 'closed') return;
     if (this.forceTop)
     {
       this.listNode.classList.remove('below');
       this.listNode.classList.add('above');
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
       return;
     }
     if (this.forceBottom)
     {
       this.listNode.classList.remove('above');
       this.listNode.classList.add('below');
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
       return;
     }
 
@@ -35578,7 +35671,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
       return;
     }
     if (
@@ -35596,7 +35692,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       {
         this.listNode.classList.add('above');
       }
-      if (calledFrom !== 'scroll' && (Affinity2018.mobile || Affinity2018.IsMobile)) this._scrollIntoView();
+      if (calledFrom !== 'scroll' && this.IsMobile) 
+      {
+        this._scrollIntoView();
+      }
     }
   }
 
@@ -35629,6 +35728,25 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     var dom = document.createElement('div');
     dom.innerHTML = str;
     return dom.innerHTML;
+  }
+
+  _setDisplayValue(value)
+  {
+    let placeholder = '';
+    if (this.targetNode.dataset.hasOwnProperty('placeholder'))
+    {
+      placeholder = this.targetNode.dataset.placeholder;
+      if (placeholder.trim() !== '')
+      {
+        this.displayNode.placeholder = placeholder;
+      }
+    }
+    if (placeholder !== '' && value.trim().toLowerCase() === placeholder.toLowerCase())
+    {
+      this.displayNode.value = '';
+      return;
+    }
+    this.displayNode.value = value.trim();
   }
 
   _resetListEvents()
@@ -35689,24 +35807,42 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
+  _clearWindowClick()
+  {
+    window.removeEventListener('click', this._windowClicked);
+  }
+  _setWindowClick()
+  {
+    window.removeEventListener('click', this._windowClicked);
+    window.addEventListener('click', this._windowClicked);
+  }
   _clearShowHideEvents()
   {
-    clearTimeout(this.bgEventListenerDelay);
-    window.removeEventListener('click', this._windowClicked);
+    clearTimeout(this._setWindowClickDelay);
     this.displayNode.removeEventListener('click', this._stopEvents);
     this.autocompleteNode.removeEventListener('click', this._stopEvents);
+    this._clearWindowClick();
   }
   _setHideShowEvents()
   {
-    clearTimeout(this.bgEventListenerDelay);
+    clearTimeout(this._setWindowClickDelay);
     this._clearShowHideEvents();
-    this.bgEventListenerDelay = setTimeout(function() { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
     this.displayNode.addEventListener('click', this._stopEvents);
     this.autocompleteNode.addEventListener('click', this._stopEvents);
+    this._setWindowClickDelay = setTimeout(this._setWindowClick, 100);
   }
 
   _windowClicked(ev)
   {
+    if (this.IsMobile)
+    {
+      console.log('window clicked', ev);
+      if (this.status === 'open')
+      {
+        this.hide();
+        return;
+      }
+    }
     if (document.activeElement !== this.displayNode)
     {
       this.hide();
@@ -35714,6 +35850,21 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   }
 
   /**/
+
+  _setListHeight()
+  {
+    if (this.IsMobile)
+    {
+      var padding = 20;
+      var viewHeight = window.visualViewport.height;
+      var headerHeight = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+      var displayheight = this.displayNode.getBoundingClientRect().height;
+      var listWidth = this.displayNode.getBoundingClientRect().width;
+      var listHeight = viewHeight - headerHeight - displayheight - padding;
+      this.listNode.style.setProperty('--mobile-list-width', listWidth + 'px');
+      this.listNode.style.setProperty('--mobile-list-height', listHeight + 'px');
+    }
+  }
 
   _show(calledFrom)
   {
@@ -35723,7 +35874,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       && this.listNode.querySelectorAll('li.visible').length > 0
     )
     {
-
+      //console.log('show called from : ' + calledFrom, this);
       if (Affinity2018.Calendars) Affinity2018.Calendars.HideAll();
       Affinity2018.Autocompletes.HideAll(this);
       clearTimeout(this._focusDelay);
@@ -35740,7 +35891,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }
       this._setPosition('show');
       this._setHideShowEvents();
+      this._setScrollEvents();
+
+      if (this.IsMobile)
+      {
+        clearTimeout(this._setListHeightDelay1);
+        clearTimeout(this._setListHeightDelay2);
+        this._setListHeightDelay1 = setTimeout(this._setListHeight, 250);
+        this._setListHeightDelay2 = setTimeout(this._setListHeight, 500);
+      }
+
       if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
+      Affinity2018.lockBodyScroll();
     }
   }
 
@@ -35749,6 +35911,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.status !== 'closed')
     {
       //console.log('hide called from : ' + calledFrom, this);
+      this._unsetScrollEvents();
       clearTimeout(this._focusDelay);
       clearTimeout(this._fuzzySearchDelay);
       clearTimeout(this._hideResetTimer);
@@ -35764,7 +35927,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
-      if (Affinity2018.hasOwnProperty('unlockBodyScroll') && document.body.classList.contains('disable-scroll')) Affinity2018.unlockBodyScroll();
+      Affinity2018.unlockBodyScroll();
     }
   }
 
@@ -35773,7 +35936,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     // TODO: Implement Search Mode
     this.searchMode = false;
-
+    
+    this._unsetScrollEvents();
     if (!this.searchMode)
     {
       var selectedNode = false;
@@ -35803,18 +35967,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         {
           liNode.classList.add('selected');
           this.listNode.scrollTo(0, Affinity2018.getOffsetRect(liNode).y - 5);
-          this.displayNode.value = this._cleanDisplay(selectedNode.innerText);
+          this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
         }
       }.bind(this));
-      /*
-      if (
-        this.displayNode
-        && this.displayNode.classList.contains('hidden')
-      )
-      {
-        this.displayNode.classList.remove('hidden')
-      }
-      */
     }
   }
 
@@ -35837,7 +35992,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         unlockScroll = false; // parent is a popup or modal, they will unlock scroll on close.
       }
     }
-    if (unlockScroll) Affinity2018.unlockBodyScroll();
+    if (unlockScroll) 
+    {
+      Affinity2018.unlockBodyScroll();
+    }
   }
 
   /**/
@@ -36380,6 +36538,11 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay, filter)
       && searchData.length > 0
     )
     {
+
+      var longestSearchStr = searchData.reduce(function(max, obj) {
+          return obj[searchKey].length > max.length ? obj[searchKey] : max;
+      }, "").length;
+
       for (i = 0; i < searchData.length; i++)
       {
         
@@ -36430,6 +36593,8 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay, filter)
               // wordScore = Math.round((totalWordMatch / totalWordsToSearch) * 100) / 100 || 0;
               wordScore = Math.round((totalWordMatch / totalWords) * 100) / 100 || 0;
               score = wordScore + 100;
+              score += searchFor.length;
+              score += longestSearchStr - searchIn.length;
               dataItem.klass = 'visible';
               if (!perfDelay || perfDelay < 101)
               {
@@ -40469,6 +40634,23 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     /**/
 
+    this.FormRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
+
+    this.CanvasWidth = this.MinWidth;
+    this.CanvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
+    if (this.FormRowNode) 
+    {
+      this.CanvasHeight = this.FormRowNode.getBoundingClientRect().width;
+    }
+
+    if (Affinity2018.IsMobile)
+    {
+      this.MaxWidth = this.CanvasWidth;
+      this.MaxHeight = this.CanvasHeight;
+    }
+
+    /**/
+
     if (this.InitNode.dataset.getApi)
     {
       if (this.InitNode.dataset.getApi.toLowerCase().trim() !== 'false')
@@ -40508,10 +40690,6 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
   _init()
   {
 
-    var canvasWidth = this.MinWidth, canvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
-
-    this.FormRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
-
     /*
     if (this.BgImageData.length > 0)
     {
@@ -40525,7 +40703,6 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     if (this.FormRowNode)
     {
-      if (document.body.classList.contains('cform')) canvasWidth = this.FormRowNode.getBoundingClientRect().width;
       this.FormRowNode.appendChild(this.InnerNode);
       this.FormRowNode.classList.add('draw-panel');
       this.InitNode.classList.add('hidden');
@@ -40537,14 +40714,14 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     }
 
     this.InnerNode.innerHTML = this.template
-      .replace('{{width}}', canvasWidth)
-      .replace('{{height}}', canvasHeight);
+      .replace('{{width}}', this.CanvasWidth)
+      .replace('{{height}}', this.CanvasHeight);
 
     this.CanvasNode = this.InnerNode.querySelector('canvas');
-    this.CanvasNode.width = canvasWidth;
-    this.CanvasNode.height = canvasHeight;
-    this.CanvasNode.style.width = canvasWidth + 'px';
-    this.CanvasNode.style.height = canvasHeight + 'px';
+    this.CanvasNode.width = this.CanvasWidth;
+    this.CanvasNode.height = this.CanvasHeight;
+    this.CanvasNode.style.width = this.CanvasWidth + 'px';
+    this.CanvasNode.style.height = this.CanvasHeight + 'px';
 
     this.SelectBoxNode = this.InnerNode.querySelector('.bg-image-select');
     this.SelectNode = this.SelectBoxNode.querySelector('select');
@@ -41203,11 +41380,13 @@ Affinity2018.Classes.Plugins.DrawPad = class
     this._mouseButtonDown = false;
     ['_handleMouseMouseDown', '_handleMouseMove', '_handleDocMouseUp'].bindEach(this);
     this.canvas.addEventListener("mousedown", this._handleMouseMouseDown);
-    this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
+    //this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
+    this.canvas.addEventListener("mousemove", this._handleMouseMove);
     document.addEventListener("mouseup", this._handleDocMouseUp);
   }
   _handleMouseMouseDown (ev)
   {
+    Affinity2018.lockBodyScroll();
     if (ev.which === 1)
     {
       this._mouseButtonDown = true;
@@ -41223,6 +41402,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocMouseUp (ev)
   {
+    Affinity2018.unlockBodyScroll();
     if (ev.which === 1 && this._mouseButtonDown)
     {
       this._mouseButtonDown = false;
@@ -41239,21 +41419,24 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleTouchStart (ev)
   {
+    Affinity2018.lockBodyScroll();
     var touch = ev.changedTouches[0];
     this._strokeBegin(touch);
   }
   _handleTouchMove (ev)
   {
     // Prevent scrolling;
-    ev.preventDefault();
+    if (!Affinity2018.SupportsPassiveEvents) ev.preventDefault();
     var touch = ev.changedTouches[0];
     this._strokeUpdate(touch);
   }
   _handleDocTouchEnd (ev)
   {
+    Affinity2018.unlockBodyScroll();
     var wasCanvasTouched = ev.target === this.canvas;
     if (wasCanvasTouched) this._strokeEnd();
   }
+
 
   /**/
 
@@ -41944,12 +42127,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     {
       rowNode = this.initNode.closest('div[class*="row"]');
       labelNode = rowNode.querySelector('label');
-      minWidth = labelNode ? parseInt(window.getComputedStyle(labelNode).width) + parseInt(window.getComputedStyle(this.initNode).width) : false;
+      //minWidth = labelNode ? parseInt(window.getComputedStyle(labelNode).width) + parseInt(window.getComputedStyle(this.initNode).width) : false;
     }
-    if (minWidth && !isNaN(minWidth) && minWidth > 0)
-    {
-      this.gridNode.style.minWidth = (minWidth + 8) + 'px';
-    }
+    //if (minWidth && !isNaN(minWidth) && minWidth > 0)
+    //{
+    //  this.gridNode.style.minWidth = (minWidth + 8) + 'px';
+    //}
 
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () { this.dispatchEvent(new CustomEvent('resized')); }.bind(this), 1000);
@@ -44947,6 +45130,17 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       console.error(this.targetNode);
       return;
     }
+
+    /* placeholder text */
+
+    this.placeholder = this.config.EmptyDisplay;
+    if (this.config.Required && !this.isSingleValue)
+    {
+      this.placeholder = this.config.NoneDisplay;
+    }
+    this.targetNode.dataset.placeholder = this.placeholder;
+
+    /**/
 
     if (!this.targetNode.hasOwnProperty('widgets')) this.targetNode.widgets = {};
     this.targetNode.widgets.SelectLookup = this;
