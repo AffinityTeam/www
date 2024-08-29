@@ -23773,7 +23773,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (addedCount > 0)
         {
           this.GenericGroupSelectNode.classList.add('ui-has-autocomplete');
-          if (!Affinity2018.IsMobile) this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
+          if (!Affinity2018.IsMobile) 
+          {
+            this.GenericGroupSelectNode.classList.add('ui-autocomplete-force-top');
+          }
           Affinity2018.Autocompletes.Apply(this.GenericGroupSelectNode);
           this.GenericGroupNode.classList.remove('hidden');
           if (this.Config.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Select.Enum)
@@ -23871,7 +23874,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           this.FormLinkNode.classList.remove('hidden');
           this.FormLinkSelectNode.classList.add('ui-has-autocomplete');
-          if (!Affinity2018.IsMobile) this.FormLinkSelectNode.classList.add('ui-autocomplete-force-top');
+          if (!Affinity2018.IsMobile) 
+          {
+            this.FormLinkSelectNode.classList.add('ui-autocomplete-force-top');
+          }
           Affinity2018.Autocompletes.Apply(this.FormLinkSelectNode);
         }
         else
@@ -30992,7 +30998,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           whiteList = this.Config.Details.ItemSource.WhiteList;
         }
 
-        if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) select.classList.add('ui-autocomplete-force-top');
+        if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) 
+        {
+          //select.classList.add('ui-autocomplete-force-top');
+        }
 
         if (
           this.CleverForms.IsGlobalKey(this.Config)
@@ -34226,7 +34235,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.targetNode.classList.remove('ui-autocomplete-force-bottom');
       this.forceBottom = true;
-      this.forceTop = false;
     }
 
     if (this.IsMobile)
