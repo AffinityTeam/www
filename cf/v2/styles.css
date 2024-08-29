@@ -55,8 +55,8 @@
 (10692,250): run-time error CSS1025: Expected comma or open brace, found ')'
 (11601,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (11602,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11743,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(11745,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(11744,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(11746,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -11735,16 +11735,17 @@ body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list {
 }
 body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list li {
   width: 100%;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 10px;
+  height: unset;
+  min-height: 30px;
+  line-height: 18px;
+  padding: 6px 10px;
   background-color: white;
   cursor: pointer;
-  white-space: nowrap;
-  -ms-text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  white-space: unset !important;
+  -ms-text-overflow: unset !important;
+  -o-text-overflow: unset !important;
+  text-overflow: unset !important;
+  overflow: unset !important;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

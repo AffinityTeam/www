@@ -36530,6 +36530,11 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay, filter)
       && searchData.length > 0
     )
     {
+
+      var longestSearchStr = searchData.reduce(function(max, obj) {
+          return obj[searchKey].length > max.length ? obj[searchKey] : max;
+      }, "").length;
+
       for (i = 0; i < searchData.length; i++)
       {
         
@@ -36580,6 +36585,8 @@ function fuzzySearch (searchData, searchKey, searchFor, perfDelay, filter)
               // wordScore = Math.round((totalWordMatch / totalWordsToSearch) * 100) / 100 || 0;
               wordScore = Math.round((totalWordMatch / totalWords) * 100) / 100 || 0;
               score = wordScore + 100;
+              score += searchFor.length;
+              score += longestSearchStr - searchIn.length;
               dataItem.klass = 'visible';
               if (!perfDelay || perfDelay < 101)
               {
