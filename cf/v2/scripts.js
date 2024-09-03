@@ -8390,6 +8390,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.DocumentCategories = response.data.DocumentCategories;
           this.CountrySensativeFields = response.data.CountrySensativeFields;
           this.CountrySensativeFieldNames = Object.keys(this.CountrySensativeFields);
+          this.MacronSupportedFields = response.data.MacronSupportedFields;
           this.ElementControllerMap = {};
 
           this.TableTypes.sort(function (a, b)
@@ -9088,6 +9089,20 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (!config.Details.hasOwnProperty('AffinityField')) return false;
     if (config.Details.AffinityField.IsKeyField) return true;
     return false;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  IsFieldMacronSupprted (config)
+  {
+    if (!config.hasOwnProperty('Details')) return false;
+    if (!config.Details.hasOwnProperty('AffinityField')) return false;
+    return this.MacronSupportedFields[config.Details.AffinityField.ModelName]?.includes(config.Details.AffinityField.FieldName) || false;
   }
 
 
@@ -20949,11 +20964,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
         if (this.Config.Type && this.Config.Type === 'Text' && this.FormRowNode.querySelector('input'))
         {
-          this.FormRowNode.querySelector('input').classList.add('ui-has-sentence');
+          this.FormRowNode.querySelector('input').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
         }
         if (this.Config.Type && this.Config.Type === 'Memo' && this.FormRowNode.querySelector('textarea'))
         {
-          this.FormRowNode.querySelector('textarea').classList.add('ui-has-sentence');
+          this.FormRowNode.querySelector('textarea').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
         }
 
       }
@@ -22947,7 +22962,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           };
           if (validationObj.MaxLength !== Number.MAX_SAFE_INTEGER || validationObj.MinLength !== 0)
           {
-            this.FormRowNode.querySelector('input').classList.add('ui-has-sentence');
+            this.FormRowNode.querySelector('input').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
             this.FormRowNode.querySelector('input').classList.add('ui-has-length');
             this.FormRowNode.querySelector('input').dataset.maxLength = validationObj.MaxLength;
             this.FormRowNode.querySelector('input').dataset.minLength = validationObj.MinLength;
@@ -45978,6 +45993,9 @@ Affinity2018.Classes.Plugins.Strings = class
       document.querySelectorAll('.ui-has-string').forEach(this._apply);
       document.querySelectorAll('.ui-has-sentence').forEach(this._apply);
       document.querySelectorAll('.ui-has-alphanumeric').forEach(this._apply);
+      document.querySelectorAll('.ui-has-string-extended').forEach(this._apply);
+      document.querySelectorAll('.ui-has-sentence-extended').forEach(this._apply);
+      document.querySelectorAll('.ui-has-alphanumeric-extended').forEach(this._apply);
       document.querySelectorAll('.ui-has-email').forEach(this._apply);
       document.querySelectorAll('.ui-has-url').forEach(this._apply);
     }
@@ -46057,50 +46075,39 @@ Affinity2018.Classes.Plugins.StringWidget = class
     this.RowNode = Affinity2018.getParent(this.InputNode, '.form-row');
     this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
 
-    if (this.InputNode.classList.contains('ui-has-string'))
-    {
-      this.WidgetType = 'string';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-string');
-    }
+    let types = [
+      'ui-has-string',
+      'ui-has-sentence',
+      'ui-has-sentance',
+      'ui-has-alphanumeric',
+      'ui-has-string-extended',
+      'ui-has-sentence-extended',
+      'ui-has-sentance-extended',
+      'ui-has-alphanumeric-extended',
+      'ui-has-email',
+      'ui-has-url',
+      'ui-has-length'
+    ];
 
-    if (this.InputNode.classList.contains('ui-has-sentence'))
+    for (let type of types)
     {
-      this.WidgetType = 'sentence';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-sentence');
-    }
-
-    if (this.InputNode.classList.contains('ui-has-alphanumeric'))
-    {
-      this.WidgetType = 'alphanumeric';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-alphanumeric');
-    }
-
-    if (this.InputNode.classList.contains('ui-has-email'))
-    {
-      this.WidgetType = 'email';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-email');
-    }
-
-    if (this.InputNode.classList.contains('ui-has-url'))
-    {
-      this.WidgetType = 'url';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-url');
-    }
-
-    if (this.InputNode.classList.contains('ui-has-length'))
-    {
-      //this.WidgetType = 'string';
-      this.type = this.WidgetType;
-      this.MaxLength = !isNaN(parseFloat(this.InputNode.dataset.maxLength)) ? parseFloat(this.InputNode.dataset.maxLength) : Number.MAX_SAFE_INTEGER;
-      this.MinLength = !isNaN(parseFloat(this.InputNode.dataset.minLength)) ? parseFloat(this.InputNode.dataset.minLength) : 0;
-      this.InputNode.classList.remove('ui-has-length');
-      delete this.InputNode.dataset.maxLength;
-      delete this.InputNode.dataset.minLength;
+      if (this.InputNode.classList.contains(type))
+      {
+        this.WidgetType = type.replace('ui-has-', '').trim();
+        if (this.WidgetType === 'sentance') this.WidgetType = 'sentence';
+        this.type = this.WidgetType;
+        this.InputNode.classList.remove(type);
+        if (this.type === 'length')
+        {
+          //this.WidgetType = 'string';
+          //this.type = this.WidgetType;
+          this.MaxLength = !isNaN(parseFloat(this.InputNode.dataset.maxLength)) ? parseFloat(this.InputNode.dataset.maxLength) : Number.MAX_SAFE_INTEGER;
+          this.MinLength = !isNaN(parseFloat(this.InputNode.dataset.minLength)) ? parseFloat(this.InputNode.dataset.minLength) : 0;
+          this.InputNode.classList.remove('ui-has-length');
+          delete this.InputNode.dataset.maxLength;
+          delete this.InputNode.dataset.minLength;
+        }
+      }
     }
 
     if (this.type === null)
@@ -46188,21 +46195,39 @@ Affinity2018.Classes.Plugins.StringWidget = class
     switch (this.type)
     {
       case 'string':
-        pattern = /^[A-Za-z0-9_\-.āēīōūĀĒĪŌŪ]+$/g;
+        pattern = /^[A-Za-z0-9_\-.]+$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.string'); // + ' Some characters used are invalid.<br />You can use _ - . but no spaces.';
         extraspace = true;
         break;
       case 'sentence':
       case 'sentance':
-        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\sāēīōūĀĒĪŌŪ]*$/g;
+        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\s]*$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
         extraspace = true;
         break;
       case 'alphanumeric':
+        pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\s]+$/g;
+        warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
+        extraspace = true;
+        break;
+
+      case 'string-extended':
+        pattern = /^[A-Za-z0-9_\-.āēīōūĀĒĪŌŪ]+$/g;
+        warning = $a.Lang.ReturnPath('generic.validation.strings.string'); // + ' Some characters used are invalid.<br />You can use _ - . but no spaces.';
+        extraspace = true;
+        break;
+      case 'sentence-extended':
+      case 'sentance-extended':
+        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\sāēīōūĀĒĪŌŪ]*$/g;
+        warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
+        extraspace = true;
+        break;
+      case 'alphanumeric-extended':
         pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\sāēīōūĀĒĪŌŪ]+$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
         extraspace = true;
         break;
+
       case 'email':
         pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // old: pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
