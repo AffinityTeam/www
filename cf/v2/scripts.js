@@ -46188,18 +46188,18 @@ Affinity2018.Classes.Plugins.StringWidget = class
     switch (this.type)
     {
       case 'string':
-        pattern = /^[A-Za-z0-9_\-.]+$/g;
+        pattern = /^[A-Za-z0-9_\-.āēīōūĀĒĪŌŪ]+$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.string'); // + ' Some characters used are invalid.<br />You can use _ - . but no spaces.';
         extraspace = true;
         break;
       case 'sentence':
       case 'sentance':
-        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\s]*$/g;
+        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\sāēīōūĀĒĪŌŪ]*$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
         extraspace = true;
         break;
       case 'alphanumeric':
-        pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\s]+$/g;
+        pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\sāēīōūĀĒĪŌŪ]+$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
         extraspace = true;
         break;
