@@ -46089,25 +46089,42 @@ Affinity2018.Classes.Plugins.StringWidget = class
       'ui-has-length'
     ];
 
+    let currentTypes = [];
     for (let type of types)
     {
       if (this.InputNode.classList.contains(type))
       {
-        this.WidgetType = type.replace('ui-has-', '').trim();
-        if (this.WidgetType === 'sentance') this.WidgetType = 'sentence';
-        this.type = this.WidgetType;
+        var potentialType = type.replace('ui-has-', '').trim();
+        if (potentialType === 'sentance') potentialType = 'sentence';
+        currentTypes.push(potentialType);
         this.InputNode.classList.remove(type);
-        if (this.type === 'length')
+        if (potentialType === 'length')
         {
-          //this.WidgetType = 'string';
-          //this.type = this.WidgetType;
           this.MaxLength = !isNaN(parseFloat(this.InputNode.dataset.maxLength)) ? parseFloat(this.InputNode.dataset.maxLength) : Number.MAX_SAFE_INTEGER;
           this.MinLength = !isNaN(parseFloat(this.InputNode.dataset.minLength)) ? parseFloat(this.InputNode.dataset.minLength) : 0;
-          this.InputNode.classList.remove('ui-has-length');
           delete this.InputNode.dataset.maxLength;
           delete this.InputNode.dataset.minLength;
         }
       }
+    }
+
+    if (currentTypes.length === 1 && currentTypes.contains('length'))
+    {
+      currentTypes = ['string'];
+    }
+    if (currentTypes.length > 0 && currentTypes.contains('length'))
+    {
+      currentTypes.splice(currentTypes.indexOf('length'), 1);
+    }
+    if (currentTypes.length > 1)
+    {
+      console.warn('multi-type - what do we use?');
+      console.warn(currentTypes);
+    }
+    if (currentTypes.length > 0)
+    {
+      this.WidgetType = currentTypes[0];
+      this.type = this.WidgetType;
     }
 
     if (this.type === null)
@@ -46177,7 +46194,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
         event = ev && ev.type === 'keyup' ? 'keyboard' : 'none',
         extraspace = false,
         required = this._isRequired(),
-        pattern, warning;
+        pattern, warning, warnings = [];
 
     //console.group('=== string validation ===');
     //console.log(this.type);
@@ -46203,6 +46220,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
       case 'sentance':
         pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\s]*$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
+        warnings.push(warning);
         extraspace = true;
         break;
       case 'alphanumeric':
@@ -46212,19 +46230,25 @@ Affinity2018.Classes.Plugins.StringWidget = class
         break;
 
       case 'string-extended':
-        pattern = /^[A-Za-z0-9_\-.āēīōūĀĒĪŌŪ]+$/g;
+        //pattern = /^[A-Za-z0-9_\-.āēīōūĀĒĪŌŪ]+$/g;
+        pattern = /^[\w\s_\.\u00A0-\u00FF\u0100-\u017F\-]*$/gi;
         warning = $a.Lang.ReturnPath('generic.validation.strings.string'); // + ' Some characters used are invalid.<br />You can use _ - . but no spaces.';
+        warnings.push(warning);
         extraspace = true;
         break;
       case 'sentence-extended':
       case 'sentance-extended':
-        pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\sāēīōūĀĒĪŌŪ]*$/g;
+        //pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\sāēīōūĀĒĪŌŪ]*$/g;
+        pattern = /^[\w\s\-.,:;'\"!?@#$%\&\*\/\\|()\u00A0-\u00FF\u0100-\u017F]*$/gi;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
+        warnings.push(warning);
         extraspace = true;
         break;
       case 'alphanumeric-extended':
-        pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\sāēīōūĀĒĪŌŪ]+$/g;
+        //pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\sāēīōūĀĒĪŌŪ]+$/g;
+        pattern = /^[\w\s_\-.,:'!?$%\*\/\\|\u00A0-\u00FF\u0100-\u017F]*$/gi;
         warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
+        warnings.push(warning);
         extraspace = true;
         break;
 
@@ -46232,10 +46256,12 @@ Affinity2018.Classes.Plugins.StringWidget = class
         pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // old: pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         warning = $a.Lang.ReturnPath('generic.validation.strings.email'); // + ' This does not look like a valid email address.';
+        warnings.push(warning);
         break;
       case 'url':
         pattern = /^((ft|htt)ps?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|(localhost)|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%@_.~+&:]*)*(\?[;&a-z\d%@_.,~+&:=-]*)?(\#[-a-z\d_]*)?$/gi;
         warning = $a.Lang.ReturnPath('generic.validation.strings.url'); // + ' This does not look like a valid URL.';
+        warnings.push(warning);
         break;
     }
 
@@ -46243,6 +46269,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
     {
       pattern = /(.|\s)*\S(.|\s)*/gi;
       warning = $a.Lang.ReturnPath('generic.validation.strings.notempty');
+      warnings.push(warning);
       extraspace = false;
     }
 
@@ -46269,11 +46296,24 @@ Affinity2018.Classes.Plugins.StringWidget = class
       if (this.MinLength === 1 || this.MinLength === 0 || this.MinLength === Number.MIN_SAFE_INTEGER)
       {
         warning = 'This must be shorter than ' + (this.MaxLength + 1) + ' character(s)';
+        warnings.push(warning);
       }
       else
       {
         warning = 'This must be between ' + this.MinLength + ' and ' + this.MaxLength + ' characters long.';
+        warnings.push(warning);
       }
+    }
+
+    // check for illegal characters
+    var strippedValue = value.replace(/[.,:;'\"!?@#$%\&\*\/\\|()\s_\-]/g, '');
+    var pattern = /[^\w\u00A0-\u00FF\u0100-\u017F]/g;
+    var invalidChars = strippedValue.match(pattern);
+    if (invalidChars)
+    {
+      isValid = false;
+      warning = 'This string contains bad characters: "' + invalidChars.join('", "') + '"';
+      warnings.push(warning);
     }
 
     if (!isValid)
@@ -46281,7 +46321,10 @@ Affinity2018.Classes.Plugins.StringWidget = class
       this.InputNode.classList.add('error');
       if (this.RowNode && !this.InputNode.classList.contains('no-row-error')) this.RowNode.classList.add('error');
       if (this.RowNode && !this.InputNode.classList.contains('no-row-error') && extraspace) this.RowNode.classList.add('error2');
-      this.ShowError(warning);
+      if (warnings.length > 0)
+      {
+        this.ShowError(warnings.join('<br />'));
+      }
       this.Valid = false;
     }
 
