@@ -10282,19 +10282,19 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edi
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list {
-  background-color: #efefef;
+  background-color: #111111;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody {
-  background: white;
+  background-color: #222222;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(odd),
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(odd) {
-  background-color: rgba(239, 239, 239, 0);
+  background-color: rgba(17, 17, 17, 0);
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even),
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even) {
-  background-color: rgba(239, 239, 239, 0.5);
+  background-color: rgba(17, 17, 17, 0.5);
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .list-builder,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .list-builder {
@@ -14016,6 +14016,14 @@ body.ui2018.cform .default-form .form-row label.as-title,
 body.ui2018 .example-template .preview .default-form .form-row label.as-title {
   font-weight: bold;
   font-size: 14px;
+}
+body.ui2018.cform form .form-row.error,
+body.ui2018 .example-template .preview form .form-row.error,
+body.ui2018.cform .form .form-row.error,
+body.ui2018 .example-template .preview .form .form-row.error,
+body.ui2018.cform .default-form .form-row.error,
+body.ui2018 .example-template .preview .default-form .form-row.error {
+  font-size: 12px;
 }
 body.ui2018.cform form .form-row.error2,
 body.ui2018 .example-template .preview form .form-row.error2,
