@@ -13489,6 +13489,42 @@ body.ui2018 .ui-file-list table thead tr th:last-child,
 body.ui2018 .ui-file-list table tbody tr th:last-child {
   text-align: right;
 }
+body.ui2018 .ui-file-list table thead tr.marked-for-delete,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  filter: grayscale(100%);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete *,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete td.file a,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete td.file a {
+  text-decoration: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete button,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete button,
+body.ui2018 .ui-file-list table thead tr.marked-for-delete .button,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete .button {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete button *,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete button *,
+body.ui2018 .ui-file-list table thead tr.marked-for-delete .button *,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete .button * {
+  touch-action: none;
+  pointer-events: none;
+}
 
 .list-builder .grid-wrapper table.grid thead tr th {
   line-height: 20px;
