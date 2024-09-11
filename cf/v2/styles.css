@@ -10282,19 +10282,19 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edi
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list {
-  background-color: #efefef;
+  background-color: #111111;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody {
-  background: white;
+  background-color: #222222;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(odd),
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(odd) {
-  background-color: rgba(239, 239, 239, 0);
+  background-color: rgba(17, 17, 17, 0);
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even),
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .ui-file-list table tbody tr:nth-child(even) {
-  background-color: rgba(239, 239, 239, 0.5);
+  background-color: rgba(17, 17, 17, 0.5);
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .list-builder,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .list-builder {
@@ -13471,6 +13471,40 @@ body.ui2018 label.ui-file:hover .button {
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
+body.ui2018 .file-wrapper.scroll {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 140px;
+  max-height: 450px;
+  margin: 10px 0 20px 0;
+  padding: 20px 10px 20px 20px;
+  background-color: #efefef;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+body.ui2018 .file-wrapper.scroll .ui-file-list {
+  width: 100%;
+  height: 100%;
+  margin: 0 10px 0 0;
+  padding: 0;
+  background: unset;
+  overflow: hidden;
+  overflow-y: scroll;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+body.ui2018 .file-wrapper.scroll .ui-file-list table {
+  width: calc(100% - 10px);
+}
+body.ui2018.dark .file-wrapper.scroll {
+  background-color: #111111;
+}
 body.ui2018 .ui-file-list {
   margin: 10px 0 20px 0;
 }
@@ -13488,6 +13522,42 @@ body.ui2018 .ui-file-list table tbody tr td:last-child,
 body.ui2018 .ui-file-list table thead tr th:last-child,
 body.ui2018 .ui-file-list table tbody tr th:last-child {
   text-align: right;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  filter: grayscale(100%);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete *,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete td.file a,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete td.file a {
+  text-decoration: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete button,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete button,
+body.ui2018 .ui-file-list table thead tr.marked-for-delete .button,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete .button {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-file-list table thead tr.marked-for-delete button *,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete button *,
+body.ui2018 .ui-file-list table thead tr.marked-for-delete .button *,
+body.ui2018 .ui-file-list table tbody tr.marked-for-delete .button * {
+  touch-action: none;
+  pointer-events: none;
 }
 
 .list-builder .grid-wrapper table.grid thead tr th {
@@ -14016,6 +14086,14 @@ body.ui2018.cform .default-form .form-row label.as-title,
 body.ui2018 .example-template .preview .default-form .form-row label.as-title {
   font-weight: bold;
   font-size: 14px;
+}
+body.ui2018.cform form .form-row.error,
+body.ui2018 .example-template .preview form .form-row.error,
+body.ui2018.cform .form .form-row.error,
+body.ui2018 .example-template .preview .form .form-row.error,
+body.ui2018.cform .default-form .form-row.error,
+body.ui2018 .example-template .preview .default-form .form-row.error {
+  font-size: 12px;
 }
 body.ui2018.cform form .form-row.error2,
 body.ui2018 .example-template .preview form .form-row.error2,

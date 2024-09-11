@@ -7831,6 +7831,16 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
+    * Description.    The API end point for cacneling a Designer Edit.
+    * @type {String}
+    * @public
+    * @since 2.0.3.5
+    */
+    this.CancelDataApi = Affinity2018.Path + 'FormElement/Cancel';
+
+
+
+    /**
     * Description.    The API end point for loading 'attach document' categories.
     *                 This will trigger a 'GetDocumentTypes' load on change / set.
     * @type {String}
@@ -8020,39 +8030,29 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
     /**
-    * Description.    The API end point for validating tax numbers.
+    * Description.    The API end point for getting file pair data
     * @type {String}
     * @public
     *
-    * @param {String} documentId Document manager (or equivalent) file ID
+    * @param {String}     id    				  				Template or Instance ID
+    * @param {String?}    questionName            The name of form element containing this file upload
     */
-    this.FileGetApi = Affinity2018.Path + 'Document/Download';
+    this.FileGetInfoApi = Affinity2018.Path + 'DocumentV2/GetFileIdNamePairs';
 
 
 
 
     /**
-    * Description.    The API end point for validating tax numbers.
-    * @type {String}
-    * @public
-    *
-    * @param {String} fileIds Document manager (or equivalent) file Id(s) comma separated
-    */
-    this.FileGetInfoApi = Affinity2018.Path + 'Document/GetFileIdNamePairs';
-
-
-
-
-    /**
-    * Description.    The API end point for validating tax numbers.
+    * Description.    The API end point for uplaoding files
     * @type {String}
     * @public
     * 
-    * @param {String}     fileTag				  				Template or Instance ID
+    * @param {String}     id    				  				Template or Instance ID
     * @param {String?}    questionName            The name of form element containing this file upload
-    * @param {String}     file                    Form File object
+    * @param {binary}     file                    Form File object
+    * @param {int?}       deleteId                Optional - A file to delete before adding file
     */
-    this.FilePostApi = Affinity2018.Path + 'Document/UploadMulti';
+    this.FilePostApi = Affinity2018.Path + 'DocumentV2/UploadMulti';
 
 
 
@@ -8062,9 +8062,11 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @type {String}
     * @public
     *
-    * @param {String} FileIds Document manager (or equivalent) array of file IDs
+    * @param {String}     id    				  				Template or Instance ID
+    * @param {String?}    questionName            The name of form element containing this file upload
+    * @param {String}     fileId                  Document manager (or equivalent) array of file ID
     */
-    this.FileDeleteApi = Affinity2018.Path + 'Document/Delete'; // Document/Delete for instance
+    this.FileDeleteApi = Affinity2018.Path + 'DocumentV2/Delete'; // Document/Delete for instance
 
 
 
@@ -8077,6 +8079,20 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @param {String} FileId Document manager (or equivalent) file ID
     */
     this.FileDeleteSingleApi = Affinity2018.Path + 'Document/DeleteSingle'; // Document/Delete for instance
+
+
+
+
+    /**
+    * Description.    The API end point for downloading files.
+    * @type {String}
+    * @public
+    *
+    * @param {String}     id    				  				Template or Instance ID
+    * @param {String?}    questionName            The name of form element containing this file upload
+    * @param {Array}      fileIds                 Array of Document manager (or equivalent) array of file ID
+    */
+    this.FileDownloadApi = Affinity2018.Path + 'DocumentV2/DownloadMulti';
 
 
 
@@ -11074,7 +11090,8 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       '_clearAndSearch',
       '_update', '_updateFromModeSwitch',
 
-      '_checkOkToContinue', '_close'
+      '_checkOkToContinue', '_close',
+      '_cleanupOnWindowClose'
 
     ].bindEach(this);
     this._templates();
@@ -11224,7 +11241,6 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     //this.Search.Insert(this.SearchNode, 'Search for the field you want on your form', [], []);
     this.Search.Insert(this.SearchNode, $a.Lang.ReturnPath('app.cf.design_items.search_message'), [], []);
 
-
     this.CloseButtonNode.addEventListener('click', this._close);
 
     this.PreviewToggleNode.addEventListener('click', this._togglePreview);
@@ -11232,6 +11248,8 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     this.BackButtonNode.addEventListener('click', this._clearAndSearch);
     this.OkButtonNode.addEventListener('click', this._update);
     this.CancelButtonNode.addEventListener('click', this.Cancel);
+
+    window.onclose = this._cleanupOnWindowClose;
   }
 
 
@@ -11460,7 +11478,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     if (this.DragNode)
     {
       this.DragNode.controller.SetDesignEditor(this);
-     // if (this.PopupNode.querySelectorAll('.mode-wrapper:not(.hidden)').length <= 1) this.RequiredBoxNode.classList.add('hidden');
+      // if (this.PopupNode.querySelectorAll('.mode-wrapper:not(.hidden)').length <= 1) this.RequiredBoxNode.classList.add('hidden');
     }
 
     /**/
@@ -11478,9 +11496,26 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       {
         if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin))
         {
-          Affinity2018.Apps.Plugins[plugin].Apply();
+          let widgetInfo = Affinity2018.Apps.Plugins[plugin].Apply();
+          if(plugin === 'FileUpload')
+          {
+            widgetInfo.widgets[0].EnableInlineDelete = false;
+            if (config.Type === 'AttachInstructions')
+            {
+              widgetInfo.widgets[0].DisplayMarkedForDelete = false;
+            }
+            if (config.Type === 'Drawpanel')
+            {
+              widgetInfo.widgets[0].DisplayMarkedForDelete = true;
+            }
+            let initialFiles = config.Details.hasOwnProperty('FileId') && config.Details.FileId !== null ? Array.isArray(config.Details.FileId) ? config.Details.FileId : config.Details.FileId.split(',') : [];
+            if (initialFiles.length > 1)
+            {
+              widgetInfo.widgets[0].SetScrollable(380);
+            }
+          }
         }
-      });
+      }.bind(this));
     }.bind(this), 600);
   }
 
@@ -11749,6 +11784,30 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
 
             }
 
+            // check file widget for "MarkedForDelete" list, and make sure these ids are removed froim any file ID lsit in config ..
+            if (this.DragNode.controller.hasOwnProperty('FileWidget') && this.DragNode.controller.FileWidget.MarkedForDelete.length > 0)
+            {
+              let isArray = Array.isArray(this.Config.Details.FileId);
+              let ids = isArray ? this.Config.Details.FileId : this.Config.Details.FileId.split(',');
+              let fileNames = this.Config.Details.hasOwnProperty('FileName') ? Array.isArray(this.Config.Details.FileName) ? this.Config.Details.FileName : this.Config.Details.FileName.split(',') : [];
+              for(var file of this.DragNode.controller.FileWidget.MarkedForDelete)
+              {
+                if (ids.contains(file.Id.toString()))
+                {
+                  ids.splice(ids.indexOf(file.Id.toString()), 1);
+                }
+                if (fileNames.contains(file.Name))
+                {
+                  fileNames.splice(fileNames.indexOf(file.Name), 1);
+                }
+              }
+              this.Config.Details.FileId = isArray ? ids : ids.join(',');
+              if (this.Config.Details.hasOwnProperty('FileName'))
+              {
+                this.Config.Details.FileName = Array.isArray(this.Config.Details.FileName) ? fileNames : fileNames.join(',');
+              }
+            }
+
             this.OnUpdate(this.Config, this.DragNode);
             this.Hide();
 
@@ -11910,6 +11969,19 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       this.OnCancel(this.Config, this.DragNode);
       this.Hide();
     }
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  _cleanupOnWindowClose()
+  {
+    this.OnCancel(this.Config, this.DragNode);
+    this.Hide();
   }
 
 
@@ -14423,6 +14495,30 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (!$a.isNode(node) && $a.isObject(config) && config.hasOwnProperty('UniqueName'))
     {
       node = this.RightListNode.querySelector('.item-' + config.UniqueName);
+    }
+    if (config && node)
+    {
+      let name = config.hasOwnProperty('Name') ? config.Name : node.dataset.name;
+      if (name !== undefined && name !== null)
+      {
+        axios({
+          method: 'post',
+          url: this.CleverForms.CancelDataApi + '?id=' + this.CleverForms.GetTemplateGuid() + '&questionName=' + name,
+        })
+          .then(function (response)
+          {
+            console.log(response);
+          }.bind(this))
+          .catch(function (error)
+          {
+            console.warn(error);
+          }.bind(this));
+      }
+      else
+      {
+        console.warn('Could not identify Question Name on Cancel', config, node);
+        debugger;
+      }
     }
 
     if (node && node.hasOwnProperty('controller') && !node.controller.Saved)
@@ -20302,7 +20398,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
       'CheckLabelOverflow',
 
-      '_getFileIds', '_setupFileNode', '_fileResized', '_fileUploaded', '_fileDeleted', '_fileDeleteFailed', '_fileWidgetReady',
+      '_getFileIds', '_setupFileNode', '_fileResized', '_fileUploaded', '_fileUploadFailed', '_fileDeleted', '_fileDeleteFailed', '_fileWidgetReady',
 
       '_listSourceChanged', '_gotNewSourceList', '_gotNewSourceListFail', '_listBuilderModified',
       '_getWhitelistFilter',
@@ -21285,31 +21381,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   _getFileIds ()
   {
     var fileIds;
-
-    if (Affinity2018.Apps.CleverForms.Designer === undefined)
+    if (!this.Designer)
+    {
       fileIds = this.Config.Details.Value == null ? [] : $a.isStringifiedObject(this.Config.Details.Value) ? $a.stringToObject(this.Config.Details.Value) : this.Config.Details.Value;
+    }
     else
+    {
       fileIds = [this.Config.Details.FileId];
-
+    }
     if ($a.isString(fileIds) && fileIds.contains(',')) fileIds = fileIds.split(',');
     if ($a.isString(fileIds) && !fileIds.contains(',')) fileIds = [fileIds];
     if (!$a.isArray(fileIds)) fileIds = [];
     return fileIds;
-
-    /*
-    var fileIds = $a.isPropInt(this.Config.Details, 'FileId') || $a.isPropString(this.Config.Details, 'FileId') ? this.Config.Details.FileId.toString().trim() : '';
-    if (fileIds === '' && $a.isPropString(this.Config.Details, 'Value') && this.Config.Details.Value.trim() !== '') fileIds = this.Config.Details.Value.trim();
-    fileIds = $a.isString(fileIds) && fileIds.startsWith(',') ? fileIds.substring(1) : fileIds;
-    fileIds = $a.isString(fileIds) && fileIds.endsWith(',') ? fileIds.substring(0, fileIds.length - 1) : fileIds;
-    if ($a.isStringifiedObject(fileIds)) fileIds = $a.stringToObject(fileIds);
-    else fileIds = [fileIds];
-
-    var fileNames = $a.isPropString(this.Config.Details, 'FileName') ? this.Config.Details.FileName.toString().trim() : '';
-    fileNames = $a.isString(fileNames) && fileNames.startsWith(',') ? fileNames.substring(1) : fileNames;
-    fileNames = $a.isString(fileNames) && fileNames.endsWith(',') ? fileNames.substring(0, fileNames.length - 1) : fileNames;
-    if ($a.isStringifiedObject(fileNames)) fileNames = $a.stringToObject(fileNames);
-    else fileNames = [fileNames];
-    */
   }
 
 
@@ -21327,40 +21410,80 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.FileNode.dataset.fileIds = fileIds.removeEmpty().removeDuplicates().join(',');
       this.FileNode.dataset.fileNames = [];
 
-      this.FileNode.dataset.getApi = this.CleverForms.FileGetApi;
-      this.FileNode.dataset.getIdParam = 'fileIds';
-      $a.setObjectToDataset(this.FileNode, 'getParams', { fileIds: [] });
+      // Setup file Get
+      if (!this.Designer)
+      {
+        this.FileNode.dataset.getApi = this.CleverForms.FileGetInfoApi;
+        this.FileNode.dataset.getIdParam = 'fileIds';
+        $a.setObjectToDataset(this.FileNode, 'getInfoParams', { fileIds: [] });
+      }
+      else
+      {
+        this.FileNode.dataset.getApi = this.CleverForms.FileGetInfoApi;
+        $a.setObjectToDataset(this.FileNode, 'getParams', { id: this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name });
+      }
+
+      // Setup file Get Pair Info APIs and data (get info for display)
+      if (!this.Designer)
+      {
+        this.FileNode.dataset.getInfoApi = this.CleverForms.FileGetInfoApi;
+        this.FileNode.dataset.getInfoIdParam = 'fileIds';
+        $a.setObjectToDataset(this.FileNode, 'getInfoParams', { fileIds: [] });
+      }
+      else
+      {
+        this.FileNode.dataset.getInfoApi = this.CleverForms.FileGetInfoApi;
+        $a.setObjectToDataset(this.FileNode, 'getInfoParams', { id: this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name });
+      }
       
-      this.FileNode.dataset.getInfoApi = this.CleverForms.FileGetInfoApi;
-      this.FileNode.dataset.getInfoIdParam = 'fileIds';
-      $a.setObjectToDataset(this.FileNode, 'getInfoParams', { fileIds: [] });
+      // Setup Download APIs and data
+      if (!this.Designer)
+      {
+        this.FileNode.dataset.downloadApi = this.CleverForms.FileDownloadApi;
+        this.FileNode.dataset.downloadIdParam = 'documentId';
+        $a.setObjectToDataset(this.FileNode, 'downloadParams', { documentId: '' });
+      }
+      else
+      {
+        this.FileNode.dataset.downloadApi = this.CleverForms.FileDownloadApi;
+        this.FileNode.dataset.downloadIdParam = 'fileIds';
+        $a.setObjectToDataset(this.FileNode, 'downloadParams', { fileIds: [], id: this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name });
+      }
 
-      this.FileNode.dataset.downloadApi = this.CleverForms.FileGetApi;
-      this.FileNode.dataset.downloadIdParam = 'documentId';
-      $a.setObjectToDataset(this.FileNode, 'downloadParams', { documentId: '' });
+      // Setup Uplaod APIs and data
+      if (!this.Designer)
+      {
+        this.FileNode.dataset.postApi = false;
+        $a.setObjectToDataset(this.FileNode, 'postParams', { id: this.CleverForms.GetTemplateGuid() === false ? this.CleverForms.GetInstanceGuid() : this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name, securityLevel: this.Config.Details.SecurityLevel })
+      }
+      else
+      {
+        this.FileNode.dataset.postApi = this.CleverForms.FilePostApi;
+        $a.setObjectToDataset(this.FileNode, 'postParams', { fileId: '', id: this.CleverForms.GetTemplateGuid() === false ? this.CleverForms.GetInstanceGuid() : this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name, securityLevel: this.Config.Details.SecurityLevel })
+      }
 
-      this.FileNode.dataset.postApi = false;
-      $a.setObjectToDataset(this.FileNode, 'postParams', { fileTag: this.CleverForms.GetTemplateGuid() === false ? this.CleverForms.GetInstanceGuid() : this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name, securityLevel: this.Config.Details.SecurityLevel })
-
-      if (Affinity2018.Apps.CleverForms.Designer === undefined)
+      // Setup Delete APIs and data
+      if (!this.Designer)
       {
         this.FileNode.dataset.deleteApi = this.CleverForms.FileDeleteApi;
         this.FileNode.dataset.deleteIdParam = 'fileId';
-        $a.setObjectToDataset(this.FileNode, 'deleteParams', { fileId: [], instanceId: this.CleverForms.GetInstanceGuid(), questionName: this.Config.Name });
+        $a.setObjectToDataset(this.FileNode, 'deleteParams', { fileId: '', instanceId: this.CleverForms.GetInstanceGuid(), questionName: this.Config.Name });
       }
       else
       {
         this.FileNode.dataset.deleteApi = this.CleverForms.FileDeleteApi;
         this.FileNode.dataset.deleteIdParam = 'fileId';
-        $a.setObjectToDataset(this.FileNode, 'deleteParams', { fileId: [] });
+        $a.setObjectToDataset(this.FileNode, 'deleteParams', { fileId: '', id: this.CleverForms.GetTemplateGuid() === false ? this.CleverForms.GetInstanceGuid() : this.CleverForms.GetTemplateGuid(), questionName: this.Config.Name });
       }
       
+      // Setup multiplie mode for browser dialog box
       this.FileNode.dataset.allowMultiple = false;
       if ($a.isPropBool(this.Config.Details, 'AllowMultiple'))
       {
         this.FileNode.dataset.allowMultiple = this.Config.Details.AllowMultiple;
       }
-
+      
+      // Setup file type restrictions
       if ($a.isPropString(this.Config.Details, 'RestrictTypes') && Affinity2018.FileTypeGroupData.hasOwnProperty(this.Config.Details.RestrictTypes))
       {
         this.FileNode.dataset.allowTypes = Affinity2018.FileTypeGroupData[this.Config.Details.RestrictTypes].Name;
@@ -21401,7 +21524,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     if (this.CleverForms.hasOwnProperty('Designer'))
     {
       this.Config.Details.FileId = saveIds.join(',');
-      this.CleverForms.Designer.Save([this.DesignerNode]);
+      //this.CleverForms.Designer.Save([this.DesignerNode]); // Marina! Enable if needed :P
     }
     if (this.CleverForms.hasOwnProperty('Form'))
     {
@@ -21409,6 +21532,57 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.CleverForms.Form.ResizeSection(this.FormRowNode);
     }
   }
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  _fileUploadFailed (error)
+  {
+    var failedFileNames = [], i;
+    var message = 'Oops! Something went wrong uploading this file.';
+    if (error && 'detail' in error && 'dispatchObject' in error.detail)
+    {
+      if ('FileNames' in error.detail.dispatchObject)
+      {
+        failedFileNames = error.detail.dispatchObject.FileNames;
+        if ($a.isString(failedFileNames)) failedFileNames = failedFileNames.split(',');
+        failedFileNames = failedFileNames.removeDuplicates().removeEmpty();
+      }
+      if ('ErrMsg' in error.detail.dispatchObject)
+      {
+        message += '<br />' + error.detail.dispatchObject.ErrMsg;
+      }
+    }
+    if (failedFileNames.length > 0)
+    {
+      if (failedFileNames.length === 1)
+      {
+        message += '<br />We could not upload file "' + failedFileNames[0] + '"';
+      }
+      else
+      {
+        message += '<br />We could not upload files:<br /><ul><li>' + failedFileNames.join('</li><li>') + '</li></ul>';
+      }
+    }
+    if (this.Designer)
+    {
+      $a.HidePageLoader();
+      Affinity2018.Dialog.Show({
+        message: message,
+        showCancel: false,
+        buttons: {
+          ok: {
+            text: 'Ok',
+          }
+        }
+      });
+    }
+
+  }
+
 
   /**
    * Summary. ?
@@ -21443,7 +21617,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     if (this.CleverForms.hasOwnProperty('Designer'))
     {
       this.Config.Details.FileId = saveIds.join(',');
-      this.CleverForms.Designer.Save([this.DesignerNode]);
+      //this.CleverForms.Designer.Save([this.DesignerNode]); // Marina! Enable if needed :P
     }
 
     if (this.CleverForms.hasOwnProperty('Form'))
@@ -21462,6 +21636,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
   {
     var message = 'Oops! Something went wrong deleting this file.';
     if (ev && 'detail' in ev && 'Success' in ev.detail && !ev.detail.Success) message = 'You are not allowed to delete this file.';
+    if (ev && 'detail' in ev && 'ErrorMessage' in ev.detail && ev.detail.ErrorMessage.trim() !== '') message = 'Oops! Something went wrong deleting this file.<br />' + ev.detail.ErrorMessage;
     $a.HidePageLoader();
     Affinity2018.Dialog.Show({
       message: message,
@@ -21502,6 +21677,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         this.FileWidget.PostApi = this.CleverForms.FilePostApi;
         this.FileWidget.addEventListener('resized', this._fileResized);
         this.FileWidget.addEventListener('postSuccess', this._fileUploaded);
+        this.FileWidget.addEventListener('postFailed', this._fileUploadFailed);
         this.FileWidget.addEventListener('deleteSuccess', this._fileDeleted);
         this.FileWidget.addEventListener('deleteFailed', this._fileDeleteFailed);
       }
@@ -24597,7 +24773,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   SetFormRow (target)
   {
-    var label, html, link;
+    var label, link, html, url;
     if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
       html = this.HtmlRowTemplate.format(this.Config.Details.Label, '#');
@@ -24605,9 +24781,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     else
     {
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
-      link = this.Config.Details.FileId !== null ? this.CleverForms.FileGetApi + '?documentId=' + this.Config.Details.FileId : '#';
+      link = this.CleverForms.FileDownloadApi + '?id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name +  '&fileIds=' + this.Config.Details.FileId;
       html = this.HtmlRowTemplate.format(label, link);
-      var url = this.CleverForms.FileGetInfoApi + '?fileIds=' + this.Config.Details.FileId;
+      url = this.CleverForms.FileGetInfoApi;
+      url += '?id=' + this.CleverForms.GetInstanceGuid();
+      url += '&questionName=' + this.Config.Name;
       if (this.Config.Details.FileId.trim() !== '')
       {
         axios({
@@ -24615,14 +24793,126 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
           url: url,
         }).then(function (response)
         {
+          let rowDone = false;
+          let error = null;
+          let responseStatus = null;
+          let responseData = response;
+
+          if (response.hasOwnProperty('status') && response.hasOwnProperty('data'))
+          {
+            responseStatus = response.status;
+            responseData = response.data;
+          }
+
+          /**/
+
           if (
-            $a.isObject(response)
-            && $a.isPropObject(response, 'data')
-            && $a.isPropObject(response.data, 'data')
+            responseData.hasOwnProperty('Error') 
+            && responseData.hasOwnProperty('ErrorMsg')
+            && responseData.Error
           )
           {
-            if (response.data.data.hasOwnProperty(this.Config.Details.FileId)) this._setLink(response.data.data[this.Config.Details.FileId], link, label);
+            error = 'generic error';
+            if (responseData.ErrorMsg.trim() !== '')
+            {
+              error = data.ErrorMsg;
+            }
           }
+
+          if (error === null && responseStatus !== null && !responseStatus.toString().startsWith('20') )
+          {
+            error = 'network error';
+          }
+          
+          if (error !== null)
+          {
+            if (
+              !rowDone
+              && responseData.hasOwnProperty('ExistingFiles')
+              && responseData.hasOwnProperty('FailedUploads')
+            && responseData.ExistingFiles.hasOwnProperty(this.Config.Details.FileId)
+            )
+            {
+              rowDone = true;
+              this._setLink(responseData.ExistingFiles[this.Config.Details.FileId], link, label);
+            }
+          }
+
+          if (
+            !rowDone
+            && responseData.hasOwnProperty('FailedUploads')
+            && responseData.hasOwnProperty('ExistingFiles')
+            && responseData.ExistingFiles.hasOwnProperty(this.Config.Details.FileId)
+          )
+          {
+            rowDone = true;
+            this._setLink(responseData.ExistingFiles[this.Config.Details.FileId], link, label);
+          }
+
+          if (error !== null)
+          {
+            if (!rowDone)
+            {
+              rowDone = true;
+              this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+                label: label,
+                error: error.replace(/HTTP request to .* failed/, 'File access failed')
+              });
+            }
+            else
+            {
+              console.warn(error);
+            }
+          }
+
+          /* old */
+
+          if (!rowDone && responseData.hasOwnProperty('error') && responseData.error)
+          {
+            rowDone = true;
+            this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+              label: label,
+              error: responseData.errorMsg.replace(/HTTP request to .* failed/, 'File access failed')
+            });
+          }
+
+          if (!rowDone && responseData.hasOwnProperty('error') && responseData.error)
+          {
+            rowDone = true;
+            this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+              label: label,
+              error: responseData.errorMsg.replace(/HTTP request to .* failed/, 'File access failed')
+            });
+          }
+
+          if (!rowDone && responseData.hasOwnProperty('data') && Array.isArray(responseData.data) && responseData.data.length === 0)
+          {
+            rowDone = true;
+            this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+              label: label,
+              error: 'No file data found'
+            });
+          }
+
+          if (!rowDone && responseData.hasOwnProperty('data') && Array.isArray(responseData.data) && responseData.data.length > 0)
+          {
+            rowDone = true;
+            this._setLink(responseData.data[0][1], link, label);
+          }
+
+          if (!rowDone && responseData.hasOwnProperty('data') && responseData.data.hasOwnProperty(this.Config.Details.FileId))
+          {
+            rowDone = true;
+            this._setLink(responseData.data[this.Config.Details.FileId], link, label);
+          }
+
+          if (!rowDone)
+          {
+            console.warn('Could not find suitable data to render AttachInstructions');
+            console.warn(response);
+            console.warn(this.FormRowNode);
+          }
+
         }.bind(this)).catch(function () { });
       }
     }
@@ -24701,6 +24991,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       <div class="form-row">
         <a href="#">Download Document</a>
       </div>
+    </div>
+    `;
+
+    this.HtmlRowErrorTemplate = `
+    <div class="form-row">
+      <label>{label}</label>
+      <p>{error}</p>
     </div>
     `;
 
@@ -41698,6 +41995,14 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this.DeleteParams = {};
 
     this.FileIds = [];
+    this.FileNames = [];
+    this.Files = [];
+
+    this.MaxGidHeight = 200;
+
+    this.EnableInlineDelete = true;
+    this.DisplayMarkedForDelete = false;
+    this.MarkedForDelete = [];
 
     this.BlockedFileTypes = [
       'code', 'executable', 'unknown'
@@ -41706,8 +42011,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this.WhiteListTypes = [];
 
     this.UseFormDataPost = true;
-
-    this.Files = [];
   }
 
   constructor(targetNode)
@@ -41720,6 +42023,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
       'GetFiles', 'GetFileIds',
       'DeleteFiles',
+
+      'SetScrollable', 'UnsetScrollable', 
 
       'HasFiles',
       'HasSavedFiles',
@@ -41734,6 +42039,9 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       '_gridClicked',
       '_deleteRow', '_doBulkDelete', '_bulkDeleteRowDone',
 
+      '_checkGrid', '_resetGrid', '_resetFileNode',
+
+      '_getDownloadLink',
       '_getFileFromId', '_getFileFromIdOk', '_gotFileFromIdFail',
       '_postFile', '_postFileOk', '_postFileFail', '_postAllFiles',
       '_deleteFileFromId', '_deleteFileFromIdOk', '_deleteFileFromIdFail',
@@ -41917,8 +42225,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this._deleteThese = [];
 
     this.gridNode = document.createElement('div');
-    this.gridNode.classList.add('grid-wrapper', 'ui-file-list', 'hidden');
-    this.gridNode.innerHTML = this.gridTemplate;
+    this.gridNode.classList.add('file-wrapper', 'hidden');
+    this.innerGridNode = document.createElement('div');
+    this.innerGridNode.classList.add('grid-wrapper', 'ui-file-list');
+    this.innerGridNode.innerHTML = this.gridTemplate;
+    this.gridNode.appendChild(this.innerGridNode);
 
     if (this.descriptionNode)
     {
@@ -41939,6 +42250,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.initNode.parentNode.classList.contains('form-row'))
     {
       this.RowNode = this.initNode.parentNode;
+      this.RowNode.style.height = 'unset';
       this.IsRequired = this.RowNode.classList.contains('required');
       this.ErrorNode = this.RowNode && this.RowNode.querySelector('.ui-form-error') ? this.RowNode.querySelector('.ui-form-error') : document.createElement('div');
       this.ErrorNode.classList.add('ui-form-error');
@@ -41977,14 +42289,20 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   ShowError(error)
   {
-    this.ErrorNode.innerHTML = error;
-    this.ErrorNode.classList.add('show');
+    if (this.ErrorNode)
+    {
+      this.ErrorNode.innerHTML = error;
+      this.ErrorNode.classList.add('show');
+    }
     if (this.RowNode) this.RowNode.classList.add('error');
     if (this.Form) this.Form.ResizeSection();
   }
   HideError()
   {
-    this.ErrorNode.classList.remove('show');
+    if (this.ErrorNode)
+    {
+      this.ErrorNode.classList.remove('show');
+    }
     if (this.RowNode) this.RowNode.classList.remove('error');
     if (this.Form) this.Form.ResizeSection();
   }
@@ -41996,7 +42314,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.HasFiles() || this.HasSavedFiles())
     {
       var list = [];
-      this.gridBody.querySelectorAll('tr.from-doc-store').forEach(function (rowNode)
+      this.gridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').forEach(function (rowNode)
       {
         list.push({
           FileName: rowNode.dataset.fileName || null,
@@ -42013,7 +42331,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.HasFiles() || this.HasSavedFiles())
     {
       var list = $a.jsonCloneObject(this.FileIds), fileId;
-      this.gridBody.querySelectorAll('tr.from-doc-store').forEach(function (rowNode)
+      this.gridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').forEach(function (rowNode)
       {
         fileId = !isNaN(parseInt(rowNode.dataset.fileId)) ? parseInt(rowNode.dataset.fileId) : null;
         if (fileId !== null) list.push(fileId);
@@ -42029,12 +42347,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   HasFiles()
   {
-    return this.gridBody.querySelectorAll('tr').length > 0;
+    return this.gridBody.querySelectorAll('tr:not(.marked-for-delete)').length > 0;
   }
 
   HasUnsavedFiles()
   {
-    return this.gridBody.querySelectorAll('tr:not(.from-doc-store)').length > 0;
+    return this.gridBody.querySelectorAll('tr:not(.from-doc-store):not(.marked-for-delete)').length > 0;
   }
 
   HasSavedFiles()
@@ -42052,6 +42370,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   DeleteFiles()
   {
+    debugger;
     //this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
     this.bulkDelete = [];
     let rows = this.gridBody.querySelectorAll('tr');
@@ -42061,6 +42380,20 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.bulkDelete = [].slice.call(rows, 0);
     }
     this._doBulkDelete();
+  }
+
+  SetScrollable(height)
+  {
+    height = undefined ? this.MaxGidHeight : !isNaN(parseInt(height)) ? parseInt(height) : this.MaxGidHeight;
+    this.MaxGidHeight = height;
+    this.gridNode.classList.add('scroll');
+    this.gridNode.style.height = height + 'px';
+  }
+
+  UnsetScrollable()
+  {
+    this.gridNode.classList.remove('scroll');
+    this.gridNode.style.height = null;
   }
 
   /**/
@@ -42088,8 +42421,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   _getGridCount(uploadedOnly)
   {
     uploadedOnly = $a.paramOrDefault(uploadedOnly, false);
-    if (uploadedOnly) return this.gridBody.querySelectorAll('tr.from-doc-store').length;
-    return this.gridBody.querySelectorAll('tr').length;
+    if (uploadedOnly) return this.gridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').length;
+    return this.gridBody.querySelectorAll('tr:not(.marked-for-delete)').length;
   }
 
   _sizeOk(size)
@@ -42134,39 +42467,49 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     //  this.gridNode.style.minWidth = (minWidth + 8) + 'px';
     //}
 
+    if (this.gridBody.querySelectorAll('tr').length > 1)
+    {
+      this.SetScrollable();
+    }
+    else
+    {
+      this.UnsetScrollable();
+    }
+
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () { this.dispatchEvent(new CustomEvent('resized')); }.bind(this), 1000);
   }
 
   _addFile(ev)
   {
-    if (!this.AllowMultiple)
-    {
-      if (this.Files.length > 0)
-      {
-        Affinity2018.Dialog.Show({
-          message: 'Are you sure you want to replace <strong><em>' + this.gridBody.querySelector('td.file').innerText + '</em></strong>?',
-          showOk: true,
-          showCancel: true,
-          showInput: false,
-          buttons: {
-            ok: {
-              text: 'Yes',
-              icon: 'delete'
-            }
-          },
-          onOk: this._contunueAddFile
-        });
-      }
-      else
-      {
-        this._contunueAddFile(ev);
-      }
-    }
-    else
-    {
-      this._contunueAddFile(ev);
-    }
+    //if (!this.AllowMultiple)
+    //{
+    //  if (this.Files.length > 0)
+    //  {
+    //    Affinity2018.Dialog.Show({
+    //      message: 'Are you sure you want to replace <strong><em>' + this.gridBody.querySelector('td.file').innerText + '</em></strong>?',
+    //      showOk: true,
+    //      showCancel: true,
+    //      showInput: false,
+    //      buttons: {
+    //        ok: {
+    //          text: 'Yes',
+    //          icon: 'delete'
+    //        }
+    //      },
+    //      onOk: this._contunueAddFile
+    //    });
+    //    return;
+    //  }
+    //  else
+    //  {
+    //    this._contunueAddFile(ev);
+    //  }
+    //}
+    //else
+    //{
+    //  this._contunueAddFile(ev);
+    //}
     this._contunueAddFile(ev);
   }
 
@@ -42192,12 +42535,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         else
         {
           filesToAdd.push(file);
-          /*
-          if (!this.AllowMultiple && this._getGridCount() > 0) // already has a row, but we are only allowed 1 file
-          {
-            this._deleteRow(this.gridBody.querySelector('tr'));
-          }
-          */
         }
       }
 
@@ -42216,7 +42553,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         this.dispatchEvent(new CustomEvent('uploaded'));
         if (!this.AllowMultiple)
         {
-
           var warnDelete = false, delId = -1, row, delName;
           if (this.FileIds.length > 0)
           {
@@ -42255,19 +42591,17 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
               },
               onOk: function ()
               {
-                if (delId !== -1) this._deleteFileFromId(delId);
-                else this._deleteRow(this.gridBody.querySelector('tr'));
-                this._addRemainingFiles(filesToAdd);
+                this._addRemainingFiles(filesToAdd, delId);
               }.bind(this),
               onCancel: function ()
               {
                 this._resetFileNode();
-              }
+              }.bind(this),
             });
           }
           else
           {
-            this._addRemainingFiles(filesToAdd);
+            this._addRemainingFiles(filesToAdd, delId);
           }
         }
         else
@@ -42279,20 +42613,93 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     }
   }
 
-  _addRemainingFiles(filesToAdd)
+  _addRemainingFiles(filesToAdd, deleteId)
   {
+    deleteId = deleteId === undefined ? -1 : deleteId;
+    this.NewFiles = [];
     var f = 0, file, typeData;
+
+    if (this.EnableInlineDelete)
+    {
+      // TODO: Make sure we delete old files manually ...
+      let index = this.Files.indexOf(deleteId);
+      if (index > -1)
+      {
+        this.Files.splice(index, 1);
+      }
+    }
+    else
+    {
+      let fileRowToDelete = this.gridBody.querySelector(`tr[data-file-id="${deleteId}"]`);
+      if (fileRowToDelete)
+      {
+        let fileName = fileRowToDelete.dataset.fileName;
+        if(!this.MarkedForDelete.find(function (file) { return file.Id === deleteId; }))
+        {
+          this.MarkedForDelete.push({
+            Name: fileName,
+            Id: deleteId
+          });
+        }
+        fileRowToDelete.classList.add('marked-for-delete');
+        let index = this.FileIds.indexOf(deleteId);
+        if (index > -1)
+        {
+          this.Files.splice(index, 1);
+          this.FileIds.splice(index, 1);
+        }
+        if (this.NewFiles.contains(fileName))
+        {
+          this.NewFiles.splice(this.NewFiles.index(fileName, 1));
+        }
+      }
+    }
+
     for (f = 0; f < filesToAdd.length; f++)
     {
       file = filesToAdd[f];
       typeData = $a.GetDocFileData(file.name);
+      this.NewFiles.push(file.name);
       this.Files.push(file);
       this._insertRow(file.name);
       //if (this.PostApi !== false) this._postFile(file, typeData);
     }
-    if (this.PostApi !== false) this._postAllFiles();
+    if (this.PostApi !== false) this._postAllFiles(deleteId);
     this._checkGrid();
     this._resetFileNode();
+  }
+
+  _resetGrid()
+  {
+    this.gridBody.innerHTML = '';
+    this._checkGrid();
+  }
+
+  _backfillGrid()
+  {
+    this._resetGrid();
+    for (var id of this.FileIds)
+    {
+      let index = this.FileIds.indexOf(id);
+      let name = id;
+      if (index > -1 && this.FileNames[index])
+      {
+        name = this.FileNames[index];
+      }
+      let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
+      if (this.DisplayMarkedForDelete)
+      {
+        this._insertRow(name, markedForDelete ? null : this._getDownloadLink(id), id);
+      }
+      else
+      {
+        if (!markedForDelete)
+        {
+          this._insertRow(name, this._getDownloadLink(id), id);
+        }
+      }
+    }
+    this._checkGrid();
   }
 
   _checkGrid()
@@ -42307,8 +42714,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   _gridClicked(ev)
   {
-    var buttonNode = ev.target.closest('.button'),
-      row = buttonNode ? buttonNode.closest('tr') : false;
+    var buttonNode = ev.target.closest('.button');
+    var row = buttonNode ? buttonNode.closest('tr') : false;
     if (row && buttonNode.classList.contains('del'))
     {
       $a.Dialog.Show({
@@ -42341,6 +42748,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     {
       rowNode.querySelector('td.file').innerHTML = '<a href="' + filePath + '" target="_blank">' + fileName + '</a>';
     }
+    else
+    {
+      rowNode.querySelector('td.file').innerHTML = fileName;
+      rowNode.classList.add('marked-for-delete');
+    }
     if (
       ($a.isString(fileId) && !$a.isNullOrEmpty(fileId))
       || $a.isInt(fileId)
@@ -42351,12 +42763,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       rowNode.dataset.fileName = fileName;
     }
     this.gridBody.appendChild(rowNode);
-    this.gridNode.classList.add('hidden');
-    if (this.gridBody.querySelectorAll('tr').length > 0)
-    {
-      this._sizeGrid();
-      this.gridNode.classList.remove('hidden');
-    }
+    this._checkGrid();
   }
 
   _updateSectionSize()
@@ -42372,34 +42779,53 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       && node.parentNode === this.gridBody
     )
     {
-      if (this.DeleteApi && node.classList.contains('from-doc-store') && node.dataset.fileId)
+      if (this.EnableInlineDelete)
       {
-        this._deleteFileFromId(node.dataset.fileId);
+        console.log('do actual inline delete ..');
+        debugger;
+        if (this.DeleteApi && node.classList.contains('from-doc-store') && node.dataset.fileId)
+        {
+          this._deleteFileFromId(node.dataset.fileId);
+        }
+        else
+        {
+          this.gridBody.removeChild(node);
+          var fileName = node.innerText.toLowerCase().trim(), f = 0;
+          for (; f < this.Files.length; f++)
+          {
+            if (this.Files[f].name.toLowerCase().trim() == fileName)
+            {
+              this.Files.splice(f, 1);
+              break;
+            }
+          }
+        }
+        if (this.gridBody.querySelectorAll('tr:not(.marked-for-delete)').length === 0)
+        {
+          this.gridNode.classList.add('hidden');
+          this.Files = [];
+        }
       }
       else
       {
-        this.gridBody.removeChild(node);
-        var fileName = node.innerText.toLowerCase().trim(), f = 0;
-        for (; f < this.Files.length; f++)
+        var fileName = node.dataset.fileName;
+        var fileId = node.dataset.fileId;
+        if (!this.MarkedForDelete.find(function (file) { return file.Id.toString() === fileId.toString() }))
         {
-          if (this.Files[f].name.toLowerCase().trim() == fileName)
-          {
-            this.Files.splice(f, 1);
-            break;
-          }
+          this.MarkedForDelete.push({
+            Name: fileName,
+            Id: fileId.toString()
+          });
         }
       }
-      if (this.gridBody.querySelectorAll('tr').length === 0)
-      {
-        this.gridNode.classList.add('hidden');
-        this.Files = [];
-      }
+      this._backfillGrid();
       this._resetFileNode();
     }
   }
 
   _doBulkDelete()
   {
+    debugger;
     this.removeEventListener('deleteFailed', this._bulkDeleteRowDone);
     this.removeEventListener('deleteSuccess', this._bulkDeleteRowDone);
     if (this.bulkDelete && this.bulkDelete.length > 0)
@@ -42415,6 +42841,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
   _bulkDeleteRowDone()
   {
+    debugger;
     this.bulkDelete.shift();
     this._doBulkDelete();
   }
@@ -42439,6 +42866,29 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   /**/
 
+  _getDownloadLink(id)
+  {
+    var path = '';
+    var params = Affinity2018.jsonCloneObject(this.DownloadParams);
+    for (var key in params)
+    {
+      if (key === this.DownloadIdParam) 
+      {
+        params[key] = id;
+      }
+    }
+    var queries = [];
+    for (key in params)
+    {
+      if (params.hasOwnProperty(key)) 
+      {
+        queries.push(key + '=' + params[key]);
+      }
+    }
+    path = this.DownloadApi + '?' + queries.join('&');
+    return path;
+  }
+
   _getFileFromId(ids)
   {
     if (this.GetApi && this.DownloadApi)
@@ -42446,104 +42896,140 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       if ($a.isString(ids) && ids.contains(',')) ids = ids.split(',');
       if ($a.isString(ids) && !ids.contains(',')) ids = [ids];
       if (!$a.isArray(ids)) return;
-
       ids = ids.map(function (x) { return x + ''; });
       ids = ids.removeDuplicates().removeEmpty();
-
       var params = Affinity2018.jsonCloneObject(this.GetInfoParams);
       for (var key in params)
       {
-        if (key === this.GetInfoIdParam) params[key] = ids;
+        if (key === this.GetInfoIdParam) 
+        {
+          params[key] = ids;
+        }
       }
-
       var queries = [];
-      for (key in params) queries.push(key + '=' + params[key]);
-
-      var url = this.GetInfoApi + '?' + queries.join('&');
-
+      for (key in params) 
+      {
+        queries.push(key + '=' + params[key]);
+      }
+      this.GetFileFromIdURL = this.GetInfoApi + '?' + queries.join('&');
+      $a.ShowPageLoader();
       axios({
         method: 'GET',
-        url: url,
+        url: this.GetFileFromIdURL,
       }).then(this._getFileFromIdOk).catch(this._gotFileFromIdFail);
 
     }
   }
   _getFileFromIdOk(response)
   {
-    this._deleteThese = [];
+    let error = null;
+    let data = response;
+    if (response.hasOwnProperty('status') && response.hasOwnProperty('data'))
+    {
+      data = response.data;
+    }
     if (
-      Affinity2018.isObject(response)
-      && Affinity2018.isPropObject(response, 'data')
-      && Affinity2018.isPropObject(response.data, 'data')
+      data.hasOwnProperty('Error') 
+      && data.hasOwnProperty('ErrorMsg')
+      && data.Error
     )
     {
-      var id, name, path;
-      for (id in response.data.data)
+      error = 'generic error';
+      if (data.ErrorMsg.trim() !== '')
       {
-        if (response.data.data.hasOwnProperty(id))
+        error = data.ErrorMsg;
+      }
+    }
+    if (error === null && response.hasOwnProperty('status') && !response.status.toString().startsWith('20') )
+    {
+      error = 'network error';
+    }
+    if (error !== null)
+    {
+      if (
+        data.hasOwnProperty('ExistingFiles')
+        && data.hasOwnProperty('FailedUploads')
+      )
+      {
+        this.FileNames = [];
+        this.FileIds = [];
+        this._resetGrid();
+        for (var id in data.ExistingFiles)
         {
-          name = response.data.data[id];
-          if (name.trim() !== '')
+          if (data.ExistingFiles.hasOwnProperty(id))
           {
-
-            var params = Affinity2018.jsonCloneObject(this.DownloadParams);
-            for (var key in params)
+            if (data.ExistingFiles[id].trim() !== '')
             {
-              if (key === this.DownloadIdParam) params[key] = id;
+              this.FileNames.push(data.ExistingFiles[id]);
+              this.FileIds.push(id);
+              this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
             }
-
-            var queries = [];
-            for (key in params)
-            {
-              if (params.hasOwnProperty(key)) queries.push(key + '=' + params[key]);
-            }
-
-            path = this.DownloadApi + '?' + queries.join('&');
-
-            this._insertRow(name, path, id);
           }
-          else this._deleteThese.push(id);
         }
+        this._checkGrid();
+        this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileNames: this.FileNames, ErrMsg: error } } }));
+        this._validate();
+      }
+      else
+      {
+        this._backfillGrid();
+        this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { 
+            FileNames: [], 
+            ErrMsg: error
+          }
+        }}));
+      }
+      $a.HidePageLoader();
+    }
+    else
+    {
+      if (
+        data
+        && data.hasOwnProperty('NewSuccessfulUploads')
+        && data.hasOwnProperty('ExistingFiles')
+        && data.hasOwnProperty('FailedUploads')
+      )
+      {
+        this._resetGrid();
+        this.FileNames = [];
+        this.FileIds = [];
+        for (var id in data.ExistingFiles)
+        {
+          if (data.ExistingFiles.hasOwnProperty(id))
+          {
+            if (data.ExistingFiles[id].trim() !== '')
+            {
+              this.FileNames.push(data.ExistingFiles[id]);
+              this.FileIds.push(id);
+              this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+            }
+          }
+        }
+        this._checkGrid();
+        this._validate();
+        this.dispatchEvent(new CustomEvent('postSuccess', { detail: { dispatchObject: { FileName: this.FileNames.join(','), FileId: this.FileIds.join(',') } } }));
+        $a.HidePageLoader();
       }
       this.Ready = true;
       this.fileNode.dispatchEvent(new CustomEvent('widgetReady'));
       this.initNode.dispatchEvent(new CustomEvent('Ready'));
-      if (this._deleteThese.length > 0)
-      {
-        var deleteId = deleteNameless[0];
-        this._deleteThese = this._deleteThese.shift();
-        this._deleteFileFromId(deleteId);
-      }
-      return;
     }
-
-    /**/
-
-    if (
-      $a.isObject(response)
-      && $a.isPropObject(response, 'data')
-      && $a.isPropBool(response.data, 'FileName')
-      && $a.isPropString(response.data, 'FilePath')
-      && $a.isPropString(response.data, 'FileId')
-    )
-    {
-      this._insertRow(response.data.FileName, response.data.FilePath, response.data.FileId);
-    }
-    this._loaded++;
-    if (this._loaded === this._loadTotal) this.Ready = true;
-
-    /**/
   }
+
   _gotFileFromIdFail(error)
   {
-    this._loaded++;
-    if (this._loaded === this._loadTotal) this.Ready = true;
+    console.warn('Response error in file.uplaod.js -> _gotFileFromIdFail:');
+    console.warn(this.GetFileFromIdURL);
+    console.warn(error);
+    this.Ready = true;
+    $a.HidePageLoader();
   }
 
   /**/
 
-  _postAllFiles()
+  _postAllFiles(deleteId)
   {
+    deleteId = deleteId === undefined ? -1 : deleteId;
     var postData, key;
     if (this.UseFormDataPost) postData = new FormData();
     else postData = {};
@@ -42557,14 +43043,17 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         else postData[key] = params[key];
       }
     }
-
     this.Files.forEach(function (file, index)
     {
       key = 'file[' + index + ']';
       if (this.UseFormDataPost) postData.append(key, file);
       else postData[key] = file;
     }.bind(this));
-
+    if (deleteId > -1)
+    {
+      if (this.UseFormDataPost) postData.append('deleteId', deleteId);
+      else postData.deleteId = deleteId;
+    }
     $a.ShowPageLoader();
     axios({
       method: 'POST',
@@ -42579,65 +43068,168 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
   _postFileOk(response)
   {
-    var d, data, names = [];
+    let error = null;
+    let data = response;
+    if (response.hasOwnProperty('status') && response.hasOwnProperty('data'))
+    {
+      data = response.data;
+    }
     if (
-      $a.isObject(response)
-      && $a.isPropArray(response, 'data')
+      data.hasOwnProperty('Error') 
+      && data.hasOwnProperty('ErrorMsg')
+      && data.Error
     )
     {
-      if (response.data.length > 0)
+      error = 'generic error';
+      if (data.ErrorMsg.trim() !== '')
       {
-        for (var d = 0; d < response.data.length; d++)
+        error = data.ErrorMsg;
+      }
+    }
+    if (error === null && response.hasOwnProperty('status') && !response.status.toString().startsWith('20') )
+    {
+      error = 'network error';
+    }
+    if (error !== null)
+    {
+      //re-add any files in "markedForDelete" list, re-add deleted and mark as deleted in the grid.
+      if (
+        data.hasOwnProperty('ExistingFiles')
+        && data.hasOwnProperty('FailedUploads')
+      )
+      {
+        this.FileIds = [];
+        this._resetGrid();
+        for (var id in data.ExistingFiles)
         {
-          data = response.data[d];
-          if (
-            $a.isInt(data.FileId)
-            && $a.isString(data.FileName)
-          )
+          if (data.ExistingFiles.hasOwnProperty(id))
           {
-            if (!this.FileIds.contains(data.FileId)) this.FileIds.push(data.FileId);
-            names.push(data.FileName);
-
-            this.gridBody.querySelectorAll('tr:not(.from-doc-store)').forEach(function (rowNode)
+            if (data.ExistingFiles[id].trim() !== '')
             {
-              names.forEach(function (name)
+              let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
+              if (this.DisplayMarkedForDelete)
               {
-                if (name === rowNode.querySelector('td.file').innerText.trim())
+                this._insertRow(data.ExistingFiles[id], markedForDelete ? null : this._getDownloadLink(id), id);
+              }
+              else
+              {
+                if (markedForDelete)
                 {
-                  this._deleteRow(rowNode);
-                  var link = this.DownloadApi ? this.DownloadApi + '?documentId=' + data.FileId : false;
-                  this._insertRow(data.FileName, link, data.FileId);
+                  let deleteRow = this.gridBody.querySelector(`tr[data-file-id="${deleteId}"]`);
+                  if (deleteRow)
+                  {
+                    this.gridBody.removeChild(deleteRow);
+                  }
                 }
-              }.bind(this));
-            }.bind(this));
-
+              }
+              this.FileIds.push(id);
+            }
           }
         }
-
-        if (response.data.length === names.length && names.length > 0)
+        this._checkGrid();
+        // List any file errors
+        let errors = [];
+        for (fileData of data.FailedUploads)
         {
-          this.dispatchEvent(new CustomEvent('postSuccess', { detail: { dispatchObject: { FileName: names.join(','), FileId: this.FileIds.join(',') } } }));
-          this._resetFileNode();
-          this._validate();
-          $a.HidePageLoader();
+          errors.push({
+            FileName: fileData.FileName,
+            Error: fileData.ErrorMessage
+          });
         }
+        //
+        this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { 
+            FileNames: errors.map(function(item) { return item.FileName; }).join(','), 
+            ErrMsg: errors.map(function(item) { return item.Error; }).join('<br />')
+          }
+        }}));
+        this._validate();
       }
       else
       {
-        this._postFileFail('No results returned');
+        this._backfillGrid();
+        this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { 
+            FileNames: [], 
+            ErrMsg: error
+          }
+        }}));
       }
+      $a.HidePageLoader();
     }
     else
     {
-      this._postFileFail('Bad return data');
+      if (
+        data
+        && data.hasOwnProperty('NewSuccessfulUploads')
+        && data.hasOwnProperty('ExistingFiles')
+        && data.hasOwnProperty('FailedUploads')
+      )
+      {
+        this._resetGrid();
+        let fileNames = [];
+        this.FileIds = [];
+        for (var id in data.ExistingFiles)
+        {
+          if (data.ExistingFiles.hasOwnProperty(id))
+          {
+            if (data.ExistingFiles[id].trim() !== '')
+            {
+              let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
+              if (this.DisplayMarkedForDelete)
+              {
+                if (markedForDelete)
+                {
+                  this._insertRow(data.ExistingFiles[id], null, id);
+                }
+                else
+                {
+                  fileNames.push(data.ExistingFiles[id]);
+                  this.FileIds.push(id);
+                  this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+                }
+              }
+              else
+              {
+                if (markedForDelete)
+                {
+                  let deleteRow = this.gridBody.querySelector(`tr[data-file-id="${id}"]`);
+                  if (deleteRow)
+                  {
+                    this.gridBody.removeChild(deleteRow);
+                  }
+                }
+                else
+                {
+                  fileNames.push(data.ExistingFiles[id]);
+                  this.FileIds.push(id);
+                  this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+                }
+              }
+            }
+          }
+        }
+        this._checkGrid();
+        this._validate();
+        this.dispatchEvent(new CustomEvent('postSuccess', { detail: { dispatchObject: { FileName: fileNames.join(','), FileId: this.FileIds.join(',') } } }));
+        $a.HidePageLoader();
+      }
     }
   }
   _postFileFail(error)
   {
-    console.log(error);
-    var f = 0, names = [];
-    for (; f < this.Files.length; f++) names.push(this.Files[f].name);
-    this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileName: names } } }));
+    var n, f, allNodes = this.gridBody.querySelectorAll('tr:not(.from-doc-store):not(.marked-for-delete)');
+    for (n = 0 ; n < allNodes.length; n++)
+    {
+      for (f = 0; f < this.NewFiles.length; f++)
+      {
+        if(allNodes[n].querySelector('td').innerText.trim() === this.NewFiles[f])
+        {
+          this._deleteRow(allNodes[n]);
+        }
+      }
+    }
+    this._checkGrid();
+    this._resetFileNode();
+    this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileNames: this.NewFiles, ErrMsg: error } } }));
     this._validate();
     $a.HidePageLoader();
   }
@@ -42646,18 +43238,18 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   _deleteFileFromId(id)
   {
+    debugger;
+
     if (this.DeleteApi)
     {
       var postData, key;
       if (this.UseFormDataPost) postData = new FormData();
       else postData = {};
-
       var params = Affinity2018.jsonCloneObject(this.DeleteParams);
       for (var key in params)
       {
         if (key === this.DeleteIdParam) params[key] = [id];
       }
-
       for (key in params)
       {
         if (params.hasOwnProperty(key))
@@ -42666,7 +43258,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
           else postData[key] = params[key];
         }
       }
-
       this._deletingFileRow = false;
       if (this.gridBody.querySelector('.from-doc-store.id' + id)) this._deletingFileRow = this.gridBody.querySelector('.from-doc-store.id' + id);
       $a.ShowPageLoader();
@@ -42680,20 +43271,36 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
   _deleteFileFromIdOk(response)
   {
+    debugger;
+    let success = false;
     if (
-      $a.isObject(response)
+      !success
+      && $a.isObject(response)
       && $a.isPropObject(response, 'data')
       && $a.isPropBool(response.data, 'Success')
       && response.data.Success === true
     )
     {
+      success = true;
+    }
+    if (
+      !success
+      && $a.isObject(response)
+      && $a.isPropObject(response, 'data')
+      && $a.isPropBool(response.data, 'error')
+      && response.data.error === false
+    )
+    {
+      success = true;
+    }
+
+    if (success)
+    {
       if (this._deletingFileRow)
       {
-        var fileName = this._deletingFileRow.dataset.fileName,
-          fileId = this._deletingFileRow.dataset.fileId,
-          f;
-
-        for (f = 0; f < this.Files.length; f++)
+        var fileName = this._deletingFileRow.dataset.fileName;
+        var fileId = this._deletingFileRow.dataset.fileId;
+        for (var f = 0; f < this.Files.length; f++)
         {
           if (this.Files[f].name.toLowerCase().trim() == fileName)
           {
@@ -42714,7 +43321,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
             }
           }
         }
-
         this.gridBody.removeChild(this._deletingFileRow);
         if (this.gridBody.querySelectorAll('tr').length === 0)
         {
@@ -42745,6 +43351,20 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     )
     {
       this.dispatchEvent(new CustomEvent('deleteFailed', { detail: { Success: false, dispatchObject: { FileName: '', FileId: '' } } }));
+      $a.HidePageLoader();
+      return;
+    }
+    if (
+      $a.isObject(response)
+      && $a.isPropObject(response, 'data')
+      && $a.isPropBool(response.data, 'error')
+      && response.data.error === true
+      && $a.isPropString(response.data, 'errorMsg')
+      && response.data.errorMsg.trim() !== ''
+    )
+    {
+      this.dispatchEvent(new CustomEvent('deleteFailed', { detail: { Success: false, ErrorMessage: response.data.errorMsg, dispatchObject: { FileName: '', FileId: '' } } }));
+      $a.HidePageLoader();
       return;
     }
     this.dispatchEvent(new CustomEvent('deleteFailed', { detail: { dispatchObject: { FileName: '', FileId: '' } } }));
@@ -42752,6 +43372,20 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
   _deleteFileFromIdFail(error)
   {
+    debugger;
+    if (
+      $a.isObject(error)
+      && $a.isPropObject(error, 'data')
+      && $a.isPropBool(error.data, 'error')
+      && error.data.error === true
+      && $a.isPropString(error.data, 'errorMsg')
+      && error.data.errorMsg.trim() !== ''
+    )
+    {
+      this.dispatchEvent(new CustomEvent('deleteFailed', { detail: { Success: false, ErrorMessage: response.data.errorMsg, dispatchObject: { FileName: '', FileId: '' } } }));
+      $a.HidePageLoader();
+      return;
+    }
     this.dispatchEvent(new CustomEvent('deleteFailed', { detail: { dispatchObject: { FileName: '', FileId: '' } } }));
     $a.HidePageLoader();
   }
