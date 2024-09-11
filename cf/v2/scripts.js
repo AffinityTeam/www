@@ -11504,6 +11504,10 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
             {
               widgetInfo.widgets[0].DisplayMarkedForDelete = false;
             }
+            if (config.Type === 'Drawpanel')
+            {
+              widgetInfo.widgets[0].DisplayMarkedForDelete = true;
+            }
             let initialFiles = config.Details.hasOwnProperty('FileId') && config.Details.FileId !== null ? Array.isArray(config.Details.FileId) ? config.Details.FileId : config.Details.FileId.split(',') : [];
             if (initialFiles.length > 1)
             {
@@ -42682,10 +42686,17 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       {
         name = this.FileNames[index];
       }
+      let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
       if (this.DisplayMarkedForDelete)
       {
-        let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
         this._insertRow(name, markedForDelete ? null : this._getDownloadLink(id), id);
+      }
+      else
+      {
+        if (!markedForDelete)
+        {
+          this._insertRow(name, this._getDownloadLink(id), id);
+        }
       }
     }
     this._checkGrid();
