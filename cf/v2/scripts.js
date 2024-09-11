@@ -11241,7 +11241,6 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
     //this.Search.Insert(this.SearchNode, 'Search for the field you want on your form', [], []);
     this.Search.Insert(this.SearchNode, $a.Lang.ReturnPath('app.cf.design_items.search_message'), [], []);
 
-
     this.CloseButtonNode.addEventListener('click', this._close);
 
     this.PreviewToggleNode.addEventListener('click', this._togglePreview);
@@ -11497,9 +11496,22 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       {
         if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin))
         {
-          Affinity2018.Apps.Plugins[plugin].Apply();
+          let widgetInfo = Affinity2018.Apps.Plugins[plugin].Apply();
+          if(plugin === 'FileUpload')
+          {
+            widgetInfo.widgets[0].EnableInlineDelete = false;
+            if (config.Type === 'AttachInstructions')
+            {
+              widgetInfo.widgets[0].DisplayMarkedForDelete = false;
+            }
+            let initialFiles = config.Details.hasOwnProperty('FileId') && config.Details.FileId !== null ? Array.isArray(config.Details.FileId) ? config.Details.FileId : config.Details.FileId.split(',') : [];
+            if (initialFiles.length > 1)
+            {
+              widgetInfo.widgets[0].SetScrollable(380);
+            }
+          }
         }
-      });
+      }.bind(this));
     }.bind(this), 600);
   }
 
@@ -11771,7 +11783,6 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
             // check file widget for "MarkedForDelete" list, and make sure these ids are removed froim any file ID lsit in config ..
             if (this.DragNode.controller.hasOwnProperty('FileWidget') && this.DragNode.controller.FileWidget.MarkedForDelete.length > 0)
             {
-              debugger;
               let isArray = Array.isArray(this.Config.Details.FileId);
               let ids = isArray ? this.Config.Details.FileId : this.Config.Details.FileId.split(',');
               let fileNames = this.Config.Details.hasOwnProperty('FileName') ? Array.isArray(this.Config.Details.FileName) ? this.Config.Details.FileName : this.Config.Details.FileName.split(',') : [];
@@ -41983,6 +41994,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this.FileNames = [];
     this.Files = [];
 
+    this.MaxGidHeight = 200;
+
+    this.EnableInlineDelete = true;
+    this.DisplayMarkedForDelete = false;
     this.MarkedForDelete = [];
 
     this.BlockedFileTypes = [
@@ -42004,6 +42019,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
       'GetFiles', 'GetFileIds',
       'DeleteFiles',
+
+      'SetScrollable', 'UnsetScrollable', 
 
       'HasFiles',
       'HasSavedFiles',
@@ -42204,8 +42221,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this._deleteThese = [];
 
     this.gridNode = document.createElement('div');
-    this.gridNode.classList.add('grid-wrapper', 'ui-file-list', 'hidden');
-    this.gridNode.innerHTML = this.gridTemplate;
+    this.gridNode.classList.add('file-wrapper', 'hidden');
+    this.innerGridNode = document.createElement('div');
+    this.innerGridNode.classList.add('grid-wrapper', 'ui-file-list');
+    this.innerGridNode.innerHTML = this.gridTemplate;
+    this.gridNode.appendChild(this.innerGridNode);
 
     if (this.descriptionNode)
     {
@@ -42226,6 +42246,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.initNode.parentNode.classList.contains('form-row'))
     {
       this.RowNode = this.initNode.parentNode;
+      this.RowNode.style.height = 'unset';
       this.IsRequired = this.RowNode.classList.contains('required');
       this.ErrorNode = this.RowNode && this.RowNode.querySelector('.ui-form-error') ? this.RowNode.querySelector('.ui-form-error') : document.createElement('div');
       this.ErrorNode.classList.add('ui-form-error');
@@ -42289,7 +42310,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.HasFiles() || this.HasSavedFiles())
     {
       var list = [];
-      this.gridBody.querySelectorAll('tr.from-doc-store').forEach(function (rowNode)
+      this.gridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').forEach(function (rowNode)
       {
         list.push({
           FileName: rowNode.dataset.fileName || null,
@@ -42306,7 +42327,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.HasFiles() || this.HasSavedFiles())
     {
       var list = $a.jsonCloneObject(this.FileIds), fileId;
-      this.gridBody.querySelectorAll('tr.from-doc-store').forEach(function (rowNode)
+      this.gridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').forEach(function (rowNode)
       {
         fileId = !isNaN(parseInt(rowNode.dataset.fileId)) ? parseInt(rowNode.dataset.fileId) : null;
         if (fileId !== null) list.push(fileId);
@@ -42322,12 +42343,12 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   HasFiles()
   {
-    return this.gridBody.querySelectorAll('tr').length > 0;
+    return this.gridBody.querySelectorAll('tr:not(.marked-for-delete)').length > 0;
   }
 
   HasUnsavedFiles()
   {
-    return this.gridBody.querySelectorAll('tr:not(.from-doc-store)').length > 0;
+    return this.gridBody.querySelectorAll('tr:not(.from-doc-store):not(.marked-for-delete)').length > 0;
   }
 
   HasSavedFiles()
@@ -42357,6 +42378,20 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this._doBulkDelete();
   }
 
+  SetScrollable(height)
+  {
+    height = undefined ? this.MaxGidHeight : !isNaN(parseInt(height)) ? parseInt(height) : this.MaxGidHeight;
+    this.MaxGidHeight = height;
+    this.gridNode.classList.add('scroll');
+    this.gridNode.style.height = height + 'px';
+  }
+
+  UnsetScrollable()
+  {
+    this.gridNode.classList.remove('scroll');
+    this.gridNode.style.height = null;
+  }
+
   /**/
 
   _validate()
@@ -42382,8 +42417,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   _getGridCount(uploadedOnly)
   {
     uploadedOnly = $a.paramOrDefault(uploadedOnly, false);
-    if (uploadedOnly) return this.gridBody.querySelectorAll('tr.from-doc-store').length;
-    return this.gridBody.querySelectorAll('tr').length;
+    if (uploadedOnly) return this.gridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').length;
+    return this.gridBody.querySelectorAll('tr:not(.marked-for-delete)').length;
   }
 
   _sizeOk(size)
@@ -42428,39 +42463,49 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     //  this.gridNode.style.minWidth = (minWidth + 8) + 'px';
     //}
 
+    if (this.gridBody.querySelectorAll('tr').length > 1)
+    {
+      this.SetScrollable();
+    }
+    else
+    {
+      this.UnsetScrollable();
+    }
+
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () { this.dispatchEvent(new CustomEvent('resized')); }.bind(this), 1000);
   }
 
   _addFile(ev)
   {
-    if (!this.AllowMultiple)
-    {
-      if (this.Files.length > 0)
-      {
-        Affinity2018.Dialog.Show({
-          message: 'Are you sure you want to replace <strong><em>' + this.gridBody.querySelector('td.file').innerText + '</em></strong>?',
-          showOk: true,
-          showCancel: true,
-          showInput: false,
-          buttons: {
-            ok: {
-              text: 'Yes',
-              icon: 'delete'
-            }
-          },
-          onOk: this._contunueAddFile
-        });
-      }
-      else
-      {
-        this._contunueAddFile(ev);
-      }
-    }
-    else
-    {
-      this._contunueAddFile(ev);
-    }
+    //if (!this.AllowMultiple)
+    //{
+    //  if (this.Files.length > 0)
+    //  {
+    //    Affinity2018.Dialog.Show({
+    //      message: 'Are you sure you want to replace <strong><em>' + this.gridBody.querySelector('td.file').innerText + '</em></strong>?',
+    //      showOk: true,
+    //      showCancel: true,
+    //      showInput: false,
+    //      buttons: {
+    //        ok: {
+    //          text: 'Yes',
+    //          icon: 'delete'
+    //        }
+    //      },
+    //      onOk: this._contunueAddFile
+    //    });
+    //    return;
+    //  }
+    //  else
+    //  {
+    //    this._contunueAddFile(ev);
+    //  }
+    //}
+    //else
+    //{
+    //  this._contunueAddFile(ev);
+    //}
     this._contunueAddFile(ev);
   }
 
@@ -42486,12 +42531,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         else
         {
           filesToAdd.push(file);
-          /*
-          if (!this.AllowMultiple && this._getGridCount() > 0) // already has a row, but we are only allowed 1 file
-          {
-            this._deleteRow(this.gridBody.querySelector('tr'));
-          }
-          */
         }
       }
 
@@ -42575,6 +42614,43 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     deleteId = deleteId === undefined ? -1 : deleteId;
     this.NewFiles = [];
     var f = 0, file, typeData;
+
+    if (this.EnableInlineDelete)
+    {
+      // TODO: Make sure we delete old files manually ...
+      let index = this.Files.indexOf(deleteId);
+      if (index > -1)
+      {
+        this.Files.splice(index, 1);
+      }
+    }
+    else
+    {
+      let fileRowToDelete = this.gridBody.querySelector(`tr[data-file-id="${deleteId}"]`);
+      if (fileRowToDelete)
+      {
+        let fileName = fileRowToDelete.dataset.fileName;
+        if(!this.MarkedForDelete.find(function (file) { return file.Id === deleteId; }))
+        {
+          this.MarkedForDelete.push({
+            Name: fileName,
+            Id: deleteId
+          });
+        }
+        fileRowToDelete.classList.add('marked-for-delete');
+        let index = this.FileIds.indexOf(deleteId);
+        if (index > -1)
+        {
+          this.Files.splice(index, 1);
+          this.FileIds.splice(index, 1);
+        }
+        if (this.NewFiles.contains(fileName))
+        {
+          this.NewFiles.splice(this.NewFiles.index(fileName, 1));
+        }
+      }
+    }
+
     for (f = 0; f < filesToAdd.length; f++)
     {
       file = filesToAdd[f];
@@ -42606,8 +42682,11 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       {
         name = this.FileNames[index];
       }
-      let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
-      this._insertRow(name, markedForDelete ? null : this._getDownloadLink(id), id);
+      if (this.DisplayMarkedForDelete)
+      {
+        let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
+        this._insertRow(name, markedForDelete ? null : this._getDownloadLink(id), id);
+      }
     }
     this._checkGrid();
   }
@@ -42689,41 +42768,47 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       && node.parentNode === this.gridBody
     )
     {
-      var fileName = node.dataset.fileName;
-      var fileId = node.dataset.fileId;
-      if (!this.MarkedForDelete.find(function (file) { return file.Id.toString() === fileId.toString() }))
+      if (this.EnableInlineDelete)
       {
-        this.MarkedForDelete.push({
-          Name: fileName,
-          Id: fileId.toString()
-        });
+        console.log('do actual inline delete ..');
+        debugger;
+        if (this.DeleteApi && node.classList.contains('from-doc-store') && node.dataset.fileId)
+        {
+          this._deleteFileFromId(node.dataset.fileId);
+        }
+        else
+        {
+          this.gridBody.removeChild(node);
+          var fileName = node.innerText.toLowerCase().trim(), f = 0;
+          for (; f < this.Files.length; f++)
+          {
+            if (this.Files[f].name.toLowerCase().trim() == fileName)
+            {
+              this.Files.splice(f, 1);
+              break;
+            }
+          }
+        }
+        if (this.gridBody.querySelectorAll('tr:not(.marked-for-delete)').length === 0)
+        {
+          this.gridNode.classList.add('hidden');
+          this.Files = [];
+        }
+      }
+      else
+      {
+        var fileName = node.dataset.fileName;
+        var fileId = node.dataset.fileId;
+        if (!this.MarkedForDelete.find(function (file) { return file.Id.toString() === fileId.toString() }))
+        {
+          this.MarkedForDelete.push({
+            Name: fileName,
+            Id: fileId.toString()
+          });
+        }
       }
       this._backfillGrid();
       this._resetFileNode();
-      
-      //if (this.DeleteApi && node.classList.contains('from-doc-store') && node.dataset.fileId)
-      //{
-      //  this._deleteFileFromId(node.dataset.fileId);
-      //}
-      //else
-      //{
-      //  this.gridBody.removeChild(node);
-      //  var fileName = node.innerText.toLowerCase().trim(), f = 0;
-      //  for (; f < this.Files.length; f++)
-      //  {
-      //    if (this.Files[f].name.toLowerCase().trim() == fileName)
-      //    {
-      //      this.Files.splice(f, 1);
-      //      break;
-      //    }
-      //  }
-      //}
-      //if (this.gridBody.querySelectorAll('tr').length === 0)
-      //{
-      //  this.gridNode.classList.add('hidden');
-      //  this.Files = [];
-      //}
-      //this._resetFileNode();
     }
   }
 
@@ -43010,7 +43095,22 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
           {
             if (data.ExistingFiles[id].trim() !== '')
             {
-              this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+              let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
+              if (this.DisplayMarkedForDelete)
+              {
+                this._insertRow(data.ExistingFiles[id], markedForDelete ? null : this._getDownloadLink(id), id);
+              }
+              else
+              {
+                if (markedForDelete)
+                {
+                  let deleteRow = this.gridBody.querySelector(`tr[data-file-id="${deleteId}"]`);
+                  if (deleteRow)
+                  {
+                    this.gridBody.removeChild(deleteRow);
+                  }
+                }
+              }
               this.FileIds.push(id);
             }
           }
@@ -43020,7 +43120,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         let errors = [];
         for (fileData of data.FailedUploads)
         {
-          let filePath = this._getDownloadLink(fileId);
           errors.push({
             FileName: fileData.FileName,
             Error: fileData.ErrorMessage
@@ -43063,9 +43162,37 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
           {
             if (data.ExistingFiles[id].trim() !== '')
             {
-              fileNames.push(data.ExistingFiles[id]);
-              this.FileIds.push(id);
-              this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+              let markedForDelete = this.MarkedForDelete.find(function(file) { return file.Id.toString() === id.toString() });
+              if (this.DisplayMarkedForDelete)
+              {
+                if (markedForDelete)
+                {
+                  this._insertRow(data.ExistingFiles[id], null, id);
+                }
+                else
+                {
+                  fileNames.push(data.ExistingFiles[id]);
+                  this.FileIds.push(id);
+                  this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+                }
+              }
+              else
+              {
+                if (markedForDelete)
+                {
+                  let deleteRow = this.gridBody.querySelector(`tr[data-file-id="${id}"]`);
+                  if (deleteRow)
+                  {
+                    this.gridBody.removeChild(deleteRow);
+                  }
+                }
+                else
+                {
+                  fileNames.push(data.ExistingFiles[id]);
+                  this.FileIds.push(id);
+                  this._insertRow(data.ExistingFiles[id], this._getDownloadLink(id), id);
+                }
+              }
             }
           }
         }
@@ -43078,7 +43205,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
   _postFileFail(error)
   {
-    var n, f, allNodes = this.gridBody.querySelectorAll('tr:not(.from-doc-store)');
+    var n, f, allNodes = this.gridBody.querySelectorAll('tr:not(.from-doc-store):not(.marked-for-delete)');
     for (n = 0 ; n < allNodes.length; n++)
     {
       for (f = 0; f < this.NewFiles.length; f++)
