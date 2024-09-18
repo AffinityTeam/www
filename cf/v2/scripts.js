@@ -11511,7 +11511,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
         if (Affinity2018.Apps.Plugins.hasOwnProperty(plugin))
         {
           let widgetInfo = Affinity2018.Apps.Plugins[plugin].Apply();
-          if(plugin === 'FileUpload')
+          if(plugin === 'FileUpload' && widgetInfo.widgets.length > 0)
           {
             widgetInfo.widgets[0].EnableInlineDelete = false;
             if (config.Type === 'AttachInstructions')
