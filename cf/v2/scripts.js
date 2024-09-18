@@ -8481,6 +8481,8 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.GenderFields = response.data.GenderFields;
           this.BooleanToRadioFields = response.data.BooleanToRadioFields;
 
+          window.addEventListener('resize', this._resized, Affinity2018.PassiveEventProp);
+
           this._getUserData();
 
         }
@@ -10073,6 +10075,22 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   /***                                                                                                                           *********************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  _resized(event)
+  {
+    let size = Affinity2018.getWindowSize();
+    if (size.width <= 1200 && document.body.classList.contains('menu-show-full'))
+    {
+      document.body.classList.remove('menu-show-full');
+    }
+  }
 
 
 
@@ -24103,6 +24121,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     this.GenericGroupNode.classList.add('hide');
     this.GenericGroupNode.classList.add('hidden');
+    //Affinity2018.Log({
+    //  LogLevel: Affinity2018.LogLevel.Information,
+    //  DocumentId: this.CleverForms.GetInstanceGuid(),
+    //  Message: 'Affinity field "' + this.Config.Default.Label + '" (' + this.Config.Name + ') is trying to use Generic Groups',
+    //  Details: JSON.stringify(resposne),
+    //  Action: '',
+    //  Source: 'User'
+    //});
   }
 
   /**/
