@@ -11816,7 +11816,12 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
             }
 
             // check file widget for "MarkedForDelete" list, and make sure these ids are removed froim any file ID lsit in config ..
-            if (this.DragNode.controller.hasOwnProperty('FileWidget') && this.DragNode.controller.FileWidget.hasOwnProperty('FileTracker'))
+            if (
+              this.DragNode.controller.hasOwnProperty('FileWidget') 
+              && this.DragNode.controller.FileWidget !== null
+              && this.DragNode.controller.FileWidget.hasOwnProperty('FileTracker') 
+              && this.DragNode.controller.FileWidget.FileTracker !== null
+            )
             {
               let markedForDelete = this.DragNode.controller.FileWidget.FileTracker.filter(function (item) { return item.Delete });
               if (markedForDelete && markedForDelete.length > 0)
