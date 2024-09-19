@@ -20,43 +20,43 @@
 (6603,74): run-time error CSS1030: Expected identifier, found ','
 (6603,216): run-time error CSS1031: Expected selector, found ')'
 (6603,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8336,113): run-time error CSS1030: Expected identifier, found ','
-(8336,125): run-time error CSS1031: Expected selector, found ')'
-(8336,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9379,73): run-time error CSS1030: Expected identifier, found ','
-(9379,95): run-time error CSS1031: Expected selector, found ')'
-(9379,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9387,73): run-time error CSS1030: Expected identifier, found ','
-(9387,95): run-time error CSS1031: Expected selector, found ')'
-(9387,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9409,73): run-time error CSS1030: Expected identifier, found ','
-(9409,95): run-time error CSS1031: Expected selector, found ')'
-(9409,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9418,73): run-time error CSS1030: Expected identifier, found ','
-(9418,95): run-time error CSS1031: Expected selector, found ')'
-(9418,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9426,73): run-time error CSS1030: Expected identifier, found ','
-(9426,95): run-time error CSS1031: Expected selector, found ')'
-(9426,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9434,73): run-time error CSS1030: Expected identifier, found ','
-(9434,95): run-time error CSS1031: Expected selector, found ')'
-(9434,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9442,73): run-time error CSS1030: Expected identifier, found ','
-(9442,95): run-time error CSS1031: Expected selector, found ')'
-(9442,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9827,133): run-time error CSS1030: Expected identifier, found ','
-(9827,274): run-time error CSS1031: Expected selector, found ')'
-(9827,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10419,167): run-time error CSS1030: Expected identifier, found ','
-(10419,309): run-time error CSS1031: Expected selector, found ')'
-(10419,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10701,108): run-time error CSS1030: Expected identifier, found ','
-(10701,250): run-time error CSS1031: Expected selector, found ')'
-(10701,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(11610,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11611,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11753,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(11755,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(8366,113): run-time error CSS1030: Expected identifier, found ','
+(8366,125): run-time error CSS1031: Expected selector, found ')'
+(8366,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9419,73): run-time error CSS1030: Expected identifier, found ','
+(9419,95): run-time error CSS1031: Expected selector, found ')'
+(9419,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9427,73): run-time error CSS1030: Expected identifier, found ','
+(9427,95): run-time error CSS1031: Expected selector, found ')'
+(9427,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9449,73): run-time error CSS1030: Expected identifier, found ','
+(9449,95): run-time error CSS1031: Expected selector, found ')'
+(9449,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9458,73): run-time error CSS1030: Expected identifier, found ','
+(9458,95): run-time error CSS1031: Expected selector, found ')'
+(9458,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9466,73): run-time error CSS1030: Expected identifier, found ','
+(9466,95): run-time error CSS1031: Expected selector, found ')'
+(9466,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9474,73): run-time error CSS1030: Expected identifier, found ','
+(9474,95): run-time error CSS1031: Expected selector, found ')'
+(9474,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9482,73): run-time error CSS1030: Expected identifier, found ','
+(9482,95): run-time error CSS1031: Expected selector, found ')'
+(9482,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9867,133): run-time error CSS1030: Expected identifier, found ','
+(9867,274): run-time error CSS1031: Expected selector, found ')'
+(9867,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10459,167): run-time error CSS1030: Expected identifier, found ','
+(10459,309): run-time error CSS1031: Expected selector, found ')'
+(10459,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10741,108): run-time error CSS1030: Expected identifier, found ','
+(10741,250): run-time error CSS1031: Expected selector, found ')'
+(10741,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(11650,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11651,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11793,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(11795,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -7941,6 +7941,18 @@ body.ui2018.uiupdate .default-form .form-row .taxnumber-box input.tax3,
 body.ui2018.uiupdate.cform .default-form .form-row .taxnumber-box input.tax3 {
   width: 70px !important;
 }
+body.ui2018.uiupdate form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform form .form-row.row-drawpanel img,
+body.ui2018.uiupdate .form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform .form .form-row.row-drawpanel img,
+body.ui2018.uiupdate .default-form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform .default-form .form-row.row-drawpanel img {
+  display: block;
+  margin: 10px 0 20px 0;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+  box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2) !important;
+}
 body.ui2018.uiupdate form .form-row .draw-panel-box,
 body.ui2018.uiupdate.cform form .form-row .draw-panel-box,
 body.ui2018.uiupdate .form .form-row .draw-panel-box,
@@ -8004,39 +8016,57 @@ body.ui2018.uiupdate .form .form-row.row-attachinstructions div.edit-row div.row
 body.ui2018.uiupdate.cform .form .form-row.row-attachinstructions div.edit-row div.row-content,
 body.ui2018.uiupdate .default-form .form-row.row-attachinstructions div.edit-row div.row-content,
 body.ui2018.uiupdate.cform .default-form .form-row.row-attachinstructions div.edit-row div.row-content {
+  display: block;
   position: relative;
   width: auto;
-  line-height: 20px;
-  padding: 0 0 0 34px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  /*
+            padding: 0 0 0 (@cf-field-height-override - 10px);
+            &:after {
+              content: @icon-attachment;
+              display: block;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: @cf-field-height-override - 10px;
+              height: 20px;
+              line-height: 20px;
+              text-align: center;
+              .iconFont();
+              color: @blue; 
+              font-size: 18px;
+              font-weight: normal;
+              .cssTransform(rotate(-45deg));
+            }
+            */
+
 }
-body.ui2018.uiupdate form .form-row.row-attachinstructions div.edit-row div.row-content:after,
-body.ui2018.uiupdate.cform form .form-row.row-attachinstructions div.edit-row div.row-content:after,
-body.ui2018.uiupdate .form .form-row.row-attachinstructions div.edit-row div.row-content:after,
-body.ui2018.uiupdate.cform .form .form-row.row-attachinstructions div.edit-row div.row-content:after,
-body.ui2018.uiupdate .default-form .form-row.row-attachinstructions div.edit-row div.row-content:after,
-body.ui2018.uiupdate.cform .default-form .form-row.row-attachinstructions div.edit-row div.row-content:after {
-  content: "\e2bc";
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 34px;
-  height: 20px;
+body.ui2018.uiupdate form .form-row.row-attachinstructions div.edit-row div.row-content a,
+body.ui2018.uiupdate.cform form .form-row.row-attachinstructions div.edit-row div.row-content a,
+body.ui2018.uiupdate .form .form-row.row-attachinstructions div.edit-row div.row-content a,
+body.ui2018.uiupdate.cform .form .form-row.row-attachinstructions div.edit-row div.row-content a,
+body.ui2018.uiupdate .default-form .form-row.row-attachinstructions div.edit-row div.row-content a,
+body.ui2018.uiupdate.cform .default-form .form-row.row-attachinstructions div.edit-row div.row-content a {
+  font-size: 14px;
+  text-decoration: underline;
+}
+body.ui2018.uiupdate form .form-row.row-attachinstructions div.edit-row div.row-content span.icon,
+body.ui2018.uiupdate.cform form .form-row.row-attachinstructions div.edit-row div.row-content span.icon,
+body.ui2018.uiupdate .form .form-row.row-attachinstructions div.edit-row div.row-content span.icon,
+body.ui2018.uiupdate.cform .form .form-row.row-attachinstructions div.edit-row div.row-content span.icon,
+body.ui2018.uiupdate .default-form .form-row.row-attachinstructions div.edit-row div.row-content span.icon,
+body.ui2018.uiupdate.cform .default-form .form-row.row-attachinstructions div.edit-row div.row-content span.icon {
+  display: inline-block;
+  vertical-align: top;
+  width: 22px;
+  height: 22px;
   line-height: 20px;
   text-align: center;
-  font-family: 'icons' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #16c1f3;
+  text-decoration: none;
   font-size: 18px;
-  -webkit-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  transform: rotate(-45deg);
 }
 body.ui2018.uiupdate form .form-row.row-fileuploadmulti .help,
 body.ui2018.uiupdate.cform form .form-row.row-fileuploadmulti .help,
@@ -9391,6 +9421,16 @@ body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row .ui-autocomplet
   -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.cform.v2.dark form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform.v2.dark .form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.row-drawpanel img,
+body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.row-drawpanel img {
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row .draw-panel-box canvas,
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row .draw-panel-box canvas,
@@ -13492,6 +13532,74 @@ body.ui2018 .ui-file-list table,
 body.ui2018.uiupdate .ui-file-list table {
   width: 100%;
 }
+body.ui2018 .ui-file-list table thead tr:nth-child(odd),
+body.ui2018.uiupdate .ui-file-list table thead tr:nth-child(odd),
+body.ui2018 .ui-file-list table tbody tr:nth-child(odd),
+body.ui2018.uiupdate .ui-file-list table tbody tr:nth-child(odd) {
+  background-color: #efefef;
+}
+body.ui2018 .ui-file-list table thead tr:nth-child(odd) td,
+body.ui2018.uiupdate .ui-file-list table thead tr:nth-child(odd) td,
+body.ui2018 .ui-file-list table tbody tr:nth-child(odd) td,
+body.ui2018.uiupdate .ui-file-list table tbody tr:nth-child(odd) td,
+body.ui2018 .ui-file-list table thead tr:nth-child(odd) th,
+body.ui2018.uiupdate .ui-file-list table thead tr:nth-child(odd) th,
+body.ui2018 .ui-file-list table tbody tr:nth-child(odd) th,
+body.ui2018.uiupdate .ui-file-list table tbody tr:nth-child(odd) th {
+  color: #666666;
+  background: none;
+}
+body.ui2018 .ui-file-list table thead tr:nth-child(even),
+body.ui2018.uiupdate .ui-file-list table thead tr:nth-child(even),
+body.ui2018 .ui-file-list table tbody tr:nth-child(even),
+body.ui2018.uiupdate .ui-file-list table tbody tr:nth-child(even) {
+  background-color: #e2e2e2;
+}
+body.ui2018 .ui-file-list table thead tr:nth-child(even) td,
+body.ui2018.uiupdate .ui-file-list table thead tr:nth-child(even) td,
+body.ui2018 .ui-file-list table tbody tr:nth-child(even) td,
+body.ui2018.uiupdate .ui-file-list table tbody tr:nth-child(even) td,
+body.ui2018 .ui-file-list table thead tr:nth-child(even) th,
+body.ui2018.uiupdate .ui-file-list table thead tr:nth-child(even) th,
+body.ui2018 .ui-file-list table tbody tr:nth-child(even) th,
+body.ui2018.uiupdate .ui-file-list table tbody tr:nth-child(even) th {
+  color: #666666;
+  background: none;
+}
+body.ui2018 .ui-file-list table thead tr:hover:nth-child(odd),
+body.ui2018.uiupdate .ui-file-list table thead tr:hover:nth-child(odd),
+body.ui2018 .ui-file-list table tbody tr:hover:nth-child(odd),
+body.ui2018.uiupdate .ui-file-list table tbody tr:hover:nth-child(odd) {
+  background-color: #efefef;
+}
+body.ui2018 .ui-file-list table thead tr:hover:nth-child(odd) td,
+body.ui2018.uiupdate .ui-file-list table thead tr:hover:nth-child(odd) td,
+body.ui2018 .ui-file-list table tbody tr:hover:nth-child(odd) td,
+body.ui2018.uiupdate .ui-file-list table tbody tr:hover:nth-child(odd) td,
+body.ui2018 .ui-file-list table thead tr:hover:nth-child(odd) th,
+body.ui2018.uiupdate .ui-file-list table thead tr:hover:nth-child(odd) th,
+body.ui2018 .ui-file-list table tbody tr:hover:nth-child(odd) th,
+body.ui2018.uiupdate .ui-file-list table tbody tr:hover:nth-child(odd) th {
+  color: #666666;
+  background: none;
+}
+body.ui2018 .ui-file-list table thead tr:hover:nth-child(even),
+body.ui2018.uiupdate .ui-file-list table thead tr:hover:nth-child(even),
+body.ui2018 .ui-file-list table tbody tr:hover:nth-child(even),
+body.ui2018.uiupdate .ui-file-list table tbody tr:hover:nth-child(even) {
+  background-color: #e2e2e2;
+}
+body.ui2018 .ui-file-list table thead tr:hover:nth-child(even) td,
+body.ui2018.uiupdate .ui-file-list table thead tr:hover:nth-child(even) td,
+body.ui2018 .ui-file-list table tbody tr:hover:nth-child(even) td,
+body.ui2018.uiupdate .ui-file-list table tbody tr:hover:nth-child(even) td,
+body.ui2018 .ui-file-list table thead tr:hover:nth-child(even) th,
+body.ui2018.uiupdate .ui-file-list table thead tr:hover:nth-child(even) th,
+body.ui2018 .ui-file-list table tbody tr:hover:nth-child(even) th,
+body.ui2018.uiupdate .ui-file-list table tbody tr:hover:nth-child(even) th {
+  color: #666666;
+  background: none;
+}
 body.ui2018 .ui-file-list table thead tr td,
 body.ui2018.uiupdate .ui-file-list table thead tr td,
 body.ui2018 .ui-file-list table tbody tr td,
@@ -13625,43 +13733,48 @@ body.ui2018 div.content div.section div.section-body div.default-form div.form-r
 body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll {
   padding: 10px 5px 10px 10px;
 }
-body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list,
-body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list {
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list {
   width: calc(100% - 5px) !important;
   min-width: calc(100% - 5px) !important;
   margin: 0 0 0 0 !important;
 }
-body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table,
-body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table {
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table {
   width: calc(100% - 10px);
   margin: 0;
   border-collapse: separate;
   border-spacing: 0 0;
 }
-body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file,
-body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file {
-  height: 44px;
-  line-height: 44px;
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file {
+  min-height: 44px;
+  line-height: 22px;
   padding-left: 0;
 }
-body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file a,
-body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file a {
-  height: 44px;
-  line-height: 44px;
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file a,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file a,
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file span.view-only,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file span.view-only {
+  display: inline-block;
+  height: unset;
+  line-height: 22px;
+  padding: 0 0 0 35px;
 }
-body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file span.icon,
-body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file span.icon {
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file span.icon,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file span.icon {
   display: inline-block;
   vertical-align: top;
-  width: 34px;
-  height: 44px;
-  line-height: 44px;
+  width: 35px;
+  height: 22px;
+  line-height: 22px;
+  margin: 0 0 0 -35px;
   text-align: center;
   text-decoration: none;
   font-size: 18px;
 }
-body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file:after,
-body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper.scroll div.ui-file-list table tbody tr td.file:after {
+body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file:after,
+body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file:after {
   display: none;
 }
 body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.view-only-files,
@@ -13698,22 +13811,27 @@ body.ui2018.uiupdate div.content div.section div.section-body div.default-form d
 }
 body.ui2018 div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file,
 body.ui2018.uiupdate div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file {
-  height: 44px;
-  line-height: 44px;
+  min-height: 44px;
+  line-height: 22px;
   padding-left: 0;
 }
 body.ui2018 div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file a,
-body.ui2018.uiupdate div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file a {
-  height: 44px;
-  line-height: 44px;
+body.ui2018.uiupdate div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file a,
+body.ui2018 div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file span.view-only,
+body.ui2018.uiupdate div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file span.view-only {
+  display: inline-block;
+  height: unset;
+  line-height: 22px;
+  padding: 0 0 0 35px;
 }
 body.ui2018 div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file span.icon,
 body.ui2018.uiupdate div.settings-box div.file-wrapper div.ui-file-list table tbody tr td.file span.icon {
   display: inline-block;
   vertical-align: top;
-  width: 34px;
-  height: 44px;
-  line-height: 44px;
+  width: 35px;
+  height: 22px;
+  line-height: 22px;
+  margin: 0 0 0 -35px;
   text-align: center;
   text-decoration: none;
   font-size: 18px;

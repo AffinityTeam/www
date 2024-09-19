@@ -7,38 +7,38 @@
 (2787,11-12): run-time error JS1002: Syntax error: }
 (2792,7-8): run-time error JS1002: Syntax error: }
 (3015,32-37): run-time error JS1195: Expected expression: class
-(3554,32-37): run-time error JS1195: Expected expression: class
-(3646,29-30): run-time error JS1004: Expected ';': {
-(3647,29-30): run-time error JS1004: Expected ';': {
-(3648,29-30): run-time error JS1004: Expected ';': {
-(3649,29-30): run-time error JS1004: Expected ';': {
-(3706,3-4): run-time error JS1002: Syntax error: }
-(3719,37-38): run-time error JS1004: Expected ';': {
-(4296,36-41): run-time error JS1195: Expected expression: class
-(4376,3-4): run-time error JS1002: Syntax error: }
-(4493,3-4): run-time error JS1002: Syntax error: }
-(4512,3-4): run-time error JS1002: Syntax error: }
-(4514,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
-(4482,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4480,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4477,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4468,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4454,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4452,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4449,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4445,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4441,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4437,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4436,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4427,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4374,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4372,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4366,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4362,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4353,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4344,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(3559,32-37): run-time error JS1195: Expected expression: class
+(3651,29-30): run-time error JS1004: Expected ';': {
+(3652,29-30): run-time error JS1004: Expected ';': {
+(3653,29-30): run-time error JS1004: Expected ';': {
+(3654,29-30): run-time error JS1004: Expected ';': {
+(3711,3-4): run-time error JS1002: Syntax error: }
+(3724,37-38): run-time error JS1004: Expected ';': {
+(4301,36-41): run-time error JS1195: Expected expression: class
+(4381,3-4): run-time error JS1002: Syntax error: }
+(4498,3-4): run-time error JS1002: Syntax error: }
+(4517,3-4): run-time error JS1002: Syntax error: }
+(4519,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
+(4487,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4485,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4482,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4473,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4459,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4457,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4454,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4450,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4446,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4442,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4441,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4432,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4379,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4377,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4371,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4367,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4358,7-18): run-time error JS1018: 'return' statement outside of function: return null
 (4349,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4310,9,4320,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(4354,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4315,9,4325,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -49,18 +49,18 @@
             return v;
           }
         })(value)
-(3719,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3704,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3700,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3696,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3690,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3682,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3670,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3649,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3648,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3647,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3646,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3644,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3724,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3709,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3705,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3701,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3695,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3687,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3675,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3654,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3653,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3652,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3651,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3649,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
  */
 (function ()
 {
@@ -3392,6 +3392,7 @@
     Affinity2018.GetDocFileData = function (fileNameOrExtention)
     {
       var ext = '';
+      var exts = '';
       if (
         !Affinity2018.isString(fileNameOrExtention)
         || (Affinity2018.isString(fileNameOrExtention) && fileNameOrExtention.trim() === '')
@@ -3402,7 +3403,8 @@
           mime: Affinity2018.FileTypeGroupData.Unknown.TypeData[0].Mime,
           icon: Affinity2018.FileTypeGroupData.Unknown.Icon,
           iconClass: Affinity2018.FileTypeGroupData.Unknown.IconClass,
-          ext: ext
+          ext: ext,
+          exts: []
         };
       }
       ext = fileNameOrExtention.trim().toLowerCase(), key, t;
@@ -3424,13 +3426,15 @@
             {
               if (Affinity2018.FileTypeGroupData[key].TypeData[t].Types.contains(ext))
               {
+                exts =  Affinity2018.FileTypeGroupData[key].TypeData.map(function(item) { return item.Types; }).reduce(function(acc, val) { return acc.concat(val); }, []);
                 return {
                   type: Affinity2018.FileTypeGroupData[key].Name,
                   mime: Affinity2018.FileTypeGroupData[key].TypeData[t].Mime,
                   icon: Affinity2018.FileTypeGroupData[key].Icon,
                   iconClass: Affinity2018.FileTypeGroupData[key].IconClass,
-                  ext: ext
-                };
+                  ext: ext,
+                  exts: exts
+                }
               }
             }
           }
@@ -3441,7 +3445,8 @@
         mime: Affinity2018.FileTypeGroupData.Unknown.TypeData[0].Mime,
         icon: Affinity2018.FileTypeGroupData.Unknown.Icon,
         iconClass: Affinity2018.FileTypeGroupData.Unknown.IconClass,
-        ext: ext
+        ext: ext,
+        exts: []
       };
     };
   }
@@ -21744,44 +21749,89 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     }
     if (fileIds.length > 0)
     {
+      let node = document.createElement('div');
+      node.classList.add('view-only-files');
+      this.FormRowNode.appendChild(node);
       axios({
         method: 'GET',
         url: this.CleverForms.FileGetInfoApi + '?id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name,
       }).then(function(response)
       {
-        try
+        let responseError = null;
+        let responseStatus = null;
+        let responseData = response;
+        if (response.hasOwnProperty('status') && response.hasOwnProperty('data'))
         {
-          let node = document.createElement('div');
-          node.classList.add('view-only-files');
-          this.FormRowNode.appendChild(node);
-          for (let fileData of response.data.ExistingFiles)
+          responseStatus = response.status;
+          responseData = response.data;
+        }
+        if (
+          responseData.hasOwnProperty('Error') 
+          && responseData.hasOwnProperty('ErrorMsg')
+          && responseData.Error
+        )
+        {
+          responseError = 'generic error';
+          if (responseData.ErrorMsg.trim() !== '')
           {
-            let fileInfo = $a.GetDocFileData(fileData.FileName);
-            if (fileData.CanUserView)
-            {
-              node.innerHTML += this.ViewOnlyFileTemplateLink.format({
-                icon: fileInfo.icon,
-                name: fileData.FileName,
-                link: this.CleverForms.FileDeleteSingleApi + '?fileId=' + fileData.FileId + '&id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name
-              });
-            }
-            else
-            {
-              node.innerHTML += this.ViewOnlyFileTemplate.format({
-                icon: fileInfo.icon,
-                name: fileData.FileName
-              });
-            }
+            responseError = responseData.ErrorMsg;
           }
         }
-        catch (error)
+        if (responseError === null && responseStatus !== null && !responseStatus.toString().startsWith('20') )
         {
-          console.warn(error);
+          responseError = 'network error';
         }
-      }.bind(this)).catch(function (error)
+        if (responseError === null)
+        {
+          try
+          {
+            for (let fileData of responseData.ExistingFiles)
+            {
+              let fileInfo = $a.GetDocFileData(fileData.FileName);
+              if (fileData.CanUserView)
+              {
+                node.innerHTML += this.ViewOnlyFileTemplateLink.format({
+                  css: '',
+                  icon: fileInfo.icon,
+                  name: fileData.FileName,
+                  link: this.CleverForms.FileDeleteSingleApi + '?fileId=' + fileData.FileId + '&id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name
+                });
+              }
+              else
+              {
+                node.innerHTML += this.ViewOnlyFileTemplate.format({
+                  css: '',
+                  icon: fileInfo.icon,
+                  name: fileData.FileName
+                });
+              }
+            }
+          }
+          catch (catchError)
+          {
+            node.innerHTML = this.ViewOnlyFileTemplate.format({
+              css: 'error',
+              icon: Affinity2018.icons.error,
+              name: catchError
+            });
+          }
+        }
+        else
+        {
+          node.innerHTML = this.ViewOnlyFileTemplate.format({
+            css: 'error',
+            icon: Affinity2018.icons.error,
+            name: responseError
+          });
+        }
+      }.bind(this)).catch(function (fetchError)
       {
-          console.warn(error);
-      });
+        node.innerHTML = this.ViewOnlyFileTemplate.format({
+          css: 'error',
+          icon: Affinity2018.icons.error,
+          name: fetchError
+        });
+      }.bind(this));
     }
   }
 
@@ -22119,7 +22169,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     `;
 
     this.ViewOnlyFileTemplate = `
-    <div class="view-only-file">
+    <div class="view-only-file {css}">
       <span class="file-name"><span class="icon">{icon}</span>{name}</span>
     </div>
     `;
@@ -24928,8 +24978,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     else
     {
       label = this.Config.Details.Label ? this.Config.Details.Label : 'Attachment';
-      link = this.CleverForms.FileDownloadApi + '?id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name +  '&fileIds=' + this.Config.Details.FileId;
-      html = this.HtmlRowTemplate.format(label, link);
+      link = this.CleverForms.FileDownloadSingleApi + '?id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name +  '&fileId=' + this.Config.Details.FileId;
+      //html = this.HtmlRowTemplate.format(label, link); // Must now obey the law (grey swann security flags)
+      html = this.HtmlRowTemplateNoLink.format(label);
       url = this.CleverForms.FileGetInfoApi;
       url += '?id=' + this.CleverForms.GetInstanceGuid();
       url += '&questionName=' + this.Config.Name;
@@ -24959,10 +25010,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
             && responseData.Error
           )
           {
-            error = 'generic error';
+            error = 'We had a problem gathering your file information.';
             if (responseData.ErrorMsg.trim() !== '')
             {
-              error = data.ErrorMsg;
+              error = responseData.ErrorMsg;
             }
           }
 
@@ -24985,17 +25036,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
               {
                 let fileData = found[0]; 
                 rowDone = true;
-                this._setLink(fileData.FileName, link, label);
+                this._setLink(fileData.FileName, link, label, fileData.CanUserView);
               }
               else
               {
-                error = 'no file found';
+                error = 'We could not find any file information.';
               }
             }
           }
           else
           {
-            error = 'no file found';
+            error = 'We could not find any file information.';
           }
 
           if (error !== null)
@@ -25005,12 +25056,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
               rowDone = true;
               this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
                 label: label,
-                error: error.replace(/HTTP request to .* failed/, 'File access failed')
+                error: error.replace(/HTTP request to .* failed/, 'You do not have the necessary permission to access this file.')
               });
             }
             else
             {
-              console.warn(error);
+              rowDone = true;
+              this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+                label: label,
+                error: error
+              });
             }
           }
 
@@ -25021,7 +25076,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
             rowDone = true;
             this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
               label: label,
-              error: responseData.errorMsg.replace(/HTTP request to .* failed/, 'File access failed')
+              error: responseData.errorMsg.replace(/HTTP request to .* failed/, 'You do not have the necessary permission to access this file.')
             });
           }
 
@@ -25030,7 +25085,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
             rowDone = true;
             this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
               label: label,
-              error: responseData.errorMsg.replace(/HTTP request to .* failed/, 'File access failed')
+              error: responseData.errorMsg.replace(/HTTP request to .* failed/, 'You do not have the necessary permission to access this file.')
             });
           }
 
@@ -25039,38 +25094,48 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
             rowDone = true;
             this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
               label: label,
-              error: 'No file data found'
+              error: 'We could not find any file information.'
             });
           }
 
           if (!rowDone && responseData.hasOwnProperty('data') && Array.isArray(responseData.data) && responseData.data.length > 0)
           {
             rowDone = true;
-            this._setLink(responseData.data[0][1], link, label);
+            this._setLink(responseData.data[0][1], link, label, true);
           }
 
           if (!rowDone && responseData.hasOwnProperty('data') && responseData.data.hasOwnProperty(this.Config.Details.FileId))
           {
             rowDone = true;
-            this._setLink(responseData.data[this.Config.Details.FileId], link, label);
+            this._setLink(responseData.data[this.Config.Details.FileId], link, label, true);
           }
 
           if (!rowDone)
           {
-            console.warn('Could not find suitable data to render AttachInstructions');
             console.warn(response);
             console.warn(this.FormRowNode);
+            rowDone = true;
+            this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+              label: label,
+              error: 'We could not find any file information.'
+            });
           }
 
-        }.bind(this)).catch(function () { });
+        }.bind(this)).catch(function (error)
+        {
+          this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+            label: label,
+            error: error
+          });
+        });
       }
     }
 
-    this.FormRowNode = super.SetFormRow(target, html);
+    this.FormRowNode = super.SetFormRow(target, html); // TODO: is this even necesary anymore?
 
     if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
-      this._setLink('File Name Here', '#');
+      this._setLink('File Name Here', '#', null, true);
     }
 
     if (this.FormRowNode)
@@ -25105,18 +25170,35 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   /**/
 
-  _setLink (name, link, label)
+  _setLink (name, link, label, canView)
   {
-    label = label ? label : this.Config.Details.Label;
-    this.FormRowNode.innerHTML = this.HtmlRowLinkTemplate.format({
-      label: label,
-      link: link,
-      name: name
-    });
-    //if (link == '#')
-    //{
-    //  this.FormRowNode.querySelector('a').href = 'javascript:void(0)';
-    //}
+    label = label && label !== null ? label : this.Config.Details.Label;
+    if (name === undefined || name === null || name.trim() === '')
+    {
+      this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+        label: label,
+        error: 'This file has changed and is no longer available for this form.'
+      });
+      return;
+    }
+    let type = $a.GetDocFileData(name);
+    if (canView)
+    {
+      this.FormRowNode.innerHTML = this.HtmlRowLinkTemplate.format({
+        label: label,
+        icon: type.icon,
+        link: link,
+        name: name
+      });
+    }
+    else
+    {
+      this.FormRowNode.innerHTML = this.HtmlRowNoLinkTemplate.format({
+        label: label,
+        icon: type.icon,
+        name: name
+      });
+    }
   }
 
   /**/
@@ -25142,11 +25224,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
       </div>
     </div>
     `;
-
+    
     this.HtmlRowErrorTemplate = `
-    <div class="form-row">
+    <div class="edit-row">
       <label>{label}</label>
-      <p>{error}</p>
+      <div class="row-content error">
+        <span class="icon icon-error"></span>{error}
+      </div>
+    </div>
+    `;
+
+    this.HtmlRowTemplateNoLink = `
+    <div class="form-row">
+      {0}
     </div>
     `;
 
@@ -25160,7 +25250,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
     <div class="edit-row">
       <label>{label}</label>
       <div class="row-content">
-        <a href="{link}">{name}</a>
+        <a href="{link}"><span class="icon">{icon}</span>{name}</a>
+      </div>
+    </div>
+    `;
+
+    this.HtmlRowNoLinkTemplate = `
+    <div class="edit-row">
+      <label>{label}</label>
+      <div class="row-content">
+        <span class="icon">{icon}</span>{name}
       </div>
     </div>
     `;
@@ -28791,7 +28890,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
           choose: $a.Lang.ReturnPath('generic.buttons.choosefile')
         });
       //}
-      this._loadNames();
+      //this._loadNames(); // don't need this anymore .. can delete method too.
     }
     else
     {
@@ -29102,6 +29201,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   {
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
+
+    debugger;
+
+
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
     if (fileIds.length > 0)
@@ -41206,7 +41309,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     this.DrawPad = new Affinity2018.Classes.Plugins.DrawPad(this.CanvasNode, {
       Panel: this,
-      HasImages: this.BgImageData.length > 0
+      HasImages: this.BgImageData.length > 0,
+      Updated: this._humanInteraction
     });
 
     if (selected !== false)
@@ -41619,6 +41723,9 @@ Affinity2018.Classes.Plugins.DrawPad = class
     this.canvas = null;
     this.ctx = null;
     this.HasImages = false;
+    this.History = [];
+    this.HistoryStep = 0;
+    this.CanvasFocused = false;
   }
 
   constructor (canvas, options)
@@ -41629,11 +41736,14 @@ Affinity2018.Classes.Plugins.DrawPad = class
       'IsEmpty',
       'ToDataURL','FromDataURL',
 
+      '_updateHistory',
+
       '_strokeUpdate', '_strokeBegin', '_strokeDraw', '_strokeEnd',
       '_createPoint','_addPoint','_calculateCurveControlPoints','_addCurve','_drawPoint','_drawCurve', '_strokeWidth',
 
       '_handleMouseEvents',
       '_handleTouchEvents',
+      '_keyDownHandler',
 
       '_reset',
 
@@ -41656,6 +41766,8 @@ Affinity2018.Classes.Plugins.DrawPad = class
     
     if (options.hasOwnProperty('HasImages') && $a.isBool(options.HasImages)) this.HasImages = options.HasImages;
     if (options.hasOwnProperty('Panel')) this.Panel = options.Panel;
+
+    this.Updated = options.hasOwnProperty('Updated') ? options.Updated : function () {};
 
     this.velocityFilterWeight = options.velocityFilterWeight || this.velocityFilterWeight;
     this.minWidth = options.minWidth || this.minWidth;
@@ -41696,6 +41808,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = this.penColor;
     this._reset();
+    this._updateHistory();
   }
 
   IsEmpty ()
@@ -41723,6 +41836,21 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
 
   /**/
+
+  _updateHistory()
+  {
+    clearTimeout(this._setHistory);
+    this._setHistory = setTimeout(function()
+    {
+      let imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+      if (imageData instanceof ImageData)
+      {
+        this.History.push(imageData);
+        this.HistoryStep = this.History.length - 1;
+        console.log(this.HistoryStep);
+      }
+    }.bind(this), 50);
+  }
 
   _strokeUpdate (event)
   {
@@ -41886,12 +42014,15 @@ Affinity2018.Classes.Plugins.DrawPad = class
     //this.canvas.addEventListener("mousemove", this._handleMouseMove, Affinity2018.PassiveEventProp);
     this.canvas.addEventListener("mousemove", this._handleMouseMove);
     document.addEventListener("mouseup", this._handleDocMouseUp);
+    document.addEventListener('keydown', this._keyDownHandler);
   }
   _handleMouseMouseDown (ev)
   {
     Affinity2018.lockBodyScroll();
     if (ev.which === 1)
     {
+      clearTimeout(this._unsetFocus);
+      this.CanvasFocused = true;
       this._mouseButtonDown = true;
       this._strokeBegin(ev);
     }
@@ -41910,6 +42041,46 @@ Affinity2018.Classes.Plugins.DrawPad = class
     {
       this._mouseButtonDown = false;
       this._strokeEnd(ev);
+      this._updateHistory();
+      this._unsetFocus = setTimeout(function() { this.CanvasFocused = false;  }.bind(this), 5000);
+    }
+  }
+  _keyDownHandler (ev)
+  {
+    if (this.CanvasFocused)
+    {
+      if (ev.ctrlKey && ev.key === 'z')
+      {
+        if (this.HistoryStep > 0)
+        {
+          this.HistoryStep--;
+          let imageData = this.History[this.HistoryStep];
+          if (imageData instanceof ImageData)
+          {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.putImageData(imageData, 0, 0);
+          }
+          clearTimeout(this._unsetFocus);
+          this.CanvasFocused = true;
+          this.Updated();
+        }
+      }
+      if (ev.ctrlKey && ev.key === 'y')
+      {
+        if (this.HistoryStep < this.History.length)
+        {
+          this.HistoryStep++;
+          let imageData = this.History[this.HistoryStep];
+          if (imageData instanceof ImageData)
+          {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.putImageData(imageData, 0, 0);
+          }
+          clearTimeout(this._unsetFocus);
+          this.CanvasFocused = true;
+          this.Updated();
+        }
+      }
     }
   }
 
@@ -42248,7 +42419,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       'Destroy',
 
       '_validate',
-      '_sizeOk', '_fileTypeOk',
+      '_sizeOk', '_fileTypeOk', '_getValidTypes',
       '_getGridCount',
       '_sizeGrid',
       '_addFile', '_contunueAddFile',
@@ -42269,7 +42440,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     if (!Affinity2018.isDomElement(targetNode))
     {
-      console.error('No valid element was passed to FileUploadWidget, dummy!');
+      console.error('No valid element was passed to FileUploadWidget.');
       return;
     }
 
@@ -42666,6 +42837,47 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     return true;
   }
 
+  _getValidTypes(extentionsOnly)
+  {
+    extentionsOnly = extentionsOnly === undefined ? false : true;
+    if (this.WhiteListTypes.length > 0)
+    {
+      let typeGroups = [];
+      let typeExts = [];
+      for (let ext of this.WhiteListTypes)
+      {
+        let typeData = $a.GetDocFileData(('test.' + ext).replace('..', '.'));
+        let checkName = typeData.type.toLowerCase().trim().endsWith('s') ? typeData.type.toLowerCase().trim().slice(0, -1) : typeData.type.toLowerCase().trim();
+        if (!typeGroups.contains(checkName))
+        {
+          typeGroups.push(checkName);
+          Array.prototype.push.apply(typeExts, typeData.exts);
+        }
+      }
+      if (extentionsOnly)
+      {
+        return typeExts.join(', ');
+      }
+      if (typeGroups.length === 0)
+      {
+        return '';
+      }
+      if (typeGroups.length === 1)
+      {
+        return typeGroups + ' files';
+      }
+      else if (typeGroups.length === 2)
+      {
+        return typeGroups[0] + ' and ' + typeGroups[1] + ' files';
+      }
+      else
+      {
+        return typeGroups.slice(0, typeGroups.length - 1).join(', ') + ' and ' + typeGroups[typeGroups.length - 1] + ' files';
+      }
+    }
+    return '';
+  }
+
   _getExt(file)
   {
     return file.substr(file.lastIndexOf('.')).replace(/\./g, '').toLowerCase().trim();
@@ -42701,8 +42913,23 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         file = this.fileNode.files[f];
         typeData = $a.GetDocFileData(file.name);
         errors = [];
-        if (!this._sizeOk(file.size)) errors.push('<strong><em>' + file.name + '</em></strong> is too big. Files must be smaller than ' + this.MaxFileSize + 'MB');
-        if (!this._fileTypeOk(file.name)) errors.push('We can\'t upload <strong><em>' + file.name + '</em></strong>. <span style="text-transform: capitalize">' + typeData.type + '</span> files can not be uploaded.');
+        if (!this._sizeOk(file.size))
+        {
+          errors.push('Your file is too big. Files can not be larger than ' + this.MaxFileSize + 'MB.');
+        }
+        if (!this._fileTypeOk(file.name)) 
+        {
+          let validTypes = this._getValidTypes();
+          let validExtentions = this._getValidTypes(true);
+          if (validTypes !== '')
+          {
+            errors.push('You can only upload ' + validTypes + ' (' + validExtentions + ').');
+          }
+          else
+          {
+            errors.push('We can not upload ' + typeData.type.toLowerCase() + ' files.');
+          }
+        }
 
         if (errors.length > 0)
         {
@@ -42892,14 +43119,14 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     var rowNode;
     rowNode = document.createElement('tr');
     rowNode.innerHTML = canDelete ? this.rowTemplate : this.rowNoDelTemplate;
-    rowNode.querySelector('td.file').innerHTML = fileName;
+    rowNode.querySelector('td.file').innerHTML = '';
     if (filePath && !$a.isNullOrEmpty(filePath))
     {
       rowNode.querySelector('td.file').innerHTML = '<a href="' + filePath + '" target="_blank"><span class="icon">' + icon + '</span>' + fileName + '</a>';
     }
     else
     {
-      rowNode.querySelector('td.file').innerHTML = '<span class="icon">' + icon + '</span>' + fileName;
+      rowNode.querySelector('td.file').innerHTML = '<span class="view-only"><span class="icon">' + icon + '</span>' + fileName + '</span>';
       rowNode.classList.add('marked-for-delete');
     }
     if (
