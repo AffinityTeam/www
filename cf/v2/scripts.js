@@ -21564,8 +21564,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       // Setup Download APIs and data
       if (!this.Designer)
       {
-        this.FileNode.dataset.downloadApi = this.CleverForms.FileDownloadApi;
-        $a.setObjectToDataset(this.FileNode, 'downloadParams', { fileIds: [], id: this.CleverForms.GetInstanceGuid(), questionName: this.Config.Name });
+        //this.FileNode.dataset.downloadApi = this.CleverForms.FileDownloadApi;
+        //$a.setObjectToDataset(this.FileNode, 'downloadParams', { fileIds: [], id: this.CleverForms.GetInstanceGuid(), questionName: this.Config.Name });
+        this.FileNode.dataset.downloadApi = this.CleverForms.FileDownloadSingleApi;
+        this.FileNode.dataset.downloadIdParam = 'fileId';
+        $a.setObjectToDataset(this.FileNode, 'downloadParams', { fileId: '', id: this.CleverForms.GetInstanceGuid(), questionName: this.Config.Name });
       }
       else
       {
@@ -25124,6 +25127,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
                 error: error
               });
             }
+          }
+
+          if (rowDone)
+          {
+
           }
 
           /* old */
@@ -41309,7 +41317,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
   }
 
-  _init()
+  _init(error)
   {
 
     /*
@@ -41398,6 +41406,12 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     this.CanvasNode.addEventListener('CanvasReady', this._setData);
 
+    if (error !== undefined)
+    {
+      console.warn(error);
+      // TODO: How do we display this?
+    }
+
   }
 
   Clear ()
@@ -41473,7 +41487,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     }
     if (error !== null)
     {
-      // TODO: What to do with errors?
+      this._gotFileFromIdFail(error);
+      return;
     }
     if (
       data
@@ -41533,7 +41548,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
   }
   _gotFileFromIdFail(error)
   {
-    this._init();
+    this._init(error);
   }
   _loadImageData (name, id)
   {
@@ -43397,18 +43412,19 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
           }
         }
         this._backfillGrid();
-        let names = this.FileTracker.filter(function(item) { return !item.Delete && item.Id.toString() !== '-1' }).map(function(item) { return item.Name });
-        this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileNames: names, ErrMsg: error } } }));
         this._validate();
+        this.Ready = true;
+        console.warn(error);
+        //let names = this.FileTracker.filter(function(item) { return !item.Delete && item.Id.toString() !== '-1' }).map(function(item) { return item.Name });
+        //this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileNames: names, ErrMsg: error } } }));
       }
       else
       {
         this._backfillGrid();
-        this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { 
-            FileNames: [], 
-            ErrMsg: error
-          }
-        }}));
+        this._validate();
+        this.Ready = true;
+        console.warn(error);
+        //this.dispatchEvent(new CustomEvent('postFailed', { detail: { dispatchObject: { FileNames: [], ErrMsg: error } }}));
       }
       $a.HidePageLoader();
     }
