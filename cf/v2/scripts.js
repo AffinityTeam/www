@@ -8425,6 +8425,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.DocumentCategories = response.data.DocumentCategories;
           this.CountrySensativeFields = response.data.CountrySensativeFields;
           this.CountrySensativeFieldNames = Object.keys(this.CountrySensativeFields);
+          this.MacronSupportedFields = response.data.MacronSupportedFields;
           this.ElementControllerMap = {};
 
           this.TableTypes.sort(function (a, b)
@@ -9125,6 +9126,20 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     if (!config.Details.hasOwnProperty('AffinityField')) return false;
     if (config.Details.AffinityField.IsKeyField) return true;
     return false;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  IsFieldMacronSupprted (config)
+  {
+    if (!config.hasOwnProperty('Details')) return false;
+    if (!config.Details.hasOwnProperty('AffinityField')) return false;
+    return this.MacronSupportedFields[config.Details.AffinityField.ModelName]?.includes(config.Details.AffinityField.FieldName) || false;
   }
 
 
@@ -21150,11 +21165,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
         if (this.Config.Type && this.Config.Type === 'Text' && this.FormRowNode.querySelector('input'))
         {
-          this.FormRowNode.querySelector('input').classList.add('ui-has-sentence');
+          this.FormRowNode.querySelector('input').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
         }
         if (this.Config.Type && this.Config.Type === 'Memo' && this.FormRowNode.querySelector('textarea'))
         {
-          this.FormRowNode.querySelector('textarea').classList.add('ui-has-sentence');
+          this.FormRowNode.querySelector('textarea').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
         }
 
       }
@@ -23354,7 +23369,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           };
           if (validationObj.MaxLength !== Number.MAX_SAFE_INTEGER || validationObj.MinLength !== 0)
           {
-            this.FormRowNode.querySelector('input').classList.add('ui-has-sentence');
+            this.FormRowNode.querySelector('input').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
             this.FormRowNode.querySelector('input').classList.add('ui-has-length');
             this.FormRowNode.querySelector('input').dataset.maxLength = validationObj.MaxLength;
             this.FormRowNode.querySelector('input').dataset.minLength = validationObj.MinLength;
@@ -39894,7 +39909,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       }
       else
       {
-        if (this.Form) this.Form.ResizeSection(this.RowNode);
+        if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
       }
     }
     return this.Valid;
@@ -39904,12 +39919,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection(this.RowNode);
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
   HideError()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection(this.RowNode);
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
 
   /**/
@@ -41889,7 +41904,6 @@ Affinity2018.Classes.Plugins.DrawPad = class
       {
         this.History.push(imageData);
         this.HistoryStep = this.History.length - 1;
-        console.log(this.HistoryStep);
       }
     }.bind(this), 50);
   }
@@ -42724,7 +42738,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.ErrorNode.classList.add('show');
     }
     if (this.RowNode) this.RowNode.classList.add('error');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
   HideError()
   {
@@ -42733,7 +42747,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.ErrorNode.classList.remove('show');
     }
     if (this.RowNode) this.RowNode.classList.remove('error');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
 
   /**/
@@ -44996,12 +45010,12 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
   HideError ()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
 
   disable ()
@@ -45075,7 +45089,15 @@ Affinity2018.Classes.Plugins.NumberWidget = class
         if (isNumberKey && !shiftDown && !ctrlDown && !inlineCheck)
         {
           let decimalStr = (this.InputNode.value.trim() + String.fromCharCode(keyCode)).trim().split('.')[1].trim();
-          if (decimalStr.length > this.decimals) return false;
+          let decimalPosition = this.InputNode.value.trim().indexOf('.');
+          let caretPosition = this.InputNode.selectionStart;
+          let selectionEnd = this.InputNode.selectionEnd;
+          // if we have a selection, let it pass
+          if (caretPosition !== selectionEnd) return true;
+          // if character position is on the left of the decimal, let it pass
+          if (decimalPosition > -1 && caretPosition <= decimalPosition) return true;
+          // else if we already have full amount of decimal places and we are attempting another, stop it.
+          if (caretPosition > decimalPosition && decimalStr.length > this.decimals) return false;
         }
       }
     }
@@ -46747,7 +46769,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       {
         node.querySelector('input').checked = true;
         this._filterToggled({ target: node });
-        if (this.Form) this.Form.ResizeSection();
+        if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
       }
     }
 
@@ -46923,6 +46945,9 @@ Affinity2018.Classes.Plugins.Strings = class
       document.querySelectorAll('.ui-has-string').forEach(this._apply);
       document.querySelectorAll('.ui-has-sentence').forEach(this._apply);
       document.querySelectorAll('.ui-has-alphanumeric').forEach(this._apply);
+      document.querySelectorAll('.ui-has-string-extended').forEach(this._apply);
+      document.querySelectorAll('.ui-has-sentence-extended').forEach(this._apply);
+      document.querySelectorAll('.ui-has-alphanumeric-extended').forEach(this._apply);
       document.querySelectorAll('.ui-has-email').forEach(this._apply);
       document.querySelectorAll('.ui-has-url').forEach(this._apply);
     }
@@ -47002,50 +47027,56 @@ Affinity2018.Classes.Plugins.StringWidget = class
     this.RowNode = Affinity2018.getParent(this.InputNode, '.form-row');
     this.IsRequired = this.RowNode ? this.RowNode.classList.contains('required') ? true : false : false;
 
-    if (this.InputNode.classList.contains('ui-has-string'))
+    let types = [
+      'ui-has-string',
+      'ui-has-sentence',
+      'ui-has-sentance',
+      'ui-has-alphanumeric',
+      'ui-has-string-extended',
+      'ui-has-sentence-extended',
+      'ui-has-sentance-extended',
+      'ui-has-alphanumeric-extended',
+      'ui-has-email',
+      'ui-has-url',
+      'ui-has-length'
+    ];
+
+    let currentTypes = [];
+    for (let type of types)
     {
-      this.WidgetType = 'string';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-string');
+      if (this.InputNode.classList.contains(type))
+      {
+        var potentialType = type.replace('ui-has-', '').trim();
+        if (potentialType === 'sentance') potentialType = 'sentence';
+        currentTypes.push(potentialType);
+        this.InputNode.classList.remove(type);
+        if (potentialType === 'length')
+        {
+          this.MaxLength = !isNaN(parseFloat(this.InputNode.dataset.maxLength)) ? parseFloat(this.InputNode.dataset.maxLength) : Number.MAX_SAFE_INTEGER;
+          this.MinLength = !isNaN(parseFloat(this.InputNode.dataset.minLength)) ? parseFloat(this.InputNode.dataset.minLength) : 0;
+          delete this.InputNode.dataset.maxLength;
+          delete this.InputNode.dataset.minLength;
+        }
+      }
     }
 
-    if (this.InputNode.classList.contains('ui-has-sentence'))
+    if (currentTypes.length === 1 && currentTypes.contains('length'))
     {
-      this.WidgetType = 'sentence';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-sentence');
+      currentTypes = ['string'];
     }
-
-    if (this.InputNode.classList.contains('ui-has-alphanumeric'))
+    if (currentTypes.length > 0 && currentTypes.contains('length'))
     {
-      this.WidgetType = 'alphanumeric';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-alphanumeric');
+      currentTypes.splice(currentTypes.indexOf('length'), 1);
     }
-
-    if (this.InputNode.classList.contains('ui-has-email'))
+    if (currentTypes.length > 1)
     {
-      this.WidgetType = 'email';
-      this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-email');
+      console.warn('multi-type - what do we use?');
+      console.warn(currentTypes);
     }
-
-    if (this.InputNode.classList.contains('ui-has-url'))
+    if (currentTypes.length > 0)
     {
-      this.WidgetType = 'url';
+      this.WidgetType = currentTypes[0];
       this.type = this.WidgetType;
-      this.InputNode.classList.remove('ui-has-url');
-    }
-
-    if (this.InputNode.classList.contains('ui-has-length'))
-    {
-      //this.WidgetType = 'string';
-      this.type = this.WidgetType;
-      this.MaxLength = !isNaN(parseFloat(this.InputNode.dataset.maxLength)) ? parseFloat(this.InputNode.dataset.maxLength) : Number.MAX_SAFE_INTEGER;
-      this.MinLength = !isNaN(parseFloat(this.InputNode.dataset.minLength)) ? parseFloat(this.InputNode.dataset.minLength) : 0;
-      this.InputNode.classList.remove('ui-has-length');
-      delete this.InputNode.dataset.maxLength;
-      delete this.InputNode.dataset.minLength;
     }
 
     if (this.type === null)
@@ -47081,12 +47112,12 @@ Affinity2018.Classes.Plugins.StringWidget = class
   {
     this.ErrorNode.innerHTML = error;
     this.ErrorNode.classList.add('show');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
   HideError ()
   {
     this.ErrorNode.classList.remove('show');
-    if (this.Form) this.Form.ResizeSection();
+    if (this.Form && this.RowNode) this.Form.ResizeSection(this.RowNode);
   }
 
   /**/
@@ -47115,7 +47146,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
         event = ev && ev.type === 'keyup' ? 'keyboard' : 'none',
         extraspace = false,
         required = this._isRequired(),
-        pattern, warning;
+        pattern, warning, warnings = [];
 
     //console.group('=== string validation ===');
     //console.log(this.type);
@@ -47141,6 +47172,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
       case 'sentance':
         pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\s]*$/g;
         warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
+        warnings.push(warning);
         extraspace = true;
         break;
       case 'alphanumeric':
@@ -47148,14 +47180,40 @@ Affinity2018.Classes.Plugins.StringWidget = class
         warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
         extraspace = true;
         break;
+
+      case 'string-extended':
+        //pattern = /^[A-Za-z0-9_\-.āēīōūĀĒĪŌŪ]+$/g;
+        pattern = /^[\w\s_\.\u00A0-\u00FF\u0100-\u017F\-]*$/gi;
+        warning = $a.Lang.ReturnPath('generic.validation.strings.string'); // + ' Some characters used are invalid.<br />You can use _ - . but no spaces.';
+        warnings.push(warning);
+        extraspace = true;
+        break;
+      case 'sentence-extended':
+      case 'sentance-extended':
+        //pattern = /^[a-zA-Z0-9_\-.,:;'\"!?@#$%\&\*\/\\|()\sāēīōūĀĒĪŌŪ]*$/g;
+        pattern = /^[\w\s\-.,:;'\"!?@#$%\&\*\/\\|()\u00A0-\u00FF\u0100-\u017F]*$/gi;
+        warning = $a.Lang.ReturnPath('generic.validation.strings.sentence'); // + ' Some characters used are invalid.<br />You can use . , _ - ; : ( ) ? $ * % @ # ! \\ \' " and spaces.';
+        warnings.push(warning);
+        extraspace = true;
+        break;
+      case 'alphanumeric-extended':
+        //pattern = /^[a-zA-Z0-9_\-.,:'!?$%\*\/\\|\sāēīōūĀĒĪŌŪ]+$/g;
+        pattern = /^[\w\s_\-.,:'!?$%\*\/\\|\u00A0-\u00FF\u0100-\u017F]*$/gi;
+        warning = $a.Lang.ReturnPath('generic.validation.strings.alphanumeric'); // + ' Some characters used are invalid.<br />You can use . , _ - : ? $ * % ! \\ / \' |';
+        warnings.push(warning);
+        extraspace = true;
+        break;
+
       case 'email':
         pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // old: pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         warning = $a.Lang.ReturnPath('generic.validation.strings.email'); // + ' This does not look like a valid email address.';
+        warnings.push(warning);
         break;
       case 'url':
         pattern = /^((ft|htt)ps?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|(localhost)|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%@_.~+&:]*)*(\?[;&a-z\d%@_.,~+&:=-]*)?(\#[-a-z\d_]*)?$/gi;
         warning = $a.Lang.ReturnPath('generic.validation.strings.url'); // + ' This does not look like a valid URL.';
+        warnings.push(warning);
         break;
     }
 
@@ -47163,6 +47221,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
     {
       pattern = /(.|\s)*\S(.|\s)*/gi;
       warning = $a.Lang.ReturnPath('generic.validation.strings.notempty');
+      warnings.push(warning);
       extraspace = false;
     }
 
@@ -47189,11 +47248,24 @@ Affinity2018.Classes.Plugins.StringWidget = class
       if (this.MinLength === 1 || this.MinLength === 0 || this.MinLength === Number.MIN_SAFE_INTEGER)
       {
         warning = 'This must be shorter than ' + (this.MaxLength + 1) + ' character(s)';
+        warnings.push(warning);
       }
       else
       {
         warning = 'This must be between ' + this.MinLength + ' and ' + this.MaxLength + ' characters long.';
+        warnings.push(warning);
       }
+    }
+
+    // check for illegal characters
+    var strippedValue = value.replace(/[.,:;'\"!?@#$%\&\*\/\\|()\s_\-]/g, '');
+    var pattern = /[^\w\u00A0-\u00FF\u0100-\u017F]/g;
+    var invalidChars = strippedValue.match(pattern);
+    if (invalidChars)
+    {
+      isValid = false;
+      warning = 'This string contains bad characters: "' + invalidChars.join('", "') + '"';
+      warnings.push(warning);
     }
 
     if (!isValid)
@@ -47201,7 +47273,10 @@ Affinity2018.Classes.Plugins.StringWidget = class
       this.InputNode.classList.add('error');
       if (this.RowNode && !this.InputNode.classList.contains('no-row-error')) this.RowNode.classList.add('error');
       if (this.RowNode && !this.InputNode.classList.contains('no-row-error') && extraspace) this.RowNode.classList.add('error2');
-      this.ShowError(warning);
+      if (warnings.length > 0)
+      {
+        this.ShowError(warnings.join('<br />'));
+      }
       this.Valid = false;
     }
 
