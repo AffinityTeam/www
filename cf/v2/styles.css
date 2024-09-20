@@ -12701,6 +12701,15 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today.selected:hover {
   background-color: #ff8d4d;
 }
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.weekend {
+  color: #106eb6;
+}
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.outside {
+  font-size: 10px !important;
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

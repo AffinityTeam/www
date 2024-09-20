@@ -39471,7 +39471,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hasStartDate = false;
     this.showStartDate = false;
 
-    this.startDay = 0; // 0 = Sunday. 1 = Monday, etc
+    this.startDay = 1; // 0 = Sunday, 1 = Monday, etc
+    this.workDays = [1, 2, 3, 4, 5];
+    this.showOutsideMonthDates = true;
 
     this.status = 'closed';
     this.mouseState = '';
@@ -40093,6 +40095,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
       dateMonth = date.toString('MMM'),
       dateYear = date.toString('yyyy');
+
     if (currentMonth + currentYear !== dateMonth + dateYear)
     {
       var cellNodes = this.datesNode.querySelectorAll('.ui-cal-cells-row.date-cells .ui-cal-cell'),
@@ -40109,18 +40112,22 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       var dowDate = new Date();
       dowDate.setDate(dowDate.getDate() - dowDate.getDay());
+
       for (d = 0; d < 7; d++)
       {
         dayCells[d].innerHTML = days[dowDate.getDay() + this.startDay];
         dowDate.setDate(dowDate.getDate() + 1);
       }
 
+      var calDate = firstDay.clone().add({ days: 0 - startCell });
       for (d = 0; d < 42; d++)
       {
+        let dayOfWeek = parseInt(calDate.getDay());
         cellNodes[d].className = 'ui-cal-cell';
         if (d < startCell || d >= startCell + daysInMonth)
         {
-          cellNodes[d].innerHTML = '';
+          cellNodes[d].innerHTML = this.showOutsideMonthDates ? calDate.getDate() : '';
+          cellNodes[d].classList.add('outside');
           delete cellNodes[d].dataset.date;
         }
         else
@@ -40131,6 +40138,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           calDay.add({ days: 1 });
           dCount++;
         }
+        if (this.workDays.indexOf(dayOfWeek) === -1)
+        {
+          cellNodes[d].classList.add('weekend');
+        }
+        calDate.add({ days: 1 });
       }
       this.calendarNode.querySelector('.ui-cal-cells').dataset.month = date.toString('MMM');
       this.calendarNode.querySelector('.ui-cal-cells').dataset.year = date.toString('yyyy');
