@@ -12741,7 +12741,7 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-display s
   vertical-align: top;
   height: 30px;
   line-height: 30px;
-  padding: 0 10px;
+  padding: 0 5px;
   font-size: 1.2em;
   font-weight: 600;
   background-color: transparent;
@@ -12756,6 +12756,20 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-display .
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-display .ui-cal-display-time:hover {
   color: white;
   background-color: #5fd4f7;
+}
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-display .ui-cal-reset {
+  color: #106eb6;
+  font-size: 1em;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-display .ui-cal-reset:hover {
+  color: #16c1f3;
 }
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months,
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years {
@@ -13759,7 +13773,7 @@ body.ui2018 div.content div.section div.section-body div.default-form div.form-r
 body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file {
   min-height: 44px;
   line-height: 22px;
-  padding-left: 0;
+  padding: 5px 0;
 }
 body.ui2018 div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file a,
 body.ui2018.uiupdate div.content div.section div.section-body div.default-form div.form-row.row-fileuploadmulti div.file-wrapper div.ui-file-list table tbody tr td.file a,

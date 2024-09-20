@@ -39590,6 +39590,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.dateDisplayNode = this.calendarNode.querySelector('.ui-cal-display-date');
     this.timeDisplayNode = this.calendarNode.querySelector('.ui-cal-display-time');
+    this.timeResetNode = this.calendarNode.querySelector('.ui-cal-reset');
+    console.log(this.timeResetNode);
 
     var rowNode = this.datesNode.querySelector('.ui-cal-cells-row'),
       monthNode = this.calendarNode.querySelector('.ui-cal-months'),
@@ -39861,6 +39863,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       node.addEventListener('click', this._cellClicked);
     }.bind(this));
 
+    this.calendarNode.querySelector('.ui-cal-reset').addEventListener('click', this.setToday);
+
     this.calendarNode.querySelector('.ui-cal-back-month').addEventListener('click', this._monthBackClicked);
     this.calendarNode.querySelector('.ui-cal-forward-month').addEventListener('click', this._monthForwardClicked);
 
@@ -40007,16 +40011,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   setToday()
   {
-    this.date = new Date();
-    this.__uiDate = this.date.clone();
-    this._setAll();
-    this._buildCalendar();
-    this._fireDateEvents();
-    if (this.showTime && this.timeWidget)
-    {
-      if (this.date) this.timeWidget.setTime(this.date);
-      else this.timeWidget.setTime(this.__uiDate);
-    }
+    this.setDate(new Date(), true, false);
   }
 
   setNone()
@@ -40095,6 +40090,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
       dateMonth = date.toString('MMM'),
       dateYear = date.toString('yyyy');
+
+    if(this.calendarNode.querySelector('.ui-cal-cell.selected'))
+    {
+      this.calendarNode.querySelector('.ui-cal-cell.selected').classList.remove('selected')
+    }
 
     if (currentMonth + currentYear !== dateMonth + dateYear)
     {
@@ -40593,7 +40593,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           </div>
         </div>
         <div class="ui-cal-display">
-          <span class="ui-cal-display-date hidden"></span><span class="ui-cal-display-time hidden"></span>
+          <span class="ui-cal-display-date hidden"></span><span class="ui-cal-display-time hidden"></span><span class="ui-cal-reset">Today</span>
         </div>
         <div class="ui-cal-months"></div>
         <div class="ui-cal-years"></div>
