@@ -43162,7 +43162,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (row && buttonNode.classList.contains('del'))
     {
       $a.Dialog.Show({
-        message: 'Are you sure you want to remove <strong><em>' + row.querySelector('td.file').innerText + '</em></strong>?',
+        message: 'Are you sure you want to remove <strong><em>' + row.dataset.fileName + '</em></strong>?',
         showOk: true,
         showCancel: true,
         showInput: false,
