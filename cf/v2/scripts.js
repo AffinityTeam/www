@@ -16941,6 +16941,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_save',
 
+      '_lockButtonsForSave', '_unlockButtonsForSave',
       '_setupAutoSaveEvents', '_humanModified', 
 
       '_getFromFormDataByName', '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
@@ -19280,8 +19281,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                           let fromData = this._getFromFormDataByName(elementData.Name);
                           if (fromData !== null && fromData.hasOwnProperty('Value') && !Affinity2018.isNullOrEmpty(fromData.value))
                           {
+                            // TODO: Do we need to make sure we can still set values to null or empty?
                             debugger;
-                            // TODO: Do we need to make sure we can still set vlaues to null or empty?
                             elementData.Value = fromData.Value;
                           }
                         }
@@ -19298,6 +19299,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     else
                     {
                       console.warn('We did not get post data for ' + elementConfig.Details.Label);
+                      console.warn(elementConfig);
                       debugger;
                     }
                   }
@@ -19308,6 +19310,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                       addedNames.push(node.controller.Name);
                       elementData = node.controller.GetFromFormRow();
                       sectionData.Elements.push(elementData);
+                    }
+                    else
+                    {
+                      console.warn('We did not get post data for ' + elementConfig.Details.Label);
+                      console.warn(elementConfig);
+                      debugger;
                     }
                   }
                 }
@@ -19361,11 +19369,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.SubmitActionName = buttonData.Name;
 
+    let buttonAction = buttonData.ActionType.contains('save') ? 'Save': 'Other';
+
     //console.log('Button Data           : ', buttonData);
     //console.log('Submit Action         : ', this.SubmitActionName);
     //console.log('Suppress Post Message : ', this.suppressPostMessage);
 
-    if (this.OverridePostData !== null)
+    if (this.OverridePostData !== null && buttonAction === 'Save')
     {
       let name = this.OverridePostData.Sections[0].Elements[0].Name;
       let rowNode = this.FormNode.querySelector(`.form-row[data-name="${name}"]`);
@@ -19375,6 +19385,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     else
     {
       this.PostData = this._getPostData();
+      if (this.OverridePostData !== null)
+      {
+        try
+        {
+          let questionData = this.OverridePostData.Sections[0].Elements[0];
+          let find = this.PostData.Sections.find(section => section.Elements.find(el => el.Name === questionData.Name)).Elements.find(el => el.Name === questionData.Name);
+          if (find)
+          {
+            find.Value = questionData.Value;
+          }
+        }
+        catch {}
+      }
       let previousState = this.FormHistory.length > 0 ? JSON.stringify(this.FormHistory[this.FormHistory.length - 1]) : '';
       let currentState = JSON.stringify(this.PostData);
       if (buttonData.ActionType !== 'post' && previousState === currentState)
@@ -19383,7 +19406,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         this.PostData = this._getPostData();
         this.PostState = 'none';
         this.OverridePostData = null;
-        this.FormSavingNode.classList.remove('show');
+        this._unlockButtonsForSave();
         $a.HidePageLoader();
         //Affinity2018.Log({
         //  LogLevel: Affinity2018.LogLevel.Information,
@@ -19400,7 +19423,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostableData = $a.jsonCloneObject(this.PostData);
     this.PostableData.InstanceId = this.CleverForms.GetInstanceGuid();
     this.PostableData.Comment = this.CommentInputNode.value.trim();
-    this.PostableData.ActionName = buttonData.ActionType.contains('save') ? 'Save': 'Other';
+    this.PostableData.ActionName = buttonAction;
     this.PostableData.DestinationStateId = buttonData.DestinationStateId;
 
     if (document.querySelector('.identity[data-ref-id="' + buttonData.id + '"]'))
@@ -19662,7 +19685,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     }
     this.OverrideIsKey = false;
 
-    this.FormSavingNode.classList.remove('show');
+    this._unlockButtonsForSave();
 
     var message = '';
 
@@ -20083,6 +20106,25 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */ 
+  _lockButtonsForSave()
+  {
+    this.FormSavingNode.classList.add('show');
+    this.ButtonsNode.classList.add('locked');
+  }
+  _unlockButtonsForSave()
+  {
+    this.FormSavingNode.classList.remove('show');
+    this.ButtonsNode.classList.remove('locked');
+  }
+  
+  
+
+   
+  /**
+   * Summary. Form auto save
+   * @this    Class scope
+   * @access  private
+   */ 
   _setupAutoSaveEvents()
   {
     if (this.DisableAutoSave) return;
@@ -20154,7 +20196,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           var buttonData = $a.jsonCloneObject(this.SaveButtonData);
           buttonData.Name = $a.Lang.ReturnPath('generic.buttons.save');
           this.SaveButtonData = buttonData;
-          this.FormSavingNode.classList.add('show');
+          this._lockButtonsForSave()
           this.Save(true); // true = suppress messages
           //console.log("Auto Save would be triggered here");
         }
