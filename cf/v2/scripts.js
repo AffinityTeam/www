@@ -25200,7 +25200,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
     if (this.Config.Details.FileId == null || this.Config.Details.FileId == '')
     {
-      this._setLink('File Name Here', '#', null, true);
+      this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+        label: this.Config.Details.Label ? this.Config.Details.Label : 'Attachment',
+        error: 'We could not find any file information.'
+      });
     }
 
     if (this.FormRowNode)
