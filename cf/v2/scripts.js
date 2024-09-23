@@ -21854,7 +21854,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
                   css: '',
                   icon: fileInfo.icon,
                   name: fileData.FileName,
-                  link: this.CleverForms.FileDeleteSingleApi + '?fileId=' + fileData.FileId + '&id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name
+                  link: this.CleverForms.FileDownloadSingleApi + '?fileId=' + fileData.FileId + '&id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.Config.Name
                 });
               }
               else
@@ -32486,6 +32486,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label class="solo">{0}</label>
+      <div class="ui-form-error"></div>
     </div>
     `;
 
@@ -39602,7 +39603,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.dateDisplayNode = this.calendarNode.querySelector('.ui-cal-display-date');
     this.timeDisplayNode = this.calendarNode.querySelector('.ui-cal-display-time');
     this.timeResetNode = this.calendarNode.querySelector('.ui-cal-reset');
-    console.log(this.timeResetNode);
 
     var rowNode = this.datesNode.querySelector('.ui-cal-cells-row'),
       monthNode = this.calendarNode.querySelector('.ui-cal-months'),
@@ -40089,6 +40089,21 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'closed';
     this.mouseState = '';
     if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);
+  }
+
+  /**/
+
+  _setIconTop(rowNode)
+  {
+    if (rowNode && rowNode.querySelector('label'))
+    {
+      let labelSize = rowNode.querySelector('label').getBoundingClientRect();
+      rowNode.style.setProperty('--calendar-icon-top', labelSize.height + 'px');
+      if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form'))
+      {
+        Affinity2018.Apps.CleverForms.Form.ResizeSection(rowNode);
+      }
+    }
   }
 
   /**/
