@@ -12548,7 +12548,7 @@ body.ui2018 .form-row.calendar:after {
   content: "\e916";
   display: block;
   position: absolute;
-  top: 20px;
+  top: calc(16px + 4px) !important;
   left: 660px;
   bottom: unset !important;
   width: 20px;
