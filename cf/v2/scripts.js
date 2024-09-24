@@ -21873,6 +21873,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
                 });
               }
             }
+            Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
           }
           catch (catchError)
           {
@@ -21900,6 +21901,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         });
       }.bind(this));
     }
+    Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
 
@@ -41655,6 +41657,26 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
       canvas = null;
       image = null;
       root = null;
+    };
+    image.onerror = function ()
+    {
+      var fileName = name.replace(/"/g, '').trim();
+      var ext = fileName.split('.')[fileName.split('.').length - 1].trim(); 
+      if (ext === '' || ext.length > 4)
+      {
+        ext = ' (no extention)';
+      }
+      if (fileName.length > 33)
+      {
+        fileName = fileName.shorten(30).replace(/"/g, '').trim();
+      }
+      if (!fileName.endsWith(ext))
+      {
+        fileName += ext;
+      }
+      console.warn('Image \'' + fileName + '\' could not be loaded.');
+      root._loaded++;
+      if (root._loaded === root._total) root._init();
     };
     let url =  this.DownloadApi + '?documentId=' + id;
     if (this.CleverForms && this.Form)
