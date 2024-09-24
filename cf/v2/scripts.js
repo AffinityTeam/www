@@ -18882,7 +18882,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         if (formElement.hasOwnProperty('widgets'))
         {
           var widgets = formElement.widgets;
-          console.log(formElement);
           if (formElement.widgets.hasOwnProperty('TaxNumber'))
           {
             widgets = { TaxNumber: formElement.widgets.TaxNumber };
@@ -25823,7 +25822,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
   {
     if (!this.IsValid())
     {
-      return '\'' + this.CleverForms.ShortenString(this.Config.Details.Label, 50) + '\' must be ticked.';
+      let errorlabel = $a.Lang.ReturnPath('generic.validation.checks.label-prefix'); //label;
+      let reason = $a.Lang.ReturnPath('generic.validation.checks.single', { label: errorlabel });
+      return reason;
     }
     return '';
   }
@@ -30567,7 +30568,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
   {
     if (!this.IsValid())
     {
-      return '\'' + this.CleverForms.ShortenString(this.Config.Details.Label, 50) + '\' must have at least one option ticked.';
+      let count = this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('Items') && Array.isArray(this.Config.Details.ItemSource.Items) ? this.Config.Details.ItemSource.Items.length : 0;
+      let errorlabel = $a.Lang.ReturnPath('generic.validation.checks.label-prefix'); //label;
+      let reason = $a.Lang.ReturnPath('generic.validation.checks.' + (count > 1 ? 'group' : 'single'), { label: errorlabel });
+      return reason;
     }
     return '';
   }
@@ -32444,7 +32448,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
   {
     if (!this.IsValid())
     {
-      return '\'' + this.CleverForms.ShortenString(this.Config.Details.Label, 50) + '\' must have one option ticked.';
+      let errorlabel = $a.Lang.ReturnPath('generic.validation.radios.label-prefix'); //label;
+      let reason = $a.Lang.ReturnPath('generic.validation.radios.group', { label: errorlabel });
+      return reason;
     }
     return '';
   }
@@ -47278,7 +47284,8 @@ Affinity2018.Classes.Plugins.StringWidget = class
     {
       pattern = /(.|\s)*\S(.|\s)*/gi;
       warning = $a.Lang.ReturnPath('generic.validation.strings.notempty');
-      warnings.push(warning);
+      //warnings.push(warning);
+      warnings = [warning];
       extraspace = false;
     }
 
@@ -47315,14 +47322,17 @@ Affinity2018.Classes.Plugins.StringWidget = class
     }
 
     // check for illegal characters
-    var strippedValue = value.replace(/[.,:;'\"!?@#$%\&\*\/\\|()\s_\-]/g, '');
-    var pattern = /[^\w\u00A0-\u00FF\u0100-\u017F]/g;
-    var invalidChars = strippedValue.match(pattern);
-    if (invalidChars)
+    if (value !== '')
     {
-      isValid = false;
-      warning = 'This string contains bad characters: "' + invalidChars.join('", "') + '"';
-      warnings.push(warning);
+      var strippedValue = value.replace(/[.,:;'\"!?@#$%\&\*\/\\|()\s_\-]/g, '');
+      var pattern = /[^\w\u00A0-\u00FF\u0100-\u017F]/g;
+      var invalidChars = strippedValue.match(pattern);
+      if (invalidChars)
+      {
+        isValid = false;
+        warning = 'This string contains bad characters: "' + invalidChars.join('", "') + '"';
+        warnings.push(warning);
+      }
     }
 
     if (!isValid)
