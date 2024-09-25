@@ -39548,7 +39548,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       'watchOutputChanges',
       'show', 'hide',
 
-      '_buildCalendar',
+      '_buildCalendar', '_markCalendarDates',
       '_cellClicked',
       '_checkHumanInteraction',
 
@@ -40095,6 +40095,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'open';
     this._setPosition('show');
     if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
+    this._markCalendarDates(this.date);
   }
 
   hide(ev)
@@ -40131,17 +40132,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _buildCalendar(date)
   {
-
     date = Affinity2018.isDate(date) ? date : Affinity2018.isDate(this.date) ? this.date : this.__uiDate;
     var currentMonth = this.calendarNode.querySelector('.ui-cal-cells').dataset.month,
       currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
       dateMonth = date.toString('MMM'),
       dateYear = date.toString('yyyy');
 
-    if(this.calendarNode.querySelector('.ui-cal-cell.selected'))
-    {
-      this.calendarNode.querySelector('.ui-cal-cell.selected').classList.remove('selected')
-    }
+    if (this.calendarNode.querySelector('.ui-cal-cell.selected')) this.calendarNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
+    if (this.calendarNode.querySelector('.ui-cal-cell.active')) this.calendarNode.querySelector('.ui-cal-cell.active').classList.remove('active');
+    if (this.calendarNode.querySelector('.ui-cal-cell.today')) this.calendarNode.querySelector('.ui-cal-cell.today').classList.remove('today');
 
     if (currentMonth + currentYear !== dateMonth + dateYear)
     {
@@ -40193,34 +40192,59 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       }
       this.calendarNode.querySelector('.ui-cal-cells').dataset.month = date.toString('MMM');
       this.calendarNode.querySelector('.ui-cal-cells').dataset.year = date.toString('yyyy');
+
+      this._markCalendarDates(date);
     }
 
-    if (this.datesNode.querySelector('.date-' + Date.today().clearTime().toString("d-MMM-yyyy")))
+  }
+
+  _markCalendarDates(date)
+  {
+    if (date)
     {
-      this.datesNode.querySelector('.date-' + Date.today().clearTime().toString("d-MMM-yyyy")).classList.add('today');
-    }
+      clearTimeout(this._markCalendarDatesTimer);
+      this._markCalendarDatesTimer = setTimeout(function(date)
+      {
 
-    if (this.date && this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")))
-    {
-      this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")).classList.add('selected');
-    }
+        var found;
 
-    if (this.date)
-    {
-      this.datesNode.querySelector('.ui-cal-current-month').innerHTML = this.date.toString('MMMM');
-      this.datesNode.querySelector('.ui-cal-current-year').innerHTML = this.date.toString('yyyy');
+        this.datesNode.querySelector('.ui-cal-current-month').innerHTML = date.toString('MMMM');
+        this.datesNode.querySelector('.ui-cal-current-year').innerHTML = date.toString('yyyy');
 
-      if (this.calendarNode.querySelector('.ui-cal-months span.selected')) this.calendarNode.querySelector('.ui-cal-months span.selected').classList.remove('selected');
-      if (this.calendarNode.querySelector('.ui-cal-years span.selected')) this.calendarNode.querySelector('.ui-cal-years span.selected').classList.remove('selected');
-      this.calendarNode.querySelector('.ui-cal-months .m-' + this.date.getMonth()).classList.add('selected');
-      this.calendarNode.querySelector('.ui-cal-years .y-' + this.date.getFullYear()).classList.add('selected');
-    }
-    else
-    {
-      this.datesNode.querySelector('.ui-cal-current-month').innerHTML = '';
-      this.datesNode.querySelector('.ui-cal-current-year').innerHTML = '';
-    }
+        if (this.calendarNode.querySelector('.ui-cal-months span.selected')) this.calendarNode.querySelector('.ui-cal-months span.selected').classList.remove('selected');
+        if (this.calendarNode.querySelector('.ui-cal-years span.selected')) this.calendarNode.querySelector('.ui-cal-years span.selected').classList.remove('selected');
 
+        found = this.calendarNode.querySelector('.ui-cal-months .m-' + date.getMonth())
+        if (found) 
+        {
+          found.classList.add('selected');
+        }
+
+        found = this.calendarNode.querySelector('.ui-cal-years .y-' + date.getFullYear());
+        if (found) 
+        {
+          found.classList.add('selected');
+        }
+
+        var todayDate = Date.today().clearTime();
+        var todayString = todayDate.toString("d-MMM-yyyy");
+        found = this.datesNode.querySelector('.date-' + todayString);
+        if (found)
+        {
+          found.classList.add('today');
+        }
+    
+        var uiDate = this.getRawDate();
+        var selectedDate = uiDate ? uiDate.clearTime() : null;
+        var selectedString = selectedDate ? selectedDate.toString("d-MMM-yyyy") : null;
+        found = selectedString ? this.datesNode.querySelector('.date-' + selectedString) : null;
+        if (found) 
+        {
+          found.classList.add('selected');
+        }
+
+      }.bind(this), 25, date);
+    }
   }
 
 
@@ -40232,13 +40256,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.humanInteraction = true;
     }
-    if (this.datesNode.querySelector('.ui-cal-cell.selected')) this.datesNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
     var cellNode = ev.target.closest('.ui-cal-cell.active'), cellDate;
     if (cellNode)
     {
       cellDate = Date.parse(cellNode.dataset.date);
       cellNode.classList.add('selected');
       this.setDate(cellDate);
+      this._markCalendarDates(cellDate);
       if (this.enableAutoClose) this.hide();
     }
   }
@@ -40267,6 +40291,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       if (this.displayNode.value.trim() === '')
       {
         this.date = null;
+        this._buildCalendar(Date.today());
       }
     }
     else
@@ -40293,7 +40318,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setDate()
   {
     var dateStr = '';
-    if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.dateFormat);
+    if (this.date && Affinity2018.isDate(this.date)) 
+    {
+      dateStr = this.date.toString(this.dateFormat);
+      this._markCalendarDates(this.date);
+    }
     this._setDisplay(false);
     this.IsValid();
     this._checkHumanInteraction();
@@ -40302,7 +40331,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setTime()
   {
     var timeStr = '';
-    if (this.date && Affinity2018.isDate(this.date)) timeStr = this.date.toString(this.timeFormat);
+    if (this.date && Affinity2018.isDate(this.date)) 
+    {
+      timeStr = this.date.toString(this.timeFormat);
+      this._markCalendarDates(this.date);
+    }
     this._setDisplay(false);
     this.IsValid();
     this._checkHumanInteraction();
@@ -40310,15 +40343,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   }
   _setDisplay(fromBlur)
   {
-    if(this.calendarNode.querySelector('.ui-cal-cell.selected'))
-    {
-      this.calendarNode.querySelector('.ui-cal-cell.selected').classList.remove('selected')
-    }
-    if (this.date && this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")))
-    {
-      this.datesNode.querySelector('.date-' + this.date.toString("d-MMM-yyyy")).classList.add('selected');
-    }
-
     var dateStr = '', output = fromBlur && this.nullable ? false : true;
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
     if (this.date && Affinity2018.isDate(this.date))
@@ -40339,16 +40363,18 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         if (!fromBlur) this.displayNode.value = dateStr;
       }
     }
-
     this.IsValid();
-
     this._checkHumanInteraction();
   }
   _setReturn(fromBlur)
   {
     var dateStr = '', output = fromBlur && this.nullable ? false : true;
     fromBlur = Affinity2018.isBool(fromBlur) ? fromBlur : false;
-    if (this.date && Affinity2018.isDate(this.date)) dateStr = this.date.toString(this.outputFormat);
+    if (this.date && Affinity2018.isDate(this.date))
+    {
+      dateStr = this.date.toString(this.outputFormat);
+      this._markCalendarDates(this.date);
+    }
     if (output) this.targetNode.value = dateStr;
     this.IsValid();
     this._checkHumanInteraction();
@@ -40397,11 +40423,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this._setTime();
       this._setDisplay(true);
       this._setReturn(true);
-
-
-      console.log(this.date);
-      console.log(this.targetNode.value);
-
+      //console.log(this.date);
+      //console.log(this.targetNode.value);
     }
   }
 
