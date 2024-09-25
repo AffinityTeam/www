@@ -17784,6 +17784,15 @@ var CFInbox = new Class({
       tabs.style.top = ((this._tabsHeight + 14) * -1) + 'px';
       inbox.style.marginTop = (this._tabsHeight + 14) + 'px';
     }
+    //
+    var size = {
+      width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+      height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    };
+    if (size.width <= 1200 && document.body.classList.contains('menu-show-full'))
+    {
+      document.body.classList.remove('menu-show-full');
+    }
   }
 
 });;
