@@ -19320,9 +19320,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     }
                     else
                     {
-                      console.warn('We did not get post data for ' + elementConfig.Details.Label);
-                      console.warn(elementConfig);
-                      debugger;
+                      console.log('We did not get post data for ' + elementConfig.Details.Label);
+                      console.log(elementConfig);
+                      //debugger;
                     }
                   }
                   else
@@ -19335,9 +19335,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     }
                     else
                     {
-                      console.warn('We did not get post data for ' + elementConfig.Details.Label);
-                      console.warn(elementConfig);
-                      debugger;
+                      console.log('We did not get post data for ' + elementConfig.Details.Label);
+                      console.log(elementConfig);
+                      //debugger;
                     }
                   }
                 }
@@ -25112,6 +25112,19 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
                 error = 'We could not find any file information.';
               }
             }
+            if (responseData.FailedUploads.length > 0)
+            {
+              error = $a.Lang.ReturnPath('generic.validation.files.some-missing');
+              if (responseData.ExistingFiles.length === 0)
+              {
+                error = $a.Lang.ReturnPath('generic.validation.files.all-missing');
+                this.FormRowNode.innerHTML = this.HtmlRowErrorTemplate.format({
+                  label: label,
+                  error: error
+                });
+                rowDone = true;
+              }
+            }
           }
           else
           {
@@ -27938,6 +27951,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
             }.bind(this));
             if (input.widgets.DrawPanel.Ready) 
             {
+              if (input.widgets.DrawPanel.Error)
+              {
+                if (input.widgets.DrawPanel.Error === $a.Lang.ReturnPath('generic.validation.files.all-missing'))
+                {
+                  if (this.CleverForms.Form.ViewType === 'ViewOnly')
+                  {
+                    this.FormRowNode.querySelector('.draw-panel-box').classList.add('hidden');
+                  }
+                  let errorNode = this.FormRowNode.querySelector('.file-error');
+                  if (!errorNode)
+                  {
+                    errorNode = document.createElement('div');
+                    errorNode.classList.add('file-error');
+                    this.FormRowNode.appendChild(errorNode);
+                  }
+                  errorNode.innerHTML = input.widgets.DrawPanel.Error;
+                  this.CleverForms.Form.ResizeSection(this.FormRowNode);
+                }
+              }
               Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
               input.widgets.DrawPanel.addEventListener('human_modified', (ev =>
               {
@@ -41488,11 +41520,12 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     document.addEventListener('mouseup', this._canvasUp);
 
     this.CanvasNode.addEventListener('CanvasReady', this._setData);
-
+    
+    this.Error = false;
     if (error !== undefined)
     {
       console.warn(error);
-      // TODO: How do we display this?
+      this.Error = error;
     }
 
   }
@@ -41576,6 +41609,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     if (
       data
       && data.hasOwnProperty('ExistingFiles')
+      && data.hasOwnProperty('FailedUploads')
     )
     {
       this._total = data.ExistingFiles.length;
@@ -41583,6 +41617,16 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
       for (let fileData of data.ExistingFiles)
       {
         this._loadImageData(fileData.FileName, fileData.FileId);
+      }
+      if (data.FailedUploads.length > 0)
+      {
+        error = $a.Lang.ReturnPath('generic.validation.files.some-missing');
+        if (data.ExistingFiles.length === 0)
+        {
+          error = $a.Lang.ReturnPath('generic.validation.files.all-missing');
+          this._gotFileFromIdFail(error);
+          return;
+        }
       }
       return;
     }
