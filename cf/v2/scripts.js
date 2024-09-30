@@ -6,39 +6,39 @@
 (2783,11-12): run-time error JS1002: Syntax error: }
 (2787,11-12): run-time error JS1002: Syntax error: }
 (2792,7-8): run-time error JS1002: Syntax error: }
-(3015,32-37): run-time error JS1195: Expected expression: class
-(3559,32-37): run-time error JS1195: Expected expression: class
-(3651,29-30): run-time error JS1004: Expected ';': {
-(3652,29-30): run-time error JS1004: Expected ';': {
-(3653,29-30): run-time error JS1004: Expected ';': {
-(3654,29-30): run-time error JS1004: Expected ';': {
-(3711,3-4): run-time error JS1002: Syntax error: }
-(3724,37-38): run-time error JS1004: Expected ';': {
-(4301,36-41): run-time error JS1195: Expected expression: class
-(4381,3-4): run-time error JS1002: Syntax error: }
-(4498,3-4): run-time error JS1002: Syntax error: }
-(4517,3-4): run-time error JS1002: Syntax error: }
-(4519,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
-(4487,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4485,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4482,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4473,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4459,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4457,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4454,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4450,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4446,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4442,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4441,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4432,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4379,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4377,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4371,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4367,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4358,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4349,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4354,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4315,9,4325,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(3039,32-37): run-time error JS1195: Expected expression: class
+(3583,32-37): run-time error JS1195: Expected expression: class
+(3675,29-30): run-time error JS1004: Expected ';': {
+(3676,29-30): run-time error JS1004: Expected ';': {
+(3677,29-30): run-time error JS1004: Expected ';': {
+(3678,29-30): run-time error JS1004: Expected ';': {
+(3735,3-4): run-time error JS1002: Syntax error: }
+(3748,37-38): run-time error JS1004: Expected ';': {
+(4325,36-41): run-time error JS1195: Expected expression: class
+(4405,3-4): run-time error JS1002: Syntax error: }
+(4522,3-4): run-time error JS1002: Syntax error: }
+(4541,3-4): run-time error JS1002: Syntax error: }
+(4543,16-23): run-time error JS1197: Too many errors. The file might not be a JavaScript file: Classes
+(4511,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4509,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4506,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4497,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4483,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4481,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4478,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4474,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4470,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4466,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4465,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4456,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4403,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4401,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4395,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4391,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4382,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4373,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4378,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4339,9,4349,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -49,18 +49,18 @@
             return v;
           }
         })(value)
-(3724,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3709,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3705,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3701,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3695,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3687,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3675,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3654,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3653,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3652,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3651,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3649,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3748,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3733,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3729,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3725,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3719,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3711,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3699,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3678,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3677,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3676,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3675,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3673,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
  */
 (function ()
 {
@@ -2985,6 +2985,30 @@
 
 
   /**
+   * Affinity2018.encodeHTML()
+   * Returns a decoded html string
+   * 
+   * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+   * 
+   * @param {string} string
+   */
+  if (!(Affinity2018.hasOwnProperty('encodeHTML')))
+  {
+    Affinity2018.encodeHTML = function (string)
+    {
+      if (Affinity2018.isString(string))
+      {
+        var node = document.createElement('div');
+        node.textContent = string;
+        string = node.innerHTML;
+        node = null;
+      }
+      return string;
+    }
+  }
+
+
+  /**
    * Affinity2018.decodeHTML()
    * Returns a decoded html string
    * 
@@ -2992,7 +3016,7 @@
    * 
    * @param {string} string
    */
-  if (!(Affinity2018.hasOwnProperty('decodeHTML ')))
+  if (!(Affinity2018.hasOwnProperty('decodeHTML')))
   {
     Affinity2018.decodeHTML = function (string)
     {
@@ -22072,8 +22096,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         itemSource.WhiteList = [];
         for(let row of rows)
         {
-          let description = row.querySelectorAll('td')[0].innerText.trim();
-          let value = row.querySelectorAll('td')[1].innerText.trim();
+          //let description = row.querySelectorAll('td')[0].innerText.trim(); // NO! LOLOL
+          //let value = row.querySelectorAll('td')[1].innerText.trim(); // NO! LOLOL
+          let description = row.querySelectorAll('td')[0].dataset.desc; // NO! LOLOL
+          let value = row.querySelectorAll('td')[1].dataset.code;
           let isHidden = row.classList.contains('hide');
           // find a match in the OG WhiteList, get it's coney code, else NULL
           let countryCode = null;
@@ -23978,17 +24004,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     let template = this.WhitelistFilterRowTemplate;
     let addCodeToDisplay = this.Config.hasOwnProperty('IncludeDataInDisplay') ? this.Config.IncludeDataInDisplay : true;
     let hiddenCount = 0;
+    let count = 0;
     for(let item of ids)
     {
       let country = item.hasOwnProperty('CountryCode') ? item.CountryCode : null;
+      //console.log(`${Affinity2018.PadLeft(count + '', '0', 3)} '`, `${Affinity2018.PadRight(item.Key, ' ', 5)} `, item.IsHidden);
+      let displayName = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
       html += template.format({
-        description: Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country),
+        description: item.Value,
+        descriptionText: Affinity2018.encodeHTML(displayName),
         code: item.Key,
+        codeText: Affinity2018.encodeHTML(item.Key),
         hidden: item.IsHidden ? ' hide' : '',
         buttonColor: item.IsHidden ? this.WhiteListButtonColorHidden : this.WhiteListButtonColorVisible,
         buttonIcon: item.IsHidden ? 'icon-eye-block' : 'icon-eye'
       });
       hiddenCount += item.IsHidden ? 1 : 0;
+      count++;
     }
     this.WhitelistFilterGridWrapperNode.querySelector('tbody').innerHTML = html;
     this._checkWhitelistCheckboxes();
@@ -24901,8 +24933,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
     this.WhitelistFilterRowTemplate = `
       <tr class="{hidden}">
-        <td>{description}</td>
-        <td>{code}</td>
+        <td data-desc="{description}">{descriptionText}</td>
+        <td data-code="{code}">{codeText}</td>
         <td><div class="button {buttonColor} {buttonIcon}"></div></td>
       </tr>
     `;
