@@ -19344,8 +19344,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     }
                     else
                     {
-                      console.log('We did not get post data for ' + elementConfig.Details.Label);
-                      console.log(elementConfig);
+                      //console.log('We did not get post data for ' + elementConfig.Details.Label);
+                      //console.log(elementConfig);
                       //debugger;
                     }
                   }
@@ -19359,8 +19359,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     }
                     else
                     {
-                      console.log('We did not get post data for ' + elementConfig.Details.Label);
-                      console.log(elementConfig);
+                      //console.log('We did not get post data for ' + elementConfig.Details.Label);
+                      //console.log(elementConfig);
                       //debugger;
                     }
                   }
@@ -33887,12 +33887,33 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   {
     this.WidgetName = 'Address';
 
+    // If country is null
     var width = 7392; // kms from west of AU to east of NZ
-
     this.bounds = [ // lat, long, radius - circle around NZ and Australia (Goolgle Maps)
       -36.847605, 174.7485493,
       (width / 2) * 1000 // radius in meters
     ];
+    this.strictBounds = true;
+
+    if (Affinity2018.FormCountry === "N")
+    {
+      width = 1595;
+      this.bounds = [
+        -41.18086141366618, 173.37629603312485,
+        (width / 2) * 1000
+      ];
+      this.strictBounds = true;
+    }
+
+    if (Affinity2018.FormCountry === "A")
+    {
+      width = 4228;
+      this.bounds = [
+        -24.97353582240706, 134.11947896079258,
+        (width / 2) * 1000
+      ];
+      this.strictBounds = true;
+    }
 
     this.formComponents = {
       Default: {
@@ -34240,7 +34261,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
           fields: ['address_components'],
           bounds: circle.getBounds(),
           //strictBounds: true
-          strictBounds: true
+          strictBounds: this.strictBounds
         });
       }
 
