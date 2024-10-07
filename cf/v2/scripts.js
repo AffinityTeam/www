@@ -39728,26 +39728,49 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.timeDisplayNode = this.calendarNode.querySelector('.ui-cal-display-time');
     this.timeResetNode = this.calendarNode.querySelector('.ui-cal-reset');
 
+    // set days of week at top, belwo month and year
+    var dayCells = this.calendarNode.querySelectorAll('.ui-cal-cells-row.date-days .ui-cal-cell');
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var dowDate = new Date();
+    dowDate.setDate(dowDate.getDate() - dowDate.getDay());
+    for (d = 0; d < 7; d++)
+    {
+      dayCells[d].innerHTML = days[dowDate.getDay() + this.startDay];
+      dowDate.setDate(dowDate.getDate() + 1);
+    }
+    //
+
     var rowNode = this.datesNode.querySelector('.ui-cal-cells-row'),
       monthNode = this.calendarNode.querySelector('.ui-cal-months'),
       yearNode = this.calendarNode.querySelector('.ui-cal-years'),
       r = 0,
+      d = 0,
       m = 0,
       y = 1900,
-      newRow, d, newMonth, newYear;
+      newRow, newDate, dt, newMonth, newYear;
     for (; r < 6; r++)
     {
       newRow = document.createElement('div');
       newRow.classList.add('ui-cal-cells-row', 'date-cells');
-      newRow.innerHTML = rowNode.innerHTML + '';
       rowNode.parentNode.appendChild(newRow);
+      for (d = 0; d < 7; d++)
+      {
+        newDate = document.createElement('div');
+        newDate.classList.add('ui-cal-cell', 'ui-date-cell');
+        newRow.appendChild(newDate);
+        newDate.addEventListener('click', this._cellClicked);
+        if (!this.workDays[d])
+        {
+          newDate.classList.add('weekend');
+        }
+      }
     }
     for (; m < 12; m++)
     {
-      d = new Date();
-      d.setMonth(m);
+      dt = new Date();
+      dt.setMonth(m);
       newMonth = document.createElement('span');
-      newMonth.innerHTML = d.toString('MMMM');
+      newMonth.innerHTML = dt.toString('MMMM');
       newMonth.dataset.value = m;
       newMonth.classList.add('m-' + m);
       monthNode.appendChild(newMonth);
@@ -39995,11 +40018,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     /**/
 
-    this.datesNode.querySelectorAll('.ui-cal-cells-row.date-cells .ui-cal-cell').forEach(function (node)
-    {
-      node.addEventListener('click', this._cellClicked);
-    }.bind(this));
-
     this.calendarNode.querySelector('.ui-cal-reset').addEventListener('click', this.setToday);
 
     this.calendarNode.querySelector('.ui-cal-back-month').addEventListener('click', this._monthBackClicked);
@@ -40238,61 +40256,63 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _buildCalendar(date)
   {
-    date = Affinity2018.isDate(date) ? date : Affinity2018.isDate(this.date) ? this.date : this.__uiDate;
+    let passedInDate = date === undefined ? null : Affinity2018.isDate(date) ? date : null;
+
+    if (passedInDate !== null)
+    {
+      date = passedInDate;
+    }
+    else
+    {
+      if (Affinity2018.isDate(this.date))
+      {
+        date = this.date; // fallback to set date
+      }
+      else
+      {
+        date = this.__uiDate; // final fallback
+      }
+    }
+
     var currentMonth = this.calendarNode.querySelector('.ui-cal-cells').dataset.month,
       currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year,
       dateMonth = date.toString('MMM'),
       dateYear = date.toString('yyyy');
 
-    if (this.calendarNode.querySelector('.ui-cal-cell.selected')) this.calendarNode.querySelector('.ui-cal-cell.selected').classList.remove('selected');
-    if (this.calendarNode.querySelector('.ui-cal-cell.active')) this.calendarNode.querySelector('.ui-cal-cell.active').classList.remove('active');
-    if (this.calendarNode.querySelector('.ui-cal-cell.today')) this.calendarNode.querySelector('.ui-cal-cell.today').classList.remove('today');
-
     if (currentMonth + currentYear !== dateMonth + dateYear)
     {
       var cellNodes = this.datesNode.querySelectorAll('.ui-cal-cells-row.date-cells .ui-cal-cell'),
-        today = Date.today().clearTime(),
         firstDay = date.clone().moveToFirstDayOfMonth(),
-        calDay = firstDay.clone().clearTime(),
         daysInMonth = Date.getDaysInMonth(firstDay.getFullYear(), firstDay.getMonth()),
         startCell = firstDay.getDay() - (this.startDay),
-        d = 0, dCount = 1;
+        d = 0;
 
       if (startCell < 0) startCell += 7;
-
-      var dayCells = this.calendarNode.querySelectorAll('.ui-cal-cells-row.date-days .ui-cal-cell');
-      var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      var dowDate = new Date();
-      dowDate.setDate(dowDate.getDate() - dowDate.getDay());
-
-      for (d = 0; d < 7; d++)
-      {
-        dayCells[d].innerHTML = days[dowDate.getDay() + this.startDay];
-        dowDate.setDate(dowDate.getDate() + 1);
-      }
 
       var calDate = firstDay.clone().add({ days: 0 - startCell });
       for (d = 0; d < 42; d++)
       {
-        let dayOfWeek = parseInt(calDate.getDay());
-        cellNodes[d].className = 'ui-cal-cell';
+        let isWeekend = cellNodes[d].classList.contains('weekend');
+        cellNodes[d].className = 'ui-cal-cell ui-date-cell';
+        cellNodes[d].classList.add('date-' + calDate.toString("d-MMM-yyyy"));
+        if (isWeekend)
+        {
+          cellNodes[d].classList.add('weekend');
+        }
+        cellNodes[d].dataset.date = calDate.toString("d-MMM-yyyy HH:mm");
         if (d < startCell || d >= startCell + daysInMonth)
         {
           cellNodes[d].innerHTML = this.showOutsideMonthDates ? calDate.getDate() : '';
           cellNodes[d].classList.add('outside');
-          delete cellNodes[d].dataset.date;
+          if (this.showOutsideMonthDates)
+          {
+            cellNodes[d].classList.add('active');
+          }
         }
         else
         {
-          cellNodes[d].innerHTML = dCount;
-          cellNodes[d].dataset.date = calDay.toString("d-MMM-yyyy HH:mm");
-          cellNodes[d].classList.add('active', 'date-' + calDay.toString("d-MMM-yyyy"));
-          calDay.add({ days: 1 });
-          dCount++;
-        }
-        if (this.workDays.indexOf(dayOfWeek) === -1)
-        {
-          cellNodes[d].classList.add('weekend');
+          cellNodes[d].innerHTML = calDate.getDate();
+          cellNodes[d].classList.add('active');
         }
         calDate.add({ days: 1 });
       }
@@ -40311,7 +40331,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       clearTimeout(this._markCalendarDatesTimer);
       this._markCalendarDatesTimer = setTimeout(function(date)
       {
-
         var found;
 
         this.datesNode.querySelector('.ui-cal-current-month').innerHTML = date.toString('MMMM');
@@ -40319,6 +40338,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
         if (this.calendarNode.querySelector('.ui-cal-months span.selected')) this.calendarNode.querySelector('.ui-cal-months span.selected').classList.remove('selected');
         if (this.calendarNode.querySelector('.ui-cal-years span.selected')) this.calendarNode.querySelector('.ui-cal-years span.selected').classList.remove('selected');
+        if (this.calendarNode.querySelector('.ui-date-cell.selected')) this.calendarNode.querySelector('.ui-date-cell.selected').classList.remove('selected');
+        if (this.calendarNode.querySelector('.ui-date-cell.today')) this.calendarNode.querySelector('.ui-date-cell.today').classList.remove('today');
 
         found = this.calendarNode.querySelector('.ui-cal-months .m-' + date.getMonth())
         if (found) 
@@ -40340,10 +40361,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           found.classList.add('today');
         }
     
-        var uiDate = this.getRawDate();
-        var selectedDate = uiDate ? uiDate.clearTime() : null;
-        var selectedString = selectedDate ? selectedDate.toString("d-MMM-yyyy") : null;
-        found = selectedString ? this.datesNode.querySelector('.date-' + selectedString) : null;
+        var selectedString = date.toString("d-MMM-yyyy");
+        found = this.datesNode.querySelector('.date-' + selectedString);
         if (found) 
         {
           found.classList.add('selected');
@@ -40362,14 +40381,25 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.humanInteraction = true;
     }
-    var cellNode = ev.target.closest('.ui-cal-cell.active'), cellDate;
+    var cellNode = ev.target.closest('.ui-date-cell.active'), cellDate;
     if (cellNode)
     {
       cellDate = Date.parse(cellNode.dataset.date);
-      cellNode.classList.add('selected');
       this.setDate(cellDate);
-      this._markCalendarDates(cellDate);
-      if (this.enableAutoClose) this.hide();
+
+      let prevCheck = `${this.date.getMonth()}-${this.date.getFullYear()}`;
+      let nextCheck = `${cellDate.getMonth()}-${cellDate.getFullYear()}`;
+      if (prevCheck !== nextCheck)
+      {
+        console.log('Selected Date is differnt month, so rebuild calendar');
+        this._buildCalendar(cellDate);
+      }
+      else
+      {
+        console.log('Selected Date is inside month, so mark dates');
+        this._markCalendarDates(cellDate);
+      }
+      //if (this.enableAutoClose) this.hide();
     }
   }
 
@@ -40780,13 +40810,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         </div>
         <div class="ui-cal-cells">
           <div class="ui-cal-cells-row date-days">
+            <div class="ui-cal-cell">Sun</div>
             <div class="ui-cal-cell">Mon</div>
             <div class="ui-cal-cell">Tue</div>
             <div class="ui-cal-cell">Wed</div>
             <div class="ui-cal-cell">Thu</div>
             <div class="ui-cal-cell">Fri</div>
             <div class="ui-cal-cell">Sat</div>
-            <div class="ui-cal-cell">Sun</div>
           </div>
         </div>
         <div class="ui-cal-display">
