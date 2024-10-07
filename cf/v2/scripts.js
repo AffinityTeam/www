@@ -23811,7 +23811,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (
       (
         this.CleverForms.IsLookup(this.Config)
-        || this.CleverForms.IsKey(this.Config) && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName)
+        || (this.CleverForms.IsKey(this.Config) && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName))
       )
       && !this.CleverForms.IsGlobalKey(this.Config) 
       && this.Config.Details.hasOwnProperty('ItemSource')
@@ -23899,7 +23899,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         instanceId: this.CleverForms.GetTemplateGuid()
       });
       if (force) Affinity2018.RequestQueue.Remove(api, 'get');
-      Affinity2018.RequestQueue.Add(api, this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
+      Affinity2018.RequestQueue.Add(api, 
+        (data =>
+        { 
+          this._gotWhitelistData(data, true); 
+        }).bind(this), 
+        (data =>
+        { 
+          this._gotWhitelistData(data, true);
+        }).bind(this)
+      ); // this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
     }
   }
 
@@ -23951,6 +23960,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             if (hasCountryCodes !== undefined)
             {
               let countryMatches = data.find(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === formCountry);
+              let nullMatches = data.filter(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === null);
+              if (countryMatches === undefined && nullMatches.length === data.length)
+              {
+                let updated = data.map((obj) =>
+                {
+                  return { ...obj, CountryCode: obj.CountryCode === null ? formCountry : obj.CountryCode };
+                });
+                data = updated;
+              }
+              else
               if (countryMatches === undefined)
               {
                 this.Config.Details.ItemSource.WhiteList = null;
@@ -23960,7 +23979,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             }
           }
         }
-        let objectKeys = fromLookup ? { Key: 'Value', Value: 'Key' } : { Key: 'Key', Value: 'Value' };
+
+        let defaultDataStructure = {
+          Key: 'Key',
+          Value: 'Value'
+        };
+        let lookupDataStructure = {
+          Key: 'Value',
+          Value: 'Key'
+        };
+        let objectKeys = fromLookup ? lookupDataStructure : defaultDataStructure;
+
         for (let item of data)
         {
           let includeItem = false;
