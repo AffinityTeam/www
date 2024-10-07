@@ -13153,33 +13153,34 @@ body.ui2018.dark .form-row.calendar:after {
   color: #cccccc;
 }
 body.ui2018.dark .ui-calendar-container {
-  background-color: #222222;
+  background-color: #222222 !important;
 }
 body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell {
-  background-color: #1c1c1c;
+  color: white !important;
+  background-color: #222222 !important;
+}
+body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.weekend {
+  color: #16c1f3 !important;
+  background-color: #222222 !important;
 }
 body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active {
-  background-color: #222222;
-}
-body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active:hover {
-  color: white;
-  background-color: #333333;
+  cursor: pointer;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
 }
 body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today {
-  color: white;
-  background-color: #106eb6;
+  background-color: #16c1f3 !important;
 }
-body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today:hover {
-  background-color: #16c1f3;
+body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active:hover {
+  background-color: #106eb6 !important;
 }
-body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.selected,
-body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today.selected {
-  color: white;
-  background-color: #ff5c00;
+body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.selected {
+  background-color: #b34000 !important;
 }
-body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.selected:hover,
-body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today.selected:hover {
-  background-color: #ff7d33;
+body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.selected:hover {
+  background-color: #106eb6 !important;
 }
 body.ui2018.dark .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell {
   background-color: #222222;

@@ -40391,15 +40391,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       let nextCheck = `${cellDate.getMonth()}-${cellDate.getFullYear()}`;
       if (prevCheck !== nextCheck)
       {
-        console.log('Selected Date is differnt month, so rebuild calendar');
         this._buildCalendar(cellDate);
       }
       else
       {
-        console.log('Selected Date is inside month, so mark dates');
         this._markCalendarDates(cellDate);
       }
-      //if (this.enableAutoClose) this.hide();
+      if (this.enableAutoClose) this.hide();
     }
   }
 
