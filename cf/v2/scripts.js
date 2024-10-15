@@ -22717,7 +22717,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       Affinity2018.Apps.CleverForms.Default.AffnityFieldModeTypes.Select.Enum
     ];
     this.WhitelistUpdated = false;
-
+    
+    this.WhitelistRetryMax = 2;
+    this.WhitelistRetryCount = 0;
+0
     this.ElementController = null;
 
   }
@@ -23879,17 +23882,34 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     mode = mode !== undefined && !isNaN(parseInt(mode)) ? parseInt(mode) : parseInt(this.Config.Details.AffinityField.Mode);
     force = force !== undefined ? force : false;
+    let doLookup = false;
     if (
       Affinity2018.FilterEnabled
       && this.WhiteListModes.contains(mode)
       && !this.CleverForms.IsGlobalKey(this.Config) 
-      && (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsKey(this.Config))
+      && (
+        this.CleverForms.IsLookup(this.Config) 
+        || this.CleverForms.IsKey(this.Config)
+      )
       && (
         !this.Config.Details.hasOwnProperty('ItemSource') 
         || !this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
         || this.Config.Details.ItemSource.WhiteList === null
       )
     )
+    {
+      doLookup = true;
+    }
+    if (
+      doLookup
+      && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer') 
+      && Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName)
+      && this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].OnlyInForm
+    )
+    {
+      doLookup = false;
+    }
+    if (doLookup)
     {
       let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
         api: this.CleverForms.GetLookupApi,
@@ -23961,20 +23981,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             {
               let countryMatches = data.find(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === formCountry);
               let nullMatches = data.filter(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === null);
-              if (countryMatches === undefined && nullMatches.length === data.length)
+              // Note: Do not assume all NULLs should be form country. 
+              // Kate said on 15-10-2024 that NULL country items is bad data, and to not render NULLs.
+              //if (countryMatches === undefined && nullMatches.length === data.length)
+              //{
+                //let updated = data.map((obj) =>
+                //{
+                //  return { ...obj, CountryCode: obj.CountryCode === null ? formCountry : obj.CountryCode };
+                //});
+                //data = updated;
+              //}
+              //else
+              if (countryMatches === undefined || nullMatches.length === data.length)
+              //if (countryMatches === undefined)
               {
-                let updated = data.map((obj) =>
+                if (this.WhitelistRetryCount < this.WhitelistRetryMax)
                 {
-                  return { ...obj, CountryCode: obj.CountryCode === null ? formCountry : obj.CountryCode };
-                });
-                data = updated;
-              }
-              else
-              if (countryMatches === undefined)
-              {
-                this.Config.Details.ItemSource.WhiteList = null;
-                this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
-                return;
+                  this.WhitelistRetryCount++;
+                  this.Config.Details.ItemSource.WhiteList = null;
+                  this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
+                  return;
+                }
+                else
+                {
+                  return;
+                }
               }
             }
           }
