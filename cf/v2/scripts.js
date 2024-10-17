@@ -22717,10 +22717,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       Affinity2018.Apps.CleverForms.Default.AffnityFieldModeTypes.Select.Enum
     ];
     this.WhitelistUpdated = false;
-    
-    this.WhitelistRetryMax = 2;
-    this.WhitelistRetryCount = 0;
-0
+
     this.ElementController = null;
 
   }
@@ -23814,7 +23811,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (
       (
         this.CleverForms.IsLookup(this.Config)
-        || (this.CleverForms.IsKey(this.Config) && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName))
+        || this.CleverForms.IsKey(this.Config) && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName)
       )
       && !this.CleverForms.IsGlobalKey(this.Config) 
       && this.Config.Details.hasOwnProperty('ItemSource')
@@ -23882,34 +23879,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     mode = mode !== undefined && !isNaN(parseInt(mode)) ? parseInt(mode) : parseInt(this.Config.Details.AffinityField.Mode);
     force = force !== undefined ? force : false;
-    let doLookup = false;
     if (
       Affinity2018.FilterEnabled
       && this.WhiteListModes.contains(mode)
       && !this.CleverForms.IsGlobalKey(this.Config) 
-      && (
-        this.CleverForms.IsLookup(this.Config) 
-        || this.CleverForms.IsKey(this.Config)
-      )
+      && (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsKey(this.Config))
       && (
         !this.Config.Details.hasOwnProperty('ItemSource') 
         || !this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
         || this.Config.Details.ItemSource.WhiteList === null
       )
     )
-    {
-      doLookup = true;
-    }
-    if (
-      doLookup
-      && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer') 
-      && Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName)
-      && this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].OnlyInForm
-    )
-    {
-      doLookup = false;
-    }
-    if (doLookup)
     {
       let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
         api: this.CleverForms.GetLookupApi,
@@ -23919,16 +23899,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         instanceId: this.CleverForms.GetTemplateGuid()
       });
       if (force) Affinity2018.RequestQueue.Remove(api, 'get');
-      Affinity2018.RequestQueue.Add(api, 
-        (data =>
-        { 
-          this._gotWhitelistData(data, true); 
-        }).bind(this), 
-        (data =>
-        { 
-          this._gotWhitelistData(data, true);
-        }).bind(this)
-      ); // this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
+      Affinity2018.RequestQueue.Add(api, this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
     }
   }
 
@@ -23980,47 +23951,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             if (hasCountryCodes !== undefined)
             {
               let countryMatches = data.find(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === formCountry);
-              let nullMatches = data.filter(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === null);
-              // Note: Do not assume all NULLs should be form country. 
-              // Kate said on 15-10-2024 that NULL country items is bad data, and to not render NULLs.
-              //if (countryMatches === undefined && nullMatches.length === data.length)
-              //{
-                //let updated = data.map((obj) =>
-                //{
-                //  return { ...obj, CountryCode: obj.CountryCode === null ? formCountry : obj.CountryCode };
-                //});
-                //data = updated;
-              //}
-              //else
-              if (countryMatches === undefined || nullMatches.length === data.length)
-              //if (countryMatches === undefined)
+              if (countryMatches === undefined)
               {
-                if (this.WhitelistRetryCount < this.WhitelistRetryMax)
-                {
-                  this.WhitelistRetryCount++;
-                  this.Config.Details.ItemSource.WhiteList = null;
-                  this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
-                  return;
-                }
-                else
-                {
-                  return;
-                }
+                this.Config.Details.ItemSource.WhiteList = null;
+                this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
+                return;
               }
             }
           }
         }
-
-        let defaultDataStructure = {
-          Key: 'Key',
-          Value: 'Value'
-        };
-        let lookupDataStructure = {
-          Key: 'Value',
-          Value: 'Key'
-        };
-        let objectKeys = fromLookup ? lookupDataStructure : defaultDataStructure;
-
+        let objectKeys = fromLookup ? { Key: 'Value', Value: 'Key' } : { Key: 'Key', Value: 'Value' };
         for (let item of data)
         {
           let includeItem = false;
