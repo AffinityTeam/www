@@ -17775,23 +17775,26 @@ var CFInbox = new Class({
 
   _resize: function (event)
   {
-    var inbox = document.querySelector('.ui-inbox');
-    var tabs = inbox ? inbox.querySelector('.ui-inbox-labels') : false;
-    var tabsHeight = tabs ? tabs.getBoundingClientRect().height : 0;
-    if (tabsHeight > 0 && tabsHeight !== this._tabsHeight)
+    if (!document.body.classList.contains('mobile'))
     {
-      this._tabsHeight = tabsHeight;
-      tabs.style.top = ((this._tabsHeight + 14) * -1) + 'px';
-      inbox.style.marginTop = (this._tabsHeight + 14) + 'px';
-    }
-    //
-    var size = {
-      width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-      height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    };
-    if (size.width <= 1200 && document.body.classList.contains('menu-show-full'))
-    {
-      document.body.classList.remove('menu-show-full');
+      var inbox = document.querySelector('.ui-inbox');
+      var tabs = inbox ? inbox.querySelector('.ui-inbox-labels') : false;
+      var tabsHeight = tabs ? tabs.getBoundingClientRect().height : 0;
+      if (tabsHeight > 0 && tabsHeight !== this._tabsHeight)
+      {
+        this._tabsHeight = tabsHeight;
+        tabs.style.top = ((this._tabsHeight + 14) * -1) + 'px';
+        inbox.style.marginTop = (this._tabsHeight + 14) + 'px';
+      }
+      //
+      var size = {
+        width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+      };
+      if (size.width <= 1200 && document.body.classList.contains('menu-show-full'))
+      {
+        document.body.classList.remove('menu-show-full');
+      }
     }
   }
 
