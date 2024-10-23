@@ -23264,7 +23264,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
 
     let displayUpdates = this.CleverForms.GetDisplayTypeFromConfig(this.Config);
-    displayType = displayUpdates.Type;
+    if (displayType.toLowerCase().contains('date') || displayType.toLowerCase().contains('time'))
+    {
+      // if this is a DATE, then let the date widget handle all outputs according to format config.
+    }
+    else
+    {
+      displayType = displayUpdates.Type;
+    }
+
     this.Config = displayUpdates.Config;
 
     /////////////////////////////////////////////////////////
@@ -40426,6 +40434,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         this.date = null;
         this._buildCalendar(Date.today());
+      }
+      else
+      {
+        this._setDateFromStr(this.displayNode.value.trim());
       }
     }
     else
