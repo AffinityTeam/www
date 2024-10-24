@@ -113,7 +113,7 @@
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
-      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js',
+      //'https:/' + '/cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js',
       //'https:/' + '/cdnjs.cloudflare.com/ajax/libs/css-element-queries/1.2.3/ElementQueries.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/css-element-queries/1.2.3/ResizeSensor.js'
     ],
@@ -39722,6 +39722,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.targetNode.parentNode.insertBefore(this.displayNode, this.targetNode.nextSibling);
 
     this.calendarNode = document.createElement('div');
+    this.calendarNode.setAttribute('tabindex', '-1');
     this.calendarNode.classList.add('ui-calendar-container');
     this.calendarNode.innerHTML = this.calendarTemplate;
 
@@ -39759,11 +39760,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     for (; r < 6; r++)
     {
       newRow = document.createElement('div');
+      newRow.setAttribute('tabindex', '-1');
       newRow.classList.add('ui-cal-cells-row', 'date-cells');
       rowNode.parentNode.appendChild(newRow);
       for (d = 0; d < 7; d++)
       {
         newDate = document.createElement('div');
+        newDate.setAttribute('tabindex', '-1');
         newDate.classList.add('ui-cal-cell', 'ui-date-cell');
         newRow.appendChild(newDate);
         newDate.addEventListener('click', this._cellClicked);
@@ -39778,6 +39781,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       dt = new Date();
       dt.setMonth(m);
       newMonth = document.createElement('span');
+      newMonth.setAttribute('tabindex', '-1');
       newMonth.innerHTML = dt.toString('MMMM');
       newMonth.dataset.value = m;
       newMonth.classList.add('m-' + m);
@@ -39786,6 +39790,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     for (; y < new Date().getFullYear() + 51; y++)
     {
       newYear = document.createElement('span');
+      newYear.setAttribute('tabindex', '-1');
       newYear.innerHTML = y;
       newYear.dataset.value = y;
       newYear.classList.add('y-' + y);
@@ -40223,26 +40228,35 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this._setHideShowEvents();
     if (this.showCalendar) this.datesNode.classList.add('show');
     if (!this.showCalendar && this.showTime) this.timeNode.classList.add('show');
-    this.calendarNode.classList.add('show');
+    if (this.monthNode) this.monthNode.classList.remove('show');
+    if (this.yearNode) this.yearNode.classList.remove('show');
+    this.calendarNode.classList.add('show', 'do-not-auto-hide');
     this.status = 'open';
     this._setPosition('show');
-    if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
     this._markCalendarDates(this.date);
+    if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
   }
 
   hide(ev)
   {
-    this._clearShowHideEvents();
-    if (this.showInline) return;
-    if (this.monthNode) this.monthNode.classList.remove('show');
-    if (this.yearNode) this.yearNode.classList.remove('show');
-    if (this.datesNode) this.datesNode.classList.remove('show');
-    if (this.timeNode) this.timeNode.classList.remove('show');
-    if (this.showTime && this.timeWidget) this.timeWidget.showHours();
-    this.calendarNode.classList.remove('show');
-    this.status = 'closed';
-    this.mouseState = '';
-    if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);
+    if (this.calendarNode.classList.contains('do-not-auto-hide'))
+    {
+      this.calendarNode.classList.remove('do-not-auto-hide');
+    }
+    else
+    {
+      this._clearShowHideEvents();
+      if (this.showInline) return;
+      if (this.monthNode) this.monthNode.classList.remove('show');
+      if (this.yearNode) this.yearNode.classList.remove('show');
+      if (this.datesNode) this.datesNode.classList.remove('show');
+      if (this.timeNode) this.timeNode.classList.remove('show');
+      if (this.showTime && this.timeWidget) this.timeWidget.showHours();
+      this.calendarNode.classList.remove('show');
+      this.status = 'closed';
+      this.mouseState = '';
+      //if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);
+    }
   }
 
   /**/
@@ -40289,6 +40303,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     if (currentMonth + currentYear !== dateMonth + dateYear)
     {
+
       var cellNodes = this.datesNode.querySelectorAll('.ui-cal-cells-row.date-cells .ui-cal-cell'),
         firstDay = date.clone().moveToFirstDayOfMonth(),
         daysInMonth = Date.getDaysInMonth(firstDay.getFullYear(), firstDay.getMonth()),
@@ -40337,25 +40352,25 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (date)
     {
       clearTimeout(this._markCalendarDatesTimer);
-      this._markCalendarDatesTimer = setTimeout(function(date)
+      this._markCalendarDatesTimer = setTimeout(function(passedDate)
       {
         var found;
 
-        this.datesNode.querySelector('.ui-cal-current-month').innerHTML = date.toString('MMMM');
-        this.datesNode.querySelector('.ui-cal-current-year').innerHTML = date.toString('yyyy');
+        this.datesNode.querySelector('.ui-cal-current-month').innerHTML = passedDate.toString('MMMM');
+        this.datesNode.querySelector('.ui-cal-current-year').innerHTML = passedDate.toString('yyyy');
 
         if (this.calendarNode.querySelector('.ui-cal-months span.selected')) this.calendarNode.querySelector('.ui-cal-months span.selected').classList.remove('selected');
         if (this.calendarNode.querySelector('.ui-cal-years span.selected')) this.calendarNode.querySelector('.ui-cal-years span.selected').classList.remove('selected');
         if (this.calendarNode.querySelector('.ui-date-cell.selected')) this.calendarNode.querySelector('.ui-date-cell.selected').classList.remove('selected');
         if (this.calendarNode.querySelector('.ui-date-cell.today')) this.calendarNode.querySelector('.ui-date-cell.today').classList.remove('today');
 
-        found = this.calendarNode.querySelector('.ui-cal-months .m-' + date.getMonth())
+        found = this.calendarNode.querySelector('.ui-cal-months .m-' + passedDate.getMonth())
         if (found) 
         {
           found.classList.add('selected');
         }
 
-        found = this.calendarNode.querySelector('.ui-cal-years .y-' + date.getFullYear());
+        found = this.calendarNode.querySelector('.ui-cal-years .y-' + passedDate.getFullYear());
         if (found) 
         {
           found.classList.add('selected');
@@ -40369,12 +40384,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           found.classList.add('today');
         }
     
-        var selectedString = date.toString("d-MMM-yyyy");
+        var selectedString = passedDate.toString("d-MMM-yyyy");
         found = this.datesNode.querySelector('.date-' + selectedString);
         if (found) 
         {
           found.classList.add('selected');
         }
+
+        this.calendarNode.classList.remove('do-not-auto-hide');
 
       }.bind(this), 25, date);
     }
@@ -40421,8 +40438,26 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       || ev.keyCode === 40 // down
     )
     {
-      if (this.nullable && this.displayNode.value.trim() === '') return;
-      this._setDateFromStr(this.displayNode.value.trim());
+
+      if (this.nullable)
+      {
+        if (this.displayNode.value.trim() === '')
+        {
+          this.date = null;
+          this._buildCalendar(Date.today());
+        }
+        else
+        {
+          this._setDateFromStr(this.displayNode.value.trim());
+        }
+      }
+      else
+      {
+        this._setDateFromStr(this.displayNode.value.trim());
+      }
+
+      //if (this.nullable && this.displayNode.value.trim() === '') return;
+      //this._setDateFromStr(this.displayNode.value.trim());
     }
   }
 
@@ -40606,7 +40641,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     clearTimeout(this.bgEventListenerDelay);
     this._clearShowHideEvents();
-    this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
+    if (this.enableAutoClose) this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
     this.displayNode.addEventListener('click', this._stopEvents);
     this.calendarNode.addEventListener('click', this._stopEvents);
   }
@@ -40631,8 +40666,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _monthClicked()
   {
     clearTimeout(this.hideDelay);
-    this.calendarNode.querySelector('.ui-cal-years').classList.remove('show');
-    this.calendarNode.querySelector('.ui-cal-months').classList.add('show');
+    this.yearNode.classList.remove('show');
+    this.monthNode.classList.add('show');
   }
   _monthsClicked(ev)
   {
@@ -40644,8 +40679,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       else this.__uiDate.setMonth(node.dataset.value);
       this._setAll();
       this._buildCalendar();
-      this.calendarNode.querySelector('.ui-cal-months').classList.remove('show');
-      this.calendarNode.querySelector('.ui-cal-years').classList.remove('show');
+      this.monthNode.classList.remove('show');
+      this.yearNode.classList.remove('show');
     }
   }
 
@@ -40658,8 +40693,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (node)
     {
       node.parentNode.scrollTo(0, 0);
-      this.calendarNode.querySelector('.ui-cal-months').classList.remove('show');
-      this.calendarNode.querySelector('.ui-cal-years').classList.add('show');
+      this.monthNode.classList.remove('show');
+      this.yearNode.classList.add('show');
       nodeRect = Affinity2018.getOffsetRect(node);
       node.parentNode.scrollTo(0, (nodeRect.y + (nodeRect.height / 2)) - (node.parentNode.offsetHeight / 2));
     }
@@ -40674,8 +40709,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       else this.__uiDate.setYear(node.dataset.value);
       this._setAll();
       this._buildCalendar();
-      this.calendarNode.querySelector('.ui-cal-months').classList.remove('show');
-      this.calendarNode.querySelector('.ui-cal-years').classList.remove('show');
+      this.monthNode.classList.remove('show');
+      this.yearNode.classList.remove('show');
     }
   }
 
@@ -40730,6 +40765,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         windwSize = Affinity2018.getWindowSize(),
         scroll = document.body.scrollTop || 0,
         calendarBottom = parseFloat(calendarRect.top) + parseFloat(calendarRect.height) + scroll;
+
       if (calendarBottom > windwSize.height)
       {
         this.calendarNode.classList.add('above');
@@ -40810,32 +40846,32 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _templates()
   {
     this.calendarTemplate = `
-    <div class="ui-cal-inner">
-      <div class="ui-cal-dates hidden">
-        <div class="ui-cal-current">
-          <span class="ui-cal-back-month icon-arrow-left"></span>
-          <span class="ui-cal-current-month">Jan</span>
-          <span class="ui-cal-current-year">2019</span>
-          <span class="ui-cal-forward-month icon-arrow-right"></span>
+    <div class="ui-cal-inner" tabindex="-1">
+      <div class="ui-cal-dates hidden" tabindex="-1">
+        <div class="ui-cal-current" tabindex="-1" >
+          <span class="ui-cal-back-month icon-arrow-left" tabindex="-1"></span>
+          <span class="ui-cal-current-month" tabindex="-1">Jan</span>
+          <span class="ui-cal-current-year" tabindex="-1">2019</span>
+          <span class="ui-cal-forward-month icon-arrow-right" tabindex="-1"></span>
         </div>
-        <div class="ui-cal-cells">
-          <div class="ui-cal-cells-row date-days">
-            <div class="ui-cal-cell">Sun</div>
-            <div class="ui-cal-cell">Mon</div>
-            <div class="ui-cal-cell">Tue</div>
-            <div class="ui-cal-cell">Wed</div>
-            <div class="ui-cal-cell">Thu</div>
-            <div class="ui-cal-cell">Fri</div>
-            <div class="ui-cal-cell">Sat</div>
+        <div class="ui-cal-cells" tabindex="-1">
+          <div class="ui-cal-cells-row date-days"  tabindex="-1">
+            <div class="ui-cal-cell" tabindex="-1">Sun</div>
+            <div class="ui-cal-cell" tabindex="-1">Mon</div>
+            <div class="ui-cal-cell" tabindex="-1">Tue</div>
+            <div class="ui-cal-cell" tabindex="-1">Wed</div>
+            <div class="ui-cal-cell" tabindex="-1">Thu</div>
+            <div class="ui-cal-cell" tabindex="-1">Fri</div>
+            <div class="ui-cal-cell" tabindex="-1">Sat</div>
           </div>
         </div>
-        <div class="ui-cal-display">
-          <span class="ui-cal-display-date hidden"></span><span class="ui-cal-display-time hidden"></span><span class="ui-cal-reset">Today</span>
+        <div class="ui-cal-display" tabindex="-1">
+          <span class="ui-cal-display-date hidden" tabindex="-1"></span><span class="ui-cal-display-time hidden" tabindex="-1"></span><span class="ui-cal-reset" tabindex="-1">Today</span>
         </div>
-        <div class="ui-cal-months"></div>
-        <div class="ui-cal-years"></div>
+        <div class="ui-cal-months" tabindex="-1"></div>
+        <div class="ui-cal-years" tabindex="-1"></div>
       </div>
-      <div class="ui-cal-time hidden"></div>
+      <div class="ui-cal-time hidden" tabindex="-1"></div>
     </div>
     `;
   }
