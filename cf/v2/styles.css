@@ -12806,10 +12806,17 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
+  -webkit-transition: left 250ms;
+  -moz-transition: left 250ms;
+  -o-transition: left 250ms;
+  transition: left 250ms;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months *,
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years * {
+  touch-action: none;
+  pointer-events: none;
 }
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span {
@@ -12845,6 +12852,13 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years.sho
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months.show *,
+body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years.show * {
+  touch-action: manipulation;
+  pointer-events: all;
 }
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months {
   left: -100%;
