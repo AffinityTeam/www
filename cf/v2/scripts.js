@@ -22717,7 +22717,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       Affinity2018.Apps.CleverForms.Default.AffnityFieldModeTypes.Select.Enum
     ];
     this.WhitelistUpdated = false;
-
+    
+    this.WhitelistRetryMax = 2;
+    this.WhitelistRetryCount = 0;
+0
     this.ElementController = null;
 
   }
@@ -23816,10 +23819,24 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     //  { Key: 'Description 12', Value: '12', IsHidden: false }
     //];
 
+    // Check for Kate's Kangaroo
+    // If we are a Country Sensative Field, but have ShowNullCountries enabled, then do not re-load. Stick with what we have.
+    var doWhitelistChecks = true;
+    if (
+      Affinity2018.Apps.CleverForms.hasOwnProperty('Designer') 
+      && Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName)
+      && !this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].OnlyInForm
+      && this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].ShowNullCountries
+    )
+    {
+      doWhitelistChecks = false;
+    }
+    // End Kate's Kangaroo Check
+
     if (
       (
         this.CleverForms.IsLookup(this.Config)
-        || this.CleverForms.IsKey(this.Config) && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName)
+        || (this.CleverForms.IsKey(this.Config) && !this.CleverForms.MasterfileTableBlacklist.contains(this.Config.Details.AffinityField.ModelName))
       )
       && !this.CleverForms.IsGlobalKey(this.Config) 
       && this.Config.Details.hasOwnProperty('ItemSource')
@@ -23829,42 +23846,46 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       && Array.isArray(this.Config.Details.ItemSource.WhiteList)
     )
     {
-      // If country is diff to this.CleverForms.FormCountry, do a lookup to replace whitlist, else, use exisitng whitelist
-      if (this.Config.Details.ItemSource.WhiteList.length > 0)
+      // Only contnue if NOT a Kate's Kangaroo
+      if (doWhitelistChecks)
       {
-        let nullCount = 0;
-        let formCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry) || '';
-        let listCountries = this.Config.Details.ItemSource.WhiteList.reduce((newList, item) =>
+        // If country is diff to this.CleverForms.FormCountry, do a lookup to replace whitlist, else, use exisitng whitelist
+        if (this.Config.Details.ItemSource.WhiteList.length > 0)
         {
-          let variant = this.CleverForms.GetCountryCodeVariant(item.CountryCode);
-          if (variant === null) nullCount++;
-          if (variant !== null && variant !== undefined)
+          let nullCount = 0;
+          let formCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry) || '';
+          let listCountries = this.Config.Details.ItemSource.WhiteList.reduce((newList, item) =>
           {
-            return newList.includes(variant) ? newList : [...newList, variant];
+            let variant = this.CleverForms.GetCountryCodeVariant(item.CountryCode);
+            if (variant === null) nullCount++;
+            if (variant !== null && variant !== undefined)
+            {
+              return newList.includes(variant) ? newList : [...newList, variant];
+            }
+            return newList;
+          }, []);
+          if (listCountries.length > 1 && formCountry !== '')
+          {
+            this.WhiteListBackup = JSON.parse(JSON.stringify(this.Config.Details.ItemSource.WhiteList));
+            this.Config.Details.ItemSource.WhiteList = null;
+            this._checkWhiteListLookup();
+            return;
           }
-          return newList;
-        }, []);
-        if (listCountries.length > 1 && formCountry !== '')
-        {
-          this.WhiteListBackup = JSON.parse(JSON.stringify(this.Config.Details.ItemSource.WhiteList));
-          this.Config.Details.ItemSource.WhiteList = null;
-          this._checkWhiteListLookup();
-          return;
-        }
-        else if (listCountries.length === 1 && formCountry !== '' && listCountries[0] !== formCountry)
-        {
-          this.Config.Details.ItemSource.WhiteList = null;
-          this._checkWhiteListLookup();
-          return;
-        }
-        if (formCountry === '' && this.WhitelistUpdated)
-        {
-          if (nullCount !== this.Config.Details.ItemSource.WhiteList.length)
+          else if (listCountries.length === 1 && formCountry !== '' && listCountries[0] !== formCountry)
           {
             this.Config.Details.ItemSource.WhiteList = null;
             this._checkWhiteListLookup();
-            this.WhitelistUpdated = false;
             return;
+          }
+          if (formCountry === '' && this.WhitelistUpdated)
+          {
+            if (nullCount !== this.Config.Details.ItemSource.WhiteList.length)
+            {
+              this.Config.Details.ItemSource.WhiteList = null;
+              this._checkWhiteListLookup();
+              this.WhitelistUpdated = false;
+              return;
+            }
           }
         }
       }
@@ -23887,17 +23908,35 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   {
     mode = mode !== undefined && !isNaN(parseInt(mode)) ? parseInt(mode) : parseInt(this.Config.Details.AffinityField.Mode);
     force = force !== undefined ? force : false;
+    let doLookup = false;
+
     if (
       Affinity2018.FilterEnabled
       && this.WhiteListModes.contains(mode)
       && !this.CleverForms.IsGlobalKey(this.Config) 
-      && (this.CleverForms.IsLookup(this.Config) || this.CleverForms.IsKey(this.Config))
+      && (
+        this.CleverForms.IsLookup(this.Config) 
+        || this.CleverForms.IsKey(this.Config)
+      )
       && (
         !this.Config.Details.hasOwnProperty('ItemSource') 
         || !this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
         || this.Config.Details.ItemSource.WhiteList === null
       )
     )
+    {
+      doLookup = true;
+    }
+    if (
+      doLookup
+      && Affinity2018.Apps.CleverForms.hasOwnProperty('Designer') 
+      && Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName)
+      && this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].OnlyInForm
+    )
+    {
+      doLookup = false;
+    }
+    if (doLookup)
     {
       let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
         api: this.CleverForms.GetLookupApi,
@@ -23907,7 +23946,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         instanceId: this.CleverForms.GetTemplateGuid()
       });
       if (force) Affinity2018.RequestQueue.Remove(api, 'get');
-      Affinity2018.RequestQueue.Add(api, this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
+      Affinity2018.RequestQueue.Add(api, 
+        (data =>
+        { 
+          this._gotWhitelistData(data, true); 
+        }).bind(this), 
+        (data =>
+        { 
+          this._gotWhitelistData(data, true);
+        }).bind(this)
+      ); // this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
     }
   }
 
@@ -23953,29 +24001,93 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         if (this.CleverForms.IsCountrySensativeField(this.Config))
         {
           formCountry = this.CleverForms.GetCountryCodeVariant(this.CleverForms.FormCountry);
-          if (formCountry !== null  && formCountry !== undefined)
+          formCountry = formCountry === null || formCountry === undefined ? null : formCountry;
+          if (formCountry !== null)
           {
             let hasCountryCodes = data.find(item => item.hasOwnProperty('CountryCode'));
             if (hasCountryCodes !== undefined)
             {
               let countryMatches = data.find(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === formCountry);
-              if (countryMatches === undefined)
+              let nullMatches = data.filter(item => this.CleverForms.GetCountryCodeVariant(item.CountryCode) === null);
+
+              // Implement Kate's Kangaroo
+              // If we are a Country Sensative Field, but have ShowNullCountries enabled, then allow all NULLs regardless of Form Country.
+              if (
+                Affinity2018.Apps.CleverForms.hasOwnProperty('Designer') 
+                && !this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].OnlyInForm
+                && this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].ShowNullCountries
+              )
               {
-                this.Config.Details.ItemSource.WhiteList = null;
-                this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
-                return;
+                countryMatches = data;
+                nullMatches = [];
+              }
+              // End Kate's Kangaroo implementation
+
+              if (countryMatches === undefined || nullMatches.length === data.length)
+              {
+                if (this.WhitelistRetryCount < this.WhitelistRetryMax)
+                {
+                  this.WhitelistRetryCount++;
+                  this.Config.Details.ItemSource.WhiteList = null;
+                  this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
+                  return;
+                }
+                else
+                {
+                  return;
+                }
               }
             }
           }
         }
-        let objectKeys = fromLookup ? { Key: 'Value', Value: 'Key' } : { Key: 'Key', Value: 'Value' };
+
+        let objectKeys = {
+          Key: 'Key',
+          Value: 'Value'
+        };
+
+        if (fromLookup)
+        {
+          objectKeys = {
+            Key: 'Value',
+            Value: 'Key'
+          };
+        }
+
         for (let item of data)
         {
           let includeItem = false;
+          
           let itemCountry = item.hasOwnProperty('CountryCode') && !$a.isNullOrEmpty(item.CountryCode) ? this.CleverForms.GetCountryCodeVariant(item.CountryCode) : null;
-          if (formCountry === null || formCountry === undefined) includeItem = true;
-          else if (itemCountry === null || itemCountry === undefined) includeItem = true;
-          else if (itemCountry === formCountry) includeItem = true;
+          itemCountry = itemCountry === null || itemCountry === undefined ? null : itemCountry;
+
+          if (formCountry === null)
+          {
+            includeItem = true;
+          }
+          else 
+          {
+            if (itemCountry === formCountry)
+            {
+              includeItem = true;
+            }
+            else if (itemCountry === null)
+            {
+              // Always allow Kate's Kangaroo
+              // If we are a Country Sensative Field, but have ShowNullCountries enabled, then allow all NULLs regardless of Form Country.
+              if (
+                Affinity2018.Apps.CleverForms.hasOwnProperty('Designer') 
+                && this.CleverForms.CountrySensativeFields.hasOwnProperty(this.Config.Details.AffinityField.FieldName)
+                && !this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].OnlyInForm
+                && this.CleverForms.CountrySensativeFields[this.Config.Details.AffinityField.FieldName].ShowNullCountries
+              )
+              {
+                includeItem = true;
+              }
+              // End Kate's Kangaroo force allow
+            }
+          }
+
           if (includeItem)
           {
             var found = null;
@@ -24029,7 +24141,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let descriptionDisplay = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
       html += template.format({
         description: item.Value,
-        descriptionText: Affinity2018.encodeHTML(descriptionDisplay),
+        descriptionText: Affinity2018.encodeHTML(descriptionDisplay), // + ` [${item.CountryCode}]`,
         code: item.Key,
         codeText: Affinity2018.encodeHTML(item.Key),
         hidden: item.IsHidden ? ' hide' : '',
@@ -24055,6 +24167,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
     this._checkWhitelistCheckboxes();
   }
+
   _whitelistHideAll()
   {
     // TODO: Move to WebWorker
@@ -32164,7 +32277,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     Affinity2018.Apps.CleverForms.Form.ResizeSection(this.FormRowNode);
   }
 
-
   CheckForHidden()
   {
     if (
@@ -39181,6 +39293,14 @@ Affinity2018.Classes.Plugins.BigSearch = class
     size = typeof size === 'number' ? size : this.resultPageSize;
     query = typeof query === 'string' ? query.trim() : false;
     query = encodeURIComponent((query ? query.trim() : this.InputNode.value.trim()));
+    //
+    if (query === '')
+    {
+      this.ProcessResults([]);
+      this.loader.classList.remove('show');
+      return;
+    }
+    //
     var api = this.api.indexOf('?') > 1 ? this.api + '&' : this.api + '?',
         p = 0, param;
     api += this.params.pageSize + '=' + size;
@@ -39285,7 +39405,6 @@ Affinity2018.Classes.Plugins.BigSearch = class
 
   _pagination (resultObj)
   {
-
     this.paginationNode.classList.add('hidden');
     this.paginationNode.querySelectorAll('a.page, a.current').forEach(function(pageNode)
     {
