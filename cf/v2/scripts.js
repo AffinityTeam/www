@@ -12941,7 +12941,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     textAlign: 'left',
                     buttons: {
                       ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                      cancel: { shoe: false }
+                      cancel: { show: false }
                     }
                   });
                 }
@@ -12972,7 +12972,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                     textAlign: 'left',
                     buttons: {
                       ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                      cancel: { shoe: false }
+                      cancel: { show: false }
                     }
                   });
                 }
@@ -13139,7 +13139,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                       textAlign: 'left',
                       buttons: {
                         ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                        cancel: { shoe: false }
+                        cancel: { show: false }
                       }
                     });
                   }
@@ -13191,7 +13191,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 textAlign: 'left',
                 buttons: {
                   ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                  cancel: { shoe: false }
+                  cancel: { show: false }
                 }
               });
               return false;
@@ -13217,7 +13217,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 showInput: false,
                 buttons: {
                   ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                  cancel: { shoe: false }
+                  cancel: { show: false }
                 }
               });
               return false;
@@ -13243,7 +13243,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 showInput: false,
                 buttons: {
                   ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                  cancel: { shoe: false }
+                  cancel: { show: false }
                 }
               });
               return false;
@@ -13270,12 +13270,42 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 showInput: false,
                 buttons: {
                   ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
-                  cancel: { shoe: false }
+                  cancel: { show: false }
                 }
               });
               return false;
             }
             // END - Can only have one of each field with a generic key in each section -----------------------//
+            //-------------------------------------------------------------------------------------------------//
+
+
+            //-------------------------------------------------------------------------------------------------//
+            // Country Sensative Fields must have form country selected ---------------------------------------//
+            let formCountry = !Affinity2018.isNullOrEmpty(Affinity2018.FormCountry) ? this.GetCountryCodeVariant(Affinity2018.FormCountry) : null;
+            if (formCountry === null)
+            {
+              let isCountrySensativeField = this.CleverForms.CountrySensativeFields.hasOwnProperty(config.Details.AffinityField.FieldName);
+              if (isCountrySensativeField)
+              {
+                let hideWarning = this.CleverForms.CountrySensativeFields[config.Details.AffinityField.FieldName].IgnoreCountryWarningInDesigner;
+                if (!hideWarning)
+                {
+                  Affinity2018.Dialog.Show({
+                    message:  $a.Lang.ReturnPath('app.cf.backend_sub_errors.designer-element-requires-form-country'),
+                    showOk: true,
+                    showCancel: true,
+                    showInput: false,
+                    textAlign: 'left',
+                    buttons: {
+                      ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                      cancel: { show: false }
+                    }
+                  });
+                  return false;
+                }
+              }
+            }
+            // END - Country Sensative Fields must have form country selected ---------------------------------//
             //-------------------------------------------------------------------------------------------------//
 
 
@@ -13327,7 +13357,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
                 {
                   this.Editor.JumpSearch();
                   this.Editor.Search.Search('Complete ' + searchstr);
-                }.bind(this),
+                }.bind(this)
               });
               return false;
             }
@@ -24141,7 +24171,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let descriptionDisplay = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
       html += template.format({
         description: item.Value,
-        descriptionText: Affinity2018.encodeHTML(descriptionDisplay), // + ` [${item.CountryCode}]`,
+        descriptionText: Affinity2018.encodeHTML(descriptionDisplay) + ` [${item.CountryCode}]`,
         code: item.Key,
         codeText: Affinity2018.encodeHTML(item.Key),
         hidden: item.IsHidden ? ' hide' : '',
