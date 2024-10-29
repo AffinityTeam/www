@@ -13287,8 +13287,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               let isCountrySensativeField = this.CleverForms.CountrySensativeFields.hasOwnProperty(config.Details.AffinityField.FieldName);
               if (isCountrySensativeField)
               {
-                let hideWarning = this.CleverForms.CountrySensativeFields[config.Details.AffinityField.FieldName].IgnoreCountryWarningInDesigner;
-                if (!hideWarning)
+                //let hideWarning = this.CleverForms.CountrySensativeFields[config.Details.AffinityField.FieldName].IgnoreCountryWarningInDesigner;
+                let allowWhenNoFormCountry = this.CleverForms.CountrySensativeFields[config.Details.AffinityField.FieldName].AllowWhenNoFormCountry;
+                //if (!hideWarning && !allowWhenNoFormCountry)
+                if (!allowWhenNoFormCountry)
                 {
                   Affinity2018.Dialog.Show({
                     message:  $a.Lang.ReturnPath('app.cf.backend_sub_errors.designer-element-requires-form-country'),
