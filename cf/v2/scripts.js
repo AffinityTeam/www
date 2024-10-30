@@ -13281,7 +13281,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
             //-------------------------------------------------------------------------------------------------//
             // Country Sensative Fields must have form country selected ---------------------------------------//
-            let formCountry = !Affinity2018.isNullOrEmpty(Affinity2018.FormCountry) ? this.GetCountryCodeVariant(Affinity2018.FormCountry) : null;
+            let formCountry = !Affinity2018.isNullOrEmpty(Affinity2018.FormCountry) ? this.CleverForms.GetCountryCodeVariant(Affinity2018.FormCountry) : null;
             if (formCountry === null)
             {
               let isCountrySensativeField = this.CleverForms.CountrySensativeFields.hasOwnProperty(config.Details.AffinityField.FieldName);
