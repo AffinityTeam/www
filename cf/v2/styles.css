@@ -15596,7 +15596,7 @@ html.print body.ui2018.dark.cform.uiupdate .header,
 html.print body.ui2018 .example-template .preview .header,
 html.print body.ui2018.dark .example-template .preview .header {
   display: block !important;
-  height: 60px !important;
+  min-height: 60px !important;
   margin: 0 !important;
   padding: 0 !important;
   color: black;
@@ -15699,13 +15699,14 @@ html.print body.ui2018.dark .example-template .preview .header .title .form-name
   display: inline-block !important;
   vertical-align: top !important;
   margin: 10px 0 0 0 !important;
-  padding: 0 !important;
+  padding: 0 20px 0 0 !important;
   min-height: unset !important;
   line-height: unset !important;
   overflow-wrap: break-word;
   white-space: normal;
   flex-grow: 1;
   align-self: center;
+  font-size: 20px;
 }
 html.print body.ui2018.cform .header .title .form-name small,
 html.print body.ui2018.dark.cform .header .title .form-name small,
@@ -17651,7 +17652,7 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
   body.ui2018 .example-template .preview .header,
   body.ui2018.dark .example-template .preview .header {
     display: block !important;
-    height: 60px !important;
+    min-height: 60px !important;
     margin: 0 !important;
     padding: 0 !important;
     color: black;
@@ -17754,13 +17755,14 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
     display: inline-block !important;
     vertical-align: top !important;
     margin: 10px 0 0 0 !important;
-    padding: 0 !important;
+    padding: 0 20px 0 0 !important;
     min-height: unset !important;
     line-height: unset !important;
     overflow-wrap: break-word;
     white-space: normal;
     flex-grow: 1;
     align-self: center;
+    font-size: 20px;
   }
   body.ui2018.cform .header .title .form-name small,
   body.ui2018.dark.cform .header .title .form-name small,
