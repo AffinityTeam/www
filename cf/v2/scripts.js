@@ -43163,10 +43163,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     this.fileNode = this.initNode.querySelector('input');
     this.fileNode.classList.add('ui-file');
 
-    if (!this.fileNode.widgets) this.fileNode.widgets = {};
-    this.fileNode.widgets.FileUpload = this;
-    if (!this.initNode.widgets) this.initNode.widgets = {};
-    this.initNode.widgets.FileUpload = this;
+    this._attachWidget();
 
     this.PostName = this.fileNode.name;
 
@@ -43491,6 +43488,22 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
 
   /**/
+
+  _attachWidget()
+  {
+    if (this.fileNode && !this.fileNode.hasOwnProperty('widgets')) this.fileNode.widgets = {};
+    if (this.fileNode && !this.fileNode.widgets.hasOwnProperty('FileUpload'))
+    {
+      this.fileNode.widgets.FileUpload = this;
+      debugger;
+    }
+    if (this.initNode && !this.initNode.hasOwnProperty('widgets')) this.initNode.widgets = {};
+    if (this.initNode && !this.initNode.widgets.hasOwnProperty('FileUpload'))
+    {
+      this.initNode.widgets.FileUpload = this;
+      debugger;
+    }
+  }
 
   _validate()
   {
@@ -43923,6 +43936,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       this.fileNode.parentNode.replaceChild(newFileNode, this.fileNode);
       this.fileNode = newFileNode;
       this.fileNode.addEventListener('change', this._addFile);
+      this._attachWidget();
     }
     this.fileNode.value = '';
   }
@@ -44340,6 +44354,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         this.FileTracker.splice(this.FileTracker.indexOf(found), 1);
       }
       this._backfillGrid();
+      this._validate();
       this.dispatchEvent(new CustomEvent('deleteSuccess', { detail: { dispatchObject: { FileName: fileName, FileId: fileId } } }));
     }
     else
