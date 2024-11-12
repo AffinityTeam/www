@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5400,71-72): run-time error JS1195: Expected expression: >
-(5400,98-99): run-time error JS1004: Expected ';': )
-(5402,87-88): run-time error JS1195: Expected expression: >
-(5402,129-130): run-time error JS1004: Expected ';': )
-(5407,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5412,13-14): run-time error JS1002: Syntax error: }
-(5414,34-35): run-time error JS1004: Expected ';': {
-(5418,9-10): run-time error JS1002: Syntax error: }
-(5421,25-26): run-time error JS1004: Expected ';': {
-(5572,5-6): run-time error JS1002: Syntax error: }
-(5573,45-46): run-time error JS1004: Expected ';': {
-(5592,6-7): run-time error JS1195: Expected expression: ,
-(5593,63-64): run-time error JS1004: Expected ';': {
-(5599,6-7): run-time error JS1195: Expected expression: ,
-(5600,26-27): run-time error JS1195: Expected expression: )
-(5600,28-29): run-time error JS1004: Expected ';': {
-(5674,6-7): run-time error JS1195: Expected expression: ,
-(5676,22-23): run-time error JS1195: Expected expression: )
-(5676,24-25): run-time error JS1004: Expected ';': {
-(5699,6-7): run-time error JS1195: Expected expression: ,
-(5701,24-25): run-time error JS1195: Expected expression: )
-(5701,26-27): run-time error JS1004: Expected ';': {
-(5760,6-7): run-time error JS1195: Expected expression: ,
-(10430,52-53): run-time error JS1195: Expected expression: .
-(10442,5-6): run-time error JS1002: Syntax error: }
-(10443,46-47): run-time error JS1004: Expected ';': {
-(10478,6-7): run-time error JS1195: Expected expression: ,
-(10479,42-43): run-time error JS1004: Expected ';': {
-(10502,6-7): run-time error JS1195: Expected expression: ,
-(10503,43-44): run-time error JS1004: Expected ';': {
-(10515,6-7): run-time error JS1195: Expected expression: ,
-(10516,81-82): run-time error JS1004: Expected ';': {
-(10533,6-7): run-time error JS1195: Expected expression: ,
-(10534,54-55): run-time error JS1004: Expected ';': {
-(10561,6-7): run-time error JS1195: Expected expression: ,
-(10562,49-50): run-time error JS1004: Expected ';': {
-(10632,6-7): run-time error JS1195: Expected expression: ,
-(10633,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10441,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10435,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5598,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5488,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5507,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5443,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5416,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5403,71-72): run-time error JS1195: Expected expression: >
+(5403,98-99): run-time error JS1004: Expected ';': )
+(5405,87-88): run-time error JS1195: Expected expression: >
+(5405,129-130): run-time error JS1004: Expected ';': )
+(5410,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5415,13-14): run-time error JS1002: Syntax error: }
+(5417,34-35): run-time error JS1004: Expected ';': {
+(5421,9-10): run-time error JS1002: Syntax error: }
+(5424,25-26): run-time error JS1004: Expected ';': {
+(5575,5-6): run-time error JS1002: Syntax error: }
+(5576,45-46): run-time error JS1004: Expected ';': {
+(5595,6-7): run-time error JS1195: Expected expression: ,
+(5596,63-64): run-time error JS1004: Expected ';': {
+(5602,6-7): run-time error JS1195: Expected expression: ,
+(5603,26-27): run-time error JS1195: Expected expression: )
+(5603,28-29): run-time error JS1004: Expected ';': {
+(5677,6-7): run-time error JS1195: Expected expression: ,
+(5679,22-23): run-time error JS1195: Expected expression: )
+(5679,24-25): run-time error JS1004: Expected ';': {
+(5702,6-7): run-time error JS1195: Expected expression: ,
+(5704,24-25): run-time error JS1195: Expected expression: )
+(5704,26-27): run-time error JS1004: Expected ';': {
+(5763,6-7): run-time error JS1195: Expected expression: ,
+(10433,52-53): run-time error JS1195: Expected expression: .
+(10445,5-6): run-time error JS1002: Syntax error: }
+(10446,46-47): run-time error JS1004: Expected ';': {
+(10481,6-7): run-time error JS1195: Expected expression: ,
+(10482,42-43): run-time error JS1004: Expected ';': {
+(10505,6-7): run-time error JS1195: Expected expression: ,
+(10506,43-44): run-time error JS1004: Expected ';': {
+(10518,6-7): run-time error JS1195: Expected expression: ,
+(10519,81-82): run-time error JS1004: Expected ';': {
+(10536,6-7): run-time error JS1195: Expected expression: ,
+(10537,54-55): run-time error JS1004: Expected ';': {
+(10564,6-7): run-time error JS1195: Expected expression: ,
+(10565,49-50): run-time error JS1004: Expected ';': {
+(10635,6-7): run-time error JS1195: Expected expression: ,
+(10636,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10444,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10438,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5601,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5491,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5510,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5446,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5419,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -1359,6 +1359,8 @@ var UILeaveHistory = new Class({
         // } else {
         if (this.isManager) {
           this.show();
+        } else {
+          this.hide();
         }
         
         // }
@@ -2789,6 +2791,7 @@ var UILeaveApply = new Class({
         this.generateApplyButtons();
         if (this.isManager) {
             Affinity.leave.manager.applyTeamConfig(this.loadConfig);
+            this.hide()
         } else {
             Affinity.leave.employee.applyConfig(this.loadConfig);
             this.show()
