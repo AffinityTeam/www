@@ -15110,6 +15110,26 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
     if (formCountry === undefined || formCountry === null || formCountry === 'null' || formCountry === 'NULL' || formCountry === '') formCountry = null;
     Affinity2018.FormCountry = countryNode.value;
 
+    // If country has changed, we need to null all country sensative whitelists so they automatically re-fetch.
+    if (initialFormCountry !== formCountry)
+    {
+      let designerNodes = document.querySelectorAll(`div.cf-d2-bottom-right li[data-type="AffinityField"]`);
+      for (let designerNode of designerNodes)
+      {
+        let controller = designerNode.controller;
+        let config = controller.Config;
+        if (
+          config.Details.hasOwnProperty('AffinityField')
+          && config.Details.hasOwnProperty('ItemSource')
+          && config.Details.ItemSource.hasOwnProperty('WhiteList')
+          && this.CleverForms.CountrySensativeFields.hasOwnProperty(config.Details.AffinityField.FieldName)
+        )
+        {
+          designerNode.controller.Config.Details.ItemSource.WhiteList = null;
+        }
+      }
+    }
+
     if (this._hasCountrySensativeFields())
     {
       if ($a.isNullOrEmpty(countryNode.value))
