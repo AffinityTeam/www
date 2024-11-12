@@ -15137,6 +15137,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         countryNode.value = Affinity2018.Apps.CleverForms.Default.TemplateModel.FormCountry;
       }
       Affinity2018.FormCountry = countryNode.value;
+      this.CleverForms.FormCountry = Affinity2018.FormCountry
       this.FormDetailsProgress = 'none';
       if (!$a.isEvent(ev))
       {
@@ -24117,24 +24118,42 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
     if (doLookup)
     {
-      let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}'.format({
+      let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
         api: this.CleverForms.GetLookupApi,
         modelName: this.Config.Details.AffinityField.ModelName,
         propertyName: this.Config.Details.AffinityField.FieldName,
         employeeNo: this.CleverForms.GetFormEmployeeNo(),
-        instanceId: this.CleverForms.GetTemplateGuid()
+        instanceId: this.CleverForms.GetTemplateGuid(),
+        countryCode: this.CleverForms.FormCountry
       });
+
+      /*
+      fetch(api, {
+        method: 'GET',
+      })
+        .then(response => response.json())
+        .then(data =>
+        {
+          this._gotWhitelistData(data, true);
+        })
+        .catch(data =>
+        {
+          this._gotWhitelistData(data, true);
+        });
+      */
+
       if (force) Affinity2018.RequestQueue.Remove(api, 'get');
       Affinity2018.RequestQueue.Add(api, 
         (data =>
-        { 
+        {
           this._gotWhitelistData(data, true); 
         }).bind(this), 
         (data =>
-        { 
+        {
           this._gotWhitelistData(data, true);
         }).bind(this)
       ); // this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
+
     }
   }
 
@@ -24320,7 +24339,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let descriptionDisplay = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
       html += template.format({
         description: item.Value,
-        descriptionText: Affinity2018.encodeHTML(descriptionDisplay) + ` [${item.CountryCode}]`,
+        //descriptionText: Affinity2018.encodeHTML(descriptionDisplay) + ` [${item.CountryCode}]`, // For testing: add country to each string so we know what it is!
+        descriptionText: Affinity2018.encodeHTML(descriptionDisplay),
         code: item.Key,
         codeText: Affinity2018.encodeHTML(item.Key),
         hidden: item.IsHidden ? ' hide' : '',
