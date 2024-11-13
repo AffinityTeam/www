@@ -18185,15 +18185,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     elementConfig.Details.Required = false;
                   }
                   elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
-
-                  if (elementConfig.Details.hasOwnProperty('AffinityField')) {
-                    // Flag row if this is a dependency child
-                    let isDependant = uniqueDependencyAffinityFields.some(
-                        field => elementConfig.Details.AffinityField.ModelName === field.TableName
-                            && elementConfig.Details.AffinityField.FieldName === field.FieldName
+                  
+                  // Flag row if this is a dependency child
+                  if (elementConfig.Details.hasOwnProperty('AffinityField'))
+                  {
+                    let isDependant = uniqueDependencyAffinityFields.some(field => 
+                      elementConfig.hasOwnProperty('Details') 
+                      && elementConfig.Details.hasOwnProperty('AffinityField') 
+                      && elementConfig.Details.AffinityField.ModelName === field.TableName 
+                      && elementConfig.Details.AffinityField.FieldName === field.FieldName
                     );
-                    if (isDependant) {
-                        elementNode.closest('.form-row').classList.add('is-dependant');
+                    if (isDependant)
+                    {
+                      elementNode.closest('.form-row').classList.add('is-dependant');
                     }
                   }
                   //
@@ -20208,8 +20212,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         }
       }
     }
-    let csutomErrors = this.FormNode.querySelectorAll('.row-affinityfield.custom-error');
-
+    let csutomErrors = this.FormNode.querySelectorAll('.row-affinityfield.custom-error:not(.is-dependant)');
     if (csutomErrors.length > 0 || foundHidden)
     {
       Affinity2018.Dialog.Show({
@@ -23389,7 +23392,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.ElementControllerType = displayType;
       this.ElementController = new elements[displayType](this.Config);
       this.FormRowNode = this.ElementController.SetFormRow(target);
-      this.FormRowNode.AffinityController = this;
+
+      if (this.FormRowNode)
+      {
+        this.FormRowNode.AffinityController = this;
+      }
 
       // Add field name to original element for TESTS to read
       // PS. This needs to stay, even if we never automate QA,'cos these props are now used by deopendencies.
@@ -23658,6 +23665,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         && this.FormRowNode.hasOwnProperty('controller')
       )
       {
+        if (
+          node.hasOwnProperty('widgets')
+          && node.widgets.hasOwnProperty('SelectLookup')
+        )
+        {
+          node.widgets.SelectLookup.HideError();
+        }
         let nodeController = this.FormRowNode.controller;
         let apiString =  '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}';
             apiString += '&DependencyTableName={dependencyModelName}&DependencyFieldName={dependencyFieldName}&DependencyValue={dependencyValue}';
@@ -23673,11 +23687,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         });
         Affinity2018.RequestQueue.Add(dependentApi, (result) =>
         {
-          if(node.closest('.is-dependant'))
+
+          if (Array.isArray(result) && result.length > 0)
           {
-            node.closest('.is-dependant').classList.remove('is-dependant');
+            if(node.closest('.is-dependant'))
+            {
+              node.closest('.is-dependant').classList.remove('is-dependant');
+            }
           }
+
+          Affinity2018.Dialog.Hide();
+          node.widgets.SelectLookup.HideError();
           node.widgets.SelectLookup._gotResults(result);
+          this._checkForSave();
+
         }, node.widgets.SelectLookup._gotResultsError);
       }
     }
@@ -24806,10 +24829,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
   }
 
-
-
-
-
   _lookupModelDispatch()
   {
     if (Affinity2018.Apps.CleverForms.hasOwnProperty('Form'))
@@ -24945,6 +24964,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             // we had no emp to start with, so no need to wearn anybody about an emp change
             showWarning = false;
           }
+
+          if (showWarning && this.FormRowNode.classList.contains('is-dependant'))
+          {
+            showWarning = false;
+            // dependecy will load, and if there is still an issue finding a result, 
+            // we will end up with a message here anyway becuase on dependency load, 
+            // the class name 'is-dependant' is removed.
+          }
+
           if (showWarning)
           {
             // Clear the entire form first :O
@@ -25109,6 +25137,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           console.log('%c' + message, 'color:' + color + ';font-weight:bold;');
           this.ElementController.SetFromValue(data[this.Config.Name], fromKeyChange);
+          this.CheckDependencies();
         }
         checkValue = data[this.Config.Name];
       }
@@ -25131,6 +25160,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           console.log('%c' + message, 'color:' + color + ';font-weight:bold;');
           this.ElementController.SetFromValue('', fromKeyChange);
+          this.CheckDependencies();
         }
         checkValue = '';
       }
@@ -46920,6 +46950,16 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.ErrorNode.classList.add('show');
     if (this.RowNode) 
     {
+      if (this.RowNode.classList.contains('is-dependant'))
+      {
+        this.ErrorNode.classList.remove('show');
+        this.Form.ResizeSection(this.RowNode);
+        return;
+        // dependecy will load, and if there is still an issue finding a result, 
+        // we will end up with a message here anyway becuase on dependency load, 
+        // the class anme 'is-dependant' is removed.
+      }
+
       this.RowNode.classList.add('error');
       if (isCustom)
       {
