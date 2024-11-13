@@ -18186,14 +18186,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                   }
                   elementNode = this.Add(elementConfig.ElementType, elementConfig, sectionNode.querySelector('.default-form'));
 
-                  // Flag row if this is a dependency child
-                  let isDependant = uniqueDependencyAffinityFields.some(
-                    field => elementConfig.Details.AffinityField.ModelName === field.TableName 
-                          && elementConfig.Details.AffinityField.FieldName === field.FieldName
-                  );
-                  if (isDependant)
-                  {
-                    elementNode.closest('.form-row').classList.add('is-dependant');
+                  if (elementConfig.Details.hasOwnProperty('AffinityField')) {
+                    // Flag row if this is a dependency child
+                    let isDependant = uniqueDependencyAffinityFields.some(
+                        field => elementConfig.Details.AffinityField.ModelName === field.TableName
+                            && elementConfig.Details.AffinityField.FieldName === field.FieldName
+                    );
+                    if (isDependant) {
+                        elementNode.closest('.form-row').classList.add('is-dependant');
+                    }
                   }
                   //
 
