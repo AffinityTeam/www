@@ -10857,7 +10857,18 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       postData.FieldDecimal             = config.Details.AffinityField.FieldDecimal;
       postData.FieldPrecision           = config.Details.AffinityField.FieldPrecision;
 
-      postData.DependencyFields         = config.Details.AffinityField.DependencyFields;
+      if (config.Details.AffinityField.hasOwnProperty('DependencyFields') && config.Details.AffinityField.DependencyFields !== null)
+      {
+        postData.DependencyFields       = config.Details.AffinityField.DependencyFields;
+      }
+      else if (config.Details.AffinityField.hasOwnProperty('DependencyAffinityFields') && config.Details.AffinityField.DependencyAffinityFields !== null)
+      {
+        postData.DependencyFields       = config.Details.AffinityField.DependencyAffinityFields;
+      }
+      else
+      {
+        postData.DependencyFields       = [];
+      }
 
       postData.Hidden                   = config.Hidden;
     }
