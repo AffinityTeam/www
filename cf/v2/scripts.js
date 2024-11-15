@@ -22816,6 +22816,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     
     this.WhitelistRetryMax = 2;
     this.WhitelistRetryCount = 0;
+
+    this.DependencyHistory = [];
+    this.DependencyLastSelectedValue = null;
 0
     this.ElementController = null;
 
@@ -22854,6 +22857,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
       '_insertDesignerKey',
 
+      '_genericFormRowSelectChanged',
       '_formRowLookupChanged', '_payPointChanged',
       '_lookupModelLoaded', '_lookupModelDispatch', '_lookupModelFailed', '_modelLookupChanged', '_globalKeyChanged', '_updateNonAffintyFields',
 
@@ -23431,6 +23435,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         }
       }
 
+      if (displayType === 'SingleSelectDropdown')
+      {
+        if (!this.IsReadOnly) this.FormRowNode.querySelector('select').addEventListener('change', this._genericFormRowSelectChanged);
+      }
+
       if (
         displayType === 'SingleSelectDropdown'
         && (this.Config.Details.AffinityField.IsKeyField || this.Config.Details.AffinityField.IsGlobalKey)
@@ -23698,7 +23707,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         });
         Affinity2018.RequestQueue.Add(dependentApi, (result) =>
         {
-
+          Affinity2018.Dialog.Hide();
           if (Array.isArray(result) && result.length > 0)
           {
             if(node.closest('.is-dependant'))
@@ -23706,11 +23715,55 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               node.closest('.is-dependant').classList.remove('is-dependant');
             }
           }
-
-          Affinity2018.Dialog.Hide();
+          let lastHistory = this.DependencyHistory.length > 0 ? this.DependencyHistory[this.DependencyHistory.length - 1] : null;
+          let parentNode = lastHistory ? 
+                              document.querySelector(`select[data-property-name="${lastHistory.ParentName}"][data-model-name="${lastHistory.ParentModel}"]`) 
+                              : document.querySelector(`select[data-property-name="${data.FieldName}"][data-model-name="${data.ModelName}"]`);
+          let parentRow = parentNode ? parentNode.closest('.row-affinityfield') : null;
+          let parentValue = parentRow ? parentRow.controller.GetFromFormRow() : null;
+          let lastParentMatch = null;
+          if (lastHistory && parentValue && parentValue.Value !== lastHistory.ParentValue)
+          {
+            lastParentMatch = [...this.DependencyHistory].reverse().find(item => item.ParentValue === parentValue.Value);
+          }
           node.widgets.SelectLookup.HideError();
-          node.widgets.SelectLookup._gotResults(result);
-          this._checkForSave();
+
+          if (this.DependencyLastSelectedValue !== null && this.DependencyHistory.length > 0)
+          {
+            this.DependencyHistory[this.DependencyHistory.length - 1].Value = this.DependencyLastSelectedValue;
+          }
+          this.DependencyLastSelectedValue = null;
+
+          let newDefaultValue = null;
+          if (newDefaultValue === null && lastParentMatch)
+          {
+            newDefaultValue = lastParentMatch.Value;
+          }
+          if (newDefaultValue === null && !lastHistory && parentValue)
+          {
+            newDefaultValue = this.Config.Details.Value;
+          }
+          if (newDefaultValue === null && lastHistory && parentValue && parentValue.Value === lastHistory.ParentValue)
+          {
+            newDefaultValue = lastHistory.Value;
+          }
+          if (newDefaultValue === null)
+          {
+            newDefaultValue = 'null';
+          }
+          node.widgets.SelectLookup.defaultValue = newDefaultValue;
+
+          node.widgets.SelectLookup._gotResults(result, (value =>
+          {
+            console.log(value);
+            this.DependencyHistory.push({
+              ParentModel: data.ModelName,
+              ParentName: data.FieldName,
+              ParentValue: data.FieldValue,
+              Value: value
+            });
+            this._checkForSave();
+          }).bind(this));
 
         }, node.widgets.SelectLookup._gotResultsError);
       }
@@ -24757,6 +24810,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   /**/
 
+  _genericFormRowSelectChanged(event)
+  {
+    var value = null;
+    if (event)
+    {
+      this.DependencyLastSelectedValue = event.target.value;
+    }
+  }
+
   _formRowLookupChanged (ev)
   {
     var node = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : this.FormRowNode.querySelector('input') ? this.FormRowNode.querySelector('input') : null;
@@ -24765,9 +24827,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       value = node.value.trim()
     }
-
     var modelName = this.Config.Details.AffinityField.ModelName;
-
     if (document.querySelectorAll('div[data-model="' + modelName + '"].row-affinityfield').length > 0)
     {
       $a.ShowPageLoader();
@@ -47052,7 +47112,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
   /**/
 
-  _gotResults (response)
+  _gotResults (response, callback)
   {
     if(response)
     {
@@ -47062,19 +47122,19 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         {
           if (response.hasOwnProperty('data') && Affinity2018.isPropArray(response, 'data'))
           {
-            this._processResults(response.data);
+            this._processResults(response.data, callback);
             return;
           }
           if (response.hasOwnProperty('results') && Affinity2018.isPropArray(response, 'results'))
           {
-            this._processResults(response.results);
+            this._processResults(response.results, callback);
             return;
           }
         }
       }
       if (Affinity2018.isArray(response))
       {
-        this._processResults(response);
+        this._processResults(response, callback);
         return;
       }
     }
@@ -47104,8 +47164,9 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     this.targetNode.innerHTML = '';
   }
 
-  _processResults (resultArray)
+  _processResults (resultArray, callback)
   {
+    callback = callback && typeof callback === 'function' ? callback : () => {};
     this._clear();
     this.insertCount = 0;
     this.hasSelected = false;
@@ -47141,6 +47202,12 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       {
         this.targetNode.addEventListener('autocompleteReady', this._forceSingleValueChange);
       }
+      let ac = null;
+      let callbackAndRemoveListener = (() =>
+      {
+        if (ac) ac.removeEventListener('ready', callbackAndRemoveListener);
+        callback(this.defaultValue);
+      }).bind(this);
       if (this.targetNode.hasOwnProperty('widgets') && this.targetNode.widgets.hasOwnProperty('Autocomplete'))
       {
         if (this.defaultValue) 
@@ -47149,11 +47216,18 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           this.targetNode.widgets.Autocomplete.defaultValue = defaultValue;
           this.targetNode.dataset.defaultValue = defaultValue;
         }
-        this.targetNode.widgets.Autocomplete.refreshFromSelect();
+        ac = this.targetNode.widgets.Autocomplete;
+        ac.refreshFromSelect();
       }
       else
       {
-        Affinity2018.Autocompletes.Apply(this.targetNode);
+        let acs = Affinity2018.Autocompletes.Apply(this.targetNode);
+        ac = acs.widgets[acs.widgets.length - 1];
+      }
+      if (ac)
+      {
+        ac.removeEventListener('ready', callbackAndRemoveListener);
+        ac.addEventListener('ready', callbackAndRemoveListener);
       }
     }
     else
@@ -47163,12 +47237,12 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         this.targetNode.disabled = 'disabled';
         this.targetNode.dispatchEvent(new Event('change'));
       }
+      callback();
     }
     this.targetNode.classList.remove('working');
     if (this.targetNode.parentNode && this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.remove('working');
     this.targetNode.removeEventListener('change', this.IsValid);
     this.targetNode.addEventListener('change', this.IsValid);
-
 
     if (this.targetNode.hasOwnProperty('widgets') && this.targetNode.widgets.hasOwnProperty('Autocomplete'))
     {
