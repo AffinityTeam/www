@@ -23764,7 +23764,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
             node.widgets.SelectLookup._gotResults(result, (value =>
             {
-              console.log(value);
               this.DependencyHistory.push({
                 ParentModel: data.ModelName,
                 ParentName: data.FieldName,
@@ -24997,7 +24996,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             if (
               !returnedNames.contains(elm.Name) 
               && !$a.isNullOrEmpty(elm.Value)
-              && ($a.isBool(elm.Value) && elm.Value)
+              && ($a.isBool(elm.Value) || elm.Value)
             )
             {
               console.groupCollapsed('Form is not clear:');
@@ -25192,6 +25191,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var from = this.ElementController.GetFromFormRow();
     if ($a.isObject(from) && from.hasOwnProperty('Value')) from = from.Value;
     if (!$a.isString(from) && isNaN(parseInt(from))) from = JSON.stringify(from);
+    if (fromKeyChange) this.DependencyHistory = [];
     if (this.Config.Details.AffinityField.ModelName === model && Object.keys(data).contains(this.Config.Name))
     {
       if (data[this.Config.Name] !== null && data[this.Config.Name] !== 'null')
@@ -29607,6 +29607,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   SetFromValue(value, fromKeyChange)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
+    if (value === '' || value === 'null' || value === 'none')
+    {
+      this.Reset();
+    }
     // TODO: How to set a file from a value here?
   }
 
@@ -29822,9 +29826,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
   {
     //var desc = this.Config.Details.DocumentDescription;
     //var hasDesc = $a.isString(desc) && desc.trim() !== '';
-
-    debugger;
-
 
     var fileIdstrings = this.Config.Details.Value.toString();
     var fileIds = fileIdstrings.split(',').removeEmpty().removeDuplicates();
@@ -43597,7 +43598,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   DeleteFiles()
   {
-    debugger;
     //this.gridBody.querySelectorAll('tr').forEach(this._deleteRow);
     this.bulkDelete = [];
     let rows = this.gridBody.querySelectorAll('tr');
@@ -44041,7 +44041,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   _doBulkDelete()
   {
-    debugger;
     this.removeEventListener('deleteFailed', this._bulkDeleteRowDone);
     this.removeEventListener('deleteSuccess', this._bulkDeleteRowDone);
     if (this.bulkDelete && this.bulkDelete.length > 0)
@@ -44057,7 +44056,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
   _bulkDeleteRowDone()
   {
-    debugger;
     this.bulkDelete.shift();
     this._doBulkDelete();
   }
