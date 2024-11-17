@@ -23678,97 +23678,104 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       && data.hasOwnProperty('FieldValue')
       && data.ModelName !== null
       && data.FieldName !== null
-      && data.FieldValue !== null
     )
     {
-      let node = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : null;
-      if (
-        node 
-        && this.FormRowNode
-        && this.FormRowNode.hasOwnProperty('controller')
-      )
+      let nodeController = this.FormRowNode.controller;
+      if (data.FieldValue === null)
       {
+        nodeController.SetFromValue('', false, true);
+        this._checkForSave();
+      }
+      else
+      {
+        let node = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : null;
         if (
-          node.hasOwnProperty('widgets')
-          && node.widgets.hasOwnProperty('SelectLookup')
+          node 
+          && this.FormRowNode
+          && this.FormRowNode.hasOwnProperty('controller')
         )
         {
-          node.widgets.SelectLookup.HideError();
-        }
-        let nodeController = this.FormRowNode.controller;
-        let apiString =  '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}';
-            apiString += '&DependencyTableName={dependencyModelName}&DependencyFieldName={dependencyFieldName}&DependencyValue={dependencyValue}';
-        let dependentApi = apiString.format({
-          api: this.CleverForms.GetLookupApi,
-          modelName: data.ModelName,
-          propertyName: data.FieldName,
-          dependencyModelName: this.Config.Details.AffinityField.ModelName,
-          dependencyFieldName: this.Config.Details.AffinityField.FieldName,
-          dependencyValue: data.FieldValue,
-          employeeNo: this.CleverForms.GetFormEmployeeNo(),
-          instanceId: this.CleverForms.GetInstanceGuid()
-        });
-        Affinity2018.RequestQueue.Add(dependentApi, (result) =>
-        {
-          Affinity2018.Dialog.Hide();
-          if (Array.isArray(result) && result.length > 0)
+          if (
+            node.hasOwnProperty('widgets')
+            && node.widgets.hasOwnProperty('SelectLookup')
+          )
           {
-            if(node.closest('.is-dependant'))
+            node.widgets.SelectLookup.HideError();
+          }
+          let apiString =  '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}';
+              apiString += '&DependencyTableName={dependencyModelName}&DependencyFieldName={dependencyFieldName}&DependencyValue={dependencyValue}';
+          let dependentApi = apiString.format({
+            api: this.CleverForms.GetLookupApi,
+            modelName: data.ModelName,
+            propertyName: data.FieldName,
+            dependencyModelName: this.Config.Details.AffinityField.ModelName,
+            dependencyFieldName: this.Config.Details.AffinityField.FieldName,
+            dependencyValue: data.FieldValue,
+            employeeNo: this.CleverForms.GetFormEmployeeNo(),
+            instanceId: this.CleverForms.GetInstanceGuid()
+          });
+          Affinity2018.RequestQueue.Add(dependentApi, (result) =>
+          {
+            Affinity2018.Dialog.Hide();
+            if (Array.isArray(result) && result.length > 0)
             {
-              node.closest('.is-dependant').classList.remove('is-dependant');
+              if(node.closest('.is-dependant'))
+              {
+                node.closest('.is-dependant').classList.remove('is-dependant');
+              }
             }
-          }
-          let lastHistory = this.DependencyHistory.length > 0 ? this.DependencyHistory[this.DependencyHistory.length - 1] : null;
-          let parentNode = lastHistory ? 
-                              document.querySelector(`select[data-property-name="${lastHistory.ParentName}"][data-model-name="${lastHistory.ParentModel}"]`) 
-                              : document.querySelector(`select[data-property-name="${data.FieldName}"][data-model-name="${data.ModelName}"]`);
-          let parentRow = parentNode ? parentNode.closest('.row-affinityfield') : null;
-          let parentValue = parentRow ? parentRow.controller.GetFromFormRow() : null;
-          let lastParentMatch = null;
-          if (lastHistory && parentValue && parentValue.Value !== lastHistory.ParentValue)
-          {
-            lastParentMatch = [...this.DependencyHistory].reverse().find(item => item.ParentValue === parentValue.Value);
-          }
-          node.widgets.SelectLookup.HideError();
+            let lastHistory = this.DependencyHistory.length > 0 ? this.DependencyHistory[this.DependencyHistory.length - 1] : null;
+            let parentNode = lastHistory ? 
+                                document.querySelector(`select[data-property-name="${lastHistory.ParentName}"][data-model-name="${lastHistory.ParentModel}"]`) 
+                                : document.querySelector(`select[data-property-name="${data.FieldName}"][data-model-name="${data.ModelName}"]`);
+            let parentRow = parentNode ? parentNode.closest('.row-affinityfield') : null;
+            let parentValue = parentRow ? parentRow.controller.GetFromFormRow() : null;
+            let lastParentMatch = null;
+            if (lastHistory && parentValue && parentValue.Value !== lastHistory.ParentValue)
+            {
+              lastParentMatch = [...this.DependencyHistory].reverse().find(item => item.ParentValue === parentValue.Value);
+            }
+            node.widgets.SelectLookup.HideError();
 
-          if (this.DependencyLastSelectedValue !== null && this.DependencyHistory.length > 0)
-          {
-            this.DependencyHistory[this.DependencyHistory.length - 1].Value = this.DependencyLastSelectedValue;
-          }
-          this.DependencyLastSelectedValue = null;
+            if (this.DependencyLastSelectedValue !== null && this.DependencyHistory.length > 0)
+            {
+              this.DependencyHistory[this.DependencyHistory.length - 1].Value = this.DependencyLastSelectedValue;
+            }
+            this.DependencyLastSelectedValue = null;
 
-          let newDefaultValue = null;
-          if (newDefaultValue === null && lastParentMatch)
-          {
-            newDefaultValue = lastParentMatch.Value;
-          }
-          if (newDefaultValue === null && !lastHistory && parentValue)
-          {
-            newDefaultValue = this.Config.Details.Value;
-          }
-          if (newDefaultValue === null && lastHistory && parentValue && parentValue.Value === lastHistory.ParentValue)
-          {
-            newDefaultValue = lastHistory.Value;
-          }
-          if (newDefaultValue === null)
-          {
-            newDefaultValue = 'null';
-          }
-          node.widgets.SelectLookup.defaultValue = newDefaultValue;
+            let newDefaultValue = null;
+            if (newDefaultValue === null && lastParentMatch)
+            {
+              newDefaultValue = lastParentMatch.Value;
+            }
+            if (newDefaultValue === null && !lastHistory && parentValue)
+            {
+              newDefaultValue = this.Config.Details.Value;
+            }
+            if (newDefaultValue === null && lastHistory && parentValue && parentValue.Value === lastHistory.ParentValue)
+            {
+              newDefaultValue = lastHistory.Value;
+            }
+            if (newDefaultValue === null)
+            {
+              newDefaultValue = 'null';
+            }
+            node.widgets.SelectLookup.defaultValue = newDefaultValue;
 
-          node.widgets.SelectLookup._gotResults(result, (value =>
-          {
-            console.log(value);
-            this.DependencyHistory.push({
-              ParentModel: data.ModelName,
-              ParentName: data.FieldName,
-              ParentValue: data.FieldValue,
-              Value: value
-            });
-            this._checkForSave();
-          }).bind(this));
+            node.widgets.SelectLookup._gotResults(result, (value =>
+            {
+              console.log(value);
+              this.DependencyHistory.push({
+                ParentModel: data.ModelName,
+                ParentName: data.FieldName,
+                ParentValue: data.FieldValue,
+                Value: value
+              });
+              this._checkForSave();
+            }).bind(this));
 
-        }, node.widgets.SelectLookup._gotResultsError);
+          }, node.widgets.SelectLookup._gotResultsError);
+        }
       }
     }
   }
@@ -32498,10 +32505,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
   }
 
-  SetFromValue(value, fromKeyChange)
+  SetFromValue(value, fromKeyChange, fromDependency)
   {
     fromKeyChange = fromKeyChange === undefined ? false : fromKeyChange;
     value = value.hasOwnProperty('Value') ? value.Value : value;
+    fromDependency = fromDependency = undefined ? false : fromDependency;
     if (value === null || value === 'null' || value.toString().trim() === '')
     {
       if (this.Config.Details.Required) value = ''; // Select..
@@ -32514,6 +32522,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         if (
           this.FormRowNode.querySelector('select').widgets.hasOwnProperty('SelectLookup') 
           && this.FormRowNode.querySelector('select').widgets.SelectLookup.hasOwnProperty('CheckForHidden')
+          && !fromDependency
         )
         {
           this.FormRowNode.querySelector('select').widgets.SelectLookup.defaultValue = value;
@@ -47353,7 +47362,9 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let defaultValue = this.CleverForms.GetValueFromValueObject(this.targetNode, this.defaultValue);
 
     // Check if we are a dependency child ready to be reloaded, and ignore if true.
-    if (this.targetNode.closest('.form-row.is-dependant')) return false;
+    let row = this.targetNode.closest('.form-row');
+    let isDependencyChild = row && row.classList.contains('is-dependant');
+    if (isDependencyChild) return false;
     //
 
     if (
