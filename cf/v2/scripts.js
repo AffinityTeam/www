@@ -23676,6 +23676,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       && data.hasOwnProperty('ModelName') 
       && data.hasOwnProperty('FieldName') 
       && data.hasOwnProperty('FieldValue')
+      && data.ModelName !== null
+      && data.FieldName !== null
+      && data.FieldValue !== null
     )
     {
       let node = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : null;
