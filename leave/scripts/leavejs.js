@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5403,71-72): run-time error JS1195: Expected expression: >
-(5403,98-99): run-time error JS1004: Expected ';': )
-(5405,87-88): run-time error JS1195: Expected expression: >
-(5405,129-130): run-time error JS1004: Expected ';': )
-(5410,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5415,13-14): run-time error JS1002: Syntax error: }
-(5417,34-35): run-time error JS1004: Expected ';': {
-(5421,9-10): run-time error JS1002: Syntax error: }
-(5424,25-26): run-time error JS1004: Expected ';': {
-(5575,5-6): run-time error JS1002: Syntax error: }
-(5576,45-46): run-time error JS1004: Expected ';': {
-(5595,6-7): run-time error JS1195: Expected expression: ,
-(5596,63-64): run-time error JS1004: Expected ';': {
-(5602,6-7): run-time error JS1195: Expected expression: ,
-(5603,26-27): run-time error JS1195: Expected expression: )
-(5603,28-29): run-time error JS1004: Expected ';': {
-(5677,6-7): run-time error JS1195: Expected expression: ,
-(5679,22-23): run-time error JS1195: Expected expression: )
-(5679,24-25): run-time error JS1004: Expected ';': {
-(5702,6-7): run-time error JS1195: Expected expression: ,
-(5704,24-25): run-time error JS1195: Expected expression: )
-(5704,26-27): run-time error JS1004: Expected ';': {
-(5763,6-7): run-time error JS1195: Expected expression: ,
-(10433,52-53): run-time error JS1195: Expected expression: .
-(10445,5-6): run-time error JS1002: Syntax error: }
-(10446,46-47): run-time error JS1004: Expected ';': {
-(10481,6-7): run-time error JS1195: Expected expression: ,
-(10482,42-43): run-time error JS1004: Expected ';': {
-(10505,6-7): run-time error JS1195: Expected expression: ,
-(10506,43-44): run-time error JS1004: Expected ';': {
-(10518,6-7): run-time error JS1195: Expected expression: ,
-(10519,81-82): run-time error JS1004: Expected ';': {
-(10536,6-7): run-time error JS1195: Expected expression: ,
-(10537,54-55): run-time error JS1004: Expected ';': {
-(10564,6-7): run-time error JS1195: Expected expression: ,
-(10565,49-50): run-time error JS1004: Expected ';': {
-(10635,6-7): run-time error JS1195: Expected expression: ,
-(10636,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10444,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10438,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5601,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5491,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5510,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5446,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5419,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5392,71-72): run-time error JS1195: Expected expression: >
+(5392,98-99): run-time error JS1004: Expected ';': )
+(5394,87-88): run-time error JS1195: Expected expression: >
+(5394,129-130): run-time error JS1004: Expected ';': )
+(5399,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5404,13-14): run-time error JS1002: Syntax error: }
+(5406,34-35): run-time error JS1004: Expected ';': {
+(5410,9-10): run-time error JS1002: Syntax error: }
+(5413,25-26): run-time error JS1004: Expected ';': {
+(5564,5-6): run-time error JS1002: Syntax error: }
+(5565,45-46): run-time error JS1004: Expected ';': {
+(5584,6-7): run-time error JS1195: Expected expression: ,
+(5585,63-64): run-time error JS1004: Expected ';': {
+(5591,6-7): run-time error JS1195: Expected expression: ,
+(5592,26-27): run-time error JS1195: Expected expression: )
+(5592,28-29): run-time error JS1004: Expected ';': {
+(5666,6-7): run-time error JS1195: Expected expression: ,
+(5668,22-23): run-time error JS1195: Expected expression: )
+(5668,24-25): run-time error JS1004: Expected ';': {
+(5691,6-7): run-time error JS1195: Expected expression: ,
+(5693,24-25): run-time error JS1195: Expected expression: )
+(5693,26-27): run-time error JS1004: Expected ';': {
+(5752,6-7): run-time error JS1195: Expected expression: ,
+(10422,52-53): run-time error JS1195: Expected expression: .
+(10434,5-6): run-time error JS1002: Syntax error: }
+(10435,46-47): run-time error JS1004: Expected ';': {
+(10470,6-7): run-time error JS1195: Expected expression: ,
+(10471,42-43): run-time error JS1004: Expected ';': {
+(10494,6-7): run-time error JS1195: Expected expression: ,
+(10495,43-44): run-time error JS1004: Expected ';': {
+(10507,6-7): run-time error JS1195: Expected expression: ,
+(10508,81-82): run-time error JS1004: Expected ';': {
+(10525,6-7): run-time error JS1195: Expected expression: ,
+(10526,54-55): run-time error JS1004: Expected ';': {
+(10553,6-7): run-time error JS1195: Expected expression: ,
+(10554,49-50): run-time error JS1004: Expected ';': {
+(10624,6-7): run-time error JS1195: Expected expression: ,
+(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10433,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10427,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5590,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5480,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5499,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5435,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5408,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -2209,10 +2209,6 @@ var UILeaveApply = new Class({
         // this.leavePeriodGroupRow2 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow3 = new Element('div', { 'class': 'form-row period-days-table-container' }).inject(this.leavePeriodGroup);
         this.leavePeriodGroupRow4 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-        this.leavePeriodGroupRow5 = new Element('div', { 'class': 'form-row' }).inject(this.leavePeriodGroup);
-
-
-
 
         new Element('label', {
             'html': 'Leave Period',
@@ -2222,25 +2218,20 @@ var UILeaveApply = new Class({
         this.dates = new Element('div', { 'class': 'leave-dates leave-apply-dates' }).inject(this.leavePeriodGroupRow1);
 
         this.leavePeriodDaysBox = new Element('div', { 'attr': 'leavePeriodDaysBox' }).inject(this.leavePeriodGroupRow3);
-        this.leavPeriodRequestPartDayLabelColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow4);
-        this.leavPeriodRequestPartDayLabelColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
+        this.leavPeriodRequestPartDayLabelColumn1 = new Element('label', { 'class': 'leave-apply-group-title-label bold' }).inject(this.leavePeriodGroupRow4);
+        this.leavePeriodRequestPartDayInputAsColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
         this.leavPeriodRequestPartDayLabelColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow4);
 
-        this.leavePeriodRequestPartDayInputColumn1 = new Element('div', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodGroupRow5);
-        this.leavePeriodRequestPartDayInputColumn2 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
-        this.leavePeriodRequestPartDayInputColumn3 = new Element('div', { 'class': 'leave-apply-group-column-container' }).inject(this.leavePeriodGroupRow5);
-
         this.leavePeriodGroupRow4.hide();
-        this.leavePeriodGroupRow5.hide();
 
         this.leavePeriodRequestPartDayLabel = new Element('label', {
             'html': 'Part Day - Start/Finish Times',
             'class': 'leave-apply-group-column-label ui-has-tooltip',
             'data-tooltip': "Add your intended Start/Finish times for days where your leave doesn't cover the entire day",
-        }).inject(this.leavPeriodRequestPartDayLabelColumn2);
+        }).inject(this.leavPeriodRequestPartDayLabelColumn1);
 
 
-        this.partDayReason = new Element('textarea', { 'class': 'leave-apply-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputColumn2);
+        this.partDayReason = new Element('textarea', { 'class': 'leave-apply-text-area-small', 'rows': '4', 'id': 'partDayReason', 'name': 'partDayReason' }).inject(this.leavePeriodRequestPartDayInputAsColumn2);
 
 
         this.leavePeriodDaysBoxHeaderRow = new Element('div').inject(this.leavePeriodDaysBox);
@@ -2921,10 +2912,8 @@ var UILeaveApply = new Class({
             var totalString = 'Total [days] days / [hours] hours / [weeks] weeks';
             if (totalDaysAppliedFor < 1) {
                 this.leavePeriodGroupRow4.show();
-                this.leavePeriodGroupRow5.show();
             } else {
                 this.leavePeriodGroupRow4.hide();
-                this.leavePeriodGroupRow5.hide();
             }
 
             totalWeeksAppliedFor = totalHoursAppliedFor / totalWeekDefUnits;
