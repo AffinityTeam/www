@@ -29127,7 +29127,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
       let inputNode = this.FormRowNode.querySelector('input[type="file"]');
       if (inputNode)
       {
-        let widget = this._getWidget();
         if (widget)
         {
           this._fileNodeWidgetReady();
