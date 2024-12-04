@@ -8726,7 +8726,7 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   transition: height 0.3s ease-in-out;
 }
 .ss-app-iframe.app-leave-config {
-  height: calc(-184vh);
+  height: calc(100vh - 284px);
 }
 .ss-app-iframe::before {
   content: " ";
