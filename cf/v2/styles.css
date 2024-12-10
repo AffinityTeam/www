@@ -13700,7 +13700,11 @@ body.ui2018.uiupdate .ui-file-list table tbody tr td:nth-child(2):not(.file) {
 body.ui2018 .ui-file-list table thead tr.marked-for-delete,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete,
-body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete {
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete,
+body.ui2018 .ui-file-list table thead tr.marked-locked,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked,
+body.ui2018 .ui-file-list table tbody tr.marked-locked,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked {
   -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
   -o-filter: grayscale(100%);
@@ -13715,24 +13719,40 @@ body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete {
 body.ui2018 .ui-file-list table thead tr.marked-for-delete *,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete *,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete *,
-body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete * {
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete *,
+body.ui2018 .ui-file-list table thead tr.marked-locked *,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked *,
+body.ui2018 .ui-file-list table tbody tr.marked-locked *,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked * {
   touch-action: none;
   pointer-events: none;
 }
 body.ui2018 .ui-file-list table thead tr.marked-for-delete td.file a,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete td.file a,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete td.file a,
-body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete td.file a {
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete td.file a,
+body.ui2018 .ui-file-list table thead tr.marked-locked td.file a,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked td.file a,
+body.ui2018 .ui-file-list table tbody tr.marked-locked td.file a,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked td.file a {
   text-decoration: none;
 }
 body.ui2018 .ui-file-list table thead tr.marked-for-delete button,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete button,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete button,
 body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete button,
+body.ui2018 .ui-file-list table thead tr.marked-locked button,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked button,
+body.ui2018 .ui-file-list table tbody tr.marked-locked button,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked button,
 body.ui2018 .ui-file-list table thead tr.marked-for-delete .button,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete .button,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete .button,
-body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete .button {
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete .button,
+body.ui2018 .ui-file-list table thead tr.marked-locked .button,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked .button,
+body.ui2018 .ui-file-list table tbody tr.marked-locked .button,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked .button {
   touch-action: none;
   pointer-events: none;
 }
@@ -13740,10 +13760,18 @@ body.ui2018 .ui-file-list table thead tr.marked-for-delete button *,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete button *,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete button *,
 body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete button *,
+body.ui2018 .ui-file-list table thead tr.marked-locked button *,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked button *,
+body.ui2018 .ui-file-list table tbody tr.marked-locked button *,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked button *,
 body.ui2018 .ui-file-list table thead tr.marked-for-delete .button *,
 body.ui2018.uiupdate .ui-file-list table thead tr.marked-for-delete .button *,
 body.ui2018 .ui-file-list table tbody tr.marked-for-delete .button *,
-body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete .button * {
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-for-delete .button *,
+body.ui2018 .ui-file-list table thead tr.marked-locked .button *,
+body.ui2018.uiupdate .ui-file-list table thead tr.marked-locked .button *,
+body.ui2018 .ui-file-list table tbody tr.marked-locked .button *,
+body.ui2018.uiupdate .ui-file-list table tbody tr.marked-locked .button * {
   touch-action: none;
   pointer-events: none;
 }

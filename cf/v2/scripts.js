@@ -43541,7 +43541,14 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         if (file.Id.toString() !== '-1')
         {
           let link = file.CanView ? this._getDownloadLink(file.Id) : null;
-          this._insertRow(file.Name, link, file.Id, file.CanDelete, file.Type.icon);
+          if (!file.CanView)
+          {
+            this._insertRow(file.Name, null, file.Id, file.CanDelete, file.Type.icon, true);
+          }
+          else
+          {
+            this._insertRow(file.Name, link, file.Id, file.CanDelete, file.Type.icon);
+          }
         }
         else
         {
@@ -43588,9 +43595,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     }
   }
 
-  _insertRow(fileName, filePath, fileId, canDelete, icon)
+  _insertRow(fileName, filePath, fileId, canDelete, icon, isLocked)
   {
     canDelete === undefined ? this.CanUserDelete : canDelete;
+    isLocked === undefined ? false : isLocked;
     var rowNode;
     rowNode = document.createElement('tr');
     rowNode.innerHTML = canDelete ? this.rowTemplate : this.rowNoDelTemplate;
@@ -43602,7 +43610,14 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     else
     {
       rowNode.querySelector('td.file').innerHTML = '<span class="view-only"><span class="icon">' + icon + '</span>' + fileName + '</span>';
-      rowNode.classList.add('marked-for-delete');
+      if (isLocked)
+      {
+        rowNode.classList.add('marked-locked');
+      }
+      else
+      {
+        rowNode.classList.add('marked-for-delete');
+      }
     }
     if (
       ($a.isString(fileId) && !$a.isNullOrEmpty(fileId))
