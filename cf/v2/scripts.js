@@ -22713,6 +22713,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     this.DefaultFilterOptions = {}; // will get from CleverForms.AffnityFieldModeTypes
     this.FilterOptions = {};
 
+    this.SelectedMode = null;
+
     this.WhiteListModes = [
       Affinity2018.Apps.CleverForms.Default.AffnityFieldModeTypes.Select.Enum
     ];
@@ -23656,6 +23658,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.HiddenBoxNode.classList.remove('hidden');
     }
 
+    this.SelectedMode = mode;
+
   }
 
   /**/
@@ -23968,7 +23972,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             }
           }
         }
-        let objectKeys = fromLookup ? { Key: 'Value', Value: 'Key' } : { Key: 'Key', Value: 'Value' };
         for (let item of data)
         {
           let includeItem = false;
@@ -23981,12 +23984,33 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             var found = null;
             if (this.WhiteListBackup !== null)
             {
-              let matches = this.WhiteListBackup.filter(obj => obj.Key === item[objectKeys.Key] || obj.Value === item[objectKeys.Value]) || [];
-              if (matches.length > 0) found = matches[0];
+              let matches = [];
+              for (let obj of this.WhiteListBackup)
+              {
+                let keyMatch, valueMatch;
+                if (fromLookup)
+                {
+                  keyMatch = (obj.Key === item.Value);
+                  valueMatch = (obj.Value === item.Key);
+                }
+                else
+                {
+                  keyMatch = (obj.Key === item.Key);
+                  valueMatch = (obj.Value === item.Value);
+                }
+                if (keyMatch || valueMatch)
+                {
+                  matches.push(obj);
+                }
+              }
+              if (matches.length > 0)
+              {
+                found = matches[0];
+              }
             }
             this.Config.Details.ItemSource.WhiteList.push({
-              Key: item[objectKeys.Key],
-              Value: item[objectKeys.Value],
+              Key: fromLookup ? item.Value : item.Key,
+              Value: fromLookup ? item.Key : item.Value,
               CountryCode: item.CountryCode === undefined ? null : item.CountryCode,
               IsHidden: found !== null ? found.IsHidden : item.IsHidden
             });
@@ -24002,7 +24026,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.WhitelistFilterUnhideAll.addEventListener('click', this._whitelistUnhideAll);
         this.WhitelistFilterGridWrapperNode.addEventListener('click', this._whitelistGridClicked);
         this.SelectFilterContainerNode.classList.add('hidden');
-        if (this.WhiteListModes.contains(parseInt(this.Config.Details.AffinityField.Mode)))
+        let modeCheck = this.SelectedMode !== null ? this.SelectedMode : this.Config.Details.AffinityField.Mode;
+        if (this.WhiteListModes.contains(parseInt(modeCheck)))
         {
           this.SelectFilterContainerNode.classList.remove('hidden');
         }
@@ -43516,7 +43541,14 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         if (file.Id.toString() !== '-1')
         {
           let link = file.CanView ? this._getDownloadLink(file.Id) : null;
-          this._insertRow(file.Name, link, file.Id, file.CanDelete, file.Type.icon);
+          if (!file.CanView)
+          {
+            this._insertRow(file.Name, null, file.Id, file.CanDelete, file.Type.icon, true);
+          }
+          else
+          {
+            this._insertRow(file.Name, link, file.Id, file.CanDelete, file.Type.icon);
+          }
         }
         else
         {
@@ -43563,9 +43595,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     }
   }
 
-  _insertRow(fileName, filePath, fileId, canDelete, icon)
+  _insertRow(fileName, filePath, fileId, canDelete, icon, isLocked)
   {
     canDelete === undefined ? this.CanUserDelete : canDelete;
+    isLocked === undefined ? false : isLocked;
     var rowNode;
     rowNode = document.createElement('tr');
     rowNode.innerHTML = canDelete ? this.rowTemplate : this.rowNoDelTemplate;
@@ -43577,7 +43610,14 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     else
     {
       rowNode.querySelector('td.file').innerHTML = '<span class="view-only"><span class="icon">' + icon + '</span>' + fileName + '</span>';
-      rowNode.classList.add('marked-for-delete');
+      if (isLocked)
+      {
+        rowNode.classList.add('marked-locked');
+      }
+      else
+      {
+        rowNode.classList.add('marked-for-delete');
+      }
     }
     if (
       ($a.isString(fileId) && !$a.isNullOrEmpty(fileId))
