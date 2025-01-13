@@ -22,23 +22,23 @@
 (5693,24-25): run-time error JS1195: Expected expression: )
 (5693,26-27): run-time error JS1004: Expected ';': {
 (5752,6-7): run-time error JS1195: Expected expression: ,
-(10422,52-53): run-time error JS1195: Expected expression: .
-(10434,5-6): run-time error JS1002: Syntax error: }
-(10435,46-47): run-time error JS1004: Expected ';': {
-(10470,6-7): run-time error JS1195: Expected expression: ,
-(10471,42-43): run-time error JS1004: Expected ';': {
-(10494,6-7): run-time error JS1195: Expected expression: ,
-(10495,43-44): run-time error JS1004: Expected ';': {
-(10507,6-7): run-time error JS1195: Expected expression: ,
-(10508,81-82): run-time error JS1004: Expected ';': {
-(10525,6-7): run-time error JS1195: Expected expression: ,
-(10526,54-55): run-time error JS1004: Expected ';': {
-(10553,6-7): run-time error JS1195: Expected expression: ,
-(10554,49-50): run-time error JS1004: Expected ';': {
-(10624,6-7): run-time error JS1195: Expected expression: ,
-(10625,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10433,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10427,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(10424,52-53): run-time error JS1195: Expected expression: .
+(10436,5-6): run-time error JS1002: Syntax error: }
+(10437,46-47): run-time error JS1004: Expected ';': {
+(10472,6-7): run-time error JS1195: Expected expression: ,
+(10473,42-43): run-time error JS1004: Expected ';': {
+(10496,6-7): run-time error JS1195: Expected expression: ,
+(10497,43-44): run-time error JS1004: Expected ';': {
+(10509,6-7): run-time error JS1195: Expected expression: ,
+(10510,81-82): run-time error JS1004: Expected ';': {
+(10527,6-7): run-time error JS1195: Expected expression: ,
+(10528,54-55): run-time error JS1004: Expected ';': {
+(10555,6-7): run-time error JS1195: Expected expression: ,
+(10556,49-50): run-time error JS1004: Expected ';': {
+(10626,6-7): run-time error JS1195: Expected expression: ,
+(10627,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10435,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10429,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
 (5590,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
 (5480,13-19): run-time error JS1018: 'return' statement outside of function: return
 (5499,17-23): run-time error JS1018: 'return' statement outside of function: return
@@ -6352,8 +6352,10 @@ var UILeaveApplyV1 = new Class({
         this.generateApplyButtons();
         if (this.isManager) {
             Affinity.leave.manager.applyTeamConfig(this.loadConfig);
+            this.hide()
         } else {
             Affinity.leave.employee.applyConfig(this.loadConfig);
+            this.show()
         }
     },
 
