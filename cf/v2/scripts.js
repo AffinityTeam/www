@@ -32239,9 +32239,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           show = listItem.hasOwnProperty('IsHidden') || true;
           if (show)
           {
+            let display = '';
+            if (listItem.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(listItem.DisplayValue))
+            {
+              display = listItem.DisplayValue;
+            }
+            else
+            {
+              display = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+            }
             optionNode = document.createElement('option');
             optionNode.value = listItem[keys[1]];
-            optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+            optionNode.innerHTML = display;
             if (!selected && $a.isBool(listItem.Selected) && listItem.Selected === true)
             {
               optionNode.selected = 'selected';
@@ -47452,7 +47461,15 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     
     let country = data.hasOwnProperty('CountryCode') ? data.CountryCode : null;
     let resultsNode = document.createElement('option');
-    let displayStr = this._cleanValue(data[this.config.DisplayKey], data[this.config.DataKey], country);
+    let displayStr = '';
+    if (data.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(data.DisplayValue))
+    {
+      displayStr = data.DisplayValue;
+    }
+    else
+    {
+      displayStr = this._cleanValue(data[this.config.DisplayKey], data[this.config.DataKey], country);
+    }
     if (displayStr.trim() !== '')
     {
       resultsNode.innerHTML = displayStr;
