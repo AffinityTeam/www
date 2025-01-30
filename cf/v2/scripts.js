@@ -18899,6 +18899,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
   _doReset()
   {
+    this.CleverForms.ModelData = null;
     let root = this;
     return new Promise(function(resolve, reject)
     {
@@ -23705,13 +23706,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     )
     {
       let nodeController = this.FormRowNode.controller;
-      if (data.FieldValue === null)
-      {
-        nodeController.SetFromValue('', false, true);
-        this._checkForSave();
-      }
-      else
-      {
+      //if (data.FieldValue === null)
+      //{
+      //  nodeController.SetFromValue('', false, true);
+      //  this._checkForSave();
+      //}
+      //else
+      //{
         let node = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : null;
         if (
           node
@@ -23738,6 +23739,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             && this.Config.Details.ItemSource.WhiteList.length > 0
           )
           {
+            if (data.FromKeyChange)
+            {
+              this.DependencyHistory = [];
+            }
+
             let lastHistory = this.DependencyHistory.length > 0 ? this.DependencyHistory[this.DependencyHistory.length - 1] : null;
 
             let parentNode = lastHistory ?
@@ -23771,13 +23777,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           }
 
         }
-      }
+      //}
     }
   }
 
-  CheckDependencies(event)
+  CheckDependencies(event, fromKeyChange)
   {
     //var fromSelectChange = event === undefined ? false : true;
+    fromKeyChange = fromKeyChange === undefined || fromKeyChange === null ? false : fromKeyChange;
     if (
       this.Config.Details.AffinityField.hasOwnProperty('ChildDependencies')
       && Array.isArray(this.Config.Details.AffinityField.ChildDependencies)
@@ -23798,12 +23805,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             //let doLookup = fromSelectChange ? true : dependantValue === null || dependantValue.toLowerCase().trim() === 'null' ? true : false;
             //if (doLookup)
             //{
-              dependecyRowNode.AffinityController.GetDependentLookup(
-              {
-                ModelName: this.Config.Details.AffinityField.ModelName,
-                FieldName: this.Config.Details.AffinityField.FieldName,
-                FieldValue: valueData.Value
-              });
+            dependecyRowNode.AffinityController.GetDependentLookup(
+            {
+              ModelName: this.Config.Details.AffinityField.ModelName,
+              FieldName: this.Config.Details.AffinityField.FieldName,
+              FieldValue: valueData.Value,
+              FromKeyChange: fromKeyChange
+            });
             //}
           }
         }
@@ -23855,6 +23863,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       this.DependencyLastSelectedValue = null;
 
       let newDefaultValue = null;
+
+      if (
+        newDefaultValue === null
+        && !lastHistory
+        && this.CleverForms.hasOwnProperty('ModelData')
+        && this.CleverForms.ModelData !== null
+        && this.CleverForms.ModelData.hasOwnProperty(this.Config.Name)
+        && !$a.isNullOrEmpty(this.CleverForms.ModelData[this.Config.Name])
+      )
+      {
+        // If we have no history, but we do have data from a Employee selection, use that data by defualt, else continue ..
+        newDefaultValue = this.CleverForms.ModelData[this.Config.Name];
+      }
+
       if (newDefaultValue === null && lastParentMatch)
       {
         newDefaultValue = lastParentMatch.Value;
@@ -24475,6 +24497,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             this.Config.Details.ItemSource.WhiteList.push({
               Key: fromLookup ? item.Value : item.Key,
               Value: fromLookup ? item.Key : item.Value,
+              DisplayValue: item.hasOwnProperty('DisplayValue') ? item.DisplayValue : null,
               CountryCode: item.CountryCode === undefined ? null : item.CountryCode,
               IsHidden: found !== null ? found.IsHidden : item.IsHidden
             });
@@ -24515,7 +24538,16 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     {
       let country = item.hasOwnProperty('CountryCode') ? item.CountryCode : null;
       //console.log(`${Affinity2018.PadLeft(count + '', '0', 3)} '`, `${Affinity2018.PadRight(item.Key, ' ', 5)} `, item.IsHidden);
-      let descriptionDisplay = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
+
+      let descriptionDisplay = '';
+      if (item.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(item.DisplayValue))
+      {
+        descriptionDisplay = item.DisplayValue;
+      }
+      else
+      {
+        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
+      }
       html += template.format({
         description: item.Value,
         //descriptionText: Affinity2018.encodeHTML(descriptionDisplay) + ` [${item.CountryCode}]`, // For testing: add country to each string so we know what it is!
@@ -24979,6 +25011,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
   _lookupModelLoaded(data)
   { 
     this.ModelData = data;
+    this.CleverForms.ModelData = data;
     this.CleverForms.ModelStatus = this.CleverForms.LoadStatusEnum.Complete;
     if (!this.CleverForms.IsEmployeeDataReady())
     {
@@ -25261,7 +25294,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     console.groupEnd();
   }
 
-  _modelLookupChanged (ev)
+  _modelLookupChanged(ev)
   {
     let fromKeyChange = 'detail' in ev && 'FromKeyChange' in ev.detail ? ev.detail.FromKeyChange : false;
     var color, messageStr, message;
@@ -25271,16 +25304,31 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     var checkValue = null;
     var to = null;
     var from = this.ElementController.GetFromFormRow();
-    if ($a.isObject(from) && from.hasOwnProperty('Value')) from = from.Value;
-    if (!$a.isString(from) && isNaN(parseInt(from))) from = JSON.stringify(from);
-    if (fromKeyChange) this.DependencyHistory = [];
+    if ($a.isObject(from) && from.hasOwnProperty('Value'))
+    {
+      from = from.Value;
+    }
+    if (!$a.isString(from) && isNaN(parseInt(from)))
+    {
+      from = JSON.stringify(from);
+    }
+    if (fromKeyChange)
+    {
+      this.DependencyHistory = [];
+    }
     if (this.Config.Details.AffinityField.ModelName === model && Object.keys(data).contains(this.Config.Name))
     {
       if (data[this.Config.Name] !== null && data[this.Config.Name] !== 'null')
       {
         to = data[this.Config.Name];
-        if ($a.isObject(to) && to.hasOwnProperty('Value')) to = to.Value;
-        if (!$a.isString(to) && isNaN(parseInt(to))) to = JSON.stringify(to);
+        if ($a.isObject(to) && to.hasOwnProperty('Value'))
+        {
+          to = to.Value;
+        }
+        if (!$a.isString(to) && isNaN(parseInt(to)))
+        {
+          to = JSON.stringify(to);
+        }
         // set Configs with new data
         this.Config.Details.Value = to;
         this.ElementController.Config.Details.Value = this.Config.Details.Value;
@@ -25300,7 +25348,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           console.log('%c' + message, 'color:' + color + ';font-weight:bold;');
           this.ElementController.SetFromValue(data[this.Config.Name], fromKeyChange);
-          this.CheckDependencies();
+          this.CheckDependencies(null, true);
         }
         checkValue = data[this.Config.Name];
       }
@@ -25323,7 +25371,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         {
           console.log('%c' + message, 'color:' + color + ';font-weight:bold;');
           this.ElementController.SetFromValue('', fromKeyChange);
-          this.CheckDependencies();
+          this.CheckDependencies(null, true);
         }
         checkValue = '';
       }
@@ -47022,6 +47070,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     {
       this.defaultValue = this.config.Value;
     }
+
+    this.targetNode.dataset.defaultValue = this.defaultValue;
 
     this.previousValue = this.defaultValue;
 
