@@ -43747,7 +43747,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       if ($a.isString(ids) && ids.contains(',')) ids = ids.split(',');
       if ($a.isString(ids) && !ids.contains(',')) ids = [ids];
       if (!$a.isArray(ids)) return;
-      ids = ids.map(function (x) { return x + ''; });
+      ids = ids.map(function (x) { return x + ''; }).filter(x => x !== '-1');
       ids = ids.removeDuplicates().removeEmpty();
       var params = Affinity2018.jsonCloneObject(this.GetInfoParams);
       for (var key in params)
