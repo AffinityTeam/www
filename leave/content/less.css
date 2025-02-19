@@ -7808,8 +7808,8 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
   margin: 10px 13px 0 0 !important;
   padding: 0 !important;
   /* border-right: 1px solid #e6e6e6 !important;
-    border-bottom: 1px solid #fff !important;
-    border-left: 1px solid #e6e6e6 !important;*/
+border-bottom: 1px solid #fff !important;
+border-left: 1px solid #e6e6e6 !important;*/
   font-size: 12px !important;
   font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif !important;
   background: #fff !important;
@@ -7825,8 +7825,8 @@ body.newui #uimodal .uimodalbody .modal-data .details-buttons-box .button {
   margin: 10px 13px 0 0 !important;
   padding: 0 !important;
   /* border-right: 1px solid #e6e6e6 !important;
-    border-bottom: 1px solid #fff !important;
-    border-left: 1px solid #e6e6e6 !important;*/
+border-bottom: 1px solid #fff !important;
+border-left: 1px solid #e6e6e6 !important;*/
   font-size: 12px !important;
   font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif !important;
   background: #fff !important;
@@ -11229,6 +11229,9 @@ body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help {
 }
 body.newui .dashboard .pagecontent .section-nav.leave-nav a.ssl-help span {
   margin-top: 4px;
+}
+.text-align-center {
+  text-align: center;
 }
 .calendarbox-wrapper {
   margin-top: 20px;
