@@ -5187,7 +5187,7 @@ var UILeaveApply = new Class({
             var autoCloseTimer = null;
             var autoCloseCounter = 5;
             var bntWrap = new Element("div", {
-                class: "modal-button-ok text-align-center",
+                class: "modal-button-ok",
             }).inject(modalData);
             var closeAcknowledgePrompt = function () {
                 Affinity.modal.clear();
