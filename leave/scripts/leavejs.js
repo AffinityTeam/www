@@ -5196,7 +5196,7 @@ var UILeaveApply = new Class({
                 autoCloseTimer = null;
             };
             var btnOk = new Element("span", {
-                class: "button green",
+                class: "button blue",
                 html: "OK (" + autoCloseCounter + ")",
                 events: {
                     click: function () {
