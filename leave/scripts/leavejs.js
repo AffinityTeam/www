@@ -1172,13 +1172,13 @@ var UILeaveHistory = new Class({
         if (this.isManager)
             this.groupSubmittedDate = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
         //this.groupOrder = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
-        this.groupOrderButtons = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
+        this.groupOrder = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
+        this.groupButtons = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
         this.panelStatus = new Element('div', { 'class': 'filter-item' }).inject(this.groupStatusType);
         this.panelType = new Element('div', { 'class': 'filter-item' }).inject(this.groupStatusType);
         this.panelDateTo = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
         this.panelDateFrom = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
         this.panelEmployee = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
-        this.panelAscending = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
        
         if (this.isManager) {
             this.panelIndirect = new Element('div', { 'class': 'filter-item' }).inject(this.groupEmployee);
@@ -1186,9 +1186,10 @@ var UILeaveHistory = new Class({
             this.panelSubmittedDate = new Element('div', { 'class': 'filter-item' }).inject(this.groupSubmittedDate);
         }
             
-        this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrderButtons);
-        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupOrderButtons);
+        this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrder);
+        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupButtons);
         this.panelButtonWrapper = new Element('div', {class: 'filter-buttons-box'}).inject(this.panelButtons);
+        this.panelAscending = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrder);
 
         new Element('span', { 'class': 'filter-label', 'html': 'Status' }).inject(this.panelStatus);
         this.leaveStatusFilter = new Element('select', { 'class': 'history-filter-select status-filter inline' }).adopt(
@@ -1332,7 +1333,6 @@ var UILeaveHistory = new Class({
                     prompts.hide();
                 }
                 if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName)) {
-                  console.log('response', response)
                     this.data = response.Data;
                     if (this.isManager && Affinity.leave.manager) {
                         Affinity.leave.manager.applyTeamConfig(this.generateHistoryRows);
