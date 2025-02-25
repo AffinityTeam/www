@@ -18907,7 +18907,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this._clearRowError(rowNode);
     }.bind(this));
 
-    document.querySelectorAll('.form-row.required, .form-row.inline-error, .is-global-key').forEach(function (rowNode, rowIndex)
+    document.querySelectorAll('.form-row.required:not(.read-only), .form-row.inline-error:not(.read-only), .is-global-key').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
       rowNode.style.marginBottom = null;
@@ -21146,9 +21146,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
     this.FormRowNode.classList.add('row-' + this.Config.Type.toLowerCase().trim().replace(/ /g, '-'));
 
+    /* is read only */
+
+    if (isReadOnly) this.FormRowNode.classList.add('read-only');
+
     /* is hidden */
 
-    if (isHidden)  this.FormRowNode.classList.add('hidden');
+    if (isHidden) this.FormRowNode.classList.add('hidden');
 
     /**/
 
@@ -29618,14 +29622,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     /**/
 
     this.HtmlRowReadOnlyTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <input type="text" disabled value="{fileids}" />
     </div>
     `;
 
     this.HtmlRowReadOnlyWithDescTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <p class="inline">{desc}</p>
       <label></label>
@@ -29636,14 +29640,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     /**/
 
     this.HtmlRowReadOnlyNamesTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <div class="row-content">{links}</div>
     </div>
     `;
 
     this.HtmlRowReadOnlyNamesWithDescTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <p class="inline">{desc}</p>
       <label></label>
@@ -42806,6 +42810,9 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     this.Ready = false;
 
+    this.IsRequired = false;
+    this.Valid = true;
+
     this.MaxFileSize = 20; // in MB (not mb or Mb)
     this.ByteMultiplyer = 1048576; // 1000000;
 
@@ -43115,8 +43122,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     /**/
 
-    this.IsRequired = false;
-    this.Valid = true;
     this.ErrorNode = false;
     if (this.RowNode)
     {
@@ -43185,6 +43190,34 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.HasFiles() || this.HasSavedFiles())
     {
       var list = [];
+      // check for required read only ..
+      if (
+        this.IsRequired
+        && this.FileNode
+        && this.RowNode
+        && this.CleverForms
+        && this.CleverForms.ViewType === 'ViewOnly'
+      )
+      {
+        debugger;
+        if (this.RowNode.dataset.ids)
+        {
+          let ids = formRow.dataset.ids.split(',');
+          let names = this.InitNode.value.split(',');
+          if (ids.length > 0)
+          {
+            for (let id of ids)
+            {
+              let index = ids.indexOf(id);
+              list.push({
+                FileName: names.length < index ? names[index] : null,
+                FileId: id
+              });
+            }
+          }
+        }
+      }
+      // else ..
       this.GridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').forEach(function (rowNode)
       {
         list.push({
@@ -43224,6 +43257,26 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   HasFiles()
   {
+    // check for required read only ..
+    if (
+      this.IsRequired
+      && this.FileNode
+      && this.RowNode
+      && this.CleverForms
+      && this.CleverForms.ViewType === 'ViewOnly'
+    )
+    {
+      debugger;
+      if (this.RowNode.dataset.ids)
+      {
+        let ids = formRow.dataset.ids.split(',');
+        if (ids.length > 0)
+        {
+          return true;
+        }
+      }
+    }
+    // else ..
     return this.GridBody.querySelectorAll('tr:not(.marked-for-delete)').length > 0;
   }
 
