@@ -11,37 +11,37 @@
 (2948,10-11): run-time error JS1195: Expected expression: ,
 (2951,5-6): run-time error JS1002: Syntax error: }
 (3047,32-37): run-time error JS1195: Expected expression: class
-(3591,32-37): run-time error JS1195: Expected expression: class
-(3683,29-30): run-time error JS1004: Expected ';': {
-(3684,29-30): run-time error JS1004: Expected ';': {
-(3685,29-30): run-time error JS1004: Expected ';': {
-(3686,29-30): run-time error JS1004: Expected ';': {
-(3743,3-4): run-time error JS1002: Syntax error: }
-(3756,37-38): run-time error JS1004: Expected ';': {
-(4333,36-41): run-time error JS1195: Expected expression: class
-(4413,3-4): run-time error JS1002: Syntax error: }
-(4530,3-4): run-time error JS1002: Syntax error: }
-(4546,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
-(4519,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4517,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4514,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4505,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4491,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4489,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4486,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4482,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4478,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4474,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4473,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4464,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4411,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4409,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4403,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4399,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4390,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4381,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4386,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4347,9,4357,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(3659,32-37): run-time error JS1195: Expected expression: class
+(3751,29-30): run-time error JS1004: Expected ';': {
+(3752,29-30): run-time error JS1004: Expected ';': {
+(3753,29-30): run-time error JS1004: Expected ';': {
+(3754,29-30): run-time error JS1004: Expected ';': {
+(3811,3-4): run-time error JS1002: Syntax error: }
+(3824,37-38): run-time error JS1004: Expected ';': {
+(4401,36-41): run-time error JS1195: Expected expression: class
+(4481,3-4): run-time error JS1002: Syntax error: }
+(4598,3-4): run-time error JS1002: Syntax error: }
+(4614,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
+(4587,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4585,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4582,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4573,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4559,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4557,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4554,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4550,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4546,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4542,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4541,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4532,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4479,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4477,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4471,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4467,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4458,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4449,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4454,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4415,9,4425,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -52,18 +52,18 @@
             return v;
           }
         })(value)
-(3756,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3741,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3737,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3733,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3727,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3719,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3707,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3686,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3685,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3684,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3683,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3681,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3824,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3809,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3805,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3801,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3795,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3787,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3775,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3754,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3753,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3752,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3751,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3749,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
 (2950,7-20): run-time error JS1018: 'return' statement outside of function: return string
  */
 (function ()
@@ -3199,6 +3199,7 @@
    */
   if (!(Affinity2018.hasOwnProperty('GetMimeType')))
   {
+    Affinity2018.FileNameInvalidCharacters = /[<>:"\/\\|?*\x00-\x1F]/g;
 
     Affinity2018.FileTypeGroupData = {
       Spreadsheet: {
@@ -3364,6 +3365,7 @@
     };
 
     Affinity2018.FileTypeGroups = [];
+
     for (var key in Affinity2018.FileTypeGroupData)
     {
       if (Affinity2018.FileTypeGroupData.hasOwnProperty(key))
@@ -3374,6 +3376,72 @@
         {
           Affinity2018.FileTypeGroupData[key].Types = Affinity2018.FileTypeGroupData[key].Types.concat(Affinity2018.FileTypeGroupData[key].TypeData[t].Types);
         }
+      }
+    }
+
+    /**
+     * Affinity2018.SanatiseFileName()
+     * Returns a valid file name (IOS allows ilegal characters in file names).
+     * 
+     * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+     * 
+     * @param {string} filename The name of the file 
+     * 
+     * @param {string} replacement A character to replace illegal characters with
+     * 
+     * @returns {string} A clean file name
+     */
+    Affinity2018.SanatiseFileName = function (filename, replacement)
+    {
+      if (!filename || typeof filename !== 'string')
+      {
+        return null; // can not sanatise this
+      }
+      replacement = typeof replacement === 'string' ? replacement.trim().charAt(0) : '_';
+
+      let sanitized = filename.replace(Affinity2018.FileNameInvalidCharacters, replacement);
+      sanitized = sanitized.replace(/^\.+/, '').replace(/\.+$/, '');
+      if (!sanitized)
+      {
+        return null; // can not sanatise this
+      }
+      return sanitized;
+    }
+
+    /**
+     * Affinity2018.CreateFileObject()
+     * Returns a valid file object ready to post.
+     * 
+     * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+     * 
+     * @param {file} fileObject The extension of the file 
+     * 
+     * @returns {object} A new file object
+     */
+    Affinity2018.CreateFileObject = function (originalFile)
+    {
+      var fileNameParts = originalFile.name.split('.');
+      var extension = fileNameParts.length > 1 ? fileNameParts.pop() : '';
+      var baseName = fileNameParts.join('.');
+      var sanitizedBaseName = Affinity2018.SanatiseFileName(baseName);
+      var sanitizedName = extension ? sanitizedBaseName + '.' + extension : sanitizedBaseName;
+      try
+      {
+        return new File(
+          [originalFile],
+          sanitizedName,
+          {
+            type: originalFile.type,
+            lastModified: originalFile.lastModified
+          }
+        );
+      }
+      catch (e)
+      {
+        var blob = new Blob([originalFile], { type: originalFile.type });
+        blob.name = sanitizedName;
+        blob.lastModified = originalFile.lastModified;
+        return blob;
       }
     }
 
@@ -19382,6 +19450,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                   elementData = node.controller.GetFromFormRow();
                   sectionData.Elements.push(elementData);
                 }
+
+                // if type is File, check for -1 POSTs ..
+                if (node.querySelector('input[type="file"]'))
+                {
+                  if (elementData.Value === -1 || elementData.Value.contains('-1'))
+                  {
+                    console.log(elementData);
+                    // strip out -1 ids?
+                    debugger;
+                  }
+                }
+                //
+
               }
             }
             addedNames.push(node.controller.Name);
@@ -43433,13 +43514,15 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   _contunueAddFile(ev)
   {
-    var allErrors = [], f = 0, file, typeData, errors, filesToAdd = [];
+    var allErrors = [], f = 0, file, ext, cleanFileName, typeData, errors, filesToAdd = [];
     if (this.FileNode.files.length > 0)
     {
       for (; f < this.FileNode.files.length; f++)
       {
         file = this.FileNode.files[f];
+
         typeData = $a.GetDocFileData(file.name);
+
         errors = [];
         if (!this._sizeOk(file.size))
         {
@@ -43465,7 +43548,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         }
         else
         {
-          filesToAdd.push(file);
+          let sanitizedFile = Affinity2018.CreateFileObject(file);
+          filesToAdd.push(sanitizedFile);
         }
       }
       if (allErrors.length > 0)
