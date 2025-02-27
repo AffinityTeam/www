@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5401,71-72): run-time error JS1195: Expected expression: >
-(5401,98-99): run-time error JS1004: Expected ';': )
-(5403,87-88): run-time error JS1195: Expected expression: >
-(5403,129-130): run-time error JS1004: Expected ';': )
-(5408,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5413,13-14): run-time error JS1002: Syntax error: }
-(5415,34-35): run-time error JS1004: Expected ';': {
-(5419,9-10): run-time error JS1002: Syntax error: }
-(5422,25-26): run-time error JS1004: Expected ';': {
-(5573,5-6): run-time error JS1002: Syntax error: }
-(5574,45-46): run-time error JS1004: Expected ';': {
-(5593,6-7): run-time error JS1195: Expected expression: ,
-(5594,63-64): run-time error JS1004: Expected ';': {
-(5600,6-7): run-time error JS1195: Expected expression: ,
-(5601,26-27): run-time error JS1195: Expected expression: )
-(5601,28-29): run-time error JS1004: Expected ';': {
-(5675,6-7): run-time error JS1195: Expected expression: ,
-(5677,22-23): run-time error JS1195: Expected expression: )
-(5677,24-25): run-time error JS1004: Expected ';': {
-(5700,6-7): run-time error JS1195: Expected expression: ,
-(5702,24-25): run-time error JS1195: Expected expression: )
-(5702,26-27): run-time error JS1004: Expected ';': {
-(5761,6-7): run-time error JS1195: Expected expression: ,
-(10433,52-53): run-time error JS1195: Expected expression: .
-(10445,5-6): run-time error JS1002: Syntax error: }
-(10446,46-47): run-time error JS1004: Expected ';': {
-(10481,6-7): run-time error JS1195: Expected expression: ,
-(10482,42-43): run-time error JS1004: Expected ';': {
-(10505,6-7): run-time error JS1195: Expected expression: ,
-(10506,43-44): run-time error JS1004: Expected ';': {
-(10518,6-7): run-time error JS1195: Expected expression: ,
-(10519,81-82): run-time error JS1004: Expected ';': {
-(10536,6-7): run-time error JS1195: Expected expression: ,
-(10537,54-55): run-time error JS1004: Expected ';': {
-(10564,6-7): run-time error JS1195: Expected expression: ,
-(10565,49-50): run-time error JS1004: Expected ';': {
-(10635,6-7): run-time error JS1195: Expected expression: ,
-(10636,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10444,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10438,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5599,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5489,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5508,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5444,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5417,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5405,71-72): run-time error JS1195: Expected expression: >
+(5405,98-99): run-time error JS1004: Expected ';': )
+(5407,87-88): run-time error JS1195: Expected expression: >
+(5407,129-130): run-time error JS1004: Expected ';': )
+(5412,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5417,13-14): run-time error JS1002: Syntax error: }
+(5419,34-35): run-time error JS1004: Expected ';': {
+(5423,9-10): run-time error JS1002: Syntax error: }
+(5426,25-26): run-time error JS1004: Expected ';': {
+(5577,5-6): run-time error JS1002: Syntax error: }
+(5578,45-46): run-time error JS1004: Expected ';': {
+(5597,6-7): run-time error JS1195: Expected expression: ,
+(5598,63-64): run-time error JS1004: Expected ';': {
+(5604,6-7): run-time error JS1195: Expected expression: ,
+(5605,26-27): run-time error JS1195: Expected expression: )
+(5605,28-29): run-time error JS1004: Expected ';': {
+(5679,6-7): run-time error JS1195: Expected expression: ,
+(5681,22-23): run-time error JS1195: Expected expression: )
+(5681,24-25): run-time error JS1004: Expected ';': {
+(5704,6-7): run-time error JS1195: Expected expression: ,
+(5706,24-25): run-time error JS1195: Expected expression: )
+(5706,26-27): run-time error JS1004: Expected ';': {
+(5765,6-7): run-time error JS1195: Expected expression: ,
+(10437,52-53): run-time error JS1195: Expected expression: .
+(10449,5-6): run-time error JS1002: Syntax error: }
+(10450,46-47): run-time error JS1004: Expected ';': {
+(10485,6-7): run-time error JS1195: Expected expression: ,
+(10486,42-43): run-time error JS1004: Expected ';': {
+(10509,6-7): run-time error JS1195: Expected expression: ,
+(10510,43-44): run-time error JS1004: Expected ';': {
+(10522,6-7): run-time error JS1195: Expected expression: ,
+(10523,81-82): run-time error JS1004: Expected ';': {
+(10540,6-7): run-time error JS1195: Expected expression: ,
+(10541,54-55): run-time error JS1004: Expected ';': {
+(10568,6-7): run-time error JS1195: Expected expression: ,
+(10569,49-50): run-time error JS1004: Expected ';': {
+(10639,6-7): run-time error JS1195: Expected expression: ,
+(10640,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10448,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10442,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5603,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5493,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5512,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5448,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5421,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -1271,7 +1271,11 @@ var UILeaveHistory = new Class({
 
         new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Ascending' }).inject(this.panelAscending);
         this.ascendingWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelAscending);
-        this.ascending = new Element('input', { 'type': 'checkbox', 'class': 'sort-direction-filter', 'checked': true, 'value': true }).inject(this.ascendingWrapper);
+        this.ascending = new Element('input', { 'type': 'checkbox', 'class': 'sort-direction-filter', 'checked': false, 'value': false }).inject(this.ascendingWrapper);
+        if (this.isManager) {
+          this.ascending.checked = true;
+          this.ascending.value = true;
+        }
         this.ascending.addEvent('change', function (e) {
           this.ascending.value = e.target.checked;
         }.bind(this));
