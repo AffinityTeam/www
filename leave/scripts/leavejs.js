@@ -8944,7 +8944,7 @@ var UILeaveApplyV1 = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "Supporting documentation is needed when applying for this type of leave.",
+                    "Please attach supporting documentation.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -8962,7 +8962,7 @@ var UILeaveApplyV1 = new Class({
         }
         if (!employeeNum) {
             uialert({
-                message: "Oops! You forgot to chose an employee.",
+                message: "Please choose an employee.",
                 showButtons: true,
                 noClose: false,
                 showLoader: false,
@@ -8972,7 +8972,7 @@ var UILeaveApplyV1 = new Class({
 
         if (!this.leaveCode) {
             uialert({
-                message: "Oops! You forgot to chose a leave type.",
+                message: "Please choose a leave type.",
                 showButtons: true,
                 noClose: false,
                 showLoader: false,
@@ -8989,7 +8989,7 @@ var UILeaveApplyV1 = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to choose a leave reason.",
+                    message: "Please provide a reason why you are taking leave.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -9098,7 +9098,7 @@ var UILeaveApplyV1 = new Class({
                     .innerHTML === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to chose an approver.",
+                    message: "Please select an approver.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
