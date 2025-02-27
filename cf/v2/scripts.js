@@ -11,37 +11,37 @@
 (2948,10-11): run-time error JS1195: Expected expression: ,
 (2951,5-6): run-time error JS1002: Syntax error: }
 (3047,32-37): run-time error JS1195: Expected expression: class
-(3591,32-37): run-time error JS1195: Expected expression: class
-(3683,29-30): run-time error JS1004: Expected ';': {
-(3684,29-30): run-time error JS1004: Expected ';': {
-(3685,29-30): run-time error JS1004: Expected ';': {
-(3686,29-30): run-time error JS1004: Expected ';': {
-(3743,3-4): run-time error JS1002: Syntax error: }
-(3756,37-38): run-time error JS1004: Expected ';': {
-(4333,36-41): run-time error JS1195: Expected expression: class
-(4413,3-4): run-time error JS1002: Syntax error: }
-(4530,3-4): run-time error JS1002: Syntax error: }
-(4546,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
-(4519,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4517,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4514,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4505,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4491,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4489,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4486,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4482,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4478,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4474,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4473,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4464,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4411,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4409,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4403,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4399,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4390,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4381,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4386,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4347,9,4357,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(3770,32-37): run-time error JS1195: Expected expression: class
+(3862,29-30): run-time error JS1004: Expected ';': {
+(3863,29-30): run-time error JS1004: Expected ';': {
+(3864,29-30): run-time error JS1004: Expected ';': {
+(3865,29-30): run-time error JS1004: Expected ';': {
+(3922,3-4): run-time error JS1002: Syntax error: }
+(3935,37-38): run-time error JS1004: Expected ';': {
+(4512,36-41): run-time error JS1195: Expected expression: class
+(4592,3-4): run-time error JS1002: Syntax error: }
+(4709,3-4): run-time error JS1002: Syntax error: }
+(4725,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
+(4698,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4696,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4693,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4684,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4670,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4668,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4665,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4661,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4657,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4653,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4652,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4643,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4590,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4588,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4582,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4578,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4569,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4560,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4565,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4526,9,4536,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -52,18 +52,18 @@
             return v;
           }
         })(value)
-(3756,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3741,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3737,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3733,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3727,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3719,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3707,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3686,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3685,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3684,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3683,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3681,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3935,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3920,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3916,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3912,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3906,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3898,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3886,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3865,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3864,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3863,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3862,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3860,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
 (2950,7-20): run-time error JS1018: 'return' statement outside of function: return string
  */
 (function ()
@@ -3199,6 +3199,10 @@
    */
   if (!(Affinity2018.hasOwnProperty('GetMimeType')))
   {
+    // We can not use global reg exp here becuase Apple .. iOS sucks at global reg exp and only 
+    // replaces the first instance of a match instead of obeying "g" and doing all of them .. 
+    // so we need to loop over each character and replace where found :/
+    Affinity2018.FileNameInvalidCharacters = ['<', '>', ':', '"', '/', '\\', '|', '?', '*'];
 
     Affinity2018.FileTypeGroupData = {
       Spreadsheet: {
@@ -3364,6 +3368,7 @@
     };
 
     Affinity2018.FileTypeGroups = [];
+
     for (var key in Affinity2018.FileTypeGroupData)
     {
       if (Affinity2018.FileTypeGroupData.hasOwnProperty(key))
@@ -3374,6 +3379,180 @@
         {
           Affinity2018.FileTypeGroupData[key].Types = Affinity2018.FileTypeGroupData[key].Types.concat(Affinity2018.FileTypeGroupData[key].TypeData[t].Types);
         }
+      }
+    }
+
+    /**
+     * Affinity2018.SanatiseFileName()
+     * Returns a valid file name (IOS allows ilegal characters in file names).
+     * 
+     * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+     * 
+     * @param {string} filename The name of the file 
+     * 
+     * @param {string} replacement A character to replace illegal characters with
+     * 
+     * @returns {string} A clean file name
+     */
+    Affinity2018.SanatiseFileName = function (filename, replacement)
+    {
+      if (!filename || typeof filename !== 'string')
+      {
+        return null; // can not sanatise this
+      }
+      replacement = typeof replacement === 'string' ? replacement.trim().charAt(0) : '_';
+
+      var invalidChars = Affinity2018.FileNameInvalidCharacters;
+
+      // Problematic Unicode characters using escape sequences
+      var problematicUnicode = [
+        // Full-width variants (common in Asian text input)
+        '\uFF1F', // Full-width question mark (？)
+        '\uFF1A', // Full-width colon (：)
+        '\uFF02', // Full-width quotation mark (＂)
+        '\uFF0F', // Full-width slash (／)
+        '\uFF3C', // Full-width backslash (＼)
+        '\uFF5C', // Full-width vertical bar (｜)
+        '\uFF0A', // Full-width asterisk (＊)
+        '\uFF0E', // Full-width period (．)
+
+        // Various quote styles
+        '\u201C', // Left double quotation mark (")
+        '\u201D', // Right double quotation mark (")
+        '\u2018', // Left single quotation mark (')
+        '\u2019', // Right single quotation mark (')
+        '\u2039', // Single left-pointing angle quotation mark (‹)
+        '\u203A', // Single right-pointing angle quotation mark (›)
+        '\u00AB', // Left-pointing double angle quotation mark («)
+        '\u00BB', // Right-pointing double angle quotation mark (»)
+
+        // Other potentially problematic characters
+        '\u2013', // En dash (–)
+        '\u2014', // Em dash (—)
+        '\u2026', // Horizontal ellipsis (…)
+        '\u2022', // Bullet (•)
+        '\u00A3', // Pound sign (£)
+        '\u20AC', // Euro sign (€) 
+        '\u00A5', // Yen sign (¥)
+        '\u25CF'  // Bullet (●)
+      ];
+
+      // For debugging - log the character codes
+      var charCodes = [];
+      for (var i = 0; i < filename.length; i++)
+      {
+        charCodes.push(filename.charCodeAt(i));
+      }
+
+      // First, normalize Unicode to handle composed/decomposed forms
+      // This helps with accented characters and other special forms
+      var normalized;
+      try
+      {
+        // Use normalization if available (not all browsers support this)
+        normalized = filename.normalize("NFKD");
+      }
+      catch (e)
+      {
+        normalized = filename;
+      }
+
+      // Process each character
+      var sanitized = '';
+      for (var i = 0; i < normalized.length; i++)
+      {
+        var char = normalized.charAt(i);
+        var charCode = normalized.charCodeAt(i);
+
+        // Check against standard invalid characters
+        var isInvalid = false;
+        for (var j = 0; j < invalidChars.length; j++)
+        {
+          if (char === invalidChars[j])
+          {
+            isInvalid = true;
+            break;
+          }
+        }
+
+        // Check against problematic Unicode characters
+        if (!isInvalid)
+        {
+          for (var k = 0; k < problematicUnicode.length; k++)
+          {
+            if (char === problematicUnicode[k])
+            {
+              isInvalid = true;
+              break;
+            }
+          }
+        }
+
+        // Also check for control characters and other non-printable characters
+        if (!isInvalid && (charCode < 32 || (charCode >= 127 && charCode <= 159)))
+        {
+          isInvalid = true;
+        }
+
+        // Replace invalid characters, keep valid ones
+        if (isInvalid)
+        {
+          sanitized += replacement;
+        } else
+        {
+          sanitized += char;
+        }
+      }
+
+      // Handle empty filenames
+      if (!sanitized)
+      {
+        return 'unnamed_file';
+      }
+
+      return sanitized;
+    }
+
+    /**
+     * Affinity2018.CreateFileObject()
+     * Returns a valid file object ready to post.
+     * 
+     * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+     * 
+     * @param {file} fileObject The extension of the file 
+     * 
+     * @returns {object} A new file object
+     */
+    Affinity2018.CreateFileObject = function (originalFile)
+    {
+      var sanitizedName = Affinity2018.SanatiseFileName(originalFile.name);
+
+      Affinity2018.Log({
+        LogLevel: Affinity2018.LogLevel.Critical,
+        DocumentId: '',
+        Message: 'Sanatize file name',
+        Details: JSON.stringify({ OriginalName: originalFile.name, SanitizedName: sanitizedName }),
+        Action: '',
+        Source: 'IOS'
+      });
+
+      try
+      {
+        return new File(
+          [originalFile],
+          sanitizedName,
+          {
+            type: originalFile.type,
+            lastModified: originalFile.lastModified
+          }
+        );
+      }
+      catch (e)
+      {
+        var blob = new Blob([originalFile], { type: originalFile.type });
+        blob.name = sanitizedName;
+        blob.lastModified = originalFile.lastModified;
+        return blob;
       }
     }
 
@@ -18907,7 +19086,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this._clearRowError(rowNode);
     }.bind(this));
 
-    document.querySelectorAll('.form-row.required, .form-row.inline-error, .is-global-key').forEach(function (rowNode, rowIndex)
+    document.querySelectorAll('.form-row.required:not(.read-only), .form-row.inline-error:not(.read-only), .is-global-key').forEach(function (rowNode, rowIndex)
     {
       var setError = false;
       rowNode.style.marginBottom = null;
@@ -19382,6 +19561,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                   elementData = node.controller.GetFromFormRow();
                   sectionData.Elements.push(elementData);
                 }
+
+                // if type is File, check for -1 POSTs ..
+                if (node.querySelector('input[type="file"]'))
+                {
+                  if (elementData.Value === -1 || elementData.Value.contains('-1'))
+                  {
+                    console.log(elementData);
+                    // strip out -1 ids?
+                    debugger;
+                  }
+                }
+                //
+
               }
             }
             addedNames.push(node.controller.Name);
@@ -21146,9 +21338,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
 
     this.FormRowNode.classList.add('row-' + this.Config.Type.toLowerCase().trim().replace(/ /g, '-'));
 
+    /* is read only */
+
+    if (isReadOnly) this.FormRowNode.classList.add('read-only');
+
     /* is hidden */
 
-    if (isHidden)  this.FormRowNode.classList.add('hidden');
+    if (isHidden) this.FormRowNode.classList.add('hidden');
 
     /**/
 
@@ -29618,14 +29814,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     /**/
 
     this.HtmlRowReadOnlyTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <input type="text" disabled value="{fileids}" />
     </div>
     `;
 
     this.HtmlRowReadOnlyWithDescTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <p class="inline">{desc}</p>
       <label></label>
@@ -29636,14 +29832,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
     /**/
 
     this.HtmlRowReadOnlyNamesTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <div class="row-content">{links}</div>
     </div>
     `;
 
     this.HtmlRowReadOnlyNamesWithDescTemplate = `
-    <div class="form-row">
+    <div class="form-row" data-ids="{fileids}">
       <label>{label}</label>
       <p class="inline">{desc}</p>
       <label></label>
@@ -42806,6 +43002,9 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     this.Ready = false;
 
+    this.IsRequired = false;
+    this.Valid = true;
+
     this.MaxFileSize = 20; // in MB (not mb or Mb)
     this.ByteMultiplyer = 1048576; // 1000000;
 
@@ -43115,8 +43314,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
     /**/
 
-    this.IsRequired = false;
-    this.Valid = true;
     this.ErrorNode = false;
     if (this.RowNode)
     {
@@ -43185,6 +43382,34 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     if (this.HasFiles() || this.HasSavedFiles())
     {
       var list = [];
+      // check for required read only ..
+      if (
+        this.IsRequired
+        && this.FileNode
+        && this.RowNode
+        && this.CleverForms
+        && this.CleverForms.ViewType === 'ViewOnly'
+      )
+      {
+        debugger;
+        if (this.RowNode.dataset.ids)
+        {
+          let ids = formRow.dataset.ids.split(',');
+          let names = this.InitNode.value.split(',');
+          if (ids.length > 0)
+          {
+            for (let id of ids)
+            {
+              let index = ids.indexOf(id);
+              list.push({
+                FileName: names.length < index ? names[index] : null,
+                FileId: id
+              });
+            }
+          }
+        }
+      }
+      // else ..
       this.GridBody.querySelectorAll('tr.from-doc-store:not(.marked-for-delete)').forEach(function (rowNode)
       {
         list.push({
@@ -43224,6 +43449,26 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   HasFiles()
   {
+    // check for required read only ..
+    if (
+      this.IsRequired
+      && this.FileNode
+      && this.RowNode
+      && this.CleverForms
+      && this.CleverForms.ViewType === 'ViewOnly'
+    )
+    {
+      debugger;
+      if (this.RowNode.dataset.ids)
+      {
+        let ids = formRow.dataset.ids.split(',');
+        if (ids.length > 0)
+        {
+          return true;
+        }
+      }
+    }
+    // else ..
     return this.GridBody.querySelectorAll('tr:not(.marked-for-delete)').length > 0;
   }
 
@@ -43380,13 +43625,15 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
 
   _contunueAddFile(ev)
   {
-    var allErrors = [], f = 0, file, typeData, errors, filesToAdd = [];
+    var allErrors = [], f = 0, file, ext, cleanFileName, typeData, errors, filesToAdd = [];
     if (this.FileNode.files.length > 0)
     {
       for (; f < this.FileNode.files.length; f++)
       {
         file = this.FileNode.files[f];
+
         typeData = $a.GetDocFileData(file.name);
+
         errors = [];
         if (!this._sizeOk(file.size))
         {
@@ -43412,7 +43659,8 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
         }
         else
         {
-          filesToAdd.push(file);
+          let sanitizedFile = Affinity2018.CreateFileObject(file);
+          filesToAdd.push(sanitizedFile);
         }
       }
       if (allErrors.length > 0)

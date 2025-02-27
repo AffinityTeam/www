@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5392,71-72): run-time error JS1195: Expected expression: >
-(5392,98-99): run-time error JS1004: Expected ';': )
-(5394,87-88): run-time error JS1195: Expected expression: >
-(5394,129-130): run-time error JS1004: Expected ';': )
-(5399,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5404,13-14): run-time error JS1002: Syntax error: }
-(5406,34-35): run-time error JS1004: Expected ';': {
-(5410,9-10): run-time error JS1002: Syntax error: }
-(5413,25-26): run-time error JS1004: Expected ';': {
-(5564,5-6): run-time error JS1002: Syntax error: }
-(5565,45-46): run-time error JS1004: Expected ';': {
-(5584,6-7): run-time error JS1195: Expected expression: ,
-(5585,63-64): run-time error JS1004: Expected ';': {
-(5591,6-7): run-time error JS1195: Expected expression: ,
-(5592,26-27): run-time error JS1195: Expected expression: )
-(5592,28-29): run-time error JS1004: Expected ';': {
-(5666,6-7): run-time error JS1195: Expected expression: ,
-(5668,22-23): run-time error JS1195: Expected expression: )
-(5668,24-25): run-time error JS1004: Expected ';': {
-(5691,6-7): run-time error JS1195: Expected expression: ,
-(5693,24-25): run-time error JS1195: Expected expression: )
-(5693,26-27): run-time error JS1004: Expected ';': {
-(5752,6-7): run-time error JS1195: Expected expression: ,
-(10424,52-53): run-time error JS1195: Expected expression: .
-(10436,5-6): run-time error JS1002: Syntax error: }
-(10437,46-47): run-time error JS1004: Expected ';': {
-(10472,6-7): run-time error JS1195: Expected expression: ,
-(10473,42-43): run-time error JS1004: Expected ';': {
-(10496,6-7): run-time error JS1195: Expected expression: ,
-(10497,43-44): run-time error JS1004: Expected ';': {
+(5405,71-72): run-time error JS1195: Expected expression: >
+(5405,98-99): run-time error JS1004: Expected ';': )
+(5407,87-88): run-time error JS1195: Expected expression: >
+(5407,129-130): run-time error JS1004: Expected ';': )
+(5412,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5417,13-14): run-time error JS1002: Syntax error: }
+(5419,34-35): run-time error JS1004: Expected ';': {
+(5423,9-10): run-time error JS1002: Syntax error: }
+(5426,25-26): run-time error JS1004: Expected ';': {
+(5577,5-6): run-time error JS1002: Syntax error: }
+(5578,45-46): run-time error JS1004: Expected ';': {
+(5597,6-7): run-time error JS1195: Expected expression: ,
+(5598,63-64): run-time error JS1004: Expected ';': {
+(5604,6-7): run-time error JS1195: Expected expression: ,
+(5605,26-27): run-time error JS1195: Expected expression: )
+(5605,28-29): run-time error JS1004: Expected ';': {
+(5679,6-7): run-time error JS1195: Expected expression: ,
+(5681,22-23): run-time error JS1195: Expected expression: )
+(5681,24-25): run-time error JS1004: Expected ';': {
+(5704,6-7): run-time error JS1195: Expected expression: ,
+(5706,24-25): run-time error JS1195: Expected expression: )
+(5706,26-27): run-time error JS1004: Expected ';': {
+(5765,6-7): run-time error JS1195: Expected expression: ,
+(10437,52-53): run-time error JS1195: Expected expression: .
+(10449,5-6): run-time error JS1002: Syntax error: }
+(10450,46-47): run-time error JS1004: Expected ';': {
+(10485,6-7): run-time error JS1195: Expected expression: ,
+(10486,42-43): run-time error JS1004: Expected ';': {
 (10509,6-7): run-time error JS1195: Expected expression: ,
-(10510,81-82): run-time error JS1004: Expected ';': {
-(10527,6-7): run-time error JS1195: Expected expression: ,
-(10528,54-55): run-time error JS1004: Expected ';': {
-(10555,6-7): run-time error JS1195: Expected expression: ,
-(10556,49-50): run-time error JS1004: Expected ';': {
-(10626,6-7): run-time error JS1195: Expected expression: ,
-(10627,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10435,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10429,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5590,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5480,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5499,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5435,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5408,17-23): run-time error JS1018: 'return' statement outside of function: return
+(10510,43-44): run-time error JS1004: Expected ';': {
+(10522,6-7): run-time error JS1195: Expected expression: ,
+(10523,81-82): run-time error JS1004: Expected ';': {
+(10540,6-7): run-time error JS1195: Expected expression: ,
+(10541,54-55): run-time error JS1004: Expected ';': {
+(10568,6-7): run-time error JS1195: Expected expression: ,
+(10569,49-50): run-time error JS1004: Expected ';': {
+(10639,6-7): run-time error JS1195: Expected expression: ,
+(10640,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10448,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10442,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5603,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5493,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5512,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5448,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5421,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -1172,7 +1172,8 @@ var UILeaveHistory = new Class({
         if (this.isManager)
             this.groupSubmittedDate = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
         //this.groupOrder = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
-        this.groupOrderButtons = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
+        this.groupOrder = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
+        this.groupButtons = new Element('div', { 'class': 'filter-group-box' }).inject(this.filterBox);
         this.panelStatus = new Element('div', { 'class': 'filter-item' }).inject(this.groupStatusType);
         this.panelType = new Element('div', { 'class': 'filter-item' }).inject(this.groupStatusType);
         this.panelDateTo = new Element('div', { 'class': 'filter-item' }).inject(this.groupDates);
@@ -1185,9 +1186,10 @@ var UILeaveHistory = new Class({
             this.panelSubmittedDate = new Element('div', { 'class': 'filter-item' }).inject(this.groupSubmittedDate);
         }
             
-        this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrderButtons);
-        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupOrderButtons);
+        this.panelOrder = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrder);
+        this.panelButtons = new Element('div', { 'class': 'filter-item ' }).inject(this.groupButtons);
         this.panelButtonWrapper = new Element('div', {class: 'filter-buttons-box'}).inject(this.panelButtons);
+        this.panelAscending = new Element('div', { 'class': 'filter-item' }).inject(this.groupOrder);
 
         new Element('span', { 'class': 'filter-label', 'html': 'Status' }).inject(this.panelStatus);
         this.leaveStatusFilter = new Element('select', { 'class': 'history-filter-select status-filter inline' }).adopt(
@@ -1267,6 +1269,17 @@ var UILeaveHistory = new Class({
             this.dateSubmittedOption = null;
         }
 
+        new Element('span', { 'class': 'filter-label include-indirect-filter', 'html': 'Ascending' }).inject(this.panelAscending);
+        this.ascendingWrapper = new Element('div', {'class': 'input-wrapper'}).inject(this.panelAscending);
+        this.ascending = new Element('input', { 'type': 'checkbox', 'class': 'sort-direction-filter', 'checked': false, 'value': false }).inject(this.ascendingWrapper);
+        if (this.isManager) {
+          this.ascending.checked = true;
+          this.ascending.value = true;
+        }
+        this.ascending.addEvent('change', function (e) {
+          this.ascending.value = e.target.checked;
+        }.bind(this));
+
         new Element('span', { 'class': 'filter-label', 'html': 'Order By' }).inject(this.panelOrder);
         this.leaveOrderFilter = new Element('select', { 'class': 'history-filter-select order-filter inline', 'value' :  '3' }).adopt(
             new Element('option', { 'value': '0', 'html': ' ', 'id': null }),
@@ -1275,7 +1288,7 @@ var UILeaveHistory = new Class({
             new Element('option', { 'value': '3', 'html': 'Units', 'id': 'Hours' }),
             this.dateSubmittedOption
         ).inject(this.panelOrder);
-        this.leaveOrderFilter.value = this.isManager ? '4' : '1'
+        this.leaveOrderFilter.value = this.isManager ? '1' : '1'
 
         this.applyFilter = new Element('span', { 'class': 'history-filter-apply button blue' }).adopt(
             new Element('span', { 'html': 'Filter' })
@@ -1369,12 +1382,14 @@ var UILeaveHistory = new Class({
     getHistory: function () {
         var employeeNum = Affinity.login.profile.employeeNumber;
         var path;
+        let orderBy = this.leaveOrderFilter[this.leaveOrderFilter.selectedIndex].get('id');
+
         if (this.isManager) {
             var dateFrom = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).format('%d-%b-%Y');
-            path = 'ManagerTeamLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+dateFrom+'&orderBy=DateSubmitted&isAscending=true';
+            path = 'ManagerTeamLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+ dateFrom +'&orderBy=' + orderBy + '&isAscending=' + this.ascending.value;
         }
         else {
-            path = 'MyLeaveHistory/' + employeeNum;
+            path = 'MyLeaveHistory/' + employeeNum + '?dateFrom='+ dateFrom +'&orderBy=' + orderBy + '&isAscending=' + this.ascending.value;
         }
 
         this._methodName = 'ui.leave.history.js -> getHistory';
@@ -1451,16 +1466,17 @@ var UILeaveHistory = new Class({
         let orderBy = this.leaveOrderFilter[this.leaveOrderFilter.selectedIndex].get('id');
 
         if (orderBy !== null) {
-            query.orderBy = orderBy;
-            if (this.isManager && orderBy == "DateSubmitted") {
-                query.isAscending = true;
-            }
+            query.orderBy = orderBy;  
         } else {
-            if (this.isManager) {
-                query.orderBy = "DateSubmitted";
-                query.isAscending = true;
-            }
+            query.orderBy = null;
         }
+
+        if (this.ascending && this.ascending.checked) {
+            query.isAscending = true;
+        } else {
+            query.isAscending = false;
+        }
+
         uriObj.parsed.query = Object.toQueryString(query);
 
         this._methodName = 'ui.leave.history.js -> applyFilters';
@@ -3367,7 +3383,6 @@ var UILeaveApply = new Class({
         }
     },
     generateLeaveCodes: function (leaveCodes) {
-        console.log('generate leave code')
         if (this.typeSelector) { this.typeSelector.removeEvents(); }
         this.type.set('html', null);
 
@@ -5196,7 +5211,7 @@ var UILeaveApply = new Class({
                 autoCloseTimer = null;
             };
             var btnOk = new Element("span", {
-                class: "button blue",
+                class: "button green",
                 html: "OK (" + autoCloseCounter + ")",
                 events: {
                     click: function () {
@@ -5296,8 +5311,6 @@ var UILeaveApply = new Class({
         }
 
         if (leaveCodes) {
-
-
             var typeSelector = document.getElementsByClassName("leave-type-selector")[0];
             if (typeSelector) {
                 var selectedLeaveType = typeSelector.getElement('option:selected').get('id');
@@ -5318,7 +5331,7 @@ var UILeaveApply = new Class({
     validateAttachmentRequirement: function () {
         if (
             !this.hasAttachedFiles() &&
-            this.isAttachmentMandatoryForLeaveType()
+            this.leaveCode.MandatoryReason 
         ) {
             return false;
         }
@@ -5333,7 +5346,7 @@ var UILeaveApply = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "Supporting documentation is needed when applying for this type of leave.",
+                    "Please attach supporting documentation.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -5351,7 +5364,7 @@ var UILeaveApply = new Class({
         }
         if (!employeeNum) {
             uialert({
-                message: "Oops! You forgot to chose an employee.",
+                message: "Please choose an employee.",
                 showButtons: true,
                 noClose: false,
                 showLoader: false,
@@ -5361,7 +5374,7 @@ var UILeaveApply = new Class({
 
         if (!this.leaveCode) {
             uialert({
-                message: "Oops! You forgot to chose a leave type.",
+                message: "Please choose a leave type.",
                 showButtons: true,
                 noClose: false,
                 showLoader: false,
@@ -5378,7 +5391,7 @@ var UILeaveApply = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to choose a leave reason.",
+                    message: "Please provide a reason why you are taking leave.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -5538,7 +5551,7 @@ var UILeaveApply = new Class({
                     .innerHTML === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to chose an approver.",
+                    message: "Please select an approver.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -8931,7 +8944,7 @@ var UILeaveApplyV1 = new Class({
         if (!this.validateAttachmentRequirement()) {
             uialert({
                 message:
-                    "Supporting documentation is needed when applying for this type of leave.",
+                    "Please attach supporting documentation.",
                 showLoader: false,
                 showButtons: true,
                 noClose: false,
@@ -8949,7 +8962,7 @@ var UILeaveApplyV1 = new Class({
         }
         if (!employeeNum) {
             uialert({
-                message: "Oops! You forgot to chose an employee.",
+                message: "Please choose an employee.",
                 showButtons: true,
                 noClose: false,
                 showLoader: false,
@@ -8959,7 +8972,7 @@ var UILeaveApplyV1 = new Class({
 
         if (!this.leaveCode) {
             uialert({
-                message: "Oops! You forgot to chose a leave type.",
+                message: "Please choose a leave type.",
                 showButtons: true,
                 noClose: false,
                 showLoader: false,
@@ -8976,7 +8989,7 @@ var UILeaveApplyV1 = new Class({
                 leaveReason === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to choose a leave reason.",
+                    message: "Please provide a reason why you are taking leave.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
@@ -9085,7 +9098,7 @@ var UILeaveApplyV1 = new Class({
                     .innerHTML === ""
             ) {
                 uialert({
-                    message: "Oops! You forgot to chose an approver.",
+                    message: "Please select an approver.",
                     showButtons: true,
                     noClose: false,
                     showLoader: false,
