@@ -1389,7 +1389,7 @@ var UILeaveHistory = new Class({
             path = 'ManagerTeamLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+ dateFrom +'&orderBy=' + orderBy + '&isAscending=' + this.ascending.value;
         }
         else {
-            path = 'MyLeaveHistory/' + employeeNum + '?dateFrom='+ dateFrom +'&orderBy=' + orderBy + '&isAscending=' + this.ascending.value;
+            path = 'MyLeaveHistory/' + employeeNum + '?StatusCode=0&dateFrom='+ dateFrom +'&orderBy=' + orderBy + '&isAscending=' + this.ascending.value;
         }
 
         this._methodName = 'ui.leave.history.js -> getHistory';
