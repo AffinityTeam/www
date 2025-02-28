@@ -5331,7 +5331,7 @@ var UILeaveApply = new Class({
     validateAttachmentRequirement: function () {
         if (
             !this.hasAttachedFiles() &&
-            this.leaveCode.MandatoryAttachment
+            this.leaveCode.MandatoryReason 
         ) {
             return false;
         }
