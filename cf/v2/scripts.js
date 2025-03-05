@@ -22484,7 +22484,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       this.Config.Details.ItemSource.ItemSourceType = 'AffinityCustom';
       this.Config.Details.ItemSource.ShowAll = this.WhitelistFilterShowAllNode.checked;
       this.Config.Details.ItemSource.ShowNewItems = this.WhitelistFilterShowNewNode.checked;
-      this.Config.Details.ItemSource.WhiteList = this.Config.Details.ItemSource.WhiteList.map(obj => ({ ...obj, IsHidden: true }));
+
+     //BenK to check: if there is no elements are filtered, we have this.Config.Details.ItemSource.WhiteList = null, cant do map
+     if (this.Config.Details.ItemSource.hasOwnProperty('WhiteList') 
+        && this.Config.Details.ItemSource.WhiteList 
+        && Array.isArray(this.Config.Details.ItemSource.WhiteList)) {
+            this.Config.Details.ItemSource.WhiteList = this.Config.Details.ItemSource.WhiteList.map(obj => ({ ...obj, IsHidden: true }));
+     }
 
       let nodeQuery = isNewList ? 'tbody tr' : 'tbody tr:not(.hide)';
       let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll(nodeQuery);
@@ -22494,34 +22500,36 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         let display = row.querySelectorAll('td')[0].dataset.desc;
         let code = row.querySelectorAll('td')[1].dataset.code;
 
-        if (isNewList)
-        {
-          if (true) // TODO: Our favourite stress trigger .. key / description flip .. do we need to check soemthing to know what direction we are flipping?
-          {
-            this.Config.Details.ItemSource.WhiteList.push({
-              Key: code,
-              Value: display,
-              DisplayValue: display,
-              IsHidden: row.classList.contains('hide'),
-              CountryCode: null
-            });
+          if (isNewList) {
+              if (true) // TODO: Our favourite stress trigger .. key / description flip .. do we need to check soemthing to know what direction we are flipping?
+              {
+                  this.Config.Details.ItemSource.WhiteList.push({
+                      Key: code,
+                      Value: display,
+                      DisplayValue: display,
+                      IsHidden: row.classList.contains('hide'),
+                      CountryCode: null
+                  });
+              }
+              else {
+                  this.Config.Details.ItemSource.WhiteList.push({
+                      Key: display,
+                      Value: code,
+                      DisplayValue: display,
+                      IsHidden: row.classList.contains('hide'),
+                      CountryCode: null
+                  });
+              }
           }
-          else
-          {
-            this.Config.Details.ItemSource.WhiteList.push({
-              Key: display,
-              Value: code,
-              DisplayValue: display,
-              IsHidden: row.classList.contains('hide'),
-              CountryCode: null
-            });
+          else {
+              //BenK to check: if there is no elements are filtered, we have this.Config.Details.ItemSource.WhiteList = null, cant do find
+              if (this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
+                  && this.Config.Details.ItemSource.WhiteList
+                  && Array.isArray(this.Config.Details.ItemSource.WhiteList)) {
+                    let found = this.Config.Details.ItemSource.WhiteList.find(obj => (obj.Key === code || obj.Value === code) && obj.IsHidden);
+                    found.IsHidden = false;
+              }
           }
-        }
-        else
-        {
-          let found = this.Config.Details.ItemSource.WhiteList.find(obj => (obj.Key === code || obj.Value === code) && obj.IsHidden);
-          found.IsHidden = false;
-        }
       }
 
       /*
@@ -36323,10 +36331,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     return false;
   }
 
-  refreshFromSelect()
+  refreshFromSelect(ignoreClean)
   {
+    ignoreClean = ignoreClean === undefined ? false : ignoreClean;
     this._setDisplayValue('');
-    this._updateOptions();
+    this._updateOptions(ignoreClean);
   }
 
   /**/
@@ -36505,16 +36514,19 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   }
 
-  _updateOptions()
+  _updateOptions(ignoreClean)
   {
+    ignoreClean = ignoreClean === undefined ? false : ignoreClean;
     this._clearList();
-    this._processOptions();
+    this._processOptions(ignoreClean);
   }
 
-  _processOptions()
+  _processOptions(ignoreClean)
   {
 
     if (!Affinity2018.isDomElement(this.targetNode) || !this.targetNode) return false;
+
+    ignoreClean = ignoreClean === undefined ? false : ignoreClean;
 
     var continueBool = false,
         optionNodes = this.targetNode.querySelectorAll('option'),
@@ -36583,7 +36595,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         defaultValue: defaultValue,
         encodedDefaultValue: encodedDefaultValue,
         filter: this.filter,
-        uuid: this.uuid
+        uuid: this.uuid,
+        ignoreClean: ignoreClean
       });
 
       continueBool = true;
@@ -38104,8 +38117,10 @@ function returnListItem (data)
   return li;
 }
 
-function returnList (uuid, html, defaultValue, encodedDefaultValue, filter)
+function returnList(uuid, html, defaultValue, encodedDefaultValue, filter, ignoreClean)
 {
+  ignoreClean = ignoreClean === undefined ? false : ignoreClean;
+
   var options = html.split('</option>'),
       items = [], // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
       returndata = {
@@ -38119,6 +38134,104 @@ function returnList (uuid, html, defaultValue, encodedDefaultValue, filter)
       klass, html, ogvalue, display, value, li, wordsArr, soundexArr;
   //var test = 'Fire Prevention (23) Officer edit (103)';
   //options[1] = '<option value="' + test + '">' + test;
+
+  var optionPattern = /<option\s+(?:value="([^"]*)")\s*([^>]*)>([^<]*?)(?:\s*\(([^)]*)\))?<\/option>/g;
+  var options = [];
+  var match;
+  var i = 0;
+  while ((match = optionPattern.exec(html)) !== null)
+  {
+    value = match[1];
+    attributes = match[2];
+    display = match[3];
+    key = match[4] || "";
+    ogvalue = (key === null || key === "null" || key === "") ? display : display + ' (' + key + ')'; //BenK to check
+    klass = 'visible';
+
+    if (ignoreClean)
+    {
+      display = ogvalue;
+    }
+    else
+    {
+      display = cleanDisplay(ogvalue.replace(/\, /g, ' - '));
+    }
+
+    if (attributes.includes('selected') || value === defaultValue || value === encodedDefaultValue)
+    {
+      klass += ' selected';
+      returndata.defaultID = uuid + '-li-' + i;
+      initialSelected = uuid + '-li-' + i;
+      selected = true;
+    }
+
+    if (new RegExp('data-filter-css="', 'gi').test(html))
+    {
+      var cutFrom = html.indexOf('data-filter-css="') + 17;
+      var cutTo = html.indexOf('"', cutFrom);
+      var newKlass = html.substr(cutFrom, cutTo - cutFrom);
+      if (newKlass === 'hidden' && klass.indexOf('visible') > -1)
+      {
+        klass = klass.replace('visible', '');
+      }
+      klass += ' ' + newKlass;
+    }
+
+    var addItem = true;
+    if (filter !== null && new RegExp('(' + filter + ')', 'gi').test(ogvalue)) addItem = false;
+
+    if (addItem)
+    {
+      li = returnListItem({
+        uuid: uuid,
+        klass: klass,
+        originalIndex: i,
+        value: value,
+        html: display
+      });
+
+      returndata.html += li;
+      finalHtml += li;
+
+      // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
+      items.push({
+        id: uuid + '-li-' + i,
+        html: li,
+        klass: klass,
+        searchstr: ogvalue,
+        value: value
+      });
+
+      returndata.total++;
+
+      // start index
+      wordsArr = ogvalue.trim().toLowerCase().replace(new RegExp(/ /g), ' ').split(' ');
+      soundexArr = [];
+      for (j = 0; j < wordsArr.length; j++)
+      {
+        soundexArr.push(soundex(wordsArr[j]));
+      }
+
+      // hang on to this for later referenceing on search ....
+      fuzzySearchData.push({
+        id: uuid + '-li-' + i,
+        html: li,
+        oghtml: li,
+        klass: klass,
+        searchstr: ogvalue,
+        value: value,
+        words: wordsArr,
+        wordCount: wordsArr.length,
+        soundex: soundexArr,
+        originalIndex: i
+      });
+
+    }
+
+    i++;
+  }
+
+  /*
   for (; i < options.length; i++)
   {
     html = options[i];
@@ -38222,6 +38335,8 @@ function returnList (uuid, html, defaultValue, encodedDefaultValue, filter)
 
     }
   }
+  */
+
   originalListHTML = finalHtml + '';
   originalListItems = JSON.parse(JSON.stringify(items) + '');
   returndata.items = items;
@@ -38784,7 +38899,7 @@ onmessage = function (msgData)
   }
   if (opts.job === "getList")
   {
-    returnList(opts.uuid, opts.html, opts.defaultValue, opts.encodedDefaultValue, opts.filter);
+    returnList(opts.uuid, opts.html, opts.defaultValue, opts.encodedDefaultValue, opts.filter, opts.ignoreClean);
   }
   if (opts.job === "getSelectedList")
   {
@@ -47967,7 +48082,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           //console.log(this.targetNode.dataset.propertyName, ' set to ', defaultValue);
         }
         ac = this.targetNode.widgets.Autocomplete;
-        ac.refreshFromSelect();
+        ac.refreshFromSelect(true); // true denotes "ignore cleaning"
       }
       else
       {
@@ -48040,7 +48155,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let displayStr = '';
     if (data.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(data.DisplayValue))
     {
-      displayStr = data.DisplayValue;
+      displayStr = this._cleanValue(data.DisplayValue, null, country);
     }
     else
     {
@@ -48360,7 +48475,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           this.config.Value = value;
           this.targetNode.widgets.Autocomplete.defaultValue = value;
           this.targetNode.dataset.defaultValue = value;
-          this.targetNode.widgets.Autocomplete.refreshFromSelect();
+          this.targetNode.widgets.Autocomplete.refreshFromSelect(true);  // true denotes "ignore cleaning"
           //console.log(this.targetNode.dataset.propertyName, ' set to ', value);
         }
       }
@@ -48471,7 +48586,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
         if (this.targetNode.widgets.Autocomplete)
         {
-          this.targetNode.widgets.Autocomplete.refreshFromSelect();
+          this.targetNode.widgets.Autocomplete.refreshFromSelect(true); // true denotes "ignore cleaning"
         }
       }
     }
