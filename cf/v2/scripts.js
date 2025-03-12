@@ -7867,6 +7867,970 @@
   else document.addEventListener('DOMContentLoaded', globalinit, false);
 
 })();;
+/**
+ *
+ * Summary.       CleverForms Admin.
+ *
+ * Description.   Creates an instance of CleverForms Admin.
+ *                Important: Must follow ECMAScript 5 (ES5) standards to support Internet Explorer 11.
+ *
+ * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+ *
+ *
+ * @since         16.06.2020
+ * @class         Admin
+ * @namespace     Affinity2018.Classes.Apps.CleverForms
+ * @memberof      CleverForms
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Admin
+ *
+ * @public
+ */
+
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Apps' in Affinity2018.Classes)) Affinity2018.Classes.Apps = {};
+if (!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
+if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.CleverForms = {};
+
+if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if (!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
+
+Affinity2018.Classes.Apps.CleverForms.Admin = class
+{
+
+  /**
+   * Summary. Sets class scoped variables required for the Admin instance
+   * @this    Class scope
+   * @access  private
+   */
+  _options()
+  {
+    this.CurrentPage = 1;
+    this.PageSize = 50;
+  }
+
+  /**
+   * Summary. Class constructor
+   * @this    Class
+   * @access  private
+   */
+  constructor()
+  {
+
+    /** load all options above into class scope.*/
+    this._options();
+
+    /**
+     * Summary. Array of class method names to be bound to the global Class scope.
+     * @access  private
+     */
+    [
+
+      '_init',
+
+      // public
+
+      'Search',
+
+      'GetResults',
+
+      // private
+
+      '_search',
+      '_toggelModels',
+      '_toggleAllModes',
+      '_gotResults', '_gotResultsError',
+
+      '_searchParentCheckboxClicked',
+      '_searchChildCheckboxClicked',
+
+      '_getCurrentPage',
+      '_gridClicked',
+
+      // html templates
+      '_templates'
+
+    ].bindEach(this);
+
+    /** load all object and HTML templates into class scope. */
+    this._templates();
+
+    this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+    this.CleverForms.Admin = this;
+
+    document.querySelector('#loading-toast').classList.add('hidden');
+
+    if (Affinity2018.UiReady) this._init();
+    else window.addEventListener('MainInit', this._init);
+
+  }
+
+  /**
+   * Summary. Designer Class initialiser
+   * @this    Class scope
+   * @access  private
+   */
+  async _init()
+  {
+    this.SearchNode = document.querySelector('div.admin-search');
+    this.ResultNode = document.querySelector('div.admin-results');
+
+    /**/
+
+    this.SearchNode.innerHTML = this.SearchTemplate;
+    this.ShowHideModelsNode = this.SearchNode.querySelector('a.show-hide');
+    this.SearchModelsNode = this.SearchNode.querySelector('div.model-checks');
+
+    let today = luxon.DateTime.local();
+    let startdate = today.minus({ months: 1 });
+    let endDate = today.plus({ months: 1 });
+    this.SearchNode.querySelector('#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
+    this.SearchNode.querySelector('#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
+
+    let size = this.SearchModelsNode.getBoundingClientRect();
+    this.SearchModelsNode.style.height = size.height + 'px';
+    this._toggelModels();
+
+    this.SearchTextNode = this.SearchNode.querySelector('#SearchText');
+    this.SearchTemplateNode = this.SearchNode.querySelector('#TemplateDescription');
+    this.SearchRelatesToNode = this.SearchNode.querySelector('#RelatesTo');
+    this.SearchModelChecksContainer = this.SearchNode.querySelector('div.model-checks');
+    this.SearchEmployeeParentCheckNode = this.SearchNode.querySelector('input[type="checkbox"]#Employee');
+
+    this.SelectAllModelsButton = this.SearchNode.querySelector('a.select-all-models');
+
+    this.SearchApplyButton = this.SearchNode.querySelector('.form-row.buttons button.blue');
+    this.SearchClearButton = this.SearchNode.querySelector('.form-row.buttons button.grey');
+
+    /**/
+
+    this.ResultNode.innerHTML = this.ResultGridTemplate;
+
+    this.GridNode = this.ResultNode.querySelector('table');
+    this.ResultGridNode = this.GridNode.querySelector('tbody');
+    this.ResultFooterNode = this.GridNode.querySelector('tfoot');
+
+    this.ResultGridNode.innerHTML = this.EmptyResultTemplate;
+
+    /**/
+
+    for (let parentNode of this.SearchModelsNode.querySelectorAll('.checkbox-group'))
+    {
+      if (parentNode.querySelector('input[type="checkbox"]'))
+      {
+        parentNode.querySelector('input[type="checkbox"]').addEventListener('click', this._searchParentCheckboxClicked);
+        for (let childNode of parentNode.querySelector('.sub-checkboxes').querySelectorAll('input[type="checkbox"]'))
+        {
+          childNode.addEventListener('click', this._searchChildCheckboxClicked);
+        }
+      }
+    }
+
+    /**/
+
+    this.ShowHideModelsNode.addEventListener('click', this._toggelModels);
+
+    this.SelectAllModelsButton.addEventListener('click', this._toggleAllModes);
+
+    this.SearchApplyButton.addEventListener('click', this._search);
+
+    this.GridNode.addEventListener('click', this._gridClicked);
+
+    /**/
+
+    // simulate grid click to do initial load and make sure we get the default sort according to inital template HTML
+    await this._gridClicked({
+      target: document.querySelector('th[data-name="StateEnteredAt"]')
+    });
+
+  }
+
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+  /***                                                                                                                  ******************************/
+  /***   ██████  ██    ██ ██████  ██      ██  ██████     ███    ███ ███████ ████████ ██   ██  ██████  ██████  ███████   ******************************/
+  /***   ██   ██ ██    ██ ██   ██ ██      ██ ██          ████  ████ ██         ██    ██   ██ ██    ██ ██   ██ ██        ******************************/
+  /***   ██████  ██    ██ ██████  ██      ██ ██          ██ ████ ██ █████      ██    ███████ ██    ██ ██   ██ ███████   ******************************/
+  /***   ██      ██    ██ ██   ██ ██      ██ ██          ██  ██  ██ ██         ██    ██   ██ ██    ██ ██   ██      ██   ******************************/
+  /***   ██       ██████  ██████  ███████ ██  ██████     ██      ██ ███████    ██    ██   ██  ██████  ██████  ███████   ******************************/
+  /***                                                                                                                  ******************************/
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+
+
+  async Search(search = '', filter = '', ascending = true)
+  {
+    Affinity2018.ShowPageLoader(true);
+    await this.GetResults(search, filter, ascending);
+  }
+
+  async GetResults(search = '', filter = '', ascending = true)
+  {
+    let api = '/AdminV2/Page';
+    /**/
+    let models = [];
+    let exactMatchCheckbox = this.SearchNode.querySelector('#ExactMatch');
+    let isExactMatch = exactMatchCheckbox ? exactMatchCheckbox.checked : false;
+    let selectedModelChecks = this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked');
+    for (let check of selectedModelChecks)
+    {
+      if (check && check.hasAttribute('id') && check.id.trim() !== '')
+      {
+        models.push(check.id);
+      }
+    }
+
+    let adminSearchCriteria = {
+      page: this._getCurrentPage(),
+      pageSize: this.PageSize,
+      searchText: search !== '' ? search : this.SearchTextNode.value.trim(),
+      models: models.join(','),
+      exactMatch: isExactMatch,
+      startDate: this.SearchNode.querySelector('#StartDate').value,
+      endDate: this.SearchNode.querySelector('#EndDate').value
+    };
+
+    if (filter !== '')
+    {
+      adminSearchCriteria.sortField = filter;
+      adminSearchCriteria.ascending = ascending;
+    }
+
+    let query = new URLSearchParams(adminSearchCriteria).toString();
+    let url = `${api}?${query}`;
+
+    let response = await fetch(url);
+
+    if (!response.ok)
+    {
+      this._gotResultsError(`HTTP error: Status ${response.status}`);
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (!data || data === '')
+    {
+      this._gotResultsError(`No usable data found`);
+      return false;
+    }
+
+    if (!data.hasOwnProperty('Records'))
+    {
+      this._gotResultsError(`No usable data found`);
+      return false;
+    }
+
+    if (!Array.isArray(data.Records))
+    {
+      this._gotResultsError(`No usable data found`);
+      return false;
+    }
+
+    this._gotResults(data);
+
+    return true;
+  }
+
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+  /***                                                                                                                           *********************/
+  /***   ██████  ██████  ██ ██    ██  █████  ████████ ███████     ███    ███ ███████ ████████ ██   ██  ██████  ██████  ███████   *********************/
+  /***   ██   ██ ██   ██ ██ ██    ██ ██   ██    ██    ██          ████  ████ ██         ██    ██   ██ ██    ██ ██   ██ ██        *********************/
+  /***   ██████  ██████  ██ ██    ██ ███████    ██    █████       ██ ████ ██ █████      ██    ███████ ██    ██ ██   ██ ███████   *********************/
+  /***   ██      ██   ██ ██  ██  ██  ██   ██    ██    ██          ██  ██  ██ ██         ██    ██   ██ ██    ██ ██   ██      ██   *********************/
+  /***   ██      ██   ██ ██   ████   ██   ██    ██    ███████     ██      ██ ███████    ██    ██   ██  ██████  ██████  ███████   *********************/
+  /***                                                                                                                           *********************/
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+
+
+  async _search(event)
+  {
+    this.CurrentPage = 1;
+    for (let column of this.GridNode.querySelectorAll('thead th'))
+    {
+      if (column.dataset.name)
+      {
+        column.dataset.ascending = column.dataset.name === 'StateEnteredAt' ? 'false' : 'null';
+      }
+    }
+    await this.Search('', 'StateEnteredAt', false);
+  }
+
+  _toggelModels()
+  {
+    if (this.SearchModelsNode.classList.contains('hide'))
+    {
+      this.SearchModelsNode.classList.remove('hide');
+      this.ShowHideModelsNode.innerHTML = 'Hide';
+    }
+    else
+    {
+      this.SearchModelsNode.classList.add('hide');
+      this.ShowHideModelsNode.innerHTML = 'Show';
+    }
+  }
+
+  _toggleAllModes()
+  {
+
+    if (this.SelectAllModelsButton.innerText.trim() === 'Select All')
+    {
+      for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]'))
+      {
+        check.checked = true;
+      }
+      this.SelectAllModelsButton.innerHTML = 'Unselect All';
+    }
+    else
+    {
+      for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]'))
+      {
+        check.checked = null;
+      }
+      this.SelectAllModelsButton.innerHTML = 'Select All';
+    }
+  }
+
+  _gotResults(data)
+  {
+    let html = '';
+    if (data.Records.length > 0)
+    {
+      for (let record of data.Records)
+      {
+        html += this.ResultTemplate(record);
+      }
+    }
+    if (html !== '')
+    {
+      this.ResultGridNode.innerHTML = html;
+      this.ResultFooterNode.innerHTML = this.ResultPaginationTemplate(data);
+    }
+    else
+    {
+      this._gotResultsError(`No results to show`);
+    }
+    this.CurrentPage = data.Page;
+    Affinity2018.HidePageLoader(true);
+  }
+
+  _gotResultsError(error)
+  {
+    console.warn(error);
+    this.ResultGridNode.innerHTML = this.ErrorResultTemplate(error);
+    this.ResultFooterNode.innerHTML = '';
+    Affinity2018.HidePageLoader(true);
+  }
+
+  _deleteInstance(instanceId)
+  {
+    Affinity2018.Dialog.Show({
+      message: `Are you sure you would like to delete this form instance?`,
+      showOk: true,
+      showCancel: true,
+      showInput: false,
+      textAlign: 'left',
+      onOk: (async () =>
+      {
+        Affinity2018.ShowPageLoader();
+        await fetch(`/AdminV2/Delete?instanceId=${instanceId}`, {
+          method: 'POST',
+        });
+        let filterRowNode = this.GridNode.querySelector('thead th:not([data-ascending="null"])');
+        let filterName = filterRowNode.dataset.name;
+        let filterValue = filterRowNode.dataset.ascending;
+        await this.Search('', filterName, filterValue === 'true' ? true : false);
+      }).bind(this)
+    });
+  }
+
+  /**/
+
+  async _gridClicked(event)
+  {
+    let eventObject = event === undefined ? null : event;
+    let isRealEvent = event instanceof MouseEvent || event instanceof PointerEvent || event instanceof TouchEvent;
+    if (eventObject && 'target' in eventObject && eventObject.target !== null)
+    {
+      let tagName = event.target.tagName.toLowerCase();
+      switch (tagName)
+      {
+        case 'button':
+          if (event.target.closest('tr') && event.target.closest('tr').dataset.name)
+          {
+            this._rowButtonClicked(event);
+          }
+          else
+          {
+            console.log('Unkown Button Clicked?');
+            console.log(event.target);
+          }
+          break;
+
+        case 'a':
+
+          let hasHref = event.target.hasAttribute('href');
+          let hrefValue = hasHref ? event.target.getAttribute('href') : null;
+          if (event.target.classList.contains('button'))
+          {
+            if (!hrefValue)
+            {
+              if (isRealEvent)
+              {
+                Affinity2018.stopEvent(event);
+              }
+              console.log('Unkown A-Button Clicked?');
+              console.log(event.target);
+            }
+          }
+          break;
+
+        case 'span':
+
+          if (event.target.classList.contains('page'))
+          {
+            await this._gotoPage(parseInt(event.target.dataset.page));
+          }
+          else if (event.target.classList.contains('page-last'))
+          {
+            await this._gotoPage(this._getCurrentPage() - 1);
+          }
+          else if (event.target.classList.contains('page-next'))
+          {
+            await this._gotoPage(this._getCurrentPage() + 1);
+          }
+          else
+          {
+            console.log('Unknown Span Clicked?');
+            console.log(event.target);
+          }
+          break;
+
+        case 'tr':
+
+          if (event.target.dataset.name)
+          {
+            this._rowClicked(event);
+          }
+          break;
+
+        case 'td':
+
+          let rowNode = event.target.parentNode;
+          if (rowNode.dataset.name)
+          {
+            this._rowClicked(this._cloneEvent(event, rowNode));
+          }
+          break;
+
+        case 'th':
+
+          if (event.target.dataset.ascending) // not buttons, for example
+          {
+            let ascendingString = event.target.dataset.ascending; // should never be NOT set .. || null; // get current sort else null
+
+            if (ascendingString !== 'null') // already sorting on this column
+            {
+              ascendingString = ascendingString === 'true' ? 'false' : 'true'; // so swap!
+            }
+            else // is a new sort for this column, so default to true unless it is a date column, in which case, default to false
+            {
+              ascendingString = event.target.dataset.type === 'date' ? 'false' : 'true';
+            }
+
+            for (let column of this.GridNode.querySelectorAll('thead th'))
+            {
+              if (column.dataset.name)
+              {
+                column.dataset.ascending = 'null';
+              }
+            }
+
+            event.target.dataset.ascending = ascendingString;
+
+            await this.Search('', event.target.dataset.name, event.target.dataset.ascending === 'true' ? true : false);
+
+          }
+
+          break;
+
+      }
+    }
+  }
+
+  _rowClicked(event)
+  {
+    console.log(event.target.dataset.name);
+  }
+
+  _rowButtonClicked(event)
+  {
+    if (event.target.classList.contains('delete') && event.target.dataset.instanceid)
+    {
+      this._deleteInstance(event.target.dataset.instanceid);
+    }
+  }
+
+  _searchParentCheckboxClicked(ev)
+  {
+    let parentNode = ev.target.closest('.checkbox-group');
+    if (parentNode)
+    {
+      let childChecks = parentNode.querySelectorAll('.inline-checkbox:not(.parent) input[type="checkbox"]');
+      for (let check of childChecks)
+      {
+        check.checked = ev.target.checked;
+      }
+    }
+  }
+
+  _searchChildCheckboxClicked(ev)
+  {
+    let parentNode = ev.target.closest('.checkbox-group');
+    if (parentNode)
+    {
+      let parentCheck = parentNode.querySelector('.inline-checkbox.parent input[type="checkbox"]');
+      if (parentCheck)
+      {
+        if (ev.target.checked && !parentCheck.checked)
+        {
+          parentCheck.checked = true;
+        }
+      }
+    }
+  }
+
+  /**/
+
+  _getCurrentPage()
+  {
+    return this.CurrentPage;
+  }
+
+  async _gotoPage(page)
+  {
+    this.CurrentPage = page;
+    let filterRowNode = this.GridNode.querySelector('thead th:not([data-ascending="null"])');
+    let filterName = filterRowNode.dataset.name;
+    let filterValue = filterRowNode.dataset.ascending;
+    await this.Search('', filterName, filterValue === 'true' ? true : false);
+  }
+
+  /**/
+
+  _cloneEvent(event, target)
+  {
+    let clonedEvent = null;
+    if (event instanceof MouseEvent)
+    {
+      clonedEvent = new MouseEvent(event.type, {
+        bubbles: event.bubbles,
+        cancelable: event.cancelable,
+        view: event.view,
+        detail: event.detail,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        button: event.button,
+        relatedTarget: event.relatedTarget
+      });
+    }
+    if (event instanceof PointerEvent)
+    {
+      clonedEvent = new PointerEvent(event.type, {
+        bubbles: event.bubbles,
+        cancelable: event.cancelable,
+        view: event.view,
+        detail: event.detail,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        button: event.button,
+        relatedTarget: event.relatedTarget
+      });
+    }
+    if (event instanceof TouchEvent)
+    {
+      clonedEvent = new TouchEvent(event.type, {
+        bubbles: event.bubbles,
+        cancelable: event.cancelable,
+        view: event.view,
+        detail: event.detail,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        button: event.button,
+        relatedTarget: event.relatedTarget
+      });
+    }
+    if (clonedEvent && target)
+    {
+      Object.defineProperty(clonedEvent, 'target', {
+        value: target,
+        enumerable: true
+      });
+    }
+    return clonedEvent;
+  }
+
+
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+  /***                                                                                  **************************************************************/
+  /***   ████████ ███████ ███    ███ ██████  ██       █████  ████████ ███████ ███████   **************************************************************/
+  /***      ██    ██      ████  ████ ██   ██ ██      ██   ██    ██    ██      ██        **************************************************************/
+  /***      ██    █████   ██ ████ ██ ██████  ██      ███████    ██    █████   ███████   **************************************************************/
+  /***      ██    ██      ██  ██  ██ ██      ██      ██   ██    ██    ██           ██   **************************************************************/
+  /***      ██    ███████ ██      ██ ██      ███████ ██   ██    ██    ███████ ███████   **************************************************************/
+  /***                                                                                  **************************************************************/
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+
+
+
+  /**
+   * Summary. Define local HTML templates
+   * @this    Class scope
+   * @access  private
+   */
+  _templates()
+  {
+
+    this.SearchTemplate = `
+        <div class="default-form">
+
+            <div class="form-row">
+                <label for="SearchText">Search</label>
+                <div class="search-container">
+                    <input id="SearchText" name="SearchText" type="text">
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="ExactMatch" name="ExactMatch">
+                        <label for="ExactMatch">Exact Match</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row dates">
+                <label for="StartDate">Form</label>
+                <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="2020-01-01">
+                <label for="EndDate">To</label>
+                <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="2030-12-39">
+            </div>
+
+            <div class="form-row hidden">
+                <label for="templateDescription">Form Name</label>
+                <input id="TemplateDescription" name="TemplateDescription" type="text">
+            </div>
+            <div class="form-row hidden">
+                <label for="relatesTo">Relates To</label>
+                <input id="RelatesTo" name="RelatesTo" type="text">
+            </div>
+            <div class="form-row">
+
+                <div class="masterfile-show-hide">
+                  <label>Masterfile</label>
+                  <a class="show-hide">Show</a>
+                </div>
+
+                <div class="inline-checkboxes model-checks">
+
+                    <div class="masterfile-all-select">
+                      <a class="select-all-models">Unselect All</a>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="inline-checkbox parent">
+                            <input type="checkbox" id="Employee" checked />
+                            <label for="Employee">Employee</label>
+                            <div class="sub-checkboxes">
+                                <div class="inline-checkbox">
+                                    <input type="checkbox" id="Empad" checked />
+                                    <label for="Empad">Allowance and Deductions</label>
+                                </div>
+                                <div class="inline-checkbox">
+                                    <input type="checkbox" id="Sdates" checked />
+                                    <label for="Sdates">Significant Dates</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Branch" checked />
+                        <label for="BRANCH">Branch</label>
+                    </div>
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Cst" checked />
+                        <label for="CST">Cost Centre</label>
+                    </div>
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Dept" checked />
+                        <label for="DEPT">Department</label>
+                    </div>
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Division" checked />
+                        <label for="DIVISION">Division</label>
+                    </div> 
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Groupd" checked />
+                        <label for="GROUPD">Groups</label>
+                    </div>
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Payl" checked />
+                        <label for="PAYL">Pay Location</label>
+                    </div>
+
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="Posts" checked />
+                        <label for="POSTS">Position</label>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-row buttons">
+                <button class="blue">Search</button>
+            </div>
+        </div>
+    `;
+
+
+    this.ResultGridTemplate = `
+        <table class="admin-grid">
+            <thead>
+                <tr>
+                    <th class="cell-width-150"  data-type="string" data-ascending="null" data-name="TemplateDescription">Form Name</th>
+                    <th class="cell-width-100"  data-type="string" data-name="RelatesTo">Relates To</th>
+                    <th class="cell-width-auto" data-type="string" data-name="PayPoint">Pay Point</th>
+                    <th class="cell-width-100"  data-type="date"   data-ascending="null" data-name="EffectiveDate">Effective Date</th>
+                    <th class="cell-width-200"  data-type="string" data-ascending="null" data-name="WorkflowName">Workflow Name</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="PreviousAssigneeEmployeeNo">Previous Assignee</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="PreviousState">Last Action Taken</th>
+                    <th class="cell-width-auto" data-type="date"   data-ascending="null" data-name="StateEnteredAt">At</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentAssigneeEmployeeNo">Current Assignee</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentState">Current State</th>
+                    <th class="cell-width-auto admin-buttons"></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    `;
+
+
+    this.ResultTemplate = data =>
+    {
+      let date = Affinity2018.stringToDate(data.StateEnteredAt);
+      let dateString = Affinity2018.getDate(date, 'dd.MM.yyyy');
+      let dateTimeString = dateString + ' ' + Affinity2018.getDate(date, 'hh:mm a').toLowerCase();
+      if (!data.hasOwnProperty('InstanceId') || data.InstanceId === null)
+      {
+        return `
+          <tr data-name="${data.TemplateDescription}">
+              <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
+              <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
+              <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
+              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
+              <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
+              <td class="cell-width-auto"${data.PreviousState === null ? '' : data.PreviousState}</td>
+              <td class="cell-width-auto">${dateTimeString}</th>
+              <td class="cell-width-auto">${data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName}</td>
+              <td class="cell-width-auto">${data.CurrentState === null ? '' : data.CurrentState}</td>
+              <td class="cell-width-auto admin-buttons"></td>
+          </tr>
+        `;
+      }
+      else
+      {
+        return `
+          <tr data-name="${data.TemplateDescription}">
+              <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
+              <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
+              <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
+              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
+              <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
+              <td class="cell-width-auto">${data.PreviousState === null ? '' : data.PreviousState}</td>
+              <td class="cell-width-auto">${dateTimeString}</th>
+              <td class="cell-width-auto">${data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName}</td>
+              <td class="cell-width-auto">${data.CurrentState === null ? '' : data.CurrentState}</td>
+              <td class="cell-width-auto admin-buttons">
+                  <a class="button blue" href="/Admin/Details/${data.InstanceId}">
+                      <span class="icon-work-flow-multiple"></span>
+                      <span>Details</span>
+                  </a>
+                  <a class="button blue" href="/Instance/View/${data.InstanceId}">
+                      <span class="icon-file-text-black"></span>
+                      <span>View</span>
+                  </a>
+                  <button class="red icononly delete ui-has-tooltip" data-instanceid="${data.InstanceId}" data-tooltip="Delete Form" data-tooltip-dir="left">
+                      <span class="icon-cross"></span>
+                  </button>
+              </td>
+          </tr>
+        `;
+      }
+    };
+
+
+    this.ErrorResultTemplate = error =>
+    {
+      return `
+        <tr>
+            <td colspan="11">${error}</td>
+        </tr>
+      `;
+    };
+
+
+    this.EmptyResultTemplate = `
+        <tr>
+            <td colspan="11">No results to display</td>
+        </tr>
+    `;
+
+
+    this.ResultFooterTempalte = data =>
+    {
+      let pageSize = !data.hasOwnProperty('PageSize') ? this.PageSize : data.PageSize;
+      let numberOfPages = Math.floor(data.NumOfInstances / pageSize);
+      let numberReturned = data.NumOfInstances < pageSize ? data.NumOfInstances : pageSize;
+      return `
+        <tr>
+            <td colspan="11">Page ${data.Page} of ${numberOfPages} - Found ${numberReturned} Forms from ${data.NumOfInstances} total.</td>
+        </tr>
+      `;
+
+    };
+
+    /* pagination */
+
+    this.ResultPaginationTemplate = data =>
+    {
+      let pageSize = !data.hasOwnProperty('PageSize') ? this.PageSize : data.PageSize;
+      let numberOfPages = Math.ceil(data.NumOfInstances / pageSize);
+      let numberReturned = data.NumOfInstances < pageSize ? data.NumOfInstances : pageSize;
+      let lastHidden = data.Page < 2 ? ' disabled' : '';
+      let nextHidden = data.Page < numberOfPages ? '' : ' disabled';
+      let large = '';
+      let p = 0;
+      let totalPages = numberOfPages + 1;
+      let placeHolder = document.createElement('div');
+      if (totalPages > 20)
+      {
+        // always show first 5
+        for (p = 1; p < 6; p++)
+        {
+          large = p > 99 ? ' large' : '';
+          if (p === data.Page)
+          {
+            placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+          }
+          else
+          {
+            placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+          }
+        }
+        placeHolder.innerHTML += `<span class="page-divider">...</span>`;
+
+        if (data.Page > 4 && data.Page < totalPages - 5)
+        {
+          // show current +- 2
+          for (p = data.Page - 2; p < data.Page + 3; p++)
+          {
+            large = p > 99 ? ' large' : '';
+            if (placeHolder.querySelector(`.page[data-page="${p}"]`))
+            {
+              placeHolder.removeChild(placeHolder.querySelector(`.page[data-page="${p}"]`));
+            }
+            if (p === data.Page)
+            {
+              placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+            }
+            else
+            {
+              placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+            }
+          }
+          placeHolder.innerHTML += `<span class="page-divider">...</span>`;
+        }
+        // Show last
+        for (p = totalPages - 5; p < totalPages; p++)
+        {
+          large = p > 99 ? ' large' : '';
+          if (p === data.Page)
+          {
+            placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+          }
+          else
+          {
+            placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+          }
+        }
+      }
+      else
+      {
+        // jsut load them all
+        for (p = 1; p < totalPages; p++)
+        {
+          large = p > 99 ? ' large' : '';
+          if (p === data.Page)
+          {
+            placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+          }
+          else
+          {
+            placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+          }
+        }
+      }
+      //
+      return `
+        <tr>
+          <td colspan="11">
+            <div class="pagination">
+              <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+              ${placeHolder.innerHTML}
+              <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+              <br />
+              <span class="total-items select-enabled">Page ${data.Page} of ${numberOfPages} - Showing ${numberReturned} Forms from ${data.NumOfInstances} total.</span>
+            </div>
+          </td>
+        </tr>
+      `;
+    };
+
+  }
+
+};;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                  **********************************************/
