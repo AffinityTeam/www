@@ -24222,6 +24222,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           }
           else
           {
+
             let apiString = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}';
             apiString += '&DependencyTableName={dependencyModelName}&DependencyFieldName={dependencyFieldName}&DependencyValue={dependencyValue}';
             let dependentApi = apiString.format({
@@ -24791,45 +24792,58 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     }
     if (doLookup)
     {
-      let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
-        api: this.CleverForms.GetLookupApi,
-        modelName: this.Config.Details.AffinityField.ModelName,
-        propertyName: this.Config.Details.AffinityField.FieldName,
-        employeeNo: this.CleverForms.GetFormEmployeeNo(),
-        instanceId: this.CleverForms.GetTemplateGuid(),
-        countryCode: this.CleverForms.FormCountry
-      });
+      if (
+        this.Config.Details.hasOwnProperty('ItemSource')
+        && this.Config.Details.ItemSource === null
+      )
+      {
+        // do nothing, it is null, which means empty, which means a lookup will also be empty, so no ned to do a lookup
+        debugger;
+        this._gotWhitelistData([], true);
+      }
+      else
+      {
 
-      /*
-      fetch(api, {
-        method: 'GET',
-      })
-        .then(response => response.json())
-        .then(data =>
-        {
-          this._gotWhitelistData(data, true);
-        })
-        .catch(data =>
-        {
-          this._gotWhitelistData(data, true);
+        let api = '{api}?modelName={modelName}&propertyName={propertyName}&employeeNo={employeeNo}&instanceId={instanceId}&countryCode={countryCode}'.format({
+          api: this.CleverForms.GetLookupApi,
+          modelName: this.Config.Details.AffinityField.ModelName,
+          propertyName: this.Config.Details.AffinityField.FieldName,
+          employeeNo: this.CleverForms.GetFormEmployeeNo(),
+          instanceId: this.CleverForms.GetTemplateGuid(),
+          countryCode: this.CleverForms.FormCountry
         });
-      */
 
-      Affinity2018.ShowPageLoader(true);
+        /*
+        fetch(api, {
+          method: 'GET',
+        })
+          .then(response => response.json())
+          .then(data =>
+          {
+            this._gotWhitelistData(data, true);
+          })
+          .catch(data =>
+          {
+            this._gotWhitelistData(data, true);
+          });
+        */
 
-      if (force) Affinity2018.RequestQueue.Remove(api, 'get');
-      Affinity2018.RequestQueue.Add(api,
-        (data =>
-        {
-          Affinity2018.HidePageLoader(true);
-          this._gotWhitelistData(data, true);
-        }).bind(this),
-        (data =>
-        {
-          Affinity2018.HidePageLoader(true);
-          this._gotWhitelistData(data, true);
-        }).bind(this)
-      ); // this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
+        Affinity2018.ShowPageLoader(true);
+
+        if (force) Affinity2018.RequestQueue.Remove(api, 'get');
+        Affinity2018.RequestQueue.Add(api,
+          (data =>
+          {
+            Affinity2018.HidePageLoader(true);
+            this._gotWhitelistData(data, true);
+          }).bind(this),
+          (data =>
+          {
+            Affinity2018.HidePageLoader(true);
+            this._gotWhitelistData(data, true);
+          }).bind(this)
+          ); // this._gotWhitelistData, this._gotWhitelistData); // api, onSuccess, onFail, priority
+      }
 
     }
     else
@@ -32875,6 +32889,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         let showAll = false;
         let showNewItems = true;
         let whiteList = null;
+        let doInitalLookup = true;
         if (
           Affinity2018.FilterEnabled
           && (
@@ -32892,6 +32907,18 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
           showNewItems = this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true;
           whiteList = this.Config.Details.ItemSource.WhiteList;
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (!this.Config.Details.hasOwnProperty('ItemSource') || this.Config.Details.ItemSource === null || this.Config.Details.ItemSource === undefined)
+        {
+          //console.log(this.Config.Details.Label);
+          showAll = false;
+          showNewItems = false;
+          whiteList = [];
+          doInitalLookup = false;
+          //debugger;
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if ($a.getPosition(this.FormRowNode).top > $a.getWindowSize().height / 2) 
         {
@@ -32923,7 +32950,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               IsSingleValue: true,
               ShowAll: showAll,
               ShowNewItems: showNewItems,
-              WhiteList: whiteList
+              WhiteList: whiteList,
+              DoInitalLookup: doInitalLookup
             };
 
           }
@@ -32967,7 +32995,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               IsSingleValue: false,
               ShowAll: showAll,
               ShowNewItems: showNewItems,
-              WhiteList: whiteList
+              WhiteList: whiteList,
+              DoInitalLookup: doInitalLookup
             };
 
           }
@@ -33049,7 +33078,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             IsSingleValue: false,
             ShowAll: showAll,
             ShowNewItems: showNewItems,
-            WhiteList: whiteList
+            WhiteList: whiteList,
+            DoInitalLookup: doInitalLookup
           };
 
           if (this.CleverForms.IsGlobalKey(this.Config))
@@ -47711,6 +47741,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
       Required: false,
       ShowAll: false,
       WhiteList: null,
+      DoInitalLookup: true,
       IgnoreWhiteList: false
     };
 
@@ -47897,7 +47928,10 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         !this.IsGeneriocGroupLookup
         && this.config.hasOwnProperty('WhiteList')
         && Array.isArray(this.config.WhiteList)
-        && this.config.WhiteList.length > 0
+        &&
+        (
+          this.config.WhiteList.length > 0 || (this.config.WhiteList.length === 0 && !this.config.DoInitalLookup)
+        )
       )
       {
         let result = this.config.WhiteList;
