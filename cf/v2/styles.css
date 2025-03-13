@@ -1,62 +1,62 @@
 /* Minification failed. Returning unminified contents.
-(6399,59): run-time error CSS1030: Expected identifier, found ','
-(6399,81): run-time error CSS1031: Expected selector, found ')'
-(6399,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6407,59): run-time error CSS1030: Expected identifier, found ','
-(6407,81): run-time error CSS1031: Expected selector, found ')'
-(6407,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6439,82): run-time error CSS1030: Expected identifier, found ','
-(6439,153): run-time error CSS1031: Expected selector, found ')'
-(6439,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6521,64): run-time error CSS1030: Expected identifier, found ','
-(6521,71): run-time error CSS1031: Expected selector, found ')'
-(6521,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6529,63): run-time error CSS1030: Expected identifier, found ','
-(6529,70): run-time error CSS1031: Expected selector, found ')'
-(6529,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6537,72): run-time error CSS1030: Expected identifier, found ','
-(6537,79): run-time error CSS1031: Expected selector, found ')'
-(6537,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6596,74): run-time error CSS1030: Expected identifier, found ','
-(6596,216): run-time error CSS1031: Expected selector, found ')'
-(6596,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8386,113): run-time error CSS1030: Expected identifier, found ','
-(8386,125): run-time error CSS1031: Expected selector, found ')'
-(8386,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9441,73): run-time error CSS1030: Expected identifier, found ','
-(9441,95): run-time error CSS1031: Expected selector, found ')'
-(9441,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9449,73): run-time error CSS1030: Expected identifier, found ','
-(9449,95): run-time error CSS1031: Expected selector, found ')'
-(9449,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9471,73): run-time error CSS1030: Expected identifier, found ','
-(9471,95): run-time error CSS1031: Expected selector, found ')'
-(9471,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9480,73): run-time error CSS1030: Expected identifier, found ','
-(9480,95): run-time error CSS1031: Expected selector, found ')'
-(9480,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9488,73): run-time error CSS1030: Expected identifier, found ','
-(9488,95): run-time error CSS1031: Expected selector, found ')'
-(9488,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9496,73): run-time error CSS1030: Expected identifier, found ','
-(9496,95): run-time error CSS1031: Expected selector, found ')'
-(9496,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9504,73): run-time error CSS1030: Expected identifier, found ','
-(9504,95): run-time error CSS1031: Expected selector, found ')'
-(9504,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9889,133): run-time error CSS1030: Expected identifier, found ','
-(9889,274): run-time error CSS1031: Expected selector, found ')'
-(9889,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10481,167): run-time error CSS1030: Expected identifier, found ','
-(10481,309): run-time error CSS1031: Expected selector, found ')'
-(10481,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10763,108): run-time error CSS1030: Expected identifier, found ','
-(10763,250): run-time error CSS1031: Expected selector, found ')'
-(10763,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(6398,59): run-time error CSS1030: Expected identifier, found ','
+(6398,81): run-time error CSS1031: Expected selector, found ')'
+(6398,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6406,59): run-time error CSS1030: Expected identifier, found ','
+(6406,81): run-time error CSS1031: Expected selector, found ')'
+(6406,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6438,82): run-time error CSS1030: Expected identifier, found ','
+(6438,153): run-time error CSS1031: Expected selector, found ')'
+(6438,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6520,64): run-time error CSS1030: Expected identifier, found ','
+(6520,71): run-time error CSS1031: Expected selector, found ')'
+(6520,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6528,63): run-time error CSS1030: Expected identifier, found ','
+(6528,70): run-time error CSS1031: Expected selector, found ')'
+(6528,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6536,72): run-time error CSS1030: Expected identifier, found ','
+(6536,79): run-time error CSS1031: Expected selector, found ')'
+(6536,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6595,74): run-time error CSS1030: Expected identifier, found ','
+(6595,216): run-time error CSS1031: Expected selector, found ')'
+(6595,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8385,113): run-time error CSS1030: Expected identifier, found ','
+(8385,125): run-time error CSS1031: Expected selector, found ')'
+(8385,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9440,73): run-time error CSS1030: Expected identifier, found ','
+(9440,95): run-time error CSS1031: Expected selector, found ')'
+(9440,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9448,73): run-time error CSS1030: Expected identifier, found ','
+(9448,95): run-time error CSS1031: Expected selector, found ')'
+(9448,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9470,73): run-time error CSS1030: Expected identifier, found ','
+(9470,95): run-time error CSS1031: Expected selector, found ')'
+(9470,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9479,73): run-time error CSS1030: Expected identifier, found ','
+(9479,95): run-time error CSS1031: Expected selector, found ')'
+(9479,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9487,73): run-time error CSS1030: Expected identifier, found ','
+(9487,95): run-time error CSS1031: Expected selector, found ')'
+(9487,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9495,73): run-time error CSS1030: Expected identifier, found ','
+(9495,95): run-time error CSS1031: Expected selector, found ')'
+(9495,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9503,73): run-time error CSS1030: Expected identifier, found ','
+(9503,95): run-time error CSS1031: Expected selector, found ')'
+(9503,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9888,133): run-time error CSS1030: Expected identifier, found ','
+(9888,274): run-time error CSS1031: Expected selector, found ')'
+(9888,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10480,167): run-time error CSS1030: Expected identifier, found ','
+(10480,309): run-time error CSS1031: Expected selector, found ')'
+(10480,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10762,108): run-time error CSS1030: Expected identifier, found ','
+(10762,250): run-time error CSS1031: Expected selector, found ')'
+(10762,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(11671,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (11672,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11673,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11815,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(11817,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(11814,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(11816,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -3225,7 +3225,6 @@ body.ui2018 input[type="radio"]:after {
   border: 2px solid transparent;
   background: #8fe1f9;
   cursor: pointer;
-  overflow: hidden;
   -webkit-transition: all 250ms ease-in-out;
   -moz-transition: all 250ms ease-in-out;
   -o-transition: all 250ms ease-in-out;
@@ -15078,17 +15077,6 @@ body.ui2018.cform .default-form .form-row .show-all-filtered:hover span,
 body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered:hover span {
   color: #16c1f3;
 }
-body.ui2018.cform form .form-row .show-all-filtered em,
-body.ui2018 .example-template .preview form .form-row .show-all-filtered em,
-body.ui2018.cform .form .form-row .show-all-filtered em,
-body.ui2018 .example-template .preview .form .form-row .show-all-filtered em,
-body.ui2018.cform .default-form .form-row .show-all-filtered em,
-body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered em {
-  display: block;
-  margin: 5px 0 0 0;
-  font-size: 11px;
-  color: #999999;
-}
 body.ui2018.cform .ui-calendar-buttons,
 body.ui2018 .example-template .preview .ui-calendar-buttons {
   display: inline-block;
@@ -21308,567 +21296,5 @@ body.ui2018.dark .cf-designer-element-popup .inner .settings.scrollable .buttons
 body.ui2018.dark .cf-designer-element-popup .inner .search h3,
 body.ui2018.dark .cf-designer-element-popup .inner .settings h3 {
   color: white;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section.no-shadow {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section.no-shadow:hover {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates {
-  width: 700px;
-  font-size: 0px;
-  line-height: 35px;
-  text-align: right;
-  margin: -15px 0 0 0;
-  padding-right: 135px;
-  box-sizing: border-box;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates label {
-  display: inline-block;
-  vertical-align: top;
-  height: 35px;
-  line-height: 35px;
-  padding: 0 15px;
-  font-size: 16px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"] {
-  display: inline-block;
-  vertical-align: top;
-  width: 170px !important;
-  height: 35px;
-  line-height: 35px;
-  padding: 0 10px;
-  font-size: 16px;
-  color: black;
-  background: #f7f9fe;
-  border: 2px solid #e3e8ed;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent {
-  position: relative;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes {
-  padding-left: 20px;
-  margin-top: 5px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes .inline-checkbox {
-  margin-top: 5px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes .inline-checkbox label {
-  height: 30px;
-  line-height: 30px;
-  margin: 0;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container {
-  width: 700px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container input[type="text"] {
-  display: inline-block;
-  vertical-align: top;
-  width: 565px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox {
-  display: inline-block;
-  vertical-align: top;
-  width: 125px;
-  height: 44px;
-  line-height: 44px;
-  margin: 0 0 0 10px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox label {
-  height: 44px;
-  line-height: 44px;
-  margin: 0;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox input[type="checkbox"] {
-  top: 6px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide,
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select {
-  height: 30px;
-  line-height: 30px;
-  vertical-align: top;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide label,
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select label {
-  display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  vertical-align: top;
-  padding: 0;
-  margin: 0;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide a,
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select a {
-  display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  vertical-align: top;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide.masterfile-show-hide a,
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select.masterfile-show-hide a {
-  margin: 0 0 0 10px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.model-checks {
-  overflow: hidden;
-  -webkit-transition: height 250ms;
-  -moz-transition: height 250ms;
-  -o-transition: height 250ms;
-  transition: height 250ms;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.model-checks.hide {
-  height: 0 !important;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.inline-checkbox label {
-  height: 30px;
-  line-height: 30px;
-  margin: 0 0 0 0;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section.admin-results-section {
-  background: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-search {
-  min-width: 1085px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results {
-  min-width: 1085px;
-  background: white;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results button,
-body.ui2018.uiupdate.cform.admin div.admin-results a.button {
-  display: inline-block;
-  vertical-align: top;
-  white-space: nowrap;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results button *,
-body.ui2018.uiupdate.cform.admin div.admin-results a.button * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results button * *,
-body.ui2018.uiupdate.cform.admin div.admin-results a.button * * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results button.icononly,
-body.ui2018.uiupdate.cform.admin div.admin-results a.button.icononly {
-  width: 36px;
-  text-align: center;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results button.icononly span:first-child,
-body.ui2018.uiupdate.cform.admin div.admin-results a.button.icononly span:first-child {
-  padding: 0;
-  margin: 0;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results button:not(.icononly) span:first-child,
-body.ui2018.uiupdate.cform.admin div.admin-results a.button:not(.icononly) span:first-child {
-  padding: 0;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th {
-  padding: 0;
-  border: none;
-  word-wrap: normal;
-  word-break: normal;
-  white-space: normal;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-80,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-80,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-80,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-80,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-80,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-80 {
-  width: 80px;
-  min-width: 80px;
-  max-width: 80px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-100,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-100,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-100,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-100,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-100,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-100 {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-120,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-120,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-120,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-120,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-120,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-120 {
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-150,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-150,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-150,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-150,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-150,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-150 {
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-200,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-200,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-200,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-200,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-200,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-200 {
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.admin-buttons,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.admin-buttons,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.admin-buttons,
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.admin-buttons,
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.admin-buttons,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.admin-buttons {
-  width: 270px;
-  min-width: 270px;
-  max-width: 270px;
-  white-space: nowrap;
-  text-align: right;
-  font-size: 0;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th {
-  position: relative;
-  padding: 0px 5px 10px 5px;
-  text-align: left;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child) {
-  cursor: pointer;
-  padding: 0px 30px 10px 5px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child):before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 100%;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child):after {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 30px;
-  margin: -5px 0 0 0;
-  text-align: center;
-  content: '';
-  transform: translateY(-50%);
-  font-family: 'icons' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child)[data-ascending="true"]:after {
-  content: '\e5db';
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child)[data-ascending="false"]:after {
-  content: '\e5d8';
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr {
-  background-color: white;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr:nth-child(even) {
-  background-color: #f6f6f6;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td {
-  border-top: 1px solid #e6e9ed;
-  padding: 10px 5px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td {
-  border-top: 1px solid #e6e9ed;
-  padding: 10px 5px;
-  text-align: center;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination {
-  position: relative;
-  width: 100%;
-  line-height: 30px;
-  margin: 10px 0 0 0;
-  text-align: center;
-  font-size: 0;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span {
-  display: inline-block;
-  vertical-align: top;
-  line-height: 30px;
-  margin: 0 5px;
-  font-size: 16px;
-  text-decoration: none;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.disabled {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.disabled * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.select-enabled {
-  -webkit-touch-callout: default;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  -o-user-select: text;
-  user-select: text;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span:not(.select-enabled) * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span:not(.select-enabled) * * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-last,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-next {
-  font-size: 18px;
-  cursor: pointer;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-last:hover,
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-next:hover {
-  color: #999999;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page {
-  color: #106eb6;
-  cursor: pointer;
-  width: unset;
-  min-width: 30px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  border-radius: 30px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.large {
-  padding: 0 5px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.current {
-  color: #999999;
-  cursor: default;
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.current * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.current:hover {
-  color: #999999;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page:hover {
-  color: white;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-divider {
-  margin: 0 10px;
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-divider * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.total-items {
-  width: unset;
-  font-size: 12px;
-  color: #999999;
-  cursor: default;
-}
-body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"] {
-  color: white;
-  background: #333333;
-  border: 2px solid #444444;
-}
-body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"]::-moz-calendar-picker {
-  filter: invert(1);
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results {
-  background: none;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results button,
-body.ui2018.uiupdate.cform.admin.dark div.admin-results a.button {
-  color: white;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr {
-  background-color: #222222;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(:last-child)[data-ascending="true"]:after {
-  content: '\e5db';
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(:last-child)[data-ascending="false"]:after {
-  content: '\e5d8';
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr {
-  background-color: #222222;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr:nth-child(even) {
-  background-color: #262626;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr td {
-  border-top: 1px solid #333333;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr {
-  background-color: #222222;
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr td {
-  border-top: 1px solid #333333;
 }
 
