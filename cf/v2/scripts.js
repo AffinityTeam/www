@@ -25845,9 +25845,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       if (
         this.Config.Details.hasOwnProperty('ItemSource')
         && this.Config.Details.ItemSource === null
+        && !this.CleverForms.IsGlobalKey(this.Config)
       )
       {
-        // do nothing, it is null, which means empty, which means a lookup will also be empty, so no ned to do a lookup
+        // do nothing, it is null, which means empty, which means a lookup will also be empty, so no ned to do a lookup .. unless you are a global key :P
         debugger;
         this._gotWhitelistData([], true);
       }
@@ -33959,14 +33960,26 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if (!this.Config.Details.hasOwnProperty('ItemSource') || this.Config.Details.ItemSource === null || this.Config.Details.ItemSource === undefined)
+        if (
+          !this.Config.Details.hasOwnProperty('ItemSource')
+          || this.Config.Details.ItemSource === null
+          || this.Config.Details.ItemSource === undefined
+        )
         {
-          //console.log(this.Config.Details.Label);
-          showAll = false;
-          showNewItems = false;
-          whiteList = [];
-          doInitalLookup = false;
-          //debugger;
+          if (this.CleverForms.IsGlobalKey(this.Config))
+          {
+            showAll = true;
+            showNewItems = true;
+            whiteList = [];
+            doInitalLookup = true;
+          }
+          else
+          {
+            showAll = false;
+            showNewItems = false;
+            whiteList = [];
+            doInitalLookup = false;
+          }
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
