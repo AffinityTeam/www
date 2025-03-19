@@ -18824,82 +18824,152 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
     init()
     {
       // Anti forgery Token headers
-      var antiForgeryTokenProp = window.hasOwnProperty('AntiForgeryToken') ? window.AntiForgeryToken : null;
-      var antiForgeryTokenMetaNode = document.querySelector('meta[name="__RequestVerificationToken"]') || null;
-      var antiForgeryTokenInputNode = document.querySelector('input[name="__RequestVerificationToken"]') || null;
-      if (antiForgeryTokenProp) Affinity2018.AntiForgeryToken = antiForgeryTokenProp;
-      else if (antiForgeryTokenMetaNode && antiForgeryTokenMetaNode.getAttribute('content')) Affinity2018.AntiForgeryToken = antiForgeryTokenMetaNode.getAttribute('content');
-      else if (antiForgeryTokenInputNode && antiForgeryTokenInputNode.value) Affinity2018.AntiForgeryToken = antiForgeryTokenInputNode.value;
-      else Affinity2018.AntiForgeryToken = '';
-      let setAjaxAntiForgeryInterceptors = function ()
+      var originalFetch = window.fetch;
+      var axiosInterceptorId = null;
+      function refreshAntiForgeryToken()
       {
-        if (Affinity2018.AntiForgeryToken !== '')
+        if (window.axios)
         {
-          if (window.axios)
-          {
-            axios.defaults.headers.common['__RequestVerificationToken'] = Affinity2018.AntiForgeryToken;
-            axios.defaults.withCredentials = true;
-          }
-          if (window.fetch)
-          {
-            var originalFetch = window.fetch;
-            window.fetch = function (url, options)
+          return axios.get('/Api/RefreshToken')
+            .then(function (response)
             {
-              options = options || {};
-              if (!options.headers) options.headers = {};
-              var method = options.method ? options.method.toUpperCase() : 'GET';
-              if (method === 'POST' || method === 'PUT' || method === 'DELETE')
+              return response.data && response.data.token;
+            })
+            .then(function (token)
+            {
+              if (token)
               {
-                options.credentials = 'include';
-                options.headers['__RequestVerificationToken'] = Affinity2018.AntiForgeryToken;
-                options.headers['__RequestVerificationToken'] = Affinity2018.AntiForgeryToken;
+                window.AntiForgeryToken = token;
+                console.log("Token refreshed successfully");
+                setupInterceptors();
+                return token;
               }
-              return originalFetch.call(this, url, options);
-            };
-          }
-          if (window.MooTools && window.Request)
-          {
-            var originalInitialize = Request.prototype.initialize;
-            Request.prototype.initialize = function (options)
+            })
+            .catch(function (error)
             {
-              originalInitialize.apply(this, arguments);
-              if (Affinity2018.AntiForgeryToken !== '')
+              console.error("Failed to refresh token", error);
+              throw error;
+            });
+        } else if (window.fetch)
+        {
+          return originalFetch('/Api/RefreshToken')
+            .then(function (response)
+            {
+              return response.json();
+            })
+            .then(function (data)
+            {
+              if (data && data.token)
               {
-                this.options.headers = this.options.headers || {};
-                var method = (this.options.method || 'get').toLowerCase();
-                if (method === 'post' || method === 'put' || method === 'delete')
+                window.AntiForgeryToken = data.token;
+                console.log("Token refreshed successfully");
+                setupInterceptors();
+                return data.token;
+              }
+            })
+            .catch(function (error)
+            {
+              console.error("Failed to refresh token", error);
+              throw error;
+            });
+        } else
+        {
+          var xhr = new XMLHttpRequest();
+          return new Promise(function (resolve, reject)
+          {
+            xhr.open('GET', '/Api/RefreshToken', true);
+            xhr.onreadystatechange = function ()
+            {
+              if (xhr.readyState === 4)
+              {
+                if (xhr.status === 200)
                 {
-                  this.options.withCredentials = true;
-                  this.options.headers['__RequestVerificationToken'] = Affinity2018.AntiForgeryToken;
+                  try
+                  {
+                    var data = JSON.parse(xhr.responseText);
+                    if (data && data.token)
+                    {
+                      window.AntiForgeryToken = data.token;
+                      console.log("Token refreshed successfully");
+                      setupInterceptors();
+                      resolve(data.token);
+                    } else
+                    {
+                      reject(new Error("Invalid token response"));
+                    }
+                  } catch (e)
+                  {
+                    reject(e);
+                  }
+                } else
+                {
+                  reject(new Error("Failed to refresh token, status: " + xhr.status));
                 }
               }
             };
-          }
-        }
-      };
-      if (Affinity2018.AntiForgeryToken === '')
-      {
-        try
-        {
-          fetch('./api/GetAntiForgeryToken').then(function (token)
-          {
-            if (token && token !== '')
-            {
-              Affinity2018.AntiForgeryToken = token;
-              setAjaxAntiForgeryInterceptors();
-            }
+            xhr.send();
           });
         }
-        catch (error)
+      }
+      function setupInterceptors()
+      {
+        if (window.axios)
         {
-          console.error('No Anti Forger Token found: ', error);
+          if (axiosInterceptorId !== null)
+          {
+            axios.interceptors.request.eject(axiosInterceptorId);
+          }
+          axiosInterceptorId = axios.interceptors.request.use(function (config)
+          {
+            config.withCredentials = true;
+            config.headers = config.headers || {};
+            config.headers["__RequestVerificationToken"] = window.AntiForgeryToken;
+            return config;
+          });
+        }
+        if (window.fetch)
+        {
+          window.fetch = function (url, options)
+          {
+            options = options || {};
+            options.headers = options.headers || {};
+            var method = options.method ? options.method.toUpperCase() : 'GET';
+            if (method === 'POST' || method === 'PUT' || method === 'DELETE')
+            {
+              options.credentials = 'include';
+              options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
+            }
+            return originalFetch.call(this, url, options);
+          };
         }
       }
-      else
+      if (window.AntiForgeryToken)
       {
-        setAjaxAntiForgeryInterceptors();
+        setupInterceptors();
+        setInterval(function ()
+        {
+          refreshAntiForgeryToken();
+        }, 15 * 60 * 1000);
       }
-      //
+      if (window.MooTools && window.Request)
+      {
+        var originalInitialize = Request.prototype.initialize;
+        Request.prototype.initialize = function (options)
+        {
+          originalInitialize.apply(this, arguments);
+          if (window.AntiForgeryToken && window.AntiForgeryToken !== '')
+          {
+            this.options.headers = this.options.headers || {};
+            var method = (this.options.method || 'get').toLowerCase();
+            if (method === 'post' || method === 'put' || method === 'delete')
+            {
+              this.options.withCredentials = true;
+              this.options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
+            }
+          }
+        };
+      }
+      // END Anti forgery Token headers
       if (!document.querySelector('style.scrollbars'))
       {
         this.scrollStyleNode = document.createElement('style');
