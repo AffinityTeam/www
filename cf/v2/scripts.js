@@ -7828,9 +7828,10 @@
       }
     }
 
-    showLoadLock(force)
+    showLoadLock(force, delay)
     {
       force = force === undefined ? false : force;
+      delay = delay === undefined ? 500 : Affinity2018.isNumeric(delay) ? delay : 500;
       this._showLoadLockForce = force;
       if (!document.body.classList.contains('load-lock'))
       {
@@ -22802,7 +22803,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async _startNewForm()
   {
-    Affinity2018.ShowPageLoader(true);
+    Affinity2018.ShowPageLoader(true, 0);
 
     let response = await fetch(`/Inbox/GetAvailableForms`);
 

@@ -21488,7 +21488,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   height: 36px;
   line-height: 36px;
   margin: 0 50px 0 0;
-  padding: 0 25px 0 0;
+  padding: 0;
   cursor: pointer;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon {
@@ -21508,20 +21508,26 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   pointer-events: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
-  position: absolute;
-  top: 8px;
-  right: 0;
-  width: 20px;
+  display: inline-block;
+  position: relative;
+  min-width: 20px;
   height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  line-height: 17px;
+  margin: 0;
+  padding: 2px 4px;
+  text-align: center;
   font-size: 8px;
   color: white;
   background: #8a99ab;
+  -webkit-transform: translate(5px, -5px);
+  -ms-transform: translate(5px, -5px);
+  transform: translate(5px, -5px);
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected {
   color: #106eb6;
@@ -21567,6 +21573,9 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   height: 36px;
   line-height: 36px;
   margin: 0 !important;
+  font-weight: normal;
+  font-size: 14px;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
   background: #106eb6;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search {
@@ -21833,10 +21842,14 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
   background-color: #f6f6f6;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  line-height: 22px;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
   display: inline-block;
+  height: 22px;
   margin: 0;
-  padding: 0 3px;
+  padding: 1px 5px 0 5px;
   font-size: 12px;
   color: white;
   background: #77dbf8;
@@ -21844,6 +21857,9 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td,
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td,
@@ -21995,7 +22011,7 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
   color: white;
-  background: #8a99ab;
+  background: #414d5b;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected {
   color: #106eb6;
