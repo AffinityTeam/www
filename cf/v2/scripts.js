@@ -8334,33 +8334,10 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       switch (tagName)
       {
         case 'button':
-          if (event.target.closest('tr') && event.target.closest('tr').dataset.name)
-          {
-            this._rowButtonClicked(event);
-          }
-          else
-          {
-            console.log('Unkown Button Clicked?');
-            console.log(event.target);
-          }
           break;
 
         case 'a':
 
-          let hasHref = event.target.hasAttribute('href');
-          let hrefValue = hasHref ? event.target.getAttribute('href') : null;
-          if (event.target.classList.contains('button'))
-          {
-            if (!hrefValue)
-            {
-              if (isRealEvent)
-              {
-                Affinity2018.stopEvent(event);
-              }
-              console.log('Unkown A-Button Clicked?');
-              console.log(event.target);
-            }
-          }
           break;
 
         case 'span':
@@ -21973,6 +21950,1541 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   }
 
 
+
+};;
+/**
+ *
+ * Summary.       CleverForms Admin.
+ *
+ * Description.   Creates an instance of CleverForms Admin.
+ *                Important: Must follow ECMAScript 5 (ES5) standards to support Internet Explorer 11.
+ *
+ * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
+ *
+ *
+ * @since         16.06.2020
+ * @class         Admin
+ * @namespace     Affinity2018.Classes.Apps.CleverForms
+ * @memberof      CleverForms
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Admin
+ *
+ * @public
+ */
+
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Apps' in Affinity2018.Classes)) Affinity2018.Classes.Apps = {};
+if (!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
+if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.CleverForms = {};
+
+if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if (!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
+
+Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
+{
+
+  /**
+   * Summary. Sets class scoped variables required for the Admin instance
+   * @this    Class scope
+   * @access  private
+   */
+  _options()
+  {
+    this.DefaultAPI = '/InboxV2/FetchInbox';
+    this.SearchAPI = '/InboxV2/FetchInbox';
+    this.EditUrl = '/Instance/Edit/';
+    this.ViewUrl = '/Instance/View/';
+    this.DeleteAPI = '/Inbox/Delete/';
+    this.ArchiveAPI = '/Inbox/Archive/';
+    this.RestoreAPI = '/Inbox/Restore/';
+
+    this.PageSize = 25;
+
+    this.ShowingSearchResults = false;
+
+    this.ColumnSettingTimeouts = {};
+
+    this.State = {
+      ActiveCategory: 'ToAction',
+      SearchQuery: '',
+      CategorySettings: {
+        ToAction: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'StateEnteredAt',
+          Ascending: true,
+          Items: []
+        },
+        InProgress: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'StateEnteredAt',
+          Ascending: true,
+          Items: []
+        },
+        Completed: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'StateEnteredAt',
+          Ascending: true,
+          Items: []
+        },
+        Archived: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'CompletedBy',
+          Ascending: true,
+          Items: []
+        }
+      }
+    };
+
+  }
+
+  /**
+   * Summary. Class constructor
+   * @this    Class
+   * @access  private
+   */
+  constructor()
+  {
+
+    /** load all options above into class scope.*/
+    this._options();
+
+    /**
+     * Summary. Array of class method names to be bound to the global Class scope.
+     * @access  private
+     */
+    [
+
+      '_init',
+
+      // public
+
+      'GetResults',
+
+      'GotoTab',
+
+      // private
+
+      '_gotResults', '_gotResultsError',
+
+      '_attemptSearch',
+
+      '_getCurrentPage',
+      '_gotoTab',
+
+      '_gridClicked',
+
+      '_rowButtonClicked',
+
+      '_checkHiddenRows',
+
+      // html templates
+      '_templates'
+
+    ].bindEach(this);
+
+    /** load all object and HTML templates into class scope. */
+    this._templates();
+
+    this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+
+    if (Affinity2018.UiReady) this._init();
+    else window.addEventListener('MainInit', this._init);
+
+  }
+
+  /**
+   * Summary. Designer Class initialiser
+   * @this    Class scope
+   * @access  private
+   */
+  async _init()
+  {
+    this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
+
+    this.ResultNode = document.querySelector('div.inbox');
+    this.ResultNode.innerHTML = this.ResultGridTemplate;
+    
+    /**/
+
+    this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
+    this.SearchNode = this.SearchBox.querySelector('input');
+    this.SearchResetButton = this.SearchBox.querySelector('button.grey');
+    this.SearchButton = this.SearchBox.querySelector('button.blue');
+    this.SearchNode.addEventListener('keyup', (event =>
+    { 
+      if (event.key.toLowerCase() === 'enter')
+      {
+        this._attemptSearch();
+      }  
+    }).bind(this));
+
+    /**/
+
+    let tab = this.State.ActiveCategory;
+    if (Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
+    {
+      tab = Affinity2018.Storage.Local.Get(`InboxTab${this.StorageKeySuffix}`);
+    }
+    this.State.ActiveCategory = tab;
+
+    for (let category in this.State.CategorySettings)
+    {
+      let categoryNode = document.querySelector(`table[data-category="${category}"]`);
+      categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
+      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
+      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
+
+      let sort = this.State.CategorySettings[category].SortField;
+      if (Affinity2018.Storage.Local.Has(`InboxSort${category}${this.StorageKeySuffix}`))
+      {
+        sort = Affinity2018.Storage.Local.Get(`InboxSort${category}${this.StorageKeySuffix}`);
+      }
+
+      let ascending = this.State.CategorySettings[category].Ascending;
+      if (Affinity2018.Storage.Local.Has(`InboxAscending${category}${this.StorageKeySuffix}`))
+      {
+        ascending = Affinity2018.Storage.Local.Get(`InboxAscending${category}${this.StorageKeySuffix}`);
+      }
+
+      let page = this.State.CategorySettings[category].CurrentPage;
+      if (Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
+      {
+        page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
+      }
+
+      this.State.CategorySettings[category].SortField = sort;
+      this.State.CategorySettings[category].Ascending = ascending || ascending === 'true' ? true : false;
+      this.State.CategorySettings[category].CurrentPage = page;
+
+      categoryNode.querySelector(`thead th[data-name="${sort}"]`).dataset.ascending = this.State.CategorySettings[category].Ascending.toString();
+
+      // Set column settings
+      let menuNode = categoryNode.querySelector(`div.colum-menu`);
+      let menuItems = menuNode.querySelectorAll(`div.colum-menu-item`);
+      for (let menuItem of menuItems)
+      {
+        let column = menuItem.dataset.column;
+        let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+        if (Affinity2018.Storage.Local.Has(key))
+        {
+          let showIt = Affinity2018.Storage.Local.Get(key);
+          showIt = showIt === 'true' ? true : showIt === 'false' ? false : showIt;
+          menuItem.querySelector('input[type="checkbox"]').checked = showIt ? 'checked' : null;
+        }
+        else
+        {
+          menuItem.querySelector('input[type="checkbox"]').checked = null;
+        }
+      }
+
+    }
+
+    this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
+
+    /**/
+
+    this.ResultNode.addEventListener('click', this._gridClicked);
+
+    /**/
+
+    this.GotoTab(this.State.ActiveCategory);
+
+    await this.GetResults();
+
+    console.clear();
+
+  }
+
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+  /***                                                                                                                  ******************************/
+  /***   ██████  ██    ██ ██████  ██      ██  ██████     ███    ███ ███████ ████████ ██   ██  ██████  ██████  ███████   ******************************/
+  /***   ██   ██ ██    ██ ██   ██ ██      ██ ██          ████  ████ ██         ██    ██   ██ ██    ██ ██   ██ ██        ******************************/
+  /***   ██████  ██    ██ ██████  ██      ██ ██          ██ ████ ██ █████      ██    ███████ ██    ██ ██   ██ ███████   ******************************/
+  /***   ██      ██    ██ ██   ██ ██      ██ ██          ██  ██  ██ ██         ██    ██   ██ ██    ██ ██   ██      ██   ******************************/
+  /***   ██       ██████  ██████  ███████ ██  ██████     ██      ██ ███████    ██    ██   ██  ██████  ██████  ███████   ******************************/
+  /***                                                                                                                  ******************************/
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+
+
+  async GetResults()
+  {
+    this.InlineLoaderNode.classList.remove('hidden');
+
+    // now do fetch
+    let url = `${this.DefaultAPI}`;
+        
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.State)
+    });
+
+    if (!response.ok)
+    {
+      this._gotResultsError(`HTTP error: Status ${response.status}`);
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (!data || data === '')
+    {
+      this._gotResultsError(`No usable data found`);
+      return false;
+    }
+
+    this._gotResults(data);
+
+    return true;
+
+  }
+
+  GotoTab(categroy)
+  {
+    this._gotoTab(categroy);
+  }
+
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+  /***                                                                                                                           *********************/
+  /***   ██████  ██████  ██ ██    ██  █████  ████████ ███████     ███    ███ ███████ ████████ ██   ██  ██████  ██████  ███████   *********************/
+  /***   ██   ██ ██   ██ ██ ██    ██ ██   ██    ██    ██          ████  ████ ██         ██    ██   ██ ██    ██ ██   ██ ██        *********************/
+  /***   ██████  ██████  ██ ██    ██ ███████    ██    █████       ██ ████ ██ █████      ██    ███████ ██    ██ ██   ██ ███████   *********************/
+  /***   ██      ██   ██ ██  ██  ██  ██   ██    ██    ██          ██  ██  ██ ██         ██    ██   ██ ██    ██ ██   ██      ██   *********************/
+  /***   ██      ██   ██ ██   ████   ██   ██    ██    ███████     ██      ██ ███████    ██    ██   ██  ██████  ██████  ███████   *********************/
+  /***                                                                                                                           *********************/
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+
+  _gotResults(data)
+  {
+    for (let category in this.State.CategorySettings)
+    {
+      if (
+        this.State.CategorySettings[category].hasOwnProperty('Items')
+        && data.hasOwnProperty('CategorySettings')
+        && data.CategorySettings.hasOwnProperty(category)
+        && data.CategorySettings[category].hasOwnProperty('Items')
+      )
+      {
+        this.State.CategorySettings[category].Items = data.CategorySettings[category].Items;
+        this.State.CategorySettings[category].TotalCount = data.CategorySettings[category].TotalCount;
+        this.State.CategorySettings[category].TotalPages = data.CategorySettings[category].TotalPages;
+
+        let categoryNode = document.querySelector(`table[data-category="${category}"]`);
+        let html = '';
+
+        if (this.State.CategorySettings[category].Items.length === 0)
+        {
+          html += this.EmptyResultTemplate(category);
+        }
+        else
+        {
+          for (let item of this.State.CategorySettings[category].Items)
+          {
+            html += this.ResultTemplate(category, item);
+          }
+        }
+        categoryNode.querySelector('tbody').innerHTML = html;
+
+        if (data.CategorySettings[category].TotalPages === 1)
+        {
+          categoryNode.querySelector('tfoot').innerHTML = this.ResultFooterTemplate(category, data.CategorySettings[category]);
+        }
+        else
+        {
+          categoryNode.querySelector('tfoot').innerHTML = this.ResultPaginationTemplate(category, data);
+        }
+
+        this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = data.CategorySettings[category].TotalCount;
+      }
+    }
+    this.InlineLoaderNode.classList.add('hidden');
+    this._checkHiddenRows();
+  }
+
+  _gotResultsError(error)
+  {
+    console.warn(error);
+    let categoryNode = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
+    if (categoryNode)
+    {
+      categoryNode.querySelector('tbody').innerHTML =  this.ErrorResultTemplate(error);
+    }
+    this.InlineLoaderNode.classList.add('hidden');
+  }
+
+  async _attemptSearch()
+  {
+    if (this.SearchNode.value.trim() !== '')
+    {
+      this.InlineLoaderNode.classList.remove('hidden');
+
+      this.State.SearchQuery = this.SearchNode.value.trim();
+
+      let url = `${this.SearchAPI}`;
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.State)
+      });
+
+      if (!response.ok)
+      {
+        this.ShowingSearchResults = false;
+        this.InlineLoaderNode.classList.add('hidden');
+        Affinity2018.Dialog.Show({
+          message: `No results found<!-- ${response.status} -->`,
+          showOk: true,
+          showCancel: false
+        });
+        return false;
+      }
+
+      let data = await response.json();
+
+      if (!data || data === '')
+      {
+        this.ShowingSearchResults = false;
+        this.InlineLoaderNode.classList.add('hidden');
+        Affinity2018.Dialog.Show({
+          message: `No results found<!-- ${response.status} -->`,
+          showOk: true,
+          showCancel: false
+        });
+        return false;
+      }
+      else
+      {
+        let allResultTotal = 0;
+        for (let category in data.CategorySettings)
+        {
+          allResultTotal += data.CategorySettings[category].TotalCount;
+        }
+        if (allResultTotal === 0)
+        {
+          this.ShowingSearchResults = false;
+          this.InlineLoaderNode.classList.add('hidden');
+          Affinity2018.Dialog.Show({
+            message: `No results found`,
+            showOk: true,
+            showCancel: false
+          });
+          return false;
+        }
+      }
+      this.ShowingSearchResults = true;
+      this._gotResults(data);
+      return true;
+    }
+    else
+    {
+      this.ShowingSearchResults = false;
+    }
+  }
+
+  /**/
+
+  async _gridClicked(event)
+  {
+    let eventObject = event === undefined ? null : event;
+    let isRealEvent = event instanceof MouseEvent || event instanceof PointerEvent || event instanceof TouchEvent;
+    if (eventObject && 'target' in eventObject && eventObject.target !== null)
+    {
+      let tagName = event.target.tagName.toLowerCase();
+      switch (tagName)
+      {
+        case 'button':
+          if (event.target.closest('tr') && event.target.closest('tr').dataset.instance)
+          {
+            this._rowButtonClicked(event);
+          }
+          else if (event.target.dataset.action)
+          {
+            switch(event.target.dataset.action)
+            {
+              case 'startnew':
+
+                await this._startNewForm();
+                break
+
+              case 'resetsearch':
+
+                this.SearchBox.classList.remove('show');
+                this.SearchNode.value = '';
+                this.State.SearchQuery = '';
+                if (this.ShowingSearchResults)
+                {
+                  await this.GetResults();
+                  this.ShowingSearchResults = false;
+                }
+                break
+
+              case 'attemptsearch':
+
+                await this._attemptSearch();
+                break
+
+              default:
+                console.log('Unkown Button Clicked?');
+                console.log(event.target);
+                break;
+            }
+          }
+          else
+          {
+            console.log('Unkown Button Clicked?');
+            console.log(event.target);
+          }
+          break;
+
+        case 'span':
+
+          if (event.target.classList.contains('page'))
+          {
+            await this._gotoPage(parseInt(event.target.dataset.page));
+          }
+          else if (event.target.classList.contains('page-last'))
+          {
+            await this._gotoPage(this._getCurrentPage() - 1);
+          }
+          else if (event.target.classList.contains('page-next'))
+          {
+            await this._gotoPage(this._getCurrentPage() + 1);
+          }
+          else
+          {
+            console.log('Unknown Span Clicked?');
+            console.log(event.target);
+          }
+          break;
+
+        case 'div':
+
+          if (event.target.classList.contains('inbox-tab'))
+          {
+            this.GotoTab(event.target.dataset.category);
+          }
+          else if (event.target.classList.contains('column-search'))
+          {
+            if (this.SearchBox.classList.contains('show'))
+            {
+              this.SearchBox.classList.remove('show');
+              this.SearchNode.blur();
+            }
+            else
+            {
+              this.SearchBox.classList.add('show');
+              this.SearchNode.focus();
+            }
+          }
+          else
+          {
+            console.log('Unknown Div Clicked?');
+            console.log(event.target);
+          }
+          break;
+
+        case 'th':
+          
+          if (event.target.dataset.ascending)
+          {
+            let ascendingString = event.target.dataset.ascending;
+
+            if (ascendingString !== 'null')
+            {
+              ascendingString = ascendingString === 'true' ? 'false' : 'true';
+            }
+            else
+            {
+              ascendingString = 'true';
+            }
+
+            if (event.target.dataset.type && event.target.dataset.type === 'date')
+            {
+              if (ascendingString !== 'null')
+              {
+                //ascendingString = ascendingString === 'true' ? 'false' : 'true';
+              }
+            }
+
+            let gridNode = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
+            for (let column of gridNode.querySelectorAll('thead th'))
+            {
+              if (column.dataset.name)
+              {
+                column.dataset.ascending = 'null';
+              }
+            }
+
+            event.target.dataset.ascending = ascendingString;
+
+            if (ascendingString === 'null')
+            {
+              debugger;
+            }
+
+            this.State.CategorySettings[this.State.ActiveCategory].SortField = event.target.dataset.name;
+            this.State.CategorySettings[this.State.ActiveCategory].Ascending = event.target.dataset.ascending === 'true' ? true : false;
+            Affinity2018.Storage.Local.Set(`InboxSort${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortField);
+            Affinity2018.Storage.Local.Set(`InboxAscending${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].Ascending);
+
+            await this.GetResults();
+
+          }
+
+          break;
+
+        case 'input':
+        case 'label':
+
+          let menuItem = event.target.closest('div.colum-menu-item');
+          if (menuItem)
+          {
+            this._checkHiddenRows();
+          }
+
+          break;
+
+      }
+    }
+  }
+
+  _rowButtonClicked(event)
+  {
+    let rowNode = event.target.closest('tr');
+    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+    if (event.target.classList.contains('edit'))
+    {
+      this._loadUrl(`${this.EditUrl}${instance}`, event.ctrlKey);
+      return;
+    }
+    if (event.target.classList.contains('view'))
+    {
+      this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
+      return;
+    }
+    if (event.target.classList.contains('archive'))
+    {
+      this._processRow('archive', rowNode);
+      return;
+    }
+    if (event.target.classList.contains('restore'))
+    {
+      this._processRow('restore', rowNode);
+      return;
+    }
+    if (event.target.classList.contains('delete'))
+    {
+      this._processRow('delete', rowNode);
+      return;
+    }
+    console.log('Unkown Button Clicked?');
+    console.log(event.target);
+  }
+
+  _loadUrl(url, newTab = false)
+  {
+    if (newTab)
+    {
+      let a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.click();
+    }
+    else
+    {
+      window.location.href = url;
+    }
+  }
+
+  async _processRow(type, rowNode)
+  {
+    this.DeleteAPI = '/Inbox/Delete/';
+    this.ArchiveAPI = '/Inbox/Archive/';
+    this.RestoreAPI = '/Inbox/Restore/';
+    if (rowNode)
+    {
+      let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+      let api = null;
+      switch (type)
+      {
+        case 'archive':
+          api = this.ArchiveAPI;
+          rowNode.classList.add('archiving');
+          break;
+        case 'restore':
+          api = this.RestoreAPI;
+          rowNode.classList.add('restoring');
+          break;
+        case 'delete':
+          api = this.DeleteAPI;
+          rowNode.classList.add('deleting');
+          break;
+      }
+
+      let url = `${api}?id=${instance}&redirect=false`;
+
+      try
+      {
+        await this.ShowDialogAsync({
+          message: `Are you sure you want to ${type} this form?`,
+          textAlign: 'left',
+          buttons: {
+            ok: {
+              show: true,
+              icon: 'tick',
+              text: 'Yes',
+              color: 'blue'
+            },
+            else: false,
+            cancel: {
+              show: true,
+              icon: 'cross',
+              text: 'No',
+              color: 'grey'
+            }
+          }
+        });
+      }
+      catch (message)
+      {
+        rowNode.classList.remove('archiving', 'restoring', 'deleting');
+        Affinity2018.HidePageLoader(true);
+        return false;
+      }
+
+      Affinity2018.ShowPageLoader(true);
+      
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok)
+      {
+        rowNode.classList.remove('archiving', 'restoring', 'deleting');
+        console.warn(response);
+        Affinity2018.HidePageLoader(true);
+        return false;
+      }
+
+      let data = await response.json();
+
+      if (data.Success)
+      {
+        await this.GetResults();
+      }
+      else
+      {
+        rowNode.classList.remove('archiving', 'restoring', 'deleting');
+        console.warn(response);
+        Affinity2018.HidePageLoader(true);
+        return false;
+      }
+
+      Affinity2018.HidePageLoader(true);
+      return true;
+    }
+    return false;
+  }
+
+  _checkHiddenRows()
+  {
+    let timeout = 10;
+    clearTimeout(this._checkHiddenRowsThorttle);
+    this._checkHiddenRowsThorttle = setTimeout((() => 
+    {
+      //console.clear();
+      //console.log('check hidden rows');
+      for (let category in this.State.CategorySettings)
+      {
+        let gridNode = document.querySelector(`table[data-category="${category}"]`);
+        let menuNode = gridNode.querySelector(`div.colum-menu`);
+        let menuItems = menuNode.querySelectorAll(`div.colum-menu-item`);
+        for (let menuItem of menuItems)
+        {
+          let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
+          let column = menuItem.dataset.column;
+          let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+          let currentSet = Affinity2018.Storage.Local.Get(key);
+          if (currentSet !== showIt)
+          {
+            Affinity2018.Storage.Local.Set(key, showIt);
+          }
+          let columnNodes = gridNode.querySelectorAll(`th[data-name="${column}"], td[data-name="${column}"]`);
+          for (let columnNode of columnNodes)
+          {
+            if (showIt)
+            {
+              columnNode.classList.remove('hidden');
+            }
+            else
+            {
+              columnNode.classList.add('hidden');
+            }
+          }
+          // Do footer colspans too ..
+          let activeGridheaders = gridNode.querySelectorAll(`thead th:not(.hidden)`);
+          let footerRows = gridNode.querySelectorAll(`tfoot td`);
+          for (let footerRow of footerRows)
+          {
+            footerRow.setAttribute('colspan', activeGridheaders.length);
+          }
+          // Then reset any mesage rows in body
+          let gridRows = gridNode.querySelectorAll(`tbody td[colspan]`);
+          for (let gridRow of gridRows)
+          {
+            gridRow.setAttribute('colspan', activeGridheaders.length);
+          }
+        }
+      }
+    }).bind(this), timeout);
+  }
+
+  /**/
+
+  _gotoTab(category)
+  {
+    if (this.State.CategorySettings.hasOwnProperty(category) && document.querySelector(`div.inbox-tab-box[data-category="${category}"]`))
+    {
+      for (let tab of document.querySelectorAll(`div.inbox-tab`))
+      {
+        tab.classList.remove('selected');
+      }
+      for (let box of document.querySelectorAll(`div.inbox-tab-box`))
+      {
+        box.classList.add('hidden');
+      }
+      document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.remove('hidden');
+      document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('selected');
+      this.State.ActiveCategory = category;
+      Affinity2018.Storage.Local.Set(`InboxTab${this.StorageKeySuffix}`, category);
+    }
+  }
+
+  _getCurrentPage()
+  {
+    return this.State.CategorySettings[this.State.ActiveCategory].CurrentPage;
+  }
+
+  async _gotoPage(page)
+  {
+    Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
+    this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
+    await this.GetResults();
+  }
+
+  /**/
+
+  async _startNewForm()
+  {
+    Affinity2018.ShowPageLoader(true);
+
+    let response = await fetch(`/Inbox/GetAvailableForms`);
+
+    if (!response.ok)
+    {
+      console.warn(response);
+      Affinity2018.HidePageLoader(true);
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (data)
+    {
+      let selectNode = document.createElement('select');
+      let option = document.createElement('option');
+      option.value = '';
+      option.innerHTML = 'Select a Form';
+      selectNode.appendChild(option);
+      for (let item of data)
+      {
+        option = document.createElement('option');
+        option.innerHTML = `${item.TemplateDescription} via ${item.WorkflowName}`;
+        option.value = `${item.TemplateId};${item.WorkflowDefinitionId}`;
+        selectNode.appendChild(option);
+      }
+      Affinity2018.HidePageLoader(true);
+      let autoCompleteWidget = null;
+      Affinity2018.Dialog.Show({
+        message: `Select a Form`,
+        showOk: true,
+        showCancel: true,
+        showInput: false,
+        textAlign: 'left',
+        onOk: () =>
+        {
+          if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
+          {
+            let form = document.createElement('form');
+            form.classList.add('hidden');
+            form.method = 'POST';
+            form.action = '/Inbox/Create';
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'templateAndWorkflowIds';
+            input.value = selectNode.value;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+          }
+        },
+        onClose: () => 
+        {
+          if (autoCompleteWidget !== null)
+          {
+            autoCompleteWidget.Destroy();
+          }
+        }
+      });
+      Affinity2018.Dialog.Set(`
+        <div class="form-row">
+          <div class="select">
+            ${selectNode.outerHTML}
+          </div>
+        </div>
+      `);
+      selectNode = Affinity2018.Dialog.ContentNode.querySelector('select');
+      autoCompleteWidget = new Affinity2018.Classes.Plugins.AutocompleteWidget(selectNode);
+      //if (autoCompleteWidget && autoCompleteWidget.ready)
+      //{
+      //  autoCompleteWidget.show();
+      //}
+      //else
+      //{
+      //  selectNode.addEventListener('ready', autoCompleteWidget.show);
+      //}
+    }
+    else
+    {
+      console.warn('no template data?');
+      debugger;
+    }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  /**/
+
+  _parseUglyGen1Date(dateStr, format = 'd.MM.yyyy h:mma')
+  {
+
+    if (!dateStr) return '';
+    let isUTC = false;
+  
+    if (dateStr.toLowerCase().indexOf('.') !== -1)
+    {
+      dateStr = dateStr.replace(/\./gi, '/');
+    }
+  
+    if (new RegExp('[0-9]T[0-9]', 'i').test(dateStr))
+    {
+      dateStr = dateStr.replace(/(.*[0-9])t([0-9].*)/i, '$1 $2');
+    }
+  
+    if (new RegExp('[0-9]Z', 'i').test(dateStr))
+    {
+      dateStr = dateStr.replace(/(.*[0-9])Z/i, '$1 UTC');
+    }
+  
+    if (dateStr.toLowerCase().indexOf('utc') !== -1)
+    {
+      dateStr = dateStr.trim().replace(/(.*[0-9]) UTC/i, '$1');
+      isUTC = true;
+    }
+  
+    let jsDate = new Date(Date.parse(dateStr));
+  
+    let adjustedDate = isUTC 
+      ? new Date(jsDate.getTime() - jsDate.getTimezoneOffset() * 60 * 1000)
+      : jsDate;
+    
+    let dt = luxon.DateTime.fromJSDate(adjustedDate);
+
+    return dt.toFormat(format);
+
+  }
+
+  /**/
+
+  _cloneEvent(event, target)
+  {
+    let clonedEvent = null;
+    if (event instanceof MouseEvent)
+    {
+      clonedEvent = new MouseEvent(event.type, {
+        bubbles: event.bubbles,
+        cancelable: event.cancelable,
+        view: event.view,
+        detail: event.detail,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        button: event.button,
+        relatedTarget: event.relatedTarget
+      });
+    }
+    if (event instanceof PointerEvent)
+    {
+      clonedEvent = new PointerEvent(event.type, {
+        bubbles: event.bubbles,
+        cancelable: event.cancelable,
+        view: event.view,
+        detail: event.detail,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        button: event.button,
+        relatedTarget: event.relatedTarget
+      });
+    }
+    if (event instanceof TouchEvent)
+    {
+      clonedEvent = new TouchEvent(event.type, {
+        bubbles: event.bubbles,
+        cancelable: event.cancelable,
+        view: event.view,
+        detail: event.detail,
+        screenX: event.screenX,
+        screenY: event.screenY,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+        button: event.button,
+        relatedTarget: event.relatedTarget
+      });
+    }
+    if (clonedEvent && target)
+    {
+      Object.defineProperty(clonedEvent, 'target', {
+        value: target,
+        enumerable: true
+      });
+    }
+    return clonedEvent;
+  }
+
+  //
+
+  ShowDialogAsync(options)
+  {
+    return new Promise((resolve, reject) =>
+    {
+      let dialogOptions = {
+        ...options,
+        onOk: (result) => {
+          if (options.onOk)
+          {
+            options.onOk(result);
+          }
+          resolve(result);
+        },
+        onCancel: () => {
+          if (options.onCancel)
+          {
+            options.onCancel();
+          }
+          reject(new Error('Dialog cancelled'));
+        }
+      };
+      Affinity2018.Dialog.Show(dialogOptions);
+    });
+  }
+
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+  /***                                                                                  **************************************************************/
+  /***   ████████ ███████ ███    ███ ██████  ██       █████  ████████ ███████ ███████   **************************************************************/
+  /***      ██    ██      ████  ████ ██   ██ ██      ██   ██    ██    ██      ██        **************************************************************/
+  /***      ██    █████   ██ ████ ██ ██████  ██      ███████    ██    █████   ███████   **************************************************************/
+  /***      ██    ██      ██  ██  ██ ██      ██      ██   ██    ██    ██           ██   **************************************************************/
+  /***      ██    ███████ ██      ██ ██      ███████ ██   ██    ██    ███████ ███████   **************************************************************/
+  /***                                                                                  **************************************************************/
+  /***************************************************************************************************************************************************/
+  /***************************************************************************************************************************************************/
+
+
+
+  /**
+   * Summary. Define local HTML templates
+   * @this    Class scope
+   * @access  private
+   */
+  _templates()
+  {
+    this.ResultGridTemplate = `
+    <div class="inbox-tabs">
+      <div class="inbox-tabs-left">
+        <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
+        <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div> 
+        <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
+        <div class="inbox-tab" data-category="Archived"   ><icon class="icon-archive"></icon>Archived <span>0</span></div>
+      </div>
+      <div class="inbox-tabs-right">
+        <div class="inbox-tab-loader"></div>
+        <div class="inbox-tab-button">
+          <button data-action="startnew">Start a New Form</button>
+        </div>
+      </div>
+    </div>
+    <div class="inbox-search">
+      <div class="search-row">
+        <input type="text" placeholder="Search" />
+        <button class="grey icononly" data-action="resetsearch"><span class="icon-blocked"></span></button>
+        <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+      </div>
+    </div>
+    <div class="inbox-tab-boxes">
+      <div class="inbox-tab-box" data-category="ToAction">
+        <table class="inbox-grid" data-category="ToAction">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th data-ascending="null" data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th class="buttons">
+                <div class="icon-search column-search"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="ToActionEffectiveDateColumn" /><label for="ToActionEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="ToActionPayPointColumn" /><label for="ToActionPayPointColumn">Pay Point</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+      <div class="inbox-tab-box hidden" data-category="InProgress">
+        <table class="inbox-grid" data-category="InProgress">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Assigned To</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th class="buttons">
+                <div class="icon-search column-search"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="InProgressEffectiveDateColumn" /><label for="InProgressEffectiveDateColumn">Effective Date</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+      <div class="inbox-tab-box hidden" data-category="Completed">
+        <table class="inbox-grid" data-category="Completed">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th data-ascending="null" data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th class="buttons">
+                <div class="icon-search column-search"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="CompletedEffectiveDateColumn" /><label for="CompletedEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+      <div class="inbox-tab-box hidden" data-category="Archived">
+        <table class="inbox-grid" data-category="Archived">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Date Completed</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th data-ascending="null" data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th class="buttons">
+                <div class="icon-search column-search"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="ArchivedEffectiveDateColumn" /><label for="ArchivedEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="ArchivedPayPointColumn" /><label for="ArchivedPayPointColumn">Pay Point</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    `;
+
+
+    this.ResultTemplate = (category, data) =>
+    {
+      // TODO: do not use correct date parseing, use INCORECT date parsing to match Gen1. 
+      // If compaunts cokm in one day, we will have tio use correct parses and update Dashbaord tile, and Gen1 Inbox.
+      // Affinity2018.getDate(data.StateEnteredAt, 'dd.MM.yyyy hh:mm a', true, true)
+
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
+
+      let effectiveDate = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let effectiveDateTimeString = effectiveDate;
+
+      let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
+
+      let nameString = data.TemplateDescription;
+      if(data.SharedBy !== null)
+      {
+        nameString += `<br /><span>${data.SharedBy}</span>`;
+      }
+
+      switch (category)
+      {
+
+        case 'ToAction':
+
+          return `
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td class="buttons">
+                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
+                <button class="orange icononly archive"><span class="icon-archive"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+        case 'InProgress':
+
+          return `
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="StateAssigneeName"                     >${data.StateAssigneeName}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="orange icononly archive"><span class="icon-archive"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+        case 'Completed':
+
+          return `
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="orange icononly archive"><span class="icon-archive"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+        case 'Archived':
+
+          return `
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${completedByTimeString}</th>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="green icononly restore"><span class="icon-refresh"></span></button>
+                <button class="red icononly delete"><span class="icon-cross"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+      }
+
+      return '';
+    };
+
+
+    this.ErrorResultTemplate = error =>
+    {
+      let activeGrid = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
+      if (activeGrid)
+      {
+        let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
+        return `
+          <tr>
+              <td colspan="${activeGridheaders.length}">${error}</td>
+          </tr>
+        `;
+      }
+      return '';
+    };
+
+
+    this.EmptyResultTemplate = category => 
+    {
+      let activeGrid = document.querySelector(`table[data-category="${category}"]`);
+      if (activeGrid)
+      {
+        let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
+        return `
+          <tr>
+              <td colspan="${activeGridheaders.length}">No results to display</td>
+          </tr>
+        `;
+      }
+      return '';
+    };
+
+
+    this.ResultFooterTemplate = (category, data) =>
+    {
+      let activeGrid = document.querySelector(`table[data-category="${category}"]`);
+      if (activeGrid)
+      {
+        let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
+        return `
+          <tr>
+              <td colspan="${activeGridheaders.length}">Page ${data.CurrentPage} of ${data.TotalPages}</td>
+          </tr>
+        `;
+      }
+      return '';
+    };
+
+    /* pagination */
+
+    this.ResultPaginationTemplate = (category, data) =>
+    {
+      let activeGrid = document.querySelector(`table[data-category="${category}"]`);
+      let activeGridheaders = activeGrid ? activeGrid.querySelectorAll(`thead th:not(.hidden)`) : [];
+      if (activeGrid)
+      {
+
+        data = 
+          data.CategorySettings.hasOwnProperty(category) 
+          && data.CategorySettings[category].hasOwnProperty('Items') 
+          && Array.isArray(data.CategorySettings[category].Items) 
+          && data.CategorySettings[category].Items.length > 0 ? 
+            data.CategorySettings[category] : null;
+
+        if (data)
+        {
+          let lastHidden = data.CurrentPage < 2 ? ' disabled' : '';
+          let nextHidden = data.CurrentPage < data.TotalPages ? '' : ' disabled';
+          let placeHolder = document.createElement('div');
+          if (data.Items.length > 0)
+          {
+            let large = '';
+            let p = 0;
+            if (data.TotalPages > 20)
+            {
+              // always show first 5
+              for (p = 1; p < 6; p++)
+              {
+                large = p > 99 ? ' large' : '';
+                if (p === data.CurrentPage)
+                {
+                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                }
+                else
+                {
+                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                }
+              }
+              placeHolder.innerHTML += `<span class="page-divider">...</span>`;
+
+              if (data.CurrentPage > 4 && data.CurrentPage < data.TotalPages - 5)
+              {
+                // show current +- 2
+                for (p = data.CurrentPage - 2; p < data.CurrentPage + 3; p++)
+                {
+                  large = p > 99 ? ' large' : '';
+                  if (placeHolder.querySelector(`.page[data-page="${p}"]`))
+                  {
+                    placeHolder.removeChild(placeHolder.querySelector(`.page[data-page="${p}"]`));
+                  }
+                  if (p === data.CurrentPage)
+                  {
+                    placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                  }
+                  else
+                  {
+                    placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                  }
+                }
+                placeHolder.innerHTML += `<span class="page-divider">...</span>`;
+              }
+              // Show last
+              for (p = data.TotalPages - 5; p < data.TotalPages; p++)
+              {
+                large = p > 99 ? ' large' : '';
+                if (p === data.CurrentPage)
+                {
+                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                }
+                else
+                {
+                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                }
+              }
+            }
+            else
+            {
+              // jsut load them all
+              for (p = 1; p < data.TotalPages; p++)
+              {
+                large = p > 99 ? ' large' : '';
+                if (p === data.CurrentPage)
+                {
+                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                }
+                else
+                {
+                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                }
+              }
+            }
+            return `
+              <tr>
+                <td colspan="${activeGridheaders.length}">
+                  <div class="pagination">
+                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+                    ${placeHolder.innerHTML}
+                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+                    <br />
+                    <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }
+          else
+          {
+            return `
+              <tr>
+                <td colspan="${activeGridheaders.length}">
+                  <div class="pagination">
+                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+                    ${placeHolder.innerHTML}
+                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+                    <br />
+                    <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }
+        }
+      }
+      return '';
+    };
+
+  }
 
 };;
 /**

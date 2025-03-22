@@ -18830,7 +18830,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
       {
         if (window.axios)
         {
-          return axios.get('/Api/RefreshToken')
+          return axios.get('/Api/RefreshAntiForgeryToken')
             .then(function (response)
             {
               return response.data && response.data.token;
@@ -18852,7 +18852,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             });
         } else if (window.fetch)
         {
-          return originalFetch('/Api/RefreshToken')
+          return originalFetch('/Api/RefreshAntiForgeryToken')
             .then(function (response)
             {
               return response.json();
@@ -18877,7 +18877,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           var xhr = new XMLHttpRequest();
           return new Promise(function (resolve, reject)
           {
-            xhr.open('GET', '/Api/RefreshToken', true);
+            xhr.open('GET', '/Api/RefreshAntiForgeryToken', true);
             xhr.onreadystatechange = function ()
             {
               if (xhr.readyState === 4)
