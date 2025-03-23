@@ -23079,11 +23079,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <thead>
             <tr>
               <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
               <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
               <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23110,7 +23110,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <thead>
             <tr>
               <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-name="RelatesTo"                                 data-type="string"  >Relates To</th>
               <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
               <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Assigned To</th>
               <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
@@ -23138,12 +23138,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <thead>
             <tr>
               <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
               <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
               <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Completed By</th>
               <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23170,12 +23170,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <thead>
             <tr>
               <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th data-ascending="null" data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
               <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
               <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Completed By</th>
               <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Date Completed</th>
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search"></div>
                 <div class="icon-dots-vert colum-menu-box">
