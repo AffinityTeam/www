@@ -21855,6 +21855,10 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
   line-height: 22px;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan] {
+  vertical-align: top;
+  padding: 20px 5px 20px 10px;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
   display: inline-block;
   height: 22px;

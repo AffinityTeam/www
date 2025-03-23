@@ -5077,7 +5077,7 @@
           id: 'tt' + (Object.keys(this.references).length + 1),
           el: el,
           tooltip: el.dataset.tooltip.trim(),
-          direction: !Affinity2018.isNull(el.dataset.tooltipDir) ? el.dataset.tooltipDir : 'top'
+          direction: !Affinity2018.isNull(el.dataset.tooltipDir) ? el.dataset.tooltipDir : !Affinity2018.isNull(el.dataset.tooltipDirection) ? el.dataset.tooltipDirection : 'top'
         };
         this.references[ref.id] = ref;
         el.classList.add('tt');
@@ -22121,8 +22121,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
     this.SearchNode = this.SearchBox.querySelector('input');
-    this.SearchResetButton = this.SearchBox.querySelector('button.grey');
-    this.SearchButton = this.SearchBox.querySelector('button.blue');
     this.SearchNode.addEventListener('keyup', (event =>
     { 
       if (event.key.toLowerCase() === 'enter')
@@ -22177,7 +22175,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       // Set column settings
       let menuNode = categoryNode.querySelector(`div.colum-menu`);
-      let menuItems = menuNode.querySelectorAll(`div.colum-menu-item`);
+      let menuItems = menuNode.querySelectorAll(`div.colum-menu-item[data-column]`);
       for (let menuItem of menuItems)
       {
         let column = menuItem.dataset.column;
@@ -22197,6 +22195,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
+
+    Affinity2018.Tooltips.Apply();
 
     /**/
 
@@ -22327,6 +22327,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = data.CategorySettings[category].TotalCount;
       }
     }
+
+    Affinity2018.Tooltips.Apply();
+
     this.InlineLoaderNode.classList.add('hidden');
     this._checkHiddenRows();
   }
@@ -22344,6 +22347,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async _attemptSearch()
   {
+    Affinity2018.Tooltips.Hide();
     if (this.SearchNode.value.trim() !== '')
     {
       this.InlineLoaderNode.classList.remove('hidden');
@@ -22451,6 +22455,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
               case 'resetsearch':
 
+                Affinity2018.Tooltips.Hide();
                 this.SearchBox.classList.remove('show');
                 this.SearchNode.value = '';
                 this.State.SearchQuery = '';
@@ -22579,7 +22584,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         case 'input':
         case 'label':
 
-          let menuItem = event.target.closest('div.colum-menu-item');
+          let menuItem = event.target.closest('div.colum-menu-item[data-column]');
           if (menuItem)
           {
             this._checkHiddenRows();
@@ -22745,7 +22750,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         let gridNode = document.querySelector(`table[data-category="${category}"]`);
         let menuNode = gridNode.querySelector(`div.colum-menu`);
-        let menuItems = menuNode.querySelectorAll(`div.colum-menu-item`);
+        let menuItems = menuNode.querySelectorAll(`div.colum-menu-item[data-column]`);
         for (let menuItem of menuItems)
         {
           let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
@@ -23089,7 +23094,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     <div class="inbox-search">
       <div class="search-row">
         <input type="text" placeholder="Search" />
-        <button class="grey icononly" data-action="resetsearch"><span class="icon-blocked"></span></button>
+        <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
         <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
       </div>
     </div>
@@ -23105,9 +23110,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
-                <div class="icon-search column-search"></div>
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
                   <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
                       <input type="checkbox" id="ToActionEffectiveDateColumn" /><label for="ToActionEffectiveDateColumn">Effective Date</label>
                     </div>
@@ -23136,9 +23142,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th class="buttons">
-                <div class="icon-search column-search"></div>
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
                   <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
                       <input type="checkbox" id="InProgressEffectiveDateColumn" /><label for="InProgressEffectiveDateColumn">Effective Date</label>
                     </div>
@@ -23165,9 +23172,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
-                <div class="icon-search column-search"></div>
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
                   <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
                       <input type="checkbox" id="CompletedEffectiveDateColumn" /><label for="CompletedEffectiveDateColumn">Effective Date</label>
                     </div>
@@ -23197,9 +23205,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
-                <div class="icon-search column-search"></div>
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
                   <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
                       <input type="checkbox" id="ArchivedEffectiveDateColumn" /><label for="ArchivedEffectiveDateColumn">Effective Date</label>
                     </div>
@@ -23257,7 +23266,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
               <td class="buttons">
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
-                <button class="orange icononly archive"><span class="icon-archive"></span></button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -23276,7 +23285,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="orange icononly archive"><span class="icon-archive"></span></button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -23296,7 +23305,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="orange icononly archive"><span class="icon-archive"></span></button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -23316,8 +23325,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="green icononly restore"><span class="icon-refresh"></span></button>
-                <button class="red icononly delete"><span class="icon-cross"></span></button>
+                <button class="green icononly restore ui-has-tooltip" data-tooltip="Restore this Form" data-tooltip-dir="left"><span class="icon-refresh"></span></button>
+                <button class="red icononly delete ui-has-tooltip" data-tooltip="Delete this Form" data-tooltip-dir="left"><span class="icon-cross"></span></button>
               </td>
             </tr>
           `;
