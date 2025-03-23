@@ -21733,9 +21733,12 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
   cursor: default;
+  color: #333333;
+  font-weight: normal;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
   cursor: pointer;
+  color: black;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
   padding-right: 10px;
@@ -21744,7 +21747,8 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   display: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"] {
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
   padding-right: 35px;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"]:after {
@@ -22054,6 +22058,12 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+  color: #999999;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+  color: white;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
   background-color: #222222;

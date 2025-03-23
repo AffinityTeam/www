@@ -22169,7 +22169,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.State.CategorySettings[category].Ascending = ascending || ascending === 'true' ? true : false;
       this.State.CategorySettings[category].CurrentPage = page;
 
-      categoryNode.querySelector(`thead th[data-name="${sort}"]`).dataset.ascending = this.State.CategorySettings[category].Ascending.toString();
+      let columnNode = categoryNode.querySelector(`thead th[data-name="${sort}"]`);
+      if (columnNode.hasAttribute('data-ascending'))
+      {
+        categoryNode.querySelector(`thead th[data-name="${sort}"]`).dataset.ascending = this.State.CategorySettings[category].Ascending.toString();
+      }
 
       // Set column settings
       let menuNode = categoryNode.querySelector(`div.colum-menu`);
@@ -22339,7 +22343,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       this.InlineLoaderNode.classList.remove('hidden');
 
-      this.State.SearchQuery = this.SearchNode.value.trim();
+      let state = JSON.parse(JSON.stringify(this.State));
+      for (let category in state.CategorySettings)
+      {
+        state.CategorySettings[category].CurrentPage = 1;
+      }
+      state.SearchQuery = this.SearchNode.value.trim();
 
       let url = `${this.SearchAPI}`;
       let response = await fetch(url, {
@@ -22347,7 +22356,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.State)
+        body: JSON.stringify(state)
       });
 
       if (!response.ok)
@@ -22397,6 +22406,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return false;
         }
       }
+
+      this.State = state;
+
       this.ShowingSearchResults = true;
       this._gotResults(data);
       return true;
@@ -22511,7 +22523,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'th':
           
-          if (event.target.dataset.ascending)
+          if (event.target.hasAttribute('data-ascending'))
           {
             let ascendingString = event.target.dataset.ascending;
 
@@ -22535,7 +22547,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let gridNode = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
             for (let column of gridNode.querySelectorAll('thead th'))
             {
-              if (column.dataset.name)
+              if (column.dataset.name && column.hasAttribute('data-ascending'))
               {
                 column.dataset.ascending = 'null';
               }
@@ -23113,7 +23125,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <thead>
             <tr>
               <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th data-name="RelatesTo"                                 data-type="string"  >Relates To</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
               <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
               <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Assigned To</th>
               <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
