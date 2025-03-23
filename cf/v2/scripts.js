@@ -22359,6 +22359,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           showOk: true,
           showCancel: false
         });
+        this.State.SearchQuery = null;
         return false;
       }
 
@@ -22373,6 +22374,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           showOk: true,
           showCancel: false
         });
+        this.State.SearchQuery = null;
         return false;
       }
       else
@@ -22391,6 +22393,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             showOk: true,
             showCancel: false
           });
+          this.State.SearchQuery = null;
           return false;
         }
       }
