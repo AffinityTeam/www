@@ -21991,6 +21991,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   _options()
   {
+    this.EnableLocalStore = true;
+
     this.DefaultAPI = '/InboxV2/FetchInbox';
     this.SearchAPI = '/InboxV2/FetchInbox';
     this.EditUrl = '/Instance/Edit/';
@@ -22015,7 +22017,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           TotalPages: 0,
           PageSize: this.PageSize,
           SortField: 'StateEnteredAt',
-          Ascending: true,
+          Ascending: false,
           Items: []
         },
         InProgress: {
@@ -22024,7 +22026,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           TotalPages: 0,
           PageSize: this.PageSize,
           SortField: 'StateEnteredAt',
-          Ascending: true,
+          Ascending: false,
           Items: []
         },
         Completed: {
@@ -22033,7 +22035,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           TotalPages: 0,
           PageSize: this.PageSize,
           SortField: 'StateEnteredAt',
-          Ascending: true,
+          Ascending: false,
           Items: []
         },
         Archived: {
@@ -22042,7 +22044,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           TotalPages: 0,
           PageSize: this.PageSize,
           SortField: 'CompletedBy',
-          Ascending: true,
+          Ascending: false,
           Items: []
         }
       }
@@ -22116,23 +22118,23 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ResultNode = document.querySelector('div.inbox');
     this.ResultNode.innerHTML = this.ResultGridTemplate;
-    
+
     /**/
 
     this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
     this.SearchNode = this.SearchBox.querySelector('input');
     this.SearchNode.addEventListener('keyup', (event =>
-    { 
+    {
       if (event.key.toLowerCase() === 'enter')
       {
         this._attemptSearch();
-      }  
+      }
     }).bind(this));
 
     /**/
 
     let tab = this.State.ActiveCategory;
-    if (Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
+    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
     {
       tab = Affinity2018.Storage.Local.Get(`InboxTab${this.StorageKeySuffix}`);
     }
@@ -22146,19 +22148,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
 
       let sort = this.State.CategorySettings[category].SortField;
-      if (Affinity2018.Storage.Local.Has(`InboxSort${category}${this.StorageKeySuffix}`))
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSort${category}${this.StorageKeySuffix}`))
       {
         sort = Affinity2018.Storage.Local.Get(`InboxSort${category}${this.StorageKeySuffix}`);
       }
 
       let ascending = this.State.CategorySettings[category].Ascending;
-      if (Affinity2018.Storage.Local.Has(`InboxAscending${category}${this.StorageKeySuffix}`))
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxAscending${category}${this.StorageKeySuffix}`))
       {
         ascending = Affinity2018.Storage.Local.Get(`InboxAscending${category}${this.StorageKeySuffix}`);
       }
 
       let page = this.State.CategorySettings[category].CurrentPage;
-      if (Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
       {
         page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
       }
@@ -22180,16 +22182,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         let column = menuItem.dataset.column;
         let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
-        if (Affinity2018.Storage.Local.Has(key))
+        if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(key))
         {
           let showIt = Affinity2018.Storage.Local.Get(key);
           showIt = showIt === 'true' ? true : showIt === 'false' ? false : showIt;
           menuItem.querySelector('input[type="checkbox"]').checked = showIt ? 'checked' : null;
         }
-        else
-        {
-          menuItem.querySelector('input[type="checkbox"]').checked = null;
-        }
+        //else
+        //{
+        //  menuItem.querySelector('input[type="checkbox"]').checked = null;
+        //}
       }
 
     }
@@ -22232,7 +22234,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     // now do fetch
     let url = `${this.DefaultAPI}`;
-        
+
     let response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -22340,7 +22342,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let categoryNode = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
     if (categoryNode)
     {
-      categoryNode.querySelector('tbody').innerHTML =  this.ErrorResultTemplate(error);
+      categoryNode.querySelector('tbody').innerHTML = this.ErrorResultTemplate(error);
     }
     this.InlineLoaderNode.classList.add('hidden');
   }
@@ -22446,7 +22448,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           }
           else if (event.target.dataset.action)
           {
-            switch(event.target.dataset.action)
+            switch (event.target.dataset.action)
             {
               case 'startnew':
 
@@ -22532,7 +22534,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           break;
 
         case 'th':
-          
+
           if (event.target.hasAttribute('data-ascending'))
           {
             let ascendingString = event.target.dataset.ascending;
@@ -22572,8 +22574,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
             this.State.CategorySettings[this.State.ActiveCategory].SortField = event.target.dataset.name;
             this.State.CategorySettings[this.State.ActiveCategory].Ascending = event.target.dataset.ascending === 'true' ? true : false;
-            Affinity2018.Storage.Local.Set(`InboxSort${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortField);
-            Affinity2018.Storage.Local.Set(`InboxAscending${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].Ascending);
+            if (this.EnableLocalStore)
+            {
+              Affinity2018.Storage.Local.Set(`InboxSort${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortField);
+              Affinity2018.Storage.Local.Set(`InboxAscending${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].Ascending);
+            }
 
             await this.GetResults();
 
@@ -22702,7 +22707,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
 
       Affinity2018.ShowPageLoader(true);
-      
+
       let response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -22756,8 +22761,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
           let column = menuItem.dataset.column;
           let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
-          let currentSet = Affinity2018.Storage.Local.Get(key);
-          if (currentSet !== showIt)
+          let currentSet = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(key) : null;
+          if (currentSet !== showIt && this.EnableLocalStore)
           {
             Affinity2018.Storage.Local.Set(key, showIt);
           }
@@ -22808,7 +22813,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.remove('hidden');
       document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('selected');
       this.State.ActiveCategory = category;
-      Affinity2018.Storage.Local.Set(`InboxTab${this.StorageKeySuffix}`, category);
+      if (this.EnableLocalStore)
+      {
+        Affinity2018.Storage.Local.Set(`InboxTab${this.StorageKeySuffix}`, category);
+      }
     }
   }
 
@@ -22819,7 +22827,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async _gotoPage(page)
   {
-    Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
+    if (this.EnableLocalStore)
+    {
+      Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
+    }
     this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
     await this.GetResults();
   }
@@ -23115,7 +23126,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                   <div class="colum-menu">
                     <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="ToActionEffectiveDateColumn" /><label for="ToActionEffectiveDateColumn">Effective Date</label>
+                      <input type="checkbox" id="ToActionEffectiveDateColumn" checked /><label for="ToActionEffectiveDateColumn">Effective Date</label>
                     </div>
                     <div class="colum-menu-item" data-column="PayPoint">
                       <input type="checkbox" id="ToActionPayPointColumn" /><label for="ToActionPayPointColumn">Pay Point</label>
@@ -23147,7 +23158,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                   <div class="colum-menu">
                     <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="InProgressEffectiveDateColumn" /><label for="InProgressEffectiveDateColumn">Effective Date</label>
+                      <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
                     </div>
                   </div>
                 </div>
@@ -23177,7 +23188,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                   <div class="colum-menu">
                     <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="CompletedEffectiveDateColumn" /><label for="CompletedEffectiveDateColumn">Effective Date</label>
+                      <input type="checkbox" id="CompletedEffectiveDateColumn" checked /><label for="CompletedEffectiveDateColumn">Effective Date</label>
                     </div>
                     <div class="colum-menu-item" data-column="PayPoint">
                       <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
@@ -23210,7 +23221,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                   <div class="colum-menu">
                     <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="ArchivedEffectiveDateColumn" /><label for="ArchivedEffectiveDateColumn">Effective Date</label>
+                      <input type="checkbox" id="ArchivedEffectiveDateColumn" checked /><label for="ArchivedEffectiveDateColumn">Effective Date</label>
                     </div>
                     <div class="colum-menu-item" data-column="PayPoint">
                       <input type="checkbox" id="ArchivedPayPointColumn" /><label for="ArchivedPayPointColumn">Pay Point</label>

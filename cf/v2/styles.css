@@ -21658,7 +21658,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
   min-width: calc(100% - 20px);
   margin: 10px;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   background: white;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -21703,7 +21703,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   position: relative;
-  padding: 10px 10px 10px 5px;
+  padding: 15px 10px 10px 5px;
   text-align: left;
   font-weight: 700;
   font-size: 16px;
@@ -21724,9 +21724,11 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   right: 0;
   width: 25px;
   height: 25px;
-  padding: 7px 0 0 0;
+  padding: 7px 0 0 5px;
+  margin: 0 5px 0 0;
   text-align: center;
   overflow: hidden;
+  border-right: 1px solid #cccccc;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -22068,6 +22070,9 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
   color: white;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+  border-right: 1px solid #666666;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
   background-color: #222222;
