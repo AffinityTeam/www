@@ -22294,6 +22294,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.State.CategorySettings[category].TotalCount = data.CategorySettings[category].TotalCount;
         this.State.CategorySettings[category].TotalPages = data.CategorySettings[category].TotalPages;
 
+        if (this.State.CategorySettings[category].CurrentPage > this.State.CategorySettings[category].TotalPages)
+        {
+          this.State.CategorySettings[category].CurrentPage = 1;
+        }
+
         let categoryNode = document.querySelector(`table[data-category="${category}"]`);
         let html = '';
 

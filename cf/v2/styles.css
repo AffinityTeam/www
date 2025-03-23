@@ -21477,7 +21477,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left {
   margin: 0 0 0 20px;
-  width: calc(100% - 210px);
+  width: calc(100% - 220px);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -21543,7 +21543,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right {
   position: absolute;
-  width: 190px;
+  width: 200px;
   top: 0;
   right: 20px;
   height: 36px;
