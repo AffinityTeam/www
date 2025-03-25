@@ -24560,12 +24560,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     }
 
     if (
-      Array.isArray(currentWhitelist) && currentWhitelist.length > 0
-      && Array.isArray(lastWhitelist) && lastWhitelist.length > 0
+      (Array.isArray(currentWhitelist) && currentWhitelist.length > 0)
+      || (Array.isArray(lastWhitelist) && lastWhitelist.length > 0)
     )
     {
       // list one, list two, force clean value, ignore value
-      let diffs = this.CleverForms.GetObjectListDiffs(currentWhitelist, lastWhitelist, false, true);
+      let diffs = this.CleverForms.GetObjectListDiffs(currentWhitelist === null ? [] : currentWhitelist, lastWhitelist === null ? [] : lastWhitelist, false, true);
       if (diffs.length > 0)
       {
         // diffs from above, display property for messaging
