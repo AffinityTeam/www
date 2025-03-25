@@ -10480,6 +10480,21 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       && config.Details.AffinityField.LookupTable.trim() !== ''
     ) return true;
     return false;
+  } 
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  IsWhitelist(config)
+  {
+    if (this.IsGlobalKey(config)) return false;
+    if (this.IsLookup(config)) return true;
+    if (this.IsKey(config)) return true;
+    return false;
   }
 
 
@@ -24454,21 +24469,25 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     }
     else
     {
-      if (currentConfig.Details.hasOwnProperty('ItemSource'))
+      // whitelist checks
+      if (this.CleverForms.IsWhitelist(this.Config))
       {
-        currentWhitelist = 
-          currentConfig.Details.ItemSource.WhiteList === undefined ? null :
-            currentConfig.Details.ItemSource.WhiteList === null ? null : 
-              JSON.parse(JSON.stringify(currentConfig.Details.ItemSource.WhiteList));
-        currentConfig.Details.ItemSource.WhiteList = null;
-      }
-      if (lastConfig.Details.hasOwnProperty('ItemSource'))
-      {
-        lastWhitelist = 
-          lastConfig.Details.ItemSource.WhiteList === undefined ? null :
-            lastConfig.Details.ItemSource.WhiteList === null ? null : 
-              JSON.parse(JSON.stringify(lastConfig.Details.ItemSource.WhiteList));
-        lastConfig.Details.ItemSource.WhiteList = null;
+        if (currentConfig.Details.hasOwnProperty('ItemSource'))
+        {
+          currentWhitelist =
+            currentConfig.Details.ItemSource.WhiteList === undefined ? null :
+              currentConfig.Details.ItemSource.WhiteList === null ? null :
+                JSON.parse(JSON.stringify(currentConfig.Details.ItemSource.WhiteList));
+          currentConfig.Details.ItemSource.WhiteList = null;
+        }
+        if (lastConfig.Details.hasOwnProperty('ItemSource'))
+        {
+          lastWhitelist =
+            lastConfig.Details.ItemSource.WhiteList === undefined ? null :
+              lastConfig.Details.ItemSource.WhiteList === null ? null :
+                JSON.parse(JSON.stringify(lastConfig.Details.ItemSource.WhiteList));
+          lastConfig.Details.ItemSource.WhiteList = null;
+        }
       }
     }
 
@@ -24559,25 +24578,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
       }
     }
 
-    if (
-      (Array.isArray(currentWhitelist) && currentWhitelist.length > 0)
-      || (Array.isArray(lastWhitelist) && lastWhitelist.length > 0)
-    )
+    // whitelist checks
+    if (this.CleverForms.IsWhitelist(this.Config))
     {
-      // list one, list two, force clean value, ignore value
-      let diffs = this.CleverForms.GetObjectListDiffs(currentWhitelist === null ? [] : currentWhitelist, lastWhitelist === null ? [] : lastWhitelist, false, true);
-      if (diffs.length > 0)
+      if (
+        (Array.isArray(currentWhitelist) && currentWhitelist.length > 0)
+        || (Array.isArray(lastWhitelist) && lastWhitelist.length > 0)
+      )
       {
-        // diffs from above, display property for messaging
-        let diffChanges = this.CleverForms.GetObjectListDiffsAsStrings(diffs, 'Key');
-        if (diffChanges.length > 0)
+        // list one, list two, force clean value, ignore value
+        let diffs = this.CleverForms.GetObjectListDiffs(currentWhitelist === null ? [] : currentWhitelist, lastWhitelist === null ? [] : lastWhitelist, false, true);
+        if (diffs.length > 0)
         {
-          change = 'Whitelist has been modified:';
-          if (!this.Changes.contains(change)) this.Changes.push(change);
-          for (let c = 0; c < diffChanges.length; c++)
+          // diffs from above, display property for messaging
+          let diffChanges = this.CleverForms.GetObjectListDiffsAsStrings(diffs, 'Key');
+          if (diffChanges.length > 0)
           {
-            change = '\t' + diffChanges[c];
+            change = 'Whitelist has been modified:';
             if (!this.Changes.contains(change)) this.Changes.push(change);
+            for (let c = 0; c < diffChanges.length; c++)
+            {
+              change = '\t' + diffChanges[c];
+              if (!this.Changes.contains(change)) this.Changes.push(change);
+            }
           }
         }
       }
@@ -25159,27 +25182,38 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
    * @this    Class scope
    * @access  private
    */
-  _getWhitelistFilter()
+  _getWhitelistFilter(force)
   {
     if (!Affinity2018.FilterEnabled) return;
+    //force = force === undefined ? false : this.Designer ? force : false;
+    force = false;
     if (this.WhitelistFilterGridWrapperNode != null)
     {
       let isNewList = false;
 
-      if (
-        !this.Config.Details.hasOwnProperty('ItemSource')
-        || this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
-      )
+      if (!force)
       {
-        if (!this.Config.Details.hasOwnProperty('ItemSource'))
+        if (
+          !this.Config.Details.hasOwnProperty('ItemSource')
+          || this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
+        )
         {
-          this.Config.Details.ItemSource = {};
+          if (!this.Config.Details.hasOwnProperty('ItemSource'))
+          {
+            this.Config.Details.ItemSource = {};
+          }
+          if (!this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
+          {
+            this.Config.Details.ItemSource.WhiteList = [];
+            isNewList = true;
+          }
         }
-        if (!this.Config.Details.ItemSource.hasOwnProperty('WhiteList'))
-        {
-          this.Config.Details.ItemSource.WhiteList = [];
-          isNewList = true;
-        }
+      }
+      else
+      {
+        this.Config.Details.ItemSource = {};
+        this.Config.Details.ItemSource.WhiteList = [];
+        isNewList = true;
       }
 
       this.Config.Details.ItemSource.ItemSourceType = 'AffinityCustom';
@@ -27348,7 +27382,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
       this.WhitelistFilterShowAllNode.checked = this.Config.Details.ItemSource.ShowAll;
       this.WhitelistFilterShowNewNode.checked = this.Config.Details.ItemSource.ShowNewItems;
-      this._gotWhitelistData(this.Config.Details.ItemSource.WhiteList, false);
+      this._gotWhitelistData(this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('WhiteList') ? this.Config.Details.ItemSource.WhiteList : [], false);
       this.WhitelistSearchNode.addEventListener('keyup', this._whitelistGridSearch);
       this.WhitelistFilterHideAll.addEventListener('click', this._whitelistHideAll);
       this.WhitelistFilterUnhideAll.addEventListener('click', this._whitelistUnhideAll);
@@ -27402,7 +27436,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       )
       {
         // do nothing, it is null, which means empty, which means a lookup will also be empty, so no ned to do a lookup .. unless you are a global key :P
-        debugger;
         this._gotWhitelistData([], true);
       }
       else
@@ -27536,6 +27569,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               {
                 if (this.WhitelistRetryCount < this.WhitelistRetryMax)
                 {
+                  debugger;
                   this.WhitelistRetryCount++;
                   this.Config.Details.ItemSource.WhiteList = null;
                   this._checkWhiteListLookup(this.Config.Details.AffinityField.Mode, true);
@@ -27655,6 +27689,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         this.WhitelistFilterShowAllNode.checked = this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowAll') ? this.Config.Details.ItemSource.ShowAll : false;
         this.WhitelistFilterShowNewNode.checked = this.Config.Details.hasOwnProperty('ItemSource') && this.Config.Details.ItemSource.hasOwnProperty('ShowNewItems') ? this.Config.Details.ItemSource.ShowNewItems : true;
         //this._setWhitelistFilter(this.Config.Details.ItemSource.WhiteList);
+
+        // make sure we set the new filtered list to the actual Config
+        if (JSON.stringify(newList).trim() !== JSON.stringify(this.WhiteListBackup !== null ? this.WhiteListBackup : []).trim())
+        {
+          if (!this.Config.Details.hasOwnProperty('ItemSource'))
+          {
+            this.Config.Details.ItemSource = {};
+            this.Config.Details.ItemSource.ItemSourceType = 'AffinityCustom';
+            this.Config.Details.ItemSource.ShowAll = this.WhitelistFilterShowAllNode.checked;
+            this.Config.Details.ItemSource.ShowNewItems = this.WhitelistFilterShowNewNode.checked;
+          }
+          this.Config.Details.ItemSource.WhiteList = newList;
+        }
+
         this._setWhitelistFilter(newList);
         this.WhitelistSearchNode.addEventListener('keyup', this._whitelistGridSearch);
         this.WhitelistFilterHideAll.addEventListener('click', this._whitelistHideAll);
