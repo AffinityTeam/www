@@ -25230,103 +25230,34 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         this.Config.Details.ItemSource.WhiteList = this.Config.Details.ItemSource.WhiteList.map(obj => ({ ...obj, IsHidden: true }));
       }
 
-      let nodeQuery = isNewList ? 'tbody tr' : 'tbody tr:not(.hide)';
-      let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll(nodeQuery);
+      let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
 
       for (let row of rows)
       {
         let display = row.querySelectorAll('td')[0].dataset.desc;
         let code = row.querySelectorAll('td')[1].dataset.code;
 
+        // do we ever have to swap these? Hopefully not!
+
         if (isNewList)
         {
-          if (true) // TODO: Our favourite stress trigger .. key / description flip .. do we need to check soemthing to know what direction we are flipping?
-          {
-            this.Config.Details.ItemSource.WhiteList.push({
-              Key: code,
-              Value: display,
-              DisplayValue: display,
-              IsHidden: row.classList.contains('hide'),
-              CountryCode: null
-            });
-          }
-          else
-          {
-            this.Config.Details.ItemSource.WhiteList.push({
-              Key: display,
-              Value: code,
-              DisplayValue: display,
-              IsHidden: row.classList.contains('hide'),
-              CountryCode: null
-            });
-          }
+          this.Config.Details.ItemSource.WhiteList.push({
+            Key: code,
+            Value: display,
+            DisplayValue: display,
+            IsHidden: row.classList.contains('hide'),
+            CountryCode: null
+          });
         }
         else
         {
           if (gotWhitelist)
           {
-            let found = this.Config.Details.ItemSource.WhiteList.find(obj => (obj.Key === code || obj.Value === code) && obj.IsHidden);
-            found.IsHidden = false;
+            let found = this.Config.Details.ItemSource.WhiteList.find(obj => (obj.Key === code && obj.Value === display) || (obj.Key === display && obj.Value === code));
+            found.IsHidden = row.classList.contains('hide');
           }
         }
       }
-
-      /*
-      let initalWhiteList = $a.jsonCloneObject(this.Config.Details.ItemSource.WhiteList);
-
-      let rows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr');
-      let hiddenRows = this.WhitelistFilterGridWrapperNode.querySelectorAll('tbody tr.hide');
-      var itemSource = {
-        ItemSourceType: 'AffinityCustom',
-        ShowAll: this.WhitelistFilterShowAllNode.checked,
-        ShowNewItems: this.WhitelistFilterShowNewNode.checked,
-        WhiteList: []
-      };
-      // ALWAYS get whole lsit from editor ..
-      //if (hiddenRows.length > 0 && hiddenRows.length < rows.length)
-      //{
-      for (let row of rows)
-      {
-        let description = row.querySelectorAll('td')[0].dataset.desc;
-        let value = row.querySelectorAll('td')[1].dataset.code;
-        let isHidden = row.classList.contains('hide');
-        let countryCode = null;
-        let foundItems =
-          this.Config.Details.hasOwnProperty('ItemSource')
-          && this.Config.Details.ItemSource.hasOwnProperty('WhiteList')
-          && Array.isArray(this.Config.Details.ItemSource.WhiteList)
-            ? this.Config.Details.ItemSource.WhiteList.filter(obj => obj.Key === value || obj.Value === value)
-            : [];
-        let found = foundItems.length > 0 ? foundItems[0] : null;
-        if (found && found.hasOwnProperty('CountryCode'))
-        {
-          countryCode = found.CountryCode;
-        }
-        if (description.trim() !== '' && value.trim() !== '')
-        {
-          itemSource.WhiteList.push({
-            Key: value,
-            Value: description,
-            CountryCode: countryCode,
-            IsHidden: isHidden
-          });
-        }
-      }
-      //}
-      //else
-      //{
-      //  itemSource.WhiteList = this.Config.Details.ItemSource.WhiteList.map(obj => ({ ...obj, IsHidden: false }));
-      //}
-
-      let missingItems = initalWhiteList
-        .filter(masterItem => !itemSource.WhiteList.some(modItem => modItem.Key === masterItem.Key))
-        .map(obj => ({ ...obj, IsHidden: true }));
-
-      if (missingItems.length > 0)
-      {
-        itemSource.WhiteList = [...itemSource.WhiteList, ...missingItems];
-      }
-      */
 
       return this.Config.Details.ItemSource;
     }
