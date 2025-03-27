@@ -35649,15 +35649,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               selectConfig = setValue;
               select.dataset.defaultValue = setValue;
 
-              let props = select.dataset.api.split('?')[1].split('&');
-              for (let prop of props)
-              {
-                if (prop.startsWith('propertyName'))
-                {
-                  console.log(prop.split('=')[1], ' set to ', setValue);
-                  break;
-                }
-              }
+              //let props = select.dataset.api.split('?')[1].split('&');
+              //for (let prop of props)
+              //{
+              //  if (prop.startsWith('propertyName'))
+              //  {
+              //    console.log(prop.split('=')[1], ' set to ', setValue);
+              //    break;
+              //  }
+              //}
 
             }
 
@@ -35801,7 +35801,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
       }
       else
       {
-        debugger;
+        // it is read only :P
       }
       if (this.FormRowNode.querySelector('input[type="text"]:disabled'))
       {
