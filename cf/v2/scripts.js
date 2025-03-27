@@ -35414,7 +35414,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
         {
           if (this.CleverForms.IsGlobalKey(this.Config))
           {
-            showAll = true;
+            showAll = false;
             showNewItems = true;
             whiteList = [];
             doInitalLookup = true;
@@ -35457,7 +35457,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               Required: this.Config.Details.Required,
               Value: Affinity2018.SwapInitatorEmployee,
               IsSingleValue: true,
-              ShowAll: showAll,
+              ShowAll: this.CleverForms.IsGlobalKey(this.Config) ? false : showAll,
               ShowNewItems: showNewItems,
               WhiteList: whiteList,
               DoInitalLookup: doInitalLookup
@@ -35502,7 +35502,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               Required: this.Config.Details.Required,
               Value: null,
               IsSingleValue: false,
-              ShowAll: showAll,
+              ShowAll: this.CleverForms.IsGlobalKey(this.Config) ? false : showAll,
               ShowNewItems: showNewItems,
               WhiteList: whiteList,
               DoInitalLookup: doInitalLookup
@@ -35585,7 +35585,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             Required: this.Config.Details.Required,
             Value: null,
             IsSingleValue: false,
-            ShowAll: showAll,
+            ShowAll: this.CleverForms.IsGlobalKey(this.Config) ? false : showAll,
             ShowNewItems: showNewItems,
             WhiteList: whiteList,
             DoInitalLookup: doInitalLookup
