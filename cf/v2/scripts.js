@@ -2827,7 +2827,7 @@
         fetch(Affinity2018.Path + '/Logger/Log', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": 'application/json'
           },
           body: JSON.stringify({
             Message: model.Message,
@@ -7593,80 +7593,6 @@
       /**/
 
       this.enabled = false;
-
-      // Anti forgery token headers
-      const originalFetch = window.fetch;
-      let axiosInterceptorId = null;
-      function refreshAntiForgeryToken()
-      {
-        return (window.axios ? axios.get('/Api/RefreshToken') : fetch('/Api/RefreshToken'))
-          .then(response =>
-          {
-            if (window.axios)
-            {
-              return response.data && response.data.token;
-            }
-            else
-            {
-              return response.json().then(data => data.token);
-            }
-          })
-          .then(token =>
-          {
-            if (token)
-            {
-              window.AntiForgeryToken = token;
-              console.log("Token refreshed successfully");
-              setupInterceptors();
-              return token;
-            }
-          })
-          .catch(error =>
-          {
-            console.error("Failed to refresh token", error);
-            throw error;
-          });
-      }
-      function setupInterceptors()
-      {
-        if (window.axios)
-        {
-          if (axiosInterceptorId !== null)
-          {
-            axios.interceptors.request.eject(axiosInterceptorId);
-          }
-          axiosInterceptorId = axios.interceptors.request.use(config =>
-          {
-            config.withCredentials = true;
-            config.headers = {
-              ...config.headers,
-              "__RequestVerificationToken": window.AntiForgeryToken
-            };
-            return config;
-          });
-        }
-        if (window.fetch)
-        {
-          window.fetch = function (url, options)
-          {
-            options = options || {};
-            if (!options.headers) options.headers = {};
-            const method = options.method ? options.method.toUpperCase() : 'GET';
-            if (method === 'POST' || method === 'PUT' || method === 'DELETE')
-            {
-              options.credentials = 'include';
-              options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
-            }
-            return originalFetch.call(this, url, options);
-          };
-        }
-      }
-      if (window.AntiForgeryToken)
-      {
-        setupInterceptors();
-        setInterval(refreshAntiForgeryToken, 15 * 60 * 1000);
-      }
-      // END Anti forgery token headers
 
       Affinity2018.ShowPageLoader = this.showLoadLock;
       Affinity2018.HidePageLoader = this.hideLoadLock;
@@ -16012,9 +15938,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         axios({
           method: 'post',
           url: this.CleverForms.CancelDataApi + '?id=' + this.CleverForms.GetTemplateGuid() + '&questionName=' + name,
-          headers: {
-            'Content-Type': 'application/json'
-          },
         })
           .then(function (response)
           {
@@ -16586,9 +16509,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       axios({
         method: 'post',
         url: this.CleverForms.FormDetailsApi,
-        headers: {
-          'Content-Type': 'application/json'
-        },
         data: {
           model: this.CleverForms.TemplateModel
         }
@@ -17663,10 +17583,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           axios({
             method: 'POST',
             url: this.CleverForms.SaveDataApi,
+            data: formData,
             headers: {
               'Content-Type': 'multipart/form-data'
-            },
-            data: formData
+            }
           })
             .then(this._postThen)
             .catch(this._postCatch);
@@ -17689,9 +17609,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           axios({
             method: 'POST',
             url: this.CleverForms.SaveDataApi,
-            headers: {
-              'Content-Type': 'application/json'
-            },
             data: {
               formElements: { FormElements: this.PostData }
             }
@@ -21007,9 +20924,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       axios({
         method: 'POST',
         url: this.CleverForms.SubmitFormApi,
-        headers: {
-          'Content-Type': 'application/json'
-        },
         data: this.PostableData
       })
         .then(this._postThen)
@@ -42449,9 +42363,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.validationLookup = axios({
         method: 'POST',
         url: api,
-        headers: {
-          'Content-Type': 'application/json'
-        },
         data: postData,
         cancelToken: new axios.CancelToken(function () { })
       }).then(this._validateSuccess).catch(this._validateFailed);
@@ -47836,10 +47747,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     axios({
       method: 'POST',
       url: this.PostApi,
+      data: postData,
       headers: {
         'Content-Type': 'multipart/form-data'
-      },
-      data: postData
+      }
     })
       .then(this._postFileOk)
       .catch(this._postFileFail);
@@ -48015,9 +47926,6 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       axios({
         method: 'POST',
         url: this.DeleteApi,
-        headers: {
-          'Content-Type': 'application/json'
-        },
         data: postData
       }).then(this._deleteFileFromIdOk).catch(this._deleteFileFromIdFail);
     }
@@ -52664,9 +52572,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.validationLookup = axios({
         method: 'POST',
         url: api,
-        headers: {
-          'Content-Type': 'application/json'
-        },
         data: postData,
         cancelToken: new axios.CancelToken(function () { })
       })

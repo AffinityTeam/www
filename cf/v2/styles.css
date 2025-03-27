@@ -15301,6 +15301,42 @@ body.ui2018.cform .user-instructions .preview-top-buttons .button,
 body.ui2018 .example-template .preview .user-instructions .preview-top-buttons .button {
   margin: 10px 0 0 5px;
 }
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active {
+  background: #111111;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active svg.link-icon path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active svg.link-icon path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-label,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-label {
+  color: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-edge svg.menu-edge path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-edge svg.menu-edge path {
+  fill: #111111;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-sub-link-arrow svg path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-sub-link-arrow svg path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.sub-link-arrow svg path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.sub-link-arrow svg path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a {
+  background: none;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a svg path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a svg path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a span.ss-dashboard-wrap-nav-item-label,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a span.ss-dashboard-wrap-nav-item-label {
+  color: #cccccc;
+}
 body.ui2018.dark.cform .content,
 body.ui2018.dark .example-template .preview .content {
   background: transparent;
