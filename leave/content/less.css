@@ -1,6 +1,7 @@
 /* Minification failed. Returning unminified contents.
-(8719,20): run-time error CSS1039: Token not allowed after unary operator: '-screen-max-height'
-(8726,21): run-time error CSS1039: Token not allowed after unary operator: '-screen-ratio'
+(8717,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(8720,20): run-time error CSS1039: Token not allowed after unary operator: '-screen-max-height'
+(8738,21): run-time error CSS1039: Token not allowed after unary operator: '-screen-ratio'
  */
 /* form elements */
 /* default sizes */
@@ -8718,10 +8719,22 @@ body.newui #uimodal .uimodalbody .modal-data .leave-detail-balance .balance-box 
   box-sizing: content-box;
 }
 .ss-app-iframe {
+  --screen-max-height: 100%;
   position: relative;
   max-height: 720px;
   max-height: var(--screen-max-height);
   transition: height 0.3s ease-in-out;
+}
+@media screen and (min-width: 1201px) {
+  .ss-app-iframe.app-leave-config {
+    height: calc(100vh - 82px);
+  }
+}
+@media screen and (max-width: 1200px) {
+  .ss-app-iframe.app-leave-config {
+    height: calc(100vh - 92px);
+    margin: 0 -10px -10px -10px;
+  }
 }
 .ss-app-iframe::before {
   content: " ";
