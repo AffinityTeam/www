@@ -18503,6 +18503,13 @@ var CFInit = new Class({
     {
       this.parentWindow = window.parent.document;
     }
+
+    // console logout
+    window.signout = window.logout = () =>
+    {
+      window.location.href = '/Authentication/SignOut';
+    };
+
   }
 
 });

@@ -1,62 +1,62 @@
 /* Minification failed. Returning unminified contents.
-(6398,59): run-time error CSS1030: Expected identifier, found ','
-(6398,81): run-time error CSS1031: Expected selector, found ')'
-(6398,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6406,59): run-time error CSS1030: Expected identifier, found ','
-(6406,81): run-time error CSS1031: Expected selector, found ')'
-(6406,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6438,82): run-time error CSS1030: Expected identifier, found ','
-(6438,153): run-time error CSS1031: Expected selector, found ')'
-(6438,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6520,64): run-time error CSS1030: Expected identifier, found ','
-(6520,71): run-time error CSS1031: Expected selector, found ')'
-(6520,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6528,63): run-time error CSS1030: Expected identifier, found ','
-(6528,70): run-time error CSS1031: Expected selector, found ')'
-(6528,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6536,72): run-time error CSS1030: Expected identifier, found ','
-(6536,79): run-time error CSS1031: Expected selector, found ')'
-(6536,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6595,74): run-time error CSS1030: Expected identifier, found ','
-(6595,216): run-time error CSS1031: Expected selector, found ')'
-(6595,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8385,113): run-time error CSS1030: Expected identifier, found ','
-(8385,125): run-time error CSS1031: Expected selector, found ')'
-(8385,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9440,73): run-time error CSS1030: Expected identifier, found ','
-(9440,95): run-time error CSS1031: Expected selector, found ')'
-(9440,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9448,73): run-time error CSS1030: Expected identifier, found ','
-(9448,95): run-time error CSS1031: Expected selector, found ')'
-(9448,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9470,73): run-time error CSS1030: Expected identifier, found ','
-(9470,95): run-time error CSS1031: Expected selector, found ')'
-(9470,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9479,73): run-time error CSS1030: Expected identifier, found ','
-(9479,95): run-time error CSS1031: Expected selector, found ')'
-(9479,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9487,73): run-time error CSS1030: Expected identifier, found ','
-(9487,95): run-time error CSS1031: Expected selector, found ')'
-(9487,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9495,73): run-time error CSS1030: Expected identifier, found ','
-(9495,95): run-time error CSS1031: Expected selector, found ')'
-(9495,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9503,73): run-time error CSS1030: Expected identifier, found ','
-(9503,95): run-time error CSS1031: Expected selector, found ')'
-(9503,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9888,133): run-time error CSS1030: Expected identifier, found ','
-(9888,274): run-time error CSS1031: Expected selector, found ')'
-(9888,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10480,167): run-time error CSS1030: Expected identifier, found ','
-(10480,309): run-time error CSS1031: Expected selector, found ')'
-(10480,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10762,108): run-time error CSS1030: Expected identifier, found ','
-(10762,250): run-time error CSS1031: Expected selector, found ')'
-(10762,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(11671,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(6399,59): run-time error CSS1030: Expected identifier, found ','
+(6399,81): run-time error CSS1031: Expected selector, found ')'
+(6399,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6407,59): run-time error CSS1030: Expected identifier, found ','
+(6407,81): run-time error CSS1031: Expected selector, found ')'
+(6407,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6439,82): run-time error CSS1030: Expected identifier, found ','
+(6439,153): run-time error CSS1031: Expected selector, found ')'
+(6439,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6521,64): run-time error CSS1030: Expected identifier, found ','
+(6521,71): run-time error CSS1031: Expected selector, found ')'
+(6521,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6529,63): run-time error CSS1030: Expected identifier, found ','
+(6529,70): run-time error CSS1031: Expected selector, found ')'
+(6529,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6537,72): run-time error CSS1030: Expected identifier, found ','
+(6537,79): run-time error CSS1031: Expected selector, found ')'
+(6537,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6596,74): run-time error CSS1030: Expected identifier, found ','
+(6596,216): run-time error CSS1031: Expected selector, found ')'
+(6596,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8386,113): run-time error CSS1030: Expected identifier, found ','
+(8386,125): run-time error CSS1031: Expected selector, found ')'
+(8386,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9441,73): run-time error CSS1030: Expected identifier, found ','
+(9441,95): run-time error CSS1031: Expected selector, found ')'
+(9441,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9449,73): run-time error CSS1030: Expected identifier, found ','
+(9449,95): run-time error CSS1031: Expected selector, found ')'
+(9449,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9471,73): run-time error CSS1030: Expected identifier, found ','
+(9471,95): run-time error CSS1031: Expected selector, found ')'
+(9471,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9480,73): run-time error CSS1030: Expected identifier, found ','
+(9480,95): run-time error CSS1031: Expected selector, found ')'
+(9480,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9488,73): run-time error CSS1030: Expected identifier, found ','
+(9488,95): run-time error CSS1031: Expected selector, found ')'
+(9488,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9496,73): run-time error CSS1030: Expected identifier, found ','
+(9496,95): run-time error CSS1031: Expected selector, found ')'
+(9496,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9504,73): run-time error CSS1030: Expected identifier, found ','
+(9504,95): run-time error CSS1031: Expected selector, found ')'
+(9504,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9889,133): run-time error CSS1030: Expected identifier, found ','
+(9889,274): run-time error CSS1031: Expected selector, found ')'
+(9889,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10481,167): run-time error CSS1030: Expected identifier, found ','
+(10481,309): run-time error CSS1031: Expected selector, found ')'
+(10481,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10763,108): run-time error CSS1030: Expected identifier, found ','
+(10763,250): run-time error CSS1031: Expected selector, found ')'
+(10763,250): run-time error CSS1025: Expected comma or open brace, found ')'
 (11672,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11814,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(11816,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(11673,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11815,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(11817,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -3225,6 +3225,7 @@ body.ui2018 input[type="radio"]:after {
   border: 2px solid transparent;
   background: #8fe1f9;
   cursor: pointer;
+  overflow: hidden;
   -webkit-transition: all 250ms ease-in-out;
   -moz-transition: all 250ms ease-in-out;
   -o-transition: all 250ms ease-in-out;
@@ -15077,6 +15078,17 @@ body.ui2018.cform .default-form .form-row .show-all-filtered:hover span,
 body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered:hover span {
   color: #16c1f3;
 }
+body.ui2018.cform form .form-row .show-all-filtered em,
+body.ui2018 .example-template .preview form .form-row .show-all-filtered em,
+body.ui2018.cform .form .form-row .show-all-filtered em,
+body.ui2018 .example-template .preview .form .form-row .show-all-filtered em,
+body.ui2018.cform .default-form .form-row .show-all-filtered em,
+body.ui2018 .example-template .preview .default-form .form-row .show-all-filtered em {
+  display: block;
+  margin: 5px 0 0 0;
+  font-size: 11px;
+  color: #999999;
+}
 body.ui2018.cform .ui-calendar-buttons,
 body.ui2018 .example-template .preview .ui-calendar-buttons {
   display: inline-block;
@@ -15288,6 +15300,42 @@ body.ui2018 .example-template .preview .user-instructions .preview-top-buttons {
 body.ui2018.cform .user-instructions .preview-top-buttons .button,
 body.ui2018 .example-template .preview .user-instructions .preview-top-buttons .button {
   margin: 10px 0 0 5px;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active {
+  background: #111111;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active svg.link-icon path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active svg.link-icon path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-label,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-label {
+  color: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-edge svg.menu-edge path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-nav-item-edge svg.menu-edge path {
+  fill: #111111;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-sub-link-arrow svg path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.ss-dashboard-wrap-sub-link-arrow svg path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.sub-link-arrow svg path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active span.sub-link-arrow svg path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a {
+  background: none;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a svg path,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a svg path {
+  stroke: #cccccc;
+}
+body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a span.ss-dashboard-wrap-nav-item-label,
+body.ui2018.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-sub-links a span.ss-dashboard-wrap-nav-item-label {
+  color: #cccccc;
 }
 body.ui2018.dark.cform .content,
 body.ui2018.dark .example-template .preview .content {
@@ -21296,5 +21344,1366 @@ body.ui2018.dark .cf-designer-element-popup .inner .settings.scrollable .buttons
 body.ui2018.dark .cf-designer-element-popup .inner .search h3,
 body.ui2018.dark .cf-designer-element-popup .inner .settings h3 {
   color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body.ui2018.uiupdate.inbox div#dialog div#dialog-content select {
+  max-width: 100%;
+}
+body.ui2018.uiupdate.inbox div#dialog div#dialog-content div.ui-autocomplete-container {
+  max-width: 100%;
+}
+body.ui2018.uiupdate.inbox button,
+body.ui2018.uiupdate.inbox a.button {
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+}
+body.ui2018.uiupdate.inbox button *,
+body.ui2018.uiupdate.inbox a.button * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox button * *,
+body.ui2018.uiupdate.inbox a.button * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox button.icononly,
+body.ui2018.uiupdate.inbox a.button.icononly {
+  width: 36px;
+  text-align: center;
+}
+body.ui2018.uiupdate.inbox button.icononly span:first-child,
+body.ui2018.uiupdate.inbox a.button.icononly span:first-child {
+  padding: 0;
+  margin: 0;
+}
+body.ui2018.uiupdate.inbox button:not(.icononly) span:first-child,
+body.ui2018.uiupdate.inbox a.button:not(.icononly) span:first-child {
+  padding: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content {
+  margin: 5px;
+  padding: 5px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header {
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+  background: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header span {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  color: #344356;
+  background: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs {
+  position: relative;
+  min-height: 36px;
+  margin: 20px 0 25px 10px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left {
+  margin: 0 0 0 20px;
+  width: calc(100% - 220px);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab {
+  position: relative;
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  margin: 0 50px 0 0;
+  padding: 0;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  height: 36px;
+  line-height: 36px;
+  margin: -2px 5px 0 0;
+  font-size: 20px;
+  color: #333333;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
+  display: inline-block;
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+  line-height: 17px;
+  margin: 0;
+  padding: 2px 4px;
+  text-align: center;
+  font-size: 8px;
+  color: white;
+  background: #8a99ab;
+  -webkit-transform: translate(5px, -5px);
+  -ms-transform: translate(5px, -5px);
+  transform: translate(5px, -5px);
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected {
+  color: #106eb6;
+  font-weight: 600;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected icon {
+  color: #106eb6;
+  font-weight: normal;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected span {
+  background: #e33100;
+  font-weight: normal;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right {
+  position: absolute;
+  width: 200px;
+  top: 0;
+  right: 20px;
+  height: 36px;
+  text-align: right;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 36px;
+  height: 36px;
+  background-image: url(data:image/gif;base64,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);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  height: 36px;
+  margin: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button button {
+  height: 36px;
+  line-height: 36px;
+  margin: 0 !important;
+  font-weight: normal;
+  font-size: 14px;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
+  background: #106eb6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search {
+  position: relative;
+  width: calc(100% - 20px);
+  height: 0px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  background: white;
+  overflow: hidden;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show {
+  height: 64px;
+  margin: 10px;
+  padding: 10px;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search input[type="text"] {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  width: calc(100% - 175px);
+  height: 44px;
+  line-height: 30px;
+  margin: 0 20px 0 0;
+  padding: 0px 39px 0px 15px;
+  font-family: Montserrat, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  white-space: nowrap;
+  color: black;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  -webkit-transform: unset;
+  -ms-transform: unset;
+  transform: unset;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
+  min-width: calc(100% - 20px);
+  margin: 10px;
+  padding: 0 10px 10px 10px;
+  background: white;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box {
+  min-width: 100%;
+  overflow: hidden;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  min-width: 100%;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"] {
+  width: auto;
+  min-width: unset;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-type="date"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-type="date"] {
+  width: 190px;
+  min-width: 190px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"] {
+  width: 130px;
+  min-width: 130px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
+  width: 190px;
+  min-width: 190px;
+  text-align: right;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
+  position: relative;
+  padding: 15px 10px 10px 5px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 16px;
+  min-height: 25px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  padding: 7px 0 0 5px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  overflow: hidden;
+  border-right: 1px solid #cccccc;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+  cursor: default;
+  color: #333333;
+  font-weight: normal;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+  cursor: pointer;
+  color: black;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
+  padding-right: 10px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"]:after {
+  display: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
+  padding-right: 35px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="true"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons {
+  padding: 10px 10px 10px 5px;
+  text-align: right;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.column-search {
+  position: relative;
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  margin: -5px 0 0 0;
+  font-size: 20px;
+  overflow: visible;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box {
+  position: relative;
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  margin: -5px 0 0 10px;
+  font-size: 20px;
+  overflow: visible;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px 10px;
+  background: white;
+  color: #333333;
+  font-family: 'Montserrat', Arial, "Helvetica Neue", Helvetica, Sans-Serif;
+  font-size: 16px;
+  text-align: left;
+  cursor: auto;
+  z-index: 999;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  touch-action: none;
+  pointer-events: none;
+  -webkit-transition: opacity 250ms;
+  -moz-transition: opacity 250ms;
+  -o-transition: opacity 250ms;
+  transition: opacity 250ms;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item {
+  white-space: nowrap;
+  vertical-align: top;
+  margin: 5px 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item input,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
+  vertical-align: top;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
+  height: 30px;
+  line-height: 30px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
+  background-color: white;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  line-height: 22px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan] {
+  vertical-align: top;
+  padding: 20px 5px 20px 10px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
+  display: inline-block;
+  height: 22px;
+  margin: 0;
+  padding: 1px 5px 0 5px;
+  font-size: 12px;
+  color: white;
+  background: #77dbf8;
+  white-space: nowrap;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td {
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
+  background-color: #fff0e6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
+  background-color: #ffe6d6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
+  background-color: #f1f8e8;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
+  background-color: #e5f2d6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
+  background-color: #ffeae6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
+  background-color: #ffdcd6;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  height: 44px;
+  line-height: 20px;
+  margin: 0px;
+  padding: 5px 5px 5px 10px;
+  border-top: 1px solid #e6e9ed;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
+  text-align: center;
+  padding: 20px 0 10px 0;
+  border-top: 1px solid #e6e9ed;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination {
+  position: relative;
+  width: 100%;
+  line-height: 30px;
+  margin: 10px 0 0 0;
+  text-align: center;
+  font-size: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 30px;
+  margin: 0 5px;
+  font-size: 16px;
+  text-decoration: none;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.select-enabled {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next {
+  font-size: 18px;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last:hover,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next:hover {
+  color: #999999;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page {
+  color: #106eb6;
+  cursor: pointer;
+  width: unset;
+  min-width: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.large {
+  padding: 0 5px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current {
+  color: #999999;
+  cursor: default;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current:hover {
+  color: #999999;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page:hover {
+  color: white;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider {
+  margin: 0 10px;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.total-items {
+  width: unset;
+  font-size: 12px;
+  color: #999999;
+  cursor: default;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-header span {
+  color: white;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon {
+  color: white;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
+  color: white;
+  background: #414d5b;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected {
+  color: #106eb6;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected icon {
+  color: #106eb6;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected span {
+  background: #e33100;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader {
+  background-image: url(data:image/gif;base64,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);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search input[type="text"] {
+  color: #cccccc;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
+  background: #333333;
+  color: #cccccc;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+  color: #999999;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+  color: white;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+  border-right: 1px solid #666666;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
+  background-color: #222222;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
+  color: white;
+  background: #087a9b;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
+  background-color: #2e2922;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
+  background-color: #332c25;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
+  background-color: #263022;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
+  background-color: #2a3526;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
+  background-color: #2e2422;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
+  background-color: #332725;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
+  border-top: 1px solid #333333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section.no-shadow {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section.no-shadow:hover {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates {
+  width: 700px;
+  font-size: 0px;
+  line-height: 35px;
+  text-align: right;
+  margin: -15px 0 0 0;
+  padding-right: 135px;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates label {
+  display: inline-block;
+  vertical-align: top;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 15px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"] {
+  display: inline-block;
+  vertical-align: top;
+  width: 170px !important;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 10px;
+  font-size: 16px;
+  color: black;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent {
+  position: relative;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes .inline-checkbox {
+  margin-top: 5px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes .inline-checkbox label {
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container {
+  width: 700px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container input[type="text"] {
+  display: inline-block;
+  vertical-align: top;
+  width: 565px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox {
+  display: inline-block;
+  vertical-align: top;
+  width: 125px;
+  height: 44px;
+  line-height: 44px;
+  margin: 0 0 0 10px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox label {
+  height: 44px;
+  line-height: 44px;
+  margin: 0;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox input[type="checkbox"] {
+  top: 6px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide,
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select {
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide label,
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select label {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide a,
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select a {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide.masterfile-show-hide a,
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select.masterfile-show-hide a {
+  margin: 0 0 0 10px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.model-checks {
+  overflow: hidden;
+  -webkit-transition: height 250ms;
+  -moz-transition: height 250ms;
+  -o-transition: height 250ms;
+  transition: height 250ms;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.model-checks.hide {
+  height: 0 !important;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.inline-checkbox label {
+  height: 30px;
+  line-height: 30px;
+  margin: 0 0 0 0;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section.admin-results-section {
+  background: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-search {
+  min-width: 1085px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results {
+  min-width: 1085px;
+  background: white;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results button,
+body.ui2018.uiupdate.cform.admin div.admin-results a.button {
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results button *,
+body.ui2018.uiupdate.cform.admin div.admin-results a.button * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results button * *,
+body.ui2018.uiupdate.cform.admin div.admin-results a.button * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results button.icononly,
+body.ui2018.uiupdate.cform.admin div.admin-results a.button.icononly {
+  width: 36px;
+  text-align: center;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results button.icononly span:first-child,
+body.ui2018.uiupdate.cform.admin div.admin-results a.button.icononly span:first-child {
+  padding: 0;
+  margin: 0;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results button:not(.icononly) span:first-child,
+body.ui2018.uiupdate.cform.admin div.admin-results a.button:not(.icononly) span:first-child {
+  padding: 0;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th {
+  padding: 0;
+  border: none;
+  word-wrap: normal;
+  word-break: normal;
+  white-space: normal;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-80,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-80,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-80,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-80,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-80,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-80 {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-100,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-100,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-100,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-100,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-100,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-100 {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-120,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-120,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-120,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-120,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-120,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-120 {
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-150,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-150,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-150,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-150,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-150,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-150 {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.cell-width-200,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.cell-width-200,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.cell-width-200,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.cell-width-200,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.cell-width-200,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.cell-width-200 {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr td.admin-buttons,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td.admin-buttons,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td.admin-buttons,
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th.admin-buttons,
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr th.admin-buttons,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.admin-buttons {
+  width: 270px;
+  min-width: 270px;
+  max-width: 270px;
+  white-space: nowrap;
+  text-align: right;
+  font-size: 0;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th {
+  position: relative;
+  padding: 0px 5px 10px 5px;
+  text-align: left;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child) {
+  cursor: pointer;
+  padding: 0px 30px 10px 5px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child):before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 100%;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child):after {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 30px;
+  margin: -5px 0 0 0;
+  text-align: center;
+  content: '';
+  transform: translateY(-50%);
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child)[data-ascending="true"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child)[data-ascending="false"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr {
+  background-color: white;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td {
+  border-top: 1px solid #e6e9ed;
+  padding: 10px 5px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td {
+  border-top: 1px solid #e6e9ed;
+  padding: 10px 5px;
+  text-align: center;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination {
+  position: relative;
+  width: 100%;
+  line-height: 30px;
+  margin: 10px 0 0 0;
+  text-align: center;
+  font-size: 0;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 30px;
+  margin: 0 5px;
+  font-size: 16px;
+  text-decoration: none;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.disabled {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.disabled * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.select-enabled {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span:not(.select-enabled) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span:not(.select-enabled) * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-last,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-next {
+  font-size: 18px;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-last:hover,
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-next:hover {
+  color: #999999;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page {
+  color: #106eb6;
+  cursor: pointer;
+  width: unset;
+  min-width: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.large {
+  padding: 0 5px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.current {
+  color: #999999;
+  cursor: default;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.current * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page.current:hover {
+  color: #999999;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page:hover {
+  color: white;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-divider {
+  margin: 0 10px;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.page-divider * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.pagination span.total-items {
+  width: unset;
+  font-size: 12px;
+  color: #999999;
+  cursor: default;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"]::-moz-calendar-picker {
+  filter: invert(1);
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results {
+  background: none;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results button,
+body.ui2018.uiupdate.cform.admin.dark div.admin-results a.button {
+  color: white;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr {
+  background-color: #222222;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(:last-child)[data-ascending="true"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(:last-child)[data-ascending="false"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr {
+  background-color: #222222;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr {
+  background-color: #222222;
+}
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr td {
+  border-top: 1px solid #333333;
 }
 
