@@ -28147,20 +28147,34 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           let hasDiffs = false;
           let returnedNames = Object.keys(this.ModelData)
           let lastElementHistory = form.GetLastFormHistoryElements();
+          let ignoreTypes = ['CheckBox', 'SingleSelectRadio', 'MultiSelect', 'DocumentSigning', 'Address', 'BankNumber', 'TaxNumber', 'Drawpanel'];
           for (let elm of lastElementHistory)
           {
             if (
-              !returnedNames.contains(elm.Name) 
-              && !$a.isNullOrEmpty(elm.Value)
-              && ($a.isBool(elm.Value) || elm.Value)
+              !returnedNames.contains(elm.Name)
+              && elm !== undefined
+              && elm.Value !== null
+              && elm.Value.toString().trim() !== ''
             )
             {
-              console.groupCollapsed('Form is not clear:');
-              console.log('\tform value      : ', elm.Value);
-              console.log('\tform node       : ', document.querySelector('.form-row[data-name="' + elm.Name + '"]'));
-              console.groupEnd();
-              hasFormValues = true;
-              break;
+              if (elm.hasOwnProperty('ElementType') && !$a.isNullOrEmpty(elm.ElementType) && ignoreTypes.contains(elm.ElementType))
+              {
+                hasFormValues = false;
+              }
+              else
+              {
+                //if (typeof elm.Value === 'boolean')
+                //{
+                //  hasFormValues = false;
+                //  break;
+                //}
+                console.groupCollapsed('Form is not clear:');
+                console.log('\tform value      : ', elm.Value);
+                console.log('\tform node       : ', document.querySelector('.form-row[data-name="' + elm.Name + '"]'));
+                console.groupEnd();
+                hasFormValues = true;
+                break;
+              }
             }
           }
           // If the form is blank, check if we have any diffs in returned data ..
