@@ -9907,31 +9907,22 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         if (codeStr !== '')
         {
+          cleanStr = cleanStr.replace(`${code} - `, '').trim();
+          cleanStr = cleanStr.replace(`${code}, `, '').trim();
           cleanStr = cleanStr.replace(`${code} `, '').trim();
           cleanStr = cleanStr.replace(` ${code}`, '').trim();
           cleanStr = cleanStr.replace(`,${code}`, '').trim();
           cleanStr = cleanStr.replace(`${code},`, '').trim();
           cleanStr = cleanStr.replace(`(${code})`, '').trim();
-          cleanStr = cleanStr + ' (' + codeStr + ')';
+          cleanStr = cleanStr + ` (${codeStr})`;
         }
-
         if (cleanStr.trim().startsWith('- ')) cleanStr = cleanStr.trim().replace('- ', '').trim();
         if (cleanStr.trim().startsWith('_ ')) cleanStr = cleanStr.trim().replace('_ ', '').trim();
         if (cleanStr.charAt(0).toUpperCase() !== cleanStr.charAt(0)) cleanStr = cleanStr.substring(0, 1).toUpperCase() + cleanStr.substring(1);
-
-        //if (cleanStr.startsWith(codeStr + ' ') && codeStr.trim() !== '')
-        //{
-        //  cleanStr = cleanStr.replace(codeStr, '');
-        //  cleanStr = cleanStr.replaceAll('-', '');
-        //  cleanStr = cleanStr.replaceAll(',', '');
-        //  cleanStr = cleanStr.trim() + ' (' + codeStr + ')';
-        //}
       }
     }
     else
     {
-      //if (codeStr !== '') cleanStr = 'Not Set - (' + code + ')';
-      //else cleanStr = '';
       cleanStr = codeStr !== '' ? code.trim() : '';
     }
 
@@ -9949,6 +9940,27 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
 
     return cleanStr;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  TrimLookupDisplayValue(display, code)
+  {
+    if (code === undefined || code === null || (typeof code === 'string' && code.trim() === ''))
+    {
+      return display;
+    }
+    if (display.startsWith(`${code} - `))
+    {
+      display = display.substring(code.toString().length + 3).trim();
+      return display;
+    }
+    return display;
   }
 
 
@@ -27583,7 +27595,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let descriptionDisplay = '';
       if (item.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(item.DisplayValue))
       {
-        descriptionDisplay = item.DisplayValue;
+        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.TrimLookupDisplayValue(item.DisplayValue, item.Key);
       }
       else
       {
@@ -35345,7 +35357,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             let display = '';
             if (listItem.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(listItem.DisplayValue))
             {
-              display = listItem.DisplayValue;
+              display = this.CleverForms.TrimLookupDisplayValue(listItem.DisplayValue, listItem[keys[1]]);
             }
             else
             {
@@ -35729,7 +35741,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             {
               optionNode = document.createElement('option');
               optionNode.value = listItem[keys[1]];
-              optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+              if (listItem.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(listItem.DisplayValue))
+              {
+                optionNode.innerHTML = this.CleverForms.TrimLookupDisplayValue(listItem.DisplayValue, listItem[keys[1]]);
+              }
+              else
+              {
+                optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+              }
               if (!selected && listItem.Selected)
               {
                 optionNode.selected = 'selected';
@@ -36892,7 +36911,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
       if (matches.length > 0)
       {
         let match = matches[0];
-        value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+        if (match.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(match.DisplayValue))
+        {
+          value = this.CleverForms.TrimLookupDisplayValue(match.DisplayValue, value);
+        }
+        else
+        {
+          value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+        }
       }
       else
       {
@@ -36952,7 +36978,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
         code = value.Key.toString();
         if (value.hasOwnProperty('Value'))
         {
-          value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+          if (value.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(value.DisplayValue))
+          {
+            value = this.CleverForms.TrimLookupDisplayValue(value.DisplayValue, code);
+          }
+          else
+          {
+            value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+          }
         }
         else
         {
@@ -36967,7 +37000,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
       if (matches.length > 0)
       {
         let match = matches[0];
-        value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+        if (match.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(match.DisplayValue))
+        {
+          value = this.CleverForms.TrimLookupDisplayValue(match.DisplayValue, code);
+        }
+        else
+        {
+          value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+        }
       }
     }
 
@@ -40589,9 +40629,10 @@ function cleanDisplay (str, key)
   {
     if (str.indexOf(' (') !== -1)
     {
-      key = str.substr(str.indexOf(' (') + 2);
-      key = key.substring(0, key.length - 1).trim();
-      str = str.substring(0, str.indexOf(' (')).trim();
+      // Do not assume that if key is in str and in brckets, that it is also the end of the string. We may have a dash and country code onm the end of the string.
+      let keyCutStart = str.indexOf(' (') + 2;
+      let keyCutEnd = str.indexOf(')', keyCutStart);
+      key = keyCutStart !== -1 && keyCutEnd !== -1 ? str.substring(keyCutStart, keyCutEnd) : '';
     }
   }
   if (str && typeof str === 'string' && str.trim() !== '')
@@ -40608,6 +40649,10 @@ function cleanDisplay (str, key)
     if (cleanStr.indexOf(key) === -1)
     {
       cleanStr = cleanStr + ' (' + key + ')';
+    }
+    if (cleanStr.startsWith(`${key} - `))
+    {
+      cleanStr = cleanStr.substring(key.toString().length + 3).trim();
     }
   }
   return cleanStr;
@@ -50816,7 +50861,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let displayStr = '';
     if (data.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(data.DisplayValue))
     {
-      displayStr = this._cleanValue(data.DisplayValue, null, country);
+      displayStr = this.CleverForms.TrimLookupDisplayValue(data.DisplayValue, data[this.config.DataKey]);
     }
     else
     {
@@ -50972,7 +51017,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : defaultValue;
         if (found !== null)
         {
-          requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+          if (found.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(found.DisplayValue))
+          {
+            requiredValue = this.CleverForms.TrimLookupDisplayValue(found.DisplayValue, found.Key);
+          }
+          else
+          {
+            requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+          }
         }
         let name = 'The value';
         if (this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '')
@@ -51110,7 +51162,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
       if (found !== null)
       {
-        requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+        if (found.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(found.DisplayValue))
+        {
+          requiredValue = this.CleverForms.TrimLookupDisplayValue(found.DisplayValue, found.Key);
+        }
+        else
+        {
+          requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+        }
       }
 
       if (value === null)
