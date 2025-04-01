@@ -13714,6 +13714,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       '_removeElementClicked', '_clearRemove', '_removeElement', '_setElementForDelete',
       '_disableAllDeleteButtons', '_enableAllDeleteButtons',
 
+      '_getDependantFields', '_getChildFields',
+
       '_updateFormDetails', '_hasCountrySensativeFields', '_checkResetFormCountry',
 
       '_setupLeftListPositionOnScroll',
@@ -16075,9 +16077,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   {
     var node = $a.getEventNode(ev, 'cf-designer-element'); // ev.target.classList.contains('cf-designer-element') ? ev.target : ev.target.closest('.cf-designer-element');
     var config = node.controller.Config;
+    var affinityField = config.Details.hasOwnProperty('AffinityField') ? config.Details.AffinityField : null;
     var message;
     var dependantNodes = [];
     var dependantNames = [];
+    var childNodes = [];
+    var childNames = [];
     var globalBlocker = false;
     if (node)
     {
@@ -16155,7 +16160,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       else // NOT a Section
       {
 
-        if (node.dataset.type === 'AffinityField' && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
+        // warn if removing a global key with key dependant fields
+        if (affinityField && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
         {
           var dependants = null;
           if (node.classList.contains('is-key-field')) dependants = this._getDependantFields(node.controller.Config);
@@ -16165,11 +16171,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             dependantNodes = dependants.nodes;
             if (dependants.nodes.length > 0)
             {
-              //message = '';
-              //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
-              //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
-              //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
-              //message += '<p>Are you sure you want to remove this required field?</p>';
               message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
                 keyField: node.controller.Config.Details.Label,
                 fields: dependants.list,
@@ -16178,8 +16179,24 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               });
             }
           }
-          
         }
+
+
+        // warn if remoiving a parent with children
+        var children = this._getChildFields(config);
+        if (children !== null)
+        {
+          childNodes = children.nodes;
+          message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
+            keyField: node.controller.Config.Details.Label,
+            fields: children.list,
+            plural: children.plural,
+            listPlural: children.listPlural
+          });
+        }
+
+
+
       }
 
       this._disableAllDeleteButtons();
@@ -16196,16 +16213,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         },
         onOk: function ()
         {
-          var removed = false;
           if (dependantNodes.length > 0)
           {
-            for (var n = 0; n < dependantNodes.length; n++)
+            for (let dependantNode of dependantNodes)
             {
-              //removed = dependantNodes[n].controller.RemoveDesignerElement(this._removeElement);
-              this._setElementForDelete(dependantNodes[n]);
+              this._setElementForDelete(dependantNode);
             }
           }
-          //removed = node.controller.RemoveDesignerElement(this._removeElement);
+          if (childNodes.length > 0)
+          {
+            for (let childNode of childNodes)
+            {
+              this._setElementForDelete(childNode);
+            }
+          }
           this._setElementForDelete(node);
           this._setSectionModelNameLabels();
           this._checkToggleCountrySelect();
@@ -16226,7 +16247,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _getDependantFields(keyConfig)
   {
-      let isGlobalKey = this.CleverForms.IsGlobalKey(keyConfig),
+    let isGlobalKey = this.CleverForms.IsGlobalKey(keyConfig),
         targetNode = isGlobalKey ? this.RightListNode : this.RightListNode.querySelector('li.item-' + keyConfig.Name).closest('li[data-type="Section"]'),
         allNodes = targetNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
         dependantNodes = [],
@@ -16234,7 +16255,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         plural = '',
         listPlural = 's',
         ownersStr = '',
-        allNodeConfig, a, dependants;
+        allNodeConfig, a;
+
     allNodes.forEach(function (allNode)
     {
       allNodeConfig = allNode.controller.Config;
@@ -16265,6 +16287,59 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
     return {
       nodes: dependantNodes,
+      list: ownersStr,
+      plural: plural,
+      listPlural: listPlural
+    };
+  }
+
+
+
+  /**
+   * Summary. Return a list string of dependant fields
+   * @this    Class scope
+   * @access  private
+   *
+   */
+  _getChildFields(keyConfig)
+  {
+    let childNodes = [],
+        childNames = [],
+        plural = '',
+        listPlural = 's',
+        ownersStr = '',
+        affinityField = keyConfig.Details.hasOwnProperty('AffinityField') ? keyConfig.Details.AffinityField : null,
+        children = affinityField && affinityField.hasOwnProperty('ChildDependencies') && Array.isArray(affinityField.ChildDependencies) && affinityField.ChildDependencies.length > 0 ? affinityField.ChildDependencies : [];
+
+    if (children.length === 0)
+    {
+      return null;
+    }
+
+    for (let child of children)
+    {
+      let childNode = document.querySelector(`li[data-model="${affinityField.ModelName}"][data-field="${child.FieldName}"]`);
+      if (childNode)
+      {
+        childNodes.push(childNode);
+        childNames.push(childNode.controller.Config.Details.Label);
+      }
+    }
+
+    if (childNames.length > 0)
+    {
+      ownersStr = "'<strong>" + childNames.join("</strong>'", "'<strong>") + "</strong>'";
+      if (childNames.length > 1)
+      {
+        plural = 's';
+        listPlural = '';
+        var lastchild = childNames.pop();
+        ownersStr = "'<strong>" + childNames.join("</strong>', '<strong>") + "</strong>', and '<strong>" + lastchild + "</strong>'";
+      }
+    }
+
+    return {
+      nodes: childNodes,
       list: ownersStr,
       plural: plural,
       listPlural: listPlural
