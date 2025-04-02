@@ -16130,12 +16130,12 @@ var CFformsAdminDelete = new Class({
         uiconfirm({
             message: 'Are you sure you would like to delete this form instance?',
             onOk: function () {
-
-                var button = e.target.hasClass('button') ? e.target : e.target.getParent('.button');
-                var form = new Element('form', { 'action': button.get('data-action'), 'method': 'post', 'target': '_self' }).inject(button, 'after');
-                new Element('input', { 'type': 'hidden', 'name': 'instanceId', 'value': button.get('data-instanceId') }).inject(form);
-                form.submit();
-
+              var button = e.target.classList.contains('button') ? e.target : e.target.closest('.button');
+              let action = button.dataset.api;
+              var form = new Element('form', { 'action': action, 'method': 'post', 'target': '_self' }).inject(button, 'after');
+              new Element('input', { 'type': 'hidden', 'name': '__RequestVerificationToken', 'value': window.AntiForgeryToken }).inject(form);
+              new Element('input', { 'type': 'hidden', 'name': 'instanceId', 'value': button.get('data-instanceId') }).inject(form);
+              form.submit();
             }.bind(this)
         });
 
