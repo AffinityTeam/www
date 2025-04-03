@@ -2827,7 +2827,7 @@
         fetch(Affinity2018.Path + '/Logger/Log', {
           method: 'POST',
           headers: {
-            "Content-Type": 'application/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             Message: model.Message,
@@ -7594,6 +7594,80 @@
 
       this.enabled = false;
 
+      // Anti forgery token headers
+      const originalFetch = window.fetch;
+      let axiosInterceptorId = null;
+      function refreshAntiForgeryToken()
+      {
+        return (window.axios ? axios.get('/Api/RefreshToken') : fetch('/Api/RefreshToken'))
+          .then(response =>
+          {
+            if (window.axios)
+            {
+              return response.data && response.data.token;
+            }
+            else
+            {
+              return response.json().then(data => data.token);
+            }
+          })
+          .then(token =>
+          {
+            if (token)
+            {
+              window.AntiForgeryToken = token;
+              console.log("Token refreshed successfully");
+              setupInterceptors();
+              return token;
+            }
+          })
+          .catch(error =>
+          {
+            console.error("Failed to refresh token", error);
+            throw error;
+          });
+      }
+      function setupInterceptors()
+      {
+        if (window.axios)
+        {
+          if (axiosInterceptorId !== null)
+          {
+            axios.interceptors.request.eject(axiosInterceptorId);
+          }
+          axiosInterceptorId = axios.interceptors.request.use(config =>
+          {
+            config.withCredentials = true;
+            config.headers = {
+              ...config.headers,
+              "__RequestVerificationToken": window.AntiForgeryToken
+            };
+            return config;
+          });
+        }
+        if (window.fetch)
+        {
+          window.fetch = function (url, options)
+          {
+            options = options || {};
+            if (!options.headers) options.headers = {};
+            const method = options.method ? options.method.toUpperCase() : 'GET';
+            if (method === 'POST' || method === 'PUT' || method === 'DELETE')
+            {
+              options.credentials = 'include';
+              options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
+            }
+            return originalFetch.call(this, url, options);
+          };
+        }
+      }
+      if (window.AntiForgeryToken)
+      {
+        setupInterceptors();
+        setInterval(refreshAntiForgeryToken, 15 * 60 * 1000);
+      }
+      // END Anti forgery token headers
+
       Affinity2018.ShowPageLoader = this.showLoadLock;
       Affinity2018.HidePageLoader = this.hideLoadLock;
 
@@ -9907,31 +9981,22 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       {
         if (codeStr !== '')
         {
+          cleanStr = cleanStr.replace(`${code} - `, '').trim();
+          cleanStr = cleanStr.replace(`${code}, `, '').trim();
           cleanStr = cleanStr.replace(`${code} `, '').trim();
           cleanStr = cleanStr.replace(` ${code}`, '').trim();
           cleanStr = cleanStr.replace(`,${code}`, '').trim();
           cleanStr = cleanStr.replace(`${code},`, '').trim();
           cleanStr = cleanStr.replace(`(${code})`, '').trim();
-          cleanStr = cleanStr + ' (' + codeStr + ')';
+          cleanStr = cleanStr + ` (${codeStr})`;
         }
-
         if (cleanStr.trim().startsWith('- ')) cleanStr = cleanStr.trim().replace('- ', '').trim();
         if (cleanStr.trim().startsWith('_ ')) cleanStr = cleanStr.trim().replace('_ ', '').trim();
         if (cleanStr.charAt(0).toUpperCase() !== cleanStr.charAt(0)) cleanStr = cleanStr.substring(0, 1).toUpperCase() + cleanStr.substring(1);
-
-        //if (cleanStr.startsWith(codeStr + ' ') && codeStr.trim() !== '')
-        //{
-        //  cleanStr = cleanStr.replace(codeStr, '');
-        //  cleanStr = cleanStr.replaceAll('-', '');
-        //  cleanStr = cleanStr.replaceAll(',', '');
-        //  cleanStr = cleanStr.trim() + ' (' + codeStr + ')';
-        //}
       }
     }
     else
     {
-      //if (codeStr !== '') cleanStr = 'Not Set - (' + code + ')';
-      //else cleanStr = '';
       cleanStr = codeStr !== '' ? code.trim() : '';
     }
 
@@ -9949,6 +10014,39 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     }
 
     return cleanStr;
+  }
+
+
+
+  /**
+   * Summary. ?
+   * @this    Class scope
+   * @access  private
+   */
+  TrimLookupDisplayValue(display, code, country)
+  {
+    if (code === undefined || code === null || (typeof code === 'string' && code.trim() === ''))
+    {
+      return display;
+    }
+    country = country === undefined || country === null ? (Affinity2018.hasOwnProperty('FormCountry') ? Affinity2018.FormCountry : '') : country;
+    let testWithCountryCodeOnly = display;
+    let testWithCountryShortOnly = display;
+    if (country !== '')
+    {
+      testWithCountryCodeOnly = `${code} - ${this.GetCountryCodeVariant(country)}`;
+      testWithCountryShortOnly = `${code} - ${this.GetCountryShortVariant(country)}`;
+      if (display === testWithCountryCodeOnly)
+      {
+        display = testWithCountryShortOnly;
+      }
+    }
+    if (display.startsWith(`${code} - `) && display !== testWithCountryShortOnly)
+    {
+      display = display.substring(code.toString().length + 3).trim();
+      return display;
+    }
+    return display;
   }
 
 
@@ -13702,6 +13800,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       '_removeElementClicked', '_clearRemove', '_removeElement', '_setElementForDelete',
       '_disableAllDeleteButtons', '_enableAllDeleteButtons',
 
+      '_getDependantFields', '_getChildFields',
+
       '_updateFormDetails', '_hasCountrySensativeFields', '_checkResetFormCountry',
 
       '_setupLeftListPositionOnScroll',
@@ -14117,7 +14217,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         AffinityFieldLabel = config != null && config.Type === 'AffinityField' ? config.Details.Label : null,
         SectionNode, DragToSectionModel,
         SectionMode, SectionModeName, SectionModel,
-        FieldMode, FieldModeName, FieldModel, FieldName, FieldNameLower, FieldLabel,
+        FieldMode, FieldModeName, FieldModel, FieldName, FieldNameLower, FieldLabel, IsChild, IsParent,
         ExisitngKeyNode, ExisitngKeyMode, ExisitngKeyModeName, ExisitngKeyLabel,
         IsNew,
         message, query;
@@ -14137,6 +14237,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           FieldName = AffinityField.FieldName;
           FieldNameLower = FieldName !== null ? FieldName.toLowerCase() : null;
           FieldLabel = config.Details.Label;
+          IsChild = AffinityField.hasOwnProperty('ParentDependencies') && Array.isArray(AffinityField.ParentDependencies) && AffinityField.ParentDependencies.length > 0;
+          IsParent = AffinityField.hasOwnProperty('ChildDependencies') && Array.isArray(AffinityField.ChildDependencies) && AffinityField.ChildDependencies.length > 0;
           // attempt to get any GLOBAL key where the MODE is the same as our field
           ExisitngKeyNode = this.RightListNode.querySelector(`li[data-model="${FieldMode}"].is-global-key`);
           // if null, try to get ANY key where the the MODEL is the same as our field, else null
@@ -14154,6 +14256,45 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
           if (!fromDrag) // apply from search or edit, but not when dragging
           {
+
+
+            //-------------------------------------------------------------------------------------------------//
+            // If this is a dependency child, ensure we have it's parent first --------------------------------//
+            if (IsChild)
+            {
+              let foundParent = null;
+              let parentLabels = [];
+              for (let parent of AffinityField.ParentDependencies)
+              {
+                if (document.querySelector(`li[data-model="${FieldModel}"][data-field="${parent.FieldName}"]`))
+                {
+                  foundParent = document.querySelector(`li[data-model="${FieldModel}"][data-field="${parent.FieldName}"]`);
+                }
+                parentLabels.push(parent.Name !== null ? parent.Name : parent.FieldName);
+              }
+              if (foundParent === null)
+              {
+                let parentlabel = parentLabels.length === 1 ? parentLabels[0] : parentLabels.length === 2 ? parentLabels[0] + ", or " + parentLabels[1] : parentLabels.length > 2 ? parentLabels.slice(0, parentLabels.length - 1).join(', ') + parentLabels[parentLabels.length - 1] : ''; 
+                message = $a.Lang.ReturnPath('app.cf.designer.error_child_requires_parent', {
+                  parentLabels: parentlabel
+                });
+                Affinity2018.Dialog.Show({
+                  message: message,
+                  showOk: true,
+                  showCancel: true,
+                  showInput: false,
+                  textAlign: 'left',
+                  buttons: {
+                    ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+                    cancel: { show: false }
+                  }
+                });
+                return false;
+              }
+            }
+            // END - If this is a dependency child, ensure we have it's parent first --------------------------//
+            //-------------------------------------------------------------------------------------------------//
+
 
             if (!fromSearch && AffinityField.IsMasterfileData)
             {
@@ -15938,6 +16079,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         axios({
           method: 'post',
           url: this.CleverForms.CancelDataApi + '?id=' + this.CleverForms.GetTemplateGuid() + '&questionName=' + name,
+          headers: {
+            'Content-Type': 'application/json'
+          },
         })
           .then(function (response)
           {
@@ -16022,9 +16166,12 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   {
     var node = $a.getEventNode(ev, 'cf-designer-element'); // ev.target.classList.contains('cf-designer-element') ? ev.target : ev.target.closest('.cf-designer-element');
     var config = node.controller.Config;
+    var affinityField = config.Details.hasOwnProperty('AffinityField') ? config.Details.AffinityField : null;
     var message;
     var dependantNodes = [];
     var dependantNames = [];
+    var childNodes = [];
+    var childNames = [];
     var globalBlocker = false;
     if (node)
     {
@@ -16102,7 +16249,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       else // NOT a Section
       {
 
-        if (node.dataset.type === 'AffinityField' && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
+        // warn if removing a global key with key dependant fields
+        if (affinityField && (node.classList.contains('is-global-key') || node.classList.contains('is-key-field')))
         {
           var dependants = null;
           if (node.classList.contains('is-key-field')) dependants = this._getDependantFields(node.controller.Config);
@@ -16112,11 +16260,6 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
             dependantNodes = dependants.nodes;
             if (dependants.nodes.length > 0)
             {
-              //message = '';
-              //message += '<p><span class="red"><strong>Warning!</strong> This is a required field!</span></p>';
-              //message += '<p>' + ownersStr + ' need' + plural + ' this field to be used in a form.</p>';
-              //message += '<p>Removing this required field will also remove ' + ownersStr + '.</p>';
-              //message += '<p>Are you sure you want to remove this required field?</p>';
               message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
                 keyField: node.controller.Config.Details.Label,
                 fields: dependants.list,
@@ -16125,8 +16268,24 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
               });
             }
           }
-          
         }
+
+
+        // warn if remoiving a parent with children
+        var children = this._getChildFields(config);
+        if (children !== null)
+        {
+          childNodes = children.nodes;
+          message = $a.Lang.ReturnPath('app.cf.designer.confirm_element_remove_with_key', {
+            keyField: node.controller.Config.Details.Label,
+            fields: children.list,
+            plural: children.plural,
+            listPlural: children.listPlural
+          });
+        }
+
+
+
       }
 
       this._disableAllDeleteButtons();
@@ -16143,16 +16302,20 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         },
         onOk: function ()
         {
-          var removed = false;
           if (dependantNodes.length > 0)
           {
-            for (var n = 0; n < dependantNodes.length; n++)
+            for (let dependantNode of dependantNodes)
             {
-              //removed = dependantNodes[n].controller.RemoveDesignerElement(this._removeElement);
-              this._setElementForDelete(dependantNodes[n]);
+              this._setElementForDelete(dependantNode);
             }
           }
-          //removed = node.controller.RemoveDesignerElement(this._removeElement);
+          if (childNodes.length > 0)
+          {
+            for (let childNode of childNodes)
+            {
+              this._setElementForDelete(childNode);
+            }
+          }
           this._setElementForDelete(node);
           this._setSectionModelNameLabels();
           this._checkToggleCountrySelect();
@@ -16173,7 +16336,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
    */
   _getDependantFields(keyConfig)
   {
-      let isGlobalKey = this.CleverForms.IsGlobalKey(keyConfig),
+    let isGlobalKey = this.CleverForms.IsGlobalKey(keyConfig),
         targetNode = isGlobalKey ? this.RightListNode : this.RightListNode.querySelector('li.item-' + keyConfig.Name).closest('li[data-type="Section"]'),
         allNodes = targetNode.querySelectorAll('li[data-type="AffinityField"]:not(.is-global-key)'),
         dependantNodes = [],
@@ -16181,7 +16344,8 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
         plural = '',
         listPlural = 's',
         ownersStr = '',
-        allNodeConfig, a, dependants;
+        allNodeConfig, a;
+
     allNodes.forEach(function (allNode)
     {
       allNodeConfig = allNode.controller.Config;
@@ -16212,6 +16376,59 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
 
     return {
       nodes: dependantNodes,
+      list: ownersStr,
+      plural: plural,
+      listPlural: listPlural
+    };
+  }
+
+
+
+  /**
+   * Summary. Return a list string of dependant fields
+   * @this    Class scope
+   * @access  private
+   *
+   */
+  _getChildFields(keyConfig)
+  {
+    let childNodes = [],
+        childNames = [],
+        plural = '',
+        listPlural = 's',
+        ownersStr = '',
+        affinityField = keyConfig.Details.hasOwnProperty('AffinityField') ? keyConfig.Details.AffinityField : null,
+        children = affinityField && affinityField.hasOwnProperty('ChildDependencies') && Array.isArray(affinityField.ChildDependencies) && affinityField.ChildDependencies.length > 0 ? affinityField.ChildDependencies : [];
+
+    if (children.length === 0)
+    {
+      return null;
+    }
+
+    for (let child of children)
+    {
+      let childNode = document.querySelector(`li[data-model="${affinityField.ModelName}"][data-field="${child.FieldName}"]`);
+      if (childNode)
+      {
+        childNodes.push(childNode);
+        childNames.push(childNode.controller.Config.Details.Label);
+      }
+    }
+
+    if (childNames.length > 0)
+    {
+      ownersStr = "'<strong>" + childNames.join("</strong>'", "'<strong>") + "</strong>'";
+      if (childNames.length > 1)
+      {
+        plural = 's';
+        listPlural = '';
+        var lastchild = childNames.pop();
+        ownersStr = "'<strong>" + childNames.join("</strong>', '<strong>") + "</strong>', and '<strong>" + lastchild + "</strong>'";
+      }
+    }
+
+    return {
+      nodes: childNodes,
       list: ownersStr,
       plural: plural,
       listPlural: listPlural
@@ -16509,6 +16726,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
       axios({
         method: 'post',
         url: this.CleverForms.FormDetailsApi,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: {
           model: this.CleverForms.TemplateModel
         }
@@ -17583,10 +17803,10 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           axios({
             method: 'POST',
             url: this.CleverForms.SaveDataApi,
-            data: formData,
             headers: {
               'Content-Type': 'multipart/form-data'
-            }
+            },
+            data: formData
           })
             .then(this._postThen)
             .catch(this._postCatch);
@@ -17609,6 +17829,9 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
           axios({
             method: 'POST',
             url: this.CleverForms.SaveDataApi,
+            headers: {
+              'Content-Type': 'application/json'
+            },
             data: {
               formElements: { FormElements: this.PostData }
             }
@@ -20924,6 +21147,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       axios({
         method: 'POST',
         url: this.CleverForms.SubmitFormApi,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: this.PostableData
       })
         .then(this._postThen)
@@ -25168,7 +25394,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           if (gotWhitelist)
           {
             let found = this.Config.Details.ItemSource.WhiteList.find(obj => (obj.Key === code && obj.Value === display) || (obj.Key === display && obj.Value === code));
-            found.IsHidden = row.classList.contains('hide');
+            if (found === undefined || found === null)
+            {
+              // what do we do when clients import data with no display value? (assume key value is not swapped)
+              found = this.Config.Details.ItemSource.WhiteList.find(obj =>
+                obj.Key === code
+                && (
+                  obj.Value === null
+                  || obj.Value === undefined
+                  || obj.Value.trim() === ''
+                  || obj.Value === this.CleverForms.GetCountryShortVariant(Affinity2018.FormCountry)
+                  || obj.Value === `${code} - ${this.CleverForms.GetCountryShortVariant(Affinity2018.FormCountry)}`
+                )
+              );
+              if (found === undefined || found === null)
+              {
+                console.warn('Key Value is swapped when reading and setting saved whitelist');
+              }
+              else
+              {
+                found.IsHidden = row.classList.contains('hide');
+              }
+            }
+            else
+            {
+              found.IsHidden = row.classList.contains('hide');
+            }
           }
         }
       }
@@ -27583,7 +27834,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let descriptionDisplay = '';
       if (item.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(item.DisplayValue))
       {
-        descriptionDisplay = item.DisplayValue;
+        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.TrimLookupDisplayValue(item.DisplayValue, item.Key, country);
       }
       else
       {
@@ -35345,7 +35596,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             let display = '';
             if (listItem.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(listItem.DisplayValue))
             {
-              display = listItem.DisplayValue;
+              display = this.CleverForms.TrimLookupDisplayValue(listItem.DisplayValue, listItem[keys[1]]);
             }
             else
             {
@@ -35729,7 +35980,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             {
               optionNode = document.createElement('option');
               optionNode.value = listItem[keys[1]];
-              optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+              if (listItem.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(listItem.DisplayValue))
+              {
+                optionNode.innerHTML = this.CleverForms.TrimLookupDisplayValue(listItem.DisplayValue, listItem[keys[1]]);
+              }
+              else
+              {
+                optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+              }
               if (!selected && listItem.Selected)
               {
                 optionNode.selected = 'selected';
@@ -36892,7 +37150,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
       if (matches.length > 0)
       {
         let match = matches[0];
-        value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+        if (match.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(match.DisplayValue))
+        {
+          value = this.CleverForms.TrimLookupDisplayValue(match.DisplayValue, value);
+        }
+        else
+        {
+          value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+        }
       }
       else
       {
@@ -36952,7 +37217,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
         code = value.Key.toString();
         if (value.hasOwnProperty('Value'))
         {
-          value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+          if (value.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(value.DisplayValue))
+          {
+            value = this.CleverForms.TrimLookupDisplayValue(value.DisplayValue, code);
+          }
+          else
+          {
+            value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+          }
         }
         else
         {
@@ -36967,7 +37239,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
       if (matches.length > 0)
       {
         let match = matches[0];
-        value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+        if (match.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(match.DisplayValue))
+        {
+          value = this.CleverForms.TrimLookupDisplayValue(match.DisplayValue, code);
+        }
+        else
+        {
+          value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+        }
       }
     }
 
@@ -37555,6 +37834,7 @@ Affinity2018.Classes.Plugins.Address = class
   options ()
   {
     Affinity2018.GoogleApikey = 'AIzaSyDX7vRyaNWfkZQfj0xx9Kthii3HBXk5DGc';
+    Affinity2018.GoogleMapsVerion = '3.60.7b'; // '3.49', '3.60.7b', 'weekly'
     this.Ready = false;
     this._waitingNodes = [];
   }
@@ -37625,7 +37905,7 @@ Affinity2018.Classes.Plugins.Address = class
       this.scriptNode.id = 'googlemapsapiscript';
       this.scriptNode.onload = this._scriptLoaded;
       this.scriptNode.type = 'text/javascript';
-      this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
+      this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&v=' + Affinity2018.GoogleMapsVerion + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
       this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       document.head.appendChild(this.scriptNode);
     }
@@ -38155,24 +38435,34 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _checkAddress()
   {
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async')
-    .then(function (response)
-    {
-      if (
-        response.hasOwnProperty('data')
-        && response.data.hasOwnProperty('results')
-      )
+    let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
+    fetch(url)
+      .then((response) =>
       {
-        if (response.data.results.length > 0) this._fillAddress(response.data.results[0]);
-        else this._fillAddress();
+        if (!response.ok)
+        {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) =>
+      {
+        if (data.results && data.results.length > 0)
+        {
+          this._fillAddress(data.results[0]);
+        }
+        else
+        {
+          this._fillAddress();
+        }
         this.Status = 'Ready';
-      }
-    }.bind(this))
-    .catch(function (error)
-    {
-      this._fillAddress();
-      this.Status = 'Ready';
-    }.bind(this));
+      })
+      .catch((error) =>
+      {
+        console.error('Error during fetch:', error);
+        this._fillAddress();
+        this.Status = 'Ready';
+      });
   }
 
   _getCountryFromPlace (place)
@@ -40589,9 +40879,10 @@ function cleanDisplay (str, key)
   {
     if (str.indexOf(' (') !== -1)
     {
-      key = str.substr(str.indexOf(' (') + 2);
-      key = key.substring(0, key.length - 1).trim();
-      str = str.substring(0, str.indexOf(' (')).trim();
+      // Do not assume that if key is in str and in brckets, that it is also the end of the string. We may have a dash and country code onm the end of the string.
+      let keyCutStart = str.indexOf(' (') + 2;
+      let keyCutEnd = str.indexOf(')', keyCutStart);
+      key = keyCutStart !== -1 && keyCutEnd !== -1 ? str.substring(keyCutStart, keyCutEnd) : '';
     }
   }
   if (str && typeof str === 'string' && str.trim() !== '')
@@ -40608,6 +40899,10 @@ function cleanDisplay (str, key)
     if (cleanStr.indexOf(key) === -1)
     {
       cleanStr = cleanStr + ' (' + key + ')';
+    }
+    if (cleanStr.startsWith(`${key} - `))
+    {
+      cleanStr = cleanStr.substring(key.toString().length + 3).trim();
     }
   }
   return cleanStr;
@@ -42377,6 +42672,9 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       this.validationLookup = axios({
         method: 'POST',
         url: api,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: postData,
         cancelToken: new axios.CancelToken(function () { })
       }).then(this._validateSuccess).catch(this._validateFailed);
@@ -47761,10 +48059,10 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
     axios({
       method: 'POST',
       url: this.PostApi,
-      data: postData,
       headers: {
         'Content-Type': 'multipart/form-data'
-      }
+      },
+      data: postData
     })
       .then(this._postFileOk)
       .catch(this._postFileFail);
@@ -47940,6 +48238,9 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
       axios({
         method: 'POST',
         url: this.DeleteApi,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: postData
       }).then(this._deleteFileFromIdOk).catch(this._deleteFileFromIdFail);
     }
@@ -50816,7 +51117,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let displayStr = '';
     if (data.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(data.DisplayValue))
     {
-      displayStr = this._cleanValue(data.DisplayValue, null, country);
+      displayStr = this.CleverForms.TrimLookupDisplayValue(data.DisplayValue, data[this.config.DataKey], country);
     }
     else
     {
@@ -50972,7 +51273,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         let requiredValue = !$a.isNullOrEmpty(this.config.Value) && this.config.Value !== 'null' ? this.config.Value : defaultValue;
         if (found !== null)
         {
-          requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+          if (found.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(found.DisplayValue))
+          {
+            requiredValue = this.CleverForms.TrimLookupDisplayValue(found.DisplayValue, found.Key);
+          }
+          else
+          {
+            requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+          }
         }
         let name = 'The value';
         if (this.RowNode && this.RowNode.querySelector('label') && this.RowNode.querySelector('label').innerText.trim() !== '')
@@ -51110,7 +51418,14 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
       if (found !== null)
       {
-        requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+        if (found.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(found.DisplayValue))
+        {
+          requiredValue = this.CleverForms.TrimLookupDisplayValue(found.DisplayValue, found.Key);
+        }
+        else
+        {
+          requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+        }
       }
 
       if (value === null)
@@ -52586,6 +52901,9 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       this.validationLookup = axios({
         method: 'POST',
         url: api,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: postData,
         cancelToken: new axios.CancelToken(function () { })
       })
