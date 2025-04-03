@@ -10023,13 +10023,25 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
    * @this    Class scope
    * @access  private
    */
-  TrimLookupDisplayValue(display, code)
+  TrimLookupDisplayValue(display, code, country)
   {
     if (code === undefined || code === null || (typeof code === 'string' && code.trim() === ''))
     {
       return display;
     }
-    if (display.startsWith(`${code} - `))
+    country = country === undefined || country === null ? (Affinity2018.hasOwnProperty('FormCountry') ? Affinity2018.FormCountry : '') : country;
+    let testWithCountryCodeOnly = display;
+    let testWithCountryShortOnly = display;
+    if (country !== '')
+    {
+      testWithCountryCodeOnly = `${code} - ${this.GetCountryCodeVariant(country)}`;
+      testWithCountryShortOnly = `${code} - ${this.GetCountryShortVariant(country)}`;
+      if (display === testWithCountryCodeOnly)
+      {
+        display = testWithCountryShortOnly;
+      }
+    }
+    if (display.startsWith(`${code} - `) && display !== testWithCountryShortOnly)
     {
       display = display.substring(code.toString().length + 3).trim();
       return display;
@@ -25382,7 +25394,32 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           if (gotWhitelist)
           {
             let found = this.Config.Details.ItemSource.WhiteList.find(obj => (obj.Key === code && obj.Value === display) || (obj.Key === display && obj.Value === code));
-            found.IsHidden = row.classList.contains('hide');
+            if (found === undefined || found === null)
+            {
+              // what do we do when clients import data with no display value? (assume key value is not swapped)
+              found = this.Config.Details.ItemSource.WhiteList.find(obj =>
+                obj.Key === code
+                && (
+                  obj.Value === null
+                  || obj.Value === undefined
+                  || obj.Value.trim() === ''
+                  || obj.Value === this.CleverForms.GetCountryShortVariant(Affinity2018.FormCountry)
+                  || obj.Value === `${code} - ${this.CleverForms.GetCountryShortVariant(Affinity2018.FormCountry)}`
+                )
+              );
+              if (found === undefined || found === null)
+              {
+                console.warn('Key Value is swapped when reading and setting saved whitelist');
+              }
+              else
+              {
+                found.IsHidden = row.classList.contains('hide');
+              }
+            }
+            else
+            {
+              found.IsHidden = row.classList.contains('hide');
+            }
           }
         }
       }
@@ -27797,7 +27834,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       let descriptionDisplay = '';
       if (item.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(item.DisplayValue))
       {
-        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.TrimLookupDisplayValue(item.DisplayValue, item.Key);
+        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.TrimLookupDisplayValue(item.DisplayValue, item.Key, country);
       }
       else
       {
@@ -51069,7 +51106,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     let displayStr = '';
     if (data.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(data.DisplayValue))
     {
-      displayStr = this.CleverForms.TrimLookupDisplayValue(data.DisplayValue, data[this.config.DataKey]);
+      displayStr = this.CleverForms.TrimLookupDisplayValue(data.DisplayValue, data[this.config.DataKey], country);
     }
     else
     {
