@@ -37834,6 +37834,7 @@ Affinity2018.Classes.Plugins.Address = class
   options ()
   {
     Affinity2018.GoogleApikey = 'AIzaSyDX7vRyaNWfkZQfj0xx9Kthii3HBXk5DGc';
+    Affinity2018.GoogleMapsVerion = '3.60.7b'; // '3.49', '3.60.7b', 'weekly'
     this.Ready = false;
     this._waitingNodes = [];
   }
@@ -37904,7 +37905,7 @@ Affinity2018.Classes.Plugins.Address = class
       this.scriptNode.id = 'googlemapsapiscript';
       this.scriptNode.onload = this._scriptLoaded;
       this.scriptNode.type = 'text/javascript';
-      this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
+      this.scriptNode.src = 'https:/' + '/maps.googleapis.com/maps/api/js?key=' + Affinity2018.GoogleApikey + '&v=' + Affinity2018.GoogleMapsVerion + '&libraries=places&callback=_tempGoogleMapsCallback&loading=async';
       this.scriptNode.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
       document.head.appendChild(this.scriptNode);
     }
@@ -38434,24 +38435,34 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   _checkAddress()
   {
     if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    axios.get('https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async')
-    .then(function (response)
-    {
-      if (
-        response.hasOwnProperty('data')
-        && response.data.hasOwnProperty('results')
-      )
+    let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
+    fetch(url)
+      .then((response) =>
       {
-        if (response.data.results.length > 0) this._fillAddress(response.data.results[0]);
-        else this._fillAddress();
+        if (!response.ok)
+        {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) =>
+      {
+        if (data.results && data.results.length > 0)
+        {
+          this._fillAddress(data.results[0]);
+        }
+        else
+        {
+          this._fillAddress();
+        }
         this.Status = 'Ready';
-      }
-    }.bind(this))
-    .catch(function (error)
-    {
-      this._fillAddress();
-      this.Status = 'Ready';
-    }.bind(this));
+      })
+      .catch((error) =>
+      {
+        console.error('Error during fetch:', error);
+        this._fillAddress();
+        this.Status = 'Ready';
+      });
   }
 
   _getCountryFromPlace (place)

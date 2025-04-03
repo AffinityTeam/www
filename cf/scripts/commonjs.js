@@ -18427,6 +18427,7 @@ var CFindex = new Class({
                 var button = e.target.hasClass('button') ? e.target : e.target.getParent('.button');
                 var form = new Element('form', { 'action': button.get('data-action'), 'method': 'post', 'target': '_self' }).inject(button, 'after');
                 new Element('input', { 'type': 'hidden', 'name': 'templateId', 'value': button.get('data-templateId') }).inject(form);
+                new Element('input', { 'type': 'hidden', 'name': '__RequestVerificationToken', 'value': window.AntiForgeryToken }).inject(form);
                 form.submit();
 
             }.bind(this)
@@ -18439,6 +18440,7 @@ var CFindex = new Class({
         var buttonColumn = button.getParent();
         var form = new Element('form', { 'action': button.get('data-action'), 'method': 'post', 'target': '_self' }).inject(buttonColumn, 'bottom');
         new Element('input', { 'type': 'hidden', 'name': 'templateId', 'value': button.get('data-templateId') }).inject(form);
+        new Element('input', { 'type': 'hidden', 'name': '__RequestVerificationToken', 'value': window.AntiForgeryToken }).inject(form);
         uialert({
             message: 'Restoring...',
             showLoader: true,
@@ -18457,6 +18459,7 @@ var CFindex = new Class({
                 var button = e.target.hasClass('button') ? e.target : e.target.getParent('.button');
                 var form = new Element('form', { 'action': button.get('data-delete-action'), 'method': 'post', 'target': '_self' }).inject(button, 'after');
                 new Element('input', { 'type': 'hidden', 'name': 'templateId', 'value': button.get('data-delete-id') }).inject(form);
+                new Element('input', { 'type': 'hidden', 'name': '__RequestVerificationToken', 'value': window.AntiForgeryToken }).inject(form);
                 form.submit();
 
             }.bind(this)
