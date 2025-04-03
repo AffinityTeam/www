@@ -18850,7 +18850,8 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               console.error("Failed to refresh token", error);
               throw error;
             });
-        } else if (window.fetch)
+        }
+        else if (window.fetch)
         {
           return originalFetch('/Api/RefreshAntiForgeryToken')
             .then(function (response)
@@ -18872,7 +18873,8 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               console.error("Failed to refresh token", error);
               throw error;
             });
-        } else
+        }
+        else
         {
           var xhr = new XMLHttpRequest();
           return new Promise(function (resolve, reject)
@@ -18913,6 +18915,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
       }
       function setupInterceptors()
       {
+        // axios interceptor
         if (window.axios)
         {
           if (axiosInterceptorId !== null)
@@ -18927,6 +18930,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             return config;
           });
         }
+        // fetch interceptor
         if (window.fetch)
         {
           window.fetch = function (url, options)
@@ -18942,6 +18946,25 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             return originalFetch.call(this, url, options);
           };
         }
+        // MooTools interceptor
+        if (window.MooTools && window.Request)
+        {
+          var originalInitialize = Request.prototype.initialize;
+          Request.prototype.initialize = function (options)
+          {
+            originalInitialize.apply(this, arguments);
+            if (window.AntiForgeryToken && window.AntiForgeryToken !== '')
+            {
+              this.options.headers = this.options.headers || {};
+              var method = (this.options.method || 'get').toLowerCase();
+              if (method === 'post' || method === 'put' || method === 'delete')
+              {
+                this.options.withCredentials = true;
+                this.options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
+              }
+            }
+          };
+        }
       }
       if (window.AntiForgeryToken)
       {
@@ -18950,24 +18973,6 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
         {
           refreshAntiForgeryToken();
         }, 15 * 60 * 1000);
-      }
-      if (window.MooTools && window.Request)
-      {
-        var originalInitialize = Request.prototype.initialize;
-        Request.prototype.initialize = function (options)
-        {
-          originalInitialize.apply(this, arguments);
-          if (window.AntiForgeryToken && window.AntiForgeryToken !== '')
-          {
-            this.options.headers = this.options.headers || {};
-            var method = (this.options.method || 'get').toLowerCase();
-            if (method === 'post' || method === 'put' || method === 'delete')
-            {
-              this.options.withCredentials = true;
-              this.options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
-            }
-          }
-        };
       }
       // END Anti forgery Token headers
       if (!document.querySelector('style.scrollbars'))
