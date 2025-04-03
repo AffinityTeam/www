@@ -27603,6 +27603,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         if (Affinity2018.Apps.CleverForms.hasOwnProperty('Designer'))
         {
+          Affinity2018.HidePageLoader(true);
           $a.Dialog.Show({
             message: $a.Lang.ReturnPath('generic.whitelist.no_values_message'),
             textAlign: 'left',
@@ -27674,6 +27675,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 }
                 else
                 {
+                  Affinity2018.HidePageLoader(true);
+                  debugger;
                   return;
                 }
               }
@@ -27818,6 +27821,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       console.warn('Get WhiteList had a problem:');
       console.warn(data);
     }
+
+    Affinity2018.HidePageLoader(true);
+    
   }
 
   _setWhitelistFilter(ids)
