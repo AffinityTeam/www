@@ -23125,8 +23125,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _parseUglyGen1Date(dateStr, format = 'd.MM.yyyy h:mma')
   {
-
     if (!dateStr) return '';
+
+    // is ISO
+    if (dateStr.endsWith('Z'))
+    {
+      return luxon.DateTime.fromISO(dateStr).setZone("local").toFormat(format);
+    }
+
+    // is date only
+    if (!/\d{1,2}:\d{2}(?::\d{2})?/.test(dateStr))
+    {
+      return luxon.DateTime.fromFormat(dateStr, "dd/MM/yyyy").toFormat(format);
+    }
+
+    // else
+
     let isUTC = false;
   
     if (dateStr.toLowerCase().indexOf('.') !== -1)
@@ -23406,8 +23420,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
               <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
               <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
-              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Completed By</th>
-              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Date Completed</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="string"  >Date Completed</th>
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
@@ -23442,10 +23456,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       // If compaunts cokm in one day, we will have tio use correct parses and update Dashbaord tile, and Gen1 Inbox.
       // Affinity2018.getDate(data.StateEnteredAt, 'dd.MM.yyyy hh:mm a', true, true)
 
-      let enteredAt = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
       let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
 
-      let effectiveDate = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
       let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
@@ -23486,7 +23500,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="TemplateDescription"                   >${nameString}</td>
               <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
               <td data-name="StateName"                             >${data.StateName}</td>
-              <td data-name="StateAssigneeName"                     >${data.StateAssigneeName}</td>
+              <td data-name="CurrentAssigneeEmployeeNo"             >${data.StateAssigneeName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
               <td class="buttons">
@@ -23672,7 +23686,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             else
             {
               // jsut load them all
-              for (p = 1; p < data.TotalPages; p++)
+              for (p = 1; p <= data.TotalPages; p++)
               {
                 large = p > 99 ? ' large' : '';
                 if (p === data.CurrentPage)
