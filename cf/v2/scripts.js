@@ -23500,7 +23500,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="TemplateDescription"                   >${nameString}</td>
               <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
               <td data-name="StateName"                             >${data.StateName}</td>
-              <td data-name="CurrentAssigneeEmployeeNo"             >${data.StateAssigneeName}</td>
+              <td data-name="StateAssigneeName"                     >${data.StateAssigneeName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
               <td class="buttons">
