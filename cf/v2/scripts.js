@@ -11500,16 +11500,12 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       if (response.data.hasOwnProperty('EmployeeCountry')) country = $a.toString(response.data.EmployeeCountry);
       if (response.data.hasOwnProperty('PayPointCountry')) country = $a.toString(response.data.PayPointCountry);
 
-      var memberType = "";
-      if (response.data.hasOwnProperty('MemberType')) memberType = $a.toString(response.data.MemberType).toUpperCase();
-
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
         PayPoint: paypoint,
-        Country: country,
-        MemberType: memberType
+        Country: country
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
@@ -22238,15 +22234,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       // private
 
-      '_showLoader', '_hideLoader', 
-
       '_gotResults', '_gotResultsError',
 
       '_attemptSearch',
 
       '_getCurrentPage',
       '_gotoTab',
-
 
       '_gridClicked',
 
@@ -22276,20 +22269,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-
-    this.MemberType = '';
-    this.IsSuperAdmin = false;
-    if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
-    {
-      this.MemberType = Affinity2018.UserProfile.MemberType;
-      if (Affinity2018.UserProfile.MemberType === "P")
-      {
-        this.IsSuperAdmin = true;
-      }
-    }
-
-    /**/
-
     this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
 
     this.ResultNode = document.querySelector('div.inbox');
@@ -22406,7 +22385,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async GetResults()
   {
-    this._showLoader();
+    this.InlineLoaderNode.classList.remove('hidden');
 
     // now do fetch
     let url = `${this.DefaultAPI}`;
@@ -22456,27 +22435,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   /***                                                                                                                           *********************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
-
-
-  _showLoader()
-  {
-    this.InlineLoaderNode.classList.remove('hidden');
-    if (this.IsSuperAdmin)
-    {
-      document.body.classList.add('load-lock');
-      Affinity2018.ShowPageLoader(true, 0);
-    }
-  }
-
-  _hideLoader()
-  {
-    this.InlineLoaderNode.classList.add('hidden');
-    if (this.IsSuperAdmin)
-    {
-      document.body.classList.remove('load-lock');
-      Affinity2018.HidePageLoader(true);
-    }
-  }
 
   _gotResults(data)
   {
@@ -22529,7 +22487,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     Affinity2018.Tooltips.Apply();
 
-    this._hideLoader();
+    this.InlineLoaderNode.classList.add('hidden');
     this._checkHiddenRows();
   }
 
@@ -22541,7 +22499,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       categoryNode.querySelector('tbody').innerHTML = this.ErrorResultTemplate(error);
     }
-    this._hideLoader();
+    this.InlineLoaderNode.classList.add('hidden');
   }
 
   async _attemptSearch()
@@ -22549,7 +22507,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     Affinity2018.Tooltips.Hide();
     if (this.SearchNode.value.trim() !== '')
     {
-      this._showLoader();
+      this.InlineLoaderNode.classList.remove('hidden');
 
       let state = JSON.parse(JSON.stringify(this.State));
       for (let category in state.CategorySettings)
@@ -22570,7 +22528,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       if (!response.ok)
       {
         this.ShowingSearchResults = false;
-        this._hideLoader();
+        this.InlineLoaderNode.classList.add('hidden');
         Affinity2018.Dialog.Show({
           message: `No results found<!-- ${response.status} -->`,
           showOk: true,
@@ -22585,7 +22543,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       if (!data || data === '')
       {
         this.ShowingSearchResults = false;
-        this._hideLoader();
+        this.InlineLoaderNode.classList.add('hidden');
         Affinity2018.Dialog.Show({
           message: `No results found<!-- ${response.status} -->`,
           showOk: true,
@@ -22604,7 +22562,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         if (allResultTotal === 0)
         {
           this.ShowingSearchResults = false;
-          this._hideLoader();
+          this.InlineLoaderNode.classList.add('hidden');
           Affinity2018.Dialog.Show({
             message: `No results found`,
             showOk: true,
@@ -22614,7 +22572,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return false;
         }
       }
+
       this.State = state;
+
       this.ShowingSearchResults = true;
       this._gotResults(data);
       return true;
