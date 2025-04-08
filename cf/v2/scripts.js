@@ -23515,10 +23515,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ResultTemplate = (category, data) =>
     {
-      // TODO: do not use correct date parseing, use INCORECT date parsing to match Gen1. 
-      // If compaunts cokm in one day, we will have tio use correct parses and update Dashbaord tile, and Gen1 Inbox.
-      // Affinity2018.getDate(data.StateEnteredAt, 'dd.MM.yyyy hh:mm a', true, true)
-
       let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
       let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
 
@@ -23527,6 +23523,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
       let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
+
+      let stateAssigneeName = data.CurrentAssigneeEmployeeNo != null && data.StateAssigneeName != null ? data.StateAssigneeName + ' (' + data.CurrentAssigneeEmployeeNo +')' : '';
+      let completedByString = data.CompletedByEmployeeNo != null && data.CompletedBy != null ? data.CompletedBy + ' (' + data.CompletedByEmployeeNo +')' : '';
+
+      let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
+      let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
 
       let nameString = data.TemplateDescription;
       if(data.SharedBy !== null)
@@ -23542,11 +23544,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="StateName"                             >${data.StateName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
                 <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
@@ -23561,9 +23563,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="StateName"                             >${data.StateName}</td>
-              <td data-name="StateAssigneeName"                     >${data.StateAssigneeName}</td>
+              <td data-name="StateAssigneeName"                     >${stateAssigneeName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
               <td class="buttons">
@@ -23580,12 +23582,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="StateName"                             >${data.StateName}</td>
-              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
+              <td data-name="CompletedBy"                           >${completedByString}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
@@ -23600,12 +23602,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="StateName"                             >${data.StateName}</td>
-              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
+              <td data-name="CompletedBy"                           >${completedByString}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${completedByTimeString}</th>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 <button class="green icononly restore ui-has-tooltip" data-tooltip="Restore this Form" data-tooltip-dir="left"><span class="icon-refresh"></span></button>
