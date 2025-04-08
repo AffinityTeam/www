@@ -8182,8 +8182,51 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       this._gotResultsError(`HTTP error: Status ${response.status}`);
       return false;
     }
-
-    let data = await response.json();
+    let responseClone = response.clone()
+    let data = null;
+    try
+    {
+      data = await response.json();
+    }
+    catch(err)
+    {
+      let html = await responseClone.text();
+      if (html.contains('error-page'))
+      {
+        let parser = new DOMParser()
+        let documentObj = parser.parseFromString(html, "text/html");
+        let messageNode = documentObj.querySelector("message p");
+        let message = messageNode ? messageNode.innerText.trim() : '';
+        if (message.toLowerCase().contains('permission'))
+        {
+          this._gotResultsError(`No usable data found`);
+          Affinity2018.Dialog.Show({
+            message: message,
+            showOk: true,
+            showCancel: false,
+            textAlign: 'left'
+          });
+        }
+        else
+        {
+          if (message !== '')
+          {
+            this._gotResultsError(`No usable data found<br /><bt />${message}`);
+          }
+          else
+          {
+            this._gotResultsError(`No usable data found`);
+          }
+        }
+        return false;
+      }
+      else
+      {
+        console.warn(err);
+        this._gotResultsError(`No usable data found`);
+        return false;
+      }
+    }
 
     if (!data || data === '')
     {
@@ -8295,7 +8338,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   _gotResultsError(error)
   {
-    console.warn(error);
+    console.warn(error.replaceAll('<br />', '\n'));
     this.ResultGridNode.innerHTML = this.ErrorResultTemplate(error);
     this.ResultFooterNode.innerHTML = '';
     Affinity2018.HidePageLoader(true);
@@ -8702,6 +8745,10 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       let date = Affinity2018.stringToDate(data.StateEnteredAt);
       let dateString = Affinity2018.getDate(date, 'dd.MM.yyyy');
       let dateTimeString = dateString + ' ' + Affinity2018.getDate(date, 'hh:mm a').toLowerCase();
+      
+      let effectiveDate = data.EffectiveDate !== null ? Affinity2018.stringToDate(data.EffectiveDate) : null;
+      let effectiveDateString = effectiveDate ? Affinity2018.getDate(effectiveDate, 'dd.MM.yyyy') : '';
+
       if (!data.hasOwnProperty('InstanceId') || data.InstanceId === null)
       {
         return `
@@ -8709,7 +8756,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
               <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
               <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
               <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
-              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-100">${effectiveDateString}</td>
               <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
               <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
               <td class="cell-width-auto"${data.LastActionTaken === null ? '' : data.LastActionTaken}</td>
@@ -22247,6 +22294,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       '_getCurrentPage',
       '_gotoTab',
 
+      '_reset',
 
       '_gridClicked',
 
@@ -22457,25 +22505,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
+  _forceShowPageLoader()
+  {
+    clearTimeout(this._forcePageLoader);
+    document.body.classList.add('load-lock');
+    Affinity2018.ShowPageLoader(true, 0);
+  }
+
+  _forceHidePageLoader()
+  {
+    clearTimeout(this._forcePageLoader);
+    document.body.classList.remove('load-lock');
+    Affinity2018.HidePageLoader(true);
+  }
 
   _showLoader()
   {
     this.InlineLoaderNode.classList.remove('hidden');
     if (this.IsSuperAdmin)
     {
-      document.body.classList.add('load-lock');
-      Affinity2018.ShowPageLoader(true, 0);
+      this._forceShowPageLoader();
+    }
+    else
+    {
+      clearTimeout(this._forcePageLoader);
+      this._forcePageLoader = setTimeout(this._forceShowPageLoader, 500);
     }
   }
 
   _hideLoader()
   {
     this.InlineLoaderNode.classList.add('hidden');
-    if (this.IsSuperAdmin)
-    {
-      document.body.classList.remove('load-lock');
-      Affinity2018.HidePageLoader(true);
-    }
+    this._forceHidePageLoader();
   }
 
   _gotResults(data)
@@ -22569,7 +22630,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       if (!response.ok)
       {
-        this.ShowingSearchResults = false;
         this._hideLoader();
         Affinity2018.Dialog.Show({
           message: `No results found<!-- ${response.status} -->`,
@@ -22584,7 +22644,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       if (!data || data === '')
       {
-        this.ShowingSearchResults = false;
         this._hideLoader();
         Affinity2018.Dialog.Show({
           message: `No results found<!-- ${response.status} -->`,
@@ -22603,7 +22662,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         }
         if (allResultTotal === 0)
         {
-          this.ShowingSearchResults = false;
           this._hideLoader();
           Affinity2018.Dialog.Show({
             message: `No results found`,
@@ -22621,6 +22679,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
     else
     {
+      this.ShowingSearchResults = false;
+    }
+  }
+
+  async _reset()
+  {
+    this._hideLoader();
+    this.SearchBox.classList.remove('show');
+    this.SearchNode.value = '';
+    this.State.SearchQuery = '';
+    if (this.ShowingSearchResults)
+    {
+      await this.GetResults();
       this.ShowingSearchResults = false;
     }
   }
@@ -22652,15 +22723,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
               case 'resetsearch':
 
-                Affinity2018.Tooltips.Hide();
-                this.SearchBox.classList.remove('show');
-                this.SearchNode.value = '';
-                this.State.SearchQuery = '';
-                if (this.ShowingSearchResults)
-                {
-                  await this.GetResults();
-                  this.ShowingSearchResults = false;
-                }
+                await this._reset();
                 break
 
               case 'attemptsearch':
