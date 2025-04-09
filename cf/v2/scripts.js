@@ -23424,6 +23424,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Assigned To</th>
               <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
               <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23431,6 +23432,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                     <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
                       <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
                     </div>
                   </div>
                 </div>
@@ -23568,6 +23572,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateAssigneeName"                     >${stateAssigneeName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
