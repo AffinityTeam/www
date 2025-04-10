@@ -21770,7 +21770,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   transform: translateY(-50%);
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
-  cursor: not-allowed;
+  cursor: default;
   color: #333333;
   font-weight: normal;
 }
