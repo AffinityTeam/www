@@ -3226,10 +3226,10 @@ body.ui2018 input[type="radio"]:after {
   background: #8fe1f9;
   cursor: pointer;
   overflow: hidden;
-  -webkit-transition: all 250ms ease-in-out;
-  -moz-transition: all 250ms ease-in-out;
-  -o-transition: all 250ms ease-in-out;
-  transition: all 250ms ease-in-out;
+  -webkit-transition: all 100ms ease-in-out;
+  -moz-transition: all 100ms ease-in-out;
+  -o-transition: all 100ms ease-in-out;
+  transition: all 100ms ease-in-out;
 }
 body.ui2018 input[type="checkbox"] + label,
 body.ui2018 input[type="radio"] + label {
@@ -21646,7 +21646,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   pointer-events: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show {
-  height: 64px;
+  height: 140px;
   margin: 10px;
   padding: 10px;
   -moz-opacity: 1;
@@ -21690,6 +21690,63 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row {
+  position: relative;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] {
+  position: relative;
+  display: block;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 0 0 5px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper label {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px 0 0 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper input {
+  vertical-align: top;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates {
+  margin-top: 5px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates label {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px 0 5px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type="date"] {
+  display: inline-block;
+  vertical-align: top;
+  width: 170px !important;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 10px 0 0;
+  padding: 0 10px;
+  font-size: 16px;
+  color: black;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
   min-width: calc(100% - 20px);
@@ -21770,7 +21827,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   transform: translateY(-50%);
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
-  cursor: default;
+  cursor: not-allowed;
   color: #333333;
   font-weight: normal;
 }
@@ -22087,6 +22144,17 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   color: #cccccc;
   background: #333333;
   border: 2px solid #444444;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type="date"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type="date"]::-moz-calendar-picker {
+  filter: invert(1);
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
   background: #222222;
