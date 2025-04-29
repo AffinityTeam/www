@@ -22211,8 +22211,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.PageSize = 25;
 
-    this.ShowingSearchResults = false;
-
     this.ColumnSettingTimeouts = {};
 
     this.State = {
@@ -22362,10 +22360,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }).bind(this));
 
     let today = luxon.DateTime.local();
-    let startdate = today.minus({ months: 1 });
-    let endDate = today.plus({ months: 1 });
-    this.SearchBox.querySelector('input#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
-    this.SearchBox.querySelector('input#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
+    let minDate = today.minus({ years: 7 });
+    this.SearchBox.querySelector('input#StartDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
+    this.SearchBox.querySelector('input#StartDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
+    this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
+    this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
 
     /**/
 
@@ -22681,92 +22680,86 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   async _attemptSearch()
   {
     Affinity2018.Tooltips.Hide();
-    if (this.SearchNode.value.trim() !== '')
+    this._showLoader();
+
+    let state = JSON.parse(JSON.stringify(this.State));
+    for (let category in state.CategorySettings)
     {
-      this._showLoader();
-
-      let state = JSON.parse(JSON.stringify(this.State));
-      for (let category in state.CategorySettings)
+      state.CategorySettings[category].CurrentPage = 1;
+      let searchFields = [];
+      let checks = this.SearchBox.querySelectorAll(`div.search-columns div[data-category="${category}"] input`);
+      for (let check of checks)
       {
-        state.CategorySettings[category].CurrentPage = 1;
-        let searchFields = [];
-        let checks = this.SearchBox.querySelectorAll(`div.search-columns div[data-category="${category}"] input`);
-        for (let check of checks)
+        if (check.checked)
         {
-          if (check.checked)
-          {
-            searchFields.push(check.dataset.column);
-          }
-        }
-        state.CategorySettings[category].SearchFields = searchFields;
-      }
-      state.SearchQuery = this.SearchNode.value.trim();
-
-      state.StartDate = this.SearchBox.querySelector('input#StartDate').value;
-      state.EndDate = this.SearchBox.querySelector('input#EndDate').value;
-
-      let url = `${this.SearchAPI}`;
-      let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(state)
-      });
-
-      if (!response.ok)
-      {
-        this._hideLoader();
-        Affinity2018.Dialog.Show({
-          message: `No results found<!-- ${response.status} -->`,
-          showOk: true,
-          showCancel: false
-        });
-        this.State.SearchQuery = null;
-        return false;
-      }
-
-      let data = await response.json();
-
-      if (!data || data === '')
-      {
-        this._hideLoader();
-        Affinity2018.Dialog.Show({
-          message: `No results found<!-- ${response.status} -->`,
-          showOk: true,
-          showCancel: false
-        });
-        this.State.SearchQuery = null;
-        return false;
-      }
-      else
-      {
-        let allResultTotal = 0;
-        for (let category in data.CategorySettings)
-        {
-          allResultTotal += data.CategorySettings[category].TotalCount;
-        }
-        if (allResultTotal === 0)
-        {
-          this._hideLoader();
-          Affinity2018.Dialog.Show({
-            message: `No results found`,
-            showOk: true,
-            showCancel: false
-          });
-          this.State.SearchQuery = null;
-          return false;
+          searchFields.push(check.dataset.column);
         }
       }
-      this.State = state;
-      this.ShowingSearchResults = true;
-      this._gotResults(data);
-      return true;
+      state.CategorySettings[category].SearchFields = searchFields;
     }
+    state.SearchQuery = this.SearchNode.value.trim();
+
+    state.StartDate = this.SearchBox.querySelector('input#StartDate').value;
+    state.EndDate = this.SearchBox.querySelector('input#EndDate').value;
+
+    let url = `${this.SearchAPI}`;
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(state)
+    });
+
+    if (!response.ok)
+    {
+      this._hideLoader();
+      Affinity2018.Dialog.Show({
+        message: `No results found<!-- ${response.status} -->`,
+        showOk: true,
+        showCancel: false
+      });
+      this.State.SearchQuery = null;
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (!data || data === '')
+    {
+      this._hideLoader();
+      Affinity2018.Dialog.Show({
+        message: `No results found<!-- ${response.status} -->`,
+        showOk: true,
+        showCancel: false
+      });
+      this.State.SearchQuery = null;
+      return false;
+    }
+    /*
     else
     {
-      this.ShowingSearchResults = false;
+      let allResultTotal = 0;
+      for (let category in data.CategorySettings)
+      {
+        allResultTotal += data.CategorySettings[category].TotalCount;
+      }
+      if (allResultTotal === 0)
+      {
+        this._hideLoader();
+        Affinity2018.Dialog.Show({
+          message: `No results found`,
+          showOk: true,
+          showCancel: false
+        });
+        this.State.SearchQuery = null;
+        return false;
+      }
     }
+    */
+    this.State = state;
+    this._gotResults(data);
+    return true;
   }
 
   async _reset()
@@ -22781,16 +22774,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       check.checked = true;
     }
-    let today = luxon.DateTime.local();
-    let startdate = today.minus({ months: 1 });
-    let endDate = today.plus({ months: 1 });
-    this.SearchBox.querySelector('input#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
-    this.SearchBox.querySelector('input#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
-    if (this.ShowingSearchResults)
-    {
-      await this.GetResults();
-      this.ShowingSearchResults = false;
-    }
+    this.SearchBox.querySelector('input#StartDate').value = '';
+    this.SearchBox.querySelector('input#EndDate').value = '';
+    this.State.StartDate = '';
+    this.State.EndDate = '';
+    await this.GetResults();
   }
 
   /**/
@@ -23494,10 +23482,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="hidden" data-category="Archived"></div>
       </div>
       <div class="search-row search-dates">
-        <label for="StartDate">Form</label>
-        <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="2020-01-01">
+        <label for="StartDate">From</label>
+        <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
         <label for="EndDate">To</label>
-        <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="2030-12-31">
+        <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
       </div>
     </div>
     <div class="inbox-tab-boxes">
