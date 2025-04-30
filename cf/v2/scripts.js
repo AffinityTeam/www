@@ -9237,7 +9237,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @param {String} FileId The AffinityField.FieldName
     */
     //this.GetAllAvaiableForms = Affinity2018.Path + 'TemplateV2/GetAll';
-    this.GetAllAvaiableForms = Affinity2018.Path + 'Inbox/GetAvailableForms';
+    this.GetAllAvaiableForms = Affinity2018.Path + 'Inbox/GetAllAvailableForms';
 
 
 
@@ -20361,9 +20361,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         complexStr = data.OriginatorName + ' declined this form and sent it to ' + data.AssigneeName;
       }
+
       if (approvedLikeWords.some(function (word) { return match.contains(word); })) // see if any of the approved-like words are in our sanatised match string
       {
         complexStr = data.OriginatorName + ' approved this form and sent it to ' + data.AssigneeName;
+      }
+
+      if (data.ActionTaken == "Archive") {
+          complexStr = data.ActionTakenByName + ' archived this form.';
+      }
+
+      if (data.ActionTaken == "Restore") {
+          complexStr = data.ActionTakenByName + ' restored this form.';
       }
     }
     var complex = this.historyCommentComplexTemplate.format({
@@ -22249,7 +22258,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           CurrentPage: 1,
           TotalPages: 0,
           PageSize: this.PageSize,
-          SortField: 'CompletedByName',
+          SortField: 'ActionTakenByName',
           Ascending: false,
           Items: []
         }
@@ -23495,7 +23504,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <tr>
               <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
               <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
               <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
               <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
@@ -23527,7 +23536,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <tr>
               <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
               <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
               <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >Assigned To</th>
               <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
               <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
@@ -23560,7 +23569,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <tr>
               <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
               <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Final State</th>
               <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >Completed By</th>
               <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
               <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
@@ -23593,8 +23602,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <tr>
               <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
               <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"           data-type="string"  >Last State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >Archived By</th>
+              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Last State</th>
+              <th data-ascending="null" data-searchable="true"  data-name="ActionTakenByName"   data-type="string"  >Archived By</th>
               <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="string"  >Date Archived</th>
               <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
@@ -23710,7 +23719,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -23724,7 +23732,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="TemplateDescription"                   >${nameString}</td>
               <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="CurrentState"                          >${data.CurrentState}</td>
-              <td data-name="CompletedByName"                       >${data.CompletedByName}</td>
+              <td data-name="ActionTakenByName"                     >${data.ActionTakenByName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${completedByTimeString}</th>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
