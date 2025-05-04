@@ -19881,11 +19881,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.CommentHistoryNode.classList.add('hidden');
       var commentHistory = [];
       var historyWithComments = [];
+      var archivedTemplate = '';
       var node, html;
       this.HistoryData.forEach(function (data, index)
       {
         var asDate = $a.getDate(data.EnteredAtUtc, 'dd.MM.yyyy');
         var asTime = $a.getDate(data.EnteredAtUtc, 'h:mma').toLowerCase();
+        var arDate = $a.getDate(data.EnteredAtUtc, 'EEE d MMM yyyy');
         node = document.createElement('div');
         html = this.historyTemplate.format({
           ActionTaken: data.ActionTaken,
@@ -19904,6 +19906,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           historyWithComments.push(data);
         }
         commentHistory.push(this._compileCommentLanguage(data, (this.HistoryData.length - 1) - index));
+        if (index === 0 && archivedTemplate === '')
+        {
+          let archivedData = data.ActionTaken.toLowerCase().contains('archive');
+          if (archivedData)
+          {
+            archivedTemplate = this.archivedTemplate.format({
+              ActionTakenBy: data.ActionTakenByName,
+              Date: arDate,
+              Time: asTime
+            });
+          }
+        }
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
       /**/
@@ -19949,6 +19963,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           this._collpaseComments();
         }
+      }
+      if (archivedTemplate !== '')
+      {
+        document.querySelector('div.archived').innerHTML = archivedTemplate;
+        document.querySelector('div.archived').classList.remove('hidden'); 
       }
     }
   }
@@ -22163,6 +22182,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       <div class="info"><span class="from">{Complex}</span><span class="date-time"><span class="date">{Date}</span> at <span class="time">{Time}</span></span></div>
       <div class="{CommentClass}">{Comment}</div>
     </div>
+    `;
+
+    this.archivedTemplate = `
+      <span><icon class="icon-warning yellow"></icon> This form was archived on {Date} at {Time} by {ActionTakenBy}.</span>
     `;
 
   }
