@@ -2360,7 +2360,7 @@ var UILeaveApply = new Class({
     createEmployeeDetailsGroup: function (formData, isManager) {
         if (isManager) {
             this.employeeIndirect = new Element('div', { 'class': 'form-row leave-apply-indirect' }).inject(formData);
-            new Element('label', { 'html': 'Include Indirect' }).inject(this.employeeIndirect);
+            new Element('label', { 'html': 'Include Indirect Reports' }).inject(this.employeeIndirect);
             this.employeeGroup = new Element('div', { 'class': 'leave-apply-group' }).inject(formData);
             this.employeeGroupRow1 = new Element('div', { 'class': 'form-row' }).inject(this.employeeGroup);
             this.employeeInputRow = new Element('div', { 'class': 'leave-apply-row' }).inject(this.employeeGroup);
@@ -2448,7 +2448,7 @@ var UILeaveApply = new Class({
             this.employeeIndirect = new Element("div", {
                 class: "form-row leave-apply-indirect",
             }).inject(this.formData);
-            new Element("label", { html: "Include Indirect" }).inject(
+            new Element("label", { html: "Include Indirect Reports" }).inject(
                 this.employeeIndirect
             );
             this.includeIndirect = new Element("input", {
@@ -5973,7 +5973,7 @@ var UILeaveApplyV1 = new Class({
             this.employeeIndirect = new Element("div", {
                 class: "form-row leave-apply-indirect",
             }).inject(this.formData);
-            new Element("label", { html: "Include Indirect" }).inject(
+            new Element("label", { html: "Include Indirect Reports" }).inject(
                 this.employeeIndirect
             );
             this.includeIndirect = new Element("input", {
