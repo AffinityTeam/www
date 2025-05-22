@@ -17220,7 +17220,7 @@ var CFInbox = new Class({
               cols[0].classList.add('hidden');
               if (columnStates.name) cols[0].classList.remove('hidden');
 
-              cols[1].set('html', data.CurrentState);
+              cols[1].set('html', data.StateName);
               cols[1].classList.add('hidden');
               if (columnStates.state) cols[1].classList.remove('hidden');
 
@@ -17257,7 +17257,7 @@ var CFInbox = new Class({
               }
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
                 new Element('td', { 'data-name': 'name', 'class': 'indicate none sort-by' + (columnStates.name ? '' : ' hidden'), 'html': data.DisplayName }),
-                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.CurrentState }),
+                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.StateName }),
                 new Element('td', { 'data-name': 'recieved', 'class': 'ui-inbox-date sort-by ui-format-date' + (columnStates.recieved ? '' : ' hidden'), 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
                 new Element('td', { 'data-name': 'effective', 'class': 'ui-inbox-date-effective' + (columnStates.effective ? '' : ' hidden'), 'html': effectiveDate }),
                 new Element('td', { 'data-name': 'paypoint', 'class': 'ui-inbox-paypoint' + (columnStates.paypoint ? '' : ' hidden'), 'html': this.getNullable(data, 'PayPoint') }),
@@ -17319,11 +17319,11 @@ var CFInbox = new Class({
               cols[0].classList.add('hidden');
               if (columnStates.name) cols[0].classList.remove('hidden');
 
-              cols[1].set('html', data.CurrentState);
+              cols[1].set('html', data.StateName);
               cols[1].classList.add('hidden');
               if (columnStates.state) cols[1].classList.remove('hidden');
 
-              cols[2].set('html', data.CurrentAssigneeName);
+              cols[2].set('html', data.StateAssigneeName);
               cols[2].classList.add('hidden');
               if (columnStates.to) cols[2].classList.remove('hidden');
 
@@ -17349,8 +17349,8 @@ var CFInbox = new Class({
               data.DisplayName += data.ShareOrDelegate != null && data.ShareOrDelegate != 'null' ? '<span class="tag ' + data.ShareOrDelegate.toLowerCase() + '">' + data.SharedBy + '</span>' : '';
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
                 new Element('td', { 'data-name': 'name', 'class': 'indicate none sort-by' + (columnStates.name ? '' : ' hidden'), 'html': data.DisplayName }),
-                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.CurrentState }),
-                new Element('td', { 'data-name': 'to', 'class': 'ui-inbox-date sort-by' + (columnStates.to ? '' : ' hidden'), 'html': data.CurrentAssigneeName }),
+                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.StateName }),
+                new Element('td', { 'data-name': 'to', 'class': 'ui-inbox-date sort-by' + (columnStates.to ? '' : ' hidden'), 'html': data.StateAssigneeName }),
                 new Element('td', { 'data-name': 'at', 'class': 'ui-inbox-date sort-by ui-format-date' + (columnStates.at ? '' : ' hidden'), 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
                 new Element('td', { 'data-name': 'effective', 'class': 'ui-inbox-date-effective' + (columnStates.effective ? '' : ' hidden'), 'html': effectiveDate }),
                 new Element('td', { 'data-name': 'paypoint', 'class': 'ui-inbox-paypoint' + (columnStates.paypoint ? '' : ' hidden'), 'html': this.getNullable(data, 'PayPoint') }),
@@ -17408,7 +17408,7 @@ var CFInbox = new Class({
               cols[0].classList.add('hidden');
               if (columnStates.name) cols[0].classList.remove('hidden');
 
-              cols[1].set('html', data.CurrentState);
+              cols[1].set('html', data.StateName);
               cols[1].classList.add('hidden');
               if (columnStates.state) cols[1].classList.remove('hidden');
 
@@ -17438,7 +17438,7 @@ var CFInbox = new Class({
               data.DisplayName += data.ShareOrDelegate != null && data.ShareOrDelegate != 'null' ? '<span class="tag ' + data.ShareOrDelegate.toLowerCase() + '">' + data.SharedBy + '</span>' : '';
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
                 new Element('td', { 'data-name': 'name', 'class': 'indicate none sort-by' + (columnStates.name ? '' : ' hidden'), 'html': data.DisplayName }),
-                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.CurrentState }),
+                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.StateName }),
                 new Element('td', { 'data-name': 'to', 'class': 'sort-by' + (columnStates.to ? '' : ' hidden'), 'html': data.CompletedBy }),
                 new Element('td', { 'data-name': 'at', 'class': 'ui-inbox-date sort-by ui-format-date' + (columnStates.at ? '' : ' hidden'), 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
                 new Element('td', { 'data-name': 'effective', 'class': 'ui-inbox-date-effective' + (columnStates.effective ? '' : ' hidden'), 'html': effectiveDate }),
@@ -17497,7 +17497,7 @@ var CFInbox = new Class({
               cols[0].classList.add('hidden');
               if (columnStates.name) cols[0].classList.remove('hidden');
 
-              cols[1].set('html', data.CurrentState);
+              cols[1].set('html', data.StateName);
               cols[1].classList.add('hidden');
               if (columnStates.state) cols[1].classList.remove('hidden');
 
@@ -17529,7 +17529,7 @@ var CFInbox = new Class({
               data.CompletedBy = data.CompletedBy != null && data.CompletedBy != 'null' ? '<span class="tag ' + data.CompletedBy.toLowerCase() + '">' + data.CompletedBy + '</span>' : 'N/A';
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
                 new Element('td', { 'data-name': 'name', 'class': 'indicate none sort-by' + (columnStates.name ? '' : ' hidden'), 'html': data.DisplayName }),
-                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.CurrentState }),
+                new Element('td', { 'data-name': 'state', 'class': 'sort-by' + (columnStates.state ? '' : ' hidden'), 'html': data.StateName }),
                 new Element('td', { 'data-name': 'to', 'class': 'sort-by' + (columnStates.to ? '' : ' hidden'), 'html': data.CompletedBy }),
                 new Element('td', { 'data-name': 'at', 'class': 'ui-inbox-date sort-by ui-format-date' + (columnStates.at ? '' : ' hidden'), 'html': data.StateEnteredAt, 'data-date-format': '%e.%m.%Y %l:%M%p' }),
                 new Element('td', { 'data-name': 'effective', 'class': 'ui-inbox-date-effective' + (columnStates.effective ? '' : ' hidden'), 'html': effectiveDate }),

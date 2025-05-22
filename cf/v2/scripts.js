@@ -5108,11 +5108,9 @@
         this.tooltipEl.classList.add('show');
         this.tooltipEl.classList.remove('top', 'top-right', 'left', 'bottom', 'right');
         ttsize = Affinity2018.getSize(this.tooltipEl);
-        switch (data.direction.toLowerCase().replaceAll(' ', '').trim())
+        switch (data.direction)
         {
           case 'top-right':
-          case 'top,right':
-          case 'right,top':
             left = pos.left;
             top = pos.top - ttsize.height - 10;
             this.tooltipEl.classList.add('top-right');
@@ -8007,19 +8005,16 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
       // public
 
-      'Search', 'Clear',
+      'Search',
 
       'GetResults',
 
       // private
 
-
-      '_search', '_clear',
-      '_checkForSearchMatch',
+      '_search',
       '_toggelModels',
       '_toggleAllModes',
       '_gotResults', '_gotResultsError',
-      '_injectSearchColumnCheckboxes',
 
       '_searchParentCheckboxClicked',
       '_searchChildCheckboxClicked',
@@ -8060,26 +8055,18 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     this.SearchNode.innerHTML = this.SearchTemplate;
     this.ShowHideModelsNode = this.SearchNode.querySelector('a.show-hide');
     this.SearchModelsNode = this.SearchNode.querySelector('div.model-checks');
-    this.SearchInputNode = document.querySelector('input[type="text"]');
 
     let today = luxon.DateTime.local();
-    let minDate = today.minus({ years: 7 });
-    let maxDate = today.plus({ months: 0 });
-    //let startdate = today.minus({ months: 1 });
-    //let endDate = today.plus({ months: 1 });
-    //this.SearchNode.querySelector('#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
-    //this.SearchNode.querySelector('#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
-    this.SearchNode.querySelector('#StartDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchNode.querySelector('#EndDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchNode.querySelector('#StartDate').setAttribute('max', `${maxDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchNode.querySelector('#EndDate').setAttribute('max', `${maxDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchNode.querySelector('#StartDate').value = ``;
-    this.SearchNode.querySelector('#EndDate').value = ``;
+    let startdate = today.minus({ months: 1 });
+    let endDate = today.plus({ months: 1 });
+    this.SearchNode.querySelector('#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
+    this.SearchNode.querySelector('#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
 
     let size = this.SearchModelsNode.getBoundingClientRect();
     this.SearchModelsNode.style.height = size.height + 'px';
     this._toggelModels();
 
+    this.SearchTextNode = this.SearchNode.querySelector('#SearchText');
     this.SearchTemplateNode = this.SearchNode.querySelector('#TemplateDescription');
     this.SearchRelatesToNode = this.SearchNode.querySelector('#RelatesTo');
     this.SearchModelChecksContainer = this.SearchNode.querySelector('div.model-checks');
@@ -8087,16 +8074,12 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
     this.SelectAllModelsButton = this.SearchNode.querySelector('a.select-all-models');
 
-    this.SearchApplyButton = this.SearchNode.querySelector('button.blue');
-    this.SearchClearButton = this.SearchNode.querySelector('button.grey');
+    this.SearchApplyButton = this.SearchNode.querySelector('.form-row.buttons button.blue');
+    this.SearchClearButton = this.SearchNode.querySelector('.form-row.buttons button.grey');
 
     /**/
 
     this.ResultNode.innerHTML = this.ResultGridTemplate;
-
-    this.SearchColumnCheckboxNode = this.SearchNode.querySelector('.form-row.search-columns');
-
-    this._injectSearchColumnCheckboxes();
 
     this.GridNode = this.ResultNode.querySelector('table');
     this.ResultGridNode = this.GridNode.querySelector('tbody');
@@ -8125,14 +8108,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     this.SelectAllModelsButton.addEventListener('click', this._toggleAllModes);
 
     this.SearchApplyButton.addEventListener('click', this._search);
-    this.SearchClearButton.addEventListener('click', this._clear);
-    this.SearchInputNode.addEventListener('keyup', (event =>
-    {
-      if (event.key.toLowerCase() === 'enter')
-      {
-        this._search();
-      }
-    }).bind(this));
 
     this.GridNode.addEventListener('click', this._gridClicked);
 
@@ -8158,35 +8133,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
-  async Clear()
-  {
-    // reset search query
-    this.SearchInputNode.value = '';
-    // reset dates
-    this.SearchNode.querySelector('#StartDate').value = '';
-    this.SearchNode.querySelector('#EndDate').value = '';
-    // reset column checks
-    for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
-    {
-      check.checked = true;
-    }
-    // reset mode checks
-    for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]'))
-    {
-      check.checked = true;
-    }
-    this.SelectAllModelsButton.innerHTML = 'Unselect All';
-    // reset
-    this.CurrentPage = 1;
-    for (let column of this.GridNode.querySelectorAll('thead th'))
-    {
-      if (column.dataset.name)
-      {
-        column.dataset.ascending = column.dataset.name === 'StateEnteredAt' ? 'false' : 'null';
-      }
-    }
-    await this._search();
-  }
 
   async Search(search = '', filter = '', ascending = true)
   {
@@ -8199,7 +8145,10 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     let api = '/AdminV2/Page';
     /**/
     let models = [];
-    for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked'))
+    let exactMatchCheckbox = this.SearchNode.querySelector('#ExactMatch');
+    let isExactMatch = exactMatchCheckbox ? exactMatchCheckbox.checked : false;
+    let selectedModelChecks = this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked');
+    for (let check of selectedModelChecks)
     {
       if (check && check.hasAttribute('id') && check.id.trim() !== '')
       {
@@ -8207,104 +8156,34 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       }
     }
 
-    let searchFields = [];
-    for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
-    {
-      if (check.checked)
-      {
-        searchFields.push(check.dataset.column);
-      }
-    }
-
-    let startDate = this.SearchNode.querySelector('#StartDate').value;
-    let endDate = this.SearchNode.querySelector('#EndDate').value;
-
-    let state = {
-      CurrentPage: this._getCurrentPage(),
-      PageSize: this.PageSize,
-      SearchQuery: search !== '' ? search : this.SearchInputNode.value.trim(),
-      Models: models,
-      StartDate: startDate.trim() === '' ? null : startDate,
-      EndDate: endDate.trim() === '' ? null : endDate,
-      SearchFields: searchFields
+    let adminSearchCriteria = {
+      page: this._getCurrentPage(),
+      pageSize: this.PageSize,
+      searchText: search !== '' ? search : this.SearchTextNode.value.trim(),
+      models: models.join(','),
+      exactMatch: isExactMatch,
+      startDate: this.SearchNode.querySelector('#StartDate').value,
+      endDate: this.SearchNode.querySelector('#EndDate').value
     };
 
     if (filter !== '')
     {
-      state.SortField = filter;
-      state.Ascending = ascending;
-    }
-    else
-    {
-      let headerNodes = this.ResultNode.querySelectorAll(`th[data-ascending="true"], th[data-ascending="false"]`);
-      if (headerNodes.length > 0)
-      {
-        let headerNode = headerNodes[0];
-        filter = headerNode.dataset.name;
-        ascending = headerNode.dataset.ascending === 'true' ? true : false;
-        state.SortField = filter;
-        state.Ascending = ascending;
-      }
+      adminSearchCriteria.sortField = filter;
+      adminSearchCriteria.ascending = ascending;
     }
 
-    let response = await fetch(api, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(state)
-    });
+    let query = new URLSearchParams(adminSearchCriteria).toString();
+    let url = `${api}?${query}`;
+
+    let response = await fetch(url);
 
     if (!response.ok)
     {
       this._gotResultsError(`HTTP error: Status ${response.status}`);
       return false;
     }
-    let responseClone = response.clone()
-    let data = null;
-    try
-    {
-      data = await response.json();
-    }
-    catch(err)
-    {
-      let html = await responseClone.text();
-      if (html.contains('error-page'))
-      {
-        let parser = new DOMParser()
-        let documentObj = parser.parseFromString(html, "text/html");
-        let messageNode = documentObj.querySelector("message p");
-        let message = messageNode ? messageNode.innerText.trim() : '';
-        if (message.toLowerCase().contains('permission'))
-        {
-          this._gotResultsError(`No usable data found`);
-          Affinity2018.Dialog.Show({
-            message: message,
-            showOk: true,
-            showCancel: false,
-            textAlign: 'left'
-          });
-        }
-        else
-        {
-          if (message !== '')
-          {
-            this._gotResultsError(`No usable data found<br /><bt />${message}`);
-          }
-          else
-          {
-            this._gotResultsError(`No usable data found`);
-          }
-        }
-        return false;
-      }
-      else
-      {
-        console.warn(err);
-        this._gotResultsError(`No usable data found`);
-        return false;
-      }
-    }
+
+    let data = await response.json();
 
     if (!data || data === '')
     {
@@ -8342,36 +8221,19 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
-  _search(event)
-  {
-    this.Search();
-  }
 
-  _clear(event)
+  async _search(event)
   {
-    this.Clear();
-  }
-
-  _checkForSearchMatch(column, value)
-  {
-    value = value.toString().trim();
-    let searchTerm = this.SearchInputNode.value.trim();
-    if (searchTerm !== '' && value !== '')
+    this.CurrentPage = 1;
+    for (let column of this.GridNode.querySelectorAll('thead th'))
     {
-      let domQuery = `input[type="checkbox"]#${column}`;
-      let checkbox = document.querySelector(domQuery);
-      if (
-        checkbox
-        && checkbox.checked
-        && value.contains(searchTerm)
-      )
+      if (column.dataset.name)
       {
-        value = value.replace(new RegExp(searchTerm, 'gi'), (match) => `<em class="search-match">${match}</em>`);
+        column.dataset.ascending = column.dataset.name === 'StateEnteredAt' ? 'false' : 'null';
       }
     }
-    return value;
+    await this.Search('', 'StateEnteredAt', false);
   }
-
 
   _toggelModels()
   {
@@ -8433,7 +8295,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   _gotResultsError(error)
   {
-    console.warn(error.replaceAll('<br />', '\n'));
+    console.warn(error);
     this.ResultGridNode.innerHTML = this.ErrorResultTemplate(error);
     this.ResultFooterNode.innerHTML = '';
     Affinity2018.HidePageLoader(true);
@@ -8459,25 +8321,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         await this.Search('', filterName, filterValue === 'true' ? true : false);
       }).bind(this)
     });
-  }
-
-  _injectSearchColumnCheckboxes()
-  {
-    let html = '';
-    let headerNodes = this.ResultNode.querySelectorAll('thead th:not(.buttons)');
-    for (var headerNode of headerNodes)
-    {
-      let label = headerNode.innerText.trim();
-      if (label !== '')
-      {
-        html += this.SearchCheckTemplate({
-          ColumnName: headerNode.dataset.name,
-          label: label,
-          Tooltip: `Include '${label}' in the search`
-        });
-      }
-    }
-    this.SearchColumnCheckboxNode.innerHTML = html;
   }
 
   /**/
@@ -8551,7 +8394,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
               ascendingString = event.target.dataset.type === 'date' ? 'false' : 'true';
             }
 
-            // reset all to clear any previous sorting
             for (let column of this.GridNode.querySelectorAll('thead th'))
             {
               if (column.dataset.name)
@@ -8560,7 +8402,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
               }
             }
 
-            // then set the NEW sort ready for the Saarch to read
             event.target.dataset.ascending = ascendingString;
 
             await this.Search('', event.target.dataset.name, event.target.dataset.ascending === 'true' ? true : false);
@@ -8727,34 +8568,25 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   _templates()
   {
 
-    this.SearchCheckTemplate = (data) =>
-    {
-      return `
-        <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
-          <label for="${data.ColumnName}">${data.label}</label>
-          <input type="checkbox" id="${data.ColumnName}" data-column="${data.ColumnName}" checked />
-        </div>
-      `;
-    };
-
     this.SearchTemplate = `
         <div class="default-form">
 
             <div class="form-row">
+                <label for="SearchText">Search</label>
                 <div class="search-container">
-                    <input id="SearchText" name="SearchText" type="text" placeholder="Search">
-                    <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
-                    <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+                    <input id="SearchText" name="SearchText" type="text">
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="ExactMatch" name="ExactMatch">
+                        <label for="ExactMatch">Exact Match</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-row search-columns"></div>
-
             <div class="form-row dates">
-                <label for="StartDate">From</label>
-                <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31">
+                <label for="StartDate">Form</label>
+                <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="2020-01-01">
                 <label for="EndDate">To</label>
-                <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31">
+                <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="2030-12-39">
             </div>
 
             <div class="form-row hidden">
@@ -8833,6 +8665,9 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
                 </div>
 
             </div>
+            <div class="form-row buttons">
+                <button class="blue">Search</button>
+            </div>
         </div>
     `;
 
@@ -8846,10 +8681,10 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
                     <th class="cell-width-auto" data-type="string" data-name="PayPoint">Pay Point</th>
                     <th class="cell-width-100"  data-type="date"   data-ascending="null" data-name="EffectiveDate">Effective Date</th>
                     <th class="cell-width-200"  data-type="string" data-ascending="null" data-name="WorkflowName">Workflow Name</th>
-                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="PreviousAssigneeName">Previous Assignee</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="PreviousAssigneeEmployeeNo">Previous Assignee</th>
                     <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="LastActionTaken">Last Action Taken</th>
                     <th class="cell-width-auto" data-type="date"   data-ascending="null" data-name="StateEnteredAt">At</th>
-                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentAssigneeName">Current Assignee</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentAssigneeEmployeeNo">Current Assignee</th>
                     <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentState">Current State</th>
                     <th class="cell-width-auto admin-buttons"></th>
                 </tr>
@@ -8864,48 +8699,23 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
     this.ResultTemplate = data =>
     {
-      let enteredAt = Affinity2018.stringToDate(data.StateEnteredAt);
-      let enteredAtDateString = Affinity2018.getDate(enteredAt, 'dd.MM.yyyy');
-      let enteredAtTimeString = enteredAtDateString + ' ' + Affinity2018.getDate(enteredAt, 'hh:mm a').toLowerCase();
-      
-      let effectiveDate = data.EffectiveDate !== null ? Affinity2018.stringToDate(data.EffectiveDate) : null;
-      let effectiveDateString = effectiveDate ? Affinity2018.getDate(effectiveDate, 'dd.MM.yyyy') : '';
-
-      let templateDescription = data.TemplateDescription === null ? '' : data.TemplateDescription;
-      let relatesTo = data.RelatesTo === null ? '' : data.RelatesTo;
-      let payPoint = data.PayPoint === null ? '' : data.PayPoint;
-      let workflowName = data.WorkflowName === null ? '' : data.WorkflowName;
-      let previousAssigneeName = data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName;
-      let lastActionTaken = data.LastActionTaken === null ? '' : data.LastActionTaken;
-      let currentAssigneeName = data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName;
-      let currentState = data.CurrentState === null ? '' : data.CurrentState;
-
-      templateDescription = this._checkForSearchMatch('TemplateDescription', templateDescription);
-      relatesTo = this._checkForSearchMatch('RelatesTo', relatesTo);
-      payPoint = this._checkForSearchMatch('PayPoint', payPoint);
-      workflowName = this._checkForSearchMatch('WorkflowName', workflowName);
-      previousAssigneeName = this._checkForSearchMatch('PreviousAssigneeName', previousAssigneeName);
-      lastActionTaken = this._checkForSearchMatch('LastActionTaken', lastActionTaken);
-      currentAssigneeName = this._checkForSearchMatch('CurrentAssigneeName', currentAssigneeName);
-      currentState = this._checkForSearchMatch('CurrentState', currentState);
-
-      enteredAtTimeString = this._checkForSearchMatch('StateEnteredAt', enteredAtTimeString);
-      effectiveDateString = this._checkForSearchMatch('EffectiveDate', effectiveDateString);
-
+      let date = Affinity2018.stringToDate(data.StateEnteredAt);
+      let dateString = Affinity2018.getDate(date, 'dd.MM.yyyy');
+      let dateTimeString = dateString + ' ' + Affinity2018.getDate(date, 'hh:mm a').toLowerCase();
       if (!data.hasOwnProperty('InstanceId') || data.InstanceId === null)
       {
         return `
           <tr data-name="${data.TemplateDescription}">
-              <td class="cell-width-150">${templateDescription}</td>
-              <td class="cell-width-100">${relatesTo}</td>
-              <td class="cell-width-auto">${payPoint}</td>
-              <td class="cell-width-100">${effectiveDateString}</td>
-              <td class="cell-width-200">${workflowName}</td>
-              <td class="cell-width-auto">${previousAssigneeName}</td>
-              <td class="cell-width-auto"${lastActionTaken}</td>
-              <td class="cell-width-auto">${enteredAtTimeString}</th>
-              <td class="cell-width-auto">${currentAssigneeName}</td>
-              <td class="cell-width-auto">${currentState}</td>
+              <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
+              <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
+              <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
+              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
+              <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
+              <td class="cell-width-auto"${data.LastActionTaken === null ? '' : data.LastActionTaken}</td>
+              <td class="cell-width-auto">${dateTimeString}</th>
+              <td class="cell-width-auto">${data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName}</td>
+              <td class="cell-width-auto">${data.CurrentState === null ? '' : data.CurrentState}</td>
               <td class="cell-width-auto admin-buttons"></td>
           </tr>
         `;
@@ -8914,16 +8724,16 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       {
         return `
           <tr data-name="${data.TemplateDescription}">
-              <td class="cell-width-150">${templateDescription}</td>
-              <td class="cell-width-100">${relatesTo}</td>
-              <td class="cell-width-auto">${payPoint}</td>
-              <td class="cell-width-100">${effectiveDateString}</td>
-              <td class="cell-width-200">${workflowName}</td>
-              <td class="cell-width-auto">${previousAssigneeName}</td>
-              <td class="cell-width-auto">${lastActionTaken}</td>
-              <td class="cell-width-auto">${enteredAtTimeString}</th>
-              <td class="cell-width-auto">${currentAssigneeName}</td>
-              <td class="cell-width-auto">${currentState}</td>
+              <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
+              <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
+              <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
+              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
+              <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
+              <td class="cell-width-auto">${data.LastActionTaken === null ? '' : data.LastActionTaken}</td>
+              <td class="cell-width-auto">${dateTimeString}</th>
+              <td class="cell-width-auto">${data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName}</td>
+              <td class="cell-width-auto">${data.CurrentState === null ? '' : data.CurrentState}</td>
               <td class="cell-width-auto admin-buttons">
                   <a class="button blue" href="/Admin/Details/${data.InstanceId}">
                       <span class="icon-work-flow-multiple"></span>
@@ -9378,7 +9188,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @param {String} FileId The AffinityField.FieldName
     */
     //this.GetAllAvaiableForms = Affinity2018.Path + 'TemplateV2/GetAll';
-    this.GetAllAvaiableForms = Affinity2018.Path + 'Inbox/GetAllAvailableForms';
+    this.GetAllAvaiableForms = Affinity2018.Path + 'Inbox/GetAvailableForms';
 
 
 
@@ -11690,16 +11500,12 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       if (response.data.hasOwnProperty('EmployeeCountry')) country = $a.toString(response.data.EmployeeCountry);
       if (response.data.hasOwnProperty('PayPointCountry')) country = $a.toString(response.data.PayPointCountry);
 
-      var memberType = "";
-      if (response.data.hasOwnProperty('MemberType')) memberType = $a.toString(response.data.MemberType).toUpperCase();
-
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
         PayPoint: paypoint,
-        Country: country,
-        MemberType: memberType
+        Country: country
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
@@ -20022,13 +19828,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this.CommentHistoryNode.classList.add('hidden');
       var commentHistory = [];
       var historyWithComments = [];
-      var archivedTemplate = '';
       var node, html;
       this.HistoryData.forEach(function (data, index)
       {
         var asDate = $a.getDate(data.EnteredAtUtc, 'dd.MM.yyyy');
         var asTime = $a.getDate(data.EnteredAtUtc, 'h:mma').toLowerCase();
-        var arDate = $a.getDate(data.EnteredAtUtc, 'EEE d MMM yyyy');
         node = document.createElement('div');
         html = this.historyTemplate.format({
           ActionTaken: data.ActionTaken,
@@ -20047,18 +19851,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           historyWithComments.push(data);
         }
         commentHistory.push(this._compileCommentLanguage(data, (this.HistoryData.length - 1) - index));
-        if (index === 0 && archivedTemplate === '')
-        {
-          let archivedData = data.ActionTaken.toLowerCase().contains('archive');
-          if (archivedData)
-          {
-            archivedTemplate = this.archivedTemplate.format({
-              ActionTakenBy: data.ActionTakenByName,
-              Date: arDate,
-              Time: asTime
-            });
-          }
-        }
       }.bind(this));
       this.HistoryNode.classList.remove('hidden');
       /**/
@@ -20104,11 +19896,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           this._collpaseComments();
         }
-      }
-      if (archivedTemplate !== '')
-      {
-        document.querySelector('div.archived').innerHTML = archivedTemplate;
-        document.querySelector('div.archived').classList.remove('hidden'); 
       }
     }
   }
@@ -20521,18 +20308,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {
         complexStr = data.OriginatorName + ' declined this form and sent it to ' + data.AssigneeName;
       }
-
       if (approvedLikeWords.some(function (word) { return match.contains(word); })) // see if any of the approved-like words are in our sanatised match string
       {
         complexStr = data.OriginatorName + ' approved this form and sent it to ' + data.AssigneeName;
-      }
-
-      if (data.ActionTaken == "Archive") {
-          complexStr = data.ActionTakenByName + ' archived this form.';
-      }
-
-      if (data.ActionTaken == "Restore") {
-          complexStr = data.ActionTakenByName + ' restored this form.';
       }
     }
     var complex = this.historyCommentComplexTemplate.format({
@@ -22325,10 +22103,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     </div>
     `;
 
-    this.archivedTemplate = `
-      <span><icon class="icon-warning yellow"></icon> This form was archived on {Date} at {Time} by {ActionTakenBy}.</span>
-    `;
-
   }
 
 
@@ -22384,6 +22158,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.PageSize = 25;
 
+    this.ShowingSearchResults = false;
+
     this.ColumnSettingTimeouts = {};
 
     this.State = {
@@ -22422,7 +22198,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           CurrentPage: 1,
           TotalPages: 0,
           PageSize: this.PageSize,
-          SortField: 'ActionTakenByName',
+          SortField: 'CompletedBy',
           Ascending: false,
           Items: []
         }
@@ -22458,19 +22234,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       // private
 
-      '_showLoader', '_hideLoader',
-
       '_gotResults', '_gotResultsError',
 
-      '_injectSearchColumnTabs',
-
       '_attemptSearch',
-      '_checkForSearchMatch',
 
       '_getCurrentPage',
       '_gotoTab',
-
-      '_reset',
 
       '_gridClicked',
 
@@ -22500,28 +22269,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-
-    this.MemberType = '';
-    this.IsSuperAdmin = false;
-    if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
-    {
-      this.MemberType = Affinity2018.UserProfile.MemberType;
-      if (Affinity2018.UserProfile.MemberType === "P")
-      {
-        this.IsSuperAdmin = true;
-      }
-    }
-
-    /**/
-
     this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
 
     this.ResultNode = document.querySelector('div.inbox');
     this.ResultNode.innerHTML = this.ResultGridTemplate;
 
     /**/
-
-    this.GeneratedSearchTabs = false;
 
     this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
     this.SearchNode = this.SearchBox.querySelector('input');
@@ -22532,13 +22285,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this._attemptSearch();
       }
     }).bind(this));
-
-    let today = luxon.DateTime.local();
-    let minDate = today.minus({ years: 7 });
-    this.SearchBox.querySelector('input#StartDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchBox.querySelector('input#StartDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
-    this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
 
     /**/
 
@@ -22617,9 +22363,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.GotoTab(this.State.ActiveCategory);
 
-    console.clear();
-
     await this.GetResults();
+
+    console.clear();
 
   }
 
@@ -22639,7 +22385,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async GetResults()
   {
-    this._showLoader();
+    this.InlineLoaderNode.classList.remove('hidden');
 
     // now do fetch
     let url = `${this.DefaultAPI}`;
@@ -22689,40 +22435,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   /***                                                                                                                           *********************/
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
-
-  _forceShowPageLoader()
-  {
-    clearTimeout(this._forcePageLoader);
-    document.body.classList.add('load-lock');
-    Affinity2018.ShowPageLoader(true, 0);
-  }
-
-  _forceHidePageLoader()
-  {
-    clearTimeout(this._forcePageLoader);
-    document.body.classList.remove('load-lock');
-    Affinity2018.HidePageLoader(true);
-  }
-
-  _showLoader()
-  {
-    this.InlineLoaderNode.classList.remove('hidden');
-    if (this.IsSuperAdmin)
-    {
-      this._forceShowPageLoader();
-    }
-    else
-    {
-      clearTimeout(this._forcePageLoader);
-      this._forcePageLoader = setTimeout(this._forceShowPageLoader, 500);
-    }
-  }
-
-  _hideLoader()
-  {
-    this.InlineLoaderNode.classList.add('hidden');
-    this._forceHidePageLoader();
-  }
 
   _gotResults(data)
   {
@@ -22775,8 +22487,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     Affinity2018.Tooltips.Apply();
 
-    this._hideLoader();
-    this._injectSearchColumnTabs();
+    this.InlineLoaderNode.classList.add('hidden');
     this._checkHiddenRows();
   }
 
@@ -22788,194 +22499,90 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       categoryNode.querySelector('tbody').innerHTML = this.ErrorResultTemplate(error);
     }
-    this._hideLoader();
-  }
-
-  _injectSearchColumnTabs()
-  {
-    if (!this.GeneratedSearchTabs)
-    {
-      this.GeneratedSearchTabs = true;
-      let boxNodes = this.ResultNode.querySelectorAll('div.inbox-tab-box');
-      for (let boxNode of boxNodes)
-      {
-        let category = boxNode.dataset.category;
-        let columnNodes = boxNode.querySelectorAll(`table.inbox-grid[data-category="${category}"] thead th`);
-        let searchChecksNode = this.SearchBox.querySelector(`div.search-columns div[data-category="${category}"]`);
-        let html = '';
-        for (let columnNode of columnNodes)
-        {
-          if (
-            !columnNode.classList.contains('buttons')
-            && columnNode.dataset.searchable
-            && columnNode.dataset.searchable.toString().toLowerCase() === 'true'
-          )
-          {
-            let labelName = columnNode.innerText;
-            let columnName = columnNode.dataset.name;
-            html += this.SearchCheckTemplate({
-              Label: labelName,
-              Category: category,
-              Column: columnName,
-              Tooltip: `Include '${labelName}' in the search`
-            });
-          }
-        }
-        searchChecksNode.innerHTML = html;
-        for (let check of searchChecksNode.querySelectorAll(`input[type="checkbox"]`))
-        {
-          check.addEventListener('change', this._searchCheckChanged);
-        }
-        if (category === this.State.ActiveCategory)
-        {
-          searchChecksNode.classList.remove('hidden');
-        }
-      }
-      Affinity2018.Tooltips.Apply();
-    }
-  }
-
-  _searchCheckChanged(ev)
-  {
-    let check = ev.target;
-    let checkWrapper = check.closest('div.check-wrapper');
-    let checks = checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]:checked');
-    if (checks.length === 0)
-    {
-      check.checked = true;
-      Affinity2018.Dialog.Show({
-        message: `You must search at least one column`,
-        showOk: true,
-        showCancel: false
-      });
-    }
+    this.InlineLoaderNode.classList.add('hidden');
   }
 
   async _attemptSearch()
   {
     Affinity2018.Tooltips.Hide();
-    this._showLoader();
-
-    let state = JSON.parse(JSON.stringify(this.State));
-    for (let category in state.CategorySettings)
+    if (this.SearchNode.value.trim() !== '')
     {
-      state.CategorySettings[category].CurrentPage = 1;
-      let searchFields = [];
-      let checks = this.SearchBox.querySelectorAll(`div.search-columns div[data-category="${category}"] input`);
-      for (let check of checks)
+      this.InlineLoaderNode.classList.remove('hidden');
+
+      let state = JSON.parse(JSON.stringify(this.State));
+      for (let category in state.CategorySettings)
       {
-        if (check.checked)
-        {
-          searchFields.push(check.dataset.column);
-        }
+        state.CategorySettings[category].CurrentPage = 1;
       }
-      state.CategorySettings[category].SearchFields = searchFields;
-    }
-    state.SearchQuery = this.SearchNode.value.trim();
+      state.SearchQuery = this.SearchNode.value.trim();
 
-    let startDate = this.SearchBox.querySelector('input#StartDate').value;
-    let endDate = this.SearchBox.querySelector('input#EndDate').value;
-
-    state.StartDate = startDate.trim() === '' ? null : startDate;
-    state.EndDate = endDate.trim() === '' ? null : endDate;
-
-    let url = `${this.SearchAPI}`;
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(state)
-    });
-
-    if (!response.ok)
-    {
-      this._hideLoader();
-      Affinity2018.Dialog.Show({
-        message: `No results found<!-- ${response.status} -->`,
-        showOk: true,
-        showCancel: false
+      let url = `${this.SearchAPI}`;
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(state)
       });
-      this.State.SearchQuery = null;
-      return false;
-    }
 
-    let data = await response.json();
-
-    if (!data || data === '')
-    {
-      this._hideLoader();
-      Affinity2018.Dialog.Show({
-        message: `No results found<!-- ${response.status} -->`,
-        showOk: true,
-        showCancel: false
-      });
-      this.State.SearchQuery = null;
-      return false;
-    }
-    /*
-    else
-    {
-      let allResultTotal = 0;
-      for (let category in data.CategorySettings)
+      if (!response.ok)
       {
-        allResultTotal += data.CategorySettings[category].TotalCount;
-      }
-      if (allResultTotal === 0)
-      {
-        this._hideLoader();
+        this.ShowingSearchResults = false;
+        this.InlineLoaderNode.classList.add('hidden');
         Affinity2018.Dialog.Show({
-          message: `No results found`,
+          message: `No results found<!-- ${response.status} -->`,
           showOk: true,
           showCancel: false
         });
         this.State.SearchQuery = null;
         return false;
       }
-    }
-    */
-    this.State = state;
-    this._gotResults(data);
-    return true;
-  }
 
-  _checkForSearchMatch(category, column, value)
-  {
-    value = value.toString().trim();
-    let searchTerm = this.SearchNode.value.trim();
-    if (searchTerm !== '' && value !== '')
-    {
-      let domQuery = `input[type="checkbox"]#${category}_${column}`;
-      let checkbox = document.querySelector(domQuery);
-      if (
-        checkbox
-        && checkbox.checked
-        && value.contains(searchTerm)
-      )
+      let data = await response.json();
+
+      if (!data || data === '')
       {
-        value = value.replace(new RegExp(searchTerm, 'gi'), (match) => `<em class="search-match">${match}</em>`);
+        this.ShowingSearchResults = false;
+        this.InlineLoaderNode.classList.add('hidden');
+        Affinity2018.Dialog.Show({
+          message: `No results found<!-- ${response.status} -->`,
+          showOk: true,
+          showCancel: false
+        });
+        this.State.SearchQuery = null;
+        return false;
       }
-    }
-    return value;
-  }
+      else
+      {
+        let allResultTotal = 0;
+        for (let category in data.CategorySettings)
+        {
+          allResultTotal += data.CategorySettings[category].TotalCount;
+        }
+        if (allResultTotal === 0)
+        {
+          this.ShowingSearchResults = false;
+          this.InlineLoaderNode.classList.add('hidden');
+          Affinity2018.Dialog.Show({
+            message: `No results found`,
+            showOk: true,
+            showCancel: false
+          });
+          this.State.SearchQuery = null;
+          return false;
+        }
+      }
 
-  async _reset()
-  {
-    Affinity2018.Tooltips.Hide();
-    this._hideLoader();
-    this.SearchBox.classList.remove('show');
-    this.SearchNode.value = '';
-    this.State.SearchQuery = '';
-    let checks = this.SearchBox.querySelectorAll(`div.search-columns input[type="checkbox"]`);
-    for (let check of checks)
-    {
-      check.checked = true;
+      this.State = state;
+
+      this.ShowingSearchResults = true;
+      this._gotResults(data);
+      return true;
     }
-    this.SearchBox.querySelector('input#StartDate').value = '';
-    this.SearchBox.querySelector('input#EndDate').value = '';
-    this.State.StartDate = '';
-    this.State.EndDate = '';
-    await this.GetResults();
+    else
+    {
+      this.ShowingSearchResults = false;
+    }
   }
 
   /**/
@@ -23005,7 +22612,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
               case 'resetsearch':
 
-                await this._reset();
+                Affinity2018.Tooltips.Hide();
+                this.SearchBox.classList.remove('show');
+                this.SearchNode.value = '';
+                this.State.SearchQuery = '';
+                if (this.ShowingSearchResults)
+                {
+                  await this.GetResults();
+                  this.ShowingSearchResults = false;
+                }
                 break
 
               case 'attemptsearch':
@@ -23350,13 +22965,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         box.classList.add('hidden');
       }
-      for (let checks of document.querySelectorAll(`div.search-columns div[data-category]`))
-      {
-        checks.classList.add('hidden');
-      }
       document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.remove('hidden');
       document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('selected');
-      document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.remove('hidden');
       this.State.ActiveCategory = category;
       if (this.EnableLocalStore)
       {
@@ -23423,23 +23033,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         {
           if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
           {
-            Affinity2018.HidePageLoader(true);
-            Affinity2018.ShowPageLoader(true);
-            setTimeout(() =>
-            {
-              let form = document.createElement('form');
-              form.classList.add('hidden');
-              form.method = 'GET';
-              form.action = '/Inbox/Create';
-              let input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = 'templateAndWorkflowIds';
-              input.value = selectNode.value;
-              form.appendChild(input);
-              document.body.appendChild(form);
-              form.submit();
-              document.body.removeChild(form);
-            }, 500);
+            let form = document.createElement('form');
+            form.classList.add('hidden');
+            form.method = 'POST';
+            form.action = '/Inbox/Create';
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'templateAndWorkflowIds';
+            input.value = selectNode.value;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
           }
         },
         onClose: () => 
@@ -23480,22 +23085,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _parseUglyGen1Date(dateStr, format = 'd.MM.yyyy h:mma')
   {
+
     if (!dateStr) return '';
-
-    // is ISO
-    if (dateStr.endsWith('Z'))
-    {
-      return luxon.DateTime.fromISO(dateStr).setZone("local").toFormat(format);
-    }
-
-    // is date only
-    if (!/\d{1,2}:\d{2}(?::\d{2})?/.test(dateStr))
-    {
-      return luxon.DateTime.fromFormat(dateStr, "dd/MM/yyyy").toFormat(format);
-    }
-
-    // else
-
     let isUTC = false;
   
     if (dateStr.toLowerCase().indexOf('.') !== -1)
@@ -23672,30 +23263,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
         <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
       </div>
-      <div class="search-row search-columns">
-        <div class="hidden" data-category="ToAction"></div>
-        <div class="hidden" data-category="InProgress"></div>
-        <div class="hidden" data-category="Completed"></div>
-        <div class="hidden" data-category="Archived"></div>
-      </div>
-      <div class="search-row search-dates">
-        <label for="StartDate">From</label>
-        <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
-        <label for="EndDate">To</label>
-        <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
-      </div>
     </div>
     <div class="inbox-tab-boxes">
       <div class="inbox-tab-box" data-category="ToAction">
         <table class="inbox-grid" data-category="ToAction">
           <thead>
             <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23722,13 +23301,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <table class="inbox-grid" data-category="InProgress">
           <thead>
             <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >Assigned To</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Assigned To</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
               <th class="buttons">
                 <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23736,9 +23314,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                     <div class="colum-menu-item">More Columns</div>
                     <div class="colum-menu-item" data-column="EffectiveDate">
                       <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
-                    </div>
-                    <div class="colum-menu-item" data-column="PayPoint">
-                      <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
                     </div>
                   </div>
                 </div>
@@ -23755,13 +23330,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <table class="inbox-grid" data-category="Completed">
           <thead>
             <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Final State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >Completed By</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23788,13 +23363,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <table class="inbox-grid" data-category="Archived">
           <thead>
             <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Last State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="ActionTakenByName"   data-type="string"  >Archived By</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="string"  >Date Archived</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Date Completed</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
               <th class="buttons">
                 <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 <div class="icon-dots-vert colum-menu-box">
@@ -23820,50 +23395,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     </div>
     `;
 
-    this.SearchCheckTemplate = (data) =>
-    {
-      let forId = `${data.Category}_${data.Column}`;
-      return `
-        <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
-          <label for="${forId}">${data.Label}</label>
-          <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
-        </div>
-      `;
-    };
 
     this.ResultTemplate = (category, data) =>
     {
-      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      // TODO: do not use correct date parseing, use INCORECT date parsing to match Gen1. 
+      // If compaunts cokm in one day, we will have tio use correct parses and update Dashbaord tile, and Gen1 Inbox.
+      // Affinity2018.getDate(data.StateEnteredAt, 'dd.MM.yyyy hh:mm a', true, true)
+
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
       let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
 
-      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let effectiveDate = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
       let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
       let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
-
-      let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
-      let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
-      let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
-      let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
-      let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
-      let actionTakenByName = !data.hasOwnProperty('ActionTakenByName') || data.ActionTakenByName === null || data.ActionTakenByName === 'null' ? '' : data.ActionTakenByName;
 
       let nameString = data.TemplateDescription;
       if(data.SharedBy !== null)
       {
         nameString += `<br /><span>${data.SharedBy}</span>`;
       }
-
-      nameString = this._checkForSearchMatch(category, 'TemplateDescription', nameString);
-      relatesTo = this._checkForSearchMatch(category, 'RelatesTo', relatesTo);
-      currentState = this._checkForSearchMatch(category, 'CurrentState', currentState);
-      enteredAtTimeString = this._checkForSearchMatch(category, 'StateEnteredAt', enteredAtTimeString);
-      effectiveDateTimeString = this._checkForSearchMatch(category, 'EffectiveDate', effectiveDateTimeString);
-      payPoint = this._checkForSearchMatch(category, 'PayPoint', payPoint);
-      currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
-      completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
-      actionTakenByName = this._checkForSearchMatch(category, 'ActionTakenByName', actionTakenByName);
 
       switch (category)
       {
@@ -23873,11 +23425,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
               <td class="buttons">
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
                 <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
@@ -23892,12 +23444,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="CurrentAssigneeName"                   >${currentAssigneeName}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="StateAssigneeName"                     >${data.StateAssigneeName}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
@@ -23912,14 +23463,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="CompletedByName"                       >${completedByName}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -23931,12 +23483,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           return `
             <tr data-instance="${data.InstanceId}">
               <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="ActionTakenByName"                     >${actionTakenByName}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${completedByTimeString}</th>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 <button class="green icononly restore ui-has-tooltip" data-tooltip="Restore this Form" data-tooltip-dir="left"><span class="icon-refresh"></span></button>
@@ -24080,7 +23632,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             else
             {
               // jsut load them all
-              for (p = 1; p <= data.TotalPages; p++)
+              for (p = 1; p < data.TotalPages; p++)
               {
                 large = p > 99 ? ' large' : '';
                 if (p === data.CurrentPage)
