@@ -22379,8 +22379,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.EditUrl = '/Instance/Edit/';
     this.ViewUrl = '/Instance/View/';
     this.DeleteAPI = '/Inbox/Delete/';
-    this.ArchiveAPI = '/Inbox/Archive/';
-    this.RestoreAPI = '/Inbox/Restore/';
 
     this.PageSize = 25;
 
@@ -22414,15 +22412,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           TotalPages: 0,
           PageSize: this.PageSize,
           SortField: 'StateEnteredAt',
-          Ascending: false,
-          Items: []
-        },
-        Archived: {
-          TotalCount: 0,
-          CurrentPage: 1,
-          TotalPages: 0,
-          PageSize: this.PageSize,
-          SortField: 'ActionTakenByName',
           Ascending: false,
           Items: []
         }
@@ -23155,16 +23144,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
       return;
     }
-    if (event.target.classList.contains('archive'))
-    {
-      this._processRow('archive', rowNode);
-      return;
-    }
-    if (event.target.classList.contains('restore'))
-    {
-      this._processRow('restore', rowNode);
-      return;
-    }
     if (event.target.classList.contains('delete'))
     {
       this._processRow('delete', rowNode);
@@ -23193,94 +23172,68 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   async _processRow(type, rowNode)
   {
     this.DeleteAPI = '/Inbox/Delete/';
-    this.ArchiveAPI = '/Inbox/Archive/';
-    this.RestoreAPI = '/Inbox/Restore/';
-    if (rowNode)
+    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+    let url = `${this.DeleteAPI}?id=${instance}&redirect=false`;
+
+    try
     {
-      let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
-      let api = null;
-      switch (type)
-      {
-        case 'archive':
-          api = this.ArchiveAPI;
-          rowNode.classList.add('archiving');
-          break;
-        case 'restore':
-          api = this.RestoreAPI;
-          rowNode.classList.add('restoring');
-          break;
-        case 'delete':
-          api = this.DeleteAPI;
-          rowNode.classList.add('deleting');
-          break;
-      }
-
-      let url = `${api}?id=${instance}&redirect=false`;
-
-      try
-      {
-        await this.ShowDialogAsync({
-          message: `Are you sure you want to ${type} this form?`,
-          textAlign: 'left',
-          buttons: {
-            ok: {
-              show: true,
-              icon: 'tick',
-              text: 'Yes',
-              color: 'blue'
-            },
-            else: false,
-            cancel: {
-              show: true,
-              icon: 'cross',
-              text: 'No',
-              color: 'grey'
-            }
+      await this.ShowDialogAsync({
+        message: `Are you sure you want to ${type} this form?`,
+        textAlign: 'left',
+        buttons: {
+          ok: {
+            show: true,
+            icon: 'tick',
+            text: 'Yes',
+            color: 'blue'
+          },
+          else: false,
+          cancel: {
+            show: true,
+            icon: 'cross',
+            text: 'No',
+            color: 'grey'
           }
-        });
-      }
-      catch (message)
-      {
-        rowNode.classList.remove('archiving', 'restoring', 'deleting');
-        Affinity2018.HidePageLoader(true);
-        return false;
-      }
-
-      Affinity2018.ShowPageLoader(true);
-
-      let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
         }
       });
-
-      if (!response.ok)
-      {
-        rowNode.classList.remove('archiving', 'restoring', 'deleting');
-        console.warn(response);
-        Affinity2018.HidePageLoader(true);
-        return false;
-      }
-
-      let data = await response.json();
-
-      if (data.Success)
-      {
-        await this.GetResults();
-      }
-      else
-      {
-        rowNode.classList.remove('archiving', 'restoring', 'deleting');
-        console.warn(response);
-        Affinity2018.HidePageLoader(true);
-        return false;
-      }
-
-      Affinity2018.HidePageLoader(true);
-      return true;
     }
-    return false;
+    catch (message)
+    {
+      Affinity2018.HidePageLoader(true);
+      return false;
+    }
+
+    Affinity2018.ShowPageLoader(true);
+
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok)
+    {
+      console.warn(response);
+      Affinity2018.HidePageLoader(true);
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (data.Success)
+    {
+      await this.GetResults();
+    }
+    else
+    {
+      console.warn(response);
+      Affinity2018.HidePageLoader(true);
+      return false;
+    }
+
+    Affinity2018.HidePageLoader(true);
+    return true;
   }
 
   _checkHiddenRows()
@@ -23657,7 +23610,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
         <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div> 
         <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
-        <div class="inbox-tab" data-category="Archived"   ><icon class="icon-archive"></icon>Archived <span>0</span></div>
       </div>
       <div class="inbox-tabs-right">
         <div class="inbox-tab-loader"></div>
@@ -23676,7 +23628,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="hidden" data-category="ToAction"></div>
         <div class="hidden" data-category="InProgress"></div>
         <div class="hidden" data-category="Completed"></div>
-        <div class="hidden" data-category="Archived"></div>
       </div>
       <div class="search-row search-dates">
         <label for="StartDate">From</label>
@@ -23784,39 +23735,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </tfoot>
         </table>
       </div>
-      <div class="inbox-tab-box hidden" data-category="Archived">
-        <table class="inbox-grid" data-category="Archived">
-          <thead>
-            <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Last State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="ActionTakenByName"   data-type="string"  >Archived By</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="string"  >Date Archived</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
-              <th class="buttons">
-                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                <div class="icon-dots-vert colum-menu-box">
-                  <div class="colum-menu">
-                    <div class="colum-menu-item">More Columns</div>
-                    <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="ArchivedEffectiveDateColumn" checked /><label for="ArchivedEffectiveDateColumn">Effective Date</label>
-                    </div>
-                    <div class="colum-menu-item" data-column="PayPoint">
-                      <input type="checkbox" id="ArchivedPayPointColumn" /><label for="ArchivedPayPointColumn">Pay Point</label>
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-          <tfoot>
-          </tfoot>
-        </table>
-      </div>
     </div>
     `;
 
@@ -23847,7 +23765,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
       let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
-      let actionTakenByName = !data.hasOwnProperty('ActionTakenByName') || data.ActionTakenByName === null || data.ActionTakenByName === 'null' ? '' : data.ActionTakenByName;
 
       let nameString = data.TemplateDescription;
       if(data.SharedBy !== null)
@@ -23863,7 +23780,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       payPoint = this._checkForSearchMatch(category, 'PayPoint', payPoint);
       currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
       completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
-      actionTakenByName = this._checkForSearchMatch(category, 'ActionTakenByName', actionTakenByName);
 
       switch (category)
       {
@@ -23880,7 +23796,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
-                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
+                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
               </td>
             </tr>
           `;
@@ -23900,7 +23816,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
+                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
               </td>
             </tr>
           `;
@@ -23920,27 +23836,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-              </td>
-            </tr>
-          `;
-
-          break;
-
-        case 'Archived':
-
-          return `
-            <tr data-instance="${data.InstanceId}">
-              <td data-name="TemplateDescription"                   >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="ActionTakenByName"                     >${actionTakenByName}</td>
-              <td data-name="StateEnteredAt"  class="datetime"      >${completedByTimeString}</th>
-              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
-              <td class="buttons">
-                <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="green icononly restore ui-has-tooltip" data-tooltip="Restore this Form" data-tooltip-dir="left"><span class="icon-refresh"></span></button>
-                <button class="red icononly delete ui-has-tooltip" data-tooltip="Delete this Form" data-tooltip-dir="left"><span class="icon-cross"></span></button>
               </td>
             </tr>
           `;
@@ -24041,95 +23936,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 }
               }
               placeHolder.innerHTML += `<span class="page-divider">...</span>`;
-
-              if (data.CurrentPage > 4 && data.CurrentPage < data.TotalPages - 5)
-              {
-                // show current +- 2
-                for (p = data.CurrentPage - 2; p < data.CurrentPage + 3; p++)
-                {
-                  large = p > 99 ? ' large' : '';
-                  if (placeHolder.querySelector(`.page[data-page="${p}"]`))
-                  {
-                    placeHolder.removeChild(placeHolder.querySelector(`.page[data-page="${p}"]`));
-                  }
-                  if (p === data.CurrentPage)
-                  {
-                    placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
-                  }
-                  else
-                  {
-                    placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
-                  }
-                }
-                placeHolder.innerHTML += `<span class="page-divider">...</span>`;
-              }
-              // Show last
-              for (p = data.TotalPages - 5; p < data.TotalPages; p++)
-              {
-                large = p > 99 ? ' large' : '';
-                if (p === data.CurrentPage)
-                {
-                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
-                }
-                else
-                {
-                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
-                }
-              }
             }
-            else
-            {
-              // jsut load them all
-              for (p = 1; p <= data.TotalPages; p++)
-              {
-                large = p > 99 ? ' large' : '';
-                if (p === data.CurrentPage)
-                {
-                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
-                }
-                else
-                {
-                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
-                }
-              }
-            }
-            return `
-              <tr>
-                <td colspan="${activeGridheaders.length}">
-                  <div class="pagination">
-                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
-                    ${placeHolder.innerHTML}
-                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
-                    <br />
-                    <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
-                  </div>
-                </td>
-              </tr>
-            `;
-          }
-          else
-          {
-            return `
-              <tr>
-                <td colspan="${activeGridheaders.length}">
-                  <div class="pagination">
-                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
-                    ${placeHolder.innerHTML}
-                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
-                    <br />
-                    <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
-                  </div>
-                </td>
-              </tr>
-            `;
           }
         }
       }
       return '';
     };
-
   }
-
 };;
 /**
  *
