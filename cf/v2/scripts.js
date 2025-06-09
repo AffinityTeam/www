@@ -23936,7 +23936,87 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 }
               }
               placeHolder.innerHTML += `<span class="page-divider">...</span>`;
+
+              if (data.CurrentPage > 4 && data.CurrentPage < data.TotalPages - 5)
+              {
+                // show current +- 2
+                for (p = data.CurrentPage - 2; p < data.CurrentPage + 3; p++)
+                {
+                  large = p > 99 ? ' large' : '';
+                  if (placeHolder.querySelector(`.page[data-page="${p}"]`))
+                  {
+                    placeHolder.removeChild(placeHolder.querySelector(`.page[data-page="${p}"]`));
+                  }
+                  if (p === data.CurrentPage)
+                  {
+                    placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                  }
+                  else
+                  {
+                    placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                  }
+                }
+                placeHolder.innerHTML += `<span class="page-divider">...</span>`;
+              }
+              // Show last
+              for (p = data.TotalPages - 5; p < data.TotalPages; p++)
+              {
+                large = p > 99 ? ' large' : '';
+                if (p === data.CurrentPage)
+                {
+                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                }
+                else
+                {
+                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                }
+              }
             }
+            else
+            {
+              // just load them all
+              for (p = 1; p <= data.TotalPages; p++)
+              {
+                large = p > 99 ? ' large' : '';
+                if (p === data.CurrentPage)
+                {
+                  placeHolder.innerHTML += `<span class="page${large} current" data-page="${p}">${p}</span>`;
+                }
+                else
+                {
+                  placeHolder.innerHTML += `<span class="page${large}" data-page="${p}">${p}</span>`;
+                }
+              }
+            }
+            return `
+              <tr>
+                <td colspan="${activeGridheaders.length}">
+                  <div class="pagination">
+                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+                    ${placeHolder.innerHTML}
+                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+                    <br />
+                    <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }
+          else
+          {
+            return `
+              <tr>
+                <td colspan="${activeGridheaders.length}">
+                  <div class="pagination">
+                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+                    ${placeHolder.innerHTML}
+                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+                    <br />
+                    <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
+                  </div>
+                </td>
+              </tr>
+            `;
           }
         }
       }
