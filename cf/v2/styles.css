@@ -21674,6 +21674,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   padding: 0px 10px;
   background: white;
   overflow: hidden;
+  z-index: 0;
   -moz-opacity: 0;
   -khtml-opacity: 0;
   opacity: 0;
@@ -21800,11 +21801,158 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -o-appearance: none;
   appearance: none;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar {
+  display: block;
+  position: relative;
+  width: calc(100% - 20px);
+  height: 0px;
+  line-height: 36px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  overflow: hidden;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.show {
+  height: 36px;
+  margin: 20px 10px 10px 10px;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.show * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked * *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  margin: 3px 10px 0 5px;
+  font-size: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  margin: 0 5px;
+  background: #16c1f3;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon {
+  display: inline-block;
+  height: 28px;
+  vertical-align: top;
+  margin: 0 3px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon::after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="true"] span.sort-pill-icon:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="false"] span.sort-pill-icon:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="true"] span.sort-pill-icon:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="false"] span.sort-pill-icon:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close {
+  display: inline-block;
+  height: 28px;
+  vertical-align: top;
+  margin: 0 3px 0 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close::after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+  content: '\e5cd';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar button {
+  display: inline;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
+  position: relative;
   min-width: calc(100% - 20px);
   margin: 10px;
   padding: 0 10px 10px 10px;
   background: white;
+  z-index: 1;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -21814,6 +21962,22 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * * {
+  touch-action: none;
+  pointer-events: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box {
   min-width: 100%;
@@ -21909,6 +22073,42 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after {
   content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before {
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 15px;
+  padding: 2px 6px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: normal;
+  background: #16c1f3;
+  color: white;
+  content: " - ";
+  z-index: 10;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  touch-action: none;
+  pointer-events: none;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
+  content: attr(data-order-str);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons {
   padding: 10px 10px 10px 5px;

@@ -22336,19 +22336,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 };;
 /**
  *
- * Summary.       CleverForms Admin.
+ * Summary.       CleverForms Inbox.
  *
- * Description.   Creates an instance of CleverForms Admin.
+ * Description.   Creates an instance of CleverForms Inbox.
  *                Important: Must follow ECMAScript 5 (ES5) standards to support Internet Explorer 11.
  *
  * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
  *
  *
  * @since         16.06.2020
- * @class         Admin
+ * @class         Inbox
  * @namespace     Affinity2018.Classes.Apps.CleverForms
  * @memberof      CleverForms
- * @constructs    Affinity2018.Classes.Apps.CleverForms.Admin
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Inbox
  *
  * @public
  */
@@ -22366,7 +22366,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 {
 
   /**
-   * Summary. Sets class scoped variables required for the Admin instance
+   * Summary. Sets class scoped variables required for the Inbox instance
    * @this    Class scope
    * @access  private
    */
@@ -22393,8 +22393,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           CurrentPage: 1,
           TotalPages: 0,
           PageSize: this.PageSize,
-          SortField: 'StateEnteredAt',
-          Ascending: false,
+          SortFields: [{
+            Name: 'StateEnteredAt',
+            Ascending: false
+          }],
           Items: []
         },
         InProgress: {
@@ -22402,8 +22404,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           CurrentPage: 1,
           TotalPages: 0,
           PageSize: this.PageSize,
-          SortField: 'StateEnteredAt',
-          Ascending: false,
+          SortFields: [{
+            Name: 'StateEnteredAt',
+            Ascending: false
+          }],
           Items: []
         },
         Completed: {
@@ -22411,8 +22415,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           CurrentPage: 1,
           TotalPages: 0,
           PageSize: this.PageSize,
-          SortField: 'StateEnteredAt',
-          Ascending: false,
+          SortFields: [{
+            Name: 'StateEnteredAt',
+            Ascending: false
+          }],
           Items: []
         }
       }
@@ -22467,6 +22473,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_checkHiddenRows',
 
+      '_updateSortData',
+      '_prcessSortBar',
+
       // html templates
       '_templates'
 
@@ -22476,6 +22485,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._templates();
 
     this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+
+    window.Inbox = this;
 
     if (Affinity2018.UiReady) this._init();
     else window.addEventListener('MainInit', this._init);
@@ -22500,6 +22511,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.IsSuperAdmin = true;
       }
     }
+    //this.IsSuperAdmin = true;
 
     /**/
 
@@ -22507,6 +22519,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ResultNode = document.querySelector('div.inbox');
     this.ResultNode.innerHTML = this.ResultGridTemplate;
+    this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
 
     /**/
 
@@ -22531,6 +22544,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
+    this.SortBarNode = document.querySelector('div.inbox-sort-bar');
+    this.SortPillDragAndDrop = null;
+
+    /**/
+
     let tab = this.State.ActiveCategory;
     if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
     {
@@ -22545,16 +22563,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
 
-      let sort = this.State.CategorySettings[category].SortField;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSort${category}${this.StorageKeySuffix}`))
+      let sortData = this.State.CategorySettings[category].SortFields;
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSortData${category}${this.StorageKeySuffix}`))
       {
-        sort = Affinity2018.Storage.Local.Get(`InboxSort${category}${this.StorageKeySuffix}`);
-      }
-
-      let ascending = this.State.CategorySettings[category].Ascending;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxAscending${category}${this.StorageKeySuffix}`))
-      {
-        ascending = Affinity2018.Storage.Local.Get(`InboxAscending${category}${this.StorageKeySuffix}`);
+        sortData = Affinity2018.Storage.Local.Get(`InboxSortData${category}${this.StorageKeySuffix}`);
       }
 
       let page = this.State.CategorySettings[category].CurrentPage;
@@ -22563,14 +22575,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
       }
 
-      this.State.CategorySettings[category].SortField = sort;
-      this.State.CategorySettings[category].Ascending = ascending || ascending === 'true' ? true : false;
+      this.State.CategorySettings[category].SortFields = sortData;
       this.State.CategorySettings[category].CurrentPage = page;
 
-      let columnNode = categoryNode.querySelector(`thead th[data-name="${sort}"]`);
-      if (columnNode.hasAttribute('data-ascending'))
+      let orderIndex = 0;
+      for (let sortItem of sortData)
       {
-        categoryNode.querySelector(`thead th[data-name="${sort}"]`).dataset.ascending = this.State.CategorySettings[category].Ascending.toString();
+        let columnNode = categoryNode.querySelector(`thead th[data-name="${sortItem.Name}"]`);
+        if (columnNode.hasAttribute('data-ascending'))
+        {
+          columnNode.dataset.ascending = sortItem.Ascending.toString();
+          //columnNode.dataset.order = orderIndex;
+          //columnNode.dataset.orderStr = this._ordinal(sortData.length - orderIndex);
+          orderIndex++;
+        }
       }
 
       // Set column settings
@@ -22592,6 +22610,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         //}
       }
 
+    }
+
+    if (this.IsSuperAdmin)
+    {
+      //for (let category in this.State.CategorySettings)
+      //{
+      //  if (category === 'ToAction')
+      //  {
+      //    document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.add('hidden');
+      //    document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('hidden');
+      //    document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.add('hidden');
+      //  }
+      //}
+
+      //this.State.ToAction = null;
+      //delete this.State.ToAction;
+
+      //this.State.ActiveCategory = 'InProgress';
+
+      document.querySelector(`div.inbox-search`).classList.add(`show`);
     }
 
     this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
@@ -22629,6 +22667,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   async GetResults()
   {
     this._showLoader();
+
+    this.SortBarNode.classList.add('lock');
+    this.BoxesNode.classList.add('lock');
 
     // now do fetch
     let url = `${this.DefaultAPI}`;
@@ -22767,6 +22808,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._hideLoader();
     this._injectSearchColumnTabs();
     this._checkHiddenRows();
+    this._prcessSortBar();
+
+    this.SortBarNode.classList.remove('lock');
+    this.BoxesNode.classList.remove('lock');
   }
 
   _gotResultsError(error)
@@ -22777,6 +22822,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       categoryNode.querySelector('tbody').innerHTML = this.ErrorResultTemplate(error);
     }
+
+    this.SortBarNode.classList.remove('lock');
+    this.BoxesNode.classList.remove('lock');
+
     this._hideLoader();
   }
 
@@ -23029,6 +23078,46 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             await this._gotoPage(this._getCurrentPage() + 1);
           }
+          else if (event.target.classList.contains('sort-pill-icon'))
+          {
+            event.preventDefault();
+            event.stopPropagation();
+
+            let column = event.target.parentNode.dataset.column;
+            let ascending = JSON.parse(event.target.parentNode.dataset.ascending.toLowerCase());
+            let direction = ascending ? 'desc' : 'asc';
+            event.target.classList.remove('asc', 'desc');
+            event.target.classList.add(direction);
+            event.target.parentNode.dataset.ascending = !ascending;
+            let headerNode = this.ResultNode.querySelector(`th[data-name="${column}"]`);
+            if (headerNode)
+            {
+              headerNode.dataset.ascending = !ascending;
+            }
+
+            this._updateSortData();
+
+            await this.GetResults();
+          }
+          else if (event.target.classList.contains('sort-pill-close'))
+          {
+            event.preventDefault();
+            event.stopPropagation();
+
+            let column = event.target.parentNode.dataset.column;
+            let headerNode = this.ResultNode.querySelector(`th[data-name="${column}"]`);
+            if (headerNode)
+            {
+              headerNode.dataset.ascending = 'null';
+            }
+
+            event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+
+            this._updateSortData();
+
+            await this.GetResults();
+
+          }
           else
           {
             console.log('Unknown Span Clicked?');
@@ -23068,46 +23157,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             let ascendingString = event.target.dataset.ascending;
 
-            if (ascendingString !== 'null')
-            {
-              ascendingString = ascendingString === 'true' ? 'false' : 'true';
-            }
-            else
+            if (ascendingString === 'null')
             {
               ascendingString = 'true';
             }
-
-            if (event.target.dataset.type && event.target.dataset.type === 'date')
+            else if (ascendingString === 'true')
             {
-              if (ascendingString !== 'null')
-              {
-                //ascendingString = ascendingString === 'true' ? 'false' : 'true';
-              }
+              ascendingString = 'false';
             }
-
-            let gridNode = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
-            for (let column of gridNode.querySelectorAll('thead th'))
+            else
             {
-              if (column.dataset.name && column.hasAttribute('data-ascending'))
-              {
-                column.dataset.ascending = 'null';
-              }
+              ascendingString = 'null';
             }
 
             event.target.dataset.ascending = ascendingString;
 
-            if (ascendingString === 'null')
-            {
-              debugger;
-            }
-
-            this.State.CategorySettings[this.State.ActiveCategory].SortField = event.target.dataset.name;
-            this.State.CategorySettings[this.State.ActiveCategory].Ascending = event.target.dataset.ascending === 'true' ? true : false;
-            if (this.EnableLocalStore)
-            {
-              Affinity2018.Storage.Local.Set(`InboxSort${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortField);
-              Affinity2018.Storage.Local.Set(`InboxAscending${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].Ascending);
-            }
+            this._updateSortData();
 
             await this.GetResults();
 
@@ -23327,10 +23392,118 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.EnableLocalStore)
     {
-      Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
+      //Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
     }
     this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
     await this.GetResults();
+  }
+
+  /**/
+
+  _updateSortData()
+  {
+    let sorts = [];
+    let headers = this.ResultNode.querySelectorAll('table thead tr th[data-order][data-ascending]:not([data-ascending="null"])');
+
+    debugger;
+
+    let sortedHeaders = [...headers].sort((a, b) =>
+    {
+      let orderA = isNaN(parseInt(a.dataset.order)) ? -1 : parseInt(a.dataset.order);
+      let orderB = isNaN(parseInt(b.dataset.order)) ? -1 : parseInt(b.dataset.order);
+      return orderA - orderB;
+    });
+
+    for (let header of sortedHeaders)
+    {
+      sorts.push({
+        Name: header.dataset.name,
+        Ascending: header.dataset.ascending
+      });
+    }
+    this.State.CategorySettings[this.State.ActiveCategory].SortFields = sorts;
+    if (this.EnableLocalStore)
+    {
+      Affinity2018.Storage.Local.Set(`InboxSortData${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
+    }
+  }
+
+  _prcessSortBar()
+  {
+    let sortBarNode = this.ResultNode.querySelector(`div.inbox-sort-bar[data-categroy="${this.State.ActiveCategory}"]`);
+    let sotbarPillNode = sortBarNode.querySelector('div.sort-pills');
+    sotbarPillNode.innerHTML = '';
+
+    let allHeaderNodes = this.ResultNode.querySelectorAll('th[data-ascending]');
+    for (let headerNode of allHeaderNodes)
+    {
+      headerNode.dataset.ascending = null;
+      headerNode.dataset.order = null;
+      headerNode.dataset.orderStr = null;
+    }
+
+    let allSortBars = this.ResultNode.querySelectorAll(`div.inbox-sort-bar`);
+    for (let sortbarNode of allSortBars)
+    {
+      sortbarNode.classList.remove('show');
+    }
+
+    let sortData = this.State.CategorySettings[this.State.ActiveCategory].SortFields;
+
+    let html = '';
+    for (let item of sortData)
+    {
+      let headerNode = document.querySelector(`th[data-name="${item.Name}"]`);
+      let label = headerNode.innerText.trim();
+      let index = sortData.indexOf(item);
+      html += this.SortPillTemplate({
+        Column: item.Name,
+        Label: label,
+        Ascending: item.Ascending,
+        Type: headerNode.dataset.type,
+        Index: index
+      });
+      headerNode.dataset.ascending = item.Ascending;
+      headerNode.dataset.order = sortData.length > 1 ? index : 0;
+      headerNode.dataset.orderStr = sortData.length > 1 ? this._ordinal(sortData.length - index) : null;
+    }
+
+    sotbarPillNode.innerHTML = html;
+
+    if (this.SortPillDragAndDrop)
+    {
+      this.SortPillDragAndDrop.destroy();
+      this.SortPillDragAndDrop = null;
+    }
+
+    if (sortData.length > 1)
+    {
+      sortBarNode.classList.add('show');
+
+      this.SortPillDragAndDrop = dragula([document.querySelector('.sort-pills')]);
+      this.SortPillDragAndDrop.on('drop', (async (el, target, source, sibling) =>
+      {
+
+        let index = 0;
+        target.children;
+        for (let child of target.children)
+        {
+          let header = document.querySelector(`th[data-name="${child.dataset.column}"]`);
+          header.dataset.order = index;
+          header.dataset.orderStr = this._ordinal(target.children.length - index);
+          index++
+        }
+
+        this._updateSortData();
+        await this.GetResults();
+      }).bind(this));
+
+    }
+    else
+    {
+      sortBarNode.classList.remove('show');
+    }
+
   }
 
   /**/
@@ -23450,34 +23623,34 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     // else
 
     let isUTC = false;
-  
+
     if (dateStr.toLowerCase().indexOf('.') !== -1)
     {
       dateStr = dateStr.replace(/\./gi, '/');
     }
-  
+
     if (new RegExp('[0-9]T[0-9]', 'i').test(dateStr))
     {
       dateStr = dateStr.replace(/(.*[0-9])t([0-9].*)/i, '$1 $2');
     }
-  
+
     if (new RegExp('[0-9]Z', 'i').test(dateStr))
     {
       dateStr = dateStr.replace(/(.*[0-9])Z/i, '$1 UTC');
     }
-  
+
     if (dateStr.toLowerCase().indexOf('utc') !== -1)
     {
       dateStr = dateStr.trim().replace(/(.*[0-9]) UTC/i, '$1');
       isUTC = true;
     }
-  
+
     let jsDate = new Date(Date.parse(dateStr));
-  
-    let adjustedDate = isUTC 
+
+    let adjustedDate = isUTC
       ? new Date(jsDate.getTime() - jsDate.getTimezoneOffset() * 60 * 1000)
       : jsDate;
-    
+
     let dt = luxon.DateTime.fromJSDate(adjustedDate);
 
     return dt.toFormat(format);
@@ -23485,6 +23658,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   }
 
   /**/
+
+  _ordinal(number)
+  {
+    return number + (['st', 'nd', 'rd'][((number + 90) % 100 - 10) % 10 - 1] || 'th');
+  }
 
   _cloneEvent(event, target)
   {
@@ -23636,6 +23814,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
       </div>
     </div>
+    <div class="inbox-sort-bars">
+      <div class="inbox-sort-bar" data-categroy="ToAction">
+        Sorting by <div class="sort-pills"></div> <button>Reset</button>
+      </div>
+      <div class="inbox-sort-bar" data-categroy="InProgress">
+        Sorting by <div class="sort-pills"></div> <button>Reset</button>
+      </div>
+      <div class="inbox-sort-bar" data-categroy="Completed">
+        Sorting by <div class="sort-pills"></div> <button>Reset</button>
+      </div>
+    </div>
     <div class="inbox-tab-boxes">
       <div class="inbox-tab-box" data-category="ToAction">
         <table class="inbox-grid" data-category="ToAction">
@@ -23746,6 +23935,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <label for="${forId}">${data.Label}</label>
           <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
         </div>
+      `;
+    };
+
+    this.SortPillTemplate = data =>
+    {
+      let direction = data.Ascending ? 'asc' : 'desc';
+      return `
+        <span class="sort-pill" data-column="${data.Column}" data-ascending="${data.Ascending}" data-type="${data.Type}">
+          ${data.Label}
+          <span class="sort-pill-icon ${direction}"></span>
+          <span class="sort-pill-close"></span>
+        </span>
       `;
     };
 
