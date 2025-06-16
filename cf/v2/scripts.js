@@ -5064,6 +5064,7 @@
       }
       else
       {
+        document.querySelectorAll(':not(.ui-has-tooltip)[data-tooltip]:not([data-tooltip=""])').forEach(this._applyTo);
         document.querySelectorAll('.ui-has-tooltip').forEach(this._applyTo);
       }
     }
@@ -22372,6 +22373,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   _options()
   {
+    this.ViewMode = 'User'; // User / Admin
+
     this.EnableLocalStore = true;
 
     this.DefaultAPI = '/InboxV2/FetchInbox';
@@ -22453,7 +22456,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       // private
 
+      '_setupResultNodes',
+
       '_showLoader', '_hideLoader',
+
+      '_laodStates',
 
       '_gotResults', '_gotResultsError',
 
@@ -22473,8 +22480,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_checkHiddenRows',
 
-      '_updateSortData',
-      '_prcessSortBar',
+      '_updateSortData', '_prcessSortBar', '_sortReset',
+
+      '_switchMode', '_switchToAdmin', '_switchToDetault',
 
       // html templates
       '_templates'
@@ -22502,149 +22510,55 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
 
     this.MemberType = '';
-    this.IsSuperAdmin = false;
+    this.IsPayrollAdmin = false;
+    this.ShowModeToggle = false;
     if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
     {
       this.MemberType = Affinity2018.UserProfile.MemberType;
-      if (Affinity2018.UserProfile.MemberType === "P")
+
+      if (this.MemberType === "P") // Payroll Admin
       {
-        this.IsSuperAdmin = true;
+        this.IsPayrollAdmin = true;
+        this.ViewMode = 'Admin';
+        this.ShowModeToggle = true;
       }
+
+      if (this.MemberType === "M") // 5 Million User
+      {
+        this.Admin = true;
+        this.ViewMode = 'Admin';
+        this.ShowModeToggle = true;
+      }
+
     }
-    //this.IsSuperAdmin = true;
+
+    /* For debugging ONLY *
+    this.MemberType = 'P';
+    this.IsPayrollAdmin = true;
+    this.Admin = false;
+    this.ViewMode = 'Admin';
+    this.ShowModeToggle = true;
+    /**/
+
+    /**/
+
+    await this._laodStates();
 
     /**/
 
     this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
 
     this.ResultNode = document.querySelector('div.inbox');
-    this.ResultNode.innerHTML = this.ResultGridTemplate;
+    this.ResultNode.innerHTML = this.ViewMode === 'Admin' ? this.AdminResultGridTemplate() : this.ResultGridTemplate();
     this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
 
-    /**/
-
-    this.GeneratedSearchTabs = false;
-
-    this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
-    this.SearchNode = this.SearchBox.querySelector('input');
-    this.SearchNode.addEventListener('keyup', (event =>
-    {
-      if (event.key.toLowerCase() === 'enter')
-      {
-        this._attemptSearch();
-      }
-    }).bind(this));
-
-    let today = luxon.DateTime.local();
-    let minDate = today.minus({ years: 7 });
-    this.SearchBox.querySelector('input#StartDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchBox.querySelector('input#StartDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
-    this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
-    this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
-
-    /**/
-
-    this.SortBarNode = document.querySelector('div.inbox-sort-bar');
-    this.SortPillDragAndDrop = null;
-
-    /**/
-
-    let tab = this.State.ActiveCategory;
-    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
-    {
-      tab = Affinity2018.Storage.Local.Get(`InboxTab${this.StorageKeySuffix}`);
-    }
-    this.State.ActiveCategory = tab;
-
-    for (let category in this.State.CategorySettings)
-    {
-      let categoryNode = document.querySelector(`table[data-category="${category}"]`);
-      categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
-      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
-      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
-
-      let sortData = this.State.CategorySettings[category].SortFields;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSortData${category}${this.StorageKeySuffix}`))
-      {
-        sortData = Affinity2018.Storage.Local.Get(`InboxSortData${category}${this.StorageKeySuffix}`);
-      }
-
-      let page = this.State.CategorySettings[category].CurrentPage;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
-      {
-        page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
-      }
-
-      this.State.CategorySettings[category].SortFields = sortData;
-      this.State.CategorySettings[category].CurrentPage = page;
-
-      let orderIndex = 0;
-      for (let sortItem of sortData)
-      {
-        let columnNode = categoryNode.querySelector(`thead th[data-name="${sortItem.Name}"]`);
-        if (columnNode.hasAttribute('data-ascending'))
-        {
-          columnNode.dataset.ascending = sortItem.Ascending.toString();
-          //columnNode.dataset.order = orderIndex;
-          //columnNode.dataset.orderStr = this._ordinal(sortData.length - orderIndex);
-          orderIndex++;
-        }
-      }
-
-      // Set column settings
-      let menuNode = categoryNode.querySelector(`div.colum-menu`);
-      let menuItems = menuNode.querySelectorAll(`div.colum-menu-item[data-column]`);
-      for (let menuItem of menuItems)
-      {
-        let column = menuItem.dataset.column;
-        let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
-        if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(key))
-        {
-          let showIt = Affinity2018.Storage.Local.Get(key);
-          showIt = showIt === 'true' ? true : showIt === 'false' ? false : showIt;
-          menuItem.querySelector('input[type="checkbox"]').checked = showIt ? 'checked' : null;
-        }
-        //else
-        //{
-        //  menuItem.querySelector('input[type="checkbox"]').checked = null;
-        //}
-      }
-
-    }
-
-    if (this.IsSuperAdmin)
-    {
-      //for (let category in this.State.CategorySettings)
-      //{
-      //  if (category === 'ToAction')
-      //  {
-      //    document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.add('hidden');
-      //    document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('hidden');
-      //    document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.add('hidden');
-      //  }
-      //}
-
-      //this.State.ToAction = null;
-      //delete this.State.ToAction;
-
-      //this.State.ActiveCategory = 'InProgress';
-
-      document.querySelector(`div.inbox-search`).classList.add(`show`);
-    }
-
-    this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
-
-    Affinity2018.Tooltips.Apply();
-
-    /**/
-
-    this.ResultNode.addEventListener('click', this._gridClicked);
-
-    /**/
+    this._setupResultNodes();
 
     this.GotoTab(this.State.ActiveCategory);
 
     console.clear();
+
+    console.log(this.MemberType);
 
     await this.GetResults();
 
@@ -22670,6 +22584,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.SortBarNode.classList.add('lock');
     this.BoxesNode.classList.add('lock');
+
+    this.State.AdminMode = this.ViewMode === 'Admin' ? true : false;
 
     // now do fetch
     let url = `${this.DefaultAPI}`;
@@ -22720,6 +22636,130 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
+  _setupResultNodes()
+  {
+    this.GeneratedSearchTabs = false;
+
+    this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
+    this.SearchNode = this.SearchBox.querySelector('input');
+    this.SearchNode.addEventListener('keyup', (event =>
+    {
+      if (event.key.toLowerCase() === 'enter')
+      {
+        this._attemptSearch();
+      }
+    }).bind(this));
+
+    let today = luxon.DateTime.local();
+    let minDate = today.minus({ years: 7 });
+    this.SearchBox.querySelector('input#StartDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
+    this.SearchBox.querySelector('input#StartDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
+    this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat('yyyy-MM-dd')}`);
+    this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat('yyyy-MM-dd')}`);
+
+    /**/
+
+    this.SortBarNode = document.querySelector('div.inbox-sort-bar');
+    this.SortPillDragAndDrop = null;
+    this.SortResetButton = this.SortBarNode.querySelector('button');
+
+    /**/
+
+    let tab = this.State.ActiveCategory;
+    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
+    {
+      tab = Affinity2018.Storage.Local.Get(`InboxTab${this.StorageKeySuffix}`);
+    }
+    this.State.ActiveCategory = tab;
+
+    for (let category in this.State.CategorySettings)
+    {
+      let categoryNode = document.querySelector(`table[data-category="${category}"]`);
+      categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
+      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
+      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
+
+      let sortData = this.State.CategorySettings[category].SortFields;
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSortData${category}${this.StorageKeySuffix}`))
+      {
+        sortData = Affinity2018.Storage.Local.Get(`InboxSortData${category}${this.StorageKeySuffix}`);
+      }
+
+      let page = this.State.CategorySettings[category].CurrentPage;
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
+      {
+        page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
+      }
+
+      this.State.CategorySettings[category].SortFields = sortData;
+      this.State.CategorySettings[category].CurrentPage = page;
+
+      for (let sortItem of sortData)
+      {
+        let columnNode = categoryNode.querySelector(`thead th[data-name="${sortItem.Name}"]`);
+        if (columnNode.hasAttribute('data-ascending'))
+        {
+          columnNode.dataset.ascending = sortItem.Ascending.toString();
+        }
+      }
+
+      // Set column settings
+      let menuNode = categoryNode.querySelector(`div.colum-menu`);
+      let menuItems = menuNode ? menuNode.querySelectorAll(`div.colum-menu-item[data-column]`) : [];
+      for (let menuItem of menuItems)
+      {
+        let column = menuItem.dataset.column;
+        let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+        if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(key))
+        {
+          let showIt = Affinity2018.Storage.Local.Get(key);
+          showIt = showIt === 'true' ? true : showIt === 'false' ? false : showIt;
+          menuItem.querySelector('input[type="checkbox"]').checked = showIt ? 'checked' : null;
+        }
+        //else
+        //{
+        //  menuItem.querySelector('input[type="checkbox"]').checked = null;
+        //}
+      }
+
+    }
+
+    if (this.IsPayrollAdmin)
+    {
+      //for (let category in this.State.CategorySettings)
+      //{
+      //  if (category === 'ToAction')
+      //  {
+      //    document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.add('hidden');
+      //    document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('hidden');
+      //    document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.add('hidden');
+      //  }
+      //}
+
+      //this.State.ToAction = null;
+      //delete this.State.ToAction;
+
+      //this.State.ActiveCategory = 'InProgress';
+
+      document.querySelector(`div.inbox-search`).classList.add(`show`);
+    }
+
+    this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
+
+    Affinity2018.Tooltips.Apply();
+
+    /**/
+
+    this.SortResetButton.addEventListener('click', this._sortReset);
+    this.ResultNode.addEventListener('click', this._gridClicked);
+
+    let adminToggles = this.ResultNode.querySelectorAll('.toggle-container input[type="checkbox"]');
+    for (let adminToggle of adminToggles)
+    {
+      adminToggle.addEventListener("change", this._switchMode);
+    }
+  }
+
   _forceShowPageLoader()
   {
     clearTimeout(this._forcePageLoader);
@@ -22737,7 +22777,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   _showLoader()
   {
     this.InlineLoaderNode.classList.remove('hidden');
-    if (this.IsSuperAdmin)
+    if (this.IsPayrollAdmin)
     {
       this._forceShowPageLoader();
     }
@@ -22752,6 +22792,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     this.InlineLoaderNode.classList.add('hidden');
     this._forceHidePageLoader();
+  }
+
+  async _laodStates()
+  {
+    let response = await fetch(`${Affinity2018.Path}/Scripts/V2/apps/cleverforms/Inbox.json?version=${Affinity2018.Version}`);
+
+    if (!response.ok)
+    {
+      this.DefaultState = JSON.parse(JSON.stringify(this.State));
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (!data || data === '')
+    {
+      this.DefaultState = JSON.parse(JSON.stringify(this.State));
+      return false;
+    }
+
+    if (this.IsPayrollAdmin)
+    {
+      this.DefaultState = data.Admin;
+    }
+    else
+    {
+      this.DefaultState = data.Default;
+    }
+
+    this.State = JSON.parse(JSON.stringify(this.DefaultState));
+
+    return true;
   }
 
   _gotResults(data)
@@ -22779,13 +22851,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         if (this.State.CategorySettings[category].Items.length === 0)
         {
-          html += this.EmptyResultTemplate(category);
+          html += this.ViewMode === 'Admin' ? this.AdminEmptyResultTemplate(category) : this.EmptyResultTemplate(category);
         }
         else
         {
           for (let item of this.State.CategorySettings[category].Items)
           {
-            html += this.ResultTemplate(category, item);
+            html += this.ViewMode === 'Admin' ? this.AdminResultTemplate(category, item) : this.ResultTemplate(category, item);
           }
         }
         categoryNode.querySelector('tbody').innerHTML = html;
@@ -23155,6 +23227,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           if (event.target.hasAttribute('data-ascending'))
           {
+
+            let sortHeaders = this.ResultNode.querySelectorAll('table thead tr th[data-order][data-ascending]:not([data-ascending="null"])');
             let ascendingString = event.target.dataset.ascending;
 
             if (ascendingString === 'null')
@@ -23167,7 +23241,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             }
             else
             {
-              ascendingString = 'null';
+              if (sortHeaders.length > 1)
+              {
+                ascendingString = 'null';
+              }
+              else
+              {
+                ascendingString = 'true';
+              }
             }
 
             event.target.dataset.ascending = ascendingString;
@@ -23313,7 +23394,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         let gridNode = document.querySelector(`table[data-category="${category}"]`);
         let menuNode = gridNode.querySelector(`div.colum-menu`);
-        let menuItems = menuNode.querySelectorAll(`div.colum-menu-item[data-column]`);
+        let menuItems = menuNode ? menuNode.querySelectorAll(`div.colum-menu-item[data-column]`) : [];
         for (let menuItem of menuItems)
         {
           let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
@@ -23405,8 +23486,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let sorts = [];
     let headers = this.ResultNode.querySelectorAll('table thead tr th[data-order][data-ascending]:not([data-ascending="null"])');
 
-    debugger;
-
     let sortedHeaders = [...headers].sort((a, b) =>
     {
       let orderA = isNaN(parseInt(a.dataset.order)) ? -1 : parseInt(a.dataset.order);
@@ -23443,9 +23522,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     let allSortBars = this.ResultNode.querySelectorAll(`div.inbox-sort-bar`);
-    for (let sortbarNode of allSortBars)
+    for (let barNode of allSortBars)
     {
-      sortbarNode.classList.remove('show');
+      barNode.classList.remove('show');
     }
 
     let sortData = this.State.CategorySettings[this.State.ActiveCategory].SortFields;
@@ -23465,7 +23544,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       });
       headerNode.dataset.ascending = item.Ascending;
       headerNode.dataset.order = sortData.length > 1 ? index : 0;
-      headerNode.dataset.orderStr = sortData.length > 1 ? this._ordinal(sortData.length - index) : null;
+      headerNode.dataset.orderStr = sortData.length > 1 ? this._ordinal(index + 1) : null;
     }
 
     sotbarPillNode.innerHTML = html;
@@ -23476,10 +23555,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.SortPillDragAndDrop = null;
     }
 
+    // always show, not only when there is only 1 sorting column
+    sortBarNode.classList.add('show');
+
     if (sortData.length > 1)
     {
-      sortBarNode.classList.add('show');
-
       this.SortPillDragAndDrop = dragula([document.querySelector('.sort-pills')]);
       this.SortPillDragAndDrop.on('drop', (async (el, target, source, sibling) =>
       {
@@ -23490,7 +23570,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         {
           let header = document.querySelector(`th[data-name="${child.dataset.column}"]`);
           header.dataset.order = index;
-          header.dataset.orderStr = this._ordinal(target.children.length - index);
+          header.dataset.orderStr = this._ordinal(index + 1);
           index++
         }
 
@@ -23499,11 +23579,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }).bind(this));
 
     }
-    else
-    {
-      sortBarNode.classList.remove('show');
-    }
 
+  }
+
+  async _sortReset()
+  {
+    this.State.CategorySettings[this.State.ActiveCategory].SortFields = this.DefaultState.CategorySettings[this.State.ActiveCategory].SortFields;
+    if (this.EnableLocalStore)
+    {
+      Affinity2018.Storage.Local.Set(`InboxSortData${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
+    }
+    await this.GetResults();
   }
 
   /**/
@@ -23602,7 +23688,43 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     Affinity2018.HidePageLoader(true);
   }
 
-  /**/
+  /*Mode Switch */
+
+  async _switchMode(event)
+  {
+    if (event.target.checked)
+    {
+      await this._switchToAdmin();
+    }
+    else
+    {
+      await this._switchToDetault();
+    }
+  }
+
+  async _switchToAdmin()
+  {
+    if (this.ViewMode !== 'Admin')
+    {
+      this.ViewMode = 'Admin';
+      this.ResultNode.innerHTML = this.AdminResultGridTemplate();
+      this._setupResultNodes();
+      await this.GetResults();
+    }
+  }
+
+  async _switchToDetault()
+  {
+    if (this.ViewMode !== 'User')
+    {
+      this.ViewMode = 'User';
+      this.ResultNode.innerHTML = this.ResultGridTemplate();
+      this._setupResultNodes();
+      await this.GetResults();
+    }
+  }
+
+  /* Helpers */
 
   _parseUglyGen1Date(dateStr, format = 'd.MM.yyyy h:mma')
   {
@@ -23782,171 +23904,453 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   _templates()
   {
-    this.ResultGridTemplate = `
-    <div class="inbox-tabs">
-      <div class="inbox-tabs-left">
-        <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
-        <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div> 
-        <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
-      </div>
-      <div class="inbox-tabs-right">
-        <div class="inbox-tab-loader"></div>
-        <div class="inbox-tab-button">
-          <button data-action="startnew">Start a New Form</button>
-        </div>
-      </div>
-    </div>
-    <div class="inbox-search">
-      <div class="search-row">
-        <input type="text" placeholder="Search" />
-        <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
-        <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
-      </div>
-      <div class="search-row search-columns">
-        <div class="hidden" data-category="ToAction"></div>
-        <div class="hidden" data-category="InProgress"></div>
-        <div class="hidden" data-category="Completed"></div>
-      </div>
-      <div class="search-row search-dates">
-        <label for="StartDate">From</label>
-        <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
-        <label for="EndDate">To</label>
-        <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
-      </div>
-    </div>
-    <div class="inbox-sort-bars">
-      <div class="inbox-sort-bar" data-categroy="ToAction">
-        Sorting by <div class="sort-pills"></div> <button>Reset</button>
-      </div>
-      <div class="inbox-sort-bar" data-categroy="InProgress">
-        Sorting by <div class="sort-pills"></div> <button>Reset</button>
-      </div>
-      <div class="inbox-sort-bar" data-categroy="Completed">
-        Sorting by <div class="sort-pills"></div> <button>Reset</button>
-      </div>
-    </div>
-    <div class="inbox-tab-boxes">
-      <div class="inbox-tab-box" data-category="ToAction">
-        <table class="inbox-grid" data-category="ToAction">
-          <thead>
-            <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
-              <th class="buttons">
-                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                <div class="icon-dots-vert colum-menu-box">
-                  <div class="colum-menu">
-                    <div class="colum-menu-item">More Columns</div>
-                    <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="ToActionEffectiveDateColumn" checked /><label for="ToActionEffectiveDateColumn">Effective Date</label>
-                    </div>
-                    <div class="colum-menu-item" data-column="PayPoint">
-                      <input type="checkbox" id="ToActionPayPointColumn" /><label for="ToActionPayPointColumn">Pay Point</label>
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-          <tfoot>
-          </tfoot>
-        </table>
-      </div>
-      <div class="inbox-tab-box hidden" data-category="InProgress">
-        <table class="inbox-grid" data-category="InProgress">
-          <thead>
-            <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >Assigned To</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
-              <th class="buttons">
-                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                <div class="icon-dots-vert colum-menu-box">
-                  <div class="colum-menu">
-                    <div class="colum-menu-item">More Columns</div>
-                    <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
-                    </div>
-                    <div class="colum-menu-item" data-column="PayPoint">
-                      <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-          <tfoot>
-          </tfoot>
-        </table>
-      </div>
-      <div class="inbox-tab-box hidden" data-category="Completed">
-        <table class="inbox-grid" data-category="Completed">
-          <thead>
-            <tr>
-              <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-              <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Final State</th>
-              <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >Completed By</th>
-              <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
-              <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-              <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
-              <th class="buttons">
-                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                <div class="icon-dots-vert colum-menu-box">
-                  <div class="colum-menu">
-                    <div class="colum-menu-item">More Columns</div>
-                    <div class="colum-menu-item" data-column="EffectiveDate">
-                      <input type="checkbox" id="CompletedEffectiveDateColumn" checked /><label for="CompletedEffectiveDateColumn">Effective Date</label>
-                    </div>
-                    <div class="colum-menu-item" data-column="PayPoint">
-                      <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-          <tfoot>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-    `;
 
-    this.SearchCheckTemplate = (data) =>
+    /* Admin Results */
+
+    this.AdminResultGridTemplate = () =>
     {
-      let forId = `${data.Category}_${data.Column}`;
+      let toggleToAction = this.ToggleTemplate({
+        Label: 'Admin',
+        Id: 'AdminToggleToAction',
+        On: true
+      });
+      let toggleInProgress = this.ToggleTemplate({
+        Label: 'Admin',
+        Id: 'AdminToggleToAction',
+        On: true
+      });
+      let toggleCompleted = this.ToggleTemplate({
+        Label: 'Admin',
+        Id: 'AdminToggleToAction',
+        On: true
+      });
       return `
-        <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
-          <label for="${forId}">${data.Label}</label>
-          <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
+      <div class="inbox-tabs">
+        <div class="inbox-tabs-left">
+          <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
+          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div>
+          <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
         </div>
+        <div class="inbox-tabs-right">
+          <div class="inbox-tab-loader"></div>
+          <div class="inbox-tab-button">
+            <button data-action="startnew">Start a New Form</button>
+          </div>
+        </div>
+      </div>
+      <div class="inbox-search">
+        <div class="search-row">
+          <input type="text" placeholder="Search" />
+          <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
+          <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+        </div>
+        <div class="search-row search-columns">
+          <div class="hidden" data-category="ToAction"></div>
+          <div class="hidden" data-category="InProgress"></div>
+          <div class="hidden" data-category="Completed"></div>
+        </div>
+        <div class="search-row search-dates">
+          <label for="StartDate">From</label>
+          <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
+          <label for="EndDate">To</label>
+          <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
+        </div>
+      </div>
+      <div class="inbox-sort-bars">
+        <div class="inbox-sort-bar" data-categroy="ToAction">
+          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        </div>
+        <div class="inbox-sort-bar" data-categroy="InProgress">
+          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        </div>
+        <div class="inbox-sort-bar" data-categroy="Completed">
+          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        </div>
+      </div>
+      <div class="inbox-tab-boxes">
+        <div class="inbox-tab-box" data-category="ToAction">
+          <table class="inbox-grid" data-category="ToAction">
+            <thead>
+              <tr>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription    data-type="string"  >Name</th>
+                <th                       data-searchable="false" data-name="RelatesTo"             data-type="string"  >Relates To</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"  data-type="string"  >Previous Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"       data-type="string"  >Last Action Taken</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Recieved</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
+                <th class="buttons">
+                  ${toggleToAction}
+                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+        <div class="inbox-tab-box hidden" data-category="InProgress">
+          <table class="inbox-grid" data-category="InProgress">
+            <thead>
+              <tr>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription    data-type="string"  >Name</th>
+                <th                       data-searchable="false" data-name="RelatesTo"             data-type="string"  >Relates To</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"  data-type="string"  >Previous Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"       data-type="string"  >Last Action Taken</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Recieved</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
+                <th class="buttons">
+                  ${toggleInProgress}
+                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+        <div class="inbox-tab-box hidden" data-category="Completed">
+          <table class="inbox-grid" data-category="Completed">
+            <thead>
+              <tr>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription    data-type="string"  >Name</th>
+                <th                       data-searchable="false" data-name="RelatesTo"             data-type="string"  >Relates To</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"  data-type="string"  >Previous Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"       data-type="string"  >Last Action Taken</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Recieved</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
+                <th class="buttons">
+                  ${toggleCompleted}
+                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+      </div>
       `;
     };
 
-    this.SortPillTemplate = data =>
+    this.AdminResultTemplate = (category, data) =>
     {
-      let direction = data.Ascending ? 'asc' : 'desc';
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase() : '';
+
+      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let effectiveDateTimeString = effectiveDate;
+
+      let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase() : '';
+
+      let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
+      let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
+      let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
+      let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
+      let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
+
+      let workflowName = !data.hasOwnProperty('WorkflowName') || data.WorkflowName === null || data.WorkflowName === 'null' ? '' : data.WorkflowName;
+      let previousAssigneeName = !data.hasOwnProperty('PreviousAssigneeName') || data.PreviousAssigneeName === null || data.PreviousAssigneeName === 'null' ? '' : data.PreviousAssigneeName;
+      let lastActionTaken = !data.hasOwnProperty('LastActionTaken') || data.LastActionTaken === null || data.LastActionTaken === 'null' ? '' : data.LastActionTaken;
+
+      let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
+      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+
+      let tooltip = '';
+      let tooltipMessage = '';
+      if (isOverdue)
+      {
+        tooltipMessage += 'Form is Overdue'
+      }
+      if (tooltipMessage !== '')
+      {
+        tooltip = ` data-tooltip="${tooltipMessage}" data-tooltip-dir="top,right"`;
+      }
+
+      let nameString = data.TemplateDescription;
+      if (data.SharedBy !== null)
+      {
+        nameString += `<br /><span>${data.SharedBy}</span>`;
+      }
+
+      nameString = this._checkForSearchMatch(category, 'TemplateDescription', nameString);
+      relatesTo = this._checkForSearchMatch(category, 'RelatesTo', relatesTo);
+      currentState = this._checkForSearchMatch(category, 'CurrentState', currentState);
+      enteredAtTimeString = this._checkForSearchMatch(category, 'StateEnteredAt', enteredAtTimeString);
+      effectiveDateTimeString = this._checkForSearchMatch(category, 'EffectiveDate', effectiveDateTimeString);
+      payPoint = this._checkForSearchMatch(category, 'PayPoint', payPoint);
+      currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
+      completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
+
+      workflowName = this._checkForSearchMatch(category, 'WorkflowName', workflowName);
+      previousAssigneeName = this._checkForSearchMatch(category, 'PreviousAssigneeName', previousAssigneeName);
+      lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
+
+      switch (category)
+      {
+
+        case 'ToAction':
+
+          return `
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
+              <td data-name="TemplateDescription"${tooltip}               >${nameString}</td>
+              <td data-name="RelatesTo"                                   >${relatesTo}</td>
+              <td data-name="PayPoint"              class="paypoint"      >${payPoint}</td>
+              <td data-name="EffectiveDate"         class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="WorkflowName"                                >${workflowName}</td>
+              <td data-name="PreviousAssigneeName"                        >${previousAssigneeName}</td>
+              <td data-name="LastActionTaken"                             >${lastActionTaken}</td>
+              <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
+              <td data-name="CurrentState"                                >${currentState}</td>
+              <td class="buttons">
+                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
+                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+        case 'InProgress':
+
+          return `
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
+              <td data-name="TemplateDescription"${tooltip}               >${nameString}</td>
+              <td data-name="RelatesTo"                                   >${relatesTo}</td>
+              <td data-name="PayPoint"              class="paypoint"      >${payPoint}</td>
+              <td data-name="EffectiveDate"         class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="WorkflowName"                                >${workflowName}</td>
+              <td data-name="PreviousAssigneeName"                        >${previousAssigneeName}</td>
+              <td data-name="LastActionTaken"                             >${lastActionTaken}</td>
+              <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
+              <td data-name="CurrentState"                                >${currentState}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+        case 'Completed':
+
+          return `
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
+              <td data-name="TemplateDescription"${tooltip}               >${nameString}</td>
+              <td data-name="RelatesTo"                                   >${relatesTo}</td>
+              <td data-name="PayPoint"              class="paypoint"      >${payPoint}</td>
+              <td data-name="EffectiveDate"         class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="WorkflowName"                                >${workflowName}</td>
+              <td data-name="PreviousAssigneeName"                        >${previousAssigneeName}</td>
+              <td data-name="LastActionTaken"                             >${lastActionTaken}</td>
+              <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
+              <td data-name="CurrentState"                                >${currentState}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+      }
+
+      return '';
+    };
+
+    /* User Results */
+
+    this.ResultGridTemplate = () =>
+    {
+      let toggleToAction = '';
+      let toggleInProgress = '';
+      let toggleCompleted = '';
+      if (this.ShowModeToggle)
+      {
+        toggleToAction = this.ToggleTemplate({
+          Label: 'Admin',
+          Id: 'AdminToggleToAction',
+          On: false
+        });
+        toggleInProgress = this.ToggleTemplate({
+          Label: 'Admin',
+          Id: 'AdminToggleToAction',
+          On: false
+        });
+        toggleCompleted = this.ToggleTemplate({
+          Label: 'Admin',
+          Id: 'AdminToggleToAction',
+          On: false
+        });
+      }
       return `
-        <span class="sort-pill" data-column="${data.Column}" data-ascending="${data.Ascending}" data-type="${data.Type}">
-          ${data.Label}
-          <span class="sort-pill-icon ${direction}"></span>
-          <span class="sort-pill-close"></span>
-        </span>
+      <div class="inbox-tabs">
+        <div class="inbox-tabs-left">
+          <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
+          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div> 
+          <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
+        </div>
+        <div class="inbox-tabs-right">
+          <div class="inbox-tab-loader"></div>
+          <div class="inbox-tab-button">
+            <button data-action="startnew">Start a New Form</button>
+          </div>
+        </div>
+      </div>
+      <div class="inbox-search">
+        <div class="search-row">
+          <input type="text" placeholder="Search" />
+          <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
+          <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+        </div>
+        <div class="search-row search-columns">
+          <div class="hidden" data-category="ToAction"></div>
+          <div class="hidden" data-category="InProgress"></div>
+          <div class="hidden" data-category="Completed"></div>
+        </div>
+        <div class="search-row search-dates">
+          <label for="StartDate">From</label>
+          <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
+          <label for="EndDate">To</label>
+          <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
+        </div>
+      </div>
+      <div class="inbox-sort-bars">
+        <div class="inbox-sort-bar" data-categroy="ToAction">
+          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        </div>
+        <div class="inbox-sort-bar" data-categroy="InProgress">
+          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        </div>
+        <div class="inbox-sort-bar" data-categroy="Completed">
+          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        </div>
+      </div>
+      <div class="inbox-tab-boxes">
+        <div class="inbox-tab-box" data-category="ToAction">
+          <table class="inbox-grid" data-category="ToAction">
+            <thead>
+              <tr>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
+                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+                <th class="buttons">
+                  ${toggleToAction}
+                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                  <div class="icon-dots-vert colum-menu-box">
+                    <div class="colum-menu">
+                      <div class="colum-menu-item">More Columns</div>
+                      <div class="colum-menu-item" data-column="EffectiveDate">
+                        <input type="checkbox" id="ToActionEffectiveDateColumn" checked /><label for="ToActionEffectiveDateColumn">Effective Date</label>
+                      </div>
+                      <div class="colum-menu-item" data-column="PayPoint">
+                        <input type="checkbox" id="ToActionPayPointColumn" /><label for="ToActionPayPointColumn">Pay Point</label>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+        <div class="inbox-tab-box hidden" data-category="InProgress">
+          <table class="inbox-grid" data-category="InProgress">
+            <thead>
+              <tr>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >Assigned To</th>
+                <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
+                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+                <th class="buttons">
+                  ${toggleInProgress}
+                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                  <div class="icon-dots-vert colum-menu-box">
+                    <div class="colum-menu">
+                      <div class="colum-menu-item">More Columns</div>
+                      <div class="colum-menu-item" data-column="EffectiveDate">
+                        <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
+                      </div>
+                      <div class="colum-menu-item" data-column="PayPoint">
+                        <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+        <div class="inbox-tab-box hidden" data-category="Completed">
+          <table class="inbox-grid" data-category="Completed">
+            <thead>
+              <tr>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Final State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >Completed By</th>
+                <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
+                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+                <th class="buttons">
+                  ${toggleCompleted}
+                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                  <div class="icon-dots-vert colum-menu-box">
+                    <div class="colum-menu">
+                      <div class="colum-menu-item">More Columns</div>
+                      <div class="colum-menu-item" data-column="EffectiveDate">
+                        <input type="checkbox" id="CompletedEffectiveDateColumn" checked /><label for="CompletedEffectiveDateColumn">Effective Date</label>
+                      </div>
+                      <div class="colum-menu-item" data-column="PayPoint">
+                        <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+      </div>
       `;
     };
 
@@ -23966,6 +24370,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
       let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
+
+      let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
+      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+
+      let tooltip = '';
+      let tooltipMessage = '';
+      if (isOverdue)
+      {
+        tooltipMessage += 'Form is Overdue'
+      }
+      if (tooltipMessage !== '')
+      {
+        tooltip = ` data-tooltip="${tooltipMessage}" data-tooltip-dir="top,right"`;
+      }
 
       let nameString = data.TemplateDescription;
       if(data.SharedBy !== null)
@@ -23988,8 +24406,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         case 'ToAction':
 
           return `
-            <tr data-instance="${data.InstanceId}">
-              <td data-name="TemplateDescription"                   >${nameString}</td>
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
+              <td data-name="TemplateDescription"${tooltip}         >${nameString}</td>
               <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="CurrentState"                          >${currentState}</td>
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
@@ -24007,8 +24425,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         case 'InProgress':
 
           return `
-            <tr data-instance="${data.InstanceId}">
-              <td data-name="TemplateDescription"                   >${nameString}</td>
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
+              <td data-name="TemplateDescription"${tooltip}         >${nameString}</td>
               <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="CurrentState"                          >${currentState}</td>
               <td data-name="CurrentAssigneeName"                   >${currentAssigneeName}</td>
@@ -24027,8 +24445,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         case 'Completed':
 
           return `
-            <tr data-instance="${data.InstanceId}">
-              <td data-name="TemplateDescription"                   >${nameString}</td>
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
+              <td data-name="TemplateDescription"${tooltip}         >${nameString}</td>
               <td data-name="RelatesTo"                             >${relatesTo}</td>
               <td data-name="CurrentState"                          >${currentState}</td>
               <td data-name="CompletedByName"                       >${completedByName}</td>
@@ -24048,6 +24466,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       return '';
     };
 
+    /* Error and Empty rows */
 
     this.ErrorResultTemplate = error =>
     {
@@ -24223,6 +24642,45 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
       return '';
     };
+
+    /* other */
+
+    this.SearchCheckTemplate = (data) =>
+    {
+      let forId = `${data.Category}_${data.Column}`;
+      return `
+        <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
+          <label for="${forId}">${data.Label}</label>
+          <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
+        </div>
+      `;
+    };
+
+    this.SortPillTemplate = data =>
+    {
+      let direction = data.Ascending ? 'asc' : 'desc';
+      return `
+        <span class="sort-pill" data-column="${data.Column}" data-ascending="${data.Ascending}" data-type="${data.Type}">
+          ${data.Label}
+          <span class="sort-pill-icon ${direction}"></span>
+          <span class="sort-pill-close"></span>
+        </span>
+      `;
+    };
+
+    this.ToggleTemplate = data =>
+    {
+      let checked = data.On ? ' checked="checked"' : '';
+      return `
+      <div class="toggle-container">
+        <label class="toggle-title" for="${data.Id}">${data.Label}</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="${data.Id}"${checked} />
+          <span class="slider"></span>
+        </label>
+      </div>
+      `;
+    }
   }
 };;
 /**
