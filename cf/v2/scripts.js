@@ -22515,22 +22515,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
     {
       this.MemberType = Affinity2018.UserProfile.MemberType;
-
-      if (this.MemberType === "P") // Payroll Admin
+      if (this.MemberType === "P" || parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000) // Payroll Admin
       {
         this.IsPayrollAdmin = true;
         this.ViewMode = 'Admin';
         this.ShowModeToggle = true;
       }
-
-      if (this.MemberType === "M") // 5 Million User
-      {
-        this.Admin = true;
-        this.ViewMode = 'Admin';
-        this.ShowModeToggle = true;
-      }
-
     }
+	else if (parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000) // Payroll Admin
+	{
+      this.IsPayrollAdmin = true;
+      this.ViewMode = 'Admin';
+      this.ShowModeToggle = true;
+	}
 
     /* For debugging ONLY *
     this.MemberType = 'P';
