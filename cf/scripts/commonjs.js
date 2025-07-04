@@ -18898,7 +18898,8 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                       console.log("Token refreshed successfully");
                       setupInterceptors();
                       resolve(data.token);
-                    } else
+                    }
+                    else
                     {
                       reject(new Error("Invalid token response"));
                     }
@@ -18976,6 +18977,28 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
         {
           refreshAntiForgeryToken();
         }, 15 * 60 * 1000);
+      }
+      else
+      {
+        refreshAntiForgeryToken()
+          .then(function (token)
+          {
+            // Token is now set in window.AntiForgeryToken
+            // Start the refresh interval after initial token is obtained
+            setInterval(function ()
+            {
+              refreshAntiForgeryToken();
+            }, 15 * 60 * 1000);
+          })
+          .catch(function (error)
+          {
+            console.error("Failed to get initial token:", error);
+            // Still set up the interval to retry later
+            setInterval(function ()
+            {
+              refreshAntiForgeryToken();
+            }, 15 * 60 * 1000);
+        });
       }
       // END Anti forgery Token headers
       if (!document.querySelector('style.scrollbars'))

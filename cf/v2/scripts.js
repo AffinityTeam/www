@@ -7599,7 +7599,7 @@
       let axiosInterceptorId = null;
       function refreshAntiForgeryToken()
       {
-        return (window.axios ? axios.get('/Api/RefreshToken') : fetch('/Api/RefreshToken'))
+        return (window.axios ? axios.get('/Api/RefreshAntiForgeryToken') : fetch('/Api/RefreshAntiForgeryToken'))
           .then(response =>
           {
             if (window.axios)
@@ -7664,8 +7664,34 @@
       if (window.AntiForgeryToken)
       {
         setupInterceptors();
-        setInterval(refreshAntiForgeryToken, 15 * 60 * 1000);
+        setInterval(function ()
+        {
+          refreshAntiForgeryToken();
+        }, 15 * 60 * 1000);
       }
+      else
+      {
+        refreshAntiForgeryToken()
+          .then(function (token)
+          {
+            // Token is now set in window.AntiForgeryToken
+            // Start the refresh interval after initial token is obtained
+            setInterval(function ()
+            {
+              refreshAntiForgeryToken();
+            }, 15 * 60 * 1000);
+          })
+          .catch(function (error)
+          {
+            console.error("Failed to get initial token:", error);
+            // Still set up the interval to retry later
+            setInterval(function ()
+            {
+              refreshAntiForgeryToken();
+            }, 15 * 60 * 1000);
+        });
+      }
+
       // END Anti forgery token headers
 
       Affinity2018.ShowPageLoader = this.showLoadLock;
