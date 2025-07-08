@@ -7595,6 +7595,7 @@
       this.enabled = false;
 
       // Anti forgery token headers
+      const appName = "CleverFormsV2";
       const originalFetch = window.fetch;
       let axiosInterceptorId = null;
       function refreshAntiForgeryToken()
@@ -7616,82 +7617,102 @@
             if (token)
             {
               window.AntiForgeryToken = token;
-              console.log("Token refreshed successfully");
+              console.log(appName + ": Antiforgery token refreshed successfully");
               setupInterceptors();
               return token;
             }
           })
           .catch(error =>
           {
-            console.error("Failed to refresh token", error);
+            console.error(appName + ": Failed to refresh token", error);
             throw error;
           });
       }
       function setupInterceptors()
       {
-        if (window.axios)
+        if (window.axios && !window.axios._antiForgeryPatched)
         {
+          window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+          window.axios.defaults.withCredentials = true;
           if (axiosInterceptorId !== null)
           {
             axios.interceptors.request.eject(axiosInterceptorId);
           }
           axiosInterceptorId = axios.interceptors.request.use(config =>
           {
-            config.withCredentials = true;
-            config.headers = {
-              ...config.headers,
-              "__RequestVerificationToken": window.AntiForgeryToken
-            };
+            const antiForgeryToken = window.AntiForgeryToken || "";
+            if (antiForgeryToken && config.method && config.method.toUpperCase() !== 'GET')
+            {
+              config.headers = {
+                ...config.headers,
+                "__RequestVerificationToken": antiForgeryToken
+              };
+              console.log(appName + ": Added antiforgery token to axios", config.method.toUpperCase(), config.url);
+            }
+            else if (config.method && config.method.toUpperCase() !== 'GET')
+            {
+              console.log(appName + ": No antiforgery token available for axios", config.method.toUpperCase(), config.url);
+            }
             return config;
           });
+          window.axios._antiForgeryPatched = true;
         }
-        if (window.fetch)
+        if (window.fetch && !window.fetch._antiForgeryPatched)
         {
           window.fetch = function (url, options)
           {
             options = options || {};
             if (!options.headers) options.headers = {};
+            options.headers['X-Requested-With'] = 'XMLHttpRequest';
+            options.credentials = options.credentials || 'include';
             const method = options.method ? options.method.toUpperCase() : 'GET';
-            if (method === 'POST' || method === 'PUT' || method === 'DELETE')
+            const antiForgeryToken = window.AntiForgeryToken || "";
+            if (antiForgeryToken && method !== 'GET')
             {
-              options.credentials = 'include';
-              options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
+              options.headers['__RequestVerificationToken'] = antiForgeryToken;
+              console.log(appName + ": Added antiforgery token to fetch", method, url);
+            }
+            else if (method !== 'GET')
+            {
+              console.log(appName + ": No antiforgery token available for fetch", method, url);
             }
             return originalFetch.call(this, url, options);
           };
+          window.fetch._antiForgeryPatched = true;
         }
       }
       if (window.AntiForgeryToken)
       {
+        console.log(appName + ": Initial antiforgery token set.");
         setupInterceptors();
-        setInterval(function ()
+        clearInterval(window._antiTokenRefreshTimer);
+        window._antiTokenRefreshTimer = setInterval(function ()
         {
           refreshAntiForgeryToken();
         }, 15 * 60 * 1000);
       }
       else
       {
+        console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
         refreshAntiForgeryToken()
           .then(function (token)
           {
-            // Token is now set in window.AntiForgeryToken
-            // Start the refresh interval after initial token is obtained
-            setInterval(function ()
+            clearInterval(window._antiTokenRefreshTimer);
+            window._antiTokenRefreshTimer = setInterval(function ()
             {
               refreshAntiForgeryToken();
             }, 15 * 60 * 1000);
           })
           .catch(function (error)
           {
-            console.error("Failed to get initial token:", error);
-            // Still set up the interval to retry later
-            setInterval(function ()
+            console.error(appName + ": Failed to get initial antiforgery token:", error);
+            clearInterval(window._antiTokenRefreshTimer);
+            window._antiTokenRefreshTimer = setInterval(function ()
             {
               refreshAntiForgeryToken();
             }, 15 * 60 * 1000);
         });
       }
-
       // END Anti forgery token headers
 
       Affinity2018.ShowPageLoader = this.showLoadLock;
