@@ -18956,12 +18956,12 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           {
             this._method = method ? method.toUpperCase() : 'GET';
             this._url = url;
-            return originalOpen.apply(this, arguments);
+            return originalOpen.call(this, method, url, async, user, password);
           };
           XMLHttpRequest.prototype.setRequestHeader = function(header, value)
           {
             this._hasCustomHeaders = true;
-            return originalSetRequestHeader.apply(this, arguments);
+            return originalSetRequestHeader.call(this, header, value);
           };
           XMLHttpRequest.prototype.send = function(data)
           {
@@ -18980,7 +18980,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             {
               console.log(appName + ": No antiforgery token available for XMLHttpRequest", this._method, this._url);
             }
-            return originalSend.apply(this, arguments);
+            return originalSend.call(this, data);
           };
           window.XMLHttpRequest._antiForgeryPatched = true;
         }
