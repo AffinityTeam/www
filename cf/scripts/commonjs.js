@@ -18946,42 +18946,66 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           });
           window.axios._antiForgeryPatched = true;
         }
-        // XMLHttpRequest interceptor
-        if (window.XMLHttpRequest && !window.XMLHttpRequest._antiForgeryPatched)
+        // Add XMLHttpRequest interceptor that adds antiforgery token for non-GET requests
+        if (!window.XMLHttpRequest._antiForgeryPatched)
         {
-          var originalOpen = XMLHttpRequest.prototype.open;
-          var originalSend = XMLHttpRequest.prototype.send;
-          var originalSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
-          XMLHttpRequest.prototype.open = function(method, url, async, user, password)
+          var OriginalXHR = window.XMLHttpRequest;
+          window.XMLHttpRequest = function()
           {
-            this._method = method ? method.toUpperCase() : 'GET';
-            this._url = url;
-            return originalOpen.call(this, method, url, async, user, password);
+            var xhr = new OriginalXHR();
+            var originalOpen = xhr.open;
+            var originalSend = xhr.send;
+            var originalSetRequestHeader = xhr.setRequestHeader;
+            xhr._headers = {};
+            xhr.setRequestHeader = function(header, value)
+            {
+              xhr._headers[header] = value;
+              return originalSetRequestHeader.apply(xhr, arguments);
+            };
+            xhr.open = function(method, url)
+            {
+              xhr._method = method.toUpperCase();
+              xhr._url = url;
+              var result = originalOpen.apply(xhr, arguments);
+              xhr.withCredentials = true;  // Set AFTER open() call
+              return result;
+            };
+            xhr.send = function(data)
+            {
+              if (!xhr._headers['X-Requested-With'])
+              {
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+              }
+              // Add anti-forgery token for non-GET
+              var antiForgeryToken = window.AntiForgeryToken || "";
+              if (antiForgeryToken && xhr._method !== 'GET')
+              {
+                xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
+                console.log(appName + ": Added antiforgery token", xhr._method, xhr._url);
+              }
+              else if (xhr._method !== 'GET')
+              {
+                console.log(appName + ": No antiforgery token available for XMLHttpRequest", xhr._method, xhr._url);
+              }
+              var originalHandler = xhr.onreadystatechange;
+              xhr.onreadystatechange = function()
+              {
+                if (xhr.readyState === 4 && xhr.status === 401)
+                {
+                  // Add any 401 response handlers here
+                }
+                if (originalHandler) originalHandler.apply(xhr, arguments);
+              };
+              return originalSend.apply(xhr, arguments);
+            };
+            return xhr;
           };
-          XMLHttpRequest.prototype.setRequestHeader = function(header, value)
+          // Copy ALL properties (including inherited ones)
+          for (var prop in OriginalXHR)
           {
-            this._hasCustomHeaders = true;
-            return originalSetRequestHeader.call(this, header, value);
-          };
-          XMLHttpRequest.prototype.send = function(data)
-          {
-            if (!this._hasCustomHeaders)
-            {
-              this.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            }
-            this.withCredentials = true;
-            var antiForgeryToken = window.AntiForgeryToken || "";
-            if (antiForgeryToken && this._method && this._method !== 'GET')
-            {
-              this.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
-              console.log(appName + ": Added antiforgery token to XMLHttpRequest", this._method, this._url);
-            }
-            else if (this._method && this._method !== 'GET')
-            {
-              console.log(appName + ": No antiforgery token available for XMLHttpRequest", this._method, this._url);
-            }
-            return originalSend.call(this, data);
-          };
+            window.XMLHttpRequest[prop] = OriginalXHR[prop];
+          }
+          window.XMLHttpRequest.prototype = OriginalXHR.prototype;
           window.XMLHttpRequest._antiForgeryPatched = true;
         }
         // Fetch interceptor
