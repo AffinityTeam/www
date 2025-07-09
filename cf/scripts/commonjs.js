@@ -18828,8 +18828,8 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
     {
       // Anti forgery Token headers
       var appName = "CleverForms";
-      var originalFetch = window.fetch;
       var axiosInterceptorId = null;
+      var originalFetch = window.fetch;
       function refreshAntiForgeryToken()
       {
         if (window.axios)
