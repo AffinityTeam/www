@@ -18826,267 +18826,344 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
 
     init()
     {
+      
       // Anti forgery Token headers
-      var appName = "CleverForms";
-      var axiosInterceptorId = null;
-      var originalFetch = window.fetch;
-      function refreshAntiForgeryToken()
+      (function()
       {
-        if (window.axios)
+        var appName = "CleverForms";
+        var originalFetch = null;
+        var originalXHR = null;
+        // Helper function to check if URL should get anti-forgery token
+        const shouldAddToken = function(url)
         {
-          return axios.get('/Api/RefreshAntiForgeryToken')
-            .then(function (response)
-            {
-              return response.data && response.data.token;
-            })
-            .then(function (token)
-            {
-              if (token)
-              {
-                window.AntiForgeryToken = token;
-                console.log(appName + ": Antiforgery token refreshed successfully");
-                setupInterceptors();
-                return token;
-              }
-            })
-            .catch(function (error)
-            {
-              console.error(appName + ": Failed to refresh token", error);
-              throw error;
-            });
-        }
-        else if (window.fetch)
+          if (!url) return true; // Default to true for relative URLs
+          if (url.indexOf('://') === -1) return true; // Relative URL
+          if (url.indexOf('/') === 0) return true; // Absolute path
+          // Extract hostname from URL
+          var hostname;
+          try
+          {
+            var urlObj = new URL(url, window.location.origin);
+            hostname = urlObj.hostname.toLowerCase();
+          }
+          catch (e)
+          {
+            // Fallback for older browsers
+            var match = url.match(/^https?:\/\/([^\/]+)/);
+            hostname = match ? match[1].toLowerCase() : '';
+          }
+          if (!hostname) return true; // If we can't parse, assume it's safe
+          // Allow localhost for development
+          if (hostname === 'localhost' || hostname.indexOf('localhost:') === 0) return true;
+          // Allow affinitylogon.com and all subdomains
+          if (hostname === 'affinitylogon.com' || hostname.endsWith('.affinitylogon.com')) return true;
+          // Allow testaffinitylogon.com and all subdomains  
+          if (hostname === 'testaffinitylogon.com' || hostname.endsWith('.testaffinitylogon.com')) return true;
+          // Allow current domain and subdomains (for cases like internal APIs)
+          var currentHost = window.location.hostname.toLowerCase();
+          if (hostname === currentHost) return true;
+          // Deny all other external domains
+          return false;
+        };
+        function refreshAntiForgeryToken()
         {
-          return originalFetch('/Api/RefreshAntiForgeryToken')
-            .then(function (response)
-            {
-              return response.json();
-            })
-            .then(function (data)
-            {
-              if (data && data.token)
+          if (window.axios)
+          {
+            return axios.get('/Api/RefreshAntiForgeryToken')
+              .then(function (response)
               {
-                window.AntiForgeryToken = data.token;
-                console.log(appName + ": Antiforgery token refreshed successfully");
-                setupInterceptors();
-                return data.token;
-              }
-            })
-            .catch(function (error)
+                return response.data && response.data.token;
+              })
+              .then(function (token)
+              {
+                if (token)
+                {
+                  window.AntiForgeryToken = token;
+                  console.log(appName + ": Antiforgery token refreshed successfully");
+                  setupInterceptors();
+                  return token;
+                }
+              })
+              .catch(function (error)
+              {
+                console.error(appName + ": Failed to refresh token", error);
+                throw error;
+              });
+          }
+          else if (window.fetch)
+          {
+            return originalFetch('/Api/RefreshAntiForgeryToken')
+              .then(function (response)
+              {
+                return response.json();
+              })
+              .then(function (data)
+              {
+                if (data && data.token)
+                {
+                  window.AntiForgeryToken = data.token;
+                  console.log(appName + ": Antiforgery token refreshed successfully");
+                  setupInterceptors();
+                  return data.token;
+                }
+              })
+              .catch(function (error)
+              {
+                console.error(appName + ": Failed to refresh token", error);
+                throw error;
+              });
+          }
+          else
+          {
+            var xhr = new XMLHttpRequest();
+            return new Promise(function (resolve, reject)
             {
-              console.error(appName + ": Failed to refresh token", error);
-              throw error;
+              xhr.open('GET', '/Api/RefreshAntiForgeryToken', true);
+              xhr.onreadystatechange = function ()
+              {
+                if (xhr.readyState === 4)
+                {
+                  if (xhr.status === 200)
+                  {
+                    try
+                    {
+                      var data = JSON.parse(xhr.responseText);
+                      if (data && data.token)
+                      {
+                        window.AntiForgeryToken = data.token;
+                        console.log(appName + ": Antiforgery token refreshed successfully");
+                        setupInterceptors();
+                        resolve(data.token);
+                      }
+                      else
+                      {
+                        reject(new Error(appName + ": Invalid token response"));
+                      }
+                    }
+                    catch (e)
+                    {
+                      reject(e);
+                    }
+                  }else
+                  {
+                    reject(new Error(appName + ": Failed to refresh token, status: " + xhr.status));
+                  }
+                }
+              };
+              xhr.send();
             });
+          }
+        };
+        function setupInterceptors()
+        {
+          // Axios interceptor
+          if (window.axios && !window.axios._antiForgeryPatched)
+          {
+            window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+            window.axios.defaults.withCredentials = true;
+            window.axios.interceptors.request.use(function (config)
+            {
+              var antiForgeryToken = window.AntiForgeryToken || "";
+              if (antiForgeryToken && config.method && config.method.toUpperCase() !== 'GET' && shouldAddToken(config.url))
+              {
+                config.headers = config.headers || {};
+                delete config.headers["__RequestVerificationToken"];
+                config.headers["__RequestVerificationToken"] = antiForgeryToken;
+                console.log(appName + ": Added antiforgery token to axios", config.method.toUpperCase(), config.url);
+              }
+              else if (config.method && config.method.toUpperCase() !== 'GET' && !shouldAddToken(config.url))
+              {
+                console.log(appName + ": Skipping antiforgery token for external axios", config.method.toUpperCase(), config.url);
+              }
+              else if (config.method && config.method.toUpperCase() !== 'GET')
+              {
+                console.log(appName + ": No antiforgery token available for axios", config.method.toUpperCase(), config.url);
+              }
+              return config;
+            });
+            window.axios._antiForgeryPatched = true;
+            console.log("%cAxios injected anti-forgery token interceptor", "color: green");
+          }
+          else if (window.axios && window.axios._antiForgeryPatched)
+          {
+            console.log("%cAxios already injected anti-forgery token interceptor", "color: yellow");
+          }
+          // Add XMLHttpRequest interceptor that adds antiforgery token for non-GET requests
+          if (!window.XMLHttpRequest._antiForgeryPatched)
+          {
+            originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function()
+            {
+              var xhr = new originalXHR();
+              var originalOpen = xhr.open;
+              var originalSend = xhr.send;
+              var originalSetRequestHeader = xhr.setRequestHeader;
+              xhr._headers = {};
+              xhr.setRequestHeader = function(header, value)
+              {
+                xhr._headers[header] = value;
+                return originalSetRequestHeader.apply(xhr, arguments);
+              };
+              xhr.open = function(method, url)
+              {
+                xhr._method = method.toUpperCase();
+                xhr._url = url;
+                var result = originalOpen.apply(xhr, arguments);
+                xhr.withCredentials = true;  // Set AFTER open() call
+                return result;
+              };
+              xhr.send = function(data)
+              {
+                if (!xhr._headers['X-Requested-With'])
+                {
+                  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                }
+                // Add anti-forgery token for non-GET same-origin requests only
+                var antiForgeryToken = window.AntiForgeryToken || "";
+                if (antiForgeryToken && xhr._method !== 'GET' && shouldAddToken(xhr._url))
+                {
+                  xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
+                  console.log(appName + ": Added antiforgery token", xhr._method, xhr._url);
+                }
+                else if (xhr._method !== 'GET' && !shouldAddToken(xhr._url))
+                {
+                  console.log(appName + ": Skipping antiforgery token for external", xhr._method, xhr._url);
+                }
+                else if (xhr._method !== 'GET')
+                {
+                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", xhr._method, xhr._url);
+                }
+                var originalHandler = xhr.onreadystatechange;
+                xhr.onreadystatechange = function()
+                {
+                  if (xhr.readyState === 4 && xhr.status === 401)
+                  {
+                    // Add any 401 response handlers here
+                  }
+                  if (originalHandler) originalHandler.apply(xhr, arguments);
+                };
+                return originalSend.apply(xhr, arguments);
+              };
+              return xhr;
+            };
+            // Copy ALL properties (including inherited ones)
+            for (var prop in originalXHR)
+            {
+              window.XMLHttpRequest[prop] = originalXHR[prop];
+            }
+            window.XMLHttpRequest.prototype = originalXHR.prototype;
+            window.XMLHttpRequest._antiForgeryPatched = true;
+            console.log("%cXMLHttpRequest injected anti-forgery token interceptor", "color: green");
+          }
+          else if (window.XMLHttpRequest._antiForgeryPatched)
+          {
+            console.log("%cXMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
+          }
+          // Fetch interceptor
+          if (window.fetch && !window.fetch._antiForgeryPatched)
+          {
+            originalFetch = window.fetch;
+            window.fetch = function (url, options)
+            {
+              options = options || {};
+              options.headers = options.headers || {};
+              options.headers['X-Requested-With'] = 'XMLHttpRequest';
+              options.credentials = options.credentials || 'include';
+              var method = (options.method || 'GET').toUpperCase();
+              var antiForgeryToken = window.AntiForgeryToken || "";
+              if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
+              {
+                delete options.headers['__RequestVerificationToken'];
+                options.headers['__RequestVerificationToken'] = antiForgeryToken;
+                console.log(appName + ": Added antiforgery token to fetch", method, url);
+              }
+              else if (method !== 'GET' && !shouldAddToken(url))
+              {
+                console.log(appName + ": Skipping antiforgery token for external fetch", method, url);
+              }
+              else if (method !== 'GET')
+              {
+                console.log(appName + ": No antiforgery token available for fetch", method, url);
+              }
+              return originalFetch.call(this, url, options);
+            };
+            window.fetch._antiForgeryPatched = true;
+            console.log("%cFetch injected anti-forgery token interceptor", "color: green");
+          }
+          else if (window.fetch && window.fetch._antiForgeryPatched)
+          {
+            console.log("%cFetch already injected anti-forgery token interceptor", "color: yellow");
+          }
+          // MooTools interceptor
+          if (window.MooTools && window.Request && !window.Request._antiForgeryPatched)
+          {
+            var originalInitialize = Request.prototype.initialize;
+            Request.prototype.initialize = function (options)
+            {
+              originalInitialize.apply(this, arguments);
+              if (window.AntiForgeryToken && window.AntiForgeryToken !== '')
+              {
+                this.options.headers = this.options.headers || {};
+                var method = (this.options.method || 'get').toLowerCase();
+                if (method === 'post' || method === 'put' || method === 'delete')
+                {
+                  if (shouldAddToken(this.options.url))
+                  {
+                    this.options.withCredentials = true;
+                    delete this.options.headers['__RequestVerificationToken'];
+                    this.options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
+                    console.log(appName + ": Added antiforgery token to MooTools", method.toUpperCase(), this.options.url);
+                  }
+                  else
+                  {
+                    console.log(appName + ": Skipping antiforgery token for external MooTools", method.toUpperCase(), this.options.url);
+                  }
+                }
+              }
+            };
+            window.Request._antiForgeryPatched = true;
+            console.log("%cMooTools injected anti-forgery token interceptor", "color: green");
+          }
+          else if (window.MooTools && window.Request && window.Request._antiForgeryPatched)
+          {
+              console.log("%cMooTools already injected anti-forgery token interceptor", "color: yellow");
+          }
+        };
+        if (window.AntiForgeryToken)
+        {
+          console.log(appName + ": Initial antiforgery token set.");
+          setupInterceptors();
+          clearInterval(window._antiTokenRefreshTimer);
+          window._antiTokenRefreshTimer = setInterval(function ()
+          {
+            refreshAntiForgeryToken();
+          }, 15 * 60 * 1000);
         }
         else
         {
-          var xhr = new XMLHttpRequest();
-          return new Promise(function (resolve, reject)
-          {
-            xhr.open('GET', '/Api/RefreshAntiForgeryToken', true);
-            xhr.onreadystatechange = function ()
+          console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
+          refreshAntiForgeryToken()
+            .then(function (token)
             {
-              if (xhr.readyState === 4)
+              clearInterval(window._antiTokenRefreshTimer);
+              window._antiTokenRefreshTimer = setInterval(function ()
               {
-                if (xhr.status === 200)
-                {
-                  try
-                  {
-                    var data = JSON.parse(xhr.responseText);
-                    if (data && data.token)
-                    {
-                      window.AntiForgeryToken = data.token;
-                      console.log(appName + ": Antiforgery token refreshed successfully");
-                      setupInterceptors();
-                      resolve(data.token);
-                    }
-                    else
-                    {
-                      reject(new Error(appName + ": Invalid token response"));
-                    }
-                  } catch (e)
-                  {
-                    reject(e);
-                  }
-                } else
-                {
-                  reject(new Error(appName + ": Failed to refresh token, status: " + xhr.status));
-                }
-              }
-            };
-            xhr.send();
-          });
+                refreshAntiForgeryToken();
+              }, 15 * 60 * 1000);
+            })
+            .catch(function (error)
+            {
+              console.error(appName + ": Failed to get initial antiforgery token:", error);
+              clearInterval(window._antiTokenRefreshTimer);
+              window._antiTokenRefreshTimer = setInterval(function ()
+              {
+                refreshAntiForgeryToken();
+              }, 15 * 60 * 1000);
+            });
         }
-      }
-      function setupInterceptors()
-      {
-        // Axios interceptor
-        if (window.axios && !window.axios._antiForgeryPatched)
-        {
-          window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-          window.axios.defaults.withCredentials = true;
-          if (axiosInterceptorId !== null)
-          {
-            axios.interceptors.request.eject(axiosInterceptorId);
-          }
-          axiosInterceptorId = axios.interceptors.request.use(function (config)
-          {
-            var antiForgeryToken = window.AntiForgeryToken || "";
-            if (antiForgeryToken && config.method && config.method.toUpperCase() !== 'GET')
-            {
-              config.headers = config.headers || {};
-              config.headers["__RequestVerificationToken"] = antiForgeryToken;
-              console.log(appName + ": Added antiforgery token to axios", config.method.toUpperCase(), config.url);
-            }
-            else if (config.method && config.method.toUpperCase() !== 'GET')
-            {
-              console.log(appName + ": No antiforgery token available for axios", config.method.toUpperCase(), config.url);
-            }
-            return config;
-          });
-          window.axios._antiForgeryPatched = true;
-        }
-        // Add XMLHttpRequest interceptor that adds antiforgery token for non-GET requests
-        if (!window.XMLHttpRequest._antiForgeryPatched)
-        {
-          var OriginalXHR = window.XMLHttpRequest;
-          window.XMLHttpRequest = function()
-          {
-            var xhr = new OriginalXHR();
-            var originalOpen = xhr.open;
-            var originalSend = xhr.send;
-            var originalSetRequestHeader = xhr.setRequestHeader;
-            xhr._headers = {};
-            xhr.setRequestHeader = function(header, value)
-            {
-              xhr._headers[header] = value;
-              return originalSetRequestHeader.apply(xhr, arguments);
-            };
-            xhr.open = function(method, url)
-            {
-              xhr._method = method.toUpperCase();
-              xhr._url = url;
-              var result = originalOpen.apply(xhr, arguments);
-              xhr.withCredentials = true;  // Set AFTER open() call
-              return result;
-            };
-            xhr.send = function(data)
-            {
-              if (!xhr._headers['X-Requested-With'])
-              {
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-              }
-              // Add anti-forgery token for non-GET
-              var antiForgeryToken = window.AntiForgeryToken || "";
-              if (antiForgeryToken && xhr._method !== 'GET')
-              {
-                xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
-                console.log(appName + ": Added antiforgery token", xhr._method, xhr._url);
-              }
-              else if (xhr._method !== 'GET')
-              {
-                console.log(appName + ": No antiforgery token available for XMLHttpRequest", xhr._method, xhr._url);
-              }
-              var originalHandler = xhr.onreadystatechange;
-              xhr.onreadystatechange = function()
-              {
-                if (xhr.readyState === 4 && xhr.status === 401)
-                {
-                  // Add any 401 response handlers here
-                }
-                if (originalHandler) originalHandler.apply(xhr, arguments);
-              };
-              return originalSend.apply(xhr, arguments);
-            };
-            return xhr;
-          };
-          // Copy ALL properties (including inherited ones)
-          for (var prop in OriginalXHR)
-          {
-            window.XMLHttpRequest[prop] = OriginalXHR[prop];
-          }
-          window.XMLHttpRequest.prototype = OriginalXHR.prototype;
-          window.XMLHttpRequest._antiForgeryPatched = true;
-        }
-        // Fetch interceptor
-        if (window.fetch && !window.fetch._antiForgeryPatched)
-        {
-          window.fetch = function (url, options)
-          {
-            options = options || {};
-            options.headers = options.headers || {};
-            options.headers['X-Requested-With'] = 'XMLHttpRequest';
-            options.credentials = options.credentials || 'include';
-            var method = (options.method || 'GET').toUpperCase();
-            var antiForgeryToken = window.AntiForgeryToken || "";
-            if (antiForgeryToken && method !== 'GET')
-            {
-              options.headers['__RequestVerificationToken'] = antiForgeryToken;
-              console.log(appName + ": Added antiforgery token to fetch", method, url);
-            }
-            else if (method !== 'GET')
-            {
-              console.log(appName + ": No antiforgery token available for fetch", method, url);
-            }
-            return originalFetch.call(this, url, options);
-          };
-          window.fetch._antiForgeryPatched = true;
-        }
-        // MooTools interceptor
-        if (window.MooTools && window.Request && !window.Request._antiForgeryPatched)
-        {
-          var originalInitialize = Request.prototype.initialize;
-          Request.prototype.initialize = function (options)
-          {
-            originalInitialize.apply(this, arguments);
-            if (window.AntiForgeryToken && window.AntiForgeryToken !== '')
-            {
-              this.options.headers = this.options.headers || {};
-              var method = (this.options.method || 'get').toLowerCase();
-              if (method === 'post' || method === 'put' || method === 'delete')
-              {
-                this.options.withCredentials = true;
-                this.options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
-                console.log(appName + ": Added antiforgery token to MooTools", method.toUpperCase(), this.options.url);
-              }
-            }
-          };
-          window.Request._antiForgeryPatched = true;
-        }
-      }
-      if (window.AntiForgeryToken)
-      {
-        console.log(appName + ": Initial antiforgery token set.");
-        setupInterceptors();
-        clearInterval(window._antiTokenRefreshTimer);
-        window._antiTokenRefreshTimer = setInterval(function ()
-        {
-          refreshAntiForgeryToken();
-        }, 15 * 60 * 1000);
-      }
-      else
-      {
-        console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
-        refreshAntiForgeryToken()
-          .then(function (token)
-          {
-            clearInterval(window._antiTokenRefreshTimer);
-            window._antiTokenRefreshTimer = setInterval(function ()
-            {
-              refreshAntiForgeryToken();
-            }, 15 * 60 * 1000);
-          })
-          .catch(function (error)
-          {
-            console.error(appName + ": Failed to get initial antiforgery token:", error);
-            clearInterval(window._antiTokenRefreshTimer);
-            window._antiTokenRefreshTimer = setInterval(function ()
-            {
-              refreshAntiForgeryToken();
-            }, 15 * 60 * 1000);
-        });
-      }
+      })();
       // END Anti forgery Token headers
+
       if (!document.querySelector('style.scrollbars'))
       {
         this.scrollStyleNode = document.createElement('style');
