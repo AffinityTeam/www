@@ -38564,35 +38564,63 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _checkAddress()
   {
-    if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
-    fetch(url)
-      .then((response) =>
+    let geocoder = new google.maps.Geocoder();
+    let address = this.lookupNode.value.trim();
+    geocoder.geocode({ address: address }, (results, status) => 
+    {
+      try
       {
-        if (!response.ok)
+        if (status !== 'OK')
         {
-          throw new Error('Network response was not ok');
+          throw new Error('Geocoding failed: ' + status);
         }
-        return response.json();
-      })
-      .then((data) =>
-      {
-        if (data.results && data.results.length > 0)
+        if (results && results.length > 0)
         {
-          this._fillAddress(data.results[0]);
+          this._fillAddress(results[0]);
         }
         else
         {
           this._fillAddress();
         }
         this.Status = 'Ready';
-      })
-      .catch((error) =>
+      }
+      catch (error)
       {
         console.error('Error during fetch:', error);
         this._fillAddress();
         this.Status = 'Ready';
-      });
+      }
+    });
+
+    //if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
+    //let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
+    //fetch(url)
+    //  .then((response) =>
+    //  {
+    //    if (!response.ok)
+    //    {
+    //      throw new Error('Network response was not ok');
+    //    }
+    //    return response.json();
+    //  })
+    //  .then((data) =>
+    //  {
+    //    if (data.results && data.results.length > 0)
+    //    {
+    //      this._fillAddress(data.results[0]);
+    //    }
+    //    else
+    //    {
+    //      this._fillAddress();
+    //    }
+    //    this.Status = 'Ready';
+    //  })
+    //  .catch((error) =>
+    //  {
+    //    console.error('Error during fetch:', error);
+    //    this._fillAddress();
+    //    this.Status = 'Ready';
+    //  });
   }
 
   _getCountryFromPlace (place)
