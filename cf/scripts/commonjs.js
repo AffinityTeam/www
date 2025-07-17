@@ -18956,113 +18956,54 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
         };
         function setupInterceptors()
         {
-          // Axios interceptor
-          if (window.axios && !window.axios._antiForgeryPatched)
-          {
-            window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-            window.axios.defaults.withCredentials = true;
-            window.axios.interceptors.request.use(function (config)
-            {
-              var antiForgeryToken = window.AntiForgeryToken || "";
-              if (antiForgeryToken && config.method && config.method.toUpperCase() !== 'GET' && shouldAddToken(config.url))
-              {
-                config.headers = config.headers || {};
-                delete config.headers["__RequestVerificationToken"];
-                config.headers["__RequestVerificationToken"] = antiForgeryToken;
-                console.log(appName + ": Added antiforgery token to axios", config.method.toUpperCase(), config.url);
-              }
-              else if (config.method && config.method.toUpperCase() !== 'GET' && !shouldAddToken(config.url))
-              {
-                console.log(appName + ": Skipping antiforgery token for external axios", config.method.toUpperCase(), config.url);
-              }
-              else if (config.method && config.method.toUpperCase() !== 'GET')
-              {
-                console.log(appName + ": No antiforgery token available for axios", config.method.toUpperCase(), config.url);
-              }
-              return config;
-            });
-            window.axios._antiForgeryPatched = true;
-            console.log("%cAxios injected anti-forgery token interceptor", "color: green");
-          }
-          else if (window.axios && window.axios._antiForgeryPatched)
-          {
-            console.log("%cAxios already injected anti-forgery token interceptor", "color: yellow");
-          }
           // Add XMLHttpRequest interceptor that adds antiforgery token for non-GET requests
-          if (!window.XMLHttpRequest._antiForgeryPatched)
+          if (window.XMLHttpRequest && !window.XMLHttpRequest._antiForgeryPatched)
           {
-            originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest._antiForgeryPatched = true;
+            const originalXHR = window.XMLHttpRequest;
             window.XMLHttpRequest = function()
             {
-              var xhr = new originalXHR();
-              var originalOpen = xhr.open;
-              var originalSend = xhr.send;
-              var originalSetRequestHeader = xhr.setRequestHeader;
-              xhr._headers = {};
-              xhr.setRequestHeader = function(header, value)
+              const xhr = new originalXHR();
+              const originalOpen = xhr.open;
+              const originalSend = xhr.send;
+              let method = '';
+              let url = '';
+              xhr.open = function(httpMethod, httpUrl, async, user, password)
               {
-                delete xhr._headers[header];
-                xhr._headers[header] = value;
-                return originalSetRequestHeader.apply(xhr, arguments);
-              };
-              xhr.open = function(method, url)
-              {
-                xhr._method = method.toUpperCase();
-                xhr._url = url;
-                var result = originalOpen.apply(xhr, arguments);
-                xhr.withCredentials = true;  // Set AFTER open() call
-                return result;
+                method = httpMethod ? httpMethod.toUpperCase() : 'GET';
+                url = httpUrl || '';
+                return originalOpen.call(this, httpMethod, httpUrl, async, user, password);
               };
               xhr.send = function(data)
               {
-                if (!xhr._headers['X-Requested-With'])
-                {
-                  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                }
-                // Add anti-forgery token for non-GET same-origin requests only
-                var antiForgeryToken = window.AntiForgeryToken || "";
-                if (antiForgeryToken && xhr._method !== 'GET' && shouldAddToken(xhr._url))
+                const antiForgeryToken = window.AntiForgeryToken || "";
+                if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
                 {
                   xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
-                  console.log(appName + ": Added antiforgery token", xhr._method, xhr._url);
+                  console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
                 }
-                else if (xhr._method !== 'GET' && !shouldAddToken(xhr._url))
+                else if (method !== 'GET' && !shouldAddToken(url))
                 {
-                  console.log(appName + ": Skipping antiforgery token for external", xhr._method, xhr._url);
+                  console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
                 }
-                else if (xhr._method !== 'GET')
+                else if (method !== 'GET')
                 {
-                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", xhr._method, xhr._url);
+                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
                 }
-                var originalHandler = xhr.onreadystatechange;
-                xhr.onreadystatechange = function()
-                {
-                  if (xhr.readyState === 4 && xhr.status === 401)
-                  {
-                    // Add any 401 response handlers here
-                  }
-                  if (originalHandler) originalHandler.apply(xhr, arguments);
-                };
-                return originalSend.apply(xhr, arguments);
+                return originalSend.call(this, data);
               };
               return xhr;
             };
-            // Copy ALL properties (including inherited ones)
-            for (var prop in originalXHR)
-            {
-              window.XMLHttpRequest[prop] = originalXHR[prop];
-            }
-            window.XMLHttpRequest.prototype = originalXHR.prototype;
-            window.XMLHttpRequest._antiForgeryPatched = true;
-            console.log("%cXMLHttpRequest injected anti-forgery token interceptor", "color: green");
+            console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
           }
-          else if (window.XMLHttpRequest._antiForgeryPatched)
+          else if (window.XMLHttpRequest && window.XMLHttpRequest._antiForgeryPatched)
           {
-            console.log("%cXMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
+            console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
           }
           // Fetch interceptor
           if (window.fetch && !window.fetch._antiForgeryPatched)
           {
+            window.fetch._antiForgeryPatched = true;
             originalFetch = window.fetch;
             window.fetch = function (url, options)
             {
@@ -19088,46 +19029,11 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               }
               return originalFetch.call(this, url, options);
             };
-            window.fetch._antiForgeryPatched = true;
-            console.log("%cFetch injected anti-forgery token interceptor", "color: green");
+            console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
           }
           else if (window.fetch && window.fetch._antiForgeryPatched)
           {
-            console.log("%cFetch already injected anti-forgery token interceptor", "color: yellow");
-          }
-          // MooTools interceptor
-          if (window.MooTools && window.Request && !window.Request._antiForgeryPatched)
-          {
-            var originalInitialize = Request.prototype.initialize;
-            Request.prototype.initialize = function (options)
-            {
-              originalInitialize.apply(this, arguments);
-              if (window.AntiForgeryToken && window.AntiForgeryToken !== '')
-              {
-                this.options.headers = this.options.headers || {};
-                var method = (this.options.method || 'get').toLowerCase();
-                if (method === 'post' || method === 'put' || method === 'delete')
-                {
-                  if (shouldAddToken(this.options.url))
-                  {
-                    this.options.withCredentials = true;
-                    delete this.options.headers['__RequestVerificationToken'];
-                    this.options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
-                    console.log(appName + ": Added antiforgery token to MooTools", method.toUpperCase(), this.options.url);
-                  }
-                  else
-                  {
-                    console.log(appName + ": Skipping antiforgery token for external MooTools", method.toUpperCase(), this.options.url);
-                  }
-                }
-              }
-            };
-            window.Request._antiForgeryPatched = true;
-            console.log("%cMooTools injected anti-forgery token interceptor", "color: green");
-          }
-          else if (window.MooTools && window.Request && window.Request._antiForgeryPatched)
-          {
-              console.log("%cMooTools already injected anti-forgery token interceptor", "color: yellow");
+            console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         };
         if (window.AntiForgeryToken)

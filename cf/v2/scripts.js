@@ -7692,38 +7692,54 @@
         }
         function setupInterceptors()
         {
-          if (window.axios && !window.axios._antiForgeryPatched)
+          // Add XMLHttpRequest interceptor that adds antiforgery token for non-GET requests
+          if (window.XMLHttpRequest && !window.XMLHttpRequest._antiForgeryPatched)
           {
-            window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-            window.axios.defaults.withCredentials = true;
-            window.axios.interceptors.request.use(config =>
+            window.XMLHttpRequest._antiForgeryPatched = true;
+            const originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function()
             {
-              const antiForgeryToken = window.AntiForgeryToken || "";
-              if (antiForgeryToken && config.method && config.method.toUpperCase() !== 'GET' && shouldAddToken(config.url))
+              const xhr = new originalXHR();
+              const originalOpen = xhr.open;
+              const originalSend = xhr.send;
+              let method = '';
+              let url = '';
+              xhr.open = function(httpMethod, httpUrl, async, user, password)
               {
-                delete config.headers.__RequestVerificationToken;
-                config.headers.__RequestVerificationToken = antiForgeryToken;
-                console.log(appName + ": Added antiforgery token to axios", config.method.toUpperCase(), config.url);
-              }
-              else if (config.method && config.method.toUpperCase() !== 'GET' && !shouldAddToken(config.url))
+                method = httpMethod ? httpMethod.toUpperCase() : 'GET';
+                url = httpUrl || '';
+                return originalOpen.call(this, httpMethod, httpUrl, async, user, password);
+              };
+              xhr.send = function(data)
               {
-                console.log(appName + ": Skipping antiforgery token for external axios", config.method.toUpperCase(), config.url);
-              }
-              else if (config.method && config.method.toUpperCase() !== 'GET')
-              {
-                console.log(appName + ": No antiforgery token available for axios", config.method.toUpperCase(), config.url);
-              }
-              return config;
-            });
-            window.axios._antiForgeryPatched = true;
-            console.log("%cAxios injected anti-forgery token interceptor", "color: green");
+                const antiForgeryToken = window.AntiForgeryToken || "";
+                if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
+                {
+                  xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
+                  console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
+                }
+                else if (method !== 'GET' && !shouldAddToken(url))
+                {
+                  console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
+                }
+                else if (method !== 'GET')
+                {
+                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
+                }
+                return originalSend.call(this, data);
+              };
+              return xhr;
+            };
+            console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
           }
-          else if (window.axios && window.axios._antiForgeryPatched)
+          else if (window.XMLHttpRequest && window.XMLHttpRequest._antiForgeryPatched)
           {
-            console.log("%cAxios already injected anti-forgery token interceptor", "color: yellow");
+            console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
           }
+          // Add Fetch interceptor that adds antiforgery token for non-GET requests
           if (window.fetch && !window.fetch._antiForgeryPatched)
           {
+            window.fetch._antiForgeryPatched = true;
             window.fetch = function (url, options)
             {
               options = options || {};
@@ -7748,12 +7764,11 @@
               }
               return originalFetch.call(this, url, options);
             };
-            window.fetch._antiForgeryPatched = true;
-            console.log("%cFetch injected anti-forgery token interceptor", "color: green");
+            console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
           }
           else if (window.fetch && window.fetch._antiForgeryPatched)
           {
-            console.log("%cFetch already injected anti-forgery token interceptor", "color: yellow");
+            console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         }
         if (window.AntiForgeryToken)
