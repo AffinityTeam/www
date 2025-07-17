@@ -18830,7 +18830,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
       // Anti forgery Token headers
       (function()
       {
-        var appName = "CleverForms";
+        var appName = "CleverFormsV1";
         var originalFetch = null;
         var originalXHR = null;
         // Helper function to check if URL should get anti-forgery token
