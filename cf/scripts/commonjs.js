@@ -19001,6 +19001,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               xhr._headers = {};
               xhr.setRequestHeader = function(header, value)
               {
+                delete xhr._headers[header];
                 xhr._headers[header] = value;
                 return originalSetRequestHeader.apply(xhr, arguments);
               };
