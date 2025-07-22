@@ -7730,6 +7730,14 @@
               };
               return xhr;
             };
+            for (var prop in originalXHR)
+            {
+              if (Object.prototype.hasOwnProperty.call(originalXHR, prop))
+              {
+                window.XMLHttpRequest[prop] = originalXHR[prop];
+              }
+            }
+            window.XMLHttpRequest.prototype = originalXHR.prototype;
             console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
           }
           else if (window.XMLHttpRequest && window.XMLHttpRequest._antiForgeryPatched)
