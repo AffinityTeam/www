@@ -6810,68 +6810,8 @@
 
     getBrowser()
     {
-      /* github.com/faisalman/ua-parser-js */
-      let loaded = function ()
-      {
-        let parser = new UAParser(), result = parser.getResult();
-        Affinity2018.Browser.platform = result.os.name + (result.os.version !== undefined ? ' ' + result.os.version : '');
-        Affinity2018.Browser.renderer = result.engine.name;
-        Affinity2018.Browser.name = result.browser.name;
-        Affinity2018.Browser.version = result.browser.version;
-        Affinity2018.Browser.major = parseInt(result.browser.major);
-        Affinity2018.Browser.minor = result.browser.version.replace(result.browser.major, '');
-        Affinity2018.Browser.minor = Affinity2018.Browser.minor.indexOf('.') === 0 ? Affinity2018.Browser.minor.substr(1) : Affinity2018.Browser.minor;
-        Affinity2018.Browser.minor = Affinity2018.Browser.minor.indexOf('0.') === 0 ? Affinity2018.Browser.minor.substr(2) : Affinity2018.Browser.minor;
-        Affinity2018.Browser.minor = parseFloat(Affinity2018.Browser.minor);
-        if (Affinity2018.Browser.name.toLowerCase().contains('ie')) Affinity2018.Browser.isie = true;
-        if (Affinity2018.Browser.name.toLowerCase().contains('edge')) Affinity2018.Browser.isedge = true;
-        if (Affinity2018.Browser.name.toLowerCase().contains('chrome')) Affinity2018.Browser.ischrome = true;
-        if (Affinity2018.Browser.name.toLowerCase().contains('safari')) Affinity2018.Browser.issafari = true;
-        if (Affinity2018.Browser.name.toLowerCase().contains('firefox')) Affinity2018.Browser.isfirefox = true;
-        if (Affinity2018.Browser.platform.toLowerCase().contains('android')) Affinity2018.Browser.isandroid = true;
-        if (Affinity2018.Browser.platform.toLowerCase().contains('mac')) Affinity2018.Browser.ismac = true;
-        if (Affinity2018.Browser.platform.toLowerCase().contains('ios')) Affinity2018.Browser.ismac = true;
-        if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
-        if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
-        Affinity2018.MobileDetect.getWurfl();
-      };
-      let error = function (err)
-      {
-        console.warn('UAParser failed to load');
-        console.warn(err);
-        Affinity2018.MobileDetect.getWurfl();
-      };
-      let script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
-      if (script.readyState)
-      {
-        script.onreadystatechange = function ()
-        {
-          if (script.readyState === 'loaded' || script.readyState === 'complete')
-          {
-            script.onreadystatechange = null;
-            loaded();
-          }
-          else console.log(script.readyState);
-        }
-      }
-      else
-      {
-        script.onload = loaded;
-        script.onerror = error;
-      }
-      script.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js');
-      document.head.appendChild(script);
-    }
-
-    getWurfl()
-    {
-      let script = document.createElement('script'), body = document.querySelector('body');
-      script.type = 'text/javascript';
-      script.src = document.location.protocol + '//wurfl.io/wurfl.js'
-      script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
-      var scriptProcessed = function ()
+      /* github.com/faisalman/ua-parser-js v2.x with Client Hints support */
+      let scriptProcessed = function ()
       {
         var body = document.body;
         var istablet = false;
@@ -6910,22 +6850,112 @@
           testNode.innerHTML = 'Type: ' + type + ', OS: ' + os + ', Device: ' + device + ', Dims: ' + dims;
         }
       };
-      script.onload = function ()
+      let loaded = function ()
       {
+        let parser = new UAParser(), result = parser.getResult();
+        // Set browser info (existing functionality)
+        Affinity2018.Browser.platform = result.os.name + (result.os.version !== undefined ? ' ' + result.os.version : '');
+        Affinity2018.Browser.renderer = result.engine.name;
+        Affinity2018.Browser.name = result.browser.name;
+        Affinity2018.Browser.version = result.browser.version;
+        Affinity2018.Browser.major = parseInt(result.browser.major);
+        Affinity2018.Browser.minor = result.browser.version.replace(result.browser.major, '');
+        Affinity2018.Browser.minor = Affinity2018.Browser.minor.indexOf('.') === 0 ? Affinity2018.Browser.minor.substr(1) : Affinity2018.Browser.minor;
+        Affinity2018.Browser.minor = Affinity2018.Browser.minor.indexOf('0.') === 0 ? Affinity2018.Browser.minor.substr(2) : Affinity2018.Browser.minor;
+        Affinity2018.Browser.minor = parseFloat(Affinity2018.Browser.minor);
+        if (Affinity2018.Browser.name.toLowerCase().contains('ie')) Affinity2018.Browser.isie = true;
+        if (Affinity2018.Browser.name.toLowerCase().contains('edge')) Affinity2018.Browser.isedge = true;
+        if (Affinity2018.Browser.name.toLowerCase().contains('chrome')) Affinity2018.Browser.ischrome = true;
+        if (Affinity2018.Browser.name.toLowerCase().contains('safari')) Affinity2018.Browser.issafari = true;
+        if (Affinity2018.Browser.name.toLowerCase().contains('firefox')) Affinity2018.Browser.isfirefox = true;
+        if (Affinity2018.Browser.platform.toLowerCase().contains('android')) Affinity2018.Browser.isandroid = true;
+        if (Affinity2018.Browser.platform.toLowerCase().contains('mac')) Affinity2018.Browser.ismac = true;
+        if (Affinity2018.Browser.platform.toLowerCase().contains('ios')) Affinity2018.Browser.ismac = true;
+        if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
+        if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
+        // Mobile detection (replaces WURFL functionality)
         Affinity2018.MobileChecked = true;
-        Affinity2018.IsMobile = WURFL.is_mobile;
-        Affinity2018.Device = WURFL.form_factor.toLowerCase();
-        scriptProcessed();
-      }
-      script.onerror = function ()
+        var device = result.device;
+        // Map UAParser device.type to WURFL-style properties
+        Affinity2018.IsMobile = (device.type === 'mobile' || device.type === 'tablet');
+        Affinity2018.Device = device.type || 'desktop';
+        // Use Client Hints for enhanced detection if available (UAParser v2.x)
+        var clientHintsHandled = false;
+        if (typeof parser.getDevice === 'function')
+        {
+          try
+          {
+            var deviceResult = parser.getDevice();
+            if (typeof deviceResult.withClientHints === 'function')
+            {
+              var enhancedResult = deviceResult.withClientHints();
+              if (enhancedResult && typeof enhancedResult.then === 'function')
+              {
+                // Async Client Hints
+                clientHintsHandled = true;
+                enhancedResult.then(function(enhancedDevice)
+                {
+                  if (enhancedDevice && enhancedDevice.type)
+                  {
+                    Affinity2018.IsMobile = (enhancedDevice.type === 'mobile' || enhancedDevice.type === 'tablet');
+                    Affinity2018.Device = enhancedDevice.type;
+                  }
+                  scriptProcessed();
+                }).catch(function()
+                {
+                  scriptProcessed();
+                });
+              }
+              else if (enhancedResult && enhancedResult.type)
+              {
+                // Sync Client Hints
+                Affinity2018.IsMobile = (enhancedResult.type === 'mobile' || enhancedResult.type === 'tablet');
+                Affinity2018.Device = enhancedResult.type;
+              }
+            }
+          }
+          catch (e)
+          {
+            // Client Hints not supported, continue with standard detection
+          }
+        }
+        // Only call scriptProcessed if async Client Hints didn't handle it
+        if (!clientHintsHandled)
+        {
+          scriptProcessed();
+        }
+      };
+      let error = function (err)
       {
-        console.error('WURFL failed to load');
+        console.warn('UAParser failed to load');
+        console.warn(err);
         Affinity2018.MobileChecked = true;
         Affinity2018.IsMobile = false;
         Affinity2018.Device = 'unknown';
         scriptProcessed();
       };
-      body.appendChild(script);
+      let script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.nonce = 'a9e3b03a6fd6ba6582578c3ad5393ee54b2b6acb==';
+      if (script.readyState)
+      {
+        script.onreadystatechange = function ()
+        {
+          if (script.readyState === 'loaded' || script.readyState === 'complete')
+          {
+            script.onreadystatechange = null;
+            loaded();
+          }
+          else console.log(script.readyState);
+        }
+      }
+      else
+      {
+        script.onload = loaded;
+        script.onerror = error;
+      }
+      script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/ua-parser-js/dist/ua-parser.min.js');
+      document.head.appendChild(script);
     }
   };
 
@@ -7595,77 +7625,193 @@
       this.enabled = false;
 
       // Anti forgery token headers
-      const originalFetch = window.fetch;
-      let axiosInterceptorId = null;
-      function refreshAntiForgeryToken()
-      {
-        return (window.axios ? axios.get('/Api/RefreshToken') : fetch('/Api/RefreshToken'))
-          .then(response =>
-          {
-            if (window.axios)
-            {
-              return response.data && response.data.token;
-            }
-            else
-            {
-              return response.json().then(data => data.token);
-            }
-          })
-          .then(token =>
-          {
-            if (token)
-            {
-              window.AntiForgeryToken = token;
-              console.log("Token refreshed successfully");
-              setupInterceptors();
-              return token;
-            }
-          })
-          .catch(error =>
-          {
-            console.error("Failed to refresh token", error);
-            throw error;
-          });
-      }
-      function setupInterceptors()
-      {
-        if (window.axios)
+      (() => {
+        const appName = "CleverFormsV2";
+        const originalFetch = window.fetch;
+        // Helper function to check if URL should get anti-forgery token
+        const shouldAddToken = function(url)
         {
-          if (axiosInterceptorId !== null)
+          if (!url) return true; // Default to true for relative URLs
+          if (url.indexOf('://') === -1) return true; // Relative URL
+          if (url.indexOf('/') === 0) return true; // Absolute path
+          // Extract hostname from URL
+          var hostname;
+          try
           {
-            axios.interceptors.request.eject(axiosInterceptorId);
+            var urlObj = new URL(url, window.location.origin);
+            hostname = urlObj.hostname.toLowerCase();
           }
-          axiosInterceptorId = axios.interceptors.request.use(config =>
+          catch (e)
           {
-            config.withCredentials = true;
-            config.headers = {
-              ...config.headers,
-              "__RequestVerificationToken": window.AntiForgeryToken
+            // Fallback for older browsers
+            var match = url.match(/^https?:\/\/([^\/]+)/);
+            hostname = match ? match[1].toLowerCase() : '';
+          }
+          if (!hostname) return true; // If we can't parse, assume it's safe
+          // Allow localhost for development
+          if (hostname === 'localhost' || hostname.indexOf('localhost:') === 0) return true;
+          // Allow affinitylogon.com and all subdomains
+          if (hostname === 'affinitylogon.com' || hostname.endsWith('.affinitylogon.com')) return true;
+          // Allow testaffinitylogon.com and all subdomains  
+          if (hostname === 'testaffinitylogon.com' || hostname.endsWith('.testaffinitylogon.com')) return true;
+          // Allow current domain and subdomains (for cases like internal APIs)
+          var currentHost = window.location.hostname.toLowerCase();
+          if (hostname === currentHost) return true;
+          // Deny all other external domains
+          return false;
+        };
+        function refreshAntiForgeryToken()
+        {
+          return (window.axios ? axios.get('/Api/RefreshAntiForgeryToken') : fetch('/Api/RefreshAntiForgeryToken'))
+            .then(response =>
+            {
+              if (window.axios)
+              {
+                return response.data && response.data.token;
+              }
+              else
+              {
+                return response.json().then(data => data.token);
+              }
+            })
+            .then(token =>
+            {
+              if (token)
+              {
+                window.AntiForgeryToken = token;
+                console.log(appName + ": Antiforgery token refreshed successfully");
+                setupInterceptors();
+                return token;
+              }
+            })
+            .catch(error =>
+            {
+              console.error(appName + ": Failed to refresh token", error);
+              throw error;
+            });
+        }
+        function setupInterceptors()
+        {
+          // Add XMLHttpRequest interceptor that adds antiforgery token for non-GET requests
+          if (window.XMLHttpRequest && !window.XMLHttpRequest._antiForgeryPatched)
+          {
+            window.XMLHttpRequest._antiForgeryPatched = true;
+            const originalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function()
+            {
+              const xhr = new originalXHR();
+              const originalOpen = xhr.open;
+              const originalSend = xhr.send;
+              let method = '';
+              let url = '';
+              xhr.open = function(httpMethod, httpUrl, async, user, password)
+              {
+                method = httpMethod ? httpMethod.toUpperCase() : 'GET';
+                url = httpUrl || '';
+                return originalOpen.call(this, httpMethod, httpUrl, async, user, password);
+              };
+              xhr.send = function(data)
+              {
+                const antiForgeryToken = window.AntiForgeryToken || "";
+                if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
+                {
+                  xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
+                  console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
+                }
+                else if (method !== 'GET' && !shouldAddToken(url))
+                {
+                  console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
+                }
+                else if (method !== 'GET')
+                {
+                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
+                }
+                return originalSend.call(this, data);
+              };
+              return xhr;
             };
-            return config;
+            for (var prop in originalXHR)
+            {
+              if (Object.prototype.hasOwnProperty.call(originalXHR, prop))
+              {
+                window.XMLHttpRequest[prop] = originalXHR[prop];
+              }
+            }
+            window.XMLHttpRequest.prototype = originalXHR.prototype;
+            console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
+          }
+          else if (window.XMLHttpRequest && window.XMLHttpRequest._antiForgeryPatched)
+          {
+            console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
+          }
+          // Add Fetch interceptor that adds antiforgery token for non-GET requests
+          if (window.fetch && !window.fetch._antiForgeryPatched)
+          {
+            window.fetch._antiForgeryPatched = true;
+            window.fetch = function (url, options)
+            {
+              options = options || {};
+              if (!options.headers) options.headers = {};
+              options.headers['X-Requested-With'] = 'XMLHttpRequest';
+              options.credentials = options.credentials || 'include';
+              const method = options.method ? options.method.toUpperCase() : 'GET';
+              const antiForgeryToken = window.AntiForgeryToken || "";
+              if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
+              {
+                delete options.headers['__RequestVerificationToken'];
+                options.headers['__RequestVerificationToken'] = antiForgeryToken;
+                console.log(appName + ": Added antiforgery token to fetch", method, url);
+              }
+              else if (method !== 'GET' && !shouldAddToken(url))
+              {
+                console.log(appName + ": Skipping antiforgery token for external fetch", method, url);
+              }
+              else if (method !== 'GET')
+              {
+                console.log(appName + ": No antiforgery token available for fetch", method, url);
+              }
+              return originalFetch.call(this, url, options);
+            };
+            console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
+          }
+          else if (window.fetch && window.fetch._antiForgeryPatched)
+          {
+            console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
+          }
+        }
+        if (window.AntiForgeryToken)
+        {
+          console.log(appName + ": Initial antiforgery token set.");
+          setupInterceptors();
+          clearInterval(window._antiTokenRefreshTimer);
+          window._antiTokenRefreshTimer = setInterval(function ()
+          {
+            refreshAntiForgeryToken();
+          }, 15 * 60 * 1000);
+        }
+        else
+        {
+          console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
+          refreshAntiForgeryToken()
+            .then(function (token)
+            {
+              clearInterval(window._antiTokenRefreshTimer);
+              window._antiTokenRefreshTimer = setInterval(function ()
+              {
+                refreshAntiForgeryToken();
+              }, 15 * 60 * 1000);
+            })
+            .catch(function (error)
+            {
+              console.error(appName + ": Failed to get initial antiforgery token:", error);
+              clearInterval(window._antiTokenRefreshTimer);
+              window._antiTokenRefreshTimer = setInterval(function ()
+              {
+                refreshAntiForgeryToken();
+              }, 15 * 60 * 1000);
           });
         }
-        if (window.fetch)
-        {
-          window.fetch = function (url, options)
-          {
-            options = options || {};
-            if (!options.headers) options.headers = {};
-            const method = options.method ? options.method.toUpperCase() : 'GET';
-            if (method === 'POST' || method === 'PUT' || method === 'DELETE')
-            {
-              options.credentials = 'include';
-              options.headers['__RequestVerificationToken'] = window.AntiForgeryToken;
-            }
-            return originalFetch.call(this, url, options);
-          };
-        }
-      }
-      if (window.AntiForgeryToken)
-      {
-        setupInterceptors();
-        setInterval(refreshAntiForgeryToken, 15 * 60 * 1000);
-      }
+      })();
       // END Anti forgery token headers
 
       Affinity2018.ShowPageLoader = this.showLoadLock;
@@ -38441,35 +38587,63 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
   _checkAddress()
   {
-    if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
-    fetch(url)
-      .then((response) =>
+    let geocoder = new google.maps.Geocoder();
+    let address = this.lookupNode.value.trim();
+    geocoder.geocode({ address: address }, (results, status) => 
+    {
+      try
       {
-        if (!response.ok)
+        if (status !== 'OK')
         {
-          throw new Error('Network response was not ok');
+          throw new Error('Geocoding failed: ' + status);
         }
-        return response.json();
-      })
-      .then((data) =>
-      {
-        if (data.results && data.results.length > 0)
+        if (results && results.length > 0)
         {
-          this._fillAddress(data.results[0]);
+          this._fillAddress(results[0]);
         }
         else
         {
           this._fillAddress();
         }
         this.Status = 'Ready';
-      })
-      .catch((error) =>
+      }
+      catch (error)
       {
         console.error('Error during fetch:', error);
         this._fillAddress();
         this.Status = 'Ready';
-      });
+      }
+    });
+
+    //if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
+    //let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
+    //fetch(url)
+    //  .then((response) =>
+    //  {
+    //    if (!response.ok)
+    //    {
+    //      throw new Error('Network response was not ok');
+    //    }
+    //    return response.json();
+    //  })
+    //  .then((data) =>
+    //  {
+    //    if (data.results && data.results.length > 0)
+    //    {
+    //      this._fillAddress(data.results[0]);
+    //    }
+    //    else
+    //    {
+    //      this._fillAddress();
+    //    }
+    //    this.Status = 'Ready';
+    //  })
+    //  .catch((error) =>
+    //  {
+    //    console.error('Error during fetch:', error);
+    //    this._fillAddress();
+    //    this.Status = 'Ready';
+    //  });
   }
 
   _getCountryFromPlace (place)

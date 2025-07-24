@@ -53,10 +53,10 @@
 (10763,108): run-time error CSS1030: Expected identifier, found ','
 (10763,250): run-time error CSS1031: Expected selector, found ')'
 (10763,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(11672,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11673,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11815,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(11817,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(11790,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11791,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11933,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(11935,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -11618,11 +11618,129 @@ body.ui2018 .example-template .preview .ui-address-fields .address-fields-row.co
 }
 body.ui2018 .pac-container,
 body.ui2018 .example-template .preview .pac-container {
+  background-color: white;
+  position: absolute !important;
   z-index: 999998;
+  border-radius: 2px;
+  border-top: 1px solid #d9d9d9;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 body.ui2018 .pac-container.force-fixed,
 body.ui2018 .example-template .preview .pac-container.force-fixed {
   position: fixed !important;
+}
+body.ui2018 .pac-container.pac-logo:after,
+body.ui2018 .example-template .preview .pac-container.pac-logo:after {
+  background-image: url(//maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png);
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 62px 14px;
+  content: "";
+  height: 14px;
+  width: 62px;
+}
+body.ui2018 .pac-item,
+body.ui2018 .example-template .preview .pac-item {
+  border-top: 1px solid #e6e6e6;
+  cursor: default;
+  line-height: 30px;
+  min-height: 30px;
+  overflow: hidden;
+  padding: 0 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018 .pac-item:first-child,
+body.ui2018 .example-template .preview .pac-item:first-child {
+  border-top: 0;
+}
+body.ui2018 .pac-item:hover,
+body.ui2018 .example-template .preview .pac-item:hover {
+  background-color: #efefef;
+}
+body.ui2018 .pac-item.pac-item-selected,
+body.ui2018 .example-template .preview .pac-item.pac-item-selected {
+  background-color: #efefef;
+}
+body.ui2018 .pac-item .pac-icon,
+body.ui2018 .example-template .preview .pac-item .pac-icon {
+  display: none !important;
+}
+body.ui2018 .pac-item .pac-icon-marker,
+body.ui2018 .example-template .preview .pac-item .pac-icon-marker {
+  background-position: -1px -161px;
+}
+body.ui2018 .pac-item .pac-item-query,
+body.ui2018 .example-template .preview .pac-item .pac-item-query {
+  color: black;
+  font-size: 13px;
+  font-weight: bold;
+}
+body.ui2018 .pac-item .pac-matched,
+body.ui2018 .example-template .preview .pac-item .pac-matched {
+  font-weight: bold;
+}
+body.ui2018 .pac-item .pac-item-selected .pac-icon,
+body.ui2018 .example-template .preview .pac-item .pac-item-selected .pac-icon {
+  background-position: -21px -161px;
+}
+body.ui2018 .pac-placeholder,
+body.ui2018 .example-template .preview .pac-placeholder {
+  color: gray;
+}
+body.ui2018 .pac-item[aria-selected="true"],
+body.ui2018 .example-template .preview .pac-item[aria-selected="true"] {
+  background-color: #efefef;
+}
+body.ui2018 .pac-container[dir="rtl"] .pac-item,
+body.ui2018 .example-template .preview .pac-container[dir="rtl"] .pac-item {
+  text-align: right;
+}
+body.ui2018 .pac-container[dir="rtl"] .pac-item .pac-icon,
+body.ui2018 .example-template .preview .pac-container[dir="rtl"] .pac-item .pac-icon {
+  margin-left: 7px;
+  margin-right: 0;
+}
+body.dark .pac-container {
+  background-color: #222222;
+  border-top: 1px solid #444444;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+body.dark .pac-item {
+  border-top: 1px solid #444444;
+  color: #cccccc;
+}
+body.dark .pac-item:hover,
+body.dark .pac-item.pac-item-selected {
+  background-color: #16c1f3;
+  color: white;
+}
+body.dark .pac-item[aria-selected="true"] {
+  background-color: #16c1f3;
+  color: white;
+}
+body.dark .pac-item .pac-item-query {
+  color: #cccccc;
+}
+body.dark .pac-item .pac-matched {
+  font-weight: bold;
+  color: white;
+}
+body.dark .pac-placeholder {
+  color: #999999;
 }
 
 
