@@ -1,50 +1,34 @@
 /* Minification failed. Returning unminified contents.
-(15,3-4): run-time error JS1195: Expected expression: )
-(15,6-7): run-time error JS1195: Expected expression: >
-(25,17-18): run-time error JS1195: Expected expression: )
-(25,20-21): run-time error JS1195: Expected expression: >
-(57,5-6): run-time error JS1002: Syntax error: }
-(82,52-53): run-time error JS1014: Invalid character: `
-(82,53-54): run-time error JS1195: Expected expression: .
-(82,105-106): run-time error JS1195: Expected expression: &
-(82,123-124): run-time error JS1195: Expected expression: &
-(82,143-144): run-time error JS1014: Invalid character: `
-(113,5-6): run-time error JS1002: Syntax error: }
-(118,43-44): run-time error JS1014: Invalid character: `
-(118,44-45): run-time error JS1195: Expected expression: .
-(118,69-70): run-time error JS1014: Invalid character: `
-(118,70-71): run-time error JS1004: Expected ';': )
-(121,45-46): run-time error JS1014: Invalid character: `
-(121,66-67): run-time error JS1014: Invalid character: `
-(135,51-52): run-time error JS1195: Expected expression: >
-(139,22-23): run-time error JS1195: Expected expression: )
-(149,37-38): run-time error JS1195: Expected expression: >
-(149,54-55): run-time error JS1004: Expected ';': )
-(150,35-36): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
-(83,29-35): run-time error JS1018: 'return' statement outside of function: return
-(27,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(3,3-4): run-time error JS1195: Expected expression: )
+(3,6-7): run-time error JS1195: Expected expression: >
+(9,17-18): run-time error JS1195: Expected expression: )
+(9,20-21): run-time error JS1195: Expected expression: >
+(36,5-6): run-time error JS1002: Syntax error: }
+(62,52-53): run-time error JS1014: Invalid character: `
+(62,53-54): run-time error JS1195: Expected expression: .
+(62,105-106): run-time error JS1195: Expected expression: &
+(62,123-124): run-time error JS1195: Expected expression: &
+(62,143-144): run-time error JS1014: Invalid character: `
+(93,5-6): run-time error JS1002: Syntax error: }
+(99,43-44): run-time error JS1014: Invalid character: `
+(99,44-45): run-time error JS1195: Expected expression: .
+(99,69-70): run-time error JS1014: Invalid character: `
+(99,70-71): run-time error JS1004: Expected ';': )
+(102,45-46): run-time error JS1014: Invalid character: `
+(102,66-67): run-time error JS1014: Invalid character: `
+(116,51-52): run-time error JS1195: Expected expression: >
+(120,22-23): run-time error JS1195: Expected expression: )
+(130,37-38): run-time error JS1195: Expected expression: >
+(130,54-55): run-time error JS1004: Expected ';': )
+(131,35-36): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(63,29-35): run-time error JS1018: 'return' statement outside of function: return
+(11,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
-window.addEvent('loggedin', function () {
-    //uialert({
-    //    message: 'Loading Configuration',
-    //    showLoader: true,
-    //    noClose: false
-    //});
-
-    ////INITIALISE DATA CALLS
-    //getConfigOptions(); //get options for new configs
-    //getAllConfigs(); //get existing configs     
-});
-
 // TODO: AI - make this a proper class. Keep all funcitonality including events to call "Check", which should eventually call "Init".
 
 (() => {
-    let Checked = false;
+
     let Initialised = false;
-    let UiReady = false;
-    let DashboardReady = false;
-    let LoggedIn = false;
-    let UserComplete = false;
     let WaitForFormMax = 100;
     let WaitForFormAttempts = 0;
 
@@ -54,11 +38,6 @@ window.addEvent('loggedin', function () {
         Initialised = true;
 
         clearMessage();
-
-        console.log('UiReady        : ', UiReady);
-        console.log('DashboardReady : ', DashboardReady);
-        console.log('LoggedIn       : ', LoggedIn);
-        console.log('UserComplete   : ', UserComplete);
 
         let form = document.querySelector('.default-form.import-form');
         if (form)
@@ -85,6 +64,7 @@ window.addEvent('loggedin', function () {
     let Submit = () => 
     {
         clearMessage();
+
         let errors = [];
         let form = document.querySelector('.default-form.import-form');
         if (form)
@@ -141,6 +121,7 @@ window.addEvent('loggedin', function () {
     let UploadFile = (event) => 
     {
         clearMessage();
+        
         let form = document.querySelector(`.default-form.import-form`);
         if (form)
         {
@@ -228,39 +209,6 @@ window.addEvent('loggedin', function () {
         setTimeout(WaitForForm, 500);
     };
 
-    let Check = () =>
-    {
-        if (Checked) return;
-        if (UiReady && UserComplete)
-        {
-            console.log(`UiReady and UserComplete`);
-            Checked = true;
-            WaitForForm();
-            return;
-        }
-        if (UiReady && LoggedIn)
-        {
-            console.log(`UiReady and LoggedIn`);
-            Checked = true;
-            WaitForForm();
-            return;
-        }
-        if (UiReady && DashboardReady)
-        {
-            console.log(`UiReady and DashboardReady`);
-            Checked = true;
-            WaitForForm();
-            return;
-        }
-        if (UiReady) // TODO: Not sure if this is enough on it's own to go wait for the form. Need to test.
-        {
-            console.log(`UiReady`);
-            Checked = true;
-            WaitForForm();
-            return;
-        }
-    };
-
     // Utility to set warning message
     function setMessage(msg) {
         var warn = document.querySelector('p.warnings');
@@ -278,9 +226,7 @@ window.addEvent('loggedin', function () {
         }
     }
 
-    window.addEventListener('DashboardReady', () => { DashboardReady = true; Check(); });
-    window.addEventListener('UiReady', () =>  { UiReady = true; Check(); });
-    window.addEventListener('loggedin', () => { LoggedIn = true; Check(); });
-    window.addEventListener('userComplete', () => { UserComplete = true; Check(); });
+    // Wait for the form to be ready
+    WaitForForm();
 
 })();;
