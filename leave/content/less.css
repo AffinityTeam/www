@@ -10635,6 +10635,8 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   text-decoration: none;
 }
 p.warnings {
+  margin: 0 0 10px 0 !important;
+  padding: 0 10px;
   color: red;
 }
 button:disabled {
