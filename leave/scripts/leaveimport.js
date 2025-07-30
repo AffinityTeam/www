@@ -1,72 +1,90 @@
 /* Minification failed. Returning unminified contents.
 (3,3-4): run-time error JS1195: Expected expression: )
 (3,6-7): run-time error JS1195: Expected expression: >
-(9,17-18): run-time error JS1195: Expected expression: )
-(9,20-21): run-time error JS1195: Expected expression: >
-(36,5-6): run-time error JS1002: Syntax error: }
-(62,52-53): run-time error JS1014: Invalid character: `
-(62,53-54): run-time error JS1195: Expected expression: .
-(62,105-106): run-time error JS1195: Expected expression: &
-(62,123-124): run-time error JS1195: Expected expression: &
-(62,143-144): run-time error JS1014: Invalid character: `
-(93,5-6): run-time error JS1002: Syntax error: }
-(99,43-44): run-time error JS1014: Invalid character: `
-(99,44-45): run-time error JS1195: Expected expression: .
-(99,69-70): run-time error JS1014: Invalid character: `
-(99,70-71): run-time error JS1004: Expected ';': )
-(102,45-46): run-time error JS1014: Invalid character: `
-(102,66-67): run-time error JS1014: Invalid character: `
-(116,51-52): run-time error JS1195: Expected expression: >
-(120,22-23): run-time error JS1195: Expected expression: )
-(130,37-38): run-time error JS1195: Expected expression: >
-(130,54-55): run-time error JS1004: Expected ';': )
-(131,35-36): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
-(63,29-35): run-time error JS1018: 'return' statement outside of function: return
-(11,26-38): run-time error JS1018: 'return' statement outside of function: return false
+(6,17-18): run-time error JS1195: Expected expression: )
+(6,20-21): run-time error JS1195: Expected expression: >
+(53,5-6): run-time error JS1002: Syntax error: }
+(80,52-53): run-time error JS1014: Invalid character: `
+(80,53-54): run-time error JS1195: Expected expression: .
+(80,105-106): run-time error JS1195: Expected expression: &
+(80,123-124): run-time error JS1195: Expected expression: &
+(80,143-144): run-time error JS1014: Invalid character: `
+(111,5-6): run-time error JS1002: Syntax error: }
+(118,43-44): run-time error JS1014: Invalid character: `
+(118,44-45): run-time error JS1195: Expected expression: .
+(118,78-79): run-time error JS1014: Invalid character: `
+(118,79-80): run-time error JS1004: Expected ';': )
+(121,45-46): run-time error JS1014: Invalid character: `
+(121,66-67): run-time error JS1014: Invalid character: `
+(135,51-52): run-time error JS1195: Expected expression: >
+(141,22-23): run-time error JS1195: Expected expression: )
+(153,37-38): run-time error JS1195: Expected expression: >
+(153,54-55): run-time error JS1004: Expected ';': )
+(155,21-22): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(81,29-35): run-time error JS1018: 'return' statement outside of function: return
+(14,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 // TODO: AI - make this a proper class. Keep all funcitonality including events to call "Check", which should eventually call "Init".
 
 (() => {
-
-    let Initialised = false;
-    let WaitForFormMax = 100;
-    let WaitForFormAttempts = 0;
-
+    
+    // Utility to initialise the form
     let Init = () =>
     {
-        if (Initialised) return false;
-        Initialised = true;
-
-        clearMessage();
-
         let form = document.querySelector('.default-form.import-form');
         if (form)
         {
+            // If the form is already attached, do nothing
+            if (form.classList.contains('attached'))
+            {
+                return;
+            }
+
+            // Clear any existing messages
+            ClearMessage();
+
+            // Add the attached class to the form
+            form.classList.add('attached');
+
+            // Get the button and file input
             let button = form.querySelector('button.submit-button');
             let file = form.querySelector('input[type="file"]');
             if (button && file)
             {
+                // Always disable button initially - if content was refreshed, file input appears to have
+                // a file but actually doesn't in the files collection
                 button.setAttribute('disabled', 'disabled');
+                
+                // Clear the file input to avoid confusion
+                try
+                {
+                    file.value = '';
+                }
+                catch (e)
+                {
+                    // Some browsers don't allow setting value on file inputs
+                }
+                
+                // Reattach event listeners
+                button.removeEventListener('click', Submit);
                 button.addEventListener('click', Submit);
+                file.removeEventListener('change', UploadFile);
                 file.addEventListener('change', UploadFile);
             }
             else
             {
-                setMessage('Sorry, we could not find the form controls. Please refresh the page or contact support.');
+                SetMessage('Sorry, we could not find the form controls. Please refresh the page or contact support.');
             }
-        }
-        else
-        {
-            setMessage('Sorry, we could not find the import form. Please refresh the page or contact support.');
         }
     };
 
+    // Utility to submit the form
     let Submit = () => 
     {
-        clearMessage();
+        ClearMessage();
 
         let errors = [];
-        let form = document.querySelector('.default-form.import-form');
+        let form = document.querySelector('.default-form.import-form.attached');
         if (form)
         {
             let button = form.querySelector('button.submit-button');
@@ -114,15 +132,16 @@
         }
         if (errors.length > 0)
         {
-            setMessage(errors.join('<br />'));
+            SetMessage(errors.join('<br />'));
         }
     }
 
+    // Utility to upload the file
     let UploadFile = (event) => 
     {
-        clearMessage();
+        ClearMessage();
         
-        let form = document.querySelector(`.default-form.import-form`);
+        let form = document.querySelector(`.default-form.import-form.attached`);
         if (form)
         {
             let button = form.querySelector(`button.submit-button`);
@@ -131,103 +150,105 @@
             {
                 if (file.files.length > 0)
                 {
+                    button.setAttribute('disabled', 'disabled');
+
                     let formData = new FormData();
                     formData.append("files", file.files[0]);
 
-                    // Prepare headers and only add __RequestVerificationToken if not already present
                     let headers = new Headers();
-                    // Check if global code already set the header (case-insensitive)
                     let tokenHeaderName = "__RequestVerificationToken";
                     let tokenAlreadySet = false;
-                    headers.forEach((value, key) => {
-                        if (key.toLowerCase() === tokenHeaderName.toLowerCase()) {
+                    headers.forEach((value, key) =>
+                    {
+                        if (key.toLowerCase() === tokenHeaderName.toLowerCase())
+                        {
                             tokenAlreadySet = true;
                         }
                     });
-                    if (!tokenAlreadySet && window.AntiForgeryToken) {
+                    if (!tokenAlreadySet && window.AntiForgeryToken)
+                    {
                         headers.append(tokenHeaderName, window.AntiForgeryToken);
                     }
 
-                    fetch("/Import/FileUpload", {
+                    fetch("/Import/FileUpload",
+                    {
                         method: "POST",
                         body: formData,
                         headers: headers
                     })
                     .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
+                    .then(data =>
+                    {
+                        if (data.success)
+                        {
                             button.removeAttribute("disabled");
-                        } else {
+                        } 
+                        else
+                        {
                             button.setAttribute("disabled", "disabled");
-                            setMessage(data.error || "File upload failed. Please try again.");
+                            SetMessage(data.error || "File upload failed. Please try again.");
                         }
                     })
-                    .catch(() => {
+                    .catch(() =>
+                    {
                         button.setAttribute("disabled", "disabled");
-                        setMessage("File upload failed. Please try again.");
+                        SetMessage("File upload failed. Please try again.");
                     });
                 }
                 else
                 {
-                    setMessage("Please select a file to upload.");
+                    button.setAttribute("disabled", "disabled");
+                    SetMessage("Please select a file to upload.");
                 }
             }
             else
             {
-                setMessage("Cannot find form elements.");
+                SetMessage("Cannot find form elements.");
             }
         }
         else
         {
-            setMessage("Cannot find form.");
+            SetMessage("Cannot find form.");
         }
-    };
-
-    let WaitForForm = () => 
-    {
-        if (Initialised) return;
-        var duration = Math.round((WaitForFormAttempts * 500) / 1000);
-        if (WaitForFormAttempts < WaitForFormMax)
-        {
-            let form = document.querySelector('.default-form.import-form');
-            if (form)
-            {
-                console.log(`Found form node after ${WaitForFormAttempts} attemtps (${duration} seconds)`);
-                Init();
-                return;
-            }
-            else
-            {
-                WaitForFormAttempts++;
-            }
-        }
-        else
-        {
-            console.log(`Unable to find form node after ${WaitForFormAttempts} attemtps (${duration} seconds)`);
-            setMessage('Unable to load the import form after several attempts. Please refresh the page or contact support.');
-            return;
-        }
-        setTimeout(WaitForForm, 500);
     };
 
     // Utility to set warning message
-    function setMessage(msg) {
+    function SetMessage(msg)
+    {
         var warn = document.querySelector('p.warnings');
-        if (warn) {
+        if (warn)
+        {
             warn.textContent = msg;
             warn.classList.remove('hidden');
         }
     }
     // Utility to clear warning message
-    function clearMessage() {
+    function ClearMessage()
+    {
         var warn = document.querySelector('p.warnings');
-        if (warn) {
+        if (warn)
+        {
             warn.textContent = '';
             warn.classList.add('hidden');
         }
     }
 
+    // Utility to check for the form and initialise if found
+    let CheckForForm = () => 
+    {
+        let form = document.querySelector('.default-form.import-form');
+        if (form)
+        {
+            if (!form.classList.contains('attached'))
+            {
+                Initialised = false;
+            }
+            Init();
+        }
+        setTimeout(CheckForForm, 500);
+    };
+
     // Wait for the form to be ready
-    WaitForForm();
+    CheckForForm();
 
 })();;
