@@ -3,25 +3,25 @@
 (15,6-7): run-time error JS1195: Expected expression: >
 (25,17-18): run-time error JS1195: Expected expression: )
 (25,20-21): run-time error JS1195: Expected expression: >
-(55,5-6): run-time error JS1002: Syntax error: }
-(80,52-53): run-time error JS1014: Invalid character: `
-(80,53-54): run-time error JS1195: Expected expression: .
-(80,105-106): run-time error JS1195: Expected expression: &
-(80,123-124): run-time error JS1195: Expected expression: &
-(80,143-144): run-time error JS1014: Invalid character: `
-(111,5-6): run-time error JS1002: Syntax error: }
-(116,43-44): run-time error JS1014: Invalid character: `
-(116,44-45): run-time error JS1195: Expected expression: .
-(116,69-70): run-time error JS1014: Invalid character: `
-(116,70-71): run-time error JS1004: Expected ';': )
-(119,45-46): run-time error JS1014: Invalid character: `
-(119,66-67): run-time error JS1014: Invalid character: `
-(133,51-52): run-time error JS1195: Expected expression: >
-(137,22-23): run-time error JS1195: Expected expression: )
-(147,37-38): run-time error JS1195: Expected expression: >
-(147,54-55): run-time error JS1004: Expected ';': )
-(148,35-36): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
-(81,29-35): run-time error JS1018: 'return' statement outside of function: return
+(57,5-6): run-time error JS1002: Syntax error: }
+(82,52-53): run-time error JS1014: Invalid character: `
+(82,53-54): run-time error JS1195: Expected expression: .
+(82,105-106): run-time error JS1195: Expected expression: &
+(82,123-124): run-time error JS1195: Expected expression: &
+(82,143-144): run-time error JS1014: Invalid character: `
+(113,5-6): run-time error JS1002: Syntax error: }
+(118,43-44): run-time error JS1014: Invalid character: `
+(118,44-45): run-time error JS1195: Expected expression: .
+(118,69-70): run-time error JS1014: Invalid character: `
+(118,70-71): run-time error JS1004: Expected ';': )
+(121,45-46): run-time error JS1014: Invalid character: `
+(121,66-67): run-time error JS1014: Invalid character: `
+(135,51-52): run-time error JS1195: Expected expression: >
+(139,22-23): run-time error JS1195: Expected expression: )
+(149,37-38): run-time error JS1195: Expected expression: >
+(149,54-55): run-time error JS1004: Expected ';': )
+(150,35-36): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(83,29-35): run-time error JS1018: 'return' statement outside of function: return
 (27,26-38): run-time error JS1018: 'return' statement outside of function: return false
  */
 window.addEvent('loggedin', function () {
@@ -52,6 +52,8 @@ window.addEvent('loggedin', function () {
     {
         if (Initialised) return false;
         Initialised = true;
+
+        clearMessage();
 
         console.log('UiReady        : ', UiReady);
         console.log('DashboardReady : ', DashboardReady);
