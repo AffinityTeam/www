@@ -203,6 +203,7 @@
         }
         else
         {
+            console.log(`Unable to find form node after ${WaitForFormAttempts} attemtps (${duration} seconds)`);
             setMessage('Unable to load the import form after several attempts. Please refresh the page or contact support.');
             return;
         }
