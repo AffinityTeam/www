@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5405,71-72): run-time error JS1195: Expected expression: >
-(5405,98-99): run-time error JS1004: Expected ';': )
-(5407,87-88): run-time error JS1195: Expected expression: >
-(5407,129-130): run-time error JS1004: Expected ';': )
-(5412,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5417,13-14): run-time error JS1002: Syntax error: }
-(5419,34-35): run-time error JS1004: Expected ';': {
-(5423,9-10): run-time error JS1002: Syntax error: }
-(5426,25-26): run-time error JS1004: Expected ';': {
-(5577,5-6): run-time error JS1002: Syntax error: }
-(5578,45-46): run-time error JS1004: Expected ';': {
-(5597,6-7): run-time error JS1195: Expected expression: ,
-(5598,63-64): run-time error JS1004: Expected ';': {
-(5604,6-7): run-time error JS1195: Expected expression: ,
-(5605,26-27): run-time error JS1195: Expected expression: )
-(5605,28-29): run-time error JS1004: Expected ';': {
-(5679,6-7): run-time error JS1195: Expected expression: ,
-(5681,22-23): run-time error JS1195: Expected expression: )
-(5681,24-25): run-time error JS1004: Expected ';': {
-(5704,6-7): run-time error JS1195: Expected expression: ,
-(5706,24-25): run-time error JS1195: Expected expression: )
-(5706,26-27): run-time error JS1004: Expected ';': {
-(5765,6-7): run-time error JS1195: Expected expression: ,
-(10437,52-53): run-time error JS1195: Expected expression: .
-(10449,5-6): run-time error JS1002: Syntax error: }
-(10450,46-47): run-time error JS1004: Expected ';': {
-(10485,6-7): run-time error JS1195: Expected expression: ,
-(10486,42-43): run-time error JS1004: Expected ';': {
-(10509,6-7): run-time error JS1195: Expected expression: ,
-(10510,43-44): run-time error JS1004: Expected ';': {
-(10522,6-7): run-time error JS1195: Expected expression: ,
-(10523,81-82): run-time error JS1004: Expected ';': {
-(10540,6-7): run-time error JS1195: Expected expression: ,
-(10541,54-55): run-time error JS1004: Expected ';': {
-(10568,6-7): run-time error JS1195: Expected expression: ,
-(10569,49-50): run-time error JS1004: Expected ';': {
-(10639,6-7): run-time error JS1195: Expected expression: ,
-(10640,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10448,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10442,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5603,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5493,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5512,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5448,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5421,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5489,71-72): run-time error JS1195: Expected expression: >
+(5489,98-99): run-time error JS1004: Expected ';': )
+(5491,87-88): run-time error JS1195: Expected expression: >
+(5491,129-130): run-time error JS1004: Expected ';': )
+(5496,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5501,13-14): run-time error JS1002: Syntax error: }
+(5503,34-35): run-time error JS1004: Expected ';': {
+(5507,9-10): run-time error JS1002: Syntax error: }
+(5510,25-26): run-time error JS1004: Expected ';': {
+(5661,5-6): run-time error JS1002: Syntax error: }
+(5662,45-46): run-time error JS1004: Expected ';': {
+(5681,6-7): run-time error JS1195: Expected expression: ,
+(5682,63-64): run-time error JS1004: Expected ';': {
+(5688,6-7): run-time error JS1195: Expected expression: ,
+(5689,26-27): run-time error JS1195: Expected expression: )
+(5689,28-29): run-time error JS1004: Expected ';': {
+(5763,6-7): run-time error JS1195: Expected expression: ,
+(5765,22-23): run-time error JS1195: Expected expression: )
+(5765,24-25): run-time error JS1004: Expected ';': {
+(5788,6-7): run-time error JS1195: Expected expression: ,
+(5790,24-25): run-time error JS1195: Expected expression: )
+(5790,26-27): run-time error JS1004: Expected ';': {
+(5849,6-7): run-time error JS1195: Expected expression: ,
+(10524,52-53): run-time error JS1195: Expected expression: .
+(10536,5-6): run-time error JS1002: Syntax error: }
+(10537,46-47): run-time error JS1004: Expected ';': {
+(10572,6-7): run-time error JS1195: Expected expression: ,
+(10573,42-43): run-time error JS1004: Expected ';': {
+(10596,6-7): run-time error JS1195: Expected expression: ,
+(10597,43-44): run-time error JS1004: Expected ';': {
+(10609,6-7): run-time error JS1195: Expected expression: ,
+(10610,81-82): run-time error JS1004: Expected ';': {
+(10627,6-7): run-time error JS1195: Expected expression: ,
+(10628,54-55): run-time error JS1004: Expected ';': {
+(10655,6-7): run-time error JS1195: Expected expression: ,
+(10656,49-50): run-time error JS1004: Expected ';': {
+(10726,6-7): run-time error JS1195: Expected expression: ,
+(10727,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10535,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10529,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5687,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5577,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5596,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5532,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5505,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -958,7 +958,7 @@ var Leave = new Class({
         this.deleteAttachmentRequest.get();
     },
 
-    postAttachements: function (empNo, leaveId, responseMethod) {
+    postAttachements_WTAF: function (empNo, leaveId, responseMethod) {
         var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'CreateLeaveAttachment/' + empNo + '/' + leaveId);
         var iframeDocument = this.hiddenAttachment.contentDocument || this.hiddenAttachment.contentWindow.document;
         var formPost = new Element('form', {
@@ -997,6 +997,87 @@ var Leave = new Class({
                 }).delay(1000, this);
             } else {
                 formPost.submit();
+            }
+        }
+    },
+
+    postAttachements: function (empNo, leaveId, responseMethod) {
+
+        debugger;
+
+        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'CreateLeaveAttachment/' + empNo + '/' + leaveId);
+        var attachments = document.getElements('.uploadmulti label input');
+        
+        if (attachments.length > 0) {
+            // Create FormData for modern file upload
+            var formData = new FormData();
+            var hasFiles = false;
+            
+            // Collect files from file inputs and prepare for DOM destruction (matching legacy behavior)
+            var inputsToDestroy = []; // Track inputs that need to be destroyed
+            
+            Array.each(attachments, function (attachment, index) {
+                if (!attachment.hasClass('initialValues')) {
+                    if (attachment.files.length > 0 && attachment.value !== '') {
+                        // Add each file to FormData with 'fileUpload' name (matching legacy behavior)
+                        Array.each(attachment.files, function(file) {
+                            formData.append('fileUpload', file);
+                        });
+                        
+                        // Change ID and name to match legacy behavior before destruction
+                        attachment.set('id', 'new_file_post_' + index);
+                        attachment.set('name', 'fileUpload');
+                        attachment.removeEvents();
+                        
+                        // Mark this input for destruction (replicating legacy DOM removal)
+                        inputsToDestroy.push(attachment);
+                        hasFiles = true;
+                    }
+                }
+            });
+            
+            // Only proceed if we have files to upload
+            if (hasFiles) {
+                // Use fetch for modern upload with automatic anti-forgery token injection
+                fetch(api, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Upload failed: ' + response.status + ' ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(function(responseText) {
+                    var result;
+                    try {
+                        // Try to parse as JSON first (matching legacy behavior)
+                        result = JSON.parse(responseText);
+                    } catch (e) {
+                        // Fall back to raw text if not valid JSON
+                        result = responseText;
+                    }
+                    
+                    // Call response method if provided
+                    if (typeOf(responseMethod) === 'function') {
+                        responseMethod(result);
+                    }
+                })
+                .catch(function(error) {
+                    console.error('File upload error:', error);
+                    // Call response method with error if provided
+                    if (typeOf(responseMethod) === 'function') {
+                        responseMethod({ error: error.message || 'Upload failed' });
+                    }
+                })
+                .finally(function() {
+                    // REPLICATE LEGACY BEHAVIOR: Destroy file inputs from DOM 
+                    // (Ensures cleanup happens whether upload succeeds or fails - no leaks!)
+                    Array.each(inputsToDestroy, function(input) {
+                        input.destroy(); // Remove from DOM exactly like the old iframe injection did
+                    });
+                });
             }
         }
     },
@@ -2763,6 +2844,9 @@ var UILeaveApply = new Class({
                 if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
                     var vm = this;
                     var requestResponse = response;
+
+                    debugger; // apply
+
                     Affinity.leave.postAttachements(
                         response.Data.EmployeeNo,
                         response.Data.TSGroupId,
@@ -6331,6 +6415,9 @@ var UILeaveApplyV1 = new Class({
                 ) {
                     var vm = this;
                     var requestResponse = response;
+
+                    debugger; // apply V1
+
                     Affinity.leave.postAttachements(
                         response.Data.EmployeeNo,
                         response.Data.TSGroupId,
@@ -11913,6 +12000,9 @@ var UILeaveDetail = new Class({
         });
         var leaveId = this.data.LeaveHeader.TSGroupId;
         var empNo = this.data.LeaveHeader.EmployeeNo;
+
+        debugger; // detail
+
         Affinity.leave.postAttachements(empNo, leaveId, function (response) {
             //this.getAttachments();
             Affinity.leave.populateAttachments(this.data.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
@@ -16063,6 +16153,9 @@ var UILeaveDetailV1 = new Class({
         });
         var leaveId = this.data.LeaveHeader.TSGroupId;
         var empNo = this.data.LeaveHeader.EmployeeNo;
+
+        debugger; // detail V1
+
         Affinity.leave.postAttachements(empNo, leaveId, function (response) {
             //this.getAttachments();
             Affinity.leave.populateAttachments(this.data.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
