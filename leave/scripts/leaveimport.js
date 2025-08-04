@@ -3,25 +3,25 @@
 (3,6-7): run-time error JS1195: Expected expression: >
 (6,17-18): run-time error JS1195: Expected expression: )
 (6,20-21): run-time error JS1195: Expected expression: >
-(53,5-6): run-time error JS1002: Syntax error: }
-(80,52-53): run-time error JS1014: Invalid character: `
-(80,53-54): run-time error JS1195: Expected expression: .
-(80,105-106): run-time error JS1195: Expected expression: &
-(80,123-124): run-time error JS1195: Expected expression: &
-(80,143-144): run-time error JS1014: Invalid character: `
-(111,5-6): run-time error JS1002: Syntax error: }
-(118,43-44): run-time error JS1014: Invalid character: `
-(118,44-45): run-time error JS1195: Expected expression: .
-(118,78-79): run-time error JS1014: Invalid character: `
-(118,79-80): run-time error JS1004: Expected ';': )
-(121,45-46): run-time error JS1014: Invalid character: `
-(121,66-67): run-time error JS1014: Invalid character: `
-(135,51-52): run-time error JS1195: Expected expression: >
-(141,22-23): run-time error JS1195: Expected expression: )
-(153,37-38): run-time error JS1195: Expected expression: >
-(153,54-55): run-time error JS1004: Expected ';': )
-(155,21-22): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
-(81,29-35): run-time error JS1018: 'return' statement outside of function: return
+(57,5-6): run-time error JS1002: Syntax error: }
+(84,52-53): run-time error JS1014: Invalid character: `
+(84,53-54): run-time error JS1195: Expected expression: .
+(84,105-106): run-time error JS1195: Expected expression: &
+(84,123-124): run-time error JS1195: Expected expression: &
+(84,143-144): run-time error JS1014: Invalid character: `
+(115,5-6): run-time error JS1002: Syntax error: }
+(122,43-44): run-time error JS1014: Invalid character: `
+(122,44-45): run-time error JS1195: Expected expression: .
+(122,78-79): run-time error JS1014: Invalid character: `
+(122,79-80): run-time error JS1004: Expected ';': )
+(125,45-46): run-time error JS1014: Invalid character: `
+(125,66-67): run-time error JS1014: Invalid character: `
+(139,51-52): run-time error JS1195: Expected expression: >
+(145,22-23): run-time error JS1195: Expected expression: )
+(157,37-38): run-time error JS1195: Expected expression: >
+(157,54-55): run-time error JS1004: Expected ';': )
+(159,21-22): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(85,29-35): run-time error JS1018: 'return' statement outside of function: return
 (14,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 // TODO: AI - make this a proper class. Keep all funcitonality including events to call "Check", which should eventually call "Init".
@@ -46,7 +46,10 @@
             // Add the attached class to the form
             form.classList.add('attached');
 
-            // Get the button and file input
+            // Initialize MFA buttons if present
+            InitMFAButtons(form);
+
+            // Get the button and file input for main import functionality
             let button = form.querySelector('button.submit-button');
             let file = form.querySelector('input[type="file"]');
             if (button && file)
@@ -71,8 +74,9 @@
                 file.removeEventListener('change', UploadFile);
                 file.addEventListener('change', UploadFile);
             }
-            else
+            else if (!form.querySelector('.mfa-send-code') && !form.querySelector('.mfa-verify-code'))
             {
+                // Only show error if this is not an MFA step
                 SetMessage('Sorry, we could not find the form controls. Please refresh the page or contact support.');
             }
         }
@@ -232,6 +236,124 @@
             warn.classList.add('hidden');
         }
     }
+
+    // Initialize MFA button event listeners
+    let InitMFAButtons = (form) =>
+    {
+        // Send verification code button
+        let sendCodeBtn = form.querySelector('.mfa-send-code');
+        if (sendCodeBtn)
+        {
+            sendCodeBtn.removeEventListener('click', SendVerificationCode);
+            sendCodeBtn.addEventListener('click', SendVerificationCode);
+        }
+
+        // Verify code button
+        let verifyCodeBtn = form.querySelector('.mfa-verify-code');
+        if (verifyCodeBtn)
+        {
+            verifyCodeBtn.removeEventListener('click', VerifyCode);
+            verifyCodeBtn.addEventListener('click', VerifyCode);
+        }
+
+        // Start over button
+        let startOverBtn = form.querySelector('.mfa-start-over');
+        if (startOverBtn)
+        {
+            startOverBtn.removeEventListener('click', StartOver);
+            startOverBtn.addEventListener('click', StartOver);
+        }
+    };
+
+    // Send verification code to email
+    let SendVerificationCode = () =>
+    {
+        ClearMessage();
+        let emailInput = document.getElementById('verificationEmail');
+        if (!emailInput || !emailInput.value)
+        {
+            SetMessage('Please enter your email address');
+            return;
+        }
+
+        // Make POST request using fetch API
+        let formData = new FormData();
+        formData.append('email', emailInput.value);
+
+        fetch('/Import/SendVerificationCode', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success)
+            {
+                // Reload page to show next step
+                window.location.reload();
+            }
+            else
+            {
+                SetMessage(data.error || 'Failed to send verification code');
+            }
+        })
+        .catch(() => {
+            SetMessage('Failed to send verification code. Please try again.');
+        });
+    };
+
+    // Verify the entered code
+    let VerifyCode = () =>
+    {
+        ClearMessage();
+        let codeInput = document.getElementById('verificationCode');
+        if (!codeInput || !codeInput.value)
+        {
+            SetMessage('Please enter the verification code');
+            return;
+        }
+
+        // Make POST request using fetch API
+        let formData = new FormData();
+        formData.append('code', codeInput.value);
+
+        fetch('/Import/VerifyCode', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success)
+            {
+                // Reload page to show import form
+                window.location.reload();
+            }
+            else
+            {
+                SetMessage(data.error || 'Invalid verification code');
+            }
+        })
+        .catch(() => {
+            SetMessage('Failed to verify code. Please try again.');
+        });
+    };
+
+    // Start over with new email
+    let StartOver = () =>
+    {
+        if (confirm('Start over with a new email address?'))
+        {
+            fetch('/Import/StartOver', {
+                method: 'POST'
+            })
+            .then(() => {
+                window.location = '/Import';
+            })
+            .catch(() => {
+                // Even if request fails, redirect to start over
+                window.location = '/Import';
+            });
+        }
+    };
 
     // Utility to check for the form and initialise if found
     let CheckForForm = () => 
