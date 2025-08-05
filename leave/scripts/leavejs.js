@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5484,71-72): run-time error JS1195: Expected expression: >
-(5484,98-99): run-time error JS1004: Expected ';': )
-(5486,87-88): run-time error JS1195: Expected expression: >
-(5486,129-130): run-time error JS1004: Expected ';': )
-(5491,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5496,13-14): run-time error JS1002: Syntax error: }
-(5498,34-35): run-time error JS1004: Expected ';': {
-(5502,9-10): run-time error JS1002: Syntax error: }
-(5505,25-26): run-time error JS1004: Expected ';': {
-(5656,5-6): run-time error JS1002: Syntax error: }
-(5657,45-46): run-time error JS1004: Expected ';': {
-(5676,6-7): run-time error JS1195: Expected expression: ,
-(5677,63-64): run-time error JS1004: Expected ';': {
-(5683,6-7): run-time error JS1195: Expected expression: ,
-(5684,26-27): run-time error JS1195: Expected expression: )
-(5684,28-29): run-time error JS1004: Expected ';': {
-(5758,6-7): run-time error JS1195: Expected expression: ,
-(5760,22-23): run-time error JS1195: Expected expression: )
-(5760,24-25): run-time error JS1004: Expected ';': {
-(5783,6-7): run-time error JS1195: Expected expression: ,
-(5785,24-25): run-time error JS1195: Expected expression: )
-(5785,26-27): run-time error JS1004: Expected ';': {
-(5844,6-7): run-time error JS1195: Expected expression: ,
-(10516,52-53): run-time error JS1195: Expected expression: .
-(10528,5-6): run-time error JS1002: Syntax error: }
-(10529,46-47): run-time error JS1004: Expected ';': {
-(10564,6-7): run-time error JS1195: Expected expression: ,
-(10565,42-43): run-time error JS1004: Expected ';': {
-(10588,6-7): run-time error JS1195: Expected expression: ,
-(10589,43-44): run-time error JS1004: Expected ';': {
-(10601,6-7): run-time error JS1195: Expected expression: ,
-(10602,81-82): run-time error JS1004: Expected ';': {
-(10619,6-7): run-time error JS1195: Expected expression: ,
-(10620,54-55): run-time error JS1004: Expected ';': {
-(10647,6-7): run-time error JS1195: Expected expression: ,
-(10648,49-50): run-time error JS1004: Expected ';': {
-(10718,6-7): run-time error JS1195: Expected expression: ,
-(10719,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10527,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10521,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5682,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5572,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5591,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5527,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5500,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5486,71-72): run-time error JS1195: Expected expression: >
+(5486,98-99): run-time error JS1004: Expected ';': )
+(5488,87-88): run-time error JS1195: Expected expression: >
+(5488,129-130): run-time error JS1004: Expected ';': )
+(5493,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5498,13-14): run-time error JS1002: Syntax error: }
+(5500,34-35): run-time error JS1004: Expected ';': {
+(5504,9-10): run-time error JS1002: Syntax error: }
+(5507,25-26): run-time error JS1004: Expected ';': {
+(5658,5-6): run-time error JS1002: Syntax error: }
+(5659,45-46): run-time error JS1004: Expected ';': {
+(5678,6-7): run-time error JS1195: Expected expression: ,
+(5679,63-64): run-time error JS1004: Expected ';': {
+(5685,6-7): run-time error JS1195: Expected expression: ,
+(5686,26-27): run-time error JS1195: Expected expression: )
+(5686,28-29): run-time error JS1004: Expected ';': {
+(5760,6-7): run-time error JS1195: Expected expression: ,
+(5762,22-23): run-time error JS1195: Expected expression: )
+(5762,24-25): run-time error JS1004: Expected ';': {
+(5785,6-7): run-time error JS1195: Expected expression: ,
+(5787,24-25): run-time error JS1195: Expected expression: )
+(5787,26-27): run-time error JS1004: Expected ';': {
+(5846,6-7): run-time error JS1195: Expected expression: ,
+(10518,52-53): run-time error JS1195: Expected expression: .
+(10530,5-6): run-time error JS1002: Syntax error: }
+(10531,46-47): run-time error JS1004: Expected ';': {
+(10566,6-7): run-time error JS1195: Expected expression: ,
+(10567,42-43): run-time error JS1004: Expected ';': {
+(10590,6-7): run-time error JS1195: Expected expression: ,
+(10591,43-44): run-time error JS1004: Expected ';': {
+(10603,6-7): run-time error JS1195: Expected expression: ,
+(10604,81-82): run-time error JS1004: Expected ';': {
+(10621,6-7): run-time error JS1195: Expected expression: ,
+(10622,54-55): run-time error JS1004: Expected ';': {
+(10649,6-7): run-time error JS1195: Expected expression: ,
+(10650,49-50): run-time error JS1004: Expected ';': {
+(10720,6-7): run-time error JS1195: Expected expression: ,
+(10721,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10529,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10523,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5684,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5574,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5593,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5529,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5502,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -1002,16 +1002,15 @@ var Leave = new Class({
     },
 
     postAttachements: function (empNo, leaveId, responseMethod) {
+        var callback = typeOf(responseMethod) === 'function' ? responseMethod : function () {};
         var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'CreateLeaveAttachment/' + empNo + '/' + leaveId);
         var attachments = document.getElements('.uploadmulti label input');
+        var inputsToDestroy = []; // Track inputs that need to be destroyed (must be outside if block)
         
         if (attachments.length > 0) {
             // Create FormData for modern file upload
             var formData = new FormData();
             var hasFiles = false;
-            
-            // Collect files from file inputs and prepare for DOM destruction (matching legacy behavior)
-            var inputsToDestroy = []; // Track inputs that need to be destroyed
             
             Array.each(attachments, function (attachment, index) {
                 if (!attachment.hasClass('initialValues')) {
@@ -1058,16 +1057,12 @@ var Leave = new Class({
                     }
                     
                     // Call response method if provided
-                    if (typeOf(responseMethod) === 'function') {
-                        responseMethod(result);
-                    }
+                    callback(result);
                 })
                 .catch(function(error) {
                     console.error('File upload error:', error);
                     // Call response method with error if provided
-                    if (typeOf(responseMethod) === 'function') {
-                        responseMethod({ error: error.message || 'Upload failed' });
-                    }
+                    callback({ error: error.message || 'Upload failed' });
                 })
                 .finally(function() {
                     // REPLICATE LEGACY BEHAVIOR: Destroy file inputs from DOM 
@@ -1076,8 +1071,15 @@ var Leave = new Class({
                         input.destroy(); // Remove from DOM exactly like the old iframe injection did
                     });
                 });
+                return;
             }
         }
+        // REPLICATE LEGACY BEHAVIOR: Destroy file inputs from DOM 
+        // (Ensures cleanup happens whether upload succeeds or fails - no leaks!)
+        Array.each(inputsToDestroy, function(input) {
+            input.destroy(); // Remove from DOM exactly like the old iframe injection did
+        });
+        callback({ Data: { EmployeeNo: empNo, TSGroupId: leaveId } });
     },
 
     setDates: function (element, date) {
