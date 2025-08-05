@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5489,71-72): run-time error JS1195: Expected expression: >
-(5489,98-99): run-time error JS1004: Expected ';': )
-(5491,87-88): run-time error JS1195: Expected expression: >
-(5491,129-130): run-time error JS1004: Expected ';': )
-(5496,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5501,13-14): run-time error JS1002: Syntax error: }
-(5503,34-35): run-time error JS1004: Expected ';': {
-(5507,9-10): run-time error JS1002: Syntax error: }
-(5510,25-26): run-time error JS1004: Expected ';': {
-(5661,5-6): run-time error JS1002: Syntax error: }
-(5662,45-46): run-time error JS1004: Expected ';': {
-(5681,6-7): run-time error JS1195: Expected expression: ,
-(5682,63-64): run-time error JS1004: Expected ';': {
-(5688,6-7): run-time error JS1195: Expected expression: ,
-(5689,26-27): run-time error JS1195: Expected expression: )
-(5689,28-29): run-time error JS1004: Expected ';': {
-(5763,6-7): run-time error JS1195: Expected expression: ,
-(5765,22-23): run-time error JS1195: Expected expression: )
-(5765,24-25): run-time error JS1004: Expected ';': {
-(5788,6-7): run-time error JS1195: Expected expression: ,
-(5790,24-25): run-time error JS1195: Expected expression: )
-(5790,26-27): run-time error JS1004: Expected ';': {
-(5849,6-7): run-time error JS1195: Expected expression: ,
-(10524,52-53): run-time error JS1195: Expected expression: .
-(10536,5-6): run-time error JS1002: Syntax error: }
-(10537,46-47): run-time error JS1004: Expected ';': {
-(10572,6-7): run-time error JS1195: Expected expression: ,
-(10573,42-43): run-time error JS1004: Expected ';': {
-(10596,6-7): run-time error JS1195: Expected expression: ,
-(10597,43-44): run-time error JS1004: Expected ';': {
-(10609,6-7): run-time error JS1195: Expected expression: ,
-(10610,81-82): run-time error JS1004: Expected ';': {
-(10627,6-7): run-time error JS1195: Expected expression: ,
-(10628,54-55): run-time error JS1004: Expected ';': {
-(10655,6-7): run-time error JS1195: Expected expression: ,
-(10656,49-50): run-time error JS1004: Expected ';': {
-(10726,6-7): run-time error JS1195: Expected expression: ,
-(10727,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10535,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10529,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5687,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5577,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5596,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5532,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5505,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5484,71-72): run-time error JS1195: Expected expression: >
+(5484,98-99): run-time error JS1004: Expected ';': )
+(5486,87-88): run-time error JS1195: Expected expression: >
+(5486,129-130): run-time error JS1004: Expected ';': )
+(5491,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5496,13-14): run-time error JS1002: Syntax error: }
+(5498,34-35): run-time error JS1004: Expected ';': {
+(5502,9-10): run-time error JS1002: Syntax error: }
+(5505,25-26): run-time error JS1004: Expected ';': {
+(5656,5-6): run-time error JS1002: Syntax error: }
+(5657,45-46): run-time error JS1004: Expected ';': {
+(5676,6-7): run-time error JS1195: Expected expression: ,
+(5677,63-64): run-time error JS1004: Expected ';': {
+(5683,6-7): run-time error JS1195: Expected expression: ,
+(5684,26-27): run-time error JS1195: Expected expression: )
+(5684,28-29): run-time error JS1004: Expected ';': {
+(5758,6-7): run-time error JS1195: Expected expression: ,
+(5760,22-23): run-time error JS1195: Expected expression: )
+(5760,24-25): run-time error JS1004: Expected ';': {
+(5783,6-7): run-time error JS1195: Expected expression: ,
+(5785,24-25): run-time error JS1195: Expected expression: )
+(5785,26-27): run-time error JS1004: Expected ';': {
+(5844,6-7): run-time error JS1195: Expected expression: ,
+(10516,52-53): run-time error JS1195: Expected expression: .
+(10528,5-6): run-time error JS1002: Syntax error: }
+(10529,46-47): run-time error JS1004: Expected ';': {
+(10564,6-7): run-time error JS1195: Expected expression: ,
+(10565,42-43): run-time error JS1004: Expected ';': {
+(10588,6-7): run-time error JS1195: Expected expression: ,
+(10589,43-44): run-time error JS1004: Expected ';': {
+(10601,6-7): run-time error JS1195: Expected expression: ,
+(10602,81-82): run-time error JS1004: Expected ';': {
+(10619,6-7): run-time error JS1195: Expected expression: ,
+(10620,54-55): run-time error JS1004: Expected ';': {
+(10647,6-7): run-time error JS1195: Expected expression: ,
+(10648,49-50): run-time error JS1004: Expected ';': {
+(10718,6-7): run-time error JS1195: Expected expression: ,
+(10719,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10527,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10521,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5682,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5572,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5591,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5527,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5500,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -1002,9 +1002,6 @@ var Leave = new Class({
     },
 
     postAttachements: function (empNo, leaveId, responseMethod) {
-
-        debugger;
-
         var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'CreateLeaveAttachment/' + empNo + '/' + leaveId);
         var attachments = document.getElements('.uploadmulti label input');
         
@@ -1041,7 +1038,8 @@ var Leave = new Class({
                 // Use fetch for modern upload with automatic anti-forgery token injection
                 fetch(api, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 })
                 .then(function(response) {
                     if (!response.ok) {
@@ -2844,9 +2842,6 @@ var UILeaveApply = new Class({
                 if (!Affinity.leave.isErrorInJson(response, this._api, this._methodName, true)) {
                     var vm = this;
                     var requestResponse = response;
-
-                    debugger; // apply
-
                     Affinity.leave.postAttachements(
                         response.Data.EmployeeNo,
                         response.Data.TSGroupId,
@@ -6415,9 +6410,6 @@ var UILeaveApplyV1 = new Class({
                 ) {
                     var vm = this;
                     var requestResponse = response;
-
-                    debugger; // apply V1
-
                     Affinity.leave.postAttachements(
                         response.Data.EmployeeNo,
                         response.Data.TSGroupId,
@@ -12000,9 +11992,6 @@ var UILeaveDetail = new Class({
         });
         var leaveId = this.data.LeaveHeader.TSGroupId;
         var empNo = this.data.LeaveHeader.EmployeeNo;
-
-        debugger; // detail
-
         Affinity.leave.postAttachements(empNo, leaveId, function (response) {
             //this.getAttachments();
             Affinity.leave.populateAttachments(this.data.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
@@ -16153,9 +16142,6 @@ var UILeaveDetailV1 = new Class({
         });
         var leaveId = this.data.LeaveHeader.TSGroupId;
         var empNo = this.data.LeaveHeader.EmployeeNo;
-
-        debugger; // detail V1
-
         Affinity.leave.postAttachements(empNo, leaveId, function (response) {
             //this.getAttachments();
             Affinity.leave.populateAttachments(this.data.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
