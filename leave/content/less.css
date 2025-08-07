@@ -10634,6 +10634,15 @@ body.newui #uimodal .uimodalbody .modal-dataV1 .activity-content .activity-event
   background-color: inherit;
   text-decoration: none;
 }
+p.warnings {
+  margin: 0 0 10px 0 !important;
+  padding: 0 10px;
+  color: red;
+}
+button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
 .error-border {
   border: 1px solid red !important;
 }

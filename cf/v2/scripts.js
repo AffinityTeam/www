@@ -7627,7 +7627,9 @@
       // Anti forgery token headers
       (() => {
         const appName = "CleverFormsV2";
+        // CRITICAL: Capture original functions ONCE at module load, not in setupInterceptors
         const originalFetch = window.fetch;
+        const originalXHR = window.XMLHttpRequest;
         // Helper function to check if URL should get anti-forgery token
         const shouldAddToken = function(url)
         {
@@ -7660,8 +7662,9 @@
           // Deny all other external domains
           return false;
         };
-        function refreshAntiForgeryToken()
+        function refreshAntiForgeryToken(callbackMethod)
         {
+          const callback = typeof callbackMethod === 'function' ? callbackMethod : function () {};
           return (window.axios ? axios.get('/Api/RefreshAntiForgeryToken') : fetch('/Api/RefreshAntiForgeryToken'))
             .then(response =>
             {
@@ -7681,13 +7684,17 @@
                 window.AntiForgeryToken = token;
                 console.log(appName + ": Antiforgery token refreshed successfully");
                 setupInterceptors();
+                // Clean up login event listeners now that we have a token
+                loginRefreshManager.cleanup();
+                console.log(appName + ": Login token refresh listeners cleaned up");
+                callback(token);
                 return token;
               }
             })
             .catch(error =>
             {
               console.error(appName + ": Failed to refresh token", error);
-              throw error;
+              callback(error);
             });
         }
         function setupInterceptors()
@@ -7696,7 +7703,6 @@
           if (window.XMLHttpRequest && !window.XMLHttpRequest._antiForgeryPatched)
           {
             window.XMLHttpRequest._antiForgeryPatched = true;
-            const originalXHR = window.XMLHttpRequest;
             window.XMLHttpRequest = function()
             {
               const xhr = new originalXHR();
@@ -7779,6 +7785,40 @@
             console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         }
+        // Login token refresh manager - cleaner encapsulated approach
+        var loginRefreshManager = (function() {
+          var loginEvents = [
+              'loggedin', 'userComplete', 'gotUser', 'GotUser', 
+              'GotUserData', 'GotEmployee', 'GotEmployeeData', 'LoginReady'
+          ];
+          var isActive = false;
+          function addListeners() {
+              if (isActive) return; // Already active, don't add again
+              loginEvents.forEach(function(eventName) {
+                  window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
+                  window.removeEventListener(eventName, refreshAntiForgeryToken);
+                  window.addEvent && window.addEvent(eventName, refreshAntiForgeryToken);
+                  window.addEventListener(eventName, refreshAntiForgeryToken);
+              });
+              isActive = true;
+          }
+          function removeListeners() {
+              if (!isActive) return; // Already inactive
+              loginEvents.forEach(function(eventName) {
+                  window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
+                  window.removeEventListener(eventName, refreshAntiForgeryToken);
+              });
+              isActive = false;
+          }
+          return {
+              setup: addListeners,
+              cleanup: removeListeners,
+              isActive: function() { return isActive; }
+          };
+        })();
+        function setupLoginTokenRefresh() {
+          loginRefreshManager.setup();
+        }
         if (window.AntiForgeryToken)
         {
           console.log(appName + ": Initial antiforgery token set.");
@@ -7792,6 +7832,7 @@
         else
         {
           console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
+          setupLoginTokenRefresh();
           refreshAntiForgeryToken()
             .then(function (token)
             {
@@ -7811,6 +7852,29 @@
               }, 15 * 60 * 1000);
           });
         }
+        // Add logout event handlers to clear token when user logs out
+        // This prevents old tokens from being cached after logout/login
+        var onLogout = function ()
+        {
+            // GUARD: Prevent multiple refreshes if multiple apps are loaded
+            if (window._logoutRefreshTriggered) {
+                console.log(appName + ": Logout refresh already triggered by another app, skipping");
+                return;
+            }
+            window._logoutRefreshTriggered = true;
+            console.log(appName + ": Clearing antiforgery token on logout");
+            clearInterval(window._antiTokenRefreshTimer);
+            window.AntiForgeryToken = "";
+            // Clear server-side token cache before page refresh
+            refreshAntiForgeryToken(function() {
+                window.location.href = window.location.href;
+            });
+        };
+        window.removeEvent && window.removeEvent('logout', onLogout);
+        window.addEvent && window.addEvent('logout', onLogout);
+        window.removeEvent && window.removeEvent('logoutViaTab', onLogout);
+        window.addEvent && window.addEvent('logoutViaTab', onLogout);
+
       })();
       // END Anti forgery token headers
 
