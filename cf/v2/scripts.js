@@ -7779,6 +7779,20 @@
             console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         }
+        function setupLoginTokenRefresh() {
+          var loginEvents = [
+              'loggedin', 'userComplete', 'gotUser', 'GotUser', 
+              'GotUserData', 'GotEmployee', 'GotEmployeeData', 'LoginReady'
+          ];
+          loginEvents.forEach(function(eventName) {
+              // Remove existing listeners first (cleanup)
+              window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
+              window.removeEventListener(eventName, refreshAntiForgeryToken);
+              // Add fresh listeners
+              window.addEvent && window.addEvent(eventName, refreshAntiForgeryToken);
+              window.addEventListener(eventName, refreshAntiForgeryToken);
+          });
+        }
         if (window.AntiForgeryToken)
         {
           console.log(appName + ": Initial antiforgery token set.");
@@ -7792,6 +7806,7 @@
         else
         {
           console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
+          setupLoginTokenRefresh();
           refreshAntiForgeryToken()
             .then(function (token)
             {
@@ -7811,6 +7826,7 @@
               }, 15 * 60 * 1000);
           });
         }
+
       })();
       // END Anti forgery token headers
 
