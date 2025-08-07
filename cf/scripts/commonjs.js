@@ -18862,8 +18862,9 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           // Deny all other external domains
           return false;
         };
-        function refreshAntiForgeryToken()
+        function refreshAntiForgeryToken(callbackMethod)
         {
+          var callback = typeof callbackMethod === 'function' ? callbackMethod : function () {};
           if (window.axios)
           {
             return axios.get('/Api/RefreshAntiForgeryToken')
@@ -18881,13 +18882,14 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                   // Clean up login event listeners now that we have a token
                   loginRefreshManager.cleanup();
                   console.log(appName + ": Login token refresh listeners cleaned up");
+                  callback(null, token);
                   return token;
                 }
               })
               .catch(function (error)
               {
                 console.error(appName + ": Failed to refresh token", error);
-                throw error;
+                callback(error);
               });
           }
           else if (window.fetch)
@@ -18907,13 +18909,14 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                   // Clean up login event listeners now that we have a token
                   loginRefreshManager.cleanup();
                   console.log(appName + ": Login token refresh listeners cleaned up");
+                  callback(null, data.token);
                   return data.token;
                 }
               })
               .catch(function (error)
               {
                 console.error(appName + ": Failed to refresh token", error);
-                throw error;
+                callback(error);
               });
           }
           else
@@ -18940,19 +18943,25 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                         loginRefreshManager.cleanup();
                         console.log(appName + ": Login token refresh listeners cleaned up");
                         resolve(data.token);
+                        callback(null, data.token);
                       }
                       else
                       {
-                        reject(new Error(appName + ": Invalid token response"));
+                        var error = new Error(appName + ": Invalid token response");
+                        reject(error);
+                        callback(error);
                       }
                     }
                     catch (e)
                     {
                       reject(e);
+                      callback(e);
                     }
                   }else
                   {
-                    reject(new Error(appName + ": Failed to refresh token, status: " + xhr.status));
+                    var error = new Error(appName + ": Failed to refresh token, status: " + xhr.status);
+                    reject(error);
+                    callback(error);
                   }
                 }
               };
@@ -18966,7 +18975,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           if (window.XMLHttpRequest && !window.XMLHttpRequest._antiForgeryPatched)
           {
             window.XMLHttpRequest._antiForgeryPatched = true;
-            const originalXHR = window.XMLHttpRequest;
+            // originalXHR already captured at module load time
             window.XMLHttpRequest = function()
             {
               const xhr = new originalXHR();
@@ -19130,7 +19139,10 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             console.log(appName + ": Clearing antiforgery token on logout");
             clearInterval(window._antiTokenRefreshTimer);
             window.AntiForgeryToken = "";
-            window.location.href = window.location.href;
+            // Clear server-side token cache before page refresh
+            refreshAntiForgeryToken(function() {
+                window.location.href = window.location.href;
+            });
         };
         window.removeEvent('logout', onLogout);
         window.addEvent('logout', onLogout);
