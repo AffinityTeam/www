@@ -18827,8 +18827,9 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
       (function()
       {
         var appName = "CleverFormsV1";
-        var originalFetch = null;
-        var originalXHR = null;
+        // CRITICAL: Capture original functions ONCE at module load, not in setupInterceptors
+        var originalFetch = window.fetch;
+        var originalXHR = window.XMLHttpRequest;
         // Helper function to check if URL should get anti-forgery token
         const shouldAddToken = function(url)
         {
@@ -19017,7 +19018,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           if (window.fetch && !window.fetch._antiForgeryPatched)
           {
             window.fetch._antiForgeryPatched = true;
-            originalFetch = window.fetch;
+            // originalFetch already captured at module load time
             window.fetch = function (url, options)
             {
               options = options || {};
