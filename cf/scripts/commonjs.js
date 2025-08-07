@@ -19117,6 +19117,25 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               }, 15 * 60 * 1000);
             });
         }
+        // Add logout event handlers to clear token when user logs out
+        // This prevents old tokens from being cached after logout/login
+        var onLogout = function ()
+        {
+            // GUARD: Prevent multiple refreshes if multiple apps are loaded
+            if (window._logoutRefreshTriggered) {
+                console.log(appName + ": Logout refresh already triggered by another app, skipping");
+                return;
+            }
+            window._logoutRefreshTriggered = true;
+            console.log(appName + ": Clearing antiforgery token on logout");
+            clearInterval(window._antiTokenRefreshTimer);
+            window.AntiForgeryToken = "";
+            window.location.href = window.location.href;
+        };
+        window.removeEvent('logout', onLogout);
+        window.addEvent('logout', onLogout);
+        window.removeEvent('logoutViaTab', onLogout);
+        window.addEvent('logoutViaTab', onLogout);
       })();
       // END Anti forgery Token headers
 
