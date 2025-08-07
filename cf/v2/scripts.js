@@ -7681,6 +7681,9 @@
                 window.AntiForgeryToken = token;
                 console.log(appName + ": Antiforgery token refreshed successfully");
                 setupInterceptors();
+                // Clean up login event listeners now that we have a token
+                loginRefreshManager.cleanup();
+                console.log(appName + ": Login token refresh listeners cleaned up");
                 return token;
               }
             })
@@ -7779,19 +7782,39 @@
             console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         }
-        function setupLoginTokenRefresh() {
+        // Login token refresh manager - cleaner encapsulated approach
+        var loginRefreshManager = (function() {
           var loginEvents = [
               'loggedin', 'userComplete', 'gotUser', 'GotUser', 
               'GotUserData', 'GotEmployee', 'GotEmployeeData', 'LoginReady'
           ];
-          loginEvents.forEach(function(eventName) {
-              // Remove existing listeners first (cleanup)
-              window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
-              window.removeEventListener(eventName, refreshAntiForgeryToken);
-              // Add fresh listeners
-              window.addEvent && window.addEvent(eventName, refreshAntiForgeryToken);
-              window.addEventListener(eventName, refreshAntiForgeryToken);
-          });
+          var isActive = false;
+          function addListeners() {
+              if (isActive) return; // Already active, don't add again
+              loginEvents.forEach(function(eventName) {
+                  window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
+                  window.removeEventListener(eventName, refreshAntiForgeryToken);
+                  window.addEvent && window.addEvent(eventName, refreshAntiForgeryToken);
+                  window.addEventListener(eventName, refreshAntiForgeryToken);
+              });
+              isActive = true;
+          }
+          function removeListeners() {
+              if (!isActive) return; // Already inactive
+              loginEvents.forEach(function(eventName) {
+                  window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
+                  window.removeEventListener(eventName, refreshAntiForgeryToken);
+              });
+              isActive = false;
+          }
+          return {
+              setup: addListeners,
+              cleanup: removeListeners,
+              isActive: function() { return isActive; }
+          };
+        })();
+        function setupLoginTokenRefresh() {
+          loginRefreshManager.setup();
         }
         if (window.AntiForgeryToken)
         {

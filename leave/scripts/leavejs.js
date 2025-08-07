@@ -11994,11 +11994,17 @@ var UILeaveDetail = new Class({
         });
         var leaveId = this.data.LeaveHeader.TSGroupId;
         var empNo = this.data.LeaveHeader.EmployeeNo;
+        // RECURSION FIX: Temporarily remove multiFileAdded event handler to prevent infinite loop
+        // when populateAttachments -> Affinity.uploaders.reset -> multiFileAdded -> postAttachments again
+        this.attachWidgetDiv.removeEvent('multiFileAdded', this.postAttachments);
         Affinity.leave.postAttachements(empNo, leaveId, function (response) {
             //this.getAttachments();
             Affinity.leave.populateAttachments(this.data.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
             Affinity.leave.unlockui('leaveDetail-postAttachments');
             window.fireEvent('attachmentRequired', false);
+            // RECURSION FIX: Re-add the event handler after upload completes (success or failure)
+            // postAttachements always calls this callback, so this ensures user can try again
+            this.attachWidgetDiv.addEvent('multiFileAdded', this.postAttachments);
         }.bind(this));
     },
     deleteAttachment: function (e) {
@@ -16144,11 +16150,17 @@ var UILeaveDetailV1 = new Class({
         });
         var leaveId = this.data.LeaveHeader.TSGroupId;
         var empNo = this.data.LeaveHeader.EmployeeNo;
+        // RECURSION FIX: Temporarily remove multiFileAdded event handler to prevent infinite loop
+        // when populateAttachments -> Affinity.uploaders.reset -> multiFileAdded -> postAttachments again
+        this.attachWidgetDiv.removeEvent('multiFileAdded', this.postAttachments);
         Affinity.leave.postAttachements(empNo, leaveId, function (response) {
             //this.getAttachments();
             Affinity.leave.populateAttachments(this.data.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
             Affinity.leave.unlockui('leaveDetail-postAttachments');
             window.fireEvent('attachmentRequired', false);
+            // RECURSION FIX: Re-add the event handler after upload completes (success or failure)
+            // postAttachements always calls this callback, so this ensures user can try again
+            this.attachWidgetDiv.addEvent('multiFileAdded', this.postAttachments);
         }.bind(this));
     },
 
