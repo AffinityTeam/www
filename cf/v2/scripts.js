@@ -27075,6 +27075,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
           }
         }
       }
+      this.CheckConditionalRequiredFields();
       // Conditional Required Fields
 
       return this.FormRowNode;
@@ -27264,6 +27265,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   CheckConditionalRequiredFields(event)
   {
+    let targetNode = event ? event.target : this.FormRowNode;
     clearTimeout(this.checkConditionalRequiredFieldsTimer);
     this.checkConditionalRequiredFieldsTimer = setTimeout((() => 
     {
@@ -27272,7 +27274,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         let fieldData = this.CleverForms.ConditionalRequiredFields[this.Config.Details.AffinityField.ModelName];
         let fieldList = fieldData.Fields;
         let fieldModel = fieldData.ModelName;
-        let rowNode = event.target.closest('.form-row');
+        let rowNode = targetNode.classList.contains('form-row') ? targetNode : targetNode.closest('.form-row');
         let sectionNode = rowNode.closest('.section[data-type="Section"]');
         let value = this.GetFromFormRow();
         value = value.hasOwnProperty('Value') ? value.Value : value;
