@@ -26799,6 +26799,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   SetFormRow (target)
   {
+    this.HasRequiredMessage = !document.querySelector('.required-message') && document.querySelector('.required-message').classList.contains('hidden');
+
     var displayType = this.Config.Details.AffinityField.CleverFormsDisplayType;
     var value = this.Config.Details.Value;
     var isGlobalKey = this.CleverForms.IsGlobalKey(this.Config);
@@ -27285,6 +27287,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             {
               fieldNodeRow.classList.add('required');
               fieldNodeRow.querySelector('span.required').classList.remove('hidden');
+              fieldNodeRow.controller.Config.Details.AffinityField.IsRequired = true;
+              fieldNodeRow.controller.Config.Details.Required = true;
+              if (fieldNode.hasOwnProperty('widgets'))
+              {
+                for (let widget in fieldNode.widgets)
+                {
+                  fieldNode.widgets[widget].IsRequired = true;
+                }
+              }
             }
           }
         }
@@ -27313,6 +27324,24 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               {
                 fieldNodeRow.classList.remove('required');
                 fieldNodeRow.querySelector('span.required').classList.add('hidden');
+                fieldNodeRow.controller.Config.Details.AffinityField.IsRequired = false;
+                fieldNodeRow.controller.Config.Details.Required = false;
+                fieldNodeRow.classList.remove('error');
+                if (fieldNode.hasOwnProperty('widgets'))
+                {
+                  for (let widget in fieldNode.widgets)
+                  {
+                    fieldNode.widgets[widget].IsRequired = false;
+                    if (fieldNode.widgets[widget].hasOwnProperty('HideError'))
+                    {
+                      fieldNode.widgets[widget].HideError();
+                    }
+                    if (fieldNode.widgets[widget].hasOwnProperty('ClearError'))
+                    {
+                      fieldNode.widgets[widget].ClearError();
+                    }
+                  }
+                }
               }
             }
           }
