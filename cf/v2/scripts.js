@@ -9180,7 +9180,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @type {[string]}
     * @public
     */
-    this.PseudoGlobalElementTypes = []; // set by Elements.json
+    this.PseudoGlobalElementTypes = []; // set by 
 
 
 
@@ -9887,6 +9887,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           this.DocumentCategories = response.data.DocumentCategories;
           this.CountrySensativeFields = response.data.CountrySensativeFields;
           this.CountrySensativeFieldNames = Object.keys(this.CountrySensativeFields);
+          this.ConditionalRequiredFields = response.data.ConditionalRequiredFields;
           this.MacronSupportedFields = response.data.MacronSupportedFields;
           this.ElementControllerMap = {};
 
@@ -24621,7 +24622,17 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         this.FormRowNode.querySelector('label').appendChild(helpNode);
       }
 
-      if (this.Config.Details.Required && !isReadOnly)
+      let isConditionalRequiredField = false;
+      if (
+          this.Config.Details.hasOwnProperty('AffinityField')
+          && this.CleverForms.ConditionalRequiredFields.hasOwnProperty(this.Config.Details.AffinityField.ModelName)
+          && this.CleverForms.ConditionalRequiredFields[this.Config.Details.AffinityField.ModelName].Fields.contains(this.Config.Details.AffinityField.FieldName)
+      )
+      {
+        isConditionalRequiredField = true;
+      }
+
+      if ((this.Config.Details.Required || isConditionalRequiredField) && !isReadOnly)
       {
         var className = 'required-message required';
         if (document.querySelector('.required-message .required')) className = document.querySelector('.required-message .required').className;
@@ -24649,6 +24660,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
           this.FormRowNode.querySelector('textarea').classList.add(this.CleverForms.IsFieldMacronSupprted(this.Config) ? 'ui-has-sentence-extended' : 'ui-has-sentence');
         }
 
+        if (isConditionalRequiredField && !this.Config.Details.Required)
+        {
+          this.FormRowNode.classList.remove('required');
+          requiredNode.classList.add('hidden');
+        }
       }
 
       if (isReadOnly)
@@ -26250,6 +26266,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       'GetDependentLookup',
       'CheckDependencies',
 
+      'CheckConditionalRequiredFields',
+
       '_processDependentLookup',
 
       '_filterSelected',
@@ -27040,6 +27058,23 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
       // END Dependencies
 
+      // Conditional Required Fields
+      for (let fieldKey in this.CleverForms.ConditionalRequiredFields)
+      {
+        let data = this.CleverForms.ConditionalRequiredFields[fieldKey];
+        if (data.ModelName === this.Config.Details.AffinityField.ModelName)
+        {
+          for (let fieldName of data.Fields)
+          {
+            if (this.Config.Details.AffinityField.FieldName === fieldName)
+            {
+              this.FormRowNode.querySelector('select,input').addEventListener('human_modified', this.CheckConditionalRequiredFields);
+            }
+          }
+        }
+      }
+      // Conditional Required Fields
+
       return this.FormRowNode;
     }
   }
@@ -27222,6 +27257,68 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
         }
       }
     }
+  }
+
+
+  CheckConditionalRequiredFields(event)
+  {
+    clearTimeout(this.checkConditionalRequiredFieldsTimer);
+    this.checkConditionalRequiredFieldsTimer = setTimeout((() => 
+    {
+      if (this.CleverForms.ConditionalRequiredFields[this.Config.Details.AffinityField.ModelName])
+      {
+        let fieldData = this.CleverForms.ConditionalRequiredFields[this.Config.Details.AffinityField.ModelName];
+        let fieldList = fieldData.Fields;
+        let fieldModel = fieldData.ModelName;
+        let rowNode = event.target.closest('.form-row');
+        let sectionNode = rowNode.closest('.section[data-type="Section"]');
+        let value = this.GetFromFormRow();
+        value = value.hasOwnProperty('Value') ? value.Value : value;
+        value = value === null ? '' : value;
+        if (value.toString().trim() !== '')
+        {
+          for (let field of fieldList)
+          {
+            let fieldNode = sectionNode.querySelector(`[data-property-name="${field}"][data-model-name="${fieldModel}"]`);
+            let fieldNodeRow = fieldNode ? fieldNode.closest('div.form-row') : null;
+            if (fieldNodeRow)
+            {
+              fieldNodeRow.classList.add('required');
+              fieldNodeRow.querySelector('span.required').classList.remove('hidden');
+            }
+          }
+        }
+        else
+        {
+          let checkCombinedValues = '';
+          for (let field of fieldList)
+          {
+            let fieldNode = sectionNode.querySelector(`[data-property-name="${field}"][data-model-name="${fieldModel}"]`);
+            let fieldNodeRow = fieldNode ? fieldNode.closest('div.form-row') : null;
+            if (fieldNodeRow)
+            {
+              let fieldFormRowValue = fieldNodeRow.controller.GetFromFormRow();
+              fieldFormRowValue = fieldFormRowValue.hasOwnProperty('Value') ? fieldFormRowValue.Value : fieldFormRowValue;
+              fieldFormRowValue = fieldFormRowValue === null ? '' : fieldFormRowValue;
+              checkCombinedValues += fieldFormRowValue.toString().trim();
+            }
+          }
+          if (checkCombinedValues.trim() === '')
+          {
+            for (let field of fieldList)
+            {
+              let fieldNode = sectionNode.querySelector(`[data-property-name="${field}"][data-model-name="${fieldModel}"]`);
+              let fieldNodeRow = fieldNode ? fieldNode.closest('div.form-row') : null;
+              if (fieldNodeRow)
+              {
+                fieldNodeRow.classList.remove('required');
+                fieldNodeRow.querySelector('span.required').classList.add('hidden');
+              }
+            }
+          }
+        }
+      }
+    }).bind(this), 500);
   }
 
   /**/
@@ -30545,7 +30642,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
       {
         //dateStr = Affinity2018.getDate(dateObj, format);
         dateStr = dateObj.toString(format);
-        value = dateStr
+        value = dateStr;
         dataset += ' data-start-date="' + value + '"';
         date = value;
       }
@@ -44476,6 +44573,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       document.addEventListener('scroll', this._scrolled, false);
       document.addEventListener('resize', this._position, false);
     }
+
+    this.targetNode.dispatchEvent(new Event('Ready'));
 
     this.Ready = true;
   }
