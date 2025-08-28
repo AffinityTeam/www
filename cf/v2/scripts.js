@@ -27359,6 +27359,30 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             {
               fieldNodeRow.classList.add('required');
               fieldNodeRow.querySelector('span.required').classList.remove('hidden');
+              fieldNodeRow.controller.Config.Details.AffinityField.IsRequired = true;
+              fieldNodeRow.controller.Config.Details.Required = true;
+              console.log(` --- Update ${field} AffinityField Required State: true`);
+              if (fieldNodeRow.controller.hasOwnProperty('ElementController'))
+              {
+                console.log(` --- Update ${field} ElementController Required State: true`);
+                fieldNodeRow.controller.ElementController.Config.Details.Required = true;
+              }
+              showFormMessage = true;
+              if (fieldNode.hasOwnProperty('widgets'))
+              {
+                for (let widget in fieldNode.widgets)
+                {
+                  fieldNode.widgets[widget].IsRequired = true;
+                  if (widget === 'SelectLookup' && fieldNodeRow.querySelector('select'))
+                  {
+                    console.log(` --- Update ${field} SelectLookup Required State: true`);
+                    let config = fieldNodeRow.querySelector('select').dataset.config;
+                    let configData = JSON.parse(config);
+                    configData.Required = true;
+                    fieldNodeRow.querySelector('select').dataset.config = JSON.stringify(configData);
+                  }
+                }
+              }
             }
           }
         }
@@ -27389,6 +27413,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 fieldNodeRow.querySelector('span.required').classList.add('hidden');
                 fieldNodeRow.controller.Config.Details.AffinityField.IsRequired = false;
                 fieldNodeRow.controller.Config.Details.Required = false;
+                console.log(` --- Update ${field} AffinityField Required State: false`);
+                if (fieldNodeRow.controller.hasOwnProperty('ElementController'))
+                {
+                  console.log(` --- Update ${field} ElementController Required State: false`);
+                  fieldNodeRow.controller.ElementController.Config.Details.Required = false;
+                }
                 fieldNodeRow.classList.remove('error');
                 showFormMessage = false;
                 if (fieldNode.hasOwnProperty('widgets'))
@@ -27396,6 +27426,14 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                   for (let widget in fieldNode.widgets)
                   {
                     fieldNode.widgets[widget].IsRequired = false;
+                    if (widget === 'SelectLookup' && fieldNodeRow.querySelector('select'))
+                    {
+                      console.log(` --- Update ${field} SelectLookup Required State: false`);
+                      let config = fieldNodeRow.querySelector('select').dataset.config;
+                      let configData = JSON.parse(config);
+                      configData.Required = false;
+                      fieldNodeRow.querySelector('select').dataset.config = JSON.stringify(configData);
+                    }
                     if (fieldNode.widgets[widget].hasOwnProperty('HideError'))
                     {
                       fieldNode.widgets[widget].HideError();
