@@ -15658,7 +15658,7 @@ var CFFormEdit = new Class({
 
         var isMyDetails = Affinity.app === 'MyDetails';
         if (isMyDetails) {
-            message = 'Your changes will be visible soon. Please check back later.';
+            message = 'OK, got that. Your changes will be visible soon. Check back later.';
         } else if (this.submitvalue.value === 'Save Form') {
             message = 'Your form will be saved for later editing, but will not be submitted.';
         }
