@@ -18879,9 +18879,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                   window.AntiForgeryToken = token;
                   console.log(appName + ": Antiforgery token refreshed successfully");
                   setupInterceptors();
-                  // Clean up login event listeners now that we have a token
-                  loginRefreshManager.cleanup();
-                  console.log(appName + ": Login token refresh listeners cleaned up");
+                  // Token obtained successfully
                   callback(null, token);
                   return token;
                 }
@@ -18906,9 +18904,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                   window.AntiForgeryToken = data.token;
                   console.log(appName + ": Antiforgery token refreshed successfully");
                   setupInterceptors();
-                  // Clean up login event listeners now that we have a token
-                  loginRefreshManager.cleanup();
-                  console.log(appName + ": Login token refresh listeners cleaned up");
+                  // Token obtained successfully
                   callback(null, data.token);
                   return data.token;
                 }
@@ -18939,9 +18935,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
                         window.AntiForgeryToken = data.token;
                         console.log(appName + ": Antiforgery token refreshed successfully");
                         setupInterceptors();
-                        // Clean up login event listeners now that we have a token
-                        loginRefreshManager.cleanup();
-                        console.log(appName + ": Login token refresh listeners cleaned up");
+                        // Token obtained successfully
                         resolve(data.token);
                         callback(null, data.token);
                       }
@@ -19059,40 +19053,8 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         };
-        // Login token refresh manager - cleaner encapsulated approach
-        var loginRefreshManager = (function() {
-          var loginEvents = [
-              'loggedin', 'userComplete', 'gotUser', 'GotUser', 
-              'GotUserData', 'GotEmployee', 'GotEmployeeData', 'LoginReady'
-          ];
-          var isActive = false;
-          function addListeners() {
-            if (isActive) return; // Already active, don't add again
-            loginEvents.forEach(function(eventName) {
-              window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
-              window.removeEventListener(eventName, refreshAntiForgeryToken);
-              window.addEvent && window.addEvent(eventName, refreshAntiForgeryToken);
-              window.addEventListener(eventName, refreshAntiForgeryToken);
-            });
-            isActive = true;
-          }
-          function removeListeners() {
-            if (!isActive) return; // Already inactive
-            loginEvents.forEach(function(eventName) {
-              window.removeEvent && window.removeEvent(eventName, refreshAntiForgeryToken);
-              window.removeEventListener(eventName, refreshAntiForgeryToken);
-            });
-            isActive = false;
-          }
-          return {
-            setup: addListeners,
-            cleanup: removeListeners,
-            isActive: function() { return isActive; }
-          };
-        })();
-        function setupLoginTokenRefresh() {
-          loginRefreshManager.setup();
-        }
+        window.RefreshAntiForgeryToken = refreshAntiForgeryToken;
+        // Auth event listeners removed - tokens no longer depend on authentication state
         if (window.AntiForgeryToken)
         {
           console.log(appName + ": Initial antiforgery token set.");
@@ -19101,12 +19063,11 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
           window._antiTokenRefreshTimer = setInterval(function ()
           {
             refreshAntiForgeryToken();
-          }, 15 * 60 * 1000);
+          }, 2 * 60 * 60 * 1000);
         }
         else
         {
           console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
-          setupLoginTokenRefresh();
           refreshAntiForgeryToken()
             .then(function (token)
             {
@@ -19114,7 +19075,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               window._antiTokenRefreshTimer = setInterval(function ()
               {
                 refreshAntiForgeryToken();
-              }, 15 * 60 * 1000);
+              }, 2 * 60 * 60 * 1000);
             })
             .catch(function (error)
             {
@@ -19123,31 +19084,10 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               window._antiTokenRefreshTimer = setInterval(function ()
               {
                 refreshAntiForgeryToken();
-              }, 15 * 60 * 1000);
+              }, 2 * 60 * 60 * 1000);
             });
         }
-        // Add logout event handlers to clear token when user logs out
-        // This prevents old tokens from being cached after logout/login
-        var onLogout = function ()
-        {
-            // GUARD: Prevent multiple refreshes if multiple apps are loaded
-            if (window._logoutRefreshTriggered) {
-                console.log(appName + ": Logout refresh already triggered by another app, skipping");
-                return;
-            }
-            window._logoutRefreshTriggered = true;
-            console.log(appName + ": Clearing antiforgery token on logout");
-            clearInterval(window._antiTokenRefreshTimer);
-            window.AntiForgeryToken = "";
-            // Clear server-side token cache before page refresh
-            refreshAntiForgeryToken(function() {
-                window.location.href = window.location.href;
-            });
-        };
-        window.removeEvent && window.removeEvent('logout', onLogout);
-        window.addEvent && window.addEvent('logout', onLogout);
-        window.removeEvent && window.removeEvent('logoutViaTab', onLogout);
-        window.addEvent && window.addEvent('logoutViaTab', onLogout);
+        // Logout event handlers removed - tokens no longer depend on authentication state
       })();
       // END Anti forgery Token headers
 
