@@ -21204,6 +21204,15 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                       //debugger;
                     }
                   }
+                  else if (elementConfig.Details.AffinityField.Mode === this.CleverForms.AffnityFieldModeTypes.Display.Enum)
+                  {
+                    // this is a display only field
+                    elementData = node.controller.GetFromFormRow(); 
+                    if (elementData !== null)
+                    {
+                      sectionData.Elements.push(elementData); // no change, but post it anyway
+                    }
+                  }
                   else
                   {
                     if (this.CleverForms.IsGlobalKey(elementConfig))
