@@ -22844,8 +22844,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     this._showLoader();
 
-    this.SortBarNode.classList.add('lock');
-    this.BoxesNode.classList.add('lock');
+    this.SortBarNode.classList.add('locked');
+    this.BoxesNode.classList.add('locked');
 
     this.State.AdminMode = this.ViewMode === 'Admin' ? true : false;
 
@@ -22921,9 +22921,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-    this.SortBarNode = document.querySelector('div.inbox-sort-bar');
-    this.SortPillDragAndDrop = null;
-    this.SortResetButton = this.SortBarNode.querySelector('button');
+    this.SortBarNode = document.querySelector('div.inbox-sort-bars');
+    this.SortPillDragAndDrop = {};
 
     /**/
 
@@ -22936,6 +22935,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     for (let category in this.State.CategorySettings)
     {
+      let sortButton = document.querySelector(`div.inbox-sort-bar[data-category="${category}"] button`);
+      sortButton.removeEventListener('click', this._sortReset);
+      sortButton.addEventListener('click', this._sortReset);
+
       let categoryNode = document.querySelector(`table[data-category="${category}"]`);
       categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
@@ -23012,8 +23015,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-    this.SortResetButton.addEventListener('click', this._sortReset);
-    this.ResultNode.addEventListener('click', this._gridClicked);
+        this.ResultNode.addEventListener('click', this._gridClicked);
 
     let adminToggles = this.ResultNode.querySelectorAll('.toggle-container input[type="checkbox"]');
     for (let adminToggle of adminToggles)
@@ -23113,7 +23115,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         if (this.State.CategorySettings[category].Items.length === 0)
         {
-          html += this.ViewMode === 'Admin' ? this.AdminEmptyResultTemplate(category) : this.EmptyResultTemplate(category);
+          html += this.ViewMode === 'Admin' ? this.EmptyResultTemplate(category) : this.EmptyResultTemplate(category);
         }
         else
         {
@@ -23144,8 +23146,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._checkHiddenRows();
     this._prcessSortBar();
 
-    this.SortBarNode.classList.remove('lock');
-    this.BoxesNode.classList.remove('lock');
+    this.SortBarNode.classList.remove('locked');
+    this.BoxesNode.classList.remove('locked');
   }
 
   _gotResultsError(error)
@@ -23157,8 +23159,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       categoryNode.querySelector('tbody').innerHTML = this.ErrorResultTemplate(error);
     }
 
-    this.SortBarNode.classList.remove('lock');
-    this.BoxesNode.classList.remove('lock');
+    this.SortBarNode.classList.remove('locked');
+    this.BoxesNode.classList.remove('locked');
 
     this._hideLoader();
   }
@@ -23423,7 +23425,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             event.target.classList.remove('asc', 'desc');
             event.target.classList.add(direction);
             event.target.parentNode.dataset.ascending = !ascending;
-            let headerNode = this.ResultNode.querySelector(`th[data-name="${column}"]`);
+            let headerNode = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${column}"]`);
             if (headerNode)
             {
               headerNode.dataset.ascending = !ascending;
@@ -23439,7 +23441,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             event.stopPropagation();
 
             let column = event.target.parentNode.dataset.column;
-            let headerNode = this.ResultNode.querySelector(`th[data-name="${column}"]`);
+            let headerNode = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${column}"]`);
             if (headerNode)
             {
               headerNode.dataset.ascending = 'null';
@@ -23490,7 +23492,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           if (event.target.hasAttribute('data-ascending'))
           {
 
-            let sortHeaders = this.ResultNode.querySelectorAll('table thead tr th[data-order][data-ascending]:not([data-ascending="null"])');
+            let sortHeaders = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
             let ascendingString = event.target.dataset.ascending;
 
             if (ascendingString === 'null')
@@ -23715,14 +23717,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         checks.classList.add('hidden');
       }
+      for (let checksbox of document.querySelectorAll(`div.inbox-sort-bar[data-category]`))
+      {
+        checksbox.classList.remove('show');
+      }
       document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.remove('hidden');
       document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('selected');
       document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.remove('hidden');
+      document.querySelector(`div.inbox-sort-bar[data-category="${category}"]`).classList.add('show');
       this.State.ActiveCategory = category;
       if (this.EnableLocalStore)
       {
         Affinity2018.Storage.Local.Set(`InboxTab${this.StorageKeySuffix}`, category);
       }
+
+      this._prcessSortBar(false);
     }
   }
 
@@ -23746,7 +23755,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   _updateSortData()
   {
     let sorts = [];
-    let headers = this.ResultNode.querySelectorAll('table thead tr th[data-order][data-ascending]:not([data-ascending="null"])');
+    let headers = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
 
     let sortedHeaders = [...headers].sort((a, b) =>
     {
@@ -23769,13 +23778,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
   }
 
-  _prcessSortBar()
+  _prcessSortBar(resetData = true)
   {
-    let sortBarNode = this.ResultNode.querySelector(`div.inbox-sort-bar[data-categroy="${this.State.ActiveCategory}"]`);
+    let sortBarNode = this.ResultNode.querySelector(`div.inbox-sort-bar[data-category="${this.State.ActiveCategory}"]`);
     let sotbarPillNode = sortBarNode.querySelector('div.sort-pills');
     sotbarPillNode.innerHTML = '';
 
-    let allHeaderNodes = this.ResultNode.querySelectorAll('th[data-ascending]');
+    let allHeaderNodes = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-ascending]`);
     for (let headerNode of allHeaderNodes)
     {
       headerNode.dataset.ascending = null;
@@ -23794,7 +23803,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let html = '';
     for (let item of sortData)
     {
-      let headerNode = document.querySelector(`th[data-name="${item.Name}"]`);
+      let headerNode = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${item.Name}"]`);
       let label = headerNode.innerText.trim();
       let index = sortData.indexOf(item);
       html += this.SortPillTemplate({
@@ -23811,10 +23820,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     sotbarPillNode.innerHTML = html;
 
-    if (this.SortPillDragAndDrop)
+    if (this.SortPillDragAndDrop[this.State.ActiveCategory])
     {
-      this.SortPillDragAndDrop.destroy();
-      this.SortPillDragAndDrop = null;
+      this.SortPillDragAndDrop[this.State.ActiveCategory].destroy();
+      delete this.SortPillDragAndDrop[this.State.ActiveCategory];
     }
 
     // always show, not only when there is only 1 sorting column
@@ -23822,30 +23831,41 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (sortData.length > 1)
     {
-      this.SortPillDragAndDrop = dragula([document.querySelector('.sort-pills')]);
-      this.SortPillDragAndDrop.on('drop', (async (el, target, source, sibling) =>
+      this.SortPillDragAndDrop[this.State.ActiveCategory] = dragula([sotbarPillNode]);
+      this.SortPillDragAndDrop[this.State.ActiveCategory].on('drop', (async (el, target, source, sibling) =>
       {
 
         let index = 0;
         target.children;
         for (let child of target.children)
         {
-          let header = document.querySelector(`th[data-name="${child.dataset.column}"]`);
+          let header = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${child.dataset.column}"]`);
           header.dataset.order = index;
           header.dataset.orderStr = this._ordinal(index + 1);
           index++
         }
 
         this._updateSortData();
-        await this.GetResults();
+
+        if (resetData)
+        {
+            await this.GetResults();
+        }
+
+
       }).bind(this));
 
     }
 
   }
 
-  async _sortReset()
+  async _sortReset(event)
   {
+    if (event)
+    {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.State.CategorySettings[this.State.ActiveCategory].SortFields = this.DefaultState.CategorySettings[this.State.ActiveCategory].SortFields;
     if (this.EnableLocalStore)
     {
@@ -24234,14 +24254,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
       </div>
       <div class="inbox-sort-bars">
-        <div class="inbox-sort-bar" data-categroy="ToAction">
-          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        <div class="inbox-sort-bar" data-category="ToAction">
+          Sorting by ToAction <div class="sort-pills"></div> <button>Reset</button>
         </div>
-        <div class="inbox-sort-bar" data-categroy="InProgress">
-          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        <div class="inbox-sort-bar" data-category="InProgress">
+          Sorting by InProgress <div class="sort-pills"></div> <button>Reset</button>
         </div>
-        <div class="inbox-sort-bar" data-categroy="Completed">
-          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+        <div class="inbox-sort-bar" data-category="Completed">
+          Sorting by Completed <div class="sort-pills"></div> <button>Reset</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -24249,8 +24269,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <table class="inbox-grid" data-category="ToAction">
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription    data-type="string"  >Name</th>
-                <th                       data-searchable="false" data-name="RelatesTo"             data-type="string"  >Relates To</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"             data-type="string"  >Relates To</th>
                 <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
                 <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
                 <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
@@ -24275,8 +24295,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <table class="inbox-grid" data-category="InProgress">
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription    data-type="string"  >Name</th>
-                <th                       data-searchable="false" data-name="RelatesTo"             data-type="string"  >Relates To</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"             data-type="string"  >Relates To</th>
                 <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
                 <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
                 <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
@@ -24301,8 +24321,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <table class="inbox-grid" data-category="Completed">
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription    data-type="string"  >Name</th>
-                <th                       data-searchable="false" data-name="RelatesTo"             data-type="string"  >Relates To</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"             data-type="string"  >Relates To</th>
                 <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
                 <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
                 <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
@@ -24515,13 +24535,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
       </div>
       <div class="inbox-sort-bars">
-        <div class="inbox-sort-bar" data-categroy="ToAction">
+        <div class="inbox-sort-bar" data-category="ToAction">
           Sorting by <div class="sort-pills"></div> <button>Reset</button>
         </div>
-        <div class="inbox-sort-bar" data-categroy="InProgress">
+        <div class="inbox-sort-bar" data-category="InProgress">
           Sorting by <div class="sort-pills"></div> <button>Reset</button>
         </div>
-        <div class="inbox-sort-bar" data-categroy="Completed">
+        <div class="inbox-sort-bar" data-category="Completed">
           Sorting by <div class="sort-pills"></div> <button>Reset</button>
         </div>
       </div>
