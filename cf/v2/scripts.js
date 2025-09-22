@@ -8181,21 +8181,22 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     this.CurrentPage = 1;
     this.PageSize = 50;
 
-    // Multi-sort state structure (simplified from inbox CategorySettings)
-    this.State = {
-      SortFields: [{
-        Name: 'StateEnteredAt',
-        Ascending: false
-      }]
-    };
-
-    // Default state for reset functionality
     this.DefaultState = {
+      CurrentPage: this.CurrentPage,
+      PageSize: this.PageSize,
+      TotalPages: 0,
+      TotalCount: 0,
+      Models: [],
       SortFields: [{
         Name: 'StateEnteredAt',
         Ascending: false
       }]
     };
+    
+    this.State = JSON.parse(JSON.stringify(this.DefaultState));
+    
+    this.DefaultAPI = '/AdminV2/Page';
+
   }
 
   /**
@@ -8323,6 +8324,8 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
     /**/
 
+    let models = [];
+
     for (let parentNode of this.SearchModelsNode.querySelectorAll('.checkbox-group'))
     {
       if (parentNode.querySelector('input[type="checkbox"]'))
@@ -8331,9 +8334,18 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         for (let childNode of parentNode.querySelector('.sub-checkboxes').querySelectorAll('input[type="checkbox"]'))
         {
           childNode.addEventListener('click', this._searchChildCheckboxClicked);
+          if (childNode && childNode.hasAttribute('id') && childNode.id.trim() !== '')
+          {
+            models.push(childNode.id);
+          }
         }
       }
     }
+
+    this.DefaultState.Models = models;
+    this.State = JSON.parse(JSON.stringify(this.DefaultState));
+
+    console.log(this.State);
 
     /**/
 
@@ -8350,8 +8362,8 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         this._search();
       }
     }).bind(this));
-
-    this.GridNode.addEventListener('click', this._gridClicked);
+    
+    this.ResultNode.addEventListener('click', this._gridClicked);
 
     /**/
 
@@ -8423,8 +8435,11 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   async GetResults(search = '', filter = '', ascending = true)
   {
-    let api = '/AdminV2/Page';
-    /**/
+    
+    let url = `${this.DefaultAPI}`;
+
+    //
+
     let models = [];
     for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked'))
     {
@@ -8433,6 +8448,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         models.push(check.id);
       }
     }
+    this.State.Models = models;
 
     let searchFields = [];
     for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
@@ -8442,40 +8458,38 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         searchFields.push(check.dataset.column);
       }
     }
+    this.State.SearchFields = searchFields;
 
-    let startDate = this.SearchNode.querySelector('#StartDate').value;
-    let endDate = this.SearchNode.querySelector('#EndDate').value;
-
-    let state = {
-      CurrentPage: this._getCurrentPage(),
-      PageSize: this.PageSize,
-      SearchQuery: search !== '' ? search : this.SearchInputNode.value.trim(),
-      Models: models,
-      StartDate: startDate.trim() === '' ? null : startDate,
-      EndDate: endDate.trim() === '' ? null : endDate,
-      SearchFields: searchFields
-    };
+    //
 
     if (filter !== '')
     {
       // Single sort override (for backwards compatibility)
-      state.SortFields = [{
+      this.State.SortFields = [{
         Name: filter,
         Ascending: ascending
       }];
     }
-    else
-    {
-      // Use current multi-sort state
-      state.SortFields = this.State.SortFields;
-    }
 
-    let response = await fetch(api, {
+    //
+    
+    let startDate = this.SearchNode.querySelector('#StartDate').value;
+    let endDate = this.SearchNode.querySelector('#EndDate').value;
+    
+    this.State.StartDate = startDate.trim() === '' ? null : startDate;
+    this.State.EndDate = endDate.trim() === '' ? null : endDate;
+    this.State.CurrentPage = this._getCurrentPage();
+    this.State.PageSize = this.PageSize;
+    this.State.SearchQuery = search !== '' ? search : this.SearchInputNode.value.trim();
+
+    //
+
+    let response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(state)
+      body: JSON.stringify(this.State)
     });
 
     if (!response.ok)
@@ -8663,6 +8677,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     console.warn(error.replaceAll('<br />', '\n'));
     this.ResultGridNode.innerHTML = this.ErrorResultTemplate(error);
     this.ResultFooterNode.innerHTML = '';
+    this._processSortBar();
     Affinity2018.HidePageLoader(true);
   }
 
@@ -8815,7 +8830,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
             if (ascendingString === 'null')
             {
-              ascendingString = event.target.dataset.type === 'date' ? 'false' : 'true';
+              ascendingString = 'true';
             }
             else if (ascendingString === 'true')
             {
@@ -8829,7 +8844,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
               }
               else
               {
-                ascendingString = event.target.dataset.type === 'date' ? 'false' : 'true';
+                ascendingString = 'true';
               }
             }
 
@@ -8980,6 +8995,12 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   {
     let sorts = [];
     let headers = this.ResultNode.querySelectorAll(`table thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
+
+    if (headers.length === 0)
+    {
+      this._sortReset();
+      return;
+    }
 
     let sortedHeaders = [...headers].sort((a, b) =>
     {
@@ -22853,6 +22874,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.EditUrl = '/Instance/Edit/';
     this.ViewUrl = '/Instance/View/';
     this.DeleteAPI = '/Inbox/Delete/';
+    this.DetailsEndpoint = '/AdminV2/Details/';
 
     this.PageSize = 25;
 
@@ -23055,7 +23077,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.State.AdminMode = this.ViewMode === 'Admin' ? true : false;
 
-    // now do fetch
     let url = `${this.DefaultAPI}`;
 
     let response = await fetch(url, {
@@ -23221,7 +23242,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-        this.ResultNode.addEventListener('click', this._gridClicked);
+    this.ResultNode.addEventListener('click', this._gridClicked);
 
     let adminToggles = this.ResultNode.querySelectorAll('.toggle-container input[type="checkbox"]');
     for (let adminToggle of adminToggles)
@@ -23367,6 +23388,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.SortBarNode.classList.remove('locked');
     this.BoxesNode.classList.remove('locked');
+
+    this._prcessSortBar();
 
     this._hideLoader();
   }
@@ -23760,6 +23783,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
       return;
     }
+    if (event.target.classList.contains('details'))
+    {
+      this._showRowDetails(rowNode);
+      return;
+    }
     if (event.target.classList.contains('delete'))
     {
       this._processRow('delete', rowNode);
@@ -23783,6 +23811,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       window.location.href = url;
     }
+  }
+
+  _showRowDetails(rowNode)
+  {
+    this._showLoader();
+    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+    let url = `${this.DetailsEndpoint}${instance}`;
+    setTimeout(this._loadUrl, 100, url);
   }
 
   async _processRow(type, rowNode)
@@ -23962,6 +23998,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     let sorts = [];
     let headers = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
+
+    if (headers.length === 0)
+    {
+      this._sortReset();
+      return;
+    }
 
     let sortedHeaders = [...headers].sort((a, b) =>
     {
@@ -24607,6 +24649,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       previousAssigneeName = this._checkForSearchMatch(category, 'PreviousAssigneeName', previousAssigneeName);
       lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
 
+      let deletButton = '';
+      if (Affinity2018.UserProfile.MemberType === 'P')
+      {
+        deletButton = `<button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>`;
+      }
+
       switch (category)
       {
 
@@ -24625,8 +24673,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
               <td data-name="CurrentState"                                >${currentState}</td>
               <td class="buttons">
+                <button class="blue details icon-work-flow-multiple icononly ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left"></button>
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
-                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
+                ${deletButton}
               </td>
             </tr>
           `;
@@ -24648,8 +24697,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
               <td data-name="CurrentState"                                >${currentState}</td>
               <td class="buttons">
+                <button class="blue details icon-work-flow-multiple icononly ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left"></button>
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
+                ${deletButton}
               </td>
             </tr>
           `;
@@ -24903,6 +24953,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
       completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
 
+      let deletButton = '';
+      if (Affinity2018.UserProfile.MemberType === 'P')
+      {
+        deletButton = `<button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>`;
+      }
+
       switch (category)
       {
 
@@ -24918,7 +24974,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
-                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
+                ${deletButton}
               </td>
             </tr>
           `;
@@ -24938,7 +24994,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
               <td class="buttons">
                 <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>
+                ${deletButton}
               </td>
             </tr>
           `;

@@ -22099,8 +22099,10 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   pointer-events: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box {
+  width: 100%;
   min-width: 100%;
-  overflow: hidden;
+  max-width: 100%;
+  overflow: auto;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table {
   table-layout: fixed;
