@@ -8231,11 +8231,14 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       '_checkForSearchMatch',
       '_toggelModels',
       '_toggleAllModes',
+
+      '_showLoader', '_hideLoader',
+
       '_gotResults', '_gotResultsError',
       '_injectSearchColumnCheckboxes',
 
-      '_searchParentCheckboxClicked',
-      '_searchChildCheckboxClicked',
+      '_searchCheckboxClicked',
+      '_searchModelCheckboxClicked',
 
       '_getCurrentPage',
       '_gridClicked',
@@ -8270,6 +8273,16 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
    */
   async _init()
   {
+    this.IsPayrollAdmin = false;
+    if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
+    {
+      this.MemberType = Affinity2018.UserProfile.MemberType;
+      if (this.MemberType === "P" || parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000) // Payroll Admin
+      {
+        this.IsPayrollAdmin = true;
+      }
+    }
+
     this.SearchNode = document.querySelector('div.admin-search');
     this.ResultNode = document.querySelector('div.admin-results');
 
@@ -8325,23 +8338,14 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     /**/
 
     let models = [];
-
-    for (let parentNode of this.SearchModelsNode.querySelectorAll('.checkbox-group'))
+    for (let checkBox of this.SearchModelsNode.querySelectorAll('.model-checks input[type="checkbox"]'))
     {
-      if (parentNode.querySelector('input[type="checkbox"]'))
+      if (checkBox && checkBox.hasAttribute('id') && checkBox.id.trim() !== '')
       {
-        parentNode.querySelector('input[type="checkbox"]').addEventListener('click', this._searchParentCheckboxClicked);
-        for (let childNode of parentNode.querySelector('.sub-checkboxes').querySelectorAll('input[type="checkbox"]'))
-        {
-          childNode.addEventListener('click', this._searchChildCheckboxClicked);
-          if (childNode && childNode.hasAttribute('id') && childNode.id.trim() !== '')
-          {
-            models.push(childNode.id);
-          }
-        }
+          checkBox.addEventListener('click', this._searchModelCheckboxClicked);
+          models.push(checkBox.id);
       }
     }
-
     this.DefaultState.Models = models;
     this.State = JSON.parse(JSON.stringify(this.DefaultState));
 
@@ -8413,10 +8417,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     // reset
     this.CurrentPage = 1;
     // Reset sort state to default
-    this.State.SortFields = [{
-      Name: 'StateEnteredAt',
-      Ascending: false
-    }];
+    this.State.SortFields = JSON.parse(JSON.stringify(this.DefaultState.SortFields));
     for (let column of this.GridNode.querySelectorAll('thead th'))
     {
       if (column.dataset.name)
@@ -8429,38 +8430,14 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   async Search(search = '', filter = '', ascending = true)
   {
-    Affinity2018.ShowPageLoader(true);
     await this.GetResults(search, filter, ascending);
   }
 
   async GetResults(search = '', filter = '', ascending = true)
   {
+    this._showLoader();
     
     let url = `${this.DefaultAPI}`;
-
-    //
-
-    let models = [];
-    for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked'))
-    {
-      if (check && check.hasAttribute('id') && check.id.trim() !== '')
-      {
-        models.push(check.id);
-      }
-    }
-    this.State.Models = models;
-
-    let searchFields = [];
-    for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
-    {
-      if (check.checked)
-      {
-        searchFields.push(check.dataset.column);
-      }
-    }
-    this.State.SearchFields = searchFields;
-
-    //
 
     if (filter !== '')
     {
@@ -8470,8 +8447,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         Ascending: ascending
       }];
     }
-
-    //
     
     let startDate = this.SearchNode.querySelector('#StartDate').value;
     let endDate = this.SearchNode.querySelector('#EndDate').value;
@@ -8626,7 +8601,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   _toggleAllModes()
   {
-
     if (this.SelectAllModelsButton.innerText.trim() === 'Select All')
     {
       for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]'))
@@ -8643,6 +8617,42 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       }
       this.SelectAllModelsButton.innerHTML = 'Select All';
     }
+
+    this._searchModelCheckboxClicked();
+  }
+
+  _forceShowPageLoader()
+  {
+    clearTimeout(this._forcePageLoader);
+    document.body.classList.add('load-lock');
+    Affinity2018.ShowPageLoader(true, 0);
+  }
+
+  _forceHidePageLoader()
+  {
+    clearTimeout(this._forcePageLoader);
+    document.body.classList.remove('load-lock');
+    Affinity2018.HidePageLoader(true);
+  }
+
+  _showLoader()
+  {
+    //this.InlineLoaderNode.classList.remove('hidden');
+    if (this.IsPayrollAdmin)
+    {
+      this._forceShowPageLoader();
+    }
+    else
+    {
+      clearTimeout(this._forcePageLoader);
+      this._forcePageLoader = setTimeout(this._forceShowPageLoader, 500);
+    }
+  }
+
+  _hideLoader()
+  {
+    //this.InlineLoaderNode.classList.add('hidden');
+    this._forceHidePageLoader();
   }
 
   _gotResults(data)
@@ -8668,8 +8678,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     
     // Update sort bar and ordinals after results load
     this._processSortBar();
-    
-    Affinity2018.HidePageLoader(true);
+    this._hideLoader();
   }
 
   _gotResultsError(error)
@@ -8678,7 +8687,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     this.ResultGridNode.innerHTML = this.ErrorResultTemplate(error);
     this.ResultFooterNode.innerHTML = '';
     this._processSortBar();
-    Affinity2018.HidePageLoader(true);
+    this._hideLoader();
   }
 
   _deleteInstance(instanceId)
@@ -8691,7 +8700,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       textAlign: 'left',
       onOk: (async () =>
       {
-        Affinity2018.ShowPageLoader();
+        this._showLoader();
         await fetch(`/AdminV2/Delete?instanceId=${instanceId}`, {
           method: 'POST',
         });
@@ -8720,6 +8729,11 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       }
     }
     this.SearchColumnCheckboxNode.innerHTML = html;
+    for (let checkBox of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
+    {  
+      checkBox.addEventListener('click', this._searchCheckboxClicked);
+    }
+    Affinity2018.Tooltips.Apply();
   }
 
   /**/
@@ -8866,41 +8880,49 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     console.log(event.target.dataset.name);
   }
 
-  _rowButtonClicked(event)
+  _searchCheckboxClicked(event)
   {
-    if (event.target.classList.contains('delete') && event.target.dataset.instanceid)
+    let searchFields = [];
+    for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
     {
-      this._deleteInstance(event.target.dataset.instanceid);
-    }
-  }
-
-  _searchParentCheckboxClicked(ev)
-  {
-    let parentNode = ev.target.closest('.checkbox-group');
-    if (parentNode)
-    {
-      let childChecks = parentNode.querySelectorAll('.inline-checkbox:not(.parent) input[type="checkbox"]');
-      for (let check of childChecks)
+      if (check.checked)
       {
-        check.checked = ev.target.checked;
+        searchFields.push(check.dataset.column);
       }
     }
+    this.State.SearchFields = searchFields;
+    console.log(this.State);
   }
 
-  _searchChildCheckboxClicked(ev)
+  _searchModelCheckboxClicked(ev)
   {
-    let parentNode = ev.target.closest('.checkbox-group');
-    if (parentNode)
+    if (ev)
     {
-      let parentCheck = parentNode.querySelector('.inline-checkbox.parent input[type="checkbox"]');
-      if (parentCheck)
+      let parentNode = ev.target.parentNode.classList.contains('parent') ? ev.target.parentNode : null;
+      if (parentNode)
       {
-        if (ev.target.checked && !parentCheck.checked)
+        let parentChecks = parentNode.querySelectorAll('.sub-checkboxes input[type="checkbox"]');
+        if (parentChecks.length > 0)
         {
-          parentCheck.checked = true;
+          for (var checkBox of parentChecks)
+          {
+            checkBox.checked = ev.target.checked;
+          }
         }
       }
     }
+
+    let models = [];
+    for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked'))
+    {
+      if (check && check.hasAttribute('id') && check.id.trim() !== '')
+      {
+        models.push(check.id);
+      }
+    }
+    this.State.Models = models;
+
+    console.log(this.State);
   }
 
   /**/
@@ -9102,6 +9124,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       event.stopPropagation();
     }
     this.State.SortFields = JSON.parse(JSON.stringify(this.DefaultState.SortFields));
+    this._processSortBar();
     await this.GetResults();
   }
 
@@ -9199,37 +9222,37 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Branch" checked />
-                        <label for="BRANCH">Branch</label>
+                        <label for="Branch">Branch</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Cst" checked />
-                        <label for="CST">Cost Centre</label>
+                        <label for="Cst">Cost Centre</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Dept" checked />
-                        <label for="DEPT">Department</label>
+                        <label for="Dept">Department</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Division" checked />
-                        <label for="DIVISION">Division</label>
+                        <label for="Division">Division</label>
                     </div> 
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Groupd" checked />
-                        <label for="GROUPD">Groups</label>
+                        <label for="Groupd">Groups</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Payl" checked />
-                        <label for="PAYL">Pay Location</label>
+                        <label for="Payl">Pay Location</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Posts" checked />
-                        <label for="POSTS">Position</label>
+                        <label for="Posts">Position</label>
                     </div>
 
                 </div>
