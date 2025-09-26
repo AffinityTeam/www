@@ -1,50 +1,50 @@
 /* Minification failed. Returning unminified contents.
-(242,58-59): run-time error JS1100: Expected ',': =
-(2054,45-46): run-time error JS1195: Expected expression: >
-(2056,6-7): run-time error JS1195: Expected expression: ,
-(2061,2-3): run-time error JS1002: Syntax error: }
-(2063,36-37): run-time error JS1004: Expected ';': {
-(2087,3-4): run-time error JS1195: Expected expression: ,
-(2089,24-25): run-time error JS1004: Expected ';': {
-(2096,3-4): run-time error JS1195: Expected expression: ,
-(2098,18-19): run-time error JS1195: Expected expression: )
-(2098,20-21): run-time error JS1004: Expected ';': {
-(2111,3-4): run-time error JS1195: Expected expression: ,
-(2113,20-21): run-time error JS1195: Expected expression: )
-(2113,22-23): run-time error JS1004: Expected ';': {
-(2120,3-4): run-time error JS1195: Expected expression: ,
-(2122,18-19): run-time error JS1195: Expected expression: )
-(2122,20-21): run-time error JS1004: Expected ';': {
-(2130,3-4): run-time error JS1195: Expected expression: ,
-(2132,23-24): run-time error JS1195: Expected expression: )
-(2132,25-26): run-time error JS1004: Expected ';': {
-(2146,3-4): run-time error JS1195: Expected expression: ,
-(2148,25-26): run-time error JS1195: Expected expression: )
-(2148,27-28): run-time error JS1004: Expected ';': {
-(2168,3-4): run-time error JS1195: Expected expression: ,
-(2170,34-35): run-time error JS1004: Expected ';': {
-(2181,3-4): run-time error JS1195: Expected expression: ,
-(2183,32-33): run-time error JS1195: Expected expression: )
-(2183,34-35): run-time error JS1004: Expected ';': {
-(2255,3-4): run-time error JS1195: Expected expression: ,
-(2257,40-41): run-time error JS1004: Expected ';': {
-(2370,3-4): run-time error JS1195: Expected expression: ,
-(2372,34-35): run-time error JS1195: Expected expression: )
-(2372,36-37): run-time error JS1004: Expected ';': {
-(2471,3-4): run-time error JS1195: Expected expression: ,
-(2473,30-31): run-time error JS1195: Expected expression: )
-(2473,32-33): run-time error JS1004: Expected ';': {
-(2479,3-4): run-time error JS1195: Expected expression: ,
-(2481,34-35): run-time error JS1004: Expected ';': {
-(2488,3-4): run-time error JS1195: Expected expression: ,
-(2490,39-40): run-time error JS1195: Expected expression: )
-(2490,41-42): run-time error JS1004: Expected ';': {
-(2497,3-4): run-time error JS1195: Expected expression: ,
-(2499,19-20): run-time error JS1195: Expected expression: )
-(2499,21-22): run-time error JS1004: Expected ';': {
-(2506,3-4): run-time error JS1195: Expected expression: ,
-(2508,9-10): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
-(2114,30-36): run-time error JS1018: 'return' statement outside of function: return
+(191,58-59): run-time error JS1100: Expected ',': =
+(1513,45-46): run-time error JS1195: Expected expression: >
+(1515,6-7): run-time error JS1195: Expected expression: ,
+(1520,2-3): run-time error JS1002: Syntax error: }
+(1522,36-37): run-time error JS1004: Expected ';': {
+(1546,3-4): run-time error JS1195: Expected expression: ,
+(1548,24-25): run-time error JS1004: Expected ';': {
+(1555,3-4): run-time error JS1195: Expected expression: ,
+(1557,18-19): run-time error JS1195: Expected expression: )
+(1557,20-21): run-time error JS1004: Expected ';': {
+(1570,3-4): run-time error JS1195: Expected expression: ,
+(1572,20-21): run-time error JS1195: Expected expression: )
+(1572,22-23): run-time error JS1004: Expected ';': {
+(1579,3-4): run-time error JS1195: Expected expression: ,
+(1581,18-19): run-time error JS1195: Expected expression: )
+(1581,20-21): run-time error JS1004: Expected ';': {
+(1589,3-4): run-time error JS1195: Expected expression: ,
+(1591,23-24): run-time error JS1195: Expected expression: )
+(1591,25-26): run-time error JS1004: Expected ';': {
+(1605,3-4): run-time error JS1195: Expected expression: ,
+(1607,25-26): run-time error JS1195: Expected expression: )
+(1607,27-28): run-time error JS1004: Expected ';': {
+(1627,3-4): run-time error JS1195: Expected expression: ,
+(1629,34-35): run-time error JS1004: Expected ';': {
+(1640,3-4): run-time error JS1195: Expected expression: ,
+(1642,32-33): run-time error JS1195: Expected expression: )
+(1642,34-35): run-time error JS1004: Expected ';': {
+(1714,3-4): run-time error JS1195: Expected expression: ,
+(1716,40-41): run-time error JS1004: Expected ';': {
+(1829,3-4): run-time error JS1195: Expected expression: ,
+(1831,34-35): run-time error JS1195: Expected expression: )
+(1831,36-37): run-time error JS1004: Expected ';': {
+(1930,3-4): run-time error JS1195: Expected expression: ,
+(1932,30-31): run-time error JS1195: Expected expression: )
+(1932,32-33): run-time error JS1004: Expected ';': {
+(1938,3-4): run-time error JS1195: Expected expression: ,
+(1940,34-35): run-time error JS1004: Expected ';': {
+(1947,3-4): run-time error JS1195: Expected expression: ,
+(1949,39-40): run-time error JS1195: Expected expression: )
+(1949,41-42): run-time error JS1004: Expected ';': {
+(1956,3-4): run-time error JS1195: Expected expression: ,
+(1958,19-20): run-time error JS1195: Expected expression: )
+(1958,21-22): run-time error JS1004: Expected ';': {
+(1965,3-4): run-time error JS1195: Expected expression: ,
+(1967,9-10): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
+(1573,30-36): run-time error JS1018: 'return' statement outside of function: return
  */
 var EmployeeLeave = new Class({
 
@@ -53,41 +53,26 @@ var EmployeeLeave = new Class({
     Binds: [
         'init',
         'employeeBalance',
-        //'balanceData',
         'employeeApply',
         'employeeHistory',
         'initLeaveDetail',
-        //'leaveHistoryData',
         'generateMyLeaveCalendar',
         'generateTeamLeaveCalendar',
-        'refreshApplyForLeave',
-        //'leaveEditDetailData', 'leaveEditConfigData', 'populateEditData',
-        //'leaveSetStartDate', 'leaveSetEndDate',
-        //'addingEvents',
-        //'errorChecking',
-        'update', 'deleteLeave',
-        //'deleteAttachment', 'postAttachments',
+        'getConfig',
+        'getConfigWithHandle',
+        'applyConfig',
+        'reset', 'destroy',
+        'deleteLeave',
         'newLeaveReason',
         'editableDateRange',
         'populateDates',
         'populatePositionUnits',
-        //'unitChanges',
-        //'createUnits',
-        //'deleteUnits',
-        //'createPositionUnits',
-        //'deletePositionUnits',
-        //'CreateNewUnit',
-        //'updateUnit',
-        //'updateTotals',
-        //'updateAuthoriser',
+        'checkApplicationEditable',
         'refreshBalance',
         'refreshHistory',
         'refreshAll',
-        'reset', 'destroy',
-        'checkApplicationEditable',
-        'getConfig',
-        'getConfigWithHandle',
-        'applyConfig'
+        'refreshApplyForLeave',
+        'hasMultiplePositionQuery'
     ],
 
     options: {
@@ -97,6 +82,12 @@ var EmployeeLeave = new Class({
     initialize: function (options) {
         this.setOptions(options);
         this.target = this.options.target;
+        
+        // Initialize operations
+        this.operations = new EmployeeLeaveOperations({
+            target: this.target,
+            parent: this
+        });
     },
 
     configData: null,
@@ -107,8 +98,6 @@ var EmployeeLeave = new Class({
     leaveDetail: false,
 
     init: function () {
-
-
         /* REQUESTS */
         this.leaveConfigRequest = new Request.JSON({
             onRequest: function () {
@@ -154,7 +143,11 @@ var EmployeeLeave = new Class({
                     }
 
                     this.employeeBalance();
-                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
+                    
+                    // Check if multiple position mode is enabled via query parameter
+                    var isMultipleMode = this.hasMultiplePositionQuery();
+                    
+                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI || isMultipleMode) {
                         this.setLeaveApplyV1();
                         this.employeeHistory();
                         this.setLeaveDetailV1();
@@ -163,30 +156,23 @@ var EmployeeLeave = new Class({
                         this.employeeHistory();
                         this.initLeaveDetail();
                     }
+                    
+                    // Update the main leave instance with the LeaveInDaysUI access flag
+                    if (Affinity.leave && Affinity.leave.updateLeaveInDaysUIAccess) {
+                        Affinity.leave.updateLeaveInDaysUIAccess(response.Data.CompanyHasAccessToLeaveInDaysUI);
+                    }
 
 
                     this.generateMyLeaveCalendar();
                     this.generateTeamLeaveCalendar(response.Data.CompanyHasAccessToNewLeaveCalendarUI);
                     Affinity.tooltips.processNew();
                     this.target.removeClass('hidden');
-
-
                 }
             }.bind(this)
         });
 
-
-        /**/
         this.configQueue = [];
         this.getConfig();
-        //this.employeeBalance();
-        ////this.employeeApply();
-        //this.employeeHistory();
-        //this.initLeaveDetail();
-        //this.generateMyLeaveCalendar();
-        //this.generateTeamLeaveCalendar();
-        //Affinity.tooltips.processNew();
-        //this.target.removeClass('hidden');
     },
 
     employeeBalance: function () {
@@ -201,7 +187,7 @@ var EmployeeLeave = new Class({
             isManager: false
         });
     },
-    //initMultiPositionLeaveDetail
+
     setLeaveDetailV1: function () {
         this.leaveDetail = new UILeaveDetailV1({
             target: this.target,
@@ -209,20 +195,7 @@ var EmployeeLeave = new Class({
         });
     },
 
-    //balanceData: function () {
-    //    if (this.leaveBlanaces) {
-    //        this.leaveBlanaces.reset();
-    //        this.leaveBlanaces.getBalances();
-    //    }
-    //},
 
-    refreshBalance: function () {
-        if (this.leaveBlanaces) {
-            this.leaveBlanaces.reset();
-            this.leaveBlanaces.getBalances();
-        }
-    },
-    //employeeMultiPositionApply
     setLeaveApplyV1: function () {
         this.applyForLeave = new UILeaveApplyV1({
             target: this.target,
@@ -244,32 +217,8 @@ var EmployeeLeave = new Class({
         });
     },
 
-    //leaveHistoryData: function() {
-    //    if (this.leaveHistory) {
-    //        this.leaveHistory.reset();
-    //        this.leaveHistory.leaveHistoryData();
-    //    }
-    //},
-
-    refreshHistory: function () {
-        if (this.leaveHistory) {
-            this.leaveHistory.reset(true); //keep filters
-            this.leaveHistory.refreshHistory(true); //no alerts
-        }
-    },
-
-    refreshAll: function () {
-        this.refreshBalance();
-        this.refreshHistory();
-        //this.refreshApplyForLeave();
-    },
-
-    refreshApplyForLeave: function () {
-        this.applyForLeave.validateTotalUnitsAppliedFor();
-    },
 
     /* LEAVE CALENDAR */
-
     generateMyLeaveCalendar: function () {
         var datefrom = new Date();
         datefrom.setDate(1);
@@ -304,863 +253,15 @@ var EmployeeLeave = new Class({
         });
     },
 
-    deleteLeave: function (empNo, leaveId) {
 
-        var methodName = 'ui.myLeave.js -> deleteLeave';
 
-        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DeleteLeave/' + empNo + '/' + leaveId);
 
-        new Request.JSON({
-            url: api,
-            onRequest: function () {
-                Affinity.leave.lockui('myleave-deleteLeave');
-            },
-            onFailure: function (e) {
-                Affinity.leave.unlockui('myleave-deleteLeave');
-                Affinity.leave.handleXHRErrors(e, api, methodName);
-            },
-            onException: function () {
-                Affinity.leave.unlockui('myleave-deleteLeave');
-            },
-            onCancel: function () {
-                Affinity.leave.unlockui('myleave-deleteLeave');
-            },
-            onSuccess: function (response) {
-                Affinity.leave.unlockui('myleave-deleteLeave');
-                if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-                    window.fireEvent('DeleteLeaveSuccess');
-                }
-            }
-        }).get();
 
-    },
 
-    //postAttachments: function (e) {
-    //    Affinity.leave.lockui('myleave-edit-postAttachments');
-    //    uialert({
-    //        message: 'Attaching file',
-    //        showLoader: true,
-    //        noClose: true,
-    //        showButtons: false
-    //    });
-    //    var leaveId = this.editData.LeaveHeader.TSGroupId;
-    //    var empNo = this.editData.LeaveHeader.EmployeeNo;
-    //    Affinity.leave.postAttachements(empNo, leaveId, function (response) {
-    //        //this.getAttachments();
-    //        if ( response )
-    //            Affinity.leave.populateAttachments(this.editData.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
-    //        Affinity.leave.unlockui('myleave-edit-postAttachments');
-    //    }.bind(this));
-    //},
-
-    //deleteAttachment: function (e) {
-    //    Affinity.leave.lockui('myLeave-edit-deleteAttachment');
-    //    uialert({
-    //        message: 'Deleting file',
-    //        showLoader: true,
-    //        noClose: true,
-    //        showButtons: false
-    //    });
-    //    var leaveId = this.editData.LeaveHeader.TSGroupId;
-    //    var empNo = this.editData.LeaveHeader.EmployeeNo;
-    //    Affinity.leave.deleteAttachment(empNo, leaveId, e.deletedId, function (response) {
-    //        //this.getAttachments();
-    //        if ( response )
-    //            Affinity.leave.populateAttachments(this.editData.LeaveHeader, response.Data, this.attachWidget, this.attachWidgetDiv);
-    //        Affinity.leave.unlockui('myLeave-edit-deleteAttachment');
-    //    }.bind(this));
-    //},
-
-    /**/
-
-    newLeaveReason: function (configData, typeIndex) {
-
-        if (document.getElement('.details-reason-box')) {
-
-            var reason = document.getElement('.details-reason-box');
-
-            var selector = document.getElement('.edit-reason-selector');
-
-            selector.empty();
-
-            new Element('option', {
-                'value': '',
-                'id': 'null', //SG: ideally need to pass actual null not string. this will do for now. 
-                'html': ''
-            }).inject(selector, 'top')
-
-            var leaveCodes = configData.Data.LeaveCodes;
-
-            if (typeof (leaveCodes[typeIndex]) != 'undefined' && leaveCodes[typeIndex].Reasons) {
-
-                var reasons = leaveCodes[typeIndex].Reasons
-
-                Array.each(reasons, function (leaveReason, index) {
-
-                    var option = new Element('option', {
-                        'value': index
-                    }).inject(selector);
-
-                    option.set('html', leaveReason.Description);
-                    option.set('id', leaveReason.ReasonCode);
-
-                });
-
-                selector.selectedIndex = 0;
-
-            }
-
-        }
-
-        if (document.getElement('.details-label .required')) {
-
-            document.getElement('.details-label .required').remove();
-
-        }
-
-        if (document.getElement('.edit-leave-attachment .required')) {
-
-            document.getElement('.edit-leave-attachment .required').remove();
-
-        }
-
-        if (typeof (leaveCodes[typeIndex]) != 'undefined') {
-
-            if (leaveCodes[typeIndex].MandatoryReason === true) {
-
-                var label = document.getElement('.details-label label');
-
-                new Element('span', {
-                    'class': 'required',
-                    'html': '*required'
-                }).inject(label, 'bottom');
-
-            }
-
-            if (leaveCodes[typeIndex].MandatoryAttachment === true) {
-
-                var label = document.getElement('.edit-leave-attachment label');
-
-                new Element('span', {
-                    'class': 'required',
-                    'html': '*required'
-                }).inject(label, 'bottom');
-
-            }
-
-        }
-
-    },
-
-    /**/
-
-    editableDateRange: function (components, positions, isSingleApprover) {
-
-        var firstDate = this.modalEls.fromDateWidget.getRawDate();
-        var lastDate = this.modalEls.toDateWidget.getRawDate();
-
-        var dataDateRange = [];
-        var currentDate = firstDate.clone();
-
-        while (currentDate.lessThanOrEqualTo(lastDate)) {
-            dataDateRange.push(currentDate.clone());
-            currentDate.increment('day', 1);
-        }
-
-        var globalDateRange = document.getElement('.globalDateRange');
-
-        globalDateRange.store('dateRange', dataDateRange);
-
-        this.populateDates(components, positions, dataDateRange, isSingleApprover);
-
-    },
-
-    populateDates: function (components, positions, dataDateRange, isSingleApprover) {
-
-        var daterange = (dataDateRange.concat(document.getElement('.globalDateRange').retrieve('dateRange'))).sort();
-
-        var scrollerWidth = 0;
-        var scrollerBox = document.getElement('.unit-scroller-box');
-        var scroller = document.getElement('.details-units-scroller');
-        var units = document.getElement('.details-positions');
-
-        var unitsGrid = new Element('div', {
-            'class': 'unit-grid'
-        }).inject(scroller);
-
-        var gridHeader = new Element('div', {
-            'class': 'unit-gridheader'
-        }).inject(unitsGrid);
-
-        var gridBody = new Element('div', {
-            'class': 'unit-gridbody'
-        }).inject(unitsGrid);
-
-        var tempdate, dateCell;
-        Array.each(dataDateRange, function (day, index) {
-
-            tempDate = Affinity.leave.cleanBadDate(day);
-
-            dateCell = new Element('div', { 'class': 'day-class d-' + tempDate.format('%d-%b-%y'), 'id': tempDate.format('%d/%b/%y')/*, 'html': Affinity.leave.cleanBadDate(day).format('%d/%m/%y')*/ }).inject(gridHeader);
-
-            dateCell.adopt(
-                new Element('div', { 'class': 'day-class-day', 'html': tempDate.format('%a') }),
-                new Element('div', { 'class': 'day-class-date', 'html': tempDate.format('%e') }),
-                new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
-                new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
-            );
-
-            scrollerWidth += 79;
-
-        });
-
-        scroller.setStyle('width', scrollerWidth);
-        scroller.store('scrollerWidth', scrollerWidth);
-
-        var containerSize = scrollerBox.measure(function () { return this.getSize().x; });
-        var scrollerSize = scroller.measure(function () { return this.getScrollSize().x; });
-
-        if (scrollerSize > containerSize) {
-            scrollerBox.setStyle('overflow-x', 'scroll');
-        } else {
-            scrollerBox.setStyle('overflow-x', 'hidden');
-        }
-
-        this.populatePositionUnits(components, positions, dataDateRange, isSingleApprover);
-
-    },
-
-    populatePositionUnits: function (components, positions, dataDateRange, isSingleApprover) {
-
-        isSingleApprover = typeOf(isSingleApprover) === 'null' ? false : isSingleApprover;
-
-        var unitsAppliedFor;
-        var gridBody = document.getElement('.unit-gridbody');
-        var positionsLabels = document.getElement('.position-labels');
-
-        var createdRows = [];
-
-        var positionCode, posRow, posName, hours, posDate, date;
-
-        Array.each(positions, function (position, index) {
-
-            positionCode = isSingleApprover ? isSingleApprover + '' : position.PositionCode;
-
-            if (position.PositionCode === positionCode) {
-
-                posRow = new Element('div', {
-                    'class': 'positions-units',
-                    'id': positionCode
-                }).inject(gridBody);
-
-                posName = new Element('label', {
-                    'html': position.PositionTitle,
-                    'class': 'ui-has-tooltip',
-                    'data-tooltip': position.PositionTitle,
-                    'data-tooltip-dir': 'bottom'
-                }).inject(positionsLabels);
-
-                Array.each(dataDateRange, function (day, index) {
-
-                    hours = new Element('input', {
-                        'class': 'edit-position-units data-hj-whitelist',
-                        'id': Affinity.leave.cleanBadDate(day).format('%d/%b/%y'),
-                        'value': '0.00'
-                    }).inject(posRow);
-
-                    Array.each(components, function (component, Index) {
-
-                        if (component.PositionCode === positionCode) {
-
-                            Array.each(component.Units, function (unit, unitIndex) {
-
-                                posDate = Affinity.leave.cleanBadDate(unit.Date).format('%d/%b/%y');
-                                date = hours.get('id');
-
-                                if (date === posDate) {
-
-                                    unitsAppliedFor = 0;
-                                    if (typeOf(unit.UnitsAppliedFor) === 'number') {
-                                        unitsAppliedFor = unit.UnitsAppliedFor;
-                                        hours.store('old', unitsAppliedFor); //old value needs to be null for null unitsappliedfor.
-                                    }
-                                    hours.set('value', unitsAppliedFor.toFixed(2));
-
-
-                                    if (typeOf(unit.IsPublicHoliday) === 'boolean' && unit.IsPublicHoliday === true) {
-
-                                        hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-                                        hours.getParent('.unit-grid').getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
-
-                                    }
-
-                                }
-
-                            });
-
-                        }
-
-                    });
-
-                    Affinity.tooltips.processNew();
-
-                });
-
-            }
-
-        });
-
-    },
-
-    /**/
-
-    //unitChanges: function(positions, updated, dateOld, dateNew) {
-
-    //    dateOld = Affinity.leave.cleanBadDate(dateOld);
-    //    dateNew = Affinity.leave.cleanBadDate(dateNew);
-
-    //    var daterange, currentDate;
-
-    //    if (dateOld.lessThan(dateNew)) {
-    //        if (updated === 'startdate') {
-    //            daterange = [];
-    //            currentDate= dateOld.clone();
-    //            while (currentDate.lessThan(dateNew)) {
-    //                daterange.push(currentDate.clone());
-    //                currentDate.increment('day', 1);
-    //            }
-    //            this.deleteUnits(daterange, 'DateFrom', dateOld, dateNew);
-    //            window.addEvent('DeleteLeaveUnitSuccess', function () {
-    //                if (document.getElement('.old-startDate')) {
-    //                    document.getElement('.old-startDate').store('old', dateNew);
-    //                }
-    //            });
-    //        } else {
-    //            daterange = [];
-    //            currentDate = dateOld.clone();
-    //            currentDate.increment('day', 1);
-
-    //            while (currentDate.lessThanOrEqualTo(dateNew)) {
-    //                daterange.push(currentDate.clone());
-    //                currentDate.increment('day', 1);
-    //            }
-    //            this.createUnits(positions, daterange, 'DateTo', dateOld, dateNew);
-    //            window.addEvent('CreateMissingLeaveUnitsSuccess', function () {
-    //                if (document.getElement('.old-endDate')) {
-    //                    document.getElement('.old-endDate').store('old', dateNew);
-    //                }
-    //            });
-    //        }
-    //    } else if (dateOld > dateNew) {
-    //        if (updated === 'startdate') {
-    //            daterange = [];
-    //            currentDate = dateNew.clone();
-
-    //            while (currentDate.lessThan(dateOld)) {
-    //                daterange.push(currentDate.clone());
-    //                currentDate.increment('day', 1);
-    //            }
-    //            this.createUnits(positions, daterange, 'DateFrom', dateOld, dateNew);
-    //            window.addEvent('CreateMissingLeaveUnitsSuccess', function () {
-    //                if (document.getElement('.old-startDate')) {
-    //                    document.getElement('.old-startDate').store('old', dateNew);
-    //                }
-    //            });
-    //        } else {
-    //            daterange = [];
-    //            currentDate = dateNew.clone();
-    //            currentDate.increment('day', 1);
-
-    //            while (currentDate.lessThanOrEqualTo(dateOld)) {
-    //                daterange.push(currentDate.clone());
-    //                currentDate.increment('day', 1);
-    //            }
-    //            this.deleteUnits(daterange, 'DateTo', dateOld, dateNew);
-    //            window.addEvent('DeleteLeaveUnitSuccess', function () {
-    //                if (document.getElement('.old-endDate')) {
-    //                    document.getElement('.old-endDate').store('old', dateNew);
-    //                }
-    //            });
-    //        }
-
-    //    }
-
-    //},
-
-    //createUnits: function(positions, daterange, field, oldDate, newDate) {
-
-    //    var employeeNum = Affinity.login.profile.employeeNumber;
-
-    //    var startDate, endDate;
-
-    //    if (field === 'DateFrom') {
-    //        startDate = Affinity.leave.cleanBadDate(daterange[0]).format('%d-%b-%y');
-    //        endDate = Affinity.leave.cleanBadDate(daterange[daterange.length - 1]).format('%d-%b-%y');
-    //    } else {
-    //        startDate = Affinity.leave.cleanBadDate(daterange[0]).format('%d-%b-%y');
-    //        endDate = Affinity.leave.cleanBadDate(daterange[daterange.length - 1]).format('%d-%b-%y');
-    //    }
-
-    //    var leaveId = document.getElement('.leave-id').retrieve('old');
-
-    //    var methodName = 'ui.myLeave.js -> createUnits';
-
-    //    var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'CreateMissingLeaveUnits/' + employeeNum + '/' + leaveId + '/' + startDate + '/' + endDate);
-
-    //    new Request.JSON({
-    //        url: api,
-    //        onRequest: function(){
-    //            Affinity.leave.lockui('myleave-createUnits');
-    //        },
-    //        onFailure: function (e) {
-    //            Affinity.leave.unlockui('myleave-createUnits');
-    //            Affinity.leave.handleXHRErrors(e, api, methodName);
-    //        },
-    //        onException: function () {
-    //            Affinity.leave.unlockui('myleave-createUnits');
-    //        },
-    //        onCancel: function () {
-    //            Affinity.leave.unlockui('myleave-createUnits');
-    //        },
-    //        onSuccess: function (response) {
-    //            Affinity.leave.unlockui('myleave-createUnits');
-    //            if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-    //                if ('Data' in response && typeOf(response.Data) === 'object') {
-    //                    this.createPositionUnits(positions, response, daterange, field, newDate);
-    //                    window.fireEvent('CreateMissingLeaveUnitsSuccess');
-    //                    Affinity.leave.update(field, newDate.format('%d-%b-%y'), oldDate.format('%d-%b-%y'));
-    //                } else {
-    //                    uialert({
-    //                        'message': 'Oops! Something went wrong.<br />Data is missing or null.',
-    //                        showButtons: true,
-    //                        noClose: false
-    //                    });
-    //                    throw ('Error: Data is NULL');
-    //                    return;
-    //                }
-    //            }
-    //        }.bind(this)
-    //    }).get();
-
-    //},
-
-    //deleteUnits: function(daterange, field, oldDate, newDate) {
-
-    //    var employeeNum = Affinity.login.profile.employeeNumber;
-    //    var leaveId = document.getElement('.leave-id').retrieve('old');
-
-    //    var methodName = 'ui.myLeave.js -> deleteUnits';
-
-    //    var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DeleteLeaveUnits/' + employeeNum + '/' + leaveId + '/' + Affinity.leave.cleanBadDate(daterange[0]).format('%d-%b-%y') + '/' + Affinity.leave.cleanBadDate(daterange[daterange.length - 1]).format('%d-%b-%y'));
-
-    //    new Request.JSON({
-    //        url: api,
-    //        onRequest: function () {
-    //            Affinity.leave.lockui('myleave-deleteUnits');
-    //        },
-    //        onFailure: function (e) {
-    //            Affinity.leave.unlockui('myleave-deleteUnits');
-    //            Affinity.leave.handleXHRErrors(e, api, methodName);
-    //        },
-    //        onException: function () {
-    //            Affinity.leave.unlockui('myleave-deleteUnits');
-    //        },
-    //        onCancel: function () {
-    //            Affinity.leave.unlockui('myleave-deleteUnits');
-    //        },
-    //        onSuccess: function (response) {
-    //            Affinity.leave.unlockui('myleave-deleteUnits');
-    //            if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-    //                this.deletePositionUnits(daterange, field);
-    //                window.fireEvent('DeleteLeaveUnitSuccess');
-    //                Affinity.leave.update(field, newDate.format('%d-%b-%y'), oldDate.format('%d-%b-%y'));
-    //            }
-    //        }.bind(this)
-    //    }).get();
-
-    //},
-
-    /**/
-
-    //createPositionUnits: function (positions, response, daterange, field, newDate) {
-
-    //    var scrollerWidth = document.getElement('.details-units-scroller').retrieve('scrollerWidth');
-
-    //    var scroller = document.getElement('.details-units-scroller');
-    //    var units = document.getElement('.details-positions');
-
-    //    var gridHeader = document.getElement('.unit-gridheader');
-    //    var gridBody = document.getElement('.unit-gridbody');
-
-    //    var dateranger, tempDate, dateCell, posRow;
-
-    //    if (field === 'DateFrom') {
-
-    //        dateranger = daterange.reverse();
-
-    //        Array.each(dateranger, function (day, index) {
-
-    //            tempDate = Affinity.leave.cleanBadDate(day);
-
-    //            dateCell = new Element('div', { 'class': 'day-class d-' + tempDate.format('%d-%b-%y'), 'id': tempDate.format('%d/%b/%y')/*, 'html': Date.parse(day).format('%d/%m/%y')*/ }).inject(gridHeader, 'top');
-
-    //            dateCell.adopt(
-    //                new Element('div', { 'class': 'day-class-day', 'html': tempDate.format('%a') }),
-    //                new Element('div', { 'class': 'day-class-date', 'html': tempDate.format('%e') }),
-    //                new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
-    //                new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
-    //            );
-
-    //            scrollerWidth += 79;
-
-    //        });
-
-    //        scroller.setStyle('width', scrollerWidth);
-    //        scroller.store('scrollerWidth', scrollerWidth);
-
-    //        posRow = document.getElements('.positions-units');
-
-    //        Array.each(posRow, function (position, index) {
-
-    //            Array.each(dateranger, function (day, index) {
-
-    //                var dayinput = new Element('input', {
-    //                    'class': 'edit-position-units',
-    //                    'id': Affinity.leave.cleanBadDate(day).format('%d/%b/%y'),
-    //                    'value': '0.00'
-    //                }).inject(position, 'top');
-
-    //                dayinput.addEvent(Affinity.events.start, function (e) {
-    //                    e.target.store('initial-value', e.target.value);
-    //                });
-    //                dayinput.addEvent('blur', function (e) {
-    //                    e.target.value = Affinity.leave.cleanUnit(e.target.value, e.target.retrieve('initial-value'));
-    //                });
-
-    //                dayinput.addEvent('change', function (e) {
-    //                    Affinity.leave.apiOverlayFocus = e.target;
-    //                    var date = Affinity.leave.cleanBadDate(e.target.get('id'));
-    //                    var value = dayinput.value === '' ? 0 : parseFloat(dayinput.value);
-    //                    if (typeOf(parseFloat(value)) !== 'null') {
-    //                        Affinity.leave.updateUnit(Affinity.login.profile.employeeNumber, value, dayinput.retrieve('old'), position.get('id'), date.format('%d-%b-%y'), positions, null);
-    //                    }
-    //                }.bind(this));
-
-    //                window.addEvent('DeleteLeaveUnitSuccess', function () {
-    //                    dayinput.store('old', dayinput.value);
-    //                });
-    //                window.addEvent('CreateLeaveUnitSuccess', function () {
-    //                    dayinput.store('old', dayinput.value);
-    //                });
-    //                window.addEvent('UpdateLeaveUnitSuccess', function () {
-    //                    dayinput.store('old', dayinput.value);
-    //                });
-
-    //            }.bind(this));
-
-    //        }.bind(this));
-
-    //    } else {
-
-    //        dateranger = daterange;
-
-    //        Array.each(dateranger, function (day, index) {
-
-    //            tempDate = Affinity.leave.cleanBadDate(day);
-
-    //            dateCell = new Element('div', { 'class': 'day-class d-' + tempDate.format('%d-%b-%y'), 'id': tempDate.format('%d/%b/%y')/*, 'html': Date.parse(day).format('%d/%m/%y')*/ }).inject(gridHeader, 'bottom');
-
-    //            dateCell.adopt(
-    //                new Element('div', { 'class': 'day-class-day', 'html': tempDate.format('%a') }),
-    //                new Element('div', { 'class': 'day-class-date', 'html': tempDate.format('%e') }),
-    //                new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
-    //                new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
-    //            );
-
-    //            scrollerWidth += 79;
-
-    //        });
-
-    //        scroller.setStyle('width', scrollerWidth);
-    //        scroller.store('scrollerWidth', scrollerWidth);
-
-    //        posRow = document.getElements('.positions-units');
-
-    //        var dayinput;
-
-    //        Array.each(posRow, function (position, index) {
-
-    //            Array.each(dateranger, function (day, index) {
-
-    //                dayinput = new Element('input', {
-    //                    'class': 'edit-position-units',
-    //                    'id': Affinity.leave.cleanBadDate(day).format('%d/%b/%y'),
-    //                    'value': '0.00'
-    //                }).inject(position, 'bottom');
-
-    //                dayinput.addEvent(Affinity.events.start, function (e) {
-    //                    e.target.store('initial-value', e.target.value);
-    //                });
-    //                dayinput.addEvent('blur', function (e) {
-    //                    e.target.value = Affinity.leave.cleanUnit(e.target.value, e.target.retrieve('initial-value'));
-    //                });
-
-    //                dayinput.addEvent('change', function (e) {
-    //                    Affinity.leave.apiOverlayFocus = e.target;
-    //                    var date = Affinity.leave.cleanBadDate(e.target.get('id'));
-    //                    var value = dayinput.value === '' ? 0 : parseFloat(dayinput.value);
-    //                    if (typeOf(parseFloat(value)) !== 'null') {
-    //                        Affinity.leave.updateUnit(Affinity.login.profile.employeeNumber, value, dayinput.retrieve('old'), position.get('id'), date.format('%d-%b-%y'), positions, null);
-    //                    }
-    //                }.bind(this));
-
-    //                window.addEvent('DeleteLeaveUnitSuccess', function () {
-    //                    dayinput.store('old', dayinput.value);
-    //                });
-    //                window.addEvent('CreateLeaveUnitSuccess', function () {
-    //                    dayinput.store('old', dayinput.value);
-    //                });
-    //                window.addEvent('UpdateLeaveUnitSuccess', function () {
-    //                    dayinput.store('old', dayinput.value);
-    //                });
-
-    //            }.bind(this));
-
-    //        }.bind(this));
-
-    //    }
-
-    //    var responseJSON = response;
-    //    var daiz = responseJSON.Data.Days;
-
-    //    var rowInputs, posDate, curDate, posi, totalUnits, oldUnits, newU, oldTotal, newT;
-
-    //    Array.each(positions, function (position, index) {
-
-    //        posRow = document.getElements('.positions-units');
-
-    //        Array.each(posRow, function (row, index) {
-
-    //            rowInputs = row.getElements('input');
-
-    //            Array.each(rowInputs, function (dayInput, index) {
-
-    //                Array.each(daiz, function (dai, Index) {
-
-    //                    posDate = Affinity.leave.cleanBadDate(dai.Date).format('%d/%b/%y');
-
-    //                    curDate = Affinity.leave.cleanBadDate(dayInput.get('id')).format('%d/%b/%y');
-
-    //                    if (curDate === posDate) {
-
-    //                        Array.each(dai.PositionUnits, function (uni, Index) {
-
-    //                            if (uni.PositionCode === row.get('id')) {
-
-    //                                if (typeOf(uni.UnitsAppliedFor)==='null') {
-    //                                    uni.UnitsAppliedFor = 0; // SG: this is occasionally null - what should we do here? (as NULL is not 0, so the code below will run)
-    //                                }
-
-    //                                if (uni.UnitsAppliedFor != 0) {
-
-    //                                    dayInput.set('value', Affinity.leave.cleanUnit(uni.UnitsAppliedFor));
-    //                                    dayInput.store('old', uni.UnitsAppliedFor);
-
-    //                                    posi = document.getElements('.position-units');
-    //                                    totalUnits = document.getElement('.total-units-units');
-
-    //                                    Array.each(posi, function (posit, index) {
-
-    //                                        if (posit.get('id') === row.get('id')) {
-
-    //                                            oldUnits = posit.retrieve('units');
-    //                                            newU = oldUnits + uni.UnitsAppliedFor;
-
-    //                                            posit.set('html', newU.toFixed(2));
-    //                                            posit.store('units', newU);
-
-    //                                            oldTotal = totalUnits.retrieve('total');
-    //                                            newT = oldTotal + uni.UnitsAppliedFor;
-
-    //                                            totalUnits.set('html', newT.toFixed(2));
-    //                                            totalUnits.store('total', newT);
-
-    //                                        }
-
-    //                                    });
-
-    //                                }
-
-    //                            }
-
-    //                        });
-
-    //                    }
-
-    //                });
-
-    //            });
-
-    //        });
-
-    //    });
-
-    //    var container = scroller.getParent();
-
-    //    var containerSize = container.measure(function () { return this.getSize().x; });
-    //    var scrollerSize = scroller.measure(function () { return this.getScrollSize().x; });
-
-    //    if (scrollerSize > containerSize) {
-    //        container.setStyle('overflow-x','scroll');
-    //    }else{
-    //        container.setStyle('overflow-x', 'hidden');
-    //    }
-
-    //},
-
-    /**/
-
-    //deletePositionUnits: function(daterange, field) {
-
-    //    var dayDates = document.getElements('.day-class');
-    //    var dayInputs = document.getElements('.edit-position-units');
-
-    //    var scroller = document.getElement('.details-units-scroller');
-    //    var scrollerWidth = scroller.retrieve('scrollerWidth');
-
-    //    var range;
-
-    //    //if (field === 'DateTo') {
-    //    //    range = daterange;
-    //    //} else {
-    //        range = daterange;
-    //    //}
-
-    //    Array.each(range, function (date, index) {
-    //        Array.each(dayDates, function (dayDate, index) {
-    //            if (Affinity.leave.cleanBadDate(date).format('%d/%b/%y') === dayDate.get('id')) {
-    //                dayDate.destroy();
-    //                scrollerWidth -= 79;
-    //            }
-    //        });
-
-    //        Array.each(dayInputs, function (input, index) {
-    //            if (Affinity.leave.cleanBadDate(date).format('%d/%b/%y') === input.get('id')) {
-    //                input.removeEvents();
-    //                input.destroy();
-    //            }
-    //        });
-    //    });
-    //    scroller.setStyle('width', scrollerWidth);
-    //    scroller.store('scrollerWidth', scrollerWidth);
-    //},
-
-    /**/
-
-    checkApplicationEditable: function (leaveID, Status, doOnSuccess, doOnFailure) {
-        var statusText = '';
-        if (Status == 3) {
-            statusText = 'Approved';
-        }
-        else if (Status == 2) {
-            statusText = 'Declined';
-        }
-
-        if (statusText != '') {
-            uialert({
-                message: 'This Leave Application has been approved. <br /> Do you want to resubmit application to make it editable?',
-                showButtons: true,
-                showCancel: true,
-                okText: 'Yes - resubmit application',
-                okIcon: Affinity.icons.Plane,
-                onOk: function () {
-                    var value = {
-                        FieldName: 'StatusCode',
-                        NewValue: 0,
-                        OldValue: Status //0 to resubmit partial approved leave
-                    };
-
-                    this._methodName = 'ui.myLeave.js -> resubmitApplication';
-
-                    this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeave/' + Affinity.login.profile.employeeNumber + '/' + leaveID);
-
-                    this.resubmitApprovedRequest.doOnSuccess = doOnSuccess;
-                    this.resubmitApprovedRequest.doOnFailure = doOnFailure;
-
-                    if (this.resubmitApprovedRequest && this.resubmitApprovedRequest.isRunning()) {
-                        this.resubmitApprovedRequest.cancel();
-                    }
-                    this.resubmitApprovedRequest.url = this.resubmitApprovedRequest.options.url = this._api;
-                    this.resubmitApprovedRequest.post(JSON.stringify(value));
-                }.bind(this),
-                onCancel: function () {
-                    if (doOnFailure)
-                        doOnFailure();
-                }
-            });
-        }
-        else {
-            if (doOnSuccess)
-                doOnSuccess();
-        }
-    },
-
-    //updateAuthoriser: function (e) {
-
-    //    var authSelect = e.target;
-    //    var authorisationId = authSelect.retrieve('authId');
-    //    var oldValue = authSelect.retrieve('old');
-    //    var newValue = authSelect.getElements('option')[authSelect.selectedIndex].get('id');
-    //    var leaveId = authSelect.getParent('.default-form').getElement('.leave-id').retrieve('old');
-
-    //    var value = {
-    //        FieldName: 'SubmittedTo',
-    //        NewValue: newValue,
-    //        OldValue: oldValue
-    //    };
-
-    //    var employeeNum = Affinity.login.profile.employeeNumber;
-
-    //    var methodName = 'ui.myLeave.js -> updateAuthoriser';
-
-    //    var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeaveAuthorisation/' + employeeNum + '/' + leaveId + '/' + authorisationId);
-
-    //    new Request.JSON({
-    //        url: api,
-    //        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    //        urlEncoded: false,
-    //        onRequest: function () {
-    //            Affinity.leave.lockui('myleave-updateAuthoriser');
-    //        },
-    //        onFailure: function (e) {
-    //            Affinity.leave.unlockui('myleave-updateAuthoriser');
-    //            Affinity.leave.handleXHRErrors(e, api, methodName);
-    //        },
-    //        onException: function () {
-    //            Affinity.leave.unlockui('myleave-updateAuthoriser');
-    //        },
-    //        onCancel: function () {
-    //            Affinity.leave.unlockui('myleave-updateAuthoriser');
-    //        },
-    //        onSuccess: function (response) {
-    //            Affinity.leave.unlockui('myleave-updateAuthoriser');
-    //            if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
-    //                authSelect.store('old', newValue);
-    //            } else {
-    //                var index = authSelect.getElements('option').indexOf(authSelect.getElement('#' + oldValue));
-    //                authSelect.selectedIndex = index;
-    //            }
-    //        }
-    //    }).post(JSON.stringify(value));
-
-    //},
 
     getConfig: function () {
-
         var employeeNum = Affinity.login.profile.employeeNumber;
-
         this._methodName = 'ui.myLeave.js -> getConfig';
-
         this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'LeaveConfig/' + employeeNum);
 
         if (this.leaveConfigRequest && this.leaveConfigRequest.isRunning()) {
@@ -1168,14 +269,10 @@ var EmployeeLeave = new Class({
         }
         this.leaveConfigRequest.url = this.leaveConfigRequest.options.url = this._api;
         this.leaveConfigRequest.get();
-
     },
     getConfigWithHandle: function (onSuccess) {
-
         var employeeNum = Affinity.login.profile.employeeNumber;
-
         this._methodName = 'ui.myLeave.js -> getConfig';
-
         this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'LeaveConfig/' + employeeNum);
 
         if (this.leaveConfigRequest && this.leaveConfigRequest.isRunning()) {
@@ -1184,22 +281,17 @@ var EmployeeLeave = new Class({
         this._onSuccess = onSuccess;
         this.leaveConfigRequest.url = this.leaveConfigRequest.options.url = this._api;
         this.leaveConfigRequest.get();
-
     },
 
     applyConfig: function (doOnConfig) {
         if (this.config) {
             doOnConfig(this.config)
-        }
-        else {
+        } else {
             this.configQueue.push(doOnConfig);
         }
     },
 
     reset: function () {
-        //if (this.deleteAttachmentsRequest && this.deleteAttachmentsRequest.isRunning()) {
-        //    this.deleteAttachmentsRequest.cancel();
-        //}
         if (this.leaveBlanaces) { this.leaveBlanaces.reset(); }
         if (this.leaveHistory) { this.leaveHistory.reset(); }
         if (this.applyForLeave) { this.applyForLeave.reset(); }
@@ -1216,6 +308,53 @@ var EmployeeLeave = new Class({
         if (this.applyForLeave) { this.applyForLeave.destroy(); }
         if (this.mycalendar) { this.mycalendar.destroy(); }
         if (this.teamcalendar) { this.teamcalendar.destroy(); }
+        if (this.operations) { this.operations.destroy(); }
+    },
+
+    // Proxy methods to operations class
+    deleteLeave: function (empNo, leaveId) {
+        return this.operations.deleteLeave(empNo, leaveId);
+    },
+
+    newLeaveReason: function (configData, typeIndex) {
+        return this.operations.newLeaveReason(configData, typeIndex);
+    },
+
+    editableDateRange: function (components, positions, isSingleApprover) {
+        return this.operations.editableDateRange(components, positions, isSingleApprover);
+    },
+
+    populateDates: function (components, positions, dataDateRange, isSingleApprover) {
+        return this.operations.populateDates(components, positions, dataDateRange, isSingleApprover);
+    },
+
+    populatePositionUnits: function (components, positions, dataDateRange, isSingleApprover) {
+        return this.operations.populatePositionUnits(components, positions, dataDateRange, isSingleApprover);
+    },
+
+    checkApplicationEditable: function (leaveID, Status, doOnSuccess, doOnFailure) {
+        return this.operations.checkApplicationEditable(leaveID, Status, doOnSuccess, doOnFailure);
+    },
+
+    refreshBalance: function () {
+        return this.operations.refreshBalance();
+    },
+
+    refreshHistory: function () {
+        return this.operations.refreshHistory();
+    },
+
+    refreshAll: function () {
+        return this.operations.refreshAll();
+    },
+
+    refreshApplyForLeave: function () {
+        return this.operations.refreshApplyForLeave();
+    },
+
+    hasMultiplePositionQuery: function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.has('multiplePosition') && urlParams.get('multiplePosition') === 'true';
     }
 
 });
@@ -1959,6 +1098,326 @@ var UILeaveCalendar = new Class({
             Array.each(this.section.getElements('.button'), function (el) { el.removeEvents(); });
             this.section.empty();
             this.section.destroy();
+        }
+    }
+
+});
+;
+var EmployeeLeaveOperations = new Class({
+
+    Implements: [Options, Events],
+
+    Binds: [
+        'deleteLeave',
+        'newLeaveReason',
+        'editableDateRange',
+        'populateDates',
+        'populatePositionUnits',
+        'checkApplicationEditable',
+        'refreshBalance',
+        'refreshHistory',
+        'refreshAll',
+        'refreshApplyForLeave'
+    ],
+
+    options: {
+        target: null,
+        parent: null
+    },
+
+    initialize: function (options) {
+        this.setOptions(options);
+        this.target = this.options.target;
+        this.parent = this.options.parent;
+    },
+
+    deleteLeave: function (empNo, leaveId) {
+        var methodName = 'ui.myLeave.js -> deleteLeave';
+
+        var api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'DeleteLeave/' + empNo + '/' + leaveId);
+
+        new Request.JSON({
+            url: api,
+            onRequest: function () {
+                Affinity.leave.lockui('myleave-deleteLeave');
+            },
+            onFailure: function (e) {
+                Affinity.leave.unlockui('myleave-deleteLeave');
+                Affinity.leave.handleXHRErrors(e, api, methodName);
+            },
+            onException: function () {
+                Affinity.leave.unlockui('myleave-deleteLeave');
+            },
+            onCancel: function () {
+                Affinity.leave.unlockui('myleave-deleteLeave');
+            },
+            onSuccess: function (response) {
+                Affinity.leave.unlockui('myleave-deleteLeave');
+                if (!Affinity.leave.isErrorInJson(response, api, methodName)) {
+                    window.fireEvent('DeleteLeaveSuccess');
+                }
+            }
+        }).get();
+    },
+
+    newLeaveReason: function (configData, typeIndex) {
+        if (document.getElement('.details-reason-box')) {
+            var reason = document.getElement('.details-reason-box');
+            var selector = document.getElement('.edit-reason-selector');
+            selector.empty();
+
+            new Element('option', {
+                'value': '',
+                'id': 'null', //SG: ideally need to pass actual null not string. this will do for now.
+                'html': ''
+            }).inject(selector, 'top')
+
+            var leaveCodes = configData.Data.LeaveCodes;
+
+            if (typeof (leaveCodes[typeIndex]) != 'undefined' && leaveCodes[typeIndex].Reasons) {
+                var reasons = leaveCodes[typeIndex].Reasons
+
+                Array.each(reasons, function (leaveReason, index) {
+                    var option = new Element('option', {
+                        'value': index
+                    }).inject(selector);
+
+                    option.set('html', leaveReason.Description);
+                    option.set('id', leaveReason.ReasonCode);
+                });
+
+                selector.selectedIndex = 0;
+            }
+        }
+
+        if (document.getElement('.details-label .required')) {
+            document.getElement('.details-label .required').remove();
+        }
+
+        if (document.getElement('.edit-leave-attachment .required')) {
+            document.getElement('.edit-leave-attachment .required').remove();
+        }
+
+        if (typeof (leaveCodes[typeIndex]) != 'undefined') {
+            if (leaveCodes[typeIndex].MandatoryReason === true) {
+                var label = document.getElement('.details-label label');
+
+                new Element('span', {
+                    'class': 'required',
+                    'html': '*required'
+                }).inject(label, 'bottom');
+            }
+
+            if (leaveCodes[typeIndex].MandatoryAttachment === true) {
+                var label = document.getElement('.edit-leave-attachment label');
+
+                new Element('span', {
+                    'class': 'required',
+                    'html': '*required'
+                }).inject(label, 'bottom');
+            }
+        }
+    },
+
+    editableDateRange: function (components, positions, isSingleApprover) {
+        console.log('Leave Employee editableDateRange', components, positions, isSingleApprover);
+        var firstDate = this.modalEls.fromDateWidget.getRawDate();
+        var lastDate = this.modalEls.toDateWidget.getRawDate();
+
+        var dataDateRange = [];
+        var currentDate = firstDate.clone();
+
+        while (currentDate.lessThanOrEqualTo(lastDate)) {
+            dataDateRange.push(currentDate.clone());
+            currentDate.increment('day', 1);
+        }
+
+        var globalDateRange = document.getElement('.globalDateRange');
+        globalDateRange.store('dateRange', dataDateRange);
+        this.populateDates(components, positions, dataDateRange, isSingleApprover);
+    },
+
+    populateDates: function (components, positions, dataDateRange, isSingleApprover) {
+        var daterange = (dataDateRange.concat(document.getElement('.globalDateRange').retrieve('dateRange'))).sort();
+
+        var scrollerWidth = 0;
+        var scrollerBox = document.getElement('.unit-scroller-box');
+        var scroller = document.getElement('.details-units-scroller');
+        var units = document.getElement('.details-positions');
+
+        var unitsGrid = new Element('div', {
+            'class': 'unit-grid'
+        }).inject(scroller);
+
+        var gridHeader = new Element('div', {
+            'class': 'unit-gridheader'
+        }).inject(unitsGrid);
+
+        var gridBody = new Element('div', {
+            'class': 'unit-gridbody'
+        }).inject(unitsGrid);
+
+        var tempdate, dateCell;
+        Array.each(dataDateRange, function (day, index) {
+            tempDate = Affinity.leave.cleanBadDate(day);
+
+            dateCell = new Element('div', { 'class': 'day-class d-' + tempDate.format('%d-%b-%y'), 'id': tempDate.format('%d/%b/%y')/*, 'html': Affinity.leave.cleanBadDate(day).format('%d/%m/%y')*/ }).inject(gridHeader);
+
+            dateCell.adopt(
+                new Element('div', { 'class': 'day-class-day', 'html': tempDate.format('%a') }),
+                new Element('div', { 'class': 'day-class-date', 'html': tempDate.format('%e') }),
+                new Element('div', { 'class': 'day-class-my', 'html': tempDate.format('%b \'%y') }),
+                new Element('div', { 'class': 'hol-icon icon-plane ui-has-tooltip' })
+            );
+
+            scrollerWidth += 79;
+        });
+
+        scroller.setStyle('width', scrollerWidth);
+        scroller.store('scrollerWidth', scrollerWidth);
+
+        var containerSize = scrollerBox.measure(function () { return this.getSize().x; });
+        var scrollerSize = scroller.measure(function () { return this.getScrollSize().x; });
+
+        if (scrollerSize > containerSize) {
+            scrollerBox.setStyle('overflow-x', 'scroll');
+        } else {
+            scrollerBox.setStyle('overflow-x', 'hidden');
+        }
+
+        this.populatePositionUnits(components, positions, dataDateRange, isSingleApprover);
+    },
+
+    populatePositionUnits: function (components, positions, dataDateRange, isSingleApprover) {
+        isSingleApprover = typeOf(isSingleApprover) === 'null' ? false : isSingleApprover;
+
+        var unitsAppliedFor;
+        var gridBody = document.getElement('.unit-gridbody');
+        var positionsLabels = document.getElement('.position-labels');
+
+        var createdRows = [];
+        var positionCode, posRow, posName, hours, posDate, date;
+
+        Array.each(positions, function (position, index) {
+            positionCode = isSingleApprover ? isSingleApprover + '' : position.PositionCode;
+
+            if (position.PositionCode === positionCode) {
+                posRow = new Element('div', {
+                    'class': 'positions-units',
+                    'id': positionCode
+                }).inject(gridBody);
+
+                posName = new Element('label', {
+                    'html': position.PositionTitle,
+                    'class': 'ui-has-tooltip',
+                    'data-tooltip': position.PositionTitle,
+                    'data-tooltip-dir': 'bottom'
+                }).inject(positionsLabels);
+
+                Array.each(dataDateRange, function (day, index) {
+                    hours = new Element('input', {
+                        'class': 'edit-position-units data-hj-whitelist',
+                        'id': Affinity.leave.cleanBadDate(day).format('%d/%b/%y'),
+                        'value': '0.00'
+                    }).inject(posRow);
+
+                    Array.each(components, function (component, Index) {
+                        if (component.PositionCode === positionCode) {
+                            Array.each(component.Units, function (unit, unitIndex) {
+                                posDate = Affinity.leave.cleanBadDate(unit.Date).format('%d/%b/%y');
+                                date = hours.get('id');
+
+                                if (date === posDate) {
+                                    unitsAppliedFor = 0;
+                                    if (typeOf(unit.UnitsAppliedFor) === 'number') {
+                                        unitsAppliedFor = unit.UnitsAppliedFor;
+                                        hours.store('old', unitsAppliedFor); //old value needs to be null for null unitsappliedfor.
+                                    }
+                                    hours.set('value', unitsAppliedFor.toFixed(2));
+
+                                    if (typeOf(unit.IsPublicHoliday) === 'boolean' && unit.IsPublicHoliday === true) {
+                                        hours.addClass('public-holiday').addClass('ui-has-tooltip').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                        hours.getParent('.unit-grid').getElement('.day-class.d-' + posDate.replace(/\//gi, '-')).addClass('public-holiday').getElement('.hol-icon').set('data-tooltip', unit.PublicHolidayName).set('data-tooltip-dir', 'bottom,center');
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    Affinity.tooltips.processNew();
+                });
+            }
+        });
+    },
+
+    checkApplicationEditable: function (leaveID, Status, doOnSuccess, doOnFailure) {
+        var statusText = '';
+        if (Status == 3) {
+            statusText = 'Approved';
+        }
+        else if (Status == 2) {
+            statusText = 'Declined';
+        }
+
+        if (statusText != '') {
+            uialert({
+                message: 'This Leave Application has been approved. <br /> Do you want to resubmit application to make it editable?',
+                showButtons: true,
+                showCancel: true,
+                okText: 'Yes - resubmit application',
+                okIcon: Affinity.icons.Plane,
+                onOk: function () {
+                    var value = {
+                        FieldName: 'StatusCode',
+                        NewValue: 0,
+                        OldValue: Status //0 to resubmit partial approved leave
+                    };
+
+                    this._methodName = 'ui.myLeave.js -> resubmitApplication';
+
+                    this._api = Affinity.GetCacheSafePath(Affinity.leave.apiroot + 'UpdateLeave/' + Affinity.login.profile.employeeNumber + '/' + leaveID);
+
+                    this.resubmitApprovedRequest.doOnSuccess = doOnSuccess;
+                    this.resubmitApprovedRequest.doOnFailure = doOnFailure;
+
+                    if (this.resubmitApprovedRequest && this.resubmitApprovedRequest.isRunning()) {
+                        this.resubmitApprovedRequest.cancel();
+                    }
+                    this.resubmitApprovedRequest.url = this.resubmitApprovedRequest.options.url = this._api;
+                    this.resubmitApprovedRequest.post(JSON.stringify(value));
+                }.bind(this),
+                onCancel: function () {
+                    if (doOnFailure)
+                        doOnFailure();
+                }
+            });
+        } else {
+            if (doOnSuccess)
+                doOnSuccess();
+        }
+    },
+
+    refreshBalance: function () {
+        if (this.parent && this.parent.leaveBlanaces) {
+            this.parent.leaveBlanaces.reset();
+            this.parent.leaveBlanaces.getBalances();
+        }
+    },
+
+    refreshHistory: function () {
+        if (this.parent && this.parent.leaveHistory) {
+            this.parent.leaveHistory.reset(true); //keep filters
+            this.parent.leaveHistory.refreshHistory(true); //no alerts
+        }
+    },
+
+    refreshAll: function () {
+        this.refreshBalance();
+        this.refreshHistory();
+    },
+
+    refreshApplyForLeave: function () {
+        if (this.parent && this.parent.applyForLeave) {
+            this.parent.applyForLeave.validateTotalUnitsAppliedFor();
         }
     }
 

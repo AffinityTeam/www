@@ -10826,6 +10826,10 @@ td.indicate .message-icon {
   line-height: 14px;
   vertical-align: middle;
 }
+.newui .multiple-button {
+  color: #666;
+  background: #f6f6f6;
+}
 .newui .section table.leave.detailed tr th.buttons,
 .newui .section table.leave.detailed tr td.buttons {
   width: 80px !important;
