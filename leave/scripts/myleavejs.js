@@ -1,50 +1,50 @@
 /* Minification failed. Returning unminified contents.
-(191,58-59): run-time error JS1100: Expected ',': =
-(1513,45-46): run-time error JS1195: Expected expression: >
-(1515,6-7): run-time error JS1195: Expected expression: ,
-(1520,2-3): run-time error JS1002: Syntax error: }
-(1522,36-37): run-time error JS1004: Expected ';': {
-(1546,3-4): run-time error JS1195: Expected expression: ,
-(1548,24-25): run-time error JS1004: Expected ';': {
-(1555,3-4): run-time error JS1195: Expected expression: ,
-(1557,18-19): run-time error JS1195: Expected expression: )
-(1557,20-21): run-time error JS1004: Expected ';': {
-(1570,3-4): run-time error JS1195: Expected expression: ,
-(1572,20-21): run-time error JS1195: Expected expression: )
-(1572,22-23): run-time error JS1004: Expected ';': {
-(1579,3-4): run-time error JS1195: Expected expression: ,
-(1581,18-19): run-time error JS1195: Expected expression: )
-(1581,20-21): run-time error JS1004: Expected ';': {
-(1589,3-4): run-time error JS1195: Expected expression: ,
-(1591,23-24): run-time error JS1195: Expected expression: )
-(1591,25-26): run-time error JS1004: Expected ';': {
-(1605,3-4): run-time error JS1195: Expected expression: ,
-(1607,25-26): run-time error JS1195: Expected expression: )
-(1607,27-28): run-time error JS1004: Expected ';': {
-(1627,3-4): run-time error JS1195: Expected expression: ,
-(1629,34-35): run-time error JS1004: Expected ';': {
-(1640,3-4): run-time error JS1195: Expected expression: ,
-(1642,32-33): run-time error JS1195: Expected expression: )
-(1642,34-35): run-time error JS1004: Expected ';': {
-(1714,3-4): run-time error JS1195: Expected expression: ,
-(1716,40-41): run-time error JS1004: Expected ';': {
-(1829,3-4): run-time error JS1195: Expected expression: ,
-(1831,34-35): run-time error JS1195: Expected expression: )
-(1831,36-37): run-time error JS1004: Expected ';': {
-(1930,3-4): run-time error JS1195: Expected expression: ,
-(1932,30-31): run-time error JS1195: Expected expression: )
-(1932,32-33): run-time error JS1004: Expected ';': {
-(1938,3-4): run-time error JS1195: Expected expression: ,
-(1940,34-35): run-time error JS1004: Expected ';': {
-(1947,3-4): run-time error JS1195: Expected expression: ,
-(1949,39-40): run-time error JS1195: Expected expression: )
-(1949,41-42): run-time error JS1004: Expected ';': {
-(1956,3-4): run-time error JS1195: Expected expression: ,
-(1958,19-20): run-time error JS1195: Expected expression: )
-(1958,21-22): run-time error JS1004: Expected ';': {
-(1965,3-4): run-time error JS1195: Expected expression: ,
-(1967,9-10): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
-(1573,30-36): run-time error JS1018: 'return' statement outside of function: return
+(192,58-59): run-time error JS1100: Expected ',': =
+(1514,45-46): run-time error JS1195: Expected expression: >
+(1516,6-7): run-time error JS1195: Expected expression: ,
+(1521,2-3): run-time error JS1002: Syntax error: }
+(1523,36-37): run-time error JS1004: Expected ';': {
+(1547,3-4): run-time error JS1195: Expected expression: ,
+(1549,24-25): run-time error JS1004: Expected ';': {
+(1556,3-4): run-time error JS1195: Expected expression: ,
+(1558,18-19): run-time error JS1195: Expected expression: )
+(1558,20-21): run-time error JS1004: Expected ';': {
+(1571,3-4): run-time error JS1195: Expected expression: ,
+(1573,20-21): run-time error JS1195: Expected expression: )
+(1573,22-23): run-time error JS1004: Expected ';': {
+(1580,3-4): run-time error JS1195: Expected expression: ,
+(1582,18-19): run-time error JS1195: Expected expression: )
+(1582,20-21): run-time error JS1004: Expected ';': {
+(1590,3-4): run-time error JS1195: Expected expression: ,
+(1592,23-24): run-time error JS1195: Expected expression: )
+(1592,25-26): run-time error JS1004: Expected ';': {
+(1606,3-4): run-time error JS1195: Expected expression: ,
+(1608,25-26): run-time error JS1195: Expected expression: )
+(1608,27-28): run-time error JS1004: Expected ';': {
+(1628,3-4): run-time error JS1195: Expected expression: ,
+(1630,34-35): run-time error JS1004: Expected ';': {
+(1641,3-4): run-time error JS1195: Expected expression: ,
+(1643,32-33): run-time error JS1195: Expected expression: )
+(1643,34-35): run-time error JS1004: Expected ';': {
+(1715,3-4): run-time error JS1195: Expected expression: ,
+(1717,40-41): run-time error JS1004: Expected ';': {
+(1830,3-4): run-time error JS1195: Expected expression: ,
+(1832,34-35): run-time error JS1195: Expected expression: )
+(1832,36-37): run-time error JS1004: Expected ';': {
+(1931,3-4): run-time error JS1195: Expected expression: ,
+(1933,30-31): run-time error JS1195: Expected expression: )
+(1933,32-33): run-time error JS1004: Expected ';': {
+(1939,3-4): run-time error JS1195: Expected expression: ,
+(1941,34-35): run-time error JS1004: Expected ';': {
+(1948,3-4): run-time error JS1195: Expected expression: ,
+(1950,39-40): run-time error JS1195: Expected expression: )
+(1950,41-42): run-time error JS1004: Expected ';': {
+(1957,3-4): run-time error JS1195: Expected expression: ,
+(1959,19-20): run-time error JS1195: Expected expression: )
+(1959,21-22): run-time error JS1004: Expected ';': {
+(1966,3-4): run-time error JS1195: Expected expression: ,
+(1968,9-10): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
+(1574,30-36): run-time error JS1018: 'return' statement outside of function: return
  */
 var EmployeeLeave = new Class({
 
@@ -146,8 +146,9 @@ var EmployeeLeave = new Class({
                     
                     // Check if multiple position mode is enabled via query parameter
                     var isMultipleMode = this.hasMultiplePositionQuery();
-                    
-                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI || isMultipleMode) {
+                    console.log('employee mode - isMultipleMode:', isMultipleMode);
+                    if (isMultipleMode) {
+                      console.log('load v1 apply and detail');
                         this.setLeaveApplyV1();
                         this.employeeHistory();
                         this.setLeaveDetailV1();

@@ -224,8 +224,8 @@ var TeamLeave = new Class({
                     
                     // Check if multiple position mode is enabled via query parameter
                     var isMultipleMode = this.hasMultiplePositionQuery();
-                    
-                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI || isMultipleMode) {
+                    console.log('manager mode - isMultipleMode:', isMultipleMode);
+                    if (isMultipleMode) {
                       console.log('multiple position mode is enabled');
                         this.setLeaveApplyV1();
                         this.setLeaveDetailV1();
