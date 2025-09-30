@@ -363,7 +363,7 @@ var Leave = new Class({
         this.multipleButton = new Element('button', {
             'class': 'multiple-button',
             'html': buttonText,
-            'style': 'margin: 0 10px; padding: 8px 16px; vertical-align: bottom; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;'
+            'style': 'margin: 0 10px;  border: none; border-radius: 4px; cursor: pointer; font-size: 14px;'
         });
         
         // Add click event
