@@ -22903,46 +22903,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ColumnSettingTimeouts = {};
 
-    this.State = {
-      ActiveCategory: 'ToAction',
-      SearchQuery: '',
-      CategorySettings: {
-        ToAction: {
-          TotalCount: 0,
-          CurrentPage: 1,
-          TotalPages: 0,
-          PageSize: this.PageSize,
-          SortFields: [{
-            Name: 'StateEnteredAt',
-            Ascending: false
-          }],
-          Items: []
-        },
-        InProgress: {
-          TotalCount: 0,
-          CurrentPage: 1,
-          TotalPages: 0,
-          PageSize: this.PageSize,
-          SortFields: [{
-            Name: 'StateEnteredAt',
-            Ascending: false
-          }],
-          Items: []
-        },
-        Completed: {
-          TotalCount: 0,
-          CurrentPage: 1,
-          TotalPages: 0,
-          PageSize: this.PageSize,
-          SortFields: [{
-            Name: 'StateEnteredAt',
-            Ascending: false
-          }],
-          Items: []
-        }
-      }
-    };
-
   }
 
   /**
@@ -22992,6 +22952,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_gridClicked',
 
+      '_searchNodeKeyUpHandler',
       '_rowButtonClicked',
 
       '_checkHiddenRows',
@@ -23059,7 +23020,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-    this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
+    this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
 
     this.ResultNode = document.querySelector('div.inbox');
     this.ResultNode.innerHTML = this.ViewMode === 'Admin' ? this.AdminResultGridTemplate() : this.ResultGridTemplate();
@@ -23154,13 +23115,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
     this.SearchNode = this.SearchBox.querySelector('input');
-    this.SearchNode.addEventListener('keyup', (event =>
-    {
-      if (event.key.toLowerCase() === 'enter')
-      {
-        this._attemptSearch();
-      }
-    }).bind(this));
+    this.SearchNode.removeEventListener('keyup', this._searchNodeKeyUpHandler);
+    this.SearchNode.addEventListener('keyup', this._searchNodeKeyUpHandler);
 
     let today = luxon.DateTime.local();
     let minDate = today.minus({ years: 7 });
@@ -23177,9 +23133,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     /**/
 
     let tab = this.State.ActiveCategory;
-    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
+    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`))
     {
-      tab = Affinity2018.Storage.Local.Get(`InboxTab${this.StorageKeySuffix}`);
+      tab = Affinity2018.Storage.Local.Get(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`);
     }
     this.State.ActiveCategory = tab;
 
@@ -23195,15 +23151,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
 
       let sortData = this.State.CategorySettings[category].SortFields;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSortData${category}${this.StorageKeySuffix}`))
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSortData-${this.ViewMode}-${category}-${this.StorageKeySuffix}`))
       {
-        sortData = Affinity2018.Storage.Local.Get(`InboxSortData${category}${this.StorageKeySuffix}`);
+        sortData = Affinity2018.Storage.Local.Get(`InboxSortData-${this.ViewMode}-${category}-${this.StorageKeySuffix}`);
       }
 
       let page = this.State.CategorySettings[category].CurrentPage;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage-${this.ViewMode}-${category}-${this.StorageKeySuffix}`))
       {
-        page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
+        page = Affinity2018.Storage.Local.Get(`InboxPage-${this.ViewMode}-${category}-${this.StorageKeySuffix}`);
       }
 
       this.State.CategorySettings[category].SortFields = sortData;
@@ -23224,7 +23180,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       for (let menuItem of menuItems)
       {
         let column = menuItem.dataset.column;
-        let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+        let key = `InboxColumnsShow-${this.ViewMode}-${category}-${column}-${this.StorageKeySuffix}`;
         if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(key))
         {
           let showIt = Affinity2018.Storage.Local.Get(key);
@@ -23264,12 +23220,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     Affinity2018.Tooltips.Apply();
 
     /**/
-
+    
+    this.ResultNode.removeEventListener('click', this._gridClicked);
     this.ResultNode.addEventListener('click', this._gridClicked);
 
     let adminToggles = this.ResultNode.querySelectorAll('.toggle-container input[type="checkbox"]');
     for (let adminToggle of adminToggles)
     {
+      adminToggle.removeEventListener("change", this._switchMode);
       adminToggle.addEventListener("change", this._switchMode);
     }
   }
@@ -23314,7 +23272,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!response.ok)
     {
-      this.DefaultState = JSON.parse(JSON.stringify(this.State));
+      //this.DefaultState = JSON.parse(JSON.stringify(this.State));
+      throw new Error("Can not load default states ofr this view");
       return false;
     }
 
@@ -23322,20 +23281,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!data || data === '')
     {
-      this.DefaultState = JSON.parse(JSON.stringify(this.State));
+      //this.DefaultState = JSON.parse(JSON.stringify(this.State));
+      throw new Error("Can not load default states ofr this view");
       return false;
     }
 
-    if (this.IsPayrollAdmin)
+    this.StateStore = data;
+
+    if (this.ViewMode === 'User')
     {
-      this.DefaultState = data.Admin;
+      this.State = this.StateStore.User;
     }
     else
     {
-      this.DefaultState = data.Default;
+      this.State = this.StateStore.Admin;
     }
-
-    this.State = JSON.parse(JSON.stringify(this.DefaultState));
 
     return true;
   }
@@ -23458,6 +23418,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         }
       }
       Affinity2018.Tooltips.Apply();
+    }
+  }
+
+  _searchNodeKeyUpHandler(event)
+  {
+    if (event.key.toLowerCase() === 'enter')
+    {
+      this._attemptSearch();
     }
   }
 
@@ -23928,7 +23896,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         {
           let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
           let column = menuItem.dataset.column;
-          let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+          let key = `InboxColumnsShow-${this.ViewMode}-${category}-${column}-${this.StorageKeySuffix}`;
           let currentSet = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(key) : null;
           if (currentSet !== showIt && this.EnableLocalStore)
           {
@@ -23993,7 +23961,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.State.ActiveCategory = category;
       if (this.EnableLocalStore)
       {
-        Affinity2018.Storage.Local.Set(`InboxTab${this.StorageKeySuffix}`, category);
+        Affinity2018.Storage.Local.Set(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`, category);
       }
 
       this._prcessSortBar(false);
@@ -24009,7 +23977,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.EnableLocalStore)
     {
-      //Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
+      //Affinity2018.Storage.Local.Set(`InboxPage-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, page);
     }
     this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
     await this.GetResults();
@@ -24045,7 +24013,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.State.CategorySettings[this.State.ActiveCategory].SortFields = sorts;
     if (this.EnableLocalStore)
     {
-      Affinity2018.Storage.Local.Set(`InboxSortData${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
+      Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
     }
   }
 
@@ -24137,10 +24105,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       event.preventDefault();
       event.stopPropagation();
     }
-    this.State.CategorySettings[this.State.ActiveCategory].SortFields = this.DefaultState.CategorySettings[this.State.ActiveCategory].SortFields;
+    this.State.CategorySettings[this.State.ActiveCategory].SortFields = this.State.CategorySettings[this.State.ActiveCategory].SortFields;
     if (this.EnableLocalStore)
     {
-      Affinity2018.Storage.Local.Set(`InboxSortData${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
+      Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
     }
     await this.GetResults();
   }
@@ -24274,9 +24242,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.ViewMode !== 'Admin')
     {
+      this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'Admin';
+      this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
       this.ResultNode.innerHTML = this.AdminResultGridTemplate();
       this._setupResultNodes();
+      this._gotoTab(this.State.ActiveCategory);
       await this.GetResults();
     }
   }
@@ -24285,9 +24256,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.ViewMode !== 'User')
     {
+      this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'User';
+      this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
       this.ResultNode.innerHTML = this.ResultGridTemplate();
       this._setupResultNodes();
+      this._gotoTab(this.State.ActiveCategory);
       await this.GetResults();
     }
   }
@@ -24484,12 +24458,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       });
       let toggleInProgress = this.ToggleTemplate({
         Label: 'Admin',
-        Id: 'AdminToggleToAction',
+        Id: 'AdminToggleInProgress',
         On: true
       });
       let toggleCompleted = this.ToggleTemplate({
         Label: 'Admin',
-        Id: 'AdminToggleToAction',
+        Id: 'AdminToggleCompleted',
         On: true
       });
       return `
@@ -24772,12 +24746,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         });
         toggleInProgress = this.ToggleTemplate({
           Label: 'Admin',
-          Id: 'AdminToggleToAction',
+          Id: 'AdminToggleInProgress',
           On: false
         });
         toggleCompleted = this.ToggleTemplate({
           Label: 'Admin',
-          Id: 'AdminToggleToAction',
+          Id: 'AdminToggleCompleted',
           On: false
         });
       }
