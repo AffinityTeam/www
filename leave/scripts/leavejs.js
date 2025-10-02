@@ -1,49 +1,49 @@
 /* Minification failed. Returning unminified contents.
-(5560,71-72): run-time error JS1195: Expected expression: >
-(5560,98-99): run-time error JS1004: Expected ';': )
-(5562,87-88): run-time error JS1195: Expected expression: >
-(5562,129-130): run-time error JS1004: Expected ';': )
-(5567,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
-(5572,13-14): run-time error JS1002: Syntax error: }
-(5574,34-35): run-time error JS1004: Expected ';': {
-(5578,9-10): run-time error JS1002: Syntax error: }
-(5581,25-26): run-time error JS1004: Expected ';': {
-(5732,5-6): run-time error JS1002: Syntax error: }
-(5733,45-46): run-time error JS1004: Expected ';': {
-(5752,6-7): run-time error JS1195: Expected expression: ,
-(5753,63-64): run-time error JS1004: Expected ';': {
-(5759,6-7): run-time error JS1195: Expected expression: ,
-(5760,26-27): run-time error JS1195: Expected expression: )
-(5760,28-29): run-time error JS1004: Expected ';': {
-(5834,6-7): run-time error JS1195: Expected expression: ,
-(5836,22-23): run-time error JS1195: Expected expression: )
-(5836,24-25): run-time error JS1004: Expected ';': {
-(5859,6-7): run-time error JS1195: Expected expression: ,
-(5861,24-25): run-time error JS1195: Expected expression: )
-(5861,26-27): run-time error JS1004: Expected ';': {
-(5920,6-7): run-time error JS1195: Expected expression: ,
-(10592,52-53): run-time error JS1195: Expected expression: .
-(10604,5-6): run-time error JS1002: Syntax error: }
-(10605,46-47): run-time error JS1004: Expected ';': {
-(10640,6-7): run-time error JS1195: Expected expression: ,
-(10641,42-43): run-time error JS1004: Expected ';': {
-(10664,6-7): run-time error JS1195: Expected expression: ,
-(10665,43-44): run-time error JS1004: Expected ';': {
-(10677,6-7): run-time error JS1195: Expected expression: ,
-(10678,81-82): run-time error JS1004: Expected ';': {
-(10695,6-7): run-time error JS1195: Expected expression: ,
-(10696,54-55): run-time error JS1004: Expected ';': {
-(10723,6-7): run-time error JS1195: Expected expression: ,
-(10724,49-50): run-time error JS1004: Expected ';': {
-(10794,6-7): run-time error JS1195: Expected expression: ,
-(10795,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(10603,9-21): run-time error JS1018: 'return' statement outside of function: return false
-(10597,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
-(5758,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
-(5648,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5667,17-23): run-time error JS1018: 'return' statement outside of function: return
-(5603,13-19): run-time error JS1018: 'return' statement outside of function: return
-(5576,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5486,71-72): run-time error JS1195: Expected expression: >
+(5486,98-99): run-time error JS1004: Expected ';': )
+(5488,87-88): run-time error JS1195: Expected expression: >
+(5488,129-130): run-time error JS1004: Expected ';': )
+(5493,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5498,13-14): run-time error JS1002: Syntax error: }
+(5500,34-35): run-time error JS1004: Expected ';': {
+(5504,9-10): run-time error JS1002: Syntax error: }
+(5507,25-26): run-time error JS1004: Expected ';': {
+(5658,5-6): run-time error JS1002: Syntax error: }
+(5659,45-46): run-time error JS1004: Expected ';': {
+(5678,6-7): run-time error JS1195: Expected expression: ,
+(5679,63-64): run-time error JS1004: Expected ';': {
+(5685,6-7): run-time error JS1195: Expected expression: ,
+(5686,26-27): run-time error JS1195: Expected expression: )
+(5686,28-29): run-time error JS1004: Expected ';': {
+(5760,6-7): run-time error JS1195: Expected expression: ,
+(5762,22-23): run-time error JS1195: Expected expression: )
+(5762,24-25): run-time error JS1004: Expected ';': {
+(5785,6-7): run-time error JS1195: Expected expression: ,
+(5787,24-25): run-time error JS1195: Expected expression: )
+(5787,26-27): run-time error JS1004: Expected ';': {
+(5846,6-7): run-time error JS1195: Expected expression: ,
+(10518,52-53): run-time error JS1195: Expected expression: .
+(10530,5-6): run-time error JS1002: Syntax error: }
+(10531,46-47): run-time error JS1004: Expected ';': {
+(10566,6-7): run-time error JS1195: Expected expression: ,
+(10567,42-43): run-time error JS1004: Expected ';': {
+(10590,6-7): run-time error JS1195: Expected expression: ,
+(10591,43-44): run-time error JS1004: Expected ';': {
+(10603,6-7): run-time error JS1195: Expected expression: ,
+(10604,81-82): run-time error JS1004: Expected ';': {
+(10621,6-7): run-time error JS1195: Expected expression: ,
+(10622,54-55): run-time error JS1004: Expected ';': {
+(10649,6-7): run-time error JS1195: Expected expression: ,
+(10650,49-50): run-time error JS1004: Expected ';': {
+(10720,6-7): run-time error JS1195: Expected expression: ,
+(10721,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10529,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10523,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5684,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5574,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5593,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5529,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5502,17-23): run-time error JS1018: 'return' statement outside of function: return
  */
 var Leave = new Class({
 
@@ -54,8 +54,7 @@ var Leave = new Class({
         'stopEvents',
         'setDates',
         'selectTabsArray','removeTabs', 'removeTab', 'returnTab',
-        'resetPanels', 'resetTabs', 'addMultipleButton', 'updateLeaveInDaysUIAccess',
-        'hasMultiplePositionQuery', 'addMultiplePositionQuery', 'removeMultiplePositionQuery',
+        'resetPanels', 'resetTabs',
         'switchToEmployeeView', 'doSwitchToEmployeeView',
         'switchToManagerView', 'doSwitchToManagerView',
         /**/
@@ -92,7 +91,6 @@ var Leave = new Class({
 
     employee: false, // reserved for employee view
     manager: false, // reserved for manager view
-    hasLeaveInDaysUI: false, // flag to track CompanyHasAccessToLeaveInDaysUI access
 
     initialize: function (options) {
 
@@ -228,13 +226,6 @@ var Leave = new Class({
         });
         this.tabBox.empty();
         this.tabs = [];
-        
-        // Remove the multiple button if it exists
-        if (this.multipleButton) {
-            this.multipleButton.removeEvents();
-            this.multipleButton.destroy();
-            this.multipleButton = null;
-        }
     },
 
     removeTab: function (tab) {
@@ -339,71 +330,6 @@ var Leave = new Class({
         {
             if (this.teamTab) { this.teamTab.addClass('selected'); }
         }
-        
-        // Add button next to tabbox
-        this.addMultipleButton();
-    },
-
-    addMultipleButton: function () {
-        // Remove existing button if it exists
-        if (this.multipleButton) {
-            this.multipleButton.destroy();
-        }
-        
-        // Only show button if user has access to LeaveInDaysUI
-        if (!this.hasLeaveInDaysUI) {
-            return;
-        }
-        
-        // Check if we're in multiple position mode (query parameter present)
-        var isMultipleMode = this.hasMultiplePositionQuery();
-        var buttonText = isMultipleMode ? 'Single Position' : 'Multiple';
-        
-        // Create the button element
-        this.multipleButton = new Element('button', {
-            'class': 'multiple-button',
-            'html': buttonText,
-            'style': 'margin: 0 10px;  border: none; border-radius: 4px; cursor: pointer; font-size: 14px;'
-        });
-        
-        // Add click event
-        this.multipleButton.addEvent('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (isMultipleMode) {
-                // Switch to single position mode
-                this.removeMultiplePositionQuery();
-            } else {
-                // Switch to multiple position mode
-                this.addMultiplePositionQuery();
-            }
-        }.bind(this));
-        
-        // Insert the button after the tabbox
-        this.multipleButton.inject(this.tabBox, 'before');
-    },
-
-    updateLeaveInDaysUIAccess: function (hasAccess) {
-        this.hasLeaveInDaysUI = !hasAccess;
-        // Re-add the button with updated visibility
-        this.addMultipleButton();
-    },
-
-    hasMultiplePositionQuery: function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        return urlParams.has('multiplePosition') && urlParams.get('multiplePosition') === 'true';
-    },
-
-    addMultiplePositionQuery: function () {
-        var url = new URL(window.location);
-        url.searchParams.set('multiplePosition', 'true');
-        window.location.href = url.toString();
-    },
-
-    removeMultiplePositionQuery: function () {
-        var url = new URL(window.location);
-        url.searchParams.delete('multiplePosition');
-        window.location.href = url.toString();
     },
 
     /**/
