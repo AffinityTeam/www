@@ -1,45 +1,45 @@
 /* Minification failed. Returning unminified contents.
-(280,54-55): run-time error JS1100: Expected ',': =
-(465,57-58): run-time error JS1195: Expected expression: >
-(467,18-19): run-time error JS1195: Expected expression: ,
-(474,13-15): run-time error JS1009: Expected '}': if
-(474,42-43): run-time error JS1004: Expected ';': {
-(483,9-10): run-time error JS1002: Syntax error: }
-(485,35-39): run-time error JS1004: Expected ';': this
-(486,5-6): run-time error JS1002: Syntax error: }
-(488,39-40): run-time error JS1004: Expected ';': {
-(512,6-7): run-time error JS1195: Expected expression: ,
-(514,27-28): run-time error JS1004: Expected ';': {
-(521,6-7): run-time error JS1195: Expected expression: ,
-(523,21-22): run-time error JS1195: Expected expression: )
-(523,23-24): run-time error JS1004: Expected ';': {
-(541,6-7): run-time error JS1195: Expected expression: ,
-(543,23-24): run-time error JS1195: Expected expression: )
-(543,25-26): run-time error JS1004: Expected ';': {
-(550,6-7): run-time error JS1195: Expected expression: ,
-(552,21-22): run-time error JS1195: Expected expression: )
-(552,23-24): run-time error JS1004: Expected ';': {
-(559,6-7): run-time error JS1195: Expected expression: ,
-(561,26-27): run-time error JS1195: Expected expression: )
-(561,28-29): run-time error JS1004: Expected ';': {
-(582,6-7): run-time error JS1195: Expected expression: ,
-(584,28-29): run-time error JS1195: Expected expression: )
-(584,30-31): run-time error JS1004: Expected ';': {
-(604,6-7): run-time error JS1195: Expected expression: ,
-(606,37-38): run-time error JS1004: Expected ';': {
-(617,6-7): run-time error JS1195: Expected expression: ,
-(619,49-50): run-time error JS1004: Expected ';': {
-(631,6-7): run-time error JS1195: Expected expression: ,
-(633,35-36): run-time error JS1195: Expected expression: )
-(633,37-38): run-time error JS1004: Expected ';': {
-(705,6-7): run-time error JS1195: Expected expression: ,
-(707,43-44): run-time error JS1004: Expected ';': {
-(825,6-7): run-time error JS1195: Expected expression: ,
-(827,37-38): run-time error JS1195: Expected expression: )
-(827,39-40): run-time error JS1004: Expected ';': {
-(929,6-7): run-time error JS1195: Expected expression: ,
-(931,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(544,36-42): run-time error JS1018: 'return' statement outside of function: return
+(291,54-55): run-time error JS1100: Expected ',': =
+(481,57-58): run-time error JS1195: Expected expression: >
+(483,18-19): run-time error JS1195: Expected expression: ,
+(490,13-15): run-time error JS1009: Expected '}': if
+(490,42-43): run-time error JS1004: Expected ';': {
+(499,9-10): run-time error JS1002: Syntax error: }
+(501,35-39): run-time error JS1004: Expected ';': this
+(502,5-6): run-time error JS1002: Syntax error: }
+(504,39-40): run-time error JS1004: Expected ';': {
+(528,6-7): run-time error JS1195: Expected expression: ,
+(530,27-28): run-time error JS1004: Expected ';': {
+(537,6-7): run-time error JS1195: Expected expression: ,
+(539,21-22): run-time error JS1195: Expected expression: )
+(539,23-24): run-time error JS1004: Expected ';': {
+(557,6-7): run-time error JS1195: Expected expression: ,
+(559,23-24): run-time error JS1195: Expected expression: )
+(559,25-26): run-time error JS1004: Expected ';': {
+(566,6-7): run-time error JS1195: Expected expression: ,
+(568,21-22): run-time error JS1195: Expected expression: )
+(568,23-24): run-time error JS1004: Expected ';': {
+(575,6-7): run-time error JS1195: Expected expression: ,
+(577,26-27): run-time error JS1195: Expected expression: )
+(577,28-29): run-time error JS1004: Expected ';': {
+(598,6-7): run-time error JS1195: Expected expression: ,
+(600,28-29): run-time error JS1195: Expected expression: )
+(600,30-31): run-time error JS1004: Expected ';': {
+(620,6-7): run-time error JS1195: Expected expression: ,
+(622,37-38): run-time error JS1004: Expected ';': {
+(633,6-7): run-time error JS1195: Expected expression: ,
+(635,49-50): run-time error JS1004: Expected ';': {
+(647,6-7): run-time error JS1195: Expected expression: ,
+(649,35-36): run-time error JS1195: Expected expression: )
+(649,37-38): run-time error JS1004: Expected ';': {
+(721,6-7): run-time error JS1195: Expected expression: ,
+(723,43-44): run-time error JS1004: Expected ';': {
+(841,6-7): run-time error JS1195: Expected expression: ,
+(843,37-38): run-time error JS1195: Expected expression: )
+(843,39-40): run-time error JS1004: Expected ';': {
+(945,6-7): run-time error JS1195: Expected expression: ,
+(947,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(560,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -53,6 +53,7 @@ var TeamLeave = new Class({
         'managerBalance',
         'managerApply',
         'managerDetail',
+        'hasMultiplePositionQuery',
         'generateLeaveCalendar',
         'applyTeamConfig',
         'refreshBalance', 'refreshHistory', 'refreshAll',
@@ -220,7 +221,12 @@ var TeamLeave = new Class({
                     // If NEW Calendar UI is enabled, then generate the calendar on TOP
                     this.managerHistory(newCalendarUI);
                     if (newCalendarUI) this.generateLeaveCalendar(newCalendarUI);
-                    if (!response.Data.CompanyHasAccessToLeaveInDaysUI) {
+                    
+                    // Check if multiple position mode is enabled via query parameter
+                    var isMultipleMode = this.hasMultiplePositionQuery();
+                    console.log('manager mode - isMultipleMode:', isMultipleMode);
+                    if (isMultipleMode) {
+                      console.log('multiple position mode is enabled');
                         this.setLeaveApplyV1();
                         this.setLeaveDetailV1();
                     } else {
@@ -289,6 +295,11 @@ var TeamLeave = new Class({
             target: this.target,
             configData: configData
         });
+        
+        // Update the main leave instance with the LeaveInDaysUI access flag
+        if (Affinity.leave && Affinity.leave.updateLeaveInDaysUIAccess && configData.CompanyHasAccessToLeaveInDaysUI !== undefined) {
+            Affinity.leave.updateLeaveInDaysUIAccess(configData.CompanyHasAccessToLeaveInDaysUI);
+        }
     },
     //managerMultiPositionApply
     setLeaveApplyV1: function () {
@@ -365,6 +376,11 @@ var TeamLeave = new Class({
         if (this.leaveHistory) { this.leaveHistory.destroy(); }
         if (this.applyForLeave) { this.applyForLeave.destroy(); }
         if (this.calendar) { this.calendar.destroy(); }
+    },
+
+    hasMultiplePositionQuery: function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.has('multiplePosition') && urlParams.get('multiplePosition') === 'true';
     }
 
 });
