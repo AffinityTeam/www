@@ -22903,6 +22903,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ColumnSettingTimeouts = {};
 
+    this.PayrollAdminIncludes5M = true;
+
   }
 
   /**
@@ -22985,34 +22987,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-
+    this._forceHidePageLoader();
     this.MemberType = '';
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
+    this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
     if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
     {
-      this.MemberType = Affinity2018.UserProfile.MemberType;
-      if (this.MemberType === "P" || parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000) // Payroll Admin
+      if (this.MemberType === "P")
       {
         this.IsPayrollAdmin = true;
         this.ViewMode = 'Admin';
         this.ShowModeToggle = true;
       }
     }
-	else if (parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000) // Payroll Admin
+	if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
 	{
       this.IsPayrollAdmin = true;
       this.ViewMode = 'Admin';
       this.ShowModeToggle = true;
 	}
-
-    /* For debugging ONLY *
-    this.MemberType = 'P';
-    this.IsPayrollAdmin = true;
-    this.Admin = false;
-    this.ViewMode = 'Admin';
-    this.ShowModeToggle = true;
-    /**/
 
     /**/
 
@@ -23287,6 +23281,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     this.StateStore = data;
+    this.StateStore.UserDefault = JSON.parse(JSON.stringify(this.StateStore.User));
+    this.StateStore.AdminDefault = JSON.parse(JSON.stringify(this.StateStore.Admin));
 
     if (this.ViewMode === 'User')
     {
@@ -23569,6 +23565,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchBox.querySelector('input#EndDate').value = '';
     this.State.StartDate = '';
     this.State.EndDate = '';
+
     await this.GetResults();
   }
 
@@ -23766,12 +23763,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
     if (event.target.classList.contains('edit'))
     {
-      this._loadUrl(`${this.EditUrl}${instance}`, event.ctrlKey);
+      this._forceShowPageLoader();
+      setTimeout((() =>
+      {
+        this._loadUrl(`${this.EditUrl}${instance}`, event.ctrlKey);
+      }).bind(this), 500);
       return;
     }
     if (event.target.classList.contains('view'))
     {
-      this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
+      this._forceShowPageLoader();
+      setTimeout((() =>
+      {
+        this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
+      }).bind(this), 500);
       return;
     }
     if (event.target.classList.contains('details'))
@@ -24105,7 +24110,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       event.preventDefault();
       event.stopPropagation();
     }
-    this.State.CategorySettings[this.State.ActiveCategory].SortFields = this.State.CategorySettings[this.State.ActiveCategory].SortFields;
+    let defaultSortSate = this.StateStore[`${this.ViewMode}Default`].CategorySettings[this.State.ActiveCategory].SortFields;
+    this.State.CategorySettings[this.State.ActiveCategory].SortFields = JSON.parse(JSON.stringify(defaultSortSate));
     if (this.EnableLocalStore)
     {
       Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
@@ -24696,6 +24702,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td class="buttons">
                 <button class="blue details icon-work-flow-multiple icononly ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left"></button>
                 <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
                 ${deletButton}
               </td>
             </tr>
