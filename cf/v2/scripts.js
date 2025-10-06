@@ -22903,7 +22903,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ColumnSettingTimeouts = {};
 
-    this.PayrollAdminIncludes5M = true;
+    this.PayrollAdminIncludes5M = false;
 
   }
 
