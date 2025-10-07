@@ -40363,8 +40363,11 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     {
       let hasStreetNumber = this.addressNode.querySelector('input.street_number').value.trim() !== '';
       let hasStreet = this.addressNode.querySelector('input.street').value.trim() !== '';
-      let hasCity = this.addressNode.querySelector('input.city').value.trim() !== '';    
-      this.Valid = hasStreetNumber && hasStreet && hasCity;
+      let hasCity = this.addressNode.querySelector('input.city').value.trim() !== '';
+      let hasState = this.addressNode.querySelector('input.state').value.trim() !== '';
+      let hasCountry = this.addressNode.querySelector('input.country').value.trim() !== '';
+      let hasPostalCode = this.addressNode.querySelector('input.postal_code').value.trim() !== '';
+      this.Valid = hasStreetNumber && hasStreet && (hasCity || hasState || hasCountry || hasPostalCode);
     }
 
     if (!this.Valid)
