@@ -39683,8 +39683,6 @@ Affinity2018.Classes.Plugins.Address = class
   {
     clearTimeout(this._googelReadyCheck);
     this._checkGoogleReady();
-    //clearTimeout(this._loadScriptFailTimer);
-    //this.Ready = true;
   }
   _checkGoogleReady()
   {
@@ -39697,6 +39695,7 @@ Affinity2018.Classes.Plugins.Address = class
       && google.maps.places.hasOwnProperty('Autocomplete')
     )
     {
+      this.Status = 'GoogleReady';
       this.Ready = true;
       return;
     }
@@ -39902,6 +39901,37 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         node.addEventListener('blur', this._userUpdateSubAddress);
       }.bind(this));
     }
+    this.lookupNode.addEventListener('blur', (event =>
+    {
+      if (this.lookupNode.value.trim() !== '')
+      {
+        this.humanInteraction = true;
+        this._checkAddress();
+      }
+      else
+      {
+        this.addressNode.querySelector('input.street_number').value = '';
+        this.addressNode.querySelector('input.street').value = '';
+        this.addressNode.querySelector('input.suburb').value = '';
+        this.addressNode.querySelector('input.city').value = '';
+        this.addressNode.querySelector('input.state').value = '';
+        this.addressNode.querySelector('input.country').value = '';
+        this.addressNode.querySelector('input.postal_code').value = '';
+        // Todo: Should this be the places icon and not the error icon? Should this not be based on IsRequired status?
+        if (this.IsRequired) 
+        {
+          this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
+          this.iconNode.classList.add('invalid', 'icon-cross-round');
+        }
+        else
+        {
+          this.iconNode.classList.remove('valid', 'invalid', 'icon-tick-round');
+          this.iconNode.classList.add('icon-cf-address');
+        }
+        this.lookupNode.dispatchEvent(new CustomEvent('human_modified', { detail: { value: JSON.stringify(this.GetAddressData()) }}));
+        this.preChangeAddress = this.GetAddress();
+      }
+    }).bind(this));
 
     this.iconNode = this.addressNode.querySelector('.address-indicator');
     if (this.lookupNode.disabled)
@@ -39973,8 +40003,17 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.state').value = '';
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
-        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
-        this.iconNode.classList.add('invalid', 'icon-cross-round');
+        // Todo: Should this be the places icon and not the error icon? Should this not be based on IsRequired status?
+        if (this.IsRequired) 
+        {
+          this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
+          this.iconNode.classList.add('invalid', 'icon-cross-round');
+        }
+        else
+        {
+          this.iconNode.classList.remove('valid', 'invalid', 'icon-tick-round');
+          this.iconNode.classList.add('icon-cf-address');
+        }
       }
       else
       {
@@ -40008,8 +40047,17 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         this.addressNode.querySelector('input.country').value = '';
         this.addressNode.querySelector('input.postal_code').value = '';
         this.lookupNode.value = value;
-        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
-        this.iconNode.classList.add('invalid', 'icon-cross-round');
+        // Todo: Should this be the places icon and not the error icon? Should this not be based on IsRequired status?
+        if (this.IsRequired) 
+        {
+          this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
+          this.iconNode.classList.add('invalid', 'icon-cross-round');
+        }
+        else
+        {
+          this.iconNode.classList.remove('valid', 'invalid', 'icon-tick-round');
+          this.iconNode.classList.add('icon-cf-address');
+        }
       }
     }
   }
@@ -40146,6 +40194,12 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     }
 
+    // Call _checkAddress even if empty, so we can set inital status as ready.
+    if (!checkExisitng)
+    {
+      this._checkAddress();
+    }
+
     if (geolocation && !checkExisitng && !this.lookupNode.disabled) 
     {
       this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddressSelected);
@@ -40154,10 +40208,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     /**/
 
     this.preChangeAddress = this.GetAddress();
-    
-    this.Status = 'Ready';
-    this.Ready = true;
-    this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
   }
   
   _storePreChange(ev)
@@ -40200,61 +40250,37 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   {
     let geocoder = new google.maps.Geocoder();
     let address = this.lookupNode.value.trim();
-    geocoder.geocode({ address: address }, (results, status) => 
+    if (address !== '')
     {
-      try
+      geocoder.geocode({ address: address }, (results, status) => 
       {
-        if (status !== 'OK')
+        try
         {
-          throw new Error('Geocoding failed: ' + status);
+          if (status !== 'OK')
+          {
+            throw new Error('Geocoding failed: ' + status);
+          }
+          if (results && results.length > 0)
+          {
+            this._fillAddress(results[0]);
+          }
+          else
+          {
+            this._fillAddress();
+          }
         }
-        if (results && results.length > 0)
+        catch (error)
         {
-          this._fillAddress(results[0]);
-        }
-        else
-        {
+          debugger;
+          console.error('Error during fetch:', error);
           this._fillAddress();
         }
-        this.Status = 'Ready';
-      }
-      catch (error)
-      {
-        console.error('Error during fetch:', error);
-        this._fillAddress();
-        this.Status = 'Ready';
-      }
-    });
-
-    //if (!window.hasOwnProperty('_tempGoogleMapsCallback')) window._tempGoogleMapsCallback = function () { };
-    //let url = 'https:/' + '/maps.googleapis.com/maps/api/geocode/json?address=' + this.lookupNode.value.trim() + '&key=' + Affinity2018.GoogleApikey + '&callback=_tempGoogleMapsCallback&loading=async';
-    //fetch(url)
-    //  .then((response) =>
-    //  {
-    //    if (!response.ok)
-    //    {
-    //      throw new Error('Network response was not ok');
-    //    }
-    //    return response.json();
-    //  })
-    //  .then((data) =>
-    //  {
-    //    if (data.results && data.results.length > 0)
-    //    {
-    //      this._fillAddress(data.results[0]);
-    //    }
-    //    else
-    //    {
-    //      this._fillAddress();
-    //    }
-    //    this.Status = 'Ready';
-    //  })
-    //  .catch((error) =>
-    //  {
-    //    console.error('Error during fetch:', error);
-    //    this._fillAddress();
-    //    this.Status = 'Ready';
-    //  });
+      });
+    }
+    else
+    {
+      this._fillAddress();
+    }
   }
 
   _getCountryFromPlace (place)
@@ -40333,6 +40359,33 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
     }
 
+    if (this.IsRequired && this.Valid)
+    {
+      let hasStreetNumber = this.addressNode.querySelector('input.street_number').value.trim() !== '';
+      let hasStreet = this.addressNode.querySelector('input.street').value.trim() !== '';
+      let hasCity = this.addressNode.querySelector('input.city').value.trim() !== '';    
+      this.Valid = hasStreetNumber && hasStreet && hasCity;
+    }
+
+    if (!this.Valid)
+    {
+      if (this.IsRequired) 
+      {
+        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
+        this.iconNode.classList.add('invalid', 'icon-cross-round');
+      }
+      else
+      {
+        this.iconNode.classList.remove('valid', 'invalid', 'icon-tick-round');
+        this.iconNode.classList.add('icon-cf-address');
+      }
+    }
+    else
+    {
+      this.iconNode.classList.remove('invalid', 'icon-cf-address', 'icon-cross-round');
+      this.iconNode.classList.add('valid', 'icon-tick-round');
+    }
+
     this.lookupNode.dispatchEvent(new Event('LengthValidated'));
 
     this._checkHumanInteraction();
@@ -40346,7 +40399,17 @@ Affinity2018.Classes.Plugins.AddressWidget = class
 
     if (place === null || place === undefined)
     {
-      if (this.IsRequired) this.SetAddress('');
+      if (this.IsRequired) 
+      {
+        this.SetAddress('');
+      }
+      if (this.Status !== 'Ready')
+      {
+        // we have to assuem the google is ready and working, even though we have no places match
+        this.Status = 'Ready';
+        this.Ready = true;
+        this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
+      }
       return;
     }
     var countryCode = this._getCountryFromPlace(place),
@@ -40397,9 +40460,9 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       {
         if (streetnum)
         {
-          var regex = RegExp(`[^\\s,]*(` + streetnum + `)[^\\s,]*`),
-              foundstreetnum = regex.exec(this.lookupNode.value.trim());
-          streetnum = foundstreetnum[0];
+          var regex = RegExp(`[^\\s,]*(` + streetnum + `)[^\\s,]*`);
+          var foundstreetnum = regex.exec(this.lookupNode.value.trim());
+          streetnum = foundstreetnum !== null ? foundstreetnum[0] : streetnum;
           if (streetnum) this.addressNode.querySelector('.street_number').value = streetnum;
         }
         if (!streetnum)
@@ -40415,21 +40478,36 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
 
       this.lookupNode.value = this.GetAddress();
-      this.iconNode.classList.remove('invalid', 'icon-cf-address', 'icon-cross-round');
-      this.iconNode.classList.add('valid', 'icon-tick-round');
 
       this.Valid = this._validateLengths();
     }
     else
     {
-      this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
-      this.iconNode.classList.add('invalid', 'icon-cross-round');
+      // Todo: Should this be the places icon and not the error icon? Should this not be based on IsRequired status?
+      if (this.IsRequired) 
+      {
+        this.iconNode.classList.remove('valid', 'icon-cf-address', 'icon-tick-round');
+        this.iconNode.classList.add('invalid', 'icon-cross-round');
+      }
+      else
+      {
+        this.iconNode.classList.remove('valid', 'invalid', 'icon-tick-round');
+        this.iconNode.classList.add('icon-cf-address');
+      }
+
       this.Valid = false;
     }
 
     if (this.AutocompleteListener === null) 
     {
       this.AutocompleteListener = google.maps.event.addListener(this.Autocomplete, 'place_changed', this._checkAddressSelected);
+    }
+
+    if (this.Status !== 'Ready')
+    {
+      this.Status = 'Ready';
+      this.Ready = true;
+      this.lookupNode.dispatchEvent(new CustomEvent('Ready'));
     }
 
     //this.humanInteraction = true;
