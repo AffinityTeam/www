@@ -23009,6 +23009,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 	}
 
     /**/
+    
+    // Stop bfcache leaving loaders open
+    window.addEventListener('pagehide', (() =>
+    {
+      this._forceHidePageLoader();
+    }).bind(this));
+    window.addEventListener('pageshow', (() =>
+    {
+      this._forceHidePageLoader();
+    }).bind(this));
+
+    /**/
 
     await this._laodStates();
 
@@ -23761,22 +23773,24 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     let rowNode = event.target.closest('tr');
     let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+    let newTab = event && event.ctrlKey;
+    let delay = newTab ? 0 : 500;
     if (event.target.classList.contains('edit'))
     {
-      this._forceShowPageLoader();
+      if (!newTab) this._forceShowPageLoader();
       setTimeout((() =>
       {
-        this._loadUrl(`${this.EditUrl}${instance}`, event.ctrlKey);
-      }).bind(this), 500);
+        this._loadUrl(`${this.EditUrl}${instance}`, newTab);
+      }).bind(this), delay);
       return;
     }
     if (event.target.classList.contains('view'))
     {
-      this._forceShowPageLoader();
+      if (!newTab) this._forceShowPageLoader();
       setTimeout((() =>
       {
-        this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
-      }).bind(this), 500);
+        this._loadUrl(`${this.ViewUrl}${instance}`, newTab);
+      }).bind(this), delay);
       return;
     }
     if (event.target.classList.contains('details'))

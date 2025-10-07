@@ -12,14 +12,14 @@
 (17101,4-5): run-time error JS1195: Expected expression: ,
 (17103,37-38): run-time error JS1195: Expected expression: )
 (17140,4-5): run-time error JS1195: Expected expression: ,
-(17453,4-5): run-time error JS1195: Expected expression: ,
-(17470,4-5): run-time error JS1195: Expected expression: ,
-(17502,4-5): run-time error JS1195: Expected expression: ,
-(17504,27-28): run-time error JS1195: Expected expression: )
-(17534,4-5): run-time error JS1195: Expected expression: ,
-(17536,27-28): run-time error JS1195: Expected expression: )
-(17541,4-5): run-time error JS1195: Expected expression: ,
-(17545,14-15): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
+(17447,4-5): run-time error JS1195: Expected expression: ,
+(17464,4-5): run-time error JS1195: Expected expression: ,
+(17496,4-5): run-time error JS1195: Expected expression: ,
+(17498,27-28): run-time error JS1195: Expected expression: )
+(17528,4-5): run-time error JS1195: Expected expression: ,
+(17530,27-28): run-time error JS1195: Expected expression: )
+(17535,4-5): run-time error JS1195: Expected expression: ,
+(17539,14-15): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
 (17100,5-24): run-time error JS1018: 'return' statement outside of function: return defaultValue
 (17098,7-48): run-time error JS1018: 'return' statement outside of function: return isSet === 'true' || isSet === true
 (17026,5-57): run-time error JS1018: 'return' statement outside of function: return !this.loaderNode.classList.contains('hidden')
@@ -17242,16 +17242,13 @@ var CFInbox = new Class({
               if (data.IsStarted)
               {
                 buttonsHTML = '';
-                //buttonsHTML += '<button class="blue edit" data-instance="' + data.InstanceId + '"><span class="icon-edit"></span>Edit</button>';
                 buttonsHTML += '<a href="' + this.options.editUrl + '/' + data.InstanceId + '" id=""><span class="button blue w-icon"><span>' + this.icons.edit + '</span>' + this.labels.edit + '</span></a>';
-                //buttonsHTML += '<button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="' + this.options.deleteUrl + '/' + data.InstanceId + '"><span class="icon-cross"></span></button>';
                 buttonsHTML += '<span class="button red w-icon-only delete ui-has-tooltip" data-tooltip-dir="left" data-tooltip="Delete this form" data-action="' + this.options.deleteUrl + '/' + data.InstanceId + '"><span>' + this.icons.del + '</span></span>';
                 buttons = new Element('td', { 'class': 'ui-inbox-actions buttons', 'html': buttonsHTML });
               }
               else
               {
                 buttonsHTML = '';
-                //buttonsHTML += '<button class="blue edit" data-instance="' + data.InstanceId + '"><span class="icon-edit"></span>Edit</button>';
                 buttonsHTML += '<a href="' + this.options.editUrl + '/' + data.InstanceId + '" id=""><span class="button blue w-icon"><span>' + this.icons.edit + '</span>' + this.labels.edit + '</span></a>';
                 buttons = new Element('td', { 'class': 'ui-inbox-actions buttons', 'html': buttonsHTML })
               }
@@ -17343,9 +17340,7 @@ var CFInbox = new Class({
             else
             {
               buttonsHTML = '';
-              //buttonsHTML += '<button class="blue view" data-instance="' + data.InstanceId + '"><span class="icon-page"></span>View</button>';
               buttonsHTML += '<a href="' + this.options.viewUrl + '/' + data.InstanceId + '" id=""><span class="button blue w-icon"><span>' + this.icons.view + '</span>' + this.labels.view + '</span></a>';
-              //buttonsHTML += '<button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="' + this.options.deleteUrl + '/' + data.InstanceId + '"><span class="icon-cross"></span></button>';
               buttonsHTML += '<span class="button red w-icon-only delete ui-has-tooltip" data-tooltip-dir="left" data-tooltip="Delete this form" data-action="' + this.options.deleteUrl + '/' + data.InstanceId + '"><span>' + this.icons.del + '</span></span>';
               data.DisplayName += data.ShareOrDelegate != null && data.ShareOrDelegate != 'null' ? '<span class="tag ' + data.ShareOrDelegate.toLowerCase() + '">' + data.SharedBy + '</span>' : '';
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
@@ -17434,7 +17429,6 @@ var CFInbox = new Class({
             else
             {
               buttonsHTML = '';
-              //buttonsHTML += '<button class="blue view" data-instance="' + data.InstanceId + '"><span class="icon-page"></span>View</button>';
               buttonsHTML += '<a href="' + this.options.viewUrl + '/' + data.InstanceId + '" id=""><span class="button blue w-icon"><span>' + this.icons.view + '</span>' + this.labels.view + '</span></a>';
               data.DisplayName += data.ShareOrDelegate != null && data.ShareOrDelegate != 'null' ? '<span class="tag ' + data.ShareOrDelegate.toLowerCase() + '">' + data.SharedBy + '</span>' : '';
               row = new Element('tr', { 'id': data.InstanceId, 'class': 'form' }).adopt(
