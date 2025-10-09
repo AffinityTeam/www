@@ -21180,7 +21180,11 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       {  
         $a.ShowPageLoader();
 
-        // tottaly whipe out the form
+        // tottaly whipe out the form and form buttons
+        let workflowButtons = root.ButtonsNode.querySelector('.workflow-buttons');
+        let formButtons = root.ButtonsNode.querySelector('.buttons');
+        if (workflowButtons) workflowButtons.innerHTML = '';
+        if (formButtons) formButtons.innerHTML = '';
         root.FormNode.innerHTML = '';
 
         // callback for empty data saved
