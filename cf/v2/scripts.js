@@ -19229,6 +19229,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.DoFullEmployeeReset = false;
 
     this.FormHistory = [];
+    this.FormHistoryFull = [];
 
   }
 
@@ -19643,15 +19644,20 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * 
    * @param {string} name The name of the Field
    */
-  GetAllFormHistoryByName(name)
+  GetAllFormFullHistoryByName(name)
   {
+    return this.GetAllFormHistoryByName(name, this.FormHistoryFull);
+  }
+  GetAllFormHistoryByName(name, historyData)
+  {
+    historyData = historyData === undefined ? this.FormHistory : historyData;
     function flatten(arr)
     {
       return [].concat.apply([], arr);
     }
-    if (this.FormHistory.length > 0)
+    if (historyData.length > 0)
     {
-      var flattenedElements = flatten(this.FormHistory.map(function(obj)
+      var flattenedElements = flatten(historyData.map(function(obj)
       {
         return flatten(obj.Sections.map(function(section)
         {
@@ -19675,11 +19681,16 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * @this    Class scope
    * @access  private
    */
-  GetLastFormHistoryElements()
+  GetLastFormFullHistoryElements()
   {
-    if (this.FormHistory.length > 0)
+    return this.GetLastFormHistoryElements(this.FormHistoryFull);
+  }
+  GetLastFormHistoryElements(historyData)
+  {
+    historyData = historyData === undefined ? this.FormHistory : historyData;
+    if (historyData.length > 0)
     {
-      return [].concat.apply([], this.FormHistory[this.FormHistory.length - 1].Sections.map(function(section)
+      return [].concat.apply([], historyData[historyData.length - 1].Sections.map(function(section)
       {
         return section.Elements;
       }));
@@ -19697,15 +19708,20 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
    * 
    * @param {string} name The name of the Field
    */
-  GetLastFormHistoryByName(name)
+  GetLastFormFullHistoryByName(name)
   {
+    return GetLastFormHistoryByName(name, this.FormHistoryFull);
+  }
+  GetLastFormHistoryByName(name, historyData)
+  {
+    historyData = historyData === undefined ? this.FormHistory : historyData;
     function flatten(arr)
     {
       return [].concat.apply([], arr);
     }
-    if (this.FormHistory.length > 0)
+    if (historyData.length > 0)
     {
-      var flattenedElements = flatten(this.FormHistory.map(function(obj)
+      var flattenedElements = flatten(historyData.map(function(obj)
       {
         return flatten(obj.Sections.map(function(section)
         {
@@ -20075,6 +20091,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.RequestChecked = false;
     this.PostData = this._getPostData();
     this.FormHistory.push($a.jsonCloneObject(this.PostData));
+    this.FormHistoryFull.push($a.jsonCloneObject(this.PostData));
     if (!this.DoFullEmployeeReset) Affinity2018.HidePageLoader();
     else Affinity2018.ShowPageLoader();
     this._setupAutoSaveEvents();
@@ -22454,6 +22471,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     this.PostData = this._getPostData();
     this.FormHistory.push($a.jsonCloneObject(this.PostData));
+    this.FormHistoryFull.push($a.jsonCloneObject(this.PostData));
 
     this.PostState = 'success';
 
@@ -23157,7 +23175,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_showLoader', '_hideLoader',
 
-      '_laodStates',
+      '_loadStates',
 
       '_gotResults', '_gotResultsError',
 
@@ -23241,7 +23259,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-    await this._laodStates();
+    await this._loadStates();
 
     /**/
 
@@ -23501,7 +23519,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._forceHidePageLoader();
   }
 
-  async _laodStates()
+  async _loadStates()
   {
     let response = await fetch(`${Affinity2018.Path}/Scripts/V2/apps/cleverforms/Inbox.json?version=${Affinity2018.Version}`);
 
@@ -30577,7 +30595,24 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               {
 
                 // User cancelled
-                this.FormRowNode.controller.SetFromValue(this.Config.Details.Value, false, false);
+
+                let nowValue = this.GetFromFormRow().Value;
+                let savedValue = this.Config.Details.Value;
+                let resetValue = this.Config.Details.Value;
+                let valueHistory = form.GetAllFormFullHistoryByName(this.Config.Name);
+                for (let h = 0; h < valueHistory.length; h++)
+                {
+                  if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue && valueHistory[h].Value !== savedValue)
+                  {
+                    savedValue = valueHistory[h].Value;
+                    break;
+                  }
+                }
+                if (savedValue !== nowValue)
+                {
+                  resetValue = savedValue;
+                }
+                this.ElementController.SetFromValue(resetValue, false, false);
               
               }).bind(this)
             });
