@@ -12742,10 +12742,10 @@ body.ui2018 .ui-calendar-container {
   opacity: 0;
   touch-action: none;
   pointer-events: none;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
+  -webkit-transition: opacity 250ms;
+  -moz-transition: opacity 250ms;
+  -o-transition: opacity 250ms;
+  transition: opacity 250ms;
 }
 body.ui2018 .ui-calendar-container.inline {
   position: relative;
@@ -21792,8 +21792,6 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   margin: 0px 10px;
   padding: 0px 10px;
   background: white;
-  overflow: hidden;
-  z-index: 0;
   -moz-opacity: 0;
   -khtml-opacity: 0;
   opacity: 0;
@@ -21830,6 +21828,22 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show * {
   touch-action: manipulation;
   pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * * {
+  touch-action: none;
+  pointer-events: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search input[type="text"] {
   display: inline-block;
@@ -21922,6 +21936,26 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="datetime"] {
   width: 200px !important;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar {
+  display: inline-block;
+  vertical-align: top;
+  width: unset;
+  height: 30px;
+  margin: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar input {
+  width: 170px;
+  height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  font-size: 14px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar:after {
+  top: 0 !important;
+  left: unset;
+  right: 5px;
+  font-size: 16px;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar {
   display: block;

@@ -23367,16 +23367,28 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (this.SearchDateFormat.contains('h:') || this.SearchDateFormat.contains('H:') || this.SearchDatePostFormat.contains('h:') || this.SearchDatePostFormat.contains('H:'))
     {
-      this.SearchBox.querySelector('input#StartDate').setAttribute('type', 'datetime-local');
-      this.SearchBox.querySelector('input#EndDate').setAttribute('type', 'datetime-local');
+      if (this.SearchBox.type.toLowerCase().trim() !== 'text')
+      {
+        this.SearchBox.querySelector('input#StartDate').setAttribute('type', 'datetime-local');
+        this.SearchBox.querySelector('input#EndDate').setAttribute('type', 'datetime-local');
+      }
+      else
+      {
+        this.SearchBox.querySelector('input#StartDate').setAttribute('data-type', 'datetime');
+        this.SearchBox.querySelector('input#EndDate').setAttribute('data-type', 'datetime');
+      }
     }
 
     this.SearchBox.querySelector('input#StartDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
     this.SearchBox.querySelector('input#StartDate').setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
+    this.SearchBox.querySelector('input#StartDate').dataset.calendarReturnFormat = this.SearchDatePostFormat;
+    this.SearchBox.querySelector('input#StartDate').dataset.calendarNullable = true;
+    this.SearchBox.querySelector('input#StartDate').dataset.alignToDisplay = true;
     this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
     this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
-
-
+    this.SearchBox.querySelector('input#EndDate').dataset.calendarReturnFormat = this.SearchDatePostFormat;
+    this.SearchBox.querySelector('input#EndDate').dataset.ccalendarNullable = true;
+    this.SearchBox.querySelector('input#EndDate').dataset.alignToDisplay = true;
 
     /**/
 
@@ -23471,6 +23483,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
 
     Affinity2018.Tooltips.Apply();
+    Affinity2018.Calendars.Apply();
 
     /**/
     
@@ -23763,6 +23776,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       startDateAsDate.setSeconds(0);
       startDateAsDate.setMilliseconds(0);
       this.SearchBox.querySelector('input#StartDate').value = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDateFormat);
+      this.SearchBox.querySelector('input#StartDate').widgets.DateTime.updateFromTarget();
       state.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
     }
     
@@ -23773,6 +23787,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       endDateAsDate.setSeconds(59);
       endDateAsDate.setMilliseconds(0);
       this.SearchBox.querySelector('input#EndDate').value = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDateFormat);
+      this.SearchBox.querySelector('input#EndDate').widgets.DateTime.updateFromTarget();
       state.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
     }
 
@@ -23860,7 +23875,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     Affinity2018.Tooltips.Hide();
     this._hideLoader();
-    this.SearchBox.classList.remove('show');
+    if (this.ViewMode !== 'Admin') 
+    {
+      this.SearchBox.classList.remove('show');
+    }
     this.SearchNode.value = '';
     this.State.SearchQuery = '';
     let checks = this.SearchBox.querySelectorAll(`div.search-columns input[type="checkbox"]`);
@@ -23869,7 +23887,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       check.checked = true;
     }
     this.SearchBox.querySelector('input#StartDate').value = '';
+    this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
     this.SearchBox.querySelector('input#EndDate').value = '';
+    this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
     this.State.StartDate = '';
     this.State.EndDate = '';
 
@@ -24447,10 +24467,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (data)
     {
+      let placeholder = $a.Lang.ReturnPath('app.cf.inbox.start_new_message');
       let selectNode = document.createElement('select');
       let option = document.createElement('option');
       option.value = '';
-      option.innerHTML = 'Select a Form';
+      option.innerHTML = placeholder;
       selectNode.appendChild(option);
       for (let item of data)
       {
@@ -24459,10 +24480,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         option.value = `${item.TemplateId};${item.WorkflowDefinitionId}`;
         selectNode.appendChild(option);
       }
+      selectNode.placeholder = placeholder;
       Affinity2018.HidePageLoader(true);
       let autoCompleteWidget = null;
       Affinity2018.Dialog.Show({
-        message: `Select a Form`,
+        message: placeholder,
         showInput: false,
         textAlign: 'left',
         buttons: {
@@ -24807,10 +24829,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="hidden" data-category="Completed"></div>
         </div>
         <div class="search-row search-dates">
-          <label for="StartDate">From</label>
-          <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
-          <label for="EndDate">To</label>
-          <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
+          <div class="form-row">
+            <label for="StartDate">From</label>
+            <input id="StartDate" name="StartDate" class="ui-has-calendar qa-start-date" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
+          <div class="form-row">
+            <label for="EndDate">To</label>
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
         </div>
       </div>
       <div class="inbox-sort-bars">
@@ -25097,10 +25123,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="hidden" data-category="Completed"></div>
         </div>
         <div class="search-row search-dates">
-          <label for="StartDate">From</label>
-          <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="">
-          <label for="EndDate">To</label>
-          <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="">
+          <div class="form-row">
+            <label for="StartDate">From</label>
+            <input id="StartDate" name="StartDate" class="ui-has-calendar qa-start-date" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
+          <div class="form-row">
+            <label for="EndDate">To</label>
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
         </div>
       </div>
       <div class="inbox-sort-bars">
@@ -41205,6 +41235,20 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('hidden');
     else this.targetNode.classList.add('hidden');
 
+    this.placeholder = '';
+    if (this.targetNode.dataset.hasOwnProperty('placeholder') && this.targetNode.dataset.placeholder.trim() !== '')
+    {
+      this.placeholder = this.targetNode.dataset.placeholder;
+    }
+    if (this.targetNode.hasOwnProperty('placeholder') && this.targetNode.placeholder.trim() !== '')
+    {
+      this.placeholder = this.targetNode.placeholder;
+    }
+    if (this.placeholder.trim() !== '')
+    {
+      this.displayNode.placeholder = this.placeholder.trim();
+    }
+
     this.useWebWorkers = Affinity2018.SupportsWebWorkers;
     if (this.useWebWorkers)
     {
@@ -42331,6 +42375,20 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this._position(0, 'displayNode focus');
         this.show('displayNode focus');
       }
+
+      // auto select
+      if (this.displayNode.value.toLowerCase().trim() === this.placeholder.toLowerCase().trim())
+      {
+        this.displayNode.select();
+      }
+      else
+      {
+        if (this.displayNode.selectionStart === this.displayNode.value.length)
+        {
+          this.displayNode.select();
+        }
+      }
+
     }.bind(this), 100);
     //if (this.IsMobile)
     //{
@@ -45940,10 +45998,15 @@ Affinity2018.Classes.Plugins.Calendars = class
         widget = this.widgets[key];
         if (typeof except === 'object' && except.hasOwnProperty('uuid'))
         {
-          if (widget.uuid !== except.uuid) widget.hide();
+          if (widget.uuid !== except.uuid)
+          {
+            widget.calendarNode.classList.remove('do-not-auto-hide');
+            widget.hide();
+          }
         }
         else
         {
+          widget.calendarNode.classList.remove('do-not-auto-hide');
           widget.hide();
         }
       }
@@ -46013,6 +46076,10 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hoursmins = false;
     this.showInline = false;
     this.showRange = false;
+    this.minDate = false;
+    this.maxDate = false;
+
+    this.alignToDisplay = false;
 
     this.enableAutoClose = false;
 
@@ -46037,7 +46104,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       'getValue', 'getDisplayValue',
       'setTime', 'setDate', 'setToday', 'setNone', 'setTimeFromWidget',
-      'watchOutputChanges',
+      'watchOutputChanges', 'updateFromTarget',
       'show', 'hide',
 
       '_buildCalendar', '_markCalendarDates',
@@ -46115,6 +46182,25 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.timeDisplayNode = this.calendarNode.querySelector('.ui-cal-display-time');
     this.timeResetNode = this.calendarNode.querySelector('.ui-cal-reset');
 
+    if (this.targetNode.hasAttribute('min'))
+    {
+      let minCheckValue = this.targetNode.getAttribute('min');
+      let minCheck = new Date(minCheckValue);
+      if (minCheck !== null && minCheck.isValid())
+      {
+        this.minDate = minCheck;
+      }
+    }
+    if (this.targetNode.hasAttribute('max'))
+    {
+      let maxCheckValue = this.targetNode.getAttribute('max');
+      let maxCheck = new Date(maxCheckValue);
+      if (maxCheck !== null && maxCheck.isValid())
+      {
+        this.maxDate = maxCheck;
+      }
+    }
+
     // set days of week at top, belwo month and year
     var dayCells = this.calendarNode.querySelectorAll('.ui-cal-cells-row.date-days .ui-cal-cell');
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -46133,7 +46219,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       r = 0,
       d = 0,
       m = 0,
-      y = 1900,
+      y = this.minDate !== false ? this.minDate.getFullYear() : 1900,
       newRow, newDate, dt, newMonth, newYear;
     for (; r < 6; r++)
     {
@@ -46165,7 +46251,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       newMonth.classList.add('m-' + m);
       monthNode.appendChild(newMonth);
     }
-    for (; y < new Date().getFullYear() + 51; y++)
+    var yearLoopMax = this.maxDate !== false ? this.maxDate.getFullYear() : new Date().getFullYear() + 51;
+    for (; y < yearLoopMax + 1; y++)
     {
       newYear = document.createElement('span');
       newYear.setAttribute('tabindex', '-1');
@@ -46225,6 +46312,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.hoursmins = this.targetNode.dataset.calendarHoursmins && this.targetNode.dataset.calendarHoursmins.trim().toLowerCase() === 'true' ? true : false;
     this.preserveOriginalInput = this.targetNode.classList.contains('preserveOriginalInput') ? true : false;
     this.showCalendarFilterButtonsForMobile = this.targetNode.hasAttribute('showCalendarFilterButtonsForMobile') ? true : false;
+
+    this.alignToDisplay = this.targetNode.dataset.alignToDisplay && this.targetNode.dataset.alignToDisplay.trim().toLowerCase() === 'true' ? true : false;
 
     if (this.showInline)
     {
@@ -46437,6 +46526,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       document.addEventListener('resize', this._position, false);
     }
 
+    // Stop events from bubbling outside calendar boundary (after internal handlers have processed)
+    this.calendarNode.addEventListener('click', this._stopPropagation);
+    this.calendarNode.addEventListener('mousedown', this._stopPropagation);
+    this.calendarNode.addEventListener('mouseup', this._stopPropagation);
+    this.calendarNode.addEventListener('touchstart', this._stopPropagation);
+    this.calendarNode.addEventListener('touchend', this._stopPropagation);
+    this.calendarNode.addEventListener('touchmove', this._stopPropagation);
+
     this.targetNode.dispatchEvent(new Event('Ready'));
 
     this.Ready = true;
@@ -46588,7 +46685,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.setDate(date, true, true);
   }
 
-  watchOutputChanges()
+  updateFromTarget()
   {
     var value = this.targetNode.value;
     var attempt = Date.parse(value);
@@ -46596,6 +46693,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.setDate(attempt, false);
     }
+  }
+
+  watchOutputChanges()
+  {
+    this.updateFromTarget();
   }
 
   /**/
@@ -46717,6 +46819,29 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           cellNodes[d].innerHTML = calDate.getDate();
           cellNodes[d].classList.add('active');
         }
+
+        // Remove 'active' class if date is outside minDate/maxDate range
+        if (this.minDate !== false)
+        {
+          let checkDate = calDate.clone().clearTime();
+          let minCheck = this.minDate.clone().clearTime();
+          if (checkDate < minCheck)
+          {
+            cellNodes[d].classList.remove('active');
+            cellNodes[d].classList.add('outside');
+          }
+        }
+        if (this.maxDate !== false)
+        {
+          let checkDate = calDate.clone().clearTime();
+          let maxCheck = this.maxDate.clone().clearTime();
+          if (checkDate > maxCheck)
+          {
+            cellNodes[d].classList.remove('active');
+            cellNodes[d].classList.add('outside');
+          }
+        }
+
         calDate.add({ days: 1 });
       }
       this.calendarNode.querySelector('.ui-cal-cells').dataset.month = date.toString('MMM');
@@ -47140,6 +47265,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this.status === 'open'
     )
     {
+      if (this.alignToDisplay)
+      {
+        let displayRect = this.displayNode.getBoundingClientRect();
+        let containerRect = this.calendarNode.parentNode.getBoundingClientRect();
+        let leftOffset = displayRect.left - containerRect.left;
+        this.calendarNode.style.left = leftOffset + 'px';
+      }
       this.calendarNode.classList.remove('above');
       var calendarRect = this.calendarNode.getBoundingClientRect(),
         windwSize = Affinity2018.getWindowSize(),
@@ -47164,6 +47296,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (ev)
     {
       ev.preventDefault();
+      ev.stopPropagation();
+    }
+  }
+
+  _stopPropagation(ev)
+  {
+    if (ev)
+    {
+      // Only stop event from bubbling up to parent elements, but allow default behavior
       ev.stopPropagation();
     }
   }
@@ -47202,6 +47343,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (Affinity2018.supportsPassiveEvents) document.removeEventListener('resize', this._position, { passive: true });
     if (!Affinity2018.supportsPassiveEvents) document.removeEventListener('scroll', this._scrolled, false);
     if (!Affinity2018.supportsPassiveEvents) document.removeEventListener('resize', this._position, false);
+    this.calendarNode.removeEventListener('click', this._stopPropagation);
+    this.calendarNode.removeEventListener('mousedown', this._stopPropagation);
+    this.calendarNode.removeEventListener('mouseup', this._stopPropagation);
+    this.calendarNode.removeEventListener('touchstart', this._stopPropagation);
+    this.calendarNode.removeEventListener('touchend', this._stopPropagation);
+    this.calendarNode.removeEventListener('touchmove', this._stopPropagation);
     this.targetNode.classList.remove('ui-calendar');
     this.targetNode.classList.remove('hidden');
     this.timeWidget.Destroy();
