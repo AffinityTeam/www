@@ -23140,7 +23140,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ColumnSettingTimeouts = {};
 
-    this.PayrollAdminIncludes5M = false;
+    this.PayrollAdminIncludes5M = true;
 
   }
 
@@ -23200,6 +23200,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_switchMode', '_switchToAdmin', '_switchToDetault',
 
+      '_measureSearch', '_showSearch', '_hideSearch',
+
       // html templates
       '_templates'
 
@@ -23244,6 +23246,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ViewMode = 'Admin';
       this.ShowModeToggle = true;
 	}
+    
+    /**/
+
+    this.searchShowHideLocked = false;
+    window.addEventListener('resize', this._measureSearch);
 
     /**/
     
@@ -23384,11 +23391,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchBox.querySelector('input#StartDate').dataset.calendarReturnFormat = this.SearchDatePostFormat;
     this.SearchBox.querySelector('input#StartDate').dataset.calendarNullable = true;
     this.SearchBox.querySelector('input#StartDate').dataset.alignToDisplay = true;
+    this.SearchBox.querySelector('input#StartDate').value = '';
+
     this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
     this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
     this.SearchBox.querySelector('input#EndDate').dataset.calendarReturnFormat = this.SearchDatePostFormat;
-    this.SearchBox.querySelector('input#EndDate').dataset.ccalendarNullable = true;
+    this.SearchBox.querySelector('input#EndDate').dataset.calendarNullable = true;
     this.SearchBox.querySelector('input#EndDate').dataset.alignToDisplay = true;
+    this.SearchBox.querySelector('input#EndDate').value = '';
 
     /**/
 
@@ -23476,8 +23486,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       //delete this.State.ToAction;
 
       //this.State.ActiveCategory = 'InProgress';
-
-      document.querySelector(`div.inbox-search`).classList.add(`show`);
     }
 
     this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
@@ -23531,6 +23539,52 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.InlineLoaderNode.classList.add('hidden');
     this._forceHidePageLoader();
   }
+
+  /**/
+
+  _measureSearch()
+  {
+    if (this.searchShowHideLocked) return;
+    if (this.SearchBox.classList.contains('show'))
+    {
+      this.SearchBox.classList.remove(`animate`, `hide`);
+      this.SearchBox.style.height = null;
+      setTimeout((() =>
+      {
+        this.SearchBox.classList.add(`animate`);
+        this.SearchBox.style.height = this.SearchBox.getBoundingClientRect().height + 'px';
+      }).bind(this), 10)
+    }
+  }
+  _showSearch()
+  {
+    if (this.searchShowHideLocked) return;
+    this.searchShowHideLocked = true;
+    this.SearchBox.classList.add(`animate`, `show`);
+    this.SearchBox.classList.remove(`hide`);
+    setTimeout((() =>
+    {
+      this.searchShowHideLocked = false;
+      this._measureSearch();
+    }).bind(this), 260);
+  }
+  _hideSearch()
+  {
+    if (this.searchShowHideLocked) return;
+    if (this.SearchBox.classList.contains('show'))
+    {
+      this.searchShowHideLocked = true;
+      this.SearchBox.style.height = this.SearchBox.getBoundingClientRect().height + 'px';
+      this.SearchBox.classList.add(`animate`, `hide`);
+      this.SearchBox.classList.remove(`show`);
+      setTimeout((() =>
+      {
+        this.searchShowHideLocked = false;
+      }).bind(this), 260);
+    }
+  }
+
+  /**/
 
   async _loadStates()
   {
@@ -23675,6 +23729,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             });
           }
         }
+        //
+        html += `<span class="toggle-search-checks toggled-on">${$a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks')}</span>`;
+        //
         searchChecksNode.innerHTML = html;
         for (let check of searchChecksNode.querySelectorAll(`input[type="checkbox"]`))
         {
@@ -23697,9 +23754,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
   }
 
-  _searchCheckChanged(ev)
+  _searchCheckChanged(event)
   {
-    let check = ev.target;
+    let check = event.target;
     let checkWrapper = check.closest('div.check-wrapper');
     let checks = checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]:checked');
     if (checks.length === 0)
@@ -23710,6 +23767,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         showOk: true,
         showCancel: false
       });
+    }
+    else
+    {
+      let span = checkWrapper.parentNode.querySelector('.toggle-search-checks');
+      if (checks.length === checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]').length)
+      {
+        span.classList.add('toggled-on');
+        span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
+      }
+      else
+      {
+        span.classList.remove('toggled-on');
+        span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
+      }
     }
   }
 
@@ -23865,7 +23936,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         && value.contains(searchTerm)
       )
       {
-        value = value.replace(new RegExp(searchTerm, 'gi'), (match) => `<em class="search-match">${match}</em>`);
+        let safe = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        value = value.replace(new RegExp(safe, 'gi'), (match) => `<em class="search-match">${match}</em>`);
       }
     }
     return value;
@@ -23877,7 +23949,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._hideLoader();
     if (this.ViewMode !== 'Admin') 
     {
-      this.SearchBox.classList.remove('show');
+      this._hideSearch();
     }
     this.SearchNode.value = '';
     this.State.SearchQuery = '';
@@ -23996,7 +24068,31 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             this._updateSortData();
 
             await this.GetResults();
-
+          }
+          else if (event.target.classList.contains('toggle-search-checks'))
+          {
+            let span = event.target;
+            let checkWrapper = span.parentNode;
+            let checks = checkWrapper.querySelectorAll('input[type="checkbox"]');
+            let allChecked = span.classList.contains('toggled-on');
+            for (let check of checks)
+            {
+              let index= checks.indexOf(check);
+              if (index > 0)
+              {
+                check.checked = allChecked ? false : true;
+              }
+            }
+            if (allChecked)
+            {
+              span.classList.remove('toggled-on');
+              span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
+            }
+            else 
+            {
+              span.classList.add('toggled-on');
+              span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
+            }
           }
           else
           {
@@ -24015,12 +24111,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             if (this.SearchBox.classList.contains('show'))
             {
-              this.SearchBox.classList.remove('show');
+              this._hideSearch();
               this.SearchNode.blur();
             }
             else
             {
-              this.SearchBox.classList.add('show');
+              this._showSearch();
               this.SearchNode.focus();
             }
           }
@@ -24579,6 +24675,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.ViewMode !== 'Admin')
     {
+      if (
+          this.SearchBox.querySelector('input#StartDate') 
+          && this.SearchBox.querySelector('input#StartDate').hasOwnProperty('widgets')
+          && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
+      )
+      {
+        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
+        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
+      }
       this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'Admin';
       this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
@@ -24593,6 +24698,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.ViewMode !== 'User')
     {
+      if (
+          this.SearchBox.querySelector('input#StartDate') 
+          && this.SearchBox.querySelector('input#StartDate').hasOwnProperty('widgets')
+          && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
+      )
+      {
+        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
+        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
+      }
       this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'User';
       this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
@@ -24817,7 +24931,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </div>
         </div>
       </div>
-      <div class="inbox-search">
+      <div class="inbox-search show">
         <div class="search-row">
           <input type="text" placeholder="Search" />
           <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
@@ -24831,7 +24945,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="search-row search-dates">
           <div class="form-row">
             <label for="StartDate">From</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar qa-start-date" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
           <div class="form-row">
             <label for="EndDate">To</label>
@@ -25111,7 +25225,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </div>
         </div>
       </div>
-      <div class="inbox-search">
+      <div class="inbox-search hide">
         <div class="search-row">
           <input type="text" placeholder="Search" />
           <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
@@ -25125,7 +25239,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="search-row search-dates">
           <div class="form-row">
             <label for="StartDate">From</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar qa-start-date" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
           <div class="form-row">
             <label for="EndDate">To</label>
@@ -47351,11 +47465,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.calendarNode.removeEventListener('touchmove', this._stopPropagation);
     this.targetNode.classList.remove('ui-calendar');
     this.targetNode.classList.remove('hidden');
-    this.timeWidget.Destroy();
+    if (this.timeWidget) this.timeWidget.Destroy();
     this.displayNode.innerHTML = '';
     this.displayNode.parentNode.removeChild(this.displayNode);
     this.calendarNode.innerHTML = '';
     this.calendarNode.parentNode.removeChild(this.calendarNode);
+    if (this.RowNode) this.RowNode.classList.remove('calendar');
     delete Affinity2018.Calendars.widgets[this.uuid];
     delete this.targetNode.widgets.DateTime;
     for (var key in this)

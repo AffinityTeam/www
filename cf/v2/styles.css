@@ -21788,9 +21788,6 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search {
   position: relative;
   width: calc(100% - 20px);
-  height: 0px;
-  margin: 0px 10px;
-  padding: 0px 10px;
   background: white;
   -moz-opacity: 0;
   -khtml-opacity: 0;
@@ -21804,10 +21801,6 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
   touch-action: none;
   pointer-events: none;
 }
@@ -21815,8 +21808,18 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   touch-action: none;
   pointer-events: none;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.animate {
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.hide {
+  height: 0px !important;
+  margin: 0px 10px !important;
+  padding: 0px 10px !important;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show {
-  height: 140px;
   margin: 10px;
   padding: 10px;
   -moz-opacity: 1;
@@ -21879,6 +21882,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row {
   position: relative;
+  margin: 0 0 10px 0;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] {
   position: relative;
@@ -21888,18 +21892,39 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   position: relative;
   display: inline-block;
   vertical-align: top;
-  margin: 10px 0 0 5px;
+  margin: 0 0 5px 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper:after {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 2px;
+  bottom: 5px;
+  width: 1px;
+  background-color: #cccccc;
+  content: '';
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper label {
   display: inline-block;
   vertical-align: top;
   margin: 5px 0 0 0;
+  font-size: 14px;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper input {
   vertical-align: top;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] span.toggle-search-checks {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 0 5px 0;
+  color: #16c1f3;
+  font-size: 14px;
+  cursor: pointer;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates {
-  margin-top: 5px;
+  margin-bottom: 0;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates label {
   display: inline-block;
@@ -22652,6 +22677,9 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   color: #cccccc;
   background: #333333;
   border: 2px solid #444444;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper:after {
+  background-color: #666666;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="date"] {
   color: white;
