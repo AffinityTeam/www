@@ -23250,7 +23250,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     /**/
 
     this.searchShowHideLocked = false;
-    window.addEventListener('resize', this._measureSearch);
+    window.addEventListener('resize', this._measureSearch, true);
 
     /**/
     
@@ -24332,7 +24332,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             Affinity2018.Storage.Local.Set(key, showIt);
           }
-          let columnNodes = gridNode.querySelectorAll(`th[data-name="${column}"], td[data-name="${column}"]`);
+          let columnNodes = gridNode.querySelectorAll(`col[data-name="${column}"], th[data-name="${column}"], td[data-name="${column}"]`);
           for (let columnNode of columnNodes)
           {
             if (showIt)
@@ -24967,6 +24967,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       <div class="inbox-tab-boxes">
         <div class="inbox-tab-box" data-category="ToAction">
           <table class="inbox-grid" data-category="ToAction">
+            <colgroup>
+              <col data-name="TemplateDescription">
+              <col data-name="RelatesTo">
+              <col data-name="PayPoint">
+              <col data-name="EffectiveDate">
+              <col data-name="WorkflowName">
+              <col data-name="PreviousAssigneeName">
+              <col data-name="LastActionTaken">
+              <col data-name="StateEnteredAt">
+              <col data-name="CurrentAssigneeName">
+              <col data-name="CurrentState">
+              <col class="buttons">
+            </colgroup>
             <thead>
               <tr>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
@@ -24993,6 +25006,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="inbox-tab-box hidden" data-category="InProgress">
           <table class="inbox-grid" data-category="InProgress">
+            <colgroup>
+              <col data-name="TemplateDescription">
+              <col data-name="RelatesTo">
+              <col data-name="PayPoint">
+              <col data-name="EffectiveDate">
+              <col data-name="WorkflowName">
+              <col data-name="PreviousAssigneeName">
+              <col data-name="LastActionTaken">
+              <col data-name="StateEnteredAt">
+              <col data-name="CurrentAssigneeName">
+              <col data-name="CurrentState">
+              <col class="buttons large">
+            </colgroup>
             <thead>
               <tr>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
@@ -25005,7 +25031,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Recieved</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
-                <th class="buttons">
+                <th class="buttons large">
                   ${toggleInProgress}
                   <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 </th>
@@ -25019,6 +25045,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="inbox-tab-box hidden" data-category="Completed">
           <table class="inbox-grid" data-category="Completed">
+            <colgroup>
+              <col data-name="TemplateDescription">
+              <col data-name="RelatesTo">
+              <col data-name="PayPoint">
+              <col data-name="EffectiveDate">
+              <col data-name="WorkflowName">
+              <col data-name="PreviousAssigneeName">
+              <col data-name="LastActionTaken">
+              <col data-name="StateEnteredAt">
+              <col data-name="CurrentAssigneeName">
+              <col data-name="CurrentState">
+              <col class="buttons">
+            </colgroup>
             <thead>
               <tr>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
@@ -25050,13 +25089,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.AdminResultTemplate = (category, data) =>
     {
       let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase() : '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase() : '';
 
       let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
       let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase() : '';
+      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase() : '';
 
       let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
       let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
@@ -25148,7 +25187,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
               <td data-name="CurrentState"                                >${currentState}</td>
-              <td class="buttons">
+              <td class="buttons large">
                 <button class="blue details icon-work-flow-multiple icononly ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left"></button>
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 <button class="blue edit"><span class="icon-edit"></span>Edit</button>
@@ -25261,6 +25300,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       <div class="inbox-tab-boxes">
         <div class="inbox-tab-box" data-category="ToAction">
           <table class="inbox-grid" data-category="ToAction">
+            <colgroup>
+              <col data-name="TemplateDescription">
+              <col data-name="RelatesTo">
+              <col data-name="CurrentState">
+              <col data-name="StateEnteredAt">
+              <col data-name="EffectiveDate">
+              <col data-name="PayPoint">
+              <col class="buttons">
+            </colgroup>
             <thead>
               <tr>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
@@ -25294,6 +25342,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="inbox-tab-box hidden" data-category="InProgress">
           <table class="inbox-grid" data-category="InProgress">
+            <colgroup>
+              <col data-name="TemplateDescription">
+              <col data-name="RelatesTo">
+              <col data-name="CurrentState">
+              <col data-name="CurrentAssigneeName">
+              <col data-name="StateEnteredAt">
+              <col data-name="EffectiveDate">
+              <col data-name="PayPoint">
+              <col class="buttons large">
+            </colgroup>
             <thead>
               <tr>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
@@ -25303,7 +25361,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="false" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
-                <th class="buttons">
+                <th class="buttons large">
                   ${toggleInProgress}
                   <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                   <div class="icon-dots-vert colum-menu-box">
@@ -25328,6 +25386,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="inbox-tab-box hidden" data-category="Completed">
           <table class="inbox-grid" data-category="Completed">
+            <colgroup>
+              <col data-name="TemplateDescription">
+              <col data-name="RelatesTo">
+              <col data-name="CurrentState">
+              <col data-name="CompletedByName">
+              <col data-name="StateEnteredAt">
+              <col data-name="EffectiveDate">
+              <col data-name="PayPoint">
+              <col class="buttons">
+            </colgroup>
             <thead>
               <tr>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
@@ -25367,13 +25435,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.ResultTemplate = (category, data) =>
     {
       let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase(): '';
 
       let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
       let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
+      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase(): '';
 
       let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
       let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
@@ -25449,7 +25517,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
               <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
               <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
-              <td class="buttons">
+              <td class="buttons large">
                 <button class="blue view"><span class="icon-page"></span>View</button>
                 ${deletButton}
               </td>

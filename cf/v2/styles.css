@@ -22170,28 +22170,64 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
+  width: 100%;
   min-width: 100%;
+  max-width: 100%;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col:nth-child(1),
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:nth-child(1),
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:nth-child(1) {
+  width: 270px !important;
+  min-width: 270px !important;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="PayPoint"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"] {
-  width: auto;
-  min-width: unset;
+  width: 90px;
+  min-width: 90px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-type="date"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-type="date"] {
-  width: 190px;
-  min-width: 190px;
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="StateEnteredAt"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="StateEnteredAt"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="StateEnteredAt"] {
+  width: 170px;
+  min-width: 170px;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="EffectiveDate"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"] {
   width: 130px;
   min-width: 130px;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="WorkflowName"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="WorkflowName"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="WorkflowName"] {
+  min-width: 130px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="CurrentState"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="CurrentState"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="CurrentState"] {
+  width: 160px;
+  min-width: 160px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons,
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
-  width: 220px;
-  min-width: 220px;
+  width: 180px;
+  min-width: 180px;
   text-align: right;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.large,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.large,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large {
+  width: 240px;
+  min-width: 240px;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   position: relative;
@@ -22396,13 +22432,12 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
   display: inline-block;
-  height: 22px;
+  min-height: 22px;
+  line-height: 22px;
   margin: 0;
   padding: 1px 5px 0 5px;
   font-size: 12px;
-  color: white;
-  background: #77dbf8;
-  white-space: nowrap;
+  background: rgba(22, 193, 243, 0.25);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
