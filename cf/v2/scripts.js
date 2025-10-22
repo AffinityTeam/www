@@ -8900,6 +8900,16 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
           {
             let sortHeaders = this.ResultNode.querySelectorAll(`table thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
             let ascendingString = event.target.dataset.ascending;
+            
+            if (ascendingString === 'null' && sortHeaders.length >= 8)
+            {
+              Affinity2018.Dialog.Show({
+                message: $a.Lang.ReturnPath('app.cf.inbox.max_column_sort'),
+                showOk: true,
+                showCancel: false
+              });
+              return;
+            }
 
             if (ascendingString === 'null')
             {
@@ -23246,6 +23256,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ViewMode = 'Admin';
       this.ShowModeToggle = true;
 	}
+
+    // force shrink wrapper for admin "wide" mode.
+    let isTesting = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
+    if (this.ViewMode === 'Admin' || isTesting)
+    {
+      document.body.classList.remove('menu-show-full');
+    }
     
     /**/
 
@@ -23759,28 +23776,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let check = event.target;
     let checkWrapper = check.closest('div.check-wrapper');
     let checks = checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]:checked');
-    if (checks.length === 0)
+    let span = checkWrapper.parentNode.querySelector('.toggle-search-checks');
+    if (checks.length === checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]').length)
     {
-      check.checked = true;
-      Affinity2018.Dialog.Show({
-        message: `You must search at least one column`,
-        showOk: true,
-        showCancel: false
-      });
+      span.classList.add('toggled-on');
+      span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
     }
     else
     {
-      let span = checkWrapper.parentNode.querySelector('.toggle-search-checks');
-      if (checks.length === checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]').length)
-      {
-        span.classList.add('toggled-on');
-        span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
-      }
-      else
-      {
-        span.classList.remove('toggled-on');
-        span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
-      }
+      span.classList.remove('toggled-on');
+      span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
     }
   }
 
@@ -24077,11 +24082,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let allChecked = span.classList.contains('toggled-on');
             for (let check of checks)
             {
-              let index= checks.indexOf(check);
-              if (index > 0)
-              {
-                check.checked = allChecked ? false : true;
-              }
+              check.checked = allChecked ? false : true;
             }
             if (allChecked)
             {
@@ -24131,9 +24132,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           if (event.target.hasAttribute('data-ascending'))
           {
-
-            let sortHeaders = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
             let ascendingString = event.target.dataset.ascending;
+            let sortHeaders = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
+
+            if (ascendingString === 'null' && sortHeaders.length >= 8)
+            {
+              Affinity2018.Dialog.Show({
+                message: $a.Lang.ReturnPath('app.cf.inbox.max_column_sort'),
+                showOk: true,
+                showCancel: false
+              });
+              return;
+            }
 
             if (ascendingString === 'null')
             {
