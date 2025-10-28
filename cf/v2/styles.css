@@ -1,62 +1,62 @@
 /* Minification failed. Returning unminified contents.
-(6399,59): run-time error CSS1030: Expected identifier, found ','
-(6399,81): run-time error CSS1031: Expected selector, found ')'
-(6399,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6407,59): run-time error CSS1030: Expected identifier, found ','
-(6407,81): run-time error CSS1031: Expected selector, found ')'
-(6407,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6439,82): run-time error CSS1030: Expected identifier, found ','
-(6439,153): run-time error CSS1031: Expected selector, found ')'
-(6439,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6521,64): run-time error CSS1030: Expected identifier, found ','
-(6521,71): run-time error CSS1031: Expected selector, found ')'
-(6521,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6529,63): run-time error CSS1030: Expected identifier, found ','
-(6529,70): run-time error CSS1031: Expected selector, found ')'
-(6529,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6537,72): run-time error CSS1030: Expected identifier, found ','
-(6537,79): run-time error CSS1031: Expected selector, found ')'
-(6537,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6596,74): run-time error CSS1030: Expected identifier, found ','
-(6596,216): run-time error CSS1031: Expected selector, found ')'
-(6596,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8386,113): run-time error CSS1030: Expected identifier, found ','
-(8386,125): run-time error CSS1031: Expected selector, found ')'
-(8386,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9441,73): run-time error CSS1030: Expected identifier, found ','
-(9441,95): run-time error CSS1031: Expected selector, found ')'
-(9441,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9449,73): run-time error CSS1030: Expected identifier, found ','
-(9449,95): run-time error CSS1031: Expected selector, found ')'
-(9449,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9471,73): run-time error CSS1030: Expected identifier, found ','
-(9471,95): run-time error CSS1031: Expected selector, found ')'
-(9471,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9480,73): run-time error CSS1030: Expected identifier, found ','
-(9480,95): run-time error CSS1031: Expected selector, found ')'
-(9480,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9488,73): run-time error CSS1030: Expected identifier, found ','
-(9488,95): run-time error CSS1031: Expected selector, found ')'
-(9488,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9496,73): run-time error CSS1030: Expected identifier, found ','
-(9496,95): run-time error CSS1031: Expected selector, found ')'
-(9496,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9504,73): run-time error CSS1030: Expected identifier, found ','
-(9504,95): run-time error CSS1031: Expected selector, found ')'
-(9504,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9889,133): run-time error CSS1030: Expected identifier, found ','
-(9889,274): run-time error CSS1031: Expected selector, found ')'
-(9889,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10481,167): run-time error CSS1030: Expected identifier, found ','
-(10481,309): run-time error CSS1031: Expected selector, found ')'
-(10481,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(10763,108): run-time error CSS1030: Expected identifier, found ','
-(10763,250): run-time error CSS1031: Expected selector, found ')'
-(10763,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(11790,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11791,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(11933,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(11935,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(6431,59): run-time error CSS1030: Expected identifier, found ','
+(6431,81): run-time error CSS1031: Expected selector, found ')'
+(6431,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6439,59): run-time error CSS1030: Expected identifier, found ','
+(6439,81): run-time error CSS1031: Expected selector, found ')'
+(6439,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(6471,82): run-time error CSS1030: Expected identifier, found ','
+(6471,153): run-time error CSS1031: Expected selector, found ')'
+(6471,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(6553,64): run-time error CSS1030: Expected identifier, found ','
+(6553,71): run-time error CSS1031: Expected selector, found ')'
+(6553,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(6561,63): run-time error CSS1030: Expected identifier, found ','
+(6561,70): run-time error CSS1031: Expected selector, found ')'
+(6561,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(6569,72): run-time error CSS1030: Expected identifier, found ','
+(6569,79): run-time error CSS1031: Expected selector, found ')'
+(6569,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(6628,74): run-time error CSS1030: Expected identifier, found ','
+(6628,216): run-time error CSS1031: Expected selector, found ')'
+(6628,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8418,113): run-time error CSS1030: Expected identifier, found ','
+(8418,125): run-time error CSS1031: Expected selector, found ')'
+(8418,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(9473,73): run-time error CSS1030: Expected identifier, found ','
+(9473,95): run-time error CSS1031: Expected selector, found ')'
+(9473,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9481,73): run-time error CSS1030: Expected identifier, found ','
+(9481,95): run-time error CSS1031: Expected selector, found ')'
+(9481,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9503,73): run-time error CSS1030: Expected identifier, found ','
+(9503,95): run-time error CSS1031: Expected selector, found ')'
+(9503,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9512,73): run-time error CSS1030: Expected identifier, found ','
+(9512,95): run-time error CSS1031: Expected selector, found ')'
+(9512,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9520,73): run-time error CSS1030: Expected identifier, found ','
+(9520,95): run-time error CSS1031: Expected selector, found ')'
+(9520,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9528,73): run-time error CSS1030: Expected identifier, found ','
+(9528,95): run-time error CSS1031: Expected selector, found ')'
+(9528,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9536,73): run-time error CSS1030: Expected identifier, found ','
+(9536,95): run-time error CSS1031: Expected selector, found ')'
+(9536,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(9921,133): run-time error CSS1030: Expected identifier, found ','
+(9921,274): run-time error CSS1031: Expected selector, found ')'
+(9921,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(10513,167): run-time error CSS1030: Expected identifier, found ','
+(10513,309): run-time error CSS1031: Expected selector, found ')'
+(10513,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(10795,108): run-time error CSS1030: Expected identifier, found ','
+(10795,250): run-time error CSS1031: Expected selector, found ')'
+(10795,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(11822,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11823,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11965,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(11967,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
@@ -3226,10 +3226,10 @@ body.ui2018 input[type="radio"]:after {
   background: #8fe1f9;
   cursor: pointer;
   overflow: hidden;
-  -webkit-transition: all 250ms ease-in-out;
-  -moz-transition: all 250ms ease-in-out;
-  -o-transition: all 250ms ease-in-out;
-  transition: all 250ms ease-in-out;
+  -webkit-transition: all 100ms ease-in-out;
+  -moz-transition: all 100ms ease-in-out;
+  -o-transition: all 100ms ease-in-out;
+  transition: all 100ms ease-in-out;
 }
 body.ui2018 input[type="checkbox"] + label,
 body.ui2018 input[type="radio"] + label {
@@ -4061,6 +4061,31 @@ body.ui2018 .header .title .form-name small {
   -khtml-opacity: 0.75;
   opacity: 0.75;
 }
+body.ui2018 .header .title .archived {
+  display: block;
+  margin: 10px 0 0 -5px;
+  background: none;
+}
+body.ui2018 .header .title .archived span {
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  padding: 10px;
+  font-size: 14px;
+  background: #fff7d1;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+body.ui2018 .header .title .archived span icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 0 5px 0 0;
+  line-height: 24px;
+  vertical-align: top;
+  font-size: 24px;
+}
 body.ui2018.dark .header {
   background: #222222;
 }
@@ -4069,6 +4094,13 @@ body.ui2018.dark .header .title {
 }
 body.ui2018.dark .header .title .logo {
   filter: grayscale(100%) invert(100%);
+}
+body.ui2018.dark .header .title .archived span {
+  background: #b27e0f;
+  color: white;
+}
+body.ui2018.dark .header .title .archived span icon {
+  color: white;
 }
 body.ui2018 .header .tab-box {
   position: absolute;
@@ -12710,10 +12742,10 @@ body.ui2018 .ui-calendar-container {
   opacity: 0;
   touch-action: none;
   pointer-events: none;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
+  -webkit-transition: opacity 250ms;
+  -moz-transition: opacity 250ms;
+  -o-transition: opacity 250ms;
+  transition: opacity 250ms;
 }
 body.ui2018 .ui-calendar-container.inline {
   position: relative;
@@ -15916,6 +15948,16 @@ html.print body.ui2018.dark .example-template .preview .header .title .form-name
   -khtml-opacity: 0.75;
   opacity: 0.75;
 }
+html.print body.ui2018.cform .header .title .archived,
+html.print body.ui2018.dark.cform .header .title .archived,
+html.print body.ui2018.uiupdate .header .title .archived,
+html.print body.ui2018.dark.uiupdate .header .title .archived,
+html.print body.ui2018.cform.uiupdate .header .title .archived,
+html.print body.ui2018.dark.cform.uiupdate .header .title .archived,
+html.print body.ui2018 .example-template .preview .header .title .archived,
+html.print body.ui2018.dark .example-template .preview .header .title .archived {
+  display: none;
+}
 html.print body.ui2018.cform div.pagewrapper div.pagecontent div.content,
 html.print body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content,
 html.print body.ui2018.uiupdate div.pagewrapper div.pagecontent div.content,
@@ -17971,6 +18013,16 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
     -moz-opacity: 0.75;
     -khtml-opacity: 0.75;
     opacity: 0.75;
+  }
+  body.ui2018.cform .header .title .archived,
+  body.ui2018.dark.cform .header .title .archived,
+  body.ui2018.uiupdate .header .title .archived,
+  body.ui2018.dark.uiupdate .header .title .archived,
+  body.ui2018.cform.uiupdate .header .title .archived,
+  body.ui2018.dark.cform.uiupdate .header .title .archived,
+  body.ui2018 .example-template .preview .header .title .archived,
+  body.ui2018.dark .example-template .preview .header .title .archived {
+    display: none;
   }
   body.ui2018.cform div.pagewrapper div.pagecontent div.content,
   body.ui2018.dark.cform div.pagewrapper div.pagecontent div.content,
@@ -21606,6 +21658,7 @@ body.ui2018.uiupdate.inbox a.button:not(.icononly) span:first-child {
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content {
   margin: 5px;
   padding: 5px;
+  /* toggle */
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header {
   margin: 0;
@@ -21735,11 +21788,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search {
   position: relative;
   width: calc(100% - 20px);
-  height: 0px;
-  margin: 0px 10px;
-  padding: 0px 10px;
   background: white;
-  overflow: hidden;
   -moz-opacity: 0;
   -khtml-opacity: 0;
   opacity: 0;
@@ -21752,10 +21801,6 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
   touch-action: none;
   pointer-events: none;
 }
@@ -21763,8 +21808,18 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   touch-action: none;
   pointer-events: none;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.animate {
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.hide {
+  height: 0px !important;
+  margin: 0px 10px !important;
+  padding: 0px 10px !important;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show {
-  height: 64px;
   margin: 10px;
   padding: 10px;
   -moz-opacity: 1;
@@ -21776,6 +21831,22 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show * {
   touch-action: manipulation;
   pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * * {
+  touch-action: none;
+  pointer-events: none;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search input[type="text"] {
   display: inline-block;
@@ -21809,11 +21880,260 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -moz-border-radius: 6px;
   border-radius: 6px;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row {
+  position: relative;
+  margin: 0 0 10px 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] {
+  position: relative;
+  display: block;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 5px 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper:after {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 2px;
+  bottom: 5px;
+  width: 1px;
+  background-color: #cccccc;
+  content: '';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper label {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper input {
+  vertical-align: top;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] span.toggle-search-checks {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 0 5px 0;
+  color: #16c1f3;
+  font-size: 14px;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates {
+  margin-bottom: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates label {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px 0 5px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="date"] {
+  display: inline-block;
+  vertical-align: top;
+  width: 170px !important;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 10px 0 0;
+  padding: 0 10px;
+  font-size: 16px;
+  color: black;
+  background: #f7f9fe;
+  border: 2px solid #e3e8ed;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="datetime"] {
+  width: 200px !important;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar {
+  display: inline-block;
+  vertical-align: top;
+  width: unset;
+  height: 30px;
+  margin: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar input {
+  width: 180px;
+  height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  font-size: 14px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar:after {
+  top: 0 !important;
+  left: unset;
+  right: 5px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar {
+  display: block;
+  position: relative;
+  width: calc(100% - 20px);
+  height: 0px;
+  line-height: 36px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  overflow: hidden;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.show {
+  height: 36px;
+  margin: 20px 10px 10px 10px;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.show * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked * *,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  margin: 3px 10px 0 5px;
+  font-size: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  margin: 0 5px;
+  background: #16c1f3;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon {
+  display: inline-block;
+  height: 28px;
+  vertical-align: top;
+  margin: 0 3px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon::after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="true"] span.sort-pill-icon:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="false"] span.sort-pill-icon:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="true"] span.sort-pill-icon:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="false"] span.sort-pill-icon:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close {
+  display: inline-block;
+  height: 28px;
+  vertical-align: top;
+  margin: 0 3px 0 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close::after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+  content: '\e5cd';
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar button {
+  display: inline;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
+  position: relative;
   min-width: calc(100% - 20px);
   margin: 10px;
   padding: 0 10px 10px 10px;
   background: white;
+  z-index: 1;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -21824,36 +22144,85 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * * {
+  touch-action: none;
+  pointer-events: none;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box {
+  width: 100%;
   min-width: 100%;
+  max-width: 100%;
   overflow: hidden;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table {
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
+  width: 100%;
   min-width: 100%;
+  max-width: 100%;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col:nth-child(1),
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:nth-child(1),
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:nth-child(1) {
+  width: 270px !important;
+  min-width: 270px !important;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="PayPoint"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"] {
-  width: auto;
-  min-width: unset;
+  width: 90px;
+  min-width: 90px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-type="date"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-type="date"] {
-  width: 190px;
-  min-width: 190px;
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="StateEnteredAt"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="StateEnteredAt"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="StateEnteredAt"] {
+  width: 175px;
+  min-width: 175px;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="EffectiveDate"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"] {
   width: 130px;
   min-width: 130px;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="CurrentState"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="CurrentState"],
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="CurrentState"] {
+  width: 160px;
+  min-width: 160px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons,
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
-  width: 190px;
-  min-width: 190px;
+  width: 180px;
+  min-width: 180px;
   text-align: right;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.large,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.large,
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large {
+  width: 240px;
+  min-width: 240px;
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   position: relative;
@@ -21888,7 +22257,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   transform: translateY(-50%);
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
-  cursor: default;
+  cursor: not-allowed;
   color: #333333;
   font-weight: normal;
 }
@@ -21919,16 +22288,57 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after {
   content: '\e5db';
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before {
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 15px;
+  padding: 2px 6px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: normal;
+  background: #16c1f3;
+  color: white;
+  content: " - ";
+  z-index: 10;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  touch-action: none;
+  pointer-events: none;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
+  content: attr(data-order-str);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons {
   padding: 10px 10px 10px 5px;
   text-align: right;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.toggle-container {
+  margin: 0 10px 0 0;
+  -webkit-transform: translateY(-4px);
+  -ms-transform: translateY(-4px);
+  transform: translateY(-4px);
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.column-search {
   position: relative;
   display: inline-block;
   width: 23px;
   height: 23px;
-  margin: -5px 0 0 0;
   font-size: 20px;
   overflow: visible;
   cursor: pointer;
@@ -21938,7 +22348,7 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   display: inline-block;
   width: 23px;
   height: 23px;
-  margin: -5px 0 0 10px;
+  margin: 0 0 0 10px;
   font-size: 20px;
   overflow: visible;
   cursor: pointer;
@@ -22017,13 +22427,12 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
   display: inline-block;
-  height: 22px;
+  min-height: 22px;
+  line-height: 22px;
   margin: 0;
   padding: 1px 5px 0 5px;
   font-size: 12px;
-  color: white;
-  background: #77dbf8;
-  white-space: nowrap;
+  background: rgba(22, 193, 243, 0.25);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -22070,6 +22479,46 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   margin: 0px;
   padding: 5px 5px 5px 10px;
   border-top: 1px solid #e6e9ed;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-match {
+  color: #ffb515;
+  font-style: oblique;
+  font-weight: bolder;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #ffb515;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child {
+  position: relative;
+  padding-left: 40px;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child:after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e002";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 26px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background: #e33100;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
   text-align: center;
@@ -22173,6 +22622,59 @@ body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   color: #999999;
   cursor: default;
 }
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container {
+  display: inline-block;
+  font-family: sans-serif;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-title {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 14px;
+  font-weight: normal;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  vertical-align: middle;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cccccc;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch .slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch input:checked + .slider {
+  background-color: #16c1f3;
+}
+body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-header span {
   color: white;
 }
@@ -22205,6 +22707,20 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   color: #cccccc;
   background: #333333;
   border: 2px solid #444444;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper:after {
+  background-color: #666666;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="date"] {
+  color: white;
+  background: #333333;
+  border: 2px solid #444444;
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="date"]::-moz-calendar-picker {
+  filter: invert(1);
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
   background: #222222;
@@ -22376,29 +22892,85 @@ body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body.admin-search {
+  max-width: unset !important;
+  min-width: unset !important;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body.admin-search div.default-form {
+  width: 100%;
+  max-width: unset !important;
+  min-width: unset !important;
+  padding: 0;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row {
+  width: 100% !important;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container {
+  width: 100%;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container input[type="text"] {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 175px);
+  margin-right: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row button.icononly span {
+  margin: 0;
+  padding: 0;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row button.grey {
+  margin-right: 10px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.search-columns {
+  width: 100%;
+  margin-top: -15px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.search-columns div.check-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 5px 0 5px;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.search-columns div.check-wrapper label {
+  display: inline-block;
+  vertical-align: top;
+  margin: 7px 3px 0 0;
+  font-size: 16px !important;
+  color: #333333;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.search-columns div.check-wrapper input {
+  vertical-align: top;
+}
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates {
-  width: 700px;
+  width: 100%;
   font-size: 0px;
   line-height: 35px;
-  text-align: right;
-  margin: -15px 0 0 0;
-  padding-right: 135px;
   box-sizing: border-box;
+  margin: -10px 0 5px 5px;
 }
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates label {
   display: inline-block;
   vertical-align: top;
   height: 35px;
   line-height: 35px;
-  padding: 0 15px;
-  font-size: 16px;
+  margin-right: 15px;
+  font-size: 16px !important;
+  color: #333333;
 }
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"] {
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type*="date"] {
   display: inline-block;
   vertical-align: top;
   width: 170px !important;
   height: 35px;
   line-height: 35px;
+  margin-right: 15px;
   padding: 0 10px;
   font-size: 16px;
   color: black;
@@ -22417,6 +22989,12 @@ body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div
   -o-appearance: none;
   appearance: none;
 }
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type*="datetime"] {
+  width: 200px !important;
+}
+body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes {
+  width: 100%;
+}
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent {
   position: relative;
 }
@@ -22432,38 +23010,12 @@ body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div
   line-height: 30px;
   margin: 0;
 }
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container {
-  width: 700px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container input[type="text"] {
-  display: inline-block;
-  vertical-align: top;
-  width: 565px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox {
-  display: inline-block;
-  vertical-align: top;
-  width: 125px;
-  height: 44px;
-  line-height: 44px;
-  margin: 0 0 0 10px;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox label {
-  height: 44px;
-  line-height: 44px;
-  margin: 0;
-}
-body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.search-container div.inline-checkbox input[type="checkbox"] {
-  top: 6px;
-}
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide,
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select {
   height: 30px;
   line-height: 30px;
   vertical-align: top;
+  margin: 0 0 0 5px;
 }
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide label,
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select label {
@@ -22473,6 +23025,8 @@ body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div
   vertical-align: top;
   padding: 0;
   margin: 0;
+  font-size: 16px !important;
+  color: #333333;
 }
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide a,
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select a {
@@ -22483,6 +23037,7 @@ body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div
   padding: 0;
   margin: 0;
   cursor: pointer;
+  font-size: 16px !important;
 }
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide.masterfile-show-hide a,
 body.ui2018.uiupdate.cform.admin div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select.masterfile-show-hide a {
@@ -22515,6 +23070,7 @@ body.ui2018.uiupdate.cform.admin div.admin-results {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  overflow: hidden !important;
 }
 body.ui2018.uiupdate.cform.admin div.admin-results button,
 body.ui2018.uiupdate.cform.admin div.admin-results a.button {
@@ -22631,30 +23187,13 @@ body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr th.admin-butto
 }
 body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th {
   position: relative;
-  padding: 0px 5px 10px 5px;
+  padding: 15px 10px 10px 5px;
   text-align: left;
+  font-weight: 700;
+  font-size: 16px;
+  min-height: 25px;
 }
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child) {
-  cursor: pointer;
-  padding: 0px 30px 10px 5px;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child):before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 100%;
-}
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child):after {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 30px;
-  margin: -5px 0 0 0;
-  text-align: center;
-  content: '';
-  transform: translateY(-50%);
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons):after {
   font-family: 'icons' !important;
   speak: none;
   font-style: normal;
@@ -22663,12 +23202,88 @@ body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-c
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  padding: 7px 0 0 5px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  overflow: hidden;
+  border-right: 1px solid #cccccc;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child)[data-ascending="true"]:after {
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons):not([data-ascending]) {
+  cursor: not-allowed;
+  color: #333333;
+  font-weight: normal;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending] {
+  cursor: pointer;
+  color: black;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="null"] {
+  padding-right: 10px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="null"]:after {
+  display: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="true"],
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="false"],
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="null"] {
+  padding-right: 35px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="true"]:after {
   content: '\e5db';
 }
-body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(:last-child)[data-ascending="false"]:after {
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-ascending="false"]:after {
   content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-type="date"][data-ascending="true"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-type="date"][data-ascending="false"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons):before {
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 15px;
+  padding: 2px 6px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: normal;
+  background: #16c1f3;
+  color: white;
+  content: " - ";
+  z-index: 10;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  touch-action: none;
+  pointer-events: none;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons):before * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table thead tr th:not(.admin-buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
+  content: attr(data-order-str);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
 }
 body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr {
   background-color: white;
@@ -22679,6 +23294,14 @@ body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr:nth-child(even
 body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td {
   border-top: 1px solid #e6e9ed;
   padding: 10px 5px;
+}
+body.ui2018.uiupdate.cform.admin div.admin-results table tbody tr td em.search-match {
+  color: #ffb515;
+  font-style: oblique;
+  font-weight: bolder;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #ffb515;
 }
 body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td {
   border-top: 1px solid #e6e9ed;
@@ -22782,16 +23405,655 @@ body.ui2018.uiupdate.cform.admin div.admin-results table tfoot tr td div.paginat
   color: #999999;
   cursor: default;
 }
-body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"] {
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar {
+  display: block;
+  position: relative;
+  width: calc(100% - 20px);
+  height: 0px;
+  line-height: 36px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  overflow: hidden;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.show {
+  height: 36px;
+  margin: 20px 10px 10px 10px;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.show * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked,
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked.show {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked *,
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked.show * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked *,
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked.show * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked * *,
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar.locked.show * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  margin: 3px 10px 0 5px;
+  font-size: 0;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  margin: 0 5px;
+  background: #16c1f3;
+  font-size: 12px;
   color: white;
+  cursor: pointer;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon {
+  display: inline-block;
+  height: 28px;
+  vertical-align: top;
+  margin: 0 3px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon::after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="true"] span.sort-pill-icon:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="false"] span.sort-pill-icon:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="true"] span.sort-pill-icon:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="false"] span.sort-pill-icon:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close {
+  display: inline-block;
+  height: 28px;
+  vertical-align: top;
+  margin: 0 3px 0 0;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close::after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+  content: '\e5cd';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-sort-bar button {
+  display: inline;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes {
+  position: relative;
+  min-width: calc(100% - 20px);
+  margin: 10px;
+  padding: 0 10px 10px 10px;
+  background: white;
+  z-index: 1;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes.locked {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes.locked * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes.locked * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes.locked * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box {
+  min-width: 100%;
+  overflow: hidden;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  min-width: 100%;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"] {
+  width: auto;
+  min-width: unset;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-type="date"],
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-type="date"] {
+  width: 190px;
+  min-width: 190px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"] {
+  width: 130px;
+  min-width: 130px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
+  width: 190px;
+  min-width: 190px;
+  text-align: right;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
+  position: relative;
+  padding: 15px 10px 10px 5px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 16px;
+  min-height: 25px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  padding: 7px 0 0 5px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  overflow: hidden;
+  border-right: 1px solid #cccccc;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+  cursor: not-allowed;
+  color: #333333;
+  font-weight: normal;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+  cursor: pointer;
+  color: black;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
+  padding-right: 10px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"]:after {
+  display: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"],
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"],
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
+  padding-right: 35px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="true"]:after {
+  content: '\e5d8';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after {
+  content: '\e5db';
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before {
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 15px;
+  padding: 2px 6px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: normal;
+  background: #16c1f3;
+  color: white;
+  content: " - ";
+  z-index: 10;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  touch-action: none;
+  pointer-events: none;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
+  content: attr(data-order-str);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons {
+  padding: 10px 10px 10px 5px;
+  text-align: right;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.toggle-container {
+  margin: 0 10px 0 0;
+  -webkit-transform: translateY(-4px);
+  -ms-transform: translateY(-4px);
+  transform: translateY(-4px);
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.column-search {
+  position: relative;
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  font-size: 20px;
+  overflow: visible;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box {
+  position: relative;
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  margin: 0 0 0 10px;
+  font-size: 20px;
+  overflow: visible;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px 10px;
+  background: white;
+  color: #333333;
+  font-family: 'Montserrat', Arial, "Helvetica Neue", Helvetica, Sans-Serif;
+  font-size: 16px;
+  text-align: left;
+  cursor: auto;
+  z-index: 999;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  touch-action: none;
+  pointer-events: none;
+  -webkit-transition: opacity 250ms;
+  -moz-transition: opacity 250ms;
+  -o-transition: opacity 250ms;
+  transition: opacity 250ms;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item {
+  white-space: nowrap;
+  vertical-align: top;
+  margin: 5px 0;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item input,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
+  vertical-align: top;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
+  height: 30px;
+  line-height: 30px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu {
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
+  background-color: white;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  line-height: 22px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan] {
+  vertical-align: top;
+  padding: 20px 5px 20px 10px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
+  display: inline-block;
+  height: 22px;
+  margin: 0;
+  padding: 1px 5px 0 5px;
+  font-size: 12px;
+  color: white;
+  background: #77dbf8;
+  white-space: nowrap;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td {
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td *,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td *,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
+  background-color: #fff0e6;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
+  background-color: #ffe6d6;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
+  background-color: #f1f8e8;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
+  background-color: #e5f2d6;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
+  background-color: #ffeae6;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
+  background-color: #ffdcd6;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  height: 44px;
+  line-height: 20px;
+  margin: 0px;
+  padding: 5px 5px 5px 10px;
+  border-top: 1px solid #e6e9ed;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-match {
+  color: #ffb515;
+  font-style: oblique;
+  font-weight: bolder;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #ffb515;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child {
+  position: relative;
+  padding-left: 40px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child:after {
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e002";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 26px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background: #e33100;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
+  text-align: center;
+  padding: 20px 0 10px 0;
+  border-top: 1px solid #e6e9ed;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination {
+  position: relative;
+  width: 100%;
+  line-height: 30px;
+  margin: 10px 0 0 0;
+  text-align: center;
+  font-size: 0;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 30px;
+  margin: 0 5px;
+  font-size: 16px;
+  text-decoration: none;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.select-enabled {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next {
+  font-size: 18px;
+  cursor: pointer;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last:hover,
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next:hover {
+  color: #999999;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page {
+  color: #106eb6;
+  cursor: pointer;
+  width: unset;
+  min-width: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.large {
+  padding: 0 5px;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current {
+  color: #999999;
+  cursor: default;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current:hover {
+  color: #999999;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page:hover {
+  color: white;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider {
+  margin: 0 10px;
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate.cform.admin div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.total-items {
+  width: unset;
+  font-size: 12px;
+  color: #999999;
+  cursor: default;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body.admin-search {
+  max-width: unset !important;
+  min-width: unset !important;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body.admin-search div.default-form {
+  width: 100%;
+  max-width: unset !important;
+  min-width: unset !important;
+  padding: 0;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.search-columns div.check-wrapper label {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates label {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type*="date"] {
+  color: #cccccc;
   background: #333333;
   border: 2px solid #444444;
 }
-body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"]::-webkit-calendar-picker-indicator {
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type*="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
-body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type="date"]::-moz-calendar-picker {
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row.dates input[type*="date"]::-moz-calendar-picker {
   filter: invert(1);
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.inline-checkboxes div.checkbox-group .inline-checkbox.parent .sub-checkboxes .inline-checkbox label {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide label,
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select label {
+  color: #cccccc;
+}
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-show-hide.masterfile-show-hide a,
+body.ui2018.uiupdate.cform.admin.dark div.pagewrapper div.pagecontent div.content div.section div.section-body div.default-form div.form-row div.masterfile-all-select.masterfile-show-hide a {
+  margin: 0 0 0 10px;
 }
 body.ui2018.uiupdate.cform.admin.dark div.admin-results {
   background: none;
@@ -22803,11 +24065,8 @@ body.ui2018.uiupdate.cform.admin.dark div.admin-results a.button {
 body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr {
   background-color: #222222;
 }
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(:last-child)[data-ascending="true"]:after {
-  content: '\e5db';
-}
-body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(:last-child)[data-ascending="false"]:after {
-  content: '\e5d8';
+body.ui2018.uiupdate.cform.admin.dark div.admin-results table thead tr th:not(.admin-buttons) {
+  color: #cccccc;
 }
 body.ui2018.uiupdate.cform.admin.dark div.admin-results table tbody tr {
   background-color: #222222;
@@ -22822,6 +24081,62 @@ body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr {
   background-color: #222222;
 }
 body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
+  background: #333333;
+  color: #cccccc;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+  color: #999999;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+  color: white;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+  border-right: 1px solid #666666;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
+  background-color: #222222;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
+  color: white;
+  background: #087a9b;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
+  background-color: #2e2922;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
+  background-color: #332c25;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
+  background-color: #263022;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
+  background-color: #2a3526;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
+  background-color: #2e2422;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
+  background-color: #332725;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
   border-top: 1px solid #333333;
 }
 
