@@ -7924,8 +7924,9 @@
       if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
       if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
       if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('Autocompletes')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('SimpleSelects') && !Affinity2018.DisablePlugins.contains('SimpleSelects')) Affinity2018.SimpleSelects = new Affinity2018.Classes.Plugins.SimpleSelects();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('Calendars')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
 
       //moment.changeLocale('nz', function() {
       //  console.log('moment locale changed!');
@@ -23106,6 +23107,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
  *
  * @since         16.06.2020
  * @class         Inbox
+ * @class         Inbox
  * @namespace     Affinity2018.Classes.Apps.CleverForms
  * @memberof      CleverForms
  * @constructs    Affinity2018.Classes.Apps.CleverForms.Inbox
@@ -23142,6 +23144,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.ViewUrl = '/Instance/View/';
     this.DeleteAPI = '/Inbox/Delete/';
     this.DetailsEndpoint = '/AdminV2/Details/';
+    this.PayPointAPI = '/Lookup/GetAssignedPayPoints/';
 
     this.SearchDateFormat = 'yyyy-MM-dd'; // luxon date format
     this.SearchDatePostFormat = 'yyyy-MM-dd'; // luxon date format
@@ -23151,6 +23154,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.ColumnSettingTimeouts = {};
 
     this.PayrollAdminIncludes5M = true;
+
+    this.SearchDateDefault = 'StateEnteredAt'; // EffectiveDate
 
   }
 
@@ -23185,12 +23190,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_showLoader', '_hideLoader',
 
-      '_loadStates',
+      '_loadStates', '_getPayPoints',
 
       '_gotResults', '_gotResultsError',
 
       '_injectSearchColumnTabs',
 
+      '_searchDateChanged', '_searchPayPointSelectChanged',
+      '_searchDateSelectChanged', '_searchCheckChanged',
+
+      '_attemptSearchDebounced',
       '_attemptSearch',
       '_checkForSearchMatch',
 
@@ -23200,6 +23209,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       '_reset',
 
       '_gridClicked',
+
+      '_checkColumnSelectHide', '_showColumnSelect', '_hideColumnSelect',
 
       '_searchNodeKeyUpHandler',
       '_rowButtonClicked',
@@ -23250,12 +23261,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.ShowModeToggle = true;
       }
     }
-	if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
-	{
+	  if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
+	  {
       this.IsPayrollAdmin = true;
       this.ViewMode = 'Admin';
       this.ShowModeToggle = true;
-	}
+	  }
 
     // force shrink wrapper for admin "wide" mode.
     let isTesting = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
@@ -23283,7 +23294,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
+    console.clear();
+
     await this._loadStates();
+
+    await this._getPayPoints();
 
     /**/
 
@@ -23293,15 +23308,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.ResultNode.innerHTML = this.ViewMode === 'Admin' ? this.AdminResultGridTemplate() : this.ResultGridTemplate();
     this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
 
-    this._setupResultNodes();
+    await this._setupResultNodes();
 
     this.GotoTab(this.State.ActiveCategory);
 
-    console.clear();
-
-    console.log(this.MemberType);
-
-    await this.GetResults();
+    await this._attemptSearch('_init');
 
   }
 
@@ -23376,46 +23387,97 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
-  _setupResultNodes()
+  async _setupResultNodes()
   {
     this.GeneratedSearchTabs = false;
 
-    this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
-    this.SearchNode = this.SearchBox.querySelector('input');
+    this.SearchBarBox = this.ResultNode.querySelector('div.inbox-search-bar');
+    this.PayPointSelectNode = document.querySelector('select[name="search-paypoint-select"]');
+    this.ColumnListNode = document.querySelector('div.show-hide-columns-check-lists');
+    this.SearchBox = this.ResultNode.querySelector('div.inbox-search-filters');
+    this.SearchNode = this.SearchBarBox.querySelector('input');
     this.SearchNode.removeEventListener('keyup', this._searchNodeKeyUpHandler);
     this.SearchNode.addEventListener('keyup', this._searchNodeKeyUpHandler);
+    this.SearchStartDateNode = this.SearchBox.querySelector('input#StartDate');
+    this.SearchEndDateNode = this.SearchBox.querySelector('input#EndDate');
 
+    /**/
+
+    let payPointSelectHtml = `<option value="-1">All Pay Points</option>`;
+    for (let payPointData of this.PayPoints)
+    {
+      payPointSelectHtml += `<option value="${payPointData.PayPoint}">${payPointData.Description}</option>`;
+    }
+    this.PayPointSelectNode.innerHTML = payPointSelectHtml;
+    this.PayPointSelectNode.removeEventListener('change', this._searchPayPointSelectChanged);
+    this.PayPointSelectNode.addEventListener('change', this._searchPayPointSelectChanged);
+
+    /**/
 
     let today = luxon.DateTime.local();
     let minDate = today.minus({ years: 7 });
+
+    let startDate = minDate.toJSDate();
+    let endDate = today.toJSDate();
+    if (this.PayPoints.length > 0)
+    {
+      if (this.PayPointSelectNode.value === '-1' || this.PayPointSelectNode.value === '') // all or unset
+      {
+        startDate = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+        endDate = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+      }
+      else
+      {
+        let payPointData = this.PayPoints.find(item => item.PayPoint === this.PayPointSelectNode.value);
+        if (payPointData)
+        {
+          startDate = new Date(payPointData.CurrentPeriodStartDate);
+          endDate = new Date(payPointData.CurrentPeriodEndDate);
+        }
+      }
+    }
 
     if (this.SearchDateFormat.contains('h:') || this.SearchDateFormat.contains('H:') || this.SearchDatePostFormat.contains('h:') || this.SearchDatePostFormat.contains('H:'))
     {
       if (this.SearchBox.type.toLowerCase().trim() !== 'text')
       {
-        this.SearchBox.querySelector('input#StartDate').setAttribute('type', 'datetime-local');
-        this.SearchBox.querySelector('input#EndDate').setAttribute('type', 'datetime-local');
+        this.SearchStartDateNode.setAttribute('type', 'datetime-local');
+        this.SearchEndDateNode.setAttribute('type', 'datetime-local');
       }
       else
       {
-        this.SearchBox.querySelector('input#StartDate').setAttribute('data-type', 'datetime');
-        this.SearchBox.querySelector('input#EndDate').setAttribute('data-type', 'datetime');
+        this.SearchStartDateNode.setAttribute('data-type', 'datetime');
+        this.SearchEndDateNode.setAttribute('data-type', 'datetime');
       }
     }
 
-    this.SearchBox.querySelector('input#StartDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchBox.querySelector('input#StartDate').setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
-    this.SearchBox.querySelector('input#StartDate').dataset.calendarReturnFormat = this.SearchDatePostFormat;
-    this.SearchBox.querySelector('input#StartDate').dataset.calendarNullable = true;
-    this.SearchBox.querySelector('input#StartDate').dataset.alignToDisplay = true;
-    this.SearchBox.querySelector('input#StartDate').value = '';
+    this.SearchStartDateNode.setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
+    this.SearchStartDateNode.setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
+    this.SearchStartDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
+    this.SearchStartDateNode.dataset.calendarNullable = true;
+    this.SearchStartDateNode.dataset.alignToDisplay = true;
+    this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDate).toFormat(this.SearchDateFormat);
+    if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
+    {
+      this.SearchStartDateNode.widgets.DateTime.nullable = true;
+      this.SearchStartDateNode.widgets.DateTime.setDate(startDate, false);
+    }
+    this.SearchStartDateNode.removeEventListener('change', this._searchDateChanged);
+    this.SearchStartDateNode.addEventListener('change', this._searchDateChanged);
 
-    this.SearchBox.querySelector('input#EndDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchBox.querySelector('input#EndDate').setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
-    this.SearchBox.querySelector('input#EndDate').dataset.calendarReturnFormat = this.SearchDatePostFormat;
-    this.SearchBox.querySelector('input#EndDate').dataset.calendarNullable = true;
-    this.SearchBox.querySelector('input#EndDate').dataset.alignToDisplay = true;
-    this.SearchBox.querySelector('input#EndDate').value = '';
+    this.SearchEndDateNode.setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
+    this.SearchEndDateNode.setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
+    this.SearchEndDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
+    this.SearchEndDateNode.dataset.calendarNullable = true;
+    this.SearchEndDateNode.dataset.alignToDisplay = true;
+    this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(endDate).toFormat(this.SearchDateFormat);
+    if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
+    {
+      this.SearchEndDateNode.widgets.DateTime.nullable = true;
+      this.SearchEndDateNode.widgets.DateTime.setDate(endDate, false);
+    }
+    this.SearchEndDateNode.removeEventListener('change', this._searchDateChanged);
+    this.SearchEndDateNode.addEventListener('change', this._searchDateChanged);
 
     /**/
 
@@ -23466,49 +23528,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         }
       }
 
-      // Set column settings
-      let menuNode = categoryNode.querySelector(`div.colum-menu`);
-      let menuItems = menuNode ? menuNode.querySelectorAll(`div.colum-menu-item[data-column]`) : [];
-      for (let menuItem of menuItems)
-      {
-        let column = menuItem.dataset.column;
-        let key = `InboxColumnsShow-${this.ViewMode}-${category}-${column}-${this.StorageKeySuffix}`;
-        if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(key))
-        {
-          let showIt = Affinity2018.Storage.Local.Get(key);
-          showIt = showIt === 'true' ? true : showIt === 'false' ? false : showIt;
-          menuItem.querySelector('input[type="checkbox"]').checked = showIt ? 'checked' : null;
-        }
-        //else
-        //{
-        //  menuItem.querySelector('input[type="checkbox"]').checked = null;
-        //}
-      }
-
-    }
-
-    if (this.IsPayrollAdmin)
-    {
-      //for (let category in this.State.CategorySettings)
-      //{
-      //  if (category === 'ToAction')
-      //  {
-      //    document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.add('hidden');
-      //    document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('hidden');
-      //    document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.add('hidden');
-      //  }
-      //}
-
-      //this.State.ToAction = null;
-      //delete this.State.ToAction;
-
-      //this.State.ActiveCategory = 'InProgress';
     }
 
     this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
 
     Affinity2018.Tooltips.Apply();
     Affinity2018.Calendars.Apply();
+    Affinity2018.SimpleSelects.Apply();
 
     /**/
     
@@ -23521,6 +23547,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       adminToggle.removeEventListener("change", this._switchMode);
       adminToggle.addEventListener("change", this._switchMode);
     }
+
+    window.removeEventListener('click', this._checkColumnSelectHide);
+    window.addEventListener('click', this._checkColumnSelectHide);
+
+    return true;
   }
 
   _forceShowPageLoader()
@@ -23603,6 +23634,48 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   /**/
 
+  async _getPayPoints()
+  {
+    let response = await fetch(`${this.PayPointAPI}`);
+
+    if (!response.ok)
+    {
+      throw new Error("Can not load AssignedPayPoints for this view");
+      return false;
+    }
+
+    let data = await response.json();
+
+    if (!data || data === '')
+    {
+      throw new Error("Can not load AssignedPayPoints for this view");
+      return false;
+    }
+
+    if (data.length === 0)
+    {
+      //throw new Error("No AssignedPayPoints returned. View can not render results with no AssignedPayPoints data.");
+      //return false;
+      console.warn("No AssignedPayPoints returned. View can not render results with no AssignedPayPoints data.");
+    }
+
+    this.PayPoints = data;
+
+    for (let pp of this.PayPoints)
+    {
+      let index = this.PayPoints.indexOf(pp);
+      this.PayPoints[index].CurrentPeriodStartDate = new Date(this.PayPoints[index].CurrentPeriodStartDate);
+      this.PayPoints[index].CurrentPeriodEndDate = new Date(this.PayPoints[index].CurrentPeriodEndDate);
+      this.PayPoints[index].TotalDays = Math.floor(Math.abs(this.PayPoints[index].CurrentPeriodEndDate - this.PayPoints[index].CurrentPeriodStartDate) / (1000 * 60 * 60 * 24));
+    }
+
+    console.log('Returned AssignedPayPoints:');
+    console.log(JSON.stringify(this.PayPoints, null, 2));
+    console.log('');
+
+    return this.PayPoints;
+  }
+
   async _loadStates()
   {
     let response = await fetch(`${Affinity2018.Path}/Scripts/V2/apps/cleverforms/Inbox.json?version=${Affinity2018.Version}`);
@@ -23610,7 +23683,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     if (!response.ok)
     {
       //this.DefaultState = JSON.parse(JSON.stringify(this.State));
-      throw new Error("Can not load default states ofr this view");
+      throw new Error("Can not load default states for this view");
       return false;
     }
 
@@ -23619,7 +23692,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     if (!data || data === '')
     {
       //this.DefaultState = JSON.parse(JSON.stringify(this.State));
-      throw new Error("Can not load default states ofr this view");
+      throw new Error("Can not load default states for this view");
       return false;
     }
 
@@ -23727,7 +23800,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         let category = boxNode.dataset.category;
         let columnNodes = boxNode.querySelectorAll(`table.inbox-grid[data-category="${category}"] thead th`);
         let searchChecksNode = this.SearchBox.querySelector(`div.search-columns div[data-category="${category}"]`);
+        let searchChecksListNode = this.ColumnListNode.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
+        let searchDateColumnSelect = this.SearchBox.querySelector(`div.select[data-category="${category}"] select[name="search-date-select"]`);
         let html = '';
+        let columnChecksHtml = '<label>Visible Columns</label>';
+        let selectHtml = '';
+        let selectDefaultDateHtml = '';
+
+        // attempt a full reset and cleanup of the previouse items
+
+        for (let check of searchChecksListNode.querySelectorAll(`input[type="checkbox"]`))
+        {
+          check.removeEventListener('change', this._checkHiddenRows);
+        }
+        for (let check of searchChecksNode.querySelectorAll(`input[type="checkbox"]`))
+        {
+          check.removeEventListener('change', this._searchCheckChanged);
+        }
+        searchDateColumnSelect.removeEventListener('change', this._searchDateSelectChanged);
+
+        // and build them all again
+
         for (let columnNode of columnNodes)
         {
           if (
@@ -23738,28 +23831,56 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             let labelName = columnNode.innerText;
             let columnName = columnNode.dataset.name;
-            html += this.SearchCheckTemplate({
-              Label: labelName,
-              Category: category,
-              Column: columnName,
-              Tooltip: `Include '${labelName}' in the search`
-            });
+            if (columnName.toLowerCase() !== 'paypoint')
+            {
+              html += this.SearchCheckTemplate({
+                Label: labelName,
+                Category: category,
+                Column: columnName,
+                Tooltip: `Include '${labelName}' in the search`
+              });
+            }
+            let checked = !columnNode.classList.contains('hidden') ? ` checked` : ``;
+            columnChecksHtml += `<div><input type="checkbox"" data-category="${category}" value="${columnName}" id="show-hide-check-${category}-${columnName}" ${checked}></checkbox><label for="show-hide-check-${category}-${columnName}">${labelName}</label></div>`;
+            if (columnNode.dataset.type.contains('date'))
+            {
+              if (!columnName.toLowerCase().contains(this.SearchDateDefault.toLowerCase().trim()))
+              {
+                selectHtml += `<option value="${columnName}">${labelName}</option>`;
+              }
+              else
+              {
+                selectDefaultDateHtml = `<option value="${columnName}">${labelName}</option>`;
+              }
+            }
           }
         }
-        //
         html += `<span class="toggle-search-checks toggled-on">${$a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks')}</span>`;
-        //
+
         searchChecksNode.innerHTML = html;
+        searchChecksListNode.innerHTML = columnChecksHtml;
+        searchDateColumnSelect.innerHTML = selectDefaultDateHtml + selectHtml;
+
+        this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
+
+        for (let check of searchChecksListNode.querySelectorAll(`input[type="checkbox"]`))
+        {
+          check.addEventListener('change', this._checkHiddenRows);
+        }
         for (let check of searchChecksNode.querySelectorAll(`input[type="checkbox"]`))
         {
           check.addEventListener('change', this._searchCheckChanged);
         }
+        searchDateColumnSelect.addEventListener('change', this._searchDateSelectChanged);
+
+
         if (category === this.State.ActiveCategory)
         {
           searchChecksNode.classList.remove('hidden');
         }
       }
       Affinity2018.Tooltips.Apply();
+      Affinity2018.SimpleSelects.Apply();
     }
   }
 
@@ -23767,7 +23888,125 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (event.key.toLowerCase() === 'enter')
     {
-      this._attemptSearch();
+      this._attemptSearchDebounced('_searchNodeKeyUpHandler');
+    }
+  }
+
+  _searchDateChanged(event)
+  {
+    let startDate = this.SearchBox.querySelector('input#StartDate').value;
+    let startDateAsDate = startDate.trim() === '' ? null : new Date(startDate.trim());
+    let endDate = this.SearchBox.querySelector('input#EndDate').value;
+    let endDateAsDate = endDate.trim() === '' ? null : new Date(endDate.trim());
+    if (startDateAsDate !== null && endDateAsDate !== null)
+    {
+      let matchingPayPoint = this.PayPoints.find(item =>
+      {
+        let currentStart = new Date(item.CurrentPeriodStartDate);
+        let currentEnd = new Date(item.CurrentPeriodEndDate);
+        return currentStart.getTime() === startDateAsDate.getTime() && currentEnd.getTime() === endDateAsDate.getTime();
+      });
+
+      if (matchingPayPoint)
+      {
+        let matchingIndex = Array.from(this.PayPointSelectNode.querySelectorAll('option')).findIndex(opt => opt.value.toString() === matchingPayPoint.PayPoint.toString());
+        this.PayPointSelectNode.selectedIndex = matchingIndex;
+      }
+      else
+      {
+        let oldestStartItem = this.PayPoints[0];
+        let oldestEndItem = this.PayPoints[0];
+        let newestEndItem = this.PayPoints[0];
+        let oldestStart = new Date(oldestStartItem.CurrentPeriodStartDate);
+        let oldestEnd = new Date(oldestEndItem.CurrentPeriodEndDate);
+        let newestEnd = new Date(newestEndItem.CurrentPeriodEndDate);
+        for (let item of this.PayPoints) 
+        {
+          let currentStart = new Date(item.CurrentPeriodStartDate);
+          let currentEnd = new Date(item.CurrentPeriodEndDate);
+          if (currentStart < oldestStart) 
+          {
+            oldestStartItem = item;
+            oldestStart = currentStart;
+          }
+          if (currentEnd < oldestEnd) 
+          {
+            oldestEndItem = item;
+            oldestEnd = currentEnd;
+          }
+          if (currentEnd > newestEnd) 
+          {
+            newestEndItem = item;
+            newestEnd = currentEnd;
+          }
+        }
+        if (oldestStart.getTime() === startDateAsDate.getTime() && newestEnd.getTime() === endDateAsDate.getTime())
+        {
+          this.PayPointSelectNode.selectedIndex = 0;
+        }
+        else
+        {
+          let emptyIndex = Array.from(this.PayPointSelectNode.querySelectorAll('option')).findIndex(opt => opt.value === '');
+          this.PayPointSelectNode.selectedIndex = emptyIndex;
+        }
+      }
+    }
+    this._attemptSearchDebounced('_searchDateChanged');
+  }
+
+  _searchPayPointSelectChanged(event)
+  {
+    let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
+    let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
+    let selectedValue = event.target.value.toString();
+    let earliest = new Date().toString('yyyy-MM-dd');
+    let latest = new Date().toString('yyyy-MM-dd');
+    if (this.PayPoints.length === 0) // Should never happen
+    {
+      earliest = new Date(new Date().setMonth(new Date().getMonth() - 1));
+      latest = new Date();
+    }
+    else
+    {
+      if (selectedValue !== '-1')
+      {
+        let payPointData = this.PayPoints.find(pp => pp.PayPoint.toString() === selectedValue.toString());
+        earliest = payPointData.CurrentPeriodStartDate;
+        latest = payPointData.CurrentPeriodEndDate;
+      }
+      else
+      {
+        earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+        latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+      }
+    }
+
+    if (fromDateNode.hasOwnProperty('widgets') && fromDateNode.widgets.hasOwnProperty('DateTime'))
+    {
+      fromDateNode.widgets.DateTime.setDate(new Date(earliest), false);
+      toDateNode.widgets.DateTime.setDate(new Date(latest), false);
+    }
+    else
+    {
+      fromDateNode.value = earliest;
+      toDateNode.value = latest;
+    }
+    if (
+      (event && 'isTrusted' in event && event.isTrusted)
+      || (event && 'detail' in event && event.detail.isTrusted)
+    )
+    {
+      this._attemptSearchDebounced('_searchPayPointSelectChanged');
+    }
+  }
+
+  _searchDateSelectChanged(event)
+  {
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+      this._attemptSearchDebounced('_searchDateSelectChanged');
     }
   }
 
@@ -23787,14 +24026,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       span.classList.remove('toggled-on');
       span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
     }
+    this._attemptSearchDebounced('_searchCheckChanged');
   }
 
-  async _attemptSearch()
+  _attemptSearchDebounced(from)
   {
+    clearTimeout(this._attemptSearchDebouncerTimer);
+    this._attemptSearchDebouncerTimer = setTimeout(this._attemptSearch, 500, from);
+  }
+
+  async _attemptSearch(from)
+  {
+
+    console.log(`%cSearch -> Called from "${from}"`, 'font-size: 16px; font-weight: bold; color: #00CCCC;');
+
     Affinity2018.Tooltips.Hide();
     this._showLoader();
 
+    // Copy State
     let state = JSON.parse(JSON.stringify(this.State));
+
+    // Add checked "search in columns"" fields
     for (let category in state.CategorySettings)
     {
       state.CategorySettings[category].CurrentPage = 1;
@@ -23811,11 +24063,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
     state.SearchQuery = this.SearchNode.value.trim();
 
+    // Get / set search dates
     let startDate = this.SearchBox.querySelector('input#StartDate').value;
     let startDateAsDate = startDate.trim() === '' ? null : new Date(startDate.trim());
     let endDate = this.SearchBox.querySelector('input#EndDate').value;
     let endDateAsDate = endDate.trim() === '' ? null : new Date(endDate.trim());
-
     if (startDateAsDate !== null && endDateAsDate === null)
     {
       endDateAsDate = new Date(startDateAsDate);
@@ -23824,7 +24076,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       endDateAsDate.setSeconds(59);
       endDateAsDate.setMilliseconds(0);
     }
-
     if (startDateAsDate === null && endDateAsDate !== null)
     {
       startDateAsDate = new Date(endDateAsDate);
@@ -23833,7 +24084,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       startDateAsDate.setSeconds(0);
       startDateAsDate.setMilliseconds(0);
     }
-
     if (
       startDateAsDate !== null 
       && endDateAsDate !== null
@@ -23844,7 +24094,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       startDateAsDate = new Date(endDateAsDate);
       endDateAsDate = new Date(temp);
     }
-
     if (startDateAsDate !== null)
     {
       startDateAsDate.setHours(0);
@@ -23855,7 +24104,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.SearchBox.querySelector('input#StartDate').widgets.DateTime.updateFromTarget();
       state.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
     }
-    
     if (endDateAsDate !== null)
     {
       endDateAsDate.setHours(23);
@@ -23866,6 +24114,155 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.SearchBox.querySelector('input#EndDate').widgets.DateTime.updateFromTarget();
       state.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
     }
+
+    // Do FieldSpecificSearch properties
+    if (!state.hasOwnProperty('FieldSpecificSearch')) state.FieldSpecificSearch = [];
+
+    // if SearchShowUnassigned is ticked
+    if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
+    {
+      let effectiveDateIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'EffectiveDate');
+      if (effectiveDateIndexFound === -1)
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'EffectiveDate',
+          SearchValue: 'null'
+        });
+      }
+      else
+      {
+        state.FieldSpecificSearch[effectiveDateIndexFound].SearchValue = 'null';
+      }
+      let payPointNullIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'PayPoint' && item.SearchValue === 'null');
+      if (payPointNullIndexFound === -1)
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'PayPoint',
+          SearchValue: 'null'
+        });
+      }
+    }
+
+    // Set date column to search within, plus relevant dates
+    let seerachDatesFor = null;
+    let searchDateColumnSelect = this.SearchBox.querySelector(`div.select[data-category="${this.State.ActiveCategory}"] select[name="search-date-select"]`);
+    let optionNodes = searchDateColumnSelect ? searchDateColumnSelect.querySelectorAll('option') : [];
+    let searchDateColumnValue = searchDateColumnSelect && searchDateColumnSelect.value.toString().trim() !== '' ? searchDateColumnSelect.value : this.SearchDateDefault;
+    for (let optionNode of optionNodes)
+    {
+      let optionData = {
+        FieldName: optionNode.value,
+        SearchValue: 'null',
+        StartDate: 'null',
+        EndDate: 'null'
+      };
+      if (optionNode.value === searchDateColumnValue && startDateAsDate && endDateAsDate)
+      {
+        optionData.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
+        optionData.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
+        seerachDatesFor = optionNode.value;
+      }
+      let dateColumnIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === optionNode.value);
+      if (dateColumnIndexFound === -1)
+      {
+        state.FieldSpecificSearch.push(optionData);
+      }
+      else
+      {
+        optionData.SearchValue = state.FieldSpecificSearch[dateColumnIndexFound].SearchValue;
+        state.FieldSpecificSearch[dateColumnIndexFound] = optionData;
+      }
+    }
+
+    // Add the selected PayPoint and relevant dates
+    if (this.PayPointSelectNode.value !== '-1' && this.PayPointSelectNode.value !== '') // NOT all or unset
+    {
+      let selectedPayPoint = this.PayPointSelectNode.value;
+      let payPointData = this.PayPoints.find(item => item.PayPoint.toString() === selectedPayPoint);
+      let payPointIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'PayPoint');
+      if (payPointIndexFound > -1 && state.FieldSpecificSearch[payPointIndexFound].SearchValue === 'null')
+      {
+        state.FieldSpecificSearch[payPointIndexFound].SearchValue = this.PayPointSelectNode.value;
+        if (payPointData) // Note: There should ALWAYS be matching PayPoint data
+        {
+          state.FieldSpecificSearch[payPointIndexFound].StartDate = luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat);
+          state.FieldSpecificSearch[payPointIndexFound].EndDate = luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat);
+        }
+        else
+        {
+          console.warn('!! Attempting to set PayPoint FieldSpecificSearch data with no matching PayPoint Data to get dates from !!');
+        }
+      }
+      else
+      {
+        if (payPointData) // Note: There should ALWAYS be matching PayPoint data
+        {
+          state.FieldSpecificSearch.push({
+            FieldName: 'PayPoint',
+            SearchValue: selectedPayPoint,
+            StartDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
+            EndDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
+          });
+        }
+        else
+        {
+          console.warn('!! Attempting to set PayPoint FieldSpecificSearch data with no matching PayPoint Data to get dates from !!');
+          state.FieldSpecificSearch.push({
+            FieldName: 'PayPoint',
+            SearchValue: selectedPayPoint,
+            StartDate: 'null',
+            EndDate: 'null'
+          });
+        }
+      }
+    }
+    else // TODO: Confirm with Marina: Pay Points is set to ALL, so null, but still requires a date range?
+    {
+      let payPointIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'PayPoint');
+      if (seerachDatesFor === null)
+      {
+        // If we have no search dates yet, search in pay points
+        if (startDateAsDate && endDateAsDate)
+        {
+          if (payPointIndexFound > -1)
+          {
+            state.FieldSpecificSearch[payPointIndexFound].StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
+            state.FieldSpecificSearch[payPointIndexFound].EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
+          }
+          else
+          {
+            state.FieldSpecificSearch.push({
+              FieldName: 'PayPoint',
+              SearchValue: selectedPayPoint,
+              StartDate: luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat),
+              EndDate: luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat)
+            });
+          }
+        }
+      }
+      else
+      {
+        // If we DO have search dates, clear the pay point ones
+        if (payPointIndexFound > -1)
+        {
+          state.FieldSpecificSearch[payPointIndexFound].StartDate = 'null';
+          state.FieldSpecificSearch[payPointIndexFound].EndDate = 'nulll';
+        }
+      }
+    }
+
+    // Clear FieldSpecificSearch if it is empty
+    if (state.FieldSpecificSearch.length === 0)
+    {
+      delete state.FieldSpecificSearch;
+    }
+
+    // Only search if we have new criteria to search on.
+    if (JSON.stringify(state) === JSON.stringify(this.SearchSate)) return;
+    this.SearchSate = state;
+
+    console.log(this.SearchSate);
+    debugger;
 
     let url = `${this.SearchAPI}`;
     let response = await fetch(url, {
@@ -23901,27 +24298,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.State.SearchQuery = null;
       return false;
     }
-    /*
-    else
-    {
-      let allResultTotal = 0;
-      for (let category in data.CategorySettings)
-      {
-        allResultTotal += data.CategorySettings[category].TotalCount;
-      }
-      if (allResultTotal === 0)
-      {
-        this._hideLoader();
-        Affinity2018.Dialog.Show({
-          message: `No results found`,
-          showOk: true,
-          showCancel: false
-        });
-        this.State.SearchQuery = null;
-        return false;
-      }
-    }
-    */
     this.State = state;
     this._gotResults(data);
     return true;
@@ -23969,7 +24345,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
     this.State.StartDate = '';
     this.State.EndDate = '';
-
+    this.PayPointSelectNode.selectedIndex = 0;
+    this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
     await this.GetResults();
   }
 
@@ -24005,19 +24382,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
               case 'attemptsearch':
 
-                await this._attemptSearch();
+                await this._attemptSearch('_gridClicked -> attemptsearch button');
                 break
 
+              case 'show-hide-filters':
+
+                if (this.SearchBox.classList.contains('show'))
+                {
+                  this._hideSearch();
+                  this.SearchNode.blur();
+                }
+                else
+                {
+                  this._showSearch();
+                  this.SearchNode.focus();
+                }
+                break
+
+              case 'show-hide-columns-select':
+
+                this._showColumnSelect(event);
+                break;
+
               default:
-                console.log('Unkown Button Clicked?');
-                console.log(event.target);
+                //console.log('Unkown Button Clicked?');
+                //console.log(event.target);
                 break;
             }
           }
           else
           {
-            console.log('Unkown Button Clicked?');
-            console.log(event.target);
+            //console.log('Unkown Button Clicked?');
+            //console.log(event.target);
           }
           break;
 
@@ -24094,11 +24490,32 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               span.classList.add('toggled-on');
               span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
             }
+            this._attemptSearchDebounced('_gridClicked -> span -> toggle-search-checks');
+          }
+          else if (event.target.classList.contains('toggle-search-checks-visible'))
+          {
+            let container = event.target.closest('div.search-columns');
+            let checkListNode = container ? container.querySelector(`div[data-category="${this.State.ActiveCategory}"]`) : null;
+            if (checkListNode)
+            {
+              let isVisible = checkListNode.classList.contains('show');
+              if (isVisible)
+              {
+                checkListNode.classList.remove('show');
+                event.target.innerHTML = 'Show';
+              }
+              else
+              {
+                checkListNode.classList.add('show');
+                event.target.innerHTML = 'Hide';
+              }
+              this._measureSearch();
+            }
           }
           else
           {
-            console.log('Unknown Span Clicked?');
-            console.log(event.target);
+            //console.log('Unknown Span Clicked?');
+            //console.log(event.target);
           }
           break;
 
@@ -24123,8 +24540,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           }
           else
           {
-            console.log('Unknown Div Clicked?');
-            console.log(event.target);
+            //console.log('Unknown Div Clicked?');
+            //console.log(event.target);
           }
           break;
 
@@ -24169,7 +24586,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
             this._updateSortData();
 
-            await this.GetResults();
+            await this._attemptSearchDebounced('_gridClicked -> th -> sorting');
 
           }
 
@@ -24181,7 +24598,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           let menuItem = event.target.closest('div.colum-menu-item[data-column]');
           if (menuItem)
           {
-            this._checkHiddenRows();
+            this._checkHiddenRows(event);
           }
 
           break;
@@ -24189,6 +24606,35 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
     }
   }
+
+  /**/ 
+
+  _checkColumnSelectHide()
+  {
+    this._columnSelecAutoHide = setTimeout(this._hideColumnSelect, 50);
+  }
+  _showColumnSelect(event)
+  {
+    clearTimeout(this._columnSelecAutoHide);
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    this.ColumnListNode.classList.add('show');
+  }
+  _hideColumnSelect(event)
+  {
+    clearTimeout(this._columnSelecAutoHide);
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    this.ColumnListNode.classList.remove('show');
+  }
+
+  /**/
 
   _rowButtonClicked(event)
   {
@@ -24224,8 +24670,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this._processRow('delete', rowNode);
       return;
     }
-    console.log('Unkown Button Clicked?');
-    console.log(event.target);
+    //console.log('Unkown Button Clicked?');
+    //console.log(event.target);
   }
 
   _loadUrl(url, newTab = false)
@@ -24319,8 +24765,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     return true;
   }
 
-  _checkHiddenRows()
+  _checkHiddenRows(event)
   {
+    clearTimeout(this._columnSelecAutoHide);
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+      if (event.type === 'change')
+      {
+        setTimeout(this._showColumnSelect, 50, event);
+      }
+    }
     let timeout = 10;
     clearTimeout(this._checkHiddenRowsThorttle);
     this._checkHiddenRowsThorttle = setTimeout((() => 
@@ -24330,12 +24786,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       for (let category in this.State.CategorySettings)
       {
         let gridNode = document.querySelector(`table[data-category="${category}"]`);
-        let menuNode = gridNode.querySelector(`div.colum-menu`);
-        let menuItems = menuNode ? menuNode.querySelectorAll(`div.colum-menu-item[data-column]`) : [];
+        //let menuNode = gridNode.querySelector(`div.colum-menu`);
+        //let menuItems = menuNode ? menuNode.querySelectorAll(`div.colum-menu-item[data-column]`) : [];
+
+        let menuNode = this.SearchBarBox.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
+        let menuItems = menuNode ? menuNode.querySelectorAll(`div`) : [];
+
         for (let menuItem of menuItems)
         {
           let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
-          let column = menuItem.dataset.column;
+          //let column = menuItem.dataset.column;
+          
+          let column = menuItem.querySelector(`input[type="checkbox"]`).value;
+
           let key = `InboxColumnsShow-${this.ViewMode}-${category}-${column}-${this.StorageKeySuffix}`;
           let currentSet = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(key) : null;
           if (currentSet !== showIt && this.EnableLocalStore)
@@ -24392,12 +24855,24 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
       for (let checksbox of document.querySelectorAll(`div.inbox-sort-bar[data-category]`))
       {
-        checksbox.classList.remove('show');
+        checksbox.classList.add('hidden');
       }
+      for (let columnCheckList of document.querySelectorAll(`div.show-hide-columns-check-list`))
+      {
+        columnCheckList.classList.add('hidden');
+      }
+      for (let select of document.querySelectorAll(`div.inbox-search-filters div.select[data-category]`))
+      {
+        select.classList.add('hidden');
+      }
+
       document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.remove('hidden');
       document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('selected');
       document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.remove('hidden');
       document.querySelector(`div.inbox-sort-bar[data-category="${category}"]`).classList.add('show');
+      document.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`).classList.remove('hidden');
+      document.querySelector(`div.inbox-search-filters div.select[data-category="${category}"]`).classList.remove('hidden');
+
       this.State.ActiveCategory = category;
       if (this.EnableLocalStore)
       {
@@ -24474,7 +24949,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let allSortBars = this.ResultNode.querySelectorAll(`div.inbox-sort-bar`);
     for (let barNode of allSortBars)
     {
-      barNode.classList.remove('show');
+      barNode.classList.remove('show', 'hidden');
     }
 
     let sortData = this.State.CategorySettings[this.State.ActiveCategory].SortFields;
@@ -24936,32 +25411,61 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="inbox-tabs-right">
           <div class="inbox-tab-loader"></div>
+          <div class="inbox-search-bar">
+            <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
+            <input type="text" name="search" placeholder="Search" />
+            <button data-action="show-hide-filters">Filters</button>
+            <button data-action="show-hide-columns-select">Columns</button>
+            <div class="show-hide-columns-check-lists">
+              <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
+              <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
+              <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
+            </div>
+          </div>
           <div class="inbox-tab-button">
             <button data-action="startnew">Start a New Form</button>
           </div>
         </div>
       </div>
-      <div class="inbox-search show">
-        <div class="search-row">
-          <input type="text" placeholder="Search" />
-          <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
-          <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+      <div class="inbox-search-filters show">
+        <div class="search-row inline">
+          <div class="form-row">
+            <label>Date Filter Field</label>
+            <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
+            <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
+            <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
+          </div>
+        </div>
+        <div class="search-row inline search-dates">
+          <div class="form-row">
+            <label for="StartDate">Date From</label>
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
+          <div class="form-row">
+            <label for="EndDate">Date To</label>
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
+        </div>
+        <div class="search-row inline">
+          <label>&nbsp;</label>
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="SearchShowCompletedForms">
+            <label for="SearchShowCompletedForms">Show completed froms</label>
+          </div>        
+        </div>
+        <div class="search-row no-label">
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="SearchShowUnassigned" checked>
+            <label for="SearchShowUnassigned">Show unassigned (no Pay Point / no Date Effective)</label>
+          </div>        
         </div>
         <div class="search-row search-columns">
+          <label>Search in columns <span class="toggle-search-checks-visible">Show</span></label>
           <div class="hidden" data-category="ToAction"></div>
           <div class="hidden" data-category="InProgress"></div>
           <div class="hidden" data-category="Completed"></div>
         </div>
-        <div class="search-row search-dates">
-          <div class="form-row">
-            <label for="StartDate">From</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-          <div class="form-row">
-            <label for="EndDate">To</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-        </div>
+        <button class="grey link ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch">Reset view</button>
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
@@ -25004,7 +25508,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
                 <th class="buttons">
                   ${toggleToAction}
-                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 </th>
               </tr>
             </thead>
@@ -25043,7 +25546,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
                 <th class="buttons large">
                   ${toggleInProgress}
-                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 </th>
               </tr>
             </thead>
@@ -25082,7 +25584,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
                 <th class="buttons">
                   ${toggleCompleted}
-                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
                 </th>
               </tr>
             </thead>
@@ -25269,32 +25770,61 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="inbox-tabs-right">
           <div class="inbox-tab-loader"></div>
+          <div class="inbox-search-bar">
+            <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
+            <input type="text" name="search" placeholder="Search" />
+            <button data-action="show-hide-filters">Filters</button>
+            <button data-action="show-hide-columns-select">Columns</button>
+            <div class="show-hide-columns-check-lists">
+              <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
+              <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
+              <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
+            </div>
+          </div>
           <div class="inbox-tab-button">
             <button data-action="startnew">Start a New Form</button>
           </div>
         </div>
       </div>
-      <div class="inbox-search hide">
-        <div class="search-row">
-          <input type="text" placeholder="Search" />
-          <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
-          <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+      <div class="inbox-search-filters show">
+        <div class="search-row inline">
+          <div class="form-row">
+            <label>Date Filter Field</label>
+            <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
+            <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
+            <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
+          </div>
+        </div>
+        <div class="search-row inline search-dates">
+          <div class="form-row">
+            <label for="StartDate">Date From</label>
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
+          <div class="form-row">
+            <label for="EndDate">Date To</label>
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+          </div>
+        </div>
+        <div class="search-row inline">
+          <label>&nbsp;</label>
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="SearchShowCompletedForms">
+            <label for="SearchShowCompletedForms">Show completed froms</label>
+          </div>        
+        </div>
+        <div class="search-row no-label">
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="SearchShowUnassigned">
+            <label for="SearchShowUnassigned">Show unassigned (no Pay Point / no Date Effective)</label>
+          </div>        
         </div>
         <div class="search-row search-columns">
+          <label>Search in columns <span class="toggle-search-checks-visible">Show</span></label>
           <div class="hidden" data-category="ToAction"></div>
           <div class="hidden" data-category="InProgress"></div>
           <div class="hidden" data-category="Completed"></div>
         </div>
-        <div class="search-row search-dates">
-          <div class="form-row">
-            <label for="StartDate">From</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-          <div class="form-row">
-            <label for="EndDate">To</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-        </div>
+        <button class="grey link ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch">Reset view</button>
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
@@ -25329,18 +25859,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
                 <th class="buttons">
                   ${toggleToAction}
-                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                  <div class="icon-dots-vert colum-menu-box">
-                    <div class="colum-menu">
-                      <div class="colum-menu-item">More Columns</div>
-                      <div class="colum-menu-item" data-column="EffectiveDate">
-                        <input type="checkbox" id="ToActionEffectiveDateColumn" checked /><label for="ToActionEffectiveDateColumn">Effective Date</label>
-                      </div>
-                      <div class="colum-menu-item" data-column="PayPoint">
-                        <input type="checkbox" id="ToActionPayPointColumn" /><label for="ToActionPayPointColumn">Pay Point</label>
-                      </div>
-                    </div>
-                  </div>
                 </th>
               </tr>
             </thead>
@@ -25373,18 +25891,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
                 <th class="buttons large">
                   ${toggleInProgress}
-                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                  <div class="icon-dots-vert colum-menu-box">
-                    <div class="colum-menu">
-                      <div class="colum-menu-item">More Columns</div>
-                      <div class="colum-menu-item" data-column="EffectiveDate">
-                        <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
-                      </div>
-                      <div class="colum-menu-item" data-column="PayPoint">
-                        <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
-                      </div>
-                    </div>
-                  </div>
                 </th>
               </tr>
             </thead>
@@ -25417,18 +25923,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
                 <th class="buttons">
                   ${toggleCompleted}
-                  <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
-                  <div class="icon-dots-vert colum-menu-box">
-                    <div class="colum-menu">
-                      <div class="colum-menu-item">More Columns</div>
-                      <div class="colum-menu-item" data-column="EffectiveDate">
-                        <input type="checkbox" id="CompletedEffectiveDateColumn" checked /><label for="CompletedEffectiveDateColumn">Effective Date</label>
-                      </div>
-                      <div class="colum-menu-item" data-column="PayPoint">
-                        <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
-                      </div>
-                    </div>
-                  </div>
                 </th>
               </tr>
             </thead>
@@ -25743,11 +26237,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       let forId = `${data.Category}_${data.Column}`;
       return `
+        <div class="check-wrapper check-first ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
+          <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
+          <label for="${forId}">${data.Label}</label>
+        </div>
+      `;
+      /*
+      return `
         <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
           <label for="${forId}">${data.Label}</label>
           <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
         </div>
       `;
+      */
     };
 
     this.SortPillTemplate = data =>
@@ -46356,6 +46858,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.displayNode = document.createElement('input');
     this.displayNode.type = 'text';
+    this.displayNode.widgets = { DateTime: this };
     this.targetNode.parentNode.insertBefore(this.displayNode, this.targetNode.nextSibling);
 
     this.calendarNode = document.createElement('div');
@@ -46372,7 +46875,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.dateDisplayNode = this.calendarNode.querySelector('.ui-cal-display-date');
     this.timeDisplayNode = this.calendarNode.querySelector('.ui-cal-display-time');
-    this.timeResetNode = this.calendarNode.querySelector('.ui-cal-reset');
 
     if (this.targetNode.hasAttribute('min'))
     {
@@ -46391,6 +46893,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         this.maxDate = maxCheck;
       }
+    }
+    if (this.targetNode.hasAttribute('name'))
+    {
+      let name = this.targetNode.getAttribute('name');
+      this.targetNode.setAttribute('name',`${name}-original`);
+      this.displayNode.setAttribute('name', `${name}`);
     }
 
     // set days of week at top, belwo month and year
@@ -46691,6 +47199,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     /**/
 
     this.calendarNode.querySelector('.ui-cal-reset').addEventListener('click', this.setToday);
+    this.calendarNode.querySelector('.ui-cal-clear').addEventListener('click', this.setNone);
 
     this.calendarNode.querySelector('.ui-cal-back-month').addEventListener('click', this._monthBackClicked);
     this.calendarNode.querySelector('.ui-cal-forward-month').addEventListener('click', this._monthForwardClicked);
@@ -46901,6 +47410,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (!this.showInline && Affinity2018.Autocompletes) Affinity2018.Autocompletes.HideAll();
     this._setHideShowEvents();
     if (this.showCalendar) this.datesNode.classList.add('show');
+    if (this.showCalendar && this.nullable) this.calendarNode.querySelector('.ui-cal-clear').classList.remove('hidden');
+    if (this.showCalendar && !this.nullable) this.calendarNode.querySelector('.ui-cal-clear').classList.add('hidden');
     if (!this.showCalendar && this.showTime) this.timeNode.classList.add('show');
     if (this.monthNode) this.monthNode.classList.remove('show');
     if (this.yearNode) this.yearNode.classList.remove('show');
@@ -47586,7 +48097,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           </div>
         </div>
         <div class="ui-cal-display" tabindex="-1">
-          <span class="ui-cal-display-date hidden" tabindex="-1"></span><span class="ui-cal-display-time hidden" tabindex="-1"></span><span class="ui-cal-reset" tabindex="-1">Today</span>
+          <span class="ui-cal-display-date hidden" tabindex="-1"></span><span class="ui-cal-display-time hidden" tabindex="-1"></span><span class="ui-cal-reset" tabindex="-1">Today</span><span class="ui-cal-clear hidden" tabindex="-1">Clear</span>
         </div>
         <div class="ui-cal-months" tabindex="-1"></div>
         <div class="ui-cal-years" tabindex="-1"></div>
@@ -54267,6 +54778,353 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
 };
 ;
+
+if(!('Affinity2018' in window)) Affinity2018 = {};
+if(!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if(!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
+
+if(!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if(!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
+
+Affinity2018.Classes.Plugins.SimpleSelects = class
+{
+  _options()
+  {
+    this.widgets = [];
+  }
+
+  constructor()
+  {
+    this._options();
+    [
+      'Apply', 'Remove',
+      'HideAll',
+      '_apply'
+    ].bindEach(this);
+    
+    this.Ready = true;
+  }
+
+  Apply(node)
+  {
+    var temp = [];
+    if (node !== undefined && node !== null)
+    {
+      temp = [this._apply(node)];
+    }
+    else
+    {
+      document.querySelectorAll('.ui-has-simple-select').forEach(function (node)
+      {
+        temp.push(this._apply(node));
+      }.bind(this));
+    }
+    return {
+      total: temp.length,
+      widgets: temp
+    }
+  }
+
+  Remove(node)
+  {
+    if (
+      node.classList.contains('ui-simple-select')
+      && node.hasOwnProperty('widgets')
+      && node.widgets.hasOwnProperty('SimpleSelect')
+    )
+    {
+      node.widgets.SimpleSelects.Destroy();
+    }
+  }
+
+  HideAll(except)
+  {
+    var key, widget;
+    for (key in this.widgets)
+    {
+      if (this.widgets.hasOwnProperty(key))
+      {
+        widget = this.widgets[key];
+        if (typeof except === 'object' && except.hasOwnProperty('UID'))
+        {
+          if (widget.UID !== except.UID) widget.Hide();
+        }
+        else
+        {
+          widget.Hide();
+        }
+      }
+    }
+    Affinity2018.unlockBodyScroll();
+  }
+
+  /**/
+
+  _apply(node)
+  {
+    return new Affinity2018.Classes.Plugins.SimpleSelectWidget(node);
+  }
+
+};
+
+
+Affinity2018.Classes.Plugins.SimpleSelectWidget = class extends Affinity2018.ClassEvents
+{
+
+  _options()
+  {
+    this.Data = [];
+  }
+
+  constructor(targetNode)
+  {
+    super();
+    this._options();
+    [
+      '_init',
+
+      'Show', 'Hide',
+
+      'UpdateList',
+
+      'UpdateList',
+
+      '_displayClicked',
+      '_displayKeyUp',
+      '_listClicked',
+
+      '_checkHide',
+
+      '_templates',
+
+      'Destroy'
+
+    ].bindEach(this);
+    this._templates();
+
+    if (!Affinity2018.isDomElement(targetNode))
+    {
+      console.error('No valid element was passed to SimpleSelectWidget, dummy!');
+      return;
+    }
+
+    if (targetNode.classList.contains('ui-simple-select'))
+    {
+      return;
+    }
+
+    this.TargetNode = targetNode;
+    this.UID = this.TargetNode.id ? this.TargetNode.id : Affinity2018.uuid();
+
+    this.InitSize = this.TargetNode.getBoundingClientRect();
+    
+    this.TargetNode.classList.remove('ui-has-simple-select');
+    this.TargetNode.classList.add('ui-simple-select');
+
+    this._init();
+
+  }
+
+  _init()
+  {
+    if (!this.TargetNode.hasOwnProperty('widgets')) this.TargetNode.widgets = {};
+    this.TargetNode.widgets.SimpleSelect = this;
+
+    this.ParentNode = this.TargetNode.parentNode;
+    this.ParentNode.classList.add('simple-select');
+
+    this.DisplayNode = document.createElement('input');
+    this.DisplayNode.classList.add('simple-select-display');
+    this.DisplayNode.type = 'text';
+    this.DisplayNode.name = `simple-select-display-${this.UID}`;
+    this.ParentNode.appendChild(this.DisplayNode);
+
+    this.ListNode = document.createElement('div');
+    this.ListNode.classList.add('simple-select-list');
+    this.ListNode.style.marginTop = `${this.InitSize.height}px`;
+    this.ParentNode.appendChild(this.ListNode);
+
+    this.DisplayNode.addEventListener('click', this._displayClicked);
+    this.DisplayNode.addEventListener('keyup', this._displayKeyUp);
+
+    this.ListNode.addEventListener('click', this._listClicked);
+    
+    window.addEventListener('click', this._checkHide);
+
+    this.UpdateList();
+  }
+
+  /**/
+
+  Show()
+  {
+    clearTimeout(this._autoHide);
+    for (let data of this.Data)
+    {
+      let optionNode = this.ListNode.querySelector(`div[data-index="${data.Index}"]`);
+      if (optionNode)
+      {
+        optionNode.innerHTML = data.Display;
+        optionNode.classList.remove('selected');
+        if (data.Index === this.Index)
+        {
+          optionNode.classList.add('selected');
+        }
+      }
+    }
+    this.ListNode.classList.add('show');
+  }
+
+  Hide()
+  {
+    clearTimeout(this._autoHide);
+    this.ListNode.classList.remove('show');
+  }
+
+  UpdateList()
+  {
+    this._updateList();
+  }
+
+  /**/
+
+  _updateList()
+  {
+    let selectedIndex = Math.max(this.TargetNode.selectedIndex, 0);
+    let options = this.TargetNode.querySelectorAll('option');
+    let optionsHTML = ``;
+    let index = 0;
+    for (let option of options)
+    {
+      let data = {
+        Display: option.innerHTML,
+        Value: option.value,
+        Index: index,
+        Selected: index === selectedIndex
+      };
+      this.Data.push(data);
+      optionsHTML += this._optionTemplate(data);
+      if (index === selectedIndex)
+      {
+        this.Value = option.value;
+        this.Display = option.innerHTML;
+        this.Index = index;
+        this.DisplayNode.value = this.Display;
+      }
+      index++;
+    }
+    this.ListNode.innerHTML = optionsHTML;
+  }
+
+  _listClicked(event)
+  {
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+      clearTimeout(this._autoHide);
+      let optionNode = null;
+      if (event.target.classList.contains('simple-select-list-item'))
+      {
+        optionNode = event.target;
+      }
+      else
+      {
+        optionNode = event.target.closest('.simple-select-list-item');
+      }
+      if (optionNode)
+      {
+        this.Value = optionNode.dataset.value;
+        this.Display = optionNode.dataset.display;
+        this.Index = parseInt(optionNode.dataset.index);
+        this.TargetNode.value = this.Value;
+        this.TargetNode.selectedIndex = this.Index;
+        this.TargetNode.dispatchEvent(new CustomEvent('change', { detail: { isTrusted: true }}));
+        this.DisplayNode.value = this.Display;
+        this.dispatchEvent(new CustomEvent('change', { detail: { isTrusted: true }}));
+        this.Hide();
+      }
+    }
+  }
+
+  _displayClicked(event)
+  {
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+      clearTimeout(this._autoHide);
+      this.Show();
+      this.DisplayNode.select();
+    }
+  }
+
+  _displayKeyUp(event)
+  {
+    if (Affinity2018.isEvent(event) && event.isTrusted)
+    {
+      let escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      let value = this.DisplayNode.value;
+      for (let data of this.Data)
+      {
+        let optionNode = this.ListNode.querySelector(`div[data-index="${data.Index}"]`);
+        let regex = new RegExp(escapeRegex(value), 'i');
+        let found = regex.test(data.Display);
+        if (found)
+        {
+          let regex = new RegExp(escapeRegex(value), 'gi');
+          optionNode.innerHTML = data.Display.replace(regex, (match) => `<em>${match}</em>`)
+        }
+        else
+        {
+          optionNode.innerHTML = data.Display;
+        }
+      }
+    }
+  }
+
+  _checkHide()
+  {
+    this._autoHide = setTimeout(this.Hide, 50);
+  }
+
+  /**/
+
+  _templates()
+  {
+    this._optionTemplate = data =>
+    {
+      let selectedClass = data.Selected ? ' selected': '';
+      return `<div class="simple-select-list-item${selectedClass}" data-value="${data.Value}" data-display="${data.Display}" data-index="${data.Index}">${data.Display}</div>`;
+    };
+  }
+
+  /**/
+
+  Destroy()
+  {
+    this.DisplayNode.removeEventListener('click', this._displayClicked);
+    this.DisplayNode.removeEventListener('keyup', this._displayKeyUp);
+    this.ListNode.removeEventListener('click', this._listClicked);
+    window.removeEventListener('click', this._checkHide);
+    this.TargetNode.classList.remove('ui-has-simple-select', 'ui-simple-select');
+    this.TargetNode.widgets.SimpleSelect = null;
+    delete this.TargetNode.widgets.SimpleSelect;
+    this.ParentNode.removeChild(this.DisplayNode);
+    this.ParentNode.removeChild(this.ListNode);
+    this.ParentNode.classList.remove('simple-select');
+    for (var key in this)
+    {
+      if (this.hasOwnProperty(key))
+      {
+        this[key] = null;
+        delete this[key];
+      }
+    }
+    return true;
+  }
+
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                            ************************************************************************************/
