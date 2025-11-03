@@ -29015,7 +29015,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
 
 
-	    // dev/CF-1214: Fix forms where all Employee fields are disabled so are not saved after poulation.
+	  // dev/CF-1214: Fix forms where all Employee fields are disabled so are not saved after poulation.
       // Force save all if all affected fields are disabled by NOT updating history with selected key value
       let checkPaths = [
          `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) input:not(:disabled)`,
@@ -29204,7 +29204,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 let savedValue = this.Config.Details.Value;
                 let resetValue = this.Config.Details.Value;
                 let valueHistory = form.GetAllFormFullHistoryByName(this.Config.Name);
-                for (let h = valueHistory.length - 1; h >= 0; h--)
+                for (let h = 0; h < valueHistory.length; h++)
                 {
                   if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue && valueHistory[h].Value !== savedValue)
                   {
@@ -29216,10 +29216,13 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 {
                   resetValue = savedValue;
                 }
-                this.ElementController.SetFromValue(resetValue, false, false);
+
+                let formRowNode = document.querySelector('div.form-row.is-employee-no');
+                formRowNode.controller.SetFromValue(resetValue, false, false);
               
               }).bind(this)
             });
+            return;
           }
           else
           {
