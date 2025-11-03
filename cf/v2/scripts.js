@@ -29204,7 +29204,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 let savedValue = this.Config.Details.Value;
                 let resetValue = this.Config.Details.Value;
                 let valueHistory = form.GetAllFormFullHistoryByName(this.Config.Name);
-                for (let h = 0; h < valueHistory.length; h++)
+                for (let h = valueHistory.length - 1; h >= 0; h--)
                 {
                   if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue && valueHistory[h].Value !== savedValue)
                   {
