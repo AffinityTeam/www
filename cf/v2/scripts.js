@@ -29201,20 +29201,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 // User cancelled
 
                 let nowValue = this.GetFromFormRow().Value;
-                let savedValue = this.Config.Details.Value;
-                let resetValue = this.Config.Details.Value;
+                let resetValue = null;
                 let valueHistory = form.GetAllFormFullHistoryByName(this.Config.Name);
+
                 for (let h = 0; h < valueHistory.length; h++)
                 {
-                  if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue && valueHistory[h].Value !== savedValue)
+                  if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue)
                   {
-                    savedValue = valueHistory[h].Value;
+                    resetValue = valueHistory[h].Value;
                     break;
                   }
                 }
-                if (savedValue !== nowValue)
+                if (resetValue === null)
                 {
-                  resetValue = savedValue;
+                  resetValue = this.Config.Details.Value;
                 }
 
                 let formRowNode = document.querySelector('div.form-row.is-employee-no');
