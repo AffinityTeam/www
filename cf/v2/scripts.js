@@ -23697,8 +23697,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       // temp fallabck for testing if API fails
       if (this.LocalDebug)
       {
-        console.log(`%c⚠ %cUsing stubbed fallback.`, `color: #FF6666; font-size: 16px`, `color: #FF6666; font-weight: bold`);
-        data = [{"PayPoint":1,"Description":"Indoor Workforce ASU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-20T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-06T12:00:00.000Z","TotalDays":14},{"PayPoint":2,"Description":"Outdoor W/Force AWU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14},{"PayPoint":3,"Description":"Contractors","PayPointCountryCode":"N","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14}];
+        switch (Affinity2018.UserProfile.UserGuid)
+        {
+          case 'e5000002-5112-0000-0000-000000000000':
+            console.log(`%c⚠ %cUsing stubbed fallback.`, `color: #FF6666; font-size: 16px`, `color: #FF6666; font-weight: bold`);
+            data = [{"PayPoint":1,"Description":"Indoor Workforce ASU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-20T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-06T12:00:00.000Z","TotalDays":14},{"PayPoint":2,"Description":"Outdoor W/Force AWU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14},{"PayPoint":3,"Description":"Contractors","PayPointCountryCode":"N","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14}];
+            break;
+          default:
+            if (this.ViewMode === 'Admin')
+            {
+              throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
+            }
+            break;
+        }   
+      }
+      else
+      {
+        // TODO: Should we throw and break out?> We can't really continue with no paypoint data
+        if (this.ViewMode === 'Admin')
+        {
+          throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
+        }
       }
     }
 
@@ -31268,7 +31287,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
 
 
-	    // dev/CF-1214: Fix forms where all Employee fields are disabled so are not saved after poulation.
+	  // dev/CF-1214: Fix forms where all Employee fields are disabled so are not saved after poulation.
       // Force save all if all affected fields are disabled by NOT updating history with selected key value
       let checkPaths = [
          `div.form-row[data-model="${this.Config.Details.AffinityField.ModelName}"]:not([data-name="${this.Config.Name}"]) input:not(:disabled)`,
@@ -31454,25 +31473,28 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
                 // User cancelled
 
                 let nowValue = this.GetFromFormRow().Value;
-                let savedValue = this.Config.Details.Value;
-                let resetValue = this.Config.Details.Value;
+                let resetValue = null;
                 let valueHistory = form.GetAllFormFullHistoryByName(this.Config.Name);
+
                 for (let h = 0; h < valueHistory.length; h++)
                 {
-                  if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue && valueHistory[h].Value !== savedValue)
+                  if (valueHistory[h].Value.toString().trim() !== '' && valueHistory[h].Value !== nowValue)
                   {
-                    savedValue = valueHistory[h].Value;
+                    resetValue = valueHistory[h].Value;
                     break;
                   }
                 }
-                if (savedValue !== nowValue)
+                if (resetValue === null)
                 {
-                  resetValue = savedValue;
+                  resetValue = this.Config.Details.Value;
                 }
-                this.ElementController.SetFromValue(resetValue, false, false);
+
+                let formRowNode = document.querySelector('div.form-row.is-employee-no');
+                formRowNode.controller.SetFromValue(resetValue, false, false);
               
               }).bind(this)
             });
+            return;
           }
           else
           {

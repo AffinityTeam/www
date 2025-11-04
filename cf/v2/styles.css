@@ -1,62 +1,62 @@
 /* Minification failed. Returning unminified contents.
-(6637,59): run-time error CSS1030: Expected identifier, found ','
-(6637,81): run-time error CSS1031: Expected selector, found ')'
-(6637,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6645,59): run-time error CSS1030: Expected identifier, found ','
-(6645,81): run-time error CSS1031: Expected selector, found ')'
-(6645,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(6677,82): run-time error CSS1030: Expected identifier, found ','
-(6677,153): run-time error CSS1031: Expected selector, found ')'
-(6677,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(6759,64): run-time error CSS1030: Expected identifier, found ','
-(6759,71): run-time error CSS1031: Expected selector, found ')'
-(6759,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(6767,63): run-time error CSS1030: Expected identifier, found ','
-(6767,70): run-time error CSS1031: Expected selector, found ')'
-(6767,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(6775,72): run-time error CSS1030: Expected identifier, found ','
-(6775,79): run-time error CSS1031: Expected selector, found ')'
-(6775,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(6835,74): run-time error CSS1030: Expected identifier, found ','
-(6835,216): run-time error CSS1031: Expected selector, found ')'
-(6835,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(8626,113): run-time error CSS1030: Expected identifier, found ','
-(8626,125): run-time error CSS1031: Expected selector, found ')'
-(8626,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(9683,73): run-time error CSS1030: Expected identifier, found ','
-(9683,95): run-time error CSS1031: Expected selector, found ')'
-(9683,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9691,73): run-time error CSS1030: Expected identifier, found ','
-(9691,95): run-time error CSS1031: Expected selector, found ')'
-(9691,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9713,73): run-time error CSS1030: Expected identifier, found ','
-(9713,95): run-time error CSS1031: Expected selector, found ')'
-(9713,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9722,73): run-time error CSS1030: Expected identifier, found ','
-(9722,95): run-time error CSS1031: Expected selector, found ')'
-(9722,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9730,73): run-time error CSS1030: Expected identifier, found ','
-(9730,95): run-time error CSS1031: Expected selector, found ')'
-(9730,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9738,73): run-time error CSS1030: Expected identifier, found ','
-(9738,95): run-time error CSS1031: Expected selector, found ')'
-(9738,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(9746,73): run-time error CSS1030: Expected identifier, found ','
-(9746,95): run-time error CSS1031: Expected selector, found ')'
-(9746,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10131,133): run-time error CSS1030: Expected identifier, found ','
-(10131,274): run-time error CSS1031: Expected selector, found ')'
-(10131,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(10723,167): run-time error CSS1030: Expected identifier, found ','
-(10723,309): run-time error CSS1031: Expected selector, found ')'
-(10723,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11005,108): run-time error CSS1030: Expected identifier, found ','
-(11005,250): run-time error CSS1031: Expected selector, found ')'
-(11005,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(12032,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12033,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12175,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(12177,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(7041,59): run-time error CSS1030: Expected identifier, found ','
+(7041,81): run-time error CSS1031: Expected selector, found ')'
+(7041,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7049,59): run-time error CSS1030: Expected identifier, found ','
+(7049,81): run-time error CSS1031: Expected selector, found ')'
+(7049,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7081,82): run-time error CSS1030: Expected identifier, found ','
+(7081,153): run-time error CSS1031: Expected selector, found ')'
+(7081,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(7163,64): run-time error CSS1030: Expected identifier, found ','
+(7163,71): run-time error CSS1031: Expected selector, found ')'
+(7163,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(7171,63): run-time error CSS1030: Expected identifier, found ','
+(7171,70): run-time error CSS1031: Expected selector, found ')'
+(7171,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(7179,72): run-time error CSS1030: Expected identifier, found ','
+(7179,79): run-time error CSS1031: Expected selector, found ')'
+(7179,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(7239,74): run-time error CSS1030: Expected identifier, found ','
+(7239,216): run-time error CSS1031: Expected selector, found ')'
+(7239,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(9030,113): run-time error CSS1030: Expected identifier, found ','
+(9030,125): run-time error CSS1031: Expected selector, found ')'
+(9030,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(10087,73): run-time error CSS1030: Expected identifier, found ','
+(10087,95): run-time error CSS1031: Expected selector, found ')'
+(10087,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10095,73): run-time error CSS1030: Expected identifier, found ','
+(10095,95): run-time error CSS1031: Expected selector, found ')'
+(10095,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10117,73): run-time error CSS1030: Expected identifier, found ','
+(10117,95): run-time error CSS1031: Expected selector, found ')'
+(10117,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10126,73): run-time error CSS1030: Expected identifier, found ','
+(10126,95): run-time error CSS1031: Expected selector, found ')'
+(10126,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10134,73): run-time error CSS1030: Expected identifier, found ','
+(10134,95): run-time error CSS1031: Expected selector, found ')'
+(10134,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10142,73): run-time error CSS1030: Expected identifier, found ','
+(10142,95): run-time error CSS1031: Expected selector, found ')'
+(10142,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10150,73): run-time error CSS1030: Expected identifier, found ','
+(10150,95): run-time error CSS1031: Expected selector, found ')'
+(10150,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10535,133): run-time error CSS1030: Expected identifier, found ','
+(10535,274): run-time error CSS1031: Expected selector, found ')'
+(10535,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(11127,167): run-time error CSS1030: Expected identifier, found ','
+(11127,309): run-time error CSS1031: Expected selector, found ')'
+(11127,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(11409,108): run-time error CSS1030: Expected identifier, found ','
+(11409,250): run-time error CSS1031: Expected selector, found ')'
+(11409,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(12436,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12437,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12579,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(12581,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 
@@ -3547,7 +3547,31 @@ body.ui2018:not(.ui2025) .select.working:after {
   background-position: center center;
   background-repeat: no-repeat;
 }
-body.ui2018:not(.ui2025) .select select {
+body.ui2018 input[type="text"]:-webkit-autofill,
+body.ui2018 input[type="number"]:-webkit-autofill,
+body.ui2018 input[type="password"]:-webkit-autofill,
+body.ui2018 textarea:-webkit-autofill,
+body.ui2018 select:-webkit-autofill {
+  background-color: #efefef !important;
+  color: #333333 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #efefef inset;
+  -webkit-text-fill-color: #333333 !important;
+}
+body.ui2018 form,
+body.ui2018 .form,
+body.ui2018 .default-form {
+  display: block;
+  max-width: 700px;
+}
+body.ui2018 form .form-row,
+body.ui2018 .form .form-row,
+body.ui2018 .default-form .form-row {
+  position: relative;
+  margin: 0 0 30px 0;
+}
+body.ui2018 form .form-row label,
+body.ui2018 .form .form-row label,
+body.ui2018 .default-form .form-row label {
   display: inline-block;
   width: 100%;
   height: 30px;
@@ -3569,46 +3593,80 @@ body.ui2018:not(.ui2025) .select select {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018:not(.ui2025) .select select opton {
+body.ui2018 form .form-row label opton,
+body.ui2018 .form .form-row label opton,
+body.ui2018 .default-form .form-row label opton {
   color: #333333;
 }
-body.ui2018:not(.ui2025) .select.disabled {
+body.ui2018 form .form-row.disabled,
+body.ui2018 .form .form-row.disabled,
+body.ui2018 .default-form .form-row.disabled {
   touch-action: none;
   pointer-events: none;
   -moz-opacity: 0.5;
   -khtml-opacity: 0.5;
   opacity: 0.5;
 }
-body.ui2018:not(.ui2025) .select.disabled * {
+body.ui2018 form .form-row.disabled *,
+body.ui2018 .form .form-row.disabled *,
+body.ui2018 .default-form .form-row.disabled * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018:not(.ui2025) input[type="text"]:-webkit-autofill,
-body.ui2018:not(.ui2025) input[type="number"]:-webkit-autofill,
-body.ui2018:not(.ui2025) input[type="password"]:-webkit-autofill,
-body.ui2018:not(.ui2025) textarea:-webkit-autofill,
-body.ui2018:not(.ui2025) select:-webkit-autofill {
+body.ui2018 form input[type="text"]:-webkit-autofill,
+body.ui2018 .form input[type="text"]:-webkit-autofill,
+body.ui2018 .default-form input[type="text"]:-webkit-autofill,
+body.ui2018 form input[type="number"]:-webkit-autofill,
+body.ui2018 .form input[type="number"]:-webkit-autofill,
+body.ui2018 .default-form input[type="number"]:-webkit-autofill,
+body.ui2018 form input[type="password"]:-webkit-autofill,
+body.ui2018 .form input[type="password"]:-webkit-autofill,
+body.ui2018 .default-form input[type="password"]:-webkit-autofill,
+body.ui2018 form textarea:-webkit-autofill,
+body.ui2018 .form textarea:-webkit-autofill,
+body.ui2018 .default-form textarea:-webkit-autofill,
+body.ui2018 form select:-webkit-autofill,
+body.ui2018 .form select:-webkit-autofill,
+body.ui2018 .default-form select:-webkit-autofill {
   background-color: #efefef !important;
   color: #333333 !important;
   font-family: inherit;
   -webkit-box-shadow: 0 0 0px 1000px #efefef inset;
   -webkit-text-fill-color: #333333 !important;
 }
-body.ui2018:not(.ui2025) form,
-body.ui2018:not(.ui2025) .form,
-body.ui2018:not(.ui2025) .default-form {
+body.ui2018 form form,
+body.ui2018 .form form,
+body.ui2018 .default-form form,
+body.ui2018 form .form,
+body.ui2018 .form .form,
+body.ui2018 .default-form .form,
+body.ui2018 form .default-form,
+body.ui2018 .form .default-form,
+body.ui2018 .default-form .default-form {
   display: block;
   max-width: 700px;
 }
-body.ui2018:not(.ui2025) form .form-row,
-body.ui2018:not(.ui2025) .form .form-row,
-body.ui2018:not(.ui2025) .default-form .form-row {
+body.ui2018 form form .form-row,
+body.ui2018 .form form .form-row,
+body.ui2018 .default-form form .form-row,
+body.ui2018 form .form .form-row,
+body.ui2018 .form .form .form-row,
+body.ui2018 .default-form .form .form-row,
+body.ui2018 form .default-form .form-row,
+body.ui2018 .form .default-form .form-row,
+body.ui2018 .default-form .default-form .form-row {
   position: relative;
   margin: 0 0 30px 0;
 }
-body.ui2018:not(.ui2025) form .form-row label,
-body.ui2018:not(.ui2025) .form .form-row label,
-body.ui2018:not(.ui2025) .default-form .form-row label {
+body.ui2018 form form .form-row label,
+body.ui2018 .form form .form-row label,
+body.ui2018 .default-form form .form-row label,
+body.ui2018 form .form .form-row label,
+body.ui2018 .form .form .form-row label,
+body.ui2018 .default-form .form .form-row label,
+body.ui2018 form .default-form .form-row label,
+body.ui2018 .form .default-form .form-row label,
+body.ui2018 .default-form .default-form .form-row label {
   display: inline-block;
   vertical-align: top;
   width: 230px;
@@ -3631,21 +3689,39 @@ body.ui2018:not(.ui2025) .default-form .form-row label {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018:not(.ui2025) form .form-row label.solo,
-body.ui2018:not(.ui2025) .form .form-row label.solo,
-body.ui2018:not(.ui2025) .default-form .form-row label.solo {
+body.ui2018 form form .form-row label.solo,
+body.ui2018 .form form .form-row label.solo,
+body.ui2018 .default-form form .form-row label.solo,
+body.ui2018 form .form .form-row label.solo,
+body.ui2018 .form .form .form-row label.solo,
+body.ui2018 .default-form .form .form-row label.solo,
+body.ui2018 form .default-form .form-row label.solo,
+body.ui2018 .form .default-form .form-row label.solo,
+body.ui2018 .default-form .default-form .form-row label.solo {
   width: auto !important;
   max-width: 700px;
 }
-body.ui2018:not(.ui2025) form .form-row .form-starter,
-body.ui2018:not(.ui2025) .form .form-row .form-starter,
-body.ui2018:not(.ui2025) .default-form .form-row .form-starter {
+body.ui2018 form form .form-row .form-starter,
+body.ui2018 .form form .form-row .form-starter,
+body.ui2018 .default-form form .form-row .form-starter,
+body.ui2018 form .form .form-row .form-starter,
+body.ui2018 .form .form .form-row .form-starter,
+body.ui2018 .default-form .form .form-row .form-starter,
+body.ui2018 form .default-form .form-row .form-starter,
+body.ui2018 .form .default-form .form-row .form-starter,
+body.ui2018 .default-form .default-form .form-row .form-starter {
   margin: 10px 0 0 230px;
   font-size: 12px;
 }
-body.ui2018:not(.ui2025) form .form-row .form-starter button,
-body.ui2018:not(.ui2025) .form .form-row .form-starter button,
-body.ui2018:not(.ui2025) .default-form .form-row .form-starter button {
+body.ui2018 form form .form-row .form-starter button,
+body.ui2018 .form form .form-row .form-starter button,
+body.ui2018 .default-form form .form-row .form-starter button,
+body.ui2018 form .form .form-row .form-starter button,
+body.ui2018 .form .form .form-row .form-starter button,
+body.ui2018 .default-form .form .form-row .form-starter button,
+body.ui2018 form .default-form .form-row .form-starter button,
+body.ui2018 .form .default-form .form-row .form-starter button,
+body.ui2018 .default-form .default-form .form-row .form-starter button {
   height: auto;
   line-height: unset;
   margin: 0;
@@ -3663,16 +3739,28 @@ body.ui2018:not(.ui2025) .default-form .form-row .form-starter button {
   -o-transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-body.ui2018:not(.ui2025) form .form-row .form-starter button:hover,
-body.ui2018:not(.ui2025) .form .form-row .form-starter button:hover,
-body.ui2018:not(.ui2025) .default-form .form-row .form-starter button:hover {
+body.ui2018 form form .form-row .form-starter button:hover,
+body.ui2018 .form form .form-row .form-starter button:hover,
+body.ui2018 .default-form form .form-row .form-starter button:hover,
+body.ui2018 form .form .form-row .form-starter button:hover,
+body.ui2018 .form .form .form-row .form-starter button:hover,
+body.ui2018 .default-form .form .form-row .form-starter button:hover,
+body.ui2018 form .default-form .form-row .form-starter button:hover,
+body.ui2018 .form .default-form .form-row .form-starter button:hover,
+body.ui2018 .default-form .default-form .form-row .form-starter button:hover {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-body.ui2018:not(.ui2025) form .form-row .form-starter button:hover,
-body.ui2018:not(.ui2025) .form .form-row .form-starter button:hover,
-body.ui2018:not(.ui2025) .default-form .form-row .form-starter button:hover {
+body.ui2018 form form .form-row .form-starter button:hover,
+body.ui2018 .form form .form-row .form-starter button:hover,
+body.ui2018 .default-form form .form-row .form-starter button:hover,
+body.ui2018 form .form .form-row .form-starter button:hover,
+body.ui2018 .form .form .form-row .form-starter button:hover,
+body.ui2018 .default-form .form .form-row .form-starter button:hover,
+body.ui2018 form .default-form .form-row .form-starter button:hover,
+body.ui2018 .form .default-form .form-row .form-starter button:hover,
+body.ui2018 .default-form .default-form .form-row .form-starter button:hover {
   color: #16c1f3;
   border: none;
   background: none;
@@ -3680,253 +3768,561 @@ body.ui2018:not(.ui2025) .default-form .form-row .form-starter button:hover {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-body.ui2018:not(.ui2025) form .form-row .form-starter button:hover:hover,
-body.ui2018:not(.ui2025) .form .form-row .form-starter button:hover:hover,
-body.ui2018:not(.ui2025) .default-form .form-row .form-starter button:hover:hover {
+body.ui2018 form form .form-row .form-starter button:hover:hover,
+body.ui2018 .form form .form-row .form-starter button:hover:hover,
+body.ui2018 .default-form form .form-row .form-starter button:hover:hover,
+body.ui2018 form .form .form-row .form-starter button:hover:hover,
+body.ui2018 .form .form .form-row .form-starter button:hover:hover,
+body.ui2018 .default-form .form .form-row .form-starter button:hover:hover,
+body.ui2018 form .default-form .form-row .form-starter button:hover:hover,
+body.ui2018 .form .default-form .form-row .form-starter button:hover:hover,
+body.ui2018 .default-form .default-form .form-row .form-starter button:hover:hover {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-body.ui2018:not(.ui2025) form .form-row input,
-body.ui2018:not(.ui2025) .form .form-row input,
-body.ui2018:not(.ui2025) .default-form .form-row input {
+body.ui2018 form form .form-row input,
+body.ui2018 .form form .form-row input,
+body.ui2018 .default-form form .form-row input,
+body.ui2018 form .form .form-row input,
+body.ui2018 .form .form .form-row input,
+body.ui2018 .default-form .form .form-row input,
+body.ui2018 form .default-form .form-row input,
+body.ui2018 .form .default-form .form-row input,
+body.ui2018 .default-form .default-form .form-row input {
   vertical-align: top;
 }
-body.ui2018:not(.ui2025) form .form-row input[type="text"],
-body.ui2018:not(.ui2025) .form .form-row input[type="text"],
-body.ui2018:not(.ui2025) .default-form .form-row input[type="text"],
-body.ui2018:not(.ui2025) form .form-row input[type="number"],
-body.ui2018:not(.ui2025) .form .form-row input[type="number"],
-body.ui2018:not(.ui2025) .default-form .form-row input[type="number"],
-body.ui2018:not(.ui2025) form .form-row input[type="password"],
-body.ui2018:not(.ui2025) .form .form-row input[type="password"],
-body.ui2018:not(.ui2025) .default-form .form-row input[type="password"] {
+body.ui2018 form form .form-row input[type="text"],
+body.ui2018 .form form .form-row input[type="text"],
+body.ui2018 .default-form form .form-row input[type="text"],
+body.ui2018 form .form .form-row input[type="text"],
+body.ui2018 .form .form .form-row input[type="text"],
+body.ui2018 .default-form .form .form-row input[type="text"],
+body.ui2018 form .default-form .form-row input[type="text"],
+body.ui2018 .form .default-form .form-row input[type="text"],
+body.ui2018 .default-form .default-form .form-row input[type="text"],
+body.ui2018 form form .form-row input[type="number"],
+body.ui2018 .form form .form-row input[type="number"],
+body.ui2018 .default-form form .form-row input[type="number"],
+body.ui2018 form .form .form-row input[type="number"],
+body.ui2018 .form .form .form-row input[type="number"],
+body.ui2018 .default-form .form .form-row input[type="number"],
+body.ui2018 form .default-form .form-row input[type="number"],
+body.ui2018 .form .default-form .form-row input[type="number"],
+body.ui2018 .default-form .default-form .form-row input[type="number"],
+body.ui2018 form form .form-row input[type="password"],
+body.ui2018 .form form .form-row input[type="password"],
+body.ui2018 .default-form form .form-row input[type="password"],
+body.ui2018 form .form .form-row input[type="password"],
+body.ui2018 .form .form .form-row input[type="password"],
+body.ui2018 .default-form .form .form-row input[type="password"],
+body.ui2018 form .default-form .form-row input[type="password"],
+body.ui2018 .form .default-form .form-row input[type="password"],
+body.ui2018 .default-form .default-form .form-row input[type="password"] {
   width: 450px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018:not(.ui2025) form .form-row input[type="text"].error,
-body.ui2018:not(.ui2025) .form .form-row input[type="text"].error,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="text"].error,
-body.ui2018:not(.ui2025) form .form-row input[type="number"].error,
-body.ui2018:not(.ui2025) .form .form-row input[type="number"].error,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="number"].error,
-body.ui2018:not(.ui2025) form .form-row input[type="password"].error,
-body.ui2018:not(.ui2025) .form .form-row input[type="password"].error,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="password"].error,
-body.ui2018:not(.ui2025) form .form-row textarea.error,
-body.ui2018:not(.ui2025) .form .form-row textarea.error,
-body.ui2018:not(.ui2025) .default-form .form-row textarea.error {
+body.ui2018 form form .form-row input[type="text"].error,
+body.ui2018 .form form .form-row input[type="text"].error,
+body.ui2018 .default-form form .form-row input[type="text"].error,
+body.ui2018 form .form .form-row input[type="text"].error,
+body.ui2018 .form .form .form-row input[type="text"].error,
+body.ui2018 .default-form .form .form-row input[type="text"].error,
+body.ui2018 form .default-form .form-row input[type="text"].error,
+body.ui2018 .form .default-form .form-row input[type="text"].error,
+body.ui2018 .default-form .default-form .form-row input[type="text"].error,
+body.ui2018 form form .form-row input[type="number"].error,
+body.ui2018 .form form .form-row input[type="number"].error,
+body.ui2018 .default-form form .form-row input[type="number"].error,
+body.ui2018 form .form .form-row input[type="number"].error,
+body.ui2018 .form .form .form-row input[type="number"].error,
+body.ui2018 .default-form .form .form-row input[type="number"].error,
+body.ui2018 form .default-form .form-row input[type="number"].error,
+body.ui2018 .form .default-form .form-row input[type="number"].error,
+body.ui2018 .default-form .default-form .form-row input[type="number"].error,
+body.ui2018 form form .form-row input[type="password"].error,
+body.ui2018 .form form .form-row input[type="password"].error,
+body.ui2018 .default-form form .form-row input[type="password"].error,
+body.ui2018 form .form .form-row input[type="password"].error,
+body.ui2018 .form .form .form-row input[type="password"].error,
+body.ui2018 .default-form .form .form-row input[type="password"].error,
+body.ui2018 form .default-form .form-row input[type="password"].error,
+body.ui2018 .form .default-form .form-row input[type="password"].error,
+body.ui2018 .default-form .default-form .form-row input[type="password"].error,
+body.ui2018 form form .form-row textarea.error,
+body.ui2018 .form form .form-row textarea.error,
+body.ui2018 .default-form form .form-row textarea.error,
+body.ui2018 form .form .form-row textarea.error,
+body.ui2018 .form .form .form-row textarea.error,
+body.ui2018 .default-form .form .form-row textarea.error,
+body.ui2018 form .default-form .form-row textarea.error,
+body.ui2018 .form .default-form .form-row textarea.error,
+body.ui2018 .default-form .default-form .form-row textarea.error {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 97%, #e33100 3%);
   background-position: center bottom;
   background-size: 0% 20px;
   background-repeat: no-repeat;
   border-bottom: 1px solid #cccccc;
 }
-body.ui2018:not(.ui2025) form .form-row input[type="text"].error:focus,
-body.ui2018:not(.ui2025) .form .form-row input[type="text"].error:focus,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="text"].error:focus,
-body.ui2018:not(.ui2025) form .form-row input[type="number"].error:focus,
-body.ui2018:not(.ui2025) .form .form-row input[type="number"].error:focus,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="number"].error:focus,
-body.ui2018:not(.ui2025) form .form-row input[type="password"].error:focus,
-body.ui2018:not(.ui2025) .form .form-row input[type="password"].error:focus,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="password"].error:focus,
-body.ui2018:not(.ui2025) form .form-row textarea.error:focus,
-body.ui2018:not(.ui2025) .form .form-row textarea.error:focus,
-body.ui2018:not(.ui2025) .default-form .form-row textarea.error:focus,
-body.ui2018:not(.ui2025) form .form-row input[type="text"].error:hover,
-body.ui2018:not(.ui2025) .form .form-row input[type="text"].error:hover,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="text"].error:hover,
-body.ui2018:not(.ui2025) form .form-row input[type="number"].error:hover,
-body.ui2018:not(.ui2025) .form .form-row input[type="number"].error:hover,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="number"].error:hover,
-body.ui2018:not(.ui2025) form .form-row input[type="password"].error:hover,
-body.ui2018:not(.ui2025) .form .form-row input[type="password"].error:hover,
-body.ui2018:not(.ui2025) .default-form .form-row input[type="password"].error:hover,
-body.ui2018:not(.ui2025) form .form-row textarea.error:hover,
-body.ui2018:not(.ui2025) .form .form-row textarea.error:hover,
-body.ui2018:not(.ui2025) .default-form .form-row textarea.error:hover {
+body.ui2018 form form .form-row input[type="text"].error:focus,
+body.ui2018 .form form .form-row input[type="text"].error:focus,
+body.ui2018 .default-form form .form-row input[type="text"].error:focus,
+body.ui2018 form .form .form-row input[type="text"].error:focus,
+body.ui2018 .form .form .form-row input[type="text"].error:focus,
+body.ui2018 .default-form .form .form-row input[type="text"].error:focus,
+body.ui2018 form .default-form .form-row input[type="text"].error:focus,
+body.ui2018 .form .default-form .form-row input[type="text"].error:focus,
+body.ui2018 .default-form .default-form .form-row input[type="text"].error:focus,
+body.ui2018 form form .form-row input[type="number"].error:focus,
+body.ui2018 .form form .form-row input[type="number"].error:focus,
+body.ui2018 .default-form form .form-row input[type="number"].error:focus,
+body.ui2018 form .form .form-row input[type="number"].error:focus,
+body.ui2018 .form .form .form-row input[type="number"].error:focus,
+body.ui2018 .default-form .form .form-row input[type="number"].error:focus,
+body.ui2018 form .default-form .form-row input[type="number"].error:focus,
+body.ui2018 .form .default-form .form-row input[type="number"].error:focus,
+body.ui2018 .default-form .default-form .form-row input[type="number"].error:focus,
+body.ui2018 form form .form-row input[type="password"].error:focus,
+body.ui2018 .form form .form-row input[type="password"].error:focus,
+body.ui2018 .default-form form .form-row input[type="password"].error:focus,
+body.ui2018 form .form .form-row input[type="password"].error:focus,
+body.ui2018 .form .form .form-row input[type="password"].error:focus,
+body.ui2018 .default-form .form .form-row input[type="password"].error:focus,
+body.ui2018 form .default-form .form-row input[type="password"].error:focus,
+body.ui2018 .form .default-form .form-row input[type="password"].error:focus,
+body.ui2018 .default-form .default-form .form-row input[type="password"].error:focus,
+body.ui2018 form form .form-row textarea.error:focus,
+body.ui2018 .form form .form-row textarea.error:focus,
+body.ui2018 .default-form form .form-row textarea.error:focus,
+body.ui2018 form .form .form-row textarea.error:focus,
+body.ui2018 .form .form .form-row textarea.error:focus,
+body.ui2018 .default-form .form .form-row textarea.error:focus,
+body.ui2018 form .default-form .form-row textarea.error:focus,
+body.ui2018 .form .default-form .form-row textarea.error:focus,
+body.ui2018 .default-form .default-form .form-row textarea.error:focus,
+body.ui2018 form form .form-row input[type="text"].error:hover,
+body.ui2018 .form form .form-row input[type="text"].error:hover,
+body.ui2018 .default-form form .form-row input[type="text"].error:hover,
+body.ui2018 form .form .form-row input[type="text"].error:hover,
+body.ui2018 .form .form .form-row input[type="text"].error:hover,
+body.ui2018 .default-form .form .form-row input[type="text"].error:hover,
+body.ui2018 form .default-form .form-row input[type="text"].error:hover,
+body.ui2018 .form .default-form .form-row input[type="text"].error:hover,
+body.ui2018 .default-form .default-form .form-row input[type="text"].error:hover,
+body.ui2018 form form .form-row input[type="number"].error:hover,
+body.ui2018 .form form .form-row input[type="number"].error:hover,
+body.ui2018 .default-form form .form-row input[type="number"].error:hover,
+body.ui2018 form .form .form-row input[type="number"].error:hover,
+body.ui2018 .form .form .form-row input[type="number"].error:hover,
+body.ui2018 .default-form .form .form-row input[type="number"].error:hover,
+body.ui2018 form .default-form .form-row input[type="number"].error:hover,
+body.ui2018 .form .default-form .form-row input[type="number"].error:hover,
+body.ui2018 .default-form .default-form .form-row input[type="number"].error:hover,
+body.ui2018 form form .form-row input[type="password"].error:hover,
+body.ui2018 .form form .form-row input[type="password"].error:hover,
+body.ui2018 .default-form form .form-row input[type="password"].error:hover,
+body.ui2018 form .form .form-row input[type="password"].error:hover,
+body.ui2018 .form .form .form-row input[type="password"].error:hover,
+body.ui2018 .default-form .form .form-row input[type="password"].error:hover,
+body.ui2018 form .default-form .form-row input[type="password"].error:hover,
+body.ui2018 .form .default-form .form-row input[type="password"].error:hover,
+body.ui2018 .default-form .default-form .form-row input[type="password"].error:hover,
+body.ui2018 form form .form-row textarea.error:hover,
+body.ui2018 .form form .form-row textarea.error:hover,
+body.ui2018 .default-form form .form-row textarea.error:hover,
+body.ui2018 form .form .form-row textarea.error:hover,
+body.ui2018 .form .form .form-row textarea.error:hover,
+body.ui2018 .default-form .form .form-row textarea.error:hover,
+body.ui2018 form .default-form .form-row textarea.error:hover,
+body.ui2018 .form .default-form .form-row textarea.error:hover,
+body.ui2018 .default-form .default-form .form-row textarea.error:hover {
   border-bottom: 1px solid #e33100;
   background-size: 100% 20px;
 }
-body.ui2018:not(.ui2025) form .form-row .select,
-body.ui2018:not(.ui2025) .form .form-row .select,
-body.ui2018:not(.ui2025) .default-form .form-row .select {
+body.ui2018 form form .form-row .select,
+body.ui2018 .form form .form-row .select,
+body.ui2018 .default-form form .form-row .select,
+body.ui2018 form .form .form-row .select,
+body.ui2018 .form .form .form-row .select,
+body.ui2018 .default-form .form .form-row .select,
+body.ui2018 form .default-form .form-row .select,
+body.ui2018 .form .default-form .form-row .select,
+body.ui2018 .default-form .default-form .form-row .select {
   width: 450px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018:not(.ui2025) form .form-row textarea,
-body.ui2018:not(.ui2025) .form .form-row textarea,
-body.ui2018:not(.ui2025) .default-form .form-row textarea {
+body.ui2018 form form .form-row textarea,
+body.ui2018 .form form .form-row textarea,
+body.ui2018 .default-form form .form-row textarea,
+body.ui2018 form .form .form-row textarea,
+body.ui2018 .form .form .form-row textarea,
+body.ui2018 .default-form .form .form-row textarea,
+body.ui2018 form .default-form .form-row textarea,
+body.ui2018 .form .default-form .form-row textarea,
+body.ui2018 .default-form .default-form .form-row textarea {
   width: 680px;
   min-width: 680px;
 }
-body.ui2018:not(.ui2025) form .form-row .help-bubble,
-body.ui2018:not(.ui2025) .form .form-row .help-bubble,
-body.ui2018:not(.ui2025) .default-form .form-row .help-bubble {
+body.ui2018 form form .form-row .help-bubble,
+body.ui2018 .form form .form-row .help-bubble,
+body.ui2018 .default-form form .form-row .help-bubble,
+body.ui2018 form .form .form-row .help-bubble,
+body.ui2018 .form .form .form-row .help-bubble,
+body.ui2018 .default-form .form .form-row .help-bubble,
+body.ui2018 form .default-form .form-row .help-bubble,
+body.ui2018 .form .default-form .form-row .help-bubble,
+body.ui2018 .default-form .default-form .form-row .help-bubble {
   width: 680px;
   max-width: 680px;
   min-width: 680px;
 }
-body.ui2018:not(.ui2025) form .form-row .country-warning,
-body.ui2018:not(.ui2025) .form .form-row .country-warning,
-body.ui2018:not(.ui2025) .default-form .form-row .country-warning {
+body.ui2018 form form .form-row .country-warning,
+body.ui2018 .form form .form-row .country-warning,
+body.ui2018 .default-form form .form-row .country-warning,
+body.ui2018 form .form .form-row .country-warning,
+body.ui2018 .form .form .form-row .country-warning,
+body.ui2018 .default-form .form .form-row .country-warning,
+body.ui2018 form .default-form .form-row .country-warning,
+body.ui2018 .form .default-form .form-row .country-warning,
+body.ui2018 .default-form .default-form .form-row .country-warning {
   font-size: 12px;
   line-height: 20px;
   margin: 10px 0 20px 0;
 }
-body.ui2018:not(.ui2025) form .form-row.inline-check input,
-body.ui2018:not(.ui2025) .form .form-row.inline-check input,
-body.ui2018:not(.ui2025) .default-form .form-row.inline-check input,
-body.ui2018:not(.ui2025) form .form-row.inline-radio input,
-body.ui2018:not(.ui2025) .form .form-row.inline-radio input,
-body.ui2018:not(.ui2025) .default-form .form-row.inline-radio input {
+body.ui2018 form form .form-row.inline-check input,
+body.ui2018 .form form .form-row.inline-check input,
+body.ui2018 .default-form form .form-row.inline-check input,
+body.ui2018 form .form .form-row.inline-check input,
+body.ui2018 .form .form .form-row.inline-check input,
+body.ui2018 .default-form .form .form-row.inline-check input,
+body.ui2018 form .default-form .form-row.inline-check input,
+body.ui2018 .form .default-form .form-row.inline-check input,
+body.ui2018 .default-form .default-form .form-row.inline-check input,
+body.ui2018 form form .form-row.inline-radio input,
+body.ui2018 .form form .form-row.inline-radio input,
+body.ui2018 .default-form form .form-row.inline-radio input,
+body.ui2018 form .form .form-row.inline-radio input,
+body.ui2018 .form .form .form-row.inline-radio input,
+body.ui2018 .default-form .form .form-row.inline-radio input,
+body.ui2018 form .default-form .form-row.inline-radio input,
+body.ui2018 .form .default-form .form-row.inline-radio input,
+body.ui2018 .default-form .default-form .form-row.inline-radio input {
   width: 30px;
   padding-right: 10px;
 }
-body.ui2018:not(.ui2025) form .form-row.inline-check label,
-body.ui2018:not(.ui2025) .form .form-row.inline-check label,
-body.ui2018:not(.ui2025) .default-form .form-row.inline-check label,
-body.ui2018:not(.ui2025) form .form-row.inline-radio label,
-body.ui2018:not(.ui2025) .form .form-row.inline-radio label,
-body.ui2018:not(.ui2025) .default-form .form-row.inline-radio label {
+body.ui2018 form form .form-row.inline-check label,
+body.ui2018 .form form .form-row.inline-check label,
+body.ui2018 .default-form form .form-row.inline-check label,
+body.ui2018 form .form .form-row.inline-check label,
+body.ui2018 .form .form .form-row.inline-check label,
+body.ui2018 .default-form .form .form-row.inline-check label,
+body.ui2018 form .default-form .form-row.inline-check label,
+body.ui2018 .form .default-form .form-row.inline-check label,
+body.ui2018 .default-form .default-form .form-row.inline-check label,
+body.ui2018 form form .form-row.inline-radio label,
+body.ui2018 .form form .form-row.inline-radio label,
+body.ui2018 .default-form form .form-row.inline-radio label,
+body.ui2018 form .form .form-row.inline-radio label,
+body.ui2018 .form .form .form-row.inline-radio label,
+body.ui2018 .default-form .form .form-row.inline-radio label,
+body.ui2018 form .default-form .form-row.inline-radio label,
+body.ui2018 .form .default-form .form-row.inline-radio label,
+body.ui2018 .default-form .default-form .form-row.inline-radio label {
   width: auto;
   max-width: calc(700px - 45px);
 }
-body.ui2018:not(.ui2025) form .form-row.draw-panel label:first-child,
-body.ui2018:not(.ui2025) .form .form-row.draw-panel label:first-child,
-body.ui2018:not(.ui2025) .default-form .form-row.draw-panel label:first-child {
+body.ui2018 form form .form-row.draw-panel label:first-child,
+body.ui2018 .form form .form-row.draw-panel label:first-child,
+body.ui2018 .default-form form .form-row.draw-panel label:first-child,
+body.ui2018 form .form .form-row.draw-panel label:first-child,
+body.ui2018 .form .form .form-row.draw-panel label:first-child,
+body.ui2018 .default-form .form .form-row.draw-panel label:first-child,
+body.ui2018 form .default-form .form-row.draw-panel label:first-child,
+body.ui2018 .form .default-form .form-row.draw-panel label:first-child,
+body.ui2018 .default-form .default-form .form-row.draw-panel label:first-child {
   margin: 0 0 10px 0;
 }
-body.ui2018:not(.ui2025) form .form-row.draw-panel canvas,
-body.ui2018:not(.ui2025) .form .form-row.draw-panel canvas,
-body.ui2018:not(.ui2025) .default-form .form-row.draw-panel canvas {
+body.ui2018 form form .form-row.draw-panel canvas,
+body.ui2018 .form form .form-row.draw-panel canvas,
+body.ui2018 .default-form form .form-row.draw-panel canvas,
+body.ui2018 form .form .form-row.draw-panel canvas,
+body.ui2018 .form .form .form-row.draw-panel canvas,
+body.ui2018 .default-form .form .form-row.draw-panel canvas,
+body.ui2018 form .default-form .form-row.draw-panel canvas,
+body.ui2018 .form .default-form .form-row.draw-panel canvas,
+body.ui2018 .default-form .default-form .form-row.draw-panel canvas {
   display: block;
 }
-body.ui2018:not(.ui2025) form .form-row.draw-panel button,
-body.ui2018:not(.ui2025) .form .form-row.draw-panel button,
-body.ui2018:not(.ui2025) .default-form .form-row.draw-panel button {
+body.ui2018 form form .form-row.draw-panel button,
+body.ui2018 .form form .form-row.draw-panel button,
+body.ui2018 .default-form form .form-row.draw-panel button,
+body.ui2018 form .form .form-row.draw-panel button,
+body.ui2018 .form .form .form-row.draw-panel button,
+body.ui2018 .default-form .form .form-row.draw-panel button,
+body.ui2018 form .default-form .form-row.draw-panel button,
+body.ui2018 .form .default-form .form-row.draw-panel button,
+body.ui2018 .default-form .default-form .form-row.draw-panel button {
   margin: 5px 0 0 0;
 }
-body.ui2018:not(.ui2025) form .form-row:last-child,
-body.ui2018:not(.ui2025) .form .form-row:last-child,
-body.ui2018:not(.ui2025) .default-form .form-row:last-child {
+body.ui2018 form form .form-row:last-child,
+body.ui2018 .form form .form-row:last-child,
+body.ui2018 .default-form form .form-row:last-child,
+body.ui2018 form .form .form-row:last-child,
+body.ui2018 .form .form .form-row:last-child,
+body.ui2018 .default-form .form .form-row:last-child,
+body.ui2018 form .default-form .form-row:last-child,
+body.ui2018 .form .default-form .form-row:last-child,
+body.ui2018 .default-form .default-form .form-row:last-child {
   margin: 0;
 }
-body.ui2018:not(.ui2025) form.bordered,
-body.ui2018:not(.ui2025) .form.bordered,
-body.ui2018:not(.ui2025) .default-form.bordered {
+body.ui2018 form form.bordered,
+body.ui2018 .form form.bordered,
+body.ui2018 .default-form form.bordered,
+body.ui2018 form .form.bordered,
+body.ui2018 .form .form.bordered,
+body.ui2018 .default-form .form.bordered,
+body.ui2018 form .default-form.bordered,
+body.ui2018 .form .default-form.bordered,
+body.ui2018 .default-form .default-form.bordered {
   padding: 20px;
   border: 1px dotted #cccccc;
 }
-body.ui2018:not(.ui2025) .bg-image-select {
+body.ui2018 form .bg-image-select,
+body.ui2018 .form .bg-image-select,
+body.ui2018 .default-form .bg-image-select {
   margin: 10px 0 0 0;
 }
-body.ui2018:not(.ui2025) .bg-image-select label {
+body.ui2018 form .bg-image-select label,
+body.ui2018 .form .bg-image-select label,
+body.ui2018 .default-form .bg-image-select label {
   width: auto !important;
 }
-body.ui2018:not(.ui2025) .bg-image-select .select {
+body.ui2018 form .bg-image-select .select,
+body.ui2018 .form .bg-image-select .select,
+body.ui2018 .default-form .bg-image-select .select {
   width: auto !important;
 }
-body.ui2018:not(.ui2025) .bg-image-select .select select {
+body.ui2018 form .bg-image-select .select select,
+body.ui2018 .form .bg-image-select .select select,
+body.ui2018 .default-form .bg-image-select .select select {
   width: auto !important;
 }
-body.ui2018:not(.ui2025).dark input[type="text"],
-body.ui2018:not(.ui2025).dark input[type="number"],
-body.ui2018:not(.ui2025).dark input[type="password"],
-body.ui2018:not(.ui2025).dark textarea {
+body.ui2018 form.dark input[type="text"],
+body.ui2018 .form.dark input[type="text"],
+body.ui2018 .default-form.dark input[type="text"],
+body.ui2018 form.dark input[type="number"],
+body.ui2018 .form.dark input[type="number"],
+body.ui2018 .default-form.dark input[type="number"],
+body.ui2018 form.dark input[type="password"],
+body.ui2018 .form.dark input[type="password"],
+body.ui2018 .default-form.dark input[type="password"],
+body.ui2018 form.dark textarea,
+body.ui2018 .form.dark textarea,
+body.ui2018 .default-form.dark textarea {
   color: #cccccc;
   border-bottom: 1px solid #666666;
 }
-body.ui2018:not(.ui2025).dark input[type="text"].inline-edit-obscured,
-body.ui2018:not(.ui2025).dark input[type="number"].inline-edit-obscured,
-body.ui2018:not(.ui2025).dark input[type="password"].inline-edit-obscured,
-body.ui2018:not(.ui2025).dark textarea.inline-edit-obscured {
+body.ui2018 form.dark input[type="text"].inline-edit-obscured,
+body.ui2018 .form.dark input[type="text"].inline-edit-obscured,
+body.ui2018 .default-form.dark input[type="text"].inline-edit-obscured,
+body.ui2018 form.dark input[type="number"].inline-edit-obscured,
+body.ui2018 .form.dark input[type="number"].inline-edit-obscured,
+body.ui2018 .default-form.dark input[type="number"].inline-edit-obscured,
+body.ui2018 form.dark input[type="password"].inline-edit-obscured,
+body.ui2018 .form.dark input[type="password"].inline-edit-obscured,
+body.ui2018 .default-form.dark input[type="password"].inline-edit-obscured,
+body.ui2018 form.dark textarea.inline-edit-obscured,
+body.ui2018 .form.dark textarea.inline-edit-obscured,
+body.ui2018 .default-form.dark textarea.inline-edit-obscured {
   border-color: transparent;
 }
-body.ui2018:not(.ui2025).dark input[type="text"].inline-edit-obscured:focus,
-body.ui2018:not(.ui2025).dark input[type="number"].inline-edit-obscured:focus,
-body.ui2018:not(.ui2025).dark input[type="password"].inline-edit-obscured:focus,
-body.ui2018:not(.ui2025).dark textarea.inline-edit-obscured:focus {
+body.ui2018 form.dark input[type="text"].inline-edit-obscured:focus,
+body.ui2018 .form.dark input[type="text"].inline-edit-obscured:focus,
+body.ui2018 .default-form.dark input[type="text"].inline-edit-obscured:focus,
+body.ui2018 form.dark input[type="number"].inline-edit-obscured:focus,
+body.ui2018 .form.dark input[type="number"].inline-edit-obscured:focus,
+body.ui2018 .default-form.dark input[type="number"].inline-edit-obscured:focus,
+body.ui2018 form.dark input[type="password"].inline-edit-obscured:focus,
+body.ui2018 .form.dark input[type="password"].inline-edit-obscured:focus,
+body.ui2018 .default-form.dark input[type="password"].inline-edit-obscured:focus,
+body.ui2018 form.dark textarea.inline-edit-obscured:focus,
+body.ui2018 .form.dark textarea.inline-edit-obscured:focus,
+body.ui2018 .default-form.dark textarea.inline-edit-obscured:focus {
   border-color: #16c1f3;
 }
-body.ui2018:not(.ui2025).dark select {
+body.ui2018 form.dark select,
+body.ui2018 .form.dark select,
+body.ui2018 .default-form.dark select {
   color: #999999;
 }
-body.ui2018:not(.ui2025).dark select optgroup {
+body.ui2018 form.dark select optgroup,
+body.ui2018 .form.dark select optgroup,
+body.ui2018 .default-form.dark select optgroup {
   color: #cccccc;
   background: #161616;
 }
-body.ui2018:not(.ui2025).dark select option {
+body.ui2018 form.dark select option,
+body.ui2018 .form.dark select option,
+body.ui2018 .default-form.dark select option {
   color: #999999;
   background: #161616;
 }
-body.ui2018:not(.ui2025).dark .select {
+body.ui2018 form.dark .select,
+body.ui2018 .form.dark .select,
+body.ui2018 .default-form.dark .select {
   border-bottom: 1px solid #666666;
 }
-body.ui2018:not(.ui2025).dark .select.working:after {
+body.ui2018 form.dark .select.working:after,
+body.ui2018 .form.dark .select.working:after,
+body.ui2018 .default-form.dark .select.working:after {
   background-image: url(data:image/gif;base64,R0lGODlhEAAQAPYAACIiIszMzD09PWhoaIqKiqCgoJ6enoGBgV5eXjg4OF1dXbOzs7CwsKurq6enp6KiooSEhE5OTri4uH9/fy0tLSsrK0lJSW9vb5WVlYyMjExMTD8/P6SkpLy8vG1tbVlZWY6Ojnh4eDQ0NHFxccHBwYWFhWJiYoeHh1FRUZycnMTExFVVVWdnZ7u7u8fHxzAwMCgoKHt7e3JyciYmJnR0dFtbWyQkJCIiIkpKSkRERCUlJTw8PFdXVysrKz8/PzIyMjY2NkFBQUZGRk5OTjU1NTo6OikpKTk5OXp6elNTU1RUVJiYmJSUlI+Pj4qKip6enqOjo0hISHx8fKmpqS8vL6+vr2xsbJCQkK2trbe3t2BgYJeXl7+/v3BwcIiIiKioqEVFRUNDQzExMVBQUHZ2dmlpaWJiYpGRkWtra5mZmZubm7S0tFxcXMHBwcPDw1hYWMjIyGRkZLKysr29vaampn19fa2trcbGxoCAgLa2tpOTk4ODg3Z2dgAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAAHjYAAgoOEhYUbIykthoUIHCQqLoI2OjeFCgsdJSsvgjcwPTaDAgYSHoY2FBSWAAMLE4wAPT89ggQMEbEzQD+CBQ0UsQA7RYIGDhWxN0E+ggcPFrEUQjuCCAYXsT5DRIIJEBgfhjsrFkaDERkgJhswMwk4CDzdhBohJwcxNB4sPAmMIlCwkOGhRo5gwhIGAgAh+QQJCgAAACwAAAAAEAAQAAAHjIAAgoOEhYU7A1dYDFtdG4YAPBhVC1ktXCRfJoVKT1NIERRUSl4qXIRHBFCbhTKFCgYjkII3g0hLUbMAOjaCBEw9ukZGgidNxLMUFYIXTkGzOmLLAEkQCLNUQMEAPxdSGoYvAkS9gjkyNEkJOjovRWAb04NBJlYsWh9KQ2FUkFQ5SWqsEJIAhq6DAAIBACH5BAkKAAAALAAAAAAQABAAAAeJgACCg4SFhQkKE2kGXiwChgBDB0sGDw4NDGpshTheZ2hRFRVDUmsMCIMiZE48hmgtUBuCYxBmkAAQbV2CLBM+t0puaoIySDC3VC4tgh40M7eFNRdH0IRgZUO3NjqDFB9mv4U6Pc+DRzUfQVQ3NzAULxU2hUBDKENCQTtAL9yGRgkbcvggEq9atUAAIfkECQoAAAAsAAAAABAAEAAAB4+AAIKDhIWFPygeEE4hbEeGADkXBycZZ1tqTkqFQSNIbBtGPUJdD088g1QmMjiGZl9MO4I5ViiQAEgMA4JKLAm3EWtXgmxmOrcUElWCb2zHkFQdcoIWPGK3Sm1LgkcoPrdOKiOCRmA4IpBwDUGDL2A5IjCCN/QAcYUURQIJIlQ9MzZu6aAgRgwFGAFvKRwUCAAh+QQJCgAAACwAAAAAEAAQAAAHjIAAgoOEhYUUYW9lHiYRP4YACStxZRc0SBMyFoVEPAoWQDMzAgolEBqDRjg8O4ZKIBNAgkBjG5AAZVtsgj44VLdCanWCYUI3txUPS7xBx5AVDgazAjC3Q3ZeghUJv5B1cgOCNmI/1YUeWSkCgzNUFDODKydzCwqFNkYwOoIubnQIt244MzDC1q2DggIBACH5BAkKAAAALAAAAAAQABAAAAeJgACCg4SFhTBAOSgrEUEUhgBUQThjSh8IcQo+hRUbYEdUNjoiGlZWQYM2QD4vhkI0ZWKCPQmtkG9SEYJURDOQAD4HaLuyv0ZeB4IVj8ZNJ4IwRje/QkxkgjYz05BdamyDN9uFJg9OR4YEK1RUYzFTT0qGdnduXC1Zchg8kEEjaQsMzpTZ8avgoEAAIfkECQoAAAAsAAAAABAAEAAAB4iAAIKDhIWFNz0/Oz47IjCGADpURAkCQUI4USKFNhUvFTMANxU7KElAhDA9OoZHH0oVgjczrJBRZkGyNpCCRCw8vIUzHmXBhDM0HoIGLsCQAjEmgjIqXrxaBxGCGw5cF4Y8TnybglprLXhjFBUWVnpeOIUIT3lydg4PantDz2UZDwYOIEhgzFggACH5BAkKAAAALAAAAAAQABAAAAeLgACCg4SFhjc6RhUVRjaGgzYzRhRiREQ9hSaGOhRFOxSDQQ0uj1RBPjOCIypOjwAJFkSCSyQrrhRDOYILXFSuNkpjggwtvo86H7YAZ1korkRaEYJlC3WuESxBggJLWHGGFhcIxgBvUHQyUT1GQWwhFxuFKyBPakxNXgceYY9HCDEZTlxA8cOVwUGBAAA7AAAAAAAAAAAA);
 }
-body.ui2018:not(.ui2025).dark form .form-row input[type="text"].error,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="text"].error,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="text"].error,
-body.ui2018:not(.ui2025).dark form .form-row input[type="number"].error,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="number"].error,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="number"].error,
-body.ui2018:not(.ui2025).dark form .form-row input[type="password"].error,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="password"].error,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="password"].error,
-body.ui2018:not(.ui2025).dark form .form-row textarea.error,
-body.ui2018:not(.ui2025).dark .form .form-row textarea.error,
-body.ui2018:not(.ui2025).dark .default-form .form-row textarea.error {
+body.ui2018 form.dark form .form-row input[type="text"].error,
+body.ui2018 .form.dark form .form-row input[type="text"].error,
+body.ui2018 .default-form.dark form .form-row input[type="text"].error,
+body.ui2018 form.dark .form .form-row input[type="text"].error,
+body.ui2018 .form.dark .form .form-row input[type="text"].error,
+body.ui2018 .default-form.dark .form .form-row input[type="text"].error,
+body.ui2018 form.dark .default-form .form-row input[type="text"].error,
+body.ui2018 .form.dark .default-form .form-row input[type="text"].error,
+body.ui2018 .default-form.dark .default-form .form-row input[type="text"].error,
+body.ui2018 form.dark form .form-row input[type="number"].error,
+body.ui2018 .form.dark form .form-row input[type="number"].error,
+body.ui2018 .default-form.dark form .form-row input[type="number"].error,
+body.ui2018 form.dark .form .form-row input[type="number"].error,
+body.ui2018 .form.dark .form .form-row input[type="number"].error,
+body.ui2018 .default-form.dark .form .form-row input[type="number"].error,
+body.ui2018 form.dark .default-form .form-row input[type="number"].error,
+body.ui2018 .form.dark .default-form .form-row input[type="number"].error,
+body.ui2018 .default-form.dark .default-form .form-row input[type="number"].error,
+body.ui2018 form.dark form .form-row input[type="password"].error,
+body.ui2018 .form.dark form .form-row input[type="password"].error,
+body.ui2018 .default-form.dark form .form-row input[type="password"].error,
+body.ui2018 form.dark .form .form-row input[type="password"].error,
+body.ui2018 .form.dark .form .form-row input[type="password"].error,
+body.ui2018 .default-form.dark .form .form-row input[type="password"].error,
+body.ui2018 form.dark .default-form .form-row input[type="password"].error,
+body.ui2018 .form.dark .default-form .form-row input[type="password"].error,
+body.ui2018 .default-form.dark .default-form .form-row input[type="password"].error,
+body.ui2018 form.dark form .form-row textarea.error,
+body.ui2018 .form.dark form .form-row textarea.error,
+body.ui2018 .default-form.dark form .form-row textarea.error,
+body.ui2018 form.dark .form .form-row textarea.error,
+body.ui2018 .form.dark .form .form-row textarea.error,
+body.ui2018 .default-form.dark .form .form-row textarea.error,
+body.ui2018 form.dark .default-form .form-row textarea.error,
+body.ui2018 .form.dark .default-form .form-row textarea.error,
+body.ui2018 .default-form.dark .default-form .form-row textarea.error {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 97%, #e33100 3%);
   background-position: center bottom;
   background-size: 0% 20px;
   background-repeat: no-repeat;
   border-bottom: 1px solid #666666;
 }
-body.ui2018:not(.ui2025).dark form .form-row input[type="text"].error:focus,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="text"].error:focus,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="text"].error:focus,
-body.ui2018:not(.ui2025).dark form .form-row input[type="number"].error:focus,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="number"].error:focus,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="number"].error:focus,
-body.ui2018:not(.ui2025).dark form .form-row input[type="password"].error:focus,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="password"].error:focus,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="password"].error:focus,
-body.ui2018:not(.ui2025).dark form .form-row textarea.error:focus,
-body.ui2018:not(.ui2025).dark .form .form-row textarea.error:focus,
-body.ui2018:not(.ui2025).dark .default-form .form-row textarea.error:focus,
-body.ui2018:not(.ui2025).dark form .form-row input[type="text"].error:hover,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="text"].error:hover,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="text"].error:hover,
-body.ui2018:not(.ui2025).dark form .form-row input[type="number"].error:hover,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="number"].error:hover,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="number"].error:hover,
-body.ui2018:not(.ui2025).dark form .form-row input[type="password"].error:hover,
-body.ui2018:not(.ui2025).dark .form .form-row input[type="password"].error:hover,
-body.ui2018:not(.ui2025).dark .default-form .form-row input[type="password"].error:hover,
-body.ui2018:not(.ui2025).dark form .form-row textarea.error:hover,
-body.ui2018:not(.ui2025).dark .form .form-row textarea.error:hover,
-body.ui2018:not(.ui2025).dark .default-form .form-row textarea.error:hover {
+body.ui2018 form.dark form .form-row input[type="text"].error:focus,
+body.ui2018 .form.dark form .form-row input[type="text"].error:focus,
+body.ui2018 .default-form.dark form .form-row input[type="text"].error:focus,
+body.ui2018 form.dark .form .form-row input[type="text"].error:focus,
+body.ui2018 .form.dark .form .form-row input[type="text"].error:focus,
+body.ui2018 .default-form.dark .form .form-row input[type="text"].error:focus,
+body.ui2018 form.dark .default-form .form-row input[type="text"].error:focus,
+body.ui2018 .form.dark .default-form .form-row input[type="text"].error:focus,
+body.ui2018 .default-form.dark .default-form .form-row input[type="text"].error:focus,
+body.ui2018 form.dark form .form-row input[type="number"].error:focus,
+body.ui2018 .form.dark form .form-row input[type="number"].error:focus,
+body.ui2018 .default-form.dark form .form-row input[type="number"].error:focus,
+body.ui2018 form.dark .form .form-row input[type="number"].error:focus,
+body.ui2018 .form.dark .form .form-row input[type="number"].error:focus,
+body.ui2018 .default-form.dark .form .form-row input[type="number"].error:focus,
+body.ui2018 form.dark .default-form .form-row input[type="number"].error:focus,
+body.ui2018 .form.dark .default-form .form-row input[type="number"].error:focus,
+body.ui2018 .default-form.dark .default-form .form-row input[type="number"].error:focus,
+body.ui2018 form.dark form .form-row input[type="password"].error:focus,
+body.ui2018 .form.dark form .form-row input[type="password"].error:focus,
+body.ui2018 .default-form.dark form .form-row input[type="password"].error:focus,
+body.ui2018 form.dark .form .form-row input[type="password"].error:focus,
+body.ui2018 .form.dark .form .form-row input[type="password"].error:focus,
+body.ui2018 .default-form.dark .form .form-row input[type="password"].error:focus,
+body.ui2018 form.dark .default-form .form-row input[type="password"].error:focus,
+body.ui2018 .form.dark .default-form .form-row input[type="password"].error:focus,
+body.ui2018 .default-form.dark .default-form .form-row input[type="password"].error:focus,
+body.ui2018 form.dark form .form-row textarea.error:focus,
+body.ui2018 .form.dark form .form-row textarea.error:focus,
+body.ui2018 .default-form.dark form .form-row textarea.error:focus,
+body.ui2018 form.dark .form .form-row textarea.error:focus,
+body.ui2018 .form.dark .form .form-row textarea.error:focus,
+body.ui2018 .default-form.dark .form .form-row textarea.error:focus,
+body.ui2018 form.dark .default-form .form-row textarea.error:focus,
+body.ui2018 .form.dark .default-form .form-row textarea.error:focus,
+body.ui2018 .default-form.dark .default-form .form-row textarea.error:focus,
+body.ui2018 form.dark form .form-row input[type="text"].error:hover,
+body.ui2018 .form.dark form .form-row input[type="text"].error:hover,
+body.ui2018 .default-form.dark form .form-row input[type="text"].error:hover,
+body.ui2018 form.dark .form .form-row input[type="text"].error:hover,
+body.ui2018 .form.dark .form .form-row input[type="text"].error:hover,
+body.ui2018 .default-form.dark .form .form-row input[type="text"].error:hover,
+body.ui2018 form.dark .default-form .form-row input[type="text"].error:hover,
+body.ui2018 .form.dark .default-form .form-row input[type="text"].error:hover,
+body.ui2018 .default-form.dark .default-form .form-row input[type="text"].error:hover,
+body.ui2018 form.dark form .form-row input[type="number"].error:hover,
+body.ui2018 .form.dark form .form-row input[type="number"].error:hover,
+body.ui2018 .default-form.dark form .form-row input[type="number"].error:hover,
+body.ui2018 form.dark .form .form-row input[type="number"].error:hover,
+body.ui2018 .form.dark .form .form-row input[type="number"].error:hover,
+body.ui2018 .default-form.dark .form .form-row input[type="number"].error:hover,
+body.ui2018 form.dark .default-form .form-row input[type="number"].error:hover,
+body.ui2018 .form.dark .default-form .form-row input[type="number"].error:hover,
+body.ui2018 .default-form.dark .default-form .form-row input[type="number"].error:hover,
+body.ui2018 form.dark form .form-row input[type="password"].error:hover,
+body.ui2018 .form.dark form .form-row input[type="password"].error:hover,
+body.ui2018 .default-form.dark form .form-row input[type="password"].error:hover,
+body.ui2018 form.dark .form .form-row input[type="password"].error:hover,
+body.ui2018 .form.dark .form .form-row input[type="password"].error:hover,
+body.ui2018 .default-form.dark .form .form-row input[type="password"].error:hover,
+body.ui2018 form.dark .default-form .form-row input[type="password"].error:hover,
+body.ui2018 .form.dark .default-form .form-row input[type="password"].error:hover,
+body.ui2018 .default-form.dark .default-form .form-row input[type="password"].error:hover,
+body.ui2018 form.dark form .form-row textarea.error:hover,
+body.ui2018 .form.dark form .form-row textarea.error:hover,
+body.ui2018 .default-form.dark form .form-row textarea.error:hover,
+body.ui2018 form.dark .form .form-row textarea.error:hover,
+body.ui2018 .form.dark .form .form-row textarea.error:hover,
+body.ui2018 .default-form.dark .form .form-row textarea.error:hover,
+body.ui2018 form.dark .default-form .form-row textarea.error:hover,
+body.ui2018 .form.dark .default-form .form-row textarea.error:hover,
+body.ui2018 .default-form.dark .default-form .form-row textarea.error:hover {
   border-bottom: 1px solid #e33100;
   background-size: 100% 20px;
 }
-body.ui2018:not(.ui2025).dark form .form-row .form-starter button,
-body.ui2018:not(.ui2025).dark .form .form-row .form-starter button,
-body.ui2018:not(.ui2025).dark .default-form .form-row .form-starter button {
+body.ui2018 form.dark form .form-row .form-starter button,
+body.ui2018 .form.dark form .form-row .form-starter button,
+body.ui2018 .default-form.dark form .form-row .form-starter button,
+body.ui2018 form.dark .form .form-row .form-starter button,
+body.ui2018 .form.dark .form .form-row .form-starter button,
+body.ui2018 .default-form.dark .form .form-row .form-starter button,
+body.ui2018 form.dark .default-form .form-row .form-starter button,
+body.ui2018 .form.dark .default-form .form-row .form-starter button,
+body.ui2018 .default-form.dark .default-form .form-row .form-starter button {
   color: #16c1f3;
 }
-body.ui2018:not(.ui2025).dark form .form-row .form-starter button:hover,
-body.ui2018:not(.ui2025).dark .form .form-row .form-starter button:hover,
-body.ui2018:not(.ui2025).dark .default-form .form-row .form-starter button:hover {
+body.ui2018 form.dark form .form-row .form-starter button:hover,
+body.ui2018 .form.dark form .form-row .form-starter button:hover,
+body.ui2018 .default-form.dark form .form-row .form-starter button:hover,
+body.ui2018 form.dark .form .form-row .form-starter button:hover,
+body.ui2018 .form.dark .form .form-row .form-starter button:hover,
+body.ui2018 .default-form.dark .form .form-row .form-starter button:hover,
+body.ui2018 form.dark .default-form .form-row .form-starter button:hover,
+body.ui2018 .form.dark .default-form .form-row .form-starter button:hover,
+body.ui2018 .default-form.dark .default-form .form-row .form-starter button:hover {
   color: #106eb6;
 }
-body.ui2018:not(.ui2025) .ui-form-error {
+body.ui2018 form .ui-form-error,
+body.ui2018 .form .ui-form-error,
+body.ui2018 .default-form .ui-form-error {
   padding: 5px;
   font-size: 12px;
   -webkit-border-radius: 5px;
@@ -3942,22 +4338,30 @@ body.ui2018:not(.ui2025) .ui-form-error {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018:not(.ui2025) .ui-form-error * {
+body.ui2018 form .ui-form-error *,
+body.ui2018 .form .ui-form-error *,
+body.ui2018 .default-form .ui-form-error * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018:not(.ui2025) .ui-form-error.show {
+body.ui2018 form .ui-form-error.show,
+body.ui2018 .form .ui-form-error.show,
+body.ui2018 .default-form .ui-form-error.show {
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018:not(.ui2025) .ui-form-error.show * {
+body.ui2018 form .ui-form-error.show *,
+body.ui2018 .form .ui-form-error.show *,
+body.ui2018 .default-form .ui-form-error.show * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018:not(.ui2025) .form-row .ui-form-error {
+body.ui2018 form .form-row .ui-form-error,
+body.ui2018 .form .form-row .ui-form-error,
+body.ui2018 .default-form .form-row .ui-form-error {
   position: absolute;
   bottom: 0;
   right: 0;
