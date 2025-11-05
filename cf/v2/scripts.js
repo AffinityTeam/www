@@ -23223,7 +23223,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_switchMode', '_switchToAdmin', '_switchToDetault',
 
-      '_measureSearch', '_showSearch', '_hideSearch',
+      '_showSearch', '_hideSearch',
 
       // html templates
       '_templates'
@@ -23263,12 +23263,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.ShowModeToggle = true;
       }
     }
-	  if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
-	  {
+	if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
+	{
       this.IsPayrollAdmin = true;
       this.ViewMode = 'Admin';
       this.ShowModeToggle = true;
-	  }
+	}
 
     // force shrink wrapper for admin "wide" mode.
     this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
@@ -23283,11 +23283,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         document.body.classList.add('menu-show-full');
       }
     }
-    
-    /**/
-
-    this.searchShowHideLocked = false;
-    window.addEventListener('resize', this._measureSearch, true);
 
     /**/
     
@@ -23315,6 +23310,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ResultNode = document.querySelector('div.inbox');
     this.ResultNode.innerHTML = this.ViewMode === 'Admin' ? this.AdminResultGridTemplate() : this.ResultGridTemplate();
+    this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
     this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
 
     await this._setupResultNodes();
@@ -23429,7 +23425,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let payPointSelectHtml = `<option value="-1">All Pay Points</option>`;
     for (let payPointData of this.PayPoints)
     {
-      payPointSelectHtml += `<option value="${payPointData.PayPoint}">${payPointData.Description}</option>`;
+      payPointSelectHtml += `<option value="${payPointData.PayPoint}">${payPointData.Description} (${payPointData.PayPoint})</option>`;
     }
     this.PayPointSelectNode.innerHTML = payPointSelectHtml;
     this.PayPointSelectNode.removeEventListener('change', this._searchPayPointSelectChanged);
@@ -23629,45 +23625,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   /**/
 
-  _measureSearch()
-  {
-    if (this.searchShowHideLocked) return;
-    if (this.SearchBox.classList.contains('show'))
-    {
-      this.SearchBox.classList.remove(`animate`, `hide`);
-      this.SearchBox.style.height = null;
-      setTimeout((() =>
-      {
-        this.SearchBox.classList.add(`animate`);
-        this.SearchBox.style.height = this.SearchBox.getBoundingClientRect().height + 'px';
-      }).bind(this), 10)
-    }
-  }
   _showSearch()
   {
-    if (this.searchShowHideLocked) return;
-    this.searchShowHideLocked = true;
-    this.SearchBox.classList.add(`animate`, `show`);
-    this.SearchBox.classList.remove(`hide`);
-    setTimeout((() =>
+    if (!this.InboxWrapperNode.classList.contains('show-filters'))
     {
-      this.searchShowHideLocked = false;
-      this._measureSearch();
-    }).bind(this), 260);
+      this.InboxWrapperNode.classList.add('show-filters');
+    }
   }
   _hideSearch()
   {
-    if (this.searchShowHideLocked) return;
-    if (this.SearchBox.classList.contains('show'))
+    if (this.InboxWrapperNode.classList.contains('show-filters'))
     {
-      this.searchShowHideLocked = true;
-      this.SearchBox.style.height = this.SearchBox.getBoundingClientRect().height + 'px';
-      this.SearchBox.classList.add(`animate`, `hide`);
-      this.SearchBox.classList.remove(`show`);
-      setTimeout((() =>
+      if (this.InboxWrapperNode.classList.contains('show-filter-checks'))
       {
-        this.searchShowHideLocked = false;
-      }).bind(this), 260);
+        this.InboxWrapperNode.classList.remove('show-filter-checks');
+        setTimeout((() => { this.InboxWrapperNode.classList.remove('show-filters'); }).bind(this), 10);
+      }
+      else
+      {
+        this.InboxWrapperNode.classList.remove('show-filters');
+      }
     }
   }
 
@@ -23765,13 +23742,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.StateStore.UserDefault = JSON.parse(JSON.stringify(this.StateStore.User));
     this.StateStore.AdminDefault = JSON.parse(JSON.stringify(this.StateStore.Admin));
 
-    if (this.ViewMode === 'User')
+    if (this.ViewMode === 'Admin')
     {
-      this.State = this.StateStore.User;
+      this.State = this.StateStore.Admin;
     }
     else
     {
-      this.State = this.StateStore.Admin;
+      this.State = this.StateStore.User;
     }
 
     return true;
@@ -24525,7 +24502,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
               case 'show-hide-filters':
 
-                if (this.SearchBox.classList.contains('show'))
+                if (this.InboxWrapperNode.classList.contains('show-filters'))
                 {
                   this._hideSearch();
                   this.SearchNode.blur();
@@ -24539,7 +24516,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
               case 'show-hide-columns-select':
 
-                this._showColumnSelect(event);
+                if (this.ColumnListNode.classList.contains('show'))
+                {
+                  this._hideColumnSelect(event);
+                }
+                else
+                {
+                  this._showColumnSelect(event);
+                }
                 break;
 
               default:
@@ -24636,18 +24620,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let checkListNode = container ? container.querySelector(`div[data-category="${this.State.ActiveCategory}"]`) : null;
             if (checkListNode)
             {
-              let isVisible = checkListNode.classList.contains('show');
-              if (isVisible)
+              let isVisible = this.InboxWrapperNode.classList.contains('show-filter-checks');
+              if (this.InboxWrapperNode.classList.contains('show-filter-checks'))
               {
-                checkListNode.classList.remove('show');
+                this.InboxWrapperNode.classList.remove('show-filter-checks')
                 event.target.innerHTML = 'Show';
               }
               else
               {
-                checkListNode.classList.add('show');
+                this.InboxWrapperNode.classList.add('show-filter-checks')
                 event.target.innerHTML = 'Hide';
               }
-              this._measureSearch();
             }
           }
           else
@@ -25313,6 +25296,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.ViewMode !== 'Admin')
     {
+      this._showSearch();
       if (this.LocalDebug)
       {
         document.body.classList.remove('menu-show-full');
@@ -25330,6 +25314,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ViewMode = 'Admin';
       this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
       this.ResultNode.innerHTML = this.AdminResultGridTemplate();
+      this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
       this._gotoTab(this.State.ActiveCategory);
       await this.GetResults();
@@ -25340,6 +25325,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.ViewMode !== 'User')
     {
+      this._hideSearch();
       if (this.LocalDebug)
       {
         document.body.classList.add('menu-show-full');
@@ -25357,6 +25343,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ViewMode = 'User';
       this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
       this.ResultNode.innerHTML = this.ResultGridTemplate();
+      this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
       this._gotoTab(this.State.ActiveCategory);
       await this.GetResults();
@@ -25564,6 +25551,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         On: true
       });
       return `
+      <div class="inbox-v2-wrapper admin-mode show-filters">
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
           <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
@@ -25574,9 +25562,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="inbox-tab-loader"></div>
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
-            <input type="text" name="search" placeholder="Search" />
-            <button data-action="show-hide-filters">Filters</button>
-            <button data-action="show-hide-columns-select">Columns</button>
+            <input class="search" type="text" name="search" placeholder="Search" />
+            <button class="white icon" data-action="show-hide-filters">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Filters
+            </button>
+            <button class="white" data-action="show-hide-columns-select">
+              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.75 14.9899C12.75 13.241 14.1678 11.8232 15.9167 11.8232C17.6656 11.8232 19.0833 13.241 19.0833 14.9899C19.0833 16.7388 17.6656 18.1565 15.9167 18.1565C14.1678 18.1565 12.75 16.7388 12.75 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.36444 14.9899H0.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Columns
+            </button>
             <div class="show-hide-columns-check-lists">
               <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
               <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
@@ -25588,10 +25589,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </div>
         </div>
       </div>
-      <div class="inbox-search-filters show">
+      <div class="inbox-search-filters">
         <div class="search-row inline">
           <div class="form-row">
-            <label>Date Filter Field</label>
+            <label>Filter by</label>
             <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
@@ -25616,8 +25617,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="search-row no-label">
           <div class="check-wrapper check-first">
-            <input type="checkbox" id="SearchShowUnassigned" checked>
-            <label for="SearchShowUnassigned">Include unassigned (no Pay Point / no Date Effective)</label>
+            <input type="checkbox" id="SearchShowUnassigned">
+            <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="No Pay Point and or No Date Effective">Include unassigned</label>
           </div>     
           <div class="check-wrapper check-first">
             <input type="checkbox" id="Show999">
@@ -25634,13 +25635,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
-          Sorting by ToAction <div class="sort-pills"></div> <button>Reset</button>
+          Sorting by ToAction <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="InProgress">
-          Sorting by InProgress <div class="sort-pills"></div> <button>Reset</button>
+          Sorting by InProgress <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="Completed">
-          Sorting by Completed <div class="sort-pills"></div> <button>Reset</button>
+          Sorting by Completed <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -25758,6 +25759,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </tfoot>
           </table>
         </div>
+      </div>
+      <div class="footer-status-message">Tip: Use the <strong>Columns</strong> menu to tailor your view. Your choices are saved.</div>
       </div>
       `;
     };
@@ -25927,6 +25930,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         });
       }
       return `
+      <div class="inbox-v2-wrapper user-mode">
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
           <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
@@ -25937,9 +25941,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="inbox-tab-loader"></div>
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
-            <input type="text" name="search" placeholder="Search" />
-            <button data-action="show-hide-filters">Filters</button>
-            <button data-action="show-hide-columns-select">Columns</button>
+            <input class="search" type="text" name="search" placeholder="Search" />
+            <button class="white icon" data-action="show-hide-filters">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Filters
+            </button>
+            <button class="white" data-action="show-hide-columns-select">
+              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.75 14.9899C12.75 13.241 14.1678 11.8232 15.9167 11.8232C17.6656 11.8232 19.0833 13.241 19.0833 14.9899C19.0833 16.7388 17.6656 18.1565 15.9167 18.1565C14.1678 18.1565 12.75 16.7388 12.75 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.36444 14.9899H0.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Columns
+            </button>
             <div class="show-hide-columns-check-lists">
               <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
               <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
@@ -25951,10 +25968,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </div>
         </div>
       </div>
-      <div class="inbox-search-filters show">
+      <div class="inbox-search-filters">
         <div class="search-row inline">
           <div class="form-row">
-            <label>Date Filter Field</label>
+            <label>Filter by</label>
             <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
@@ -25980,13 +25997,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
-          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="InProgress">
-          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="Completed">
-          Sorting by <div class="sort-pills"></div> <button>Reset</button>
+          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -26084,6 +26101,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </tfoot>
           </table>
         </div>
+      </div>
+      <div class="footer-status-message">Tip: Use the <strong>Columns</strong> menu to tailor your view. Your choices are saved.</div>
       </div>
       `;
     };

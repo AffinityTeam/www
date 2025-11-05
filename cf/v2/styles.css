@@ -57,6 +57,16 @@
 (12437,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (12579,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (12581,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(22521,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22527,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22717,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22718,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22719,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23222,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23288,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24276,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24277,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24278,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -22507,21 +22517,21 @@ body.ui2018.uiupdate.inbox button:not(.icononly) span:first-child,
 body.ui2018.uiupdate.inbox a.button:not(.icononly) span:first-child {
   padding: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content,
-body.ui2025 {
+body.ui2018.uiupdate.inbox div.footer-status-message {
+  margin: 30px 0 0 15px;
+  color: #666666;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content {
   margin: 5px;
   padding: 5px;
-  /* toggle */
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header,
-body.ui2025 div.inbox-header {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header {
   margin: 0;
   padding: 10px;
   overflow: hidden;
   background: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header span,
-body.ui2025 div.inbox-header span {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-header span {
   display: inline-block;
   height: 30px;
   line-height: 30px;
@@ -22532,16 +22542,71 @@ body.ui2025 div.inbox-header span {
   color: #344356;
   background: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar,
-body.ui2025 div.inbox-search-bar,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters,
-body.ui2025 div.inbox-search-filters {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters {
+  margin: 10px;
+  padding: 10px;
+  overflow: visible;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters div.ui-calendar-container:not(.show) {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters div.ui-calendar-container:not(.show) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters div.ui-calendar-container:not(.show) * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters div.ui-calendar-container:not(.show) * * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters.show-filter-checks div.inbox-search-filters {
+  height: unset !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters.show-filter-checks div.inbox-search-filters div.search-columns div[data-category]:not(.hidden) {
+  height: unset !important;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters.show-filter-checks div.inbox-search-filters div.search-columns div[data-category]:not(.hidden) * {
+  touch-action: manipulation;
+  pointer-events: all;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode {
+  --search-offset: 580px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode.show-filters div.inbox-search-filters {
+  height: 145px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode {
+  --search-offset: 430px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode.show-filters div.inbox-search-filters {
+  height: 105px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar {
   position: relative;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.select,
-body.ui2025 div.inbox-search-bar div.select,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.select,
-body.ui2025 div.inbox-search-filters div.select {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.select {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -22551,31 +22616,27 @@ body.ui2025 div.inbox-search-filters div.select {
   margin: 0;
   padding: 0;
   border: none;
-  overflow: auto;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.select:after,
-body.ui2025 div.inbox-search-bar div.select:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.select:after,
-body.ui2025 div.inbox-search-filters div.select:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.select:after {
   content: '\25BC';
   position: absolute;
   top: 0;
   right: 10px;
   width: 20px;
   height: 35px;
-  line-height: 35px;
+  line-height: 36px;
   text-align: right;
   font-size: 10px;
-  color: #d9d9d9;
+  color: #e2e6eb;
   touch-action: none;
   pointer-events: none;
   -webkit-transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -22583,38 +22644,34 @@ body.ui2025 div.inbox-search-filters div.select:after {
   -o-transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.select:after *,
-body.ui2025 div.inbox-search-bar div.select:after *,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.select:after *,
-body.ui2025 div.inbox-search-filters div.select:after * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select:after *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select:after *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.select:after * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.select select,
-body.ui2025 div.inbox-search-bar div.select select,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.select select,
-body.ui2025 div.inbox-search-filters div.select select {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select select,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select select,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.select select {
   width: 100%;
   margin: 0;
   padding: 0 32px 0 12px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[name],
-body.ui2025 div.inbox-search-bar input[name],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[name],
-body.ui2025 div.inbox-search-filters input[name],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar select[name],
-body.ui2025 div.inbox-search-bar select[name],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters select[name],
-body.ui2025 div.inbox-search-filters select[name] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select[name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select[name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select[name] {
   position: relative;
   display: inline-block;
   vertical-align: top;
   height: 35px;
   line-height: 35px;
   margin: 0;
-  padding: 0 12px;
+  padding: 2px 12px 0 12px;
   background-color: white;
-  border: 1px solid #d9d9d9 !important;
+  border: 1px solid #e2e6eb !important;
   color: #222222;
   font-size: 14px;
   font-family: Montserrat, Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -22624,9 +22681,9 @@ body.ui2025 div.inbox-search-filters select[name] {
   -ms-appearance: none !important;
   -o-appearance: none !important;
   appearance: none !important;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   -webkit-transition: all 250ms;
   -moz-transition: all 250ms;
   -o-transition: all 250ms;
@@ -22634,88 +22691,102 @@ body.ui2025 div.inbox-search-filters select[name] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[name]:disabled,
-body.ui2025 div.inbox-search-bar input[name]:disabled,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[name]:disabled,
-body.ui2025 div.inbox-search-filters input[name]:disabled,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar select[name]:disabled,
-body.ui2025 div.inbox-search-bar select[name]:disabled,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters select[name]:disabled,
-body.ui2025 div.inbox-search-filters select[name]:disabled {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[name]:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name]:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[name]:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select[name]:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select[name]:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select[name]:hover {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[name]::placeholder,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name]::placeholder,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[name]::placeholder,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select[name]::placeholder,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select[name]::placeholder,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select[name]::placeholder {
+  line-height: 35px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[name]:disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name]:disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[name]:disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select[name]:disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select[name]:disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select[name]:disabled {
   -moz-opacity: 0.5;
   -khtml-opacity: 0.5;
   opacity: 0.5;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[name],
-body.ui2025 div.inbox-search-bar input[name],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[name],
-body.ui2025 div.inbox-search-filters input[name] {
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="text"].search,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="text"].search,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="text"].search {
+  padding-left: 37px;
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: auto 18px;
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(153,153,153)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(153,153,153)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="text"]:-webkit-autofill,
-body.ui2025 div.inbox-search-bar input[type="text"]:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="text"]:-webkit-autofill,
-body.ui2025 div.inbox-search-filters input[type="text"]:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="number"]:-webkit-autofill,
-body.ui2025 div.inbox-search-bar input[type="number"]:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="number"]:-webkit-autofill,
-body.ui2025 div.inbox-search-filters input[type="number"]:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="password"]:-webkit-autofill,
-body.ui2025 div.inbox-search-bar input[type="password"]:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="password"]:-webkit-autofill,
-body.ui2025 div.inbox-search-filters input[type="password"]:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar textarea:-webkit-autofill,
-body.ui2025 div.inbox-search-bar textarea:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters textarea:-webkit-autofill,
-body.ui2025 div.inbox-search-filters textarea:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar select:-webkit-autofill,
-body.ui2025 div.inbox-search-bar select:-webkit-autofill,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters select:-webkit-autofill,
-body.ui2025 div.inbox-search-filters select:-webkit-autofill {
-  background-color: #efefef !important;
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="text"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="text"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="text"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="number"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="number"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="number"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="password"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="password"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="password"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar textarea:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters textarea:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar textarea:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select:-webkit-autofill,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select:-webkit-autofill {
+  background-color: white !important;
   color: #333333 !important;
-  -webkit-box-shadow: 0 0 0px 1000px #efefef inset;
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
   -webkit-text-fill-color: #333333 !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="text"][name],
-body.ui2025 div.inbox-search-bar input[type="text"][name],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="text"][name],
-body.ui2025 div.inbox-search-filters input[type="text"][name] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="text"][name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="text"][name],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="text"][name] {
   min-width: 200px;
   max-width: 300px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar button,
-body.ui2025 div.inbox-search-bar button,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters button,
-body.ui2025 div.inbox-search-filters button {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) {
   position: relative;
   display: inline-block;
   vertical-align: top;
   height: 35px;
   line-height: 35px;
   margin: 0;
-  padding: 0 18px;
-  color: #666666;
+  padding: 0 10px;
+  color: white;
   cursor: pointer;
-  background-color: white;
-  border: 1px solid #e6e6e6 !important;
+  background-color: #1268b3;
+  border: 1px solid #8a99ab !important;
   font-size: 14px;
   font-family: Montserrat, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: normal;
   outline: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   -ms-appearance: none !important;
   -o-appearance: none !important;
   appearance: none !important;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: box-shadow: 0px 5px 20px 0px #00378033;
+  -moz-box-shadow: box-shadow: 0px 5px 20px 0px #00378033;
+  box-shadow: box-shadow: 0px 5px 20px 0px #00378033;
   -webkit-transition: all 250ms;
   -moz-transition: all 250ms;
   -o-transition: all 250ms;
@@ -22724,20 +22795,88 @@ body.ui2025 div.inbox-search-filters button {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar button:hover,
-body.ui2025 div.inbox-search-bar button:hover,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters button:hover,
-body.ui2025 div.inbox-search-filters button:hover {
-  background-color: #efefef;
-  border: 1px solid #cccccc;
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link) svg,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link) svg,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) svg {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 18px;
+  max-height: 18px;
+  margin: 0 5px 0 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link) svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link) svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) svg path {
+  stroke: white;
+  stroke-width: 1.5px;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white {
+  color: #666666;
+  background-color: white;
+  border-color: #e2e6eb !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white:hover {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white svg path {
+  stroke: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).icon,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).icon,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).icon {
+  color: transparent;
+  font-size: 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).icon svg,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).icon svg,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).icon svg {
+  margin: 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover {
+  color: white;
+  background-color: #1268b3;
+  border-color: #e2e6eb !important;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar button.link,
-body.ui2025 div.inbox-search-bar button.link,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters button.link,
-body.ui2025 div.inbox-search-filters button.link {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover svg path {
+  stroke: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover.white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover.white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover.white {
+  color: #666666;
+  background-color: #e2e6eb;
+  border-color: #e2e6eb !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover.white svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover.white svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover.white svg path {
+  stroke: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button.link,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button.link,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button.link {
   display: inline-block;
   vertical-align: top;
   margin: 0;
@@ -22750,22 +22889,19 @@ body.ui2025 div.inbox-search-filters button.link {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar button.link:hover,
-body.ui2025 div.inbox-search-bar button.link:hover,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters button.link:hover,
-body.ui2025 div.inbox-search-filters button.link:hover {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button.link:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button.link:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button.link:hover {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"],
-body.ui2025 div.inbox-search-bar input[type="checkbox"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"],
-body.ui2025 div.inbox-search-filters input[type="checkbox"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"],
-body.ui2025 div.inbox-search-bar input[type="radio"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"],
-body.ui2025 div.inbox-search-filters input[type="radio"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"] {
   position: relative;
   width: 30px;
   height: 30px;
@@ -22777,14 +22913,12 @@ body.ui2025 div.inbox-search-filters input[type="radio"] {
   -o-appearance: none !important;
   appearance: none !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:after {
   font-family: 'icons' !important;
   speak: none;
   font-style: normal;
@@ -22814,112 +22948,93 @@ body.ui2025 div.inbox-search-filters input[type="radio"]:after {
   -o-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"] + label,
-body.ui2025 div.inbox-search-bar input[type="checkbox"] + label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"] + label,
-body.ui2025 div.inbox-search-filters input[type="checkbox"] + label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"] + label,
-body.ui2025 div.inbox-search-bar input[type="radio"] + label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"] + label,
-body.ui2025 div.inbox-search-filters input[type="radio"] + label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"] + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"] + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"] + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"] + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"] + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"] + label {
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:checked:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:checked:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:checked:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:checked:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:checked:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:checked:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:checked:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:checked:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:checked:after {
   color: white;
   background: #16c1f3;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:hover:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:hover:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:hover:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:hover:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:hover:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:hover:after {
   background: #16c1f3;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:focus:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:focus:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:focus:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:focus:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:focus:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:focus:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:focus:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:focus:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:focus:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:focus:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:focus:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:focus:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:focus:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:focus:after {
   border-color: #16c1f3;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:disabled:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:disabled:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:disabled:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:disabled:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:disabled:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:disabled:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:disabled:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:disabled:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:disabled:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:disabled:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:disabled:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:disabled:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:disabled:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:disabled:after {
   color: #666666;
   border-color: transparent;
   background: #666666;
   cursor: default;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:disabled:hover:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:disabled:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:disabled:hover:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:disabled:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:disabled:hover:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:disabled:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:disabled:hover:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:disabled:hover:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:disabled:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:disabled:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:disabled:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:disabled:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:disabled:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:disabled:hover:after {
   color: #666666;
   border-color: transparent;
   background: #666666;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:disabled:checked:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:disabled:checked:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:disabled:checked:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:disabled:checked:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:disabled:checked:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:disabled:checked:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:disabled:checked:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:disabled:checked:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:disabled:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:disabled:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:disabled:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:disabled:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:disabled:checked:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:disabled:checked:after {
   color: white;
   border-color: transparent;
   background: #666666;
   cursor: default;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:disabled:checked:hover:after,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:disabled:checked:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:disabled:checked:hover:after,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:disabled:checked:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:disabled:checked:hover:after,
-body.ui2025 div.inbox-search-bar input[type="radio"]:disabled:checked:hover:after,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:disabled:checked:hover:after,
-body.ui2025 div.inbox-search-filters input[type="radio"]:disabled:checked:hover:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:disabled:checked:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:disabled:checked:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:disabled:checked:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:disabled:checked:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:disabled:checked:hover:after,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:disabled:checked:hover:after {
   color: white;
   border-color: transparent;
   background: #666666;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="checkbox"]:disabled + label,
-body.ui2025 div.inbox-search-bar input[type="checkbox"]:disabled + label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="checkbox"]:disabled + label,
-body.ui2025 div.inbox-search-filters input[type="checkbox"]:disabled + label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[type="radio"]:disabled + label,
-body.ui2025 div.inbox-search-bar input[type="radio"]:disabled + label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters input[type="radio"]:disabled + label,
-body.ui2025 div.inbox-search-filters input[type="radio"]:disabled + label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"]:disabled + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"]:disabled + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="checkbox"]:disabled + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="radio"]:disabled + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="radio"]:disabled + label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="radio"]:disabled + label {
   color: #b8b8b8;
   cursor: default;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row label,
-body.ui2025 div.inbox-search-bar div.search-row label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row label,
-body.ui2025 div.inbox-search-filters div.search-row label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row label {
   display: block;
   min-height: 20px;
   line-height: 20px;
@@ -22928,73 +23043,58 @@ body.ui2025 div.inbox-search-filters div.search-row label {
   font-size: 12px;
   color: #666666;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row.inline,
-body.ui2025 div.inbox-search-bar div.search-row.inline,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.inline,
-body.ui2025 div.inbox-search-filters div.search-row.inline {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row.inline,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.inline,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row.inline {
   display: inline-block;
   vertical-align: top;
   margin-right: 10px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row div.check-wrapper,
-body.ui2025 div.inbox-search-bar div.search-row div.check-wrapper,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div.check-wrapper,
-body.ui2025 div.inbox-search-filters div.search-row div.check-wrapper {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper {
   display: inline-block;
   vertical-align: top;
   min-height: 20px;
   line-height: 20px;
   margin: 0 5px 0 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row div.check-wrapper input[type="checkbox"],
-body.ui2025 div.inbox-search-bar div.search-row div.check-wrapper input[type="checkbox"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div.check-wrapper input[type="checkbox"],
-body.ui2025 div.inbox-search-filters div.search-row div.check-wrapper input[type="checkbox"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row div.check-wrapper label,
-body.ui2025 div.inbox-search-bar div.search-row div.check-wrapper label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div.check-wrapper label,
-body.ui2025 div.inbox-search-filters div.search-row div.check-wrapper label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper label {
   display: inline-block;
   vertical-align: top;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row div.check-wrapper label,
-body.ui2025 div.inbox-search-bar div.search-row div.check-wrapper label,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div.check-wrapper label,
-body.ui2025 div.inbox-search-filters div.search-row div.check-wrapper label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper label,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper label {
   display: inline-block;
   vertical-align: top;
   font-size: 14px;
   margin-top: 7px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.search-row div.check-wrapper.check-first input[type="checkbox"],
-body.ui2025 div.inbox-search-bar div.search-row div.check-wrapper.check-first input[type="checkbox"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div.check-wrapper.check-first input[type="checkbox"],
-body.ui2025 div.inbox-search-filters div.search-row div.check-wrapper.check-first input[type="checkbox"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper.check-first input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper.check-first input[type="checkbox"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper.check-first input[type="checkbox"] {
   margin: 0 !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar input[name],
-body.ui2025 div.inbox-search-bar input[name],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar button,
-body.ui2025 div.inbox-search-bar button {
-  margin: 0 0 0 10px;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.select,
-body.ui2025 div.inbox-search-bar div.select {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select {
   width: 145px;
   max-width: 145px;
   margin: 0;
   padding: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.select select[name="search-paypoint-select"],
-body.ui2025 div.inbox-search-bar div.select select[name="search-paypoint-select"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select select[name="search-paypoint-select"] {
   width: 145px;
   max-width: 145px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.show-hide-columns-check-lists,
-body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists {
   display: block;
   position: absolute;
   top: 45px;
@@ -23021,15 +23121,13 @@ body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists {
   -o-transition: opacity 250ms;
   transition: opacity 250ms;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide-columns-check-list label,
-body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide-columns-check-list label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide-columns-check-list label {
   display: block;
   font-size: 14px;
   font-weight: 600;
   margin: 0 0 5px 5px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide-columns-check-list div label,
-body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide-columns-check-list div label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide-columns-check-list div label {
   display: inline-block;
   vertical-align: top;
   height: 30px;
@@ -23037,29 +23135,29 @@ body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists div.show-hide
   margin: 0;
   font-weight: normal;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.show-hide-columns-check-lists *,
-body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.show-hide-columns-check-lists.show,
-body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists.show {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists.show {
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-bar div.show-hide-columns-check-lists.show *,
-body.ui2025 div.inbox-search-bar div.show-hide-columns-check-lists.show * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists.show * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters,
-body.ui2025 div.inbox-search-filters {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters {
   position: relative;
   width: calc(100% - 20px);
+  height: 0px;
+  margin: 0px 10px;
+  padding: 0px 10px;
   background: white;
+  overflow: hidden;
   -moz-opacity: 0;
   -khtml-opacity: 0;
   opacity: 0;
@@ -23074,72 +23172,24 @@ body.ui2025 div.inbox-search-filters {
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   touch-action: none;
   pointer-events: none;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters *,
-body.ui2025 div.inbox-search-filters * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.animate,
-body.ui2025 div.inbox-search-filters.animate {
   -webkit-transition: all 250ms;
   -moz-transition: all 250ms;
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.hide,
-body.ui2025 div.inbox-search-filters.hide {
-  height: 0px !important;
-  margin: 0px 10px !important;
-  padding: 0px 10px !important;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.show,
-body.ui2025 div.inbox-search-filters.show {
-  margin: 10px;
-  padding: 10px;
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  opacity: 1;
-  touch-action: manipulation;
-  pointer-events: all;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.show *,
-body.ui2025 div.inbox-search-filters.show * {
-  touch-action: manipulation;
-  pointer-events: all;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.show div.ui-calendar-container:not(.show),
-body.ui2025 div.inbox-search-filters.show div.ui-calendar-container:not(.show) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.show div.ui-calendar-container:not(.show) *,
-body.ui2025 div.inbox-search-filters.show div.ui-calendar-container:not(.show) * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.show div.ui-calendar-container:not(.show) *,
-body.ui2025 div.inbox-search-filters.show div.ui-calendar-container:not(.show) * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters.show div.ui-calendar-container:not(.show) * *,
-body.ui2025 div.inbox-search-filters.show div.ui-calendar-container:not(.show) * * {
-  touch-action: none;
-  pointer-events: none;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row,
-body.ui2025 div.inbox-search-filters div.search-row {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row {
   position: relative;
   margin: 0 0 10px 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div[data-category],
-body.ui2025 div.inbox-search-filters div.search-row div[data-category] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div[data-category] {
   position: relative;
   display: block;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row div[data-category] span.toggle-search-checks,
-body.ui2025 div.inbox-search-filters div.search-row div[data-category] span.toggle-search-checks {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div[data-category] span.toggle-search-checks {
   display: inline-block;
   vertical-align: top;
   height: 35px;
@@ -23149,24 +23199,20 @@ body.ui2025 div.inbox-search-filters div.search-row div[data-category] span.togg
   font-size: 14px;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row input[name="PeriodEnd"],
-body.ui2025 div.inbox-search-filters div.search-row input[name="PeriodEnd"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row input[name="PeriodEnd"] {
   width: 180px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-dates div.form-row,
-body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-dates div.form-row {
   width: auto;
   height: auto;
   line-height: normal;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-dates div.form-row.calendar,
-body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.calendar {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-dates div.form-row.calendar {
   display: inline-block;
   vertical-align: top;
   margin: 0 10px 0 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-dates div.form-row.calendar input,
-body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.calendar input {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-dates div.form-row.calendar input {
   width: 180px;
   height: 35px;
   line-height: 35px;
@@ -23174,8 +23220,7 @@ body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.ca
   padding: 0 10px;
   font-size: 14px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-dates div.form-row.calendar:after,
-body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.calendar:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-dates div.form-row.calendar:after {
   top: unset !important;
   right: 0px !important;
   bottom: 0px !important;
@@ -23188,30 +23233,25 @@ body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.ca
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-dates div.form-row.calendar:after *,
-body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.calendar:after * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-dates div.form-row.calendar:after * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-dates div.form-row.calendar div.ui-calendar-container,
-body.ui2025 div.inbox-search-filters div.search-row.search-dates div.form-row.calendar div.ui-calendar-container {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-dates div.form-row.calendar div.ui-calendar-container {
   top: 65px;
   left: 0px !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-columns,
-body.ui2025 div.inbox-search-filters div.search-row.search-columns {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-columns {
   margin: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-columns span.toggle-search-checks-visible,
-body.ui2025 div.inbox-search-filters div.search-row.search-columns span.toggle-search-checks-visible {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-columns span.toggle-search-checks-visible {
   height: 20px;
   line-height: 20px;
   margin: 0 0 0 5px;
   color: #16c1f3;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-columns div[data-category],
-body.ui2025 div.inbox-search-filters div.search-row.search-columns div[data-category] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-columns div[data-category] {
   height: 0;
   -moz-opacity: 0;
   -khtml-opacity: 0;
@@ -23219,13 +23259,11 @@ body.ui2025 div.inbox-search-filters div.search-row.search-columns div[data-cate
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-columns div[data-category] *,
-body.ui2025 div.inbox-search-filters div.search-row.search-columns div[data-category] * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-columns div[data-category] * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-columns div[data-category]:not(.hidden).show,
-body.ui2025 div.inbox-search-filters div.search-row.search-columns div[data-category]:not(.hidden).show {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-columns div[data-category]:not(.hidden).show {
   height: auto;
   -moz-opacity: 1;
   -khtml-opacity: 1;
@@ -23233,35 +23271,30 @@ body.ui2025 div.inbox-search-filters div.search-row.search-columns div[data-cate
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters div.search-row.search-columns div[data-category]:not(.hidden).show *,
-body.ui2025 div.inbox-search-filters div.search-row.search-columns div[data-category]:not(.hidden).show * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row.search-columns div[data-category]:not(.hidden).show * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search-filters button.link,
-body.ui2025 div.inbox-search-filters button.link {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button.link {
   position: absolute;
   display: block;
   bottom: 10px;
   right: 25px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs,
-body.ui2025 div.inbox-tabs {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs {
   position: relative;
   min-height: 36px;
   margin: 20px 0 25px 10px;
   z-index: 3;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left {
   margin: 0 0 0 20px;
-  width: calc(100% - 640px);
+  width: calc(100% - var(--search-offset));
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab {
   position: relative;
   display: inline-block;
   height: 36px;
@@ -23270,8 +23303,7 @@ body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab {
   padding: 0;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -23283,13 +23315,11 @@ body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon *,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab icon * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab span,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
   display: inline-block;
   position: relative;
   min-width: 20px;
@@ -23311,25 +23341,21 @@ body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab span {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected {
   color: #106eb6;
   font-weight: 600;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected icon,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected icon {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected icon {
   color: #106eb6;
   font-weight: normal;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected span,
-body.ui2025 div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected span {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-left div.inbox-tab.selected span {
   background: #e33100;
   font-weight: normal;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right,
-body.ui2025 div.inbox-tabs div.inbox-tabs-right {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-right {
   position: absolute;
-  width: 630px;
+  width: var(--search-offset);
   top: 0;
   right: 10px;
   height: 36px;
@@ -23338,8 +23364,7 @@ body.ui2025 div.inbox-tabs div.inbox-tabs-right {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader,
-body.ui2025 div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -23349,34 +23374,31 @@ body.ui2025 div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader {
   background-position: center center;
   background-repeat: no-repeat;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-search-bar,
-body.ui2025 div.inbox-tabs div.inbox-tabs-right div.inbox-search-bar {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-right div.inbox-search-bar {
   position: relative;
   display: inline-block;
   vertical-align: top;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button,
-body.ui2025 div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button {
   position: absolute;
   top: -51px;
   right: 0;
   height: 36px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button button,
-body.ui2025 div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button button {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs div.inbox-tabs-right div.inbox-tab-button button {
   height: 36px;
-  line-height: 36px;
+  line-height: 37px;
   margin: 0 !important;
   font-weight: normal;
   font-size: 14px;
   font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
   background: #106eb6;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search,
-body.ui2025 div.inbox-search {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search {
+  background: red !important;
   position: relative;
   width: calc(100% - 20px);
   background: white;
@@ -23395,26 +23417,22 @@ body.ui2025 div.inbox-search {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search *,
-body.ui2025 div.inbox-search * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.animate,
-body.ui2025 div.inbox-search.animate {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.animate {
   -webkit-transition: all 250ms;
   -moz-transition: all 250ms;
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.hide,
-body.ui2025 div.inbox-search.hide {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.hide {
   height: 0px !important;
   margin: 0px 10px !important;
   padding: 0px 10px !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show,
-body.ui2025 div.inbox-search.show {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.show {
   margin: 10px;
   padding: 10px;
   -moz-opacity: 1;
@@ -23423,33 +23441,27 @@ body.ui2025 div.inbox-search.show {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show *,
-body.ui2025 div.inbox-search.show * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.show * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show),
-body.ui2025 div.inbox-search.show div.ui-calendar-container:not(.show) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.show div.ui-calendar-container:not(.show) {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) *,
-body.ui2025 div.inbox-search.show div.ui-calendar-container:not(.show) * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.show div.ui-calendar-container:not(.show) * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) *,
-body.ui2025 div.inbox-search.show div.ui-calendar-container:not(.show) * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.show div.ui-calendar-container:not(.show) * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search.show div.ui-calendar-container:not(.show) * *,
-body.ui2025 div.inbox-search.show div.ui-calendar-container:not(.show) * * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search.show div.ui-calendar-container:not(.show) * * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search input[type="text"],
-body.ui2025 div.inbox-search input[type="text"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search input[type="text"] {
   display: inline-block;
   position: relative;
   vertical-align: top;
@@ -23481,25 +23493,32 @@ body.ui2025 div.inbox-search input[type="text"] {
   -moz-border-radius: 6px;
   border-radius: 6px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row,
-body.ui2025 div.inbox-search div.search-row {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search button {
+  background: red !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search button svg {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px 0 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search button svg path {
+  color: #666666;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row {
   position: relative;
   margin: 0 0 10px 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category],
-body.ui2025 div.inbox-search div.search-row div[data-category] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row div[data-category] {
   position: relative;
   display: block;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper,
-body.ui2025 div.inbox-search div.search-row div[data-category] div.check-wrapper {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row div[data-category] div.check-wrapper {
   position: relative;
   display: inline-block;
   vertical-align: top;
   margin: 0 0 5px 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper:after,
-body.ui2025 div.inbox-search div.search-row div[data-category] div.check-wrapper:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row div[data-category] div.check-wrapper:after {
   display: block;
   position: absolute;
   top: 5px;
@@ -23509,19 +23528,16 @@ body.ui2025 div.inbox-search div.search-row div[data-category] div.check-wrapper
   background-color: #cccccc;
   content: '';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper label,
-body.ui2025 div.inbox-search div.search-row div[data-category] div.check-wrapper label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row div[data-category] div.check-wrapper label {
   display: inline-block;
   vertical-align: top;
   margin: 5px 0 0 0;
   font-size: 14px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] div.check-wrapper input,
-body.ui2025 div.inbox-search div.search-row div[data-category] div.check-wrapper input {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row div[data-category] div.check-wrapper input {
   vertical-align: top;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row div[data-category] span.toggle-search-checks,
-body.ui2025 div.inbox-search div.search-row div[data-category] span.toggle-search-checks {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row div[data-category] span.toggle-search-checks {
   display: inline-block;
   vertical-align: top;
   height: 30px;
@@ -23531,12 +23547,10 @@ body.ui2025 div.inbox-search div.search-row div[data-category] span.toggle-searc
   font-size: 14px;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates,
-body.ui2025 div.inbox-search div.search-row.search-dates {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates {
   margin-bottom: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates label,
-body.ui2025 div.inbox-search div.search-row.search-dates label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates label {
   display: inline-block;
   vertical-align: top;
   height: 30px;
@@ -23544,8 +23558,7 @@ body.ui2025 div.inbox-search div.search-row.search-dates label {
   padding: 0 15px 0 5px;
   font-size: 16px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="date"],
-body.ui2025 div.inbox-search div.search-row.search-dates input[type*="date"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates input[type*="date"] {
   display: inline-block;
   vertical-align: top;
   width: 170px !important;
@@ -23570,35 +23583,30 @@ body.ui2025 div.inbox-search div.search-row.search-dates input[type*="date"] {
   -o-appearance: none;
   appearance: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates input[type*="datetime"],
-body.ui2025 div.inbox-search div.search-row.search-dates input[type*="datetime"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates input[type*="datetime"] {
   width: 200px !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar,
-body.ui2025 div.inbox-search div.search-row.search-dates div.form-row.calendar {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates div.form-row.calendar {
   display: inline-block;
   vertical-align: top;
   width: unset;
   height: 30px;
   margin: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar input,
-body.ui2025 div.inbox-search div.search-row.search-dates div.form-row.calendar input {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates div.form-row.calendar input {
   width: 180px;
   height: 30px;
   margin: 0;
   padding: 0 10px;
   font-size: 14px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-search div.search-row.search-dates div.form-row.calendar:after,
-body.ui2025 div.inbox-search div.search-row.search-dates div.form-row.calendar:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search div.search-row.search-dates div.form-row.calendar:after {
   top: 0 !important;
   left: unset;
   right: 5px;
   font-size: 16px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar,
-body.ui2025 div.inbox-sort-bar {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar {
   display: block;
   position: relative;
   width: calc(100% - 20px);
@@ -23620,13 +23628,11 @@ body.ui2025 div.inbox-sort-bar {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar *,
-body.ui2025 div.inbox-sort-bar * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.show,
-body.ui2025 div.inbox-sort-bar.show {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.show {
   height: 36px;
   margin: 20px 10px 10px 10px;
   -moz-opacity: 1;
@@ -23635,41 +23641,31 @@ body.ui2025 div.inbox-sort-bar.show {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.show *,
-body.ui2025 div.inbox-sort-bar.show * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.show * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked,
-body.ui2025 div.inbox-sort-bar.locked,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show,
-body.ui2025 div.inbox-sort-bar.locked.show {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked.show {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked *,
-body.ui2025 div.inbox-sort-bar.locked *,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show *,
-body.ui2025 div.inbox-sort-bar.locked.show * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked.show * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked *,
-body.ui2025 div.inbox-sort-bar.locked *,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show *,
-body.ui2025 div.inbox-sort-bar.locked.show * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked.show * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked * *,
-body.ui2025 div.inbox-sort-bar.locked * *,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar.locked.show * *,
-body.ui2025 div.inbox-sort-bar.locked.show * * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked * *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar.locked.show * * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills,
-body.ui2025 div.inbox-sort-bar div.sort-pills {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills {
   display: inline-block;
   vertical-align: top;
   height: 30px;
@@ -23677,15 +23673,14 @@ body.ui2025 div.inbox-sort-bar div.sort-pills {
   margin: 3px 10px 0 5px;
   font-size: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill {
   display: inline-block;
   vertical-align: top;
   height: 30px;
   line-height: 32px;
   padding: 0 10px;
   margin: 0 5px;
-  background: #16c1f3;
+  background: #47cef5;
   font-size: 12px;
   color: white;
   cursor: pointer;
@@ -23696,15 +23691,13 @@ body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon {
   display: inline-block;
   height: 28px;
   vertical-align: top;
   margin: 0 3px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon::after,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon::after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon::after {
   font-family: 'icons' !important;
   speak: none;
   font-style: normal;
@@ -23718,31 +23711,25 @@ body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-icon
   line-height: 28px;
   font-size: 16px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="true"] span.sort-pill-icon:after,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="true"] span.sort-pill-icon:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="true"] span.sort-pill-icon:after {
   content: '\e5db';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="false"] span.sort-pill-icon:after,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="false"] span.sort-pill-icon:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill:not([data-type="date"])[data-ascending="false"] span.sort-pill-icon:after {
   content: '\e5d8';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="true"] span.sort-pill-icon:after,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="true"] span.sort-pill-icon:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="true"] span.sort-pill-icon:after {
   content: '\e5d8';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="false"] span.sort-pill-icon:after,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="false"] span.sort-pill-icon:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill[data-type="date"][data-ascending="false"] span.sort-pill-icon:after {
   content: '\e5db';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close {
   display: inline-block;
   height: 28px;
   vertical-align: top;
   margin: 0 3px 0 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close::after,
-body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close::after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-close::after {
   font-family: 'icons' !important;
   speak: none;
   font-style: normal;
@@ -23757,16 +23744,7 @@ body.ui2025 div.inbox-sort-bar div.sort-pills span.sort-pill span.sort-pill-clos
   font-size: 16px;
   content: '\e5cd';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-sort-bar button,
-body.ui2025 div.inbox-sort-bar button {
-  display: inline;
-  margin: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes,
-body.ui2025 div.inbox-tab-boxes {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes {
   position: relative;
   min-width: calc(100% - 20px);
   margin: 10px;
@@ -23783,35 +23761,29 @@ body.ui2025 div.inbox-tab-boxes {
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked,
-body.ui2025 div.inbox-tab-boxes.locked {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes.locked {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked *,
-body.ui2025 div.inbox-tab-boxes.locked * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes.locked * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked *,
-body.ui2025 div.inbox-tab-boxes.locked * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes.locked * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes.locked * *,
-body.ui2025 div.inbox-tab-boxes.locked * * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes.locked * * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
   overflow: hidden;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table {
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
@@ -23819,82 +23791,57 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table {
   min-width: 100%;
   max-width: 100%;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col:nth-child(1),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col:nth-child(1),
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:nth-child(1),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:nth-child(1),
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:nth-child(1),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:nth-child(1) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col:nth-child(1),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:nth-child(1),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:nth-child(1) {
   width: 270px !important;
   min-width: 270px !important;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="PayPoint"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="PayPoint"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="PayPoint"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="PayPoint"] {
   width: 90px;
   min-width: 90px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="StateEnteredAt"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="StateEnteredAt"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="StateEnteredAt"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="StateEnteredAt"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="StateEnteredAt"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="StateEnteredAt"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="StateEnteredAt"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="StateEnteredAt"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="StateEnteredAt"] {
   width: 175px;
   min-width: 175px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="EffectiveDate"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="EffectiveDate"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="EffectiveDate"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="EffectiveDate"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="EffectiveDate"] {
   width: 130px;
   min-width: 130px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="CurrentState"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="CurrentState"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="CurrentState"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="CurrentState"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="CurrentState"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="CurrentState"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="CurrentState"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="CurrentState"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="CurrentState"] {
   width: 160px;
   min-width: 160px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
   width: 180px;
   min-width: 180px;
   text-align: right;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.large,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.large,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.large,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.large,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.large,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.large,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large {
   width: 240px;
   min-width: 240px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   position: relative;
   padding: 15px 10px 10px 5px;
   text-align: left;
@@ -23902,8 +23849,7 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   font-size: 16px;
   min-height: 25px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
   font-family: 'icons' !important;
   speak: none;
   font-style: normal;
@@ -23927,51 +23873,39 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
   cursor: not-allowed;
   color: #333333;
   font-weight: normal;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
   cursor: pointer;
   color: black;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
   padding-right: 10px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"]:after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"]:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"]:after {
   display: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"],
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="null"] {
   padding-right: 35px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"]:after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"]:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="true"]:after {
   content: '\e5db';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"]:after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"]:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending="false"]:after {
   content: '\e5d8';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="true"]:after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="true"]:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="true"]:after {
   content: '\e5d8';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-type="date"][data-ascending="false"]:after {
   content: '\e5db';
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before {
   display: block;
   position: absolute;
   top: 3px;
@@ -23999,32 +23933,27 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
   content: attr(data-order-str);
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons {
   padding: 10px 10px 10px 5px;
   text-align: right;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.toggle-container,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.toggle-container {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.toggle-container {
   margin: 0 10px 0 0;
   -webkit-transform: translateY(-4px);
   -ms-transform: translateY(-4px);
   transform: translateY(-4px);
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.column-search,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.column-search {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.column-search {
   position: relative;
   display: inline-block;
   width: 23px;
@@ -24033,8 +23962,7 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.
   overflow: visible;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box {
   position: relative;
   display: inline-block;
   width: 23px;
@@ -24044,8 +23972,7 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.
   overflow: visible;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
   position: absolute;
   top: 0;
   right: 0;
@@ -24076,60 +24003,48 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.
   -o-transition: opacity 250ms;
   transition: opacity 250ms;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item {
   white-space: nowrap;
   vertical-align: top;
   margin: 5px 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item input,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item input,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item input,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
   vertical-align: top;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu div.colum-menu-item label {
   height: 30px;
   line-height: 30px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu {
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box:hover div.colum-menu * {
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
   background-color: white;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
   background-color: #f6f6f6;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
   line-height: 22px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan],
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan] {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan] {
   vertical-align: top;
   padding: 20px 5px 20px 10px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
   display: inline-block;
   min-height: 22px;
   line-height: 22px;
@@ -24144,61 +24059,47 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="T
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td {
   -moz-opacity: 0.5;
   -khtml-opacity: 0.5;
   opacity: 0.5;
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td *,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td *,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving td *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring td *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting td * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
   background-color: #fff0e6;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
   background-color: #ffe6d6;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
   background-color: #f1f8e8;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
   background-color: #e5f2d6;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
   background-color: #ffeae6;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even),
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
   background-color: #ffdcd6;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
   height: 44px;
   line-height: 20px;
   margin: 0px;
   padding: 5px 5px 5px 10px;
   border-top: 1px solid #e6e9ed;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-match,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-match {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-match {
   color: #ffb515;
   font-style: oblique;
   font-weight: bolder;
@@ -24206,13 +24107,11 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-ma
   text-decoration-style: wavy;
   text-decoration-color: #ffb515;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child {
   position: relative;
   padding-left: 40px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child:after,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child:after {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child:after {
   font-family: 'icons' !important;
   speak: none;
   font-style: normal;
@@ -24240,14 +24139,12 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="t
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
   text-align: center;
   padding: 20px 0 10px 0;
   border-top: 1px solid #e6e9ed;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination {
   position: relative;
   width: 100%;
   line-height: 30px;
@@ -24255,8 +24152,7 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.paginati
   text-align: center;
   font-size: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span {
   display: inline-block;
   vertical-align: top;
   line-height: 30px;
@@ -24268,18 +24164,15 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.paginati
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.disabled * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.select-enabled,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.select-enabled {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.select-enabled {
   -webkit-touch-callout: default;
   -webkit-user-select: text;
   -khtml-user-select: text;
@@ -24288,31 +24181,24 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.paginati
   -o-user-select: text;
   user-select: text;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span:not(.select-enabled) * * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next {
   font-size: 18px;
   cursor: pointer;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last:hover,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last:hover,
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next:hover,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next:hover {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next:hover {
   color: #999999;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page {
   color: #106eb6;
   cursor: pointer;
   width: unset;
@@ -24321,55 +24207,45 @@ body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.paginati
   -moz-border-radius: 30px;
   border-radius: 30px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.large,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.large {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.large {
   padding: 0 5px;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current {
   color: #999999;
   cursor: default;
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current:hover,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current:hover {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current:hover {
   color: #999999;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page:hover,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page:hover {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page:hover {
   color: white;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider {
   margin: 0 10px;
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider *,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider * {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-divider * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.total-items,
-body.ui2025 div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.total-items {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.total-items {
   width: unset;
   font-size: 12px;
   color: #999999;
   cursor: default;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container,
-body.ui2025 .toggle-container {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container {
   display: inline-block;
   font-family: sans-serif;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-title,
-body.ui2025 .toggle-container .toggle-title {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-title {
   display: inline-block;
   margin-right: 5px;
   font-size: 14px;
@@ -24378,22 +24254,19 @@ body.ui2025 .toggle-container .toggle-title {
   user-select: none;
   vertical-align: middle;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch,
-body.ui2025 .toggle-container .toggle-switch {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 22px;
   vertical-align: middle;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch input,
-body.ui2025 .toggle-container .toggle-switch input {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch .slider,
-body.ui2025 .toggle-container .toggle-switch .slider {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch .slider {
   position: absolute;
   top: 0;
   left: 0;
@@ -24404,8 +24277,7 @@ body.ui2025 .toggle-container .toggle-switch .slider {
   cursor: pointer;
   transition: 0.2s;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch .slider::before,
-body.ui2025 .toggle-container .toggle-switch .slider::before {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch .slider::before {
   content: "";
   position: absolute;
   height: 18px;
@@ -24416,13 +24288,225 @@ body.ui2025 .toggle-container .toggle-switch .slider::before {
   border-radius: 50%;
   transition: 0.2s;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch input:checked + .slider,
-body.ui2025 .toggle-container .toggle-switch input:checked + .slider {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch input:checked + .slider {
   background-color: #16c1f3;
 }
-body.ui2018.uiupdate.inbox div.pagewrapper div.pagecontent div.content .toggle-container .toggle-switch input:checked + .slider::before,
-body.ui2025 .toggle-container .toggle-switch input:checked + .slider::before {
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch input:checked + .slider::before {
   transform: translateX(18px);
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.footer-status-message {
+  color: #999999;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select:after,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select:after,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.select:after {
+  color: #999999;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[name],
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name],
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[name],
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select[name],
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select[name],
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select[name] {
+  background-color: #222222;
+  border: 1px solid #333333 !important;
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="text"].search,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="text"].search,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="text"].search {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(204,204,204)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(204,204,204)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="text"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="text"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="text"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="number"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="number"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="number"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="password"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="password"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="password"]:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar textarea:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters textarea:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar textarea:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar select:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select:-webkit-autofill,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar select:-webkit-autofill {
+  background-color: #222222 !important;
+  color: #999999 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #222222 inset;
+  -webkit-text-fill-color: #333333 !important;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link),
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link),
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) {
+  color: white;
+  background-color: #1268b3;
+  border: 1px solid #8a99ab !important;
+  -webkit-box-shadow: box-shadow: 0px 5px 20px 0px #000;
+  -moz-box-shadow: box-shadow: 0px 5px 20px 0px #000;
+  box-shadow: box-shadow: 0px 5px 20px 0px #000;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link) svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link) svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) svg path {
+  stroke: white;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white {
+  color: white;
+  background-color: #222222;
+  border-color: #333333 !important;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white svg path {
+  stroke: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover {
+  color: white;
+  background-color: #1268b3;
+  border-color: #333333 !important;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover svg path {
+  stroke: white;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover.white,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover.white,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover.white {
+  color: white;
+  background-color: #333333;
+  border-color: #444444 !important;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover.white svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover.white svg path,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover.white svg path {
+  stroke: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button.link,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button.link,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button.link {
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row label,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row label,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row label {
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters {
+  background: #222222;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name],
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters select[name] {
+  background-color: #1a1a1a;
+  border: 1px solid #2b2b2b !important;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill {
+  background: #0c5287;
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
+  border-right: 1px solid #333333;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons)[data-ascending] {
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):before {
+  background: #0cb3e4;
+  color: white;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr {
+  background-color: #222222;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr:nth-child(even) {
+  background-color: #262626;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[data-name="TemplateDescription"] span {
+  background: rgba(22, 193, 243, 0.25);
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving {
+  background-color: #fff0e6;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.archiving:nth-child(even) {
+  background-color: #ffe6d6;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring {
+  background-color: #f1f8e8;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.restoring:nth-child(even) {
+  background-color: #e5f2d6;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting {
+  background-color: #ffeae6;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr.deleting:nth-child(even) {
+  background-color: #ffdcd6;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td em.search-match {
+  color: #ffb515;
+  text-decoration-color: #ffb515;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr[data-overdue="true"] td:first-child:after {
+  color: white;
+  background: #e33100;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
+  border-top: 1px solid #333333;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-last:hover,
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page-next:hover {
+  color: #999999;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page {
+  color: #106eb6;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current {
+  color: #999999;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page.current:hover {
+  color: #999999;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.page:hover {
+  color: white;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td div.pagination span.total-items {
+  color: #999999;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch .slider {
+  background-color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch input:checked + .slider {
+  background-color: #16c1f3;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-header span {
   color: white;
