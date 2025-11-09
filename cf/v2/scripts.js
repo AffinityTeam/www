@@ -24180,19 +24180,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     // Do FieldSpecificSearch properties
     state.FieldSpecificSearch = [];
 
-    // show completed forms
+    // show completed forms (P-type users only)
+    // When checked: Send IsComplete flag to override category filter (show both complete and incomplete)
+    // When unchecked: Don't send IsComplete flag (category filter applies normally, showing only incomplete)
     if (document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]') && document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]').checked)
     {
       state.FieldSpecificSearch.push({
         FieldName: 'IsComplete',
         SearchValue: true
-      });
-    }
-    else
-    {
-      state.FieldSpecificSearch.push({
-        FieldName: 'IsComplete',
-        SearchValue: false
       });
     }
 
