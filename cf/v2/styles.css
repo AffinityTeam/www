@@ -1,72 +1,72 @@
 /* Minification failed. Returning unminified contents.
-(7041,59): run-time error CSS1030: Expected identifier, found ','
-(7041,81): run-time error CSS1031: Expected selector, found ')'
-(7041,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7049,59): run-time error CSS1030: Expected identifier, found ','
-(7049,81): run-time error CSS1031: Expected selector, found ')'
-(7049,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7081,82): run-time error CSS1030: Expected identifier, found ','
-(7081,153): run-time error CSS1031: Expected selector, found ')'
-(7081,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(7163,64): run-time error CSS1030: Expected identifier, found ','
-(7163,71): run-time error CSS1031: Expected selector, found ')'
-(7163,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(7171,63): run-time error CSS1030: Expected identifier, found ','
-(7171,70): run-time error CSS1031: Expected selector, found ')'
-(7171,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(7179,72): run-time error CSS1030: Expected identifier, found ','
-(7179,79): run-time error CSS1031: Expected selector, found ')'
-(7179,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(7239,74): run-time error CSS1030: Expected identifier, found ','
-(7239,216): run-time error CSS1031: Expected selector, found ')'
-(7239,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(9030,113): run-time error CSS1030: Expected identifier, found ','
-(9030,125): run-time error CSS1031: Expected selector, found ')'
-(9030,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(10087,73): run-time error CSS1030: Expected identifier, found ','
-(10087,95): run-time error CSS1031: Expected selector, found ')'
-(10087,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10095,73): run-time error CSS1030: Expected identifier, found ','
-(10095,95): run-time error CSS1031: Expected selector, found ')'
-(10095,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10117,73): run-time error CSS1030: Expected identifier, found ','
-(10117,95): run-time error CSS1031: Expected selector, found ')'
-(10117,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10126,73): run-time error CSS1030: Expected identifier, found ','
-(10126,95): run-time error CSS1031: Expected selector, found ')'
-(10126,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10134,73): run-time error CSS1030: Expected identifier, found ','
-(10134,95): run-time error CSS1031: Expected selector, found ')'
-(10134,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10142,73): run-time error CSS1030: Expected identifier, found ','
-(10142,95): run-time error CSS1031: Expected selector, found ')'
-(10142,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10150,73): run-time error CSS1030: Expected identifier, found ','
-(10150,95): run-time error CSS1031: Expected selector, found ')'
-(10150,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10535,133): run-time error CSS1030: Expected identifier, found ','
-(10535,274): run-time error CSS1031: Expected selector, found ')'
-(10535,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(11127,167): run-time error CSS1030: Expected identifier, found ','
-(11127,309): run-time error CSS1031: Expected selector, found ')'
-(11127,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11409,108): run-time error CSS1030: Expected identifier, found ','
-(11409,250): run-time error CSS1031: Expected selector, found ')'
-(11409,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(12436,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12437,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12579,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(12581,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(22521,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22527,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22717,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(22718,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(22719,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(23222,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23288,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24285,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24286,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24287,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(7044,59): run-time error CSS1030: Expected identifier, found ','
+(7044,81): run-time error CSS1031: Expected selector, found ')'
+(7044,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7052,59): run-time error CSS1030: Expected identifier, found ','
+(7052,81): run-time error CSS1031: Expected selector, found ')'
+(7052,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7084,82): run-time error CSS1030: Expected identifier, found ','
+(7084,153): run-time error CSS1031: Expected selector, found ')'
+(7084,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(7166,64): run-time error CSS1030: Expected identifier, found ','
+(7166,71): run-time error CSS1031: Expected selector, found ')'
+(7166,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(7174,63): run-time error CSS1030: Expected identifier, found ','
+(7174,70): run-time error CSS1031: Expected selector, found ')'
+(7174,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(7182,72): run-time error CSS1030: Expected identifier, found ','
+(7182,79): run-time error CSS1031: Expected selector, found ')'
+(7182,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(7242,74): run-time error CSS1030: Expected identifier, found ','
+(7242,216): run-time error CSS1031: Expected selector, found ')'
+(7242,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(9033,113): run-time error CSS1030: Expected identifier, found ','
+(9033,125): run-time error CSS1031: Expected selector, found ')'
+(9033,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(10090,73): run-time error CSS1030: Expected identifier, found ','
+(10090,95): run-time error CSS1031: Expected selector, found ')'
+(10090,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10098,73): run-time error CSS1030: Expected identifier, found ','
+(10098,95): run-time error CSS1031: Expected selector, found ')'
+(10098,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10120,73): run-time error CSS1030: Expected identifier, found ','
+(10120,95): run-time error CSS1031: Expected selector, found ')'
+(10120,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10129,73): run-time error CSS1030: Expected identifier, found ','
+(10129,95): run-time error CSS1031: Expected selector, found ')'
+(10129,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10137,73): run-time error CSS1030: Expected identifier, found ','
+(10137,95): run-time error CSS1031: Expected selector, found ')'
+(10137,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10145,73): run-time error CSS1030: Expected identifier, found ','
+(10145,95): run-time error CSS1031: Expected selector, found ')'
+(10145,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10153,73): run-time error CSS1030: Expected identifier, found ','
+(10153,95): run-time error CSS1031: Expected selector, found ')'
+(10153,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10538,133): run-time error CSS1030: Expected identifier, found ','
+(10538,274): run-time error CSS1031: Expected selector, found ')'
+(10538,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(11130,167): run-time error CSS1030: Expected identifier, found ','
+(11130,309): run-time error CSS1031: Expected selector, found ')'
+(11130,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(11412,108): run-time error CSS1030: Expected identifier, found ','
+(11412,250): run-time error CSS1031: Expected selector, found ')'
+(11412,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(12439,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12440,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12585,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(12587,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(22566,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22572,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22762,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22763,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22764,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23267,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23333,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24330,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24331,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24332,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -3218,9 +3218,9 @@ body.ui2018.dark a:hover {
 body.ui2018.dark .help-bubble {
   color: white;
   background: #444444;
-  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2018.dark .help-bubble.top:before {
   border-color: #444444 transparent;
@@ -5154,9 +5154,9 @@ body.ui2018 #dialog {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   -webkit-transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   -moz-transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   -o-transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -5213,6 +5213,9 @@ body.ui2018 #dialog.show {
 }
 body.ui2018.dark #dialog {
   background-color: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2018.dark #dialog #dialog-content {
   color: #cccccc;
@@ -8646,9 +8649,9 @@ body.ui2018.uiupdate.cform .default-form .form-row .draw-panel-box canvas {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
 }
 body.ui2018.uiupdate form .form-row.row-attachinstructions,
 body.ui2018.uiupdate.cform form .form-row.row-attachinstructions,
@@ -9179,9 +9182,9 @@ body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-contain
   min-width: 360px;
   max-width: 360px;
   overflow: hidden;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
 }
 body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
 body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
@@ -9463,9 +9466,9 @@ body.ui2018.uiupdate.cform.v2.dashboard div.pagewrapper div.content div.section.
 body.ui2018.uiupdate.cform.cform.v2.dashboard div.pagewrapper div.content div.section.shadow {
   margin: 0 0 20px 0;
   border: none;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
-  box-shadow: 0px 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -9704,9 +9707,9 @@ body.ui2018.uiupdate.cform.cform.v2.dark.dashboard div.pagewrapper div.content d
 body.ui2018.uiupdate.cform.v2.dark.dashboard div.pagewrapper div.content div.section.shadow,
 body.ui2018.uiupdate.cform.cform.v2.dark.dashboard div.pagewrapper div.content div.section.shadow {
   background: #222222;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row label:not(.ui-file),
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row label:not(.ui-file),
@@ -9934,9 +9937,9 @@ body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.calendar .ui-calendar-c
 body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.calendar .ui-calendar-container,
 body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.calendar .ui-calendar-container {
   background-color: #111111;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
@@ -10096,9 +10099,9 @@ body.ui2018.uiupdate.cform.v2.dark .form .form-row .ui-autocomplete-container .u
 body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row .ui-autocomplete-container .ui-autocomplete-list,
 body.ui2018.uiupdate.cform.v2.dark .default-form .form-row .ui-autocomplete-container .ui-autocomplete-list,
 body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row .ui-autocomplete-container .ui-autocomplete-list {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row.row-drawpanel img,
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row.row-drawpanel img,
@@ -10106,9 +10109,9 @@ body.ui2018.uiupdate.cform.v2.dark .form .form-row.row-drawpanel img,
 body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row.row-drawpanel img,
 body.ui2018.uiupdate.cform.v2.dark .default-form .form-row.row-drawpanel img,
 body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row.row-drawpanel img {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row .draw-panel-box canvas,
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row .draw-panel-box canvas,
@@ -10117,9 +10120,9 @@ body.ui2018.uiupdate.cform.cform.v2.dark .form .form-row .draw-panel-box canvas,
 body.ui2018.uiupdate.cform.v2.dark .default-form .form-row .draw-panel-box canvas,
 body.ui2018.uiupdate.cform.cform.v2.dark .default-form .form-row .draw-panel-box canvas {
   background: white;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.v2.dark form .form-row input[type="text"]:-webkit-autofill,
 body.ui2018.uiupdate.cform.cform.v2.dark form .form-row input[type="text"]:-webkit-autofill,
@@ -10945,9 +10948,9 @@ body.ui2018.uiupdate.cform.dark li.cf-designer-element ul:before {
 body.ui2018.uiupdate.dark .content.designer .cf-d2-top,
 body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top {
   background: #222222;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.dark .content.designer .cf-d2-top .cf-d2-top-row input,
 body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top .cf-d2-top-row input {
@@ -10964,9 +10967,9 @@ body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-top .cf-d2-top-row .sel
 body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom,
 body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-bottom {
   background: #222222;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.dark .content.designer .cf-d2-bottom ul,
 body.ui2018.uiupdate.cform.dark .content.designer .cf-d2-bottom ul {
@@ -10999,9 +11002,9 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner {
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .example-template .preview,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .example-template .preview {
   background: #222222;
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .worflow-states-list-wrapper,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edit-template .edit-row .worflow-states-list-wrapper {
@@ -11025,9 +11028,9 @@ body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .edi
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .list-builder,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .list-builder {
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.dark .cf-designer-element-popup .inner .settings .list-builder .grid-wrapper,
 body.ui2018.uiupdate.cform.dark .cf-designer-element-popup .inner .settings .list-builder .grid-wrapper {
@@ -12636,6 +12639,9 @@ body.ui2018.dark .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-displa
 }
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list {
   background-color: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2018.dark .ui-autocomplete-container ul.ui-autocomplete-list li {
   background-color: #222222;
@@ -12885,6 +12891,45 @@ div.select.simple-select div.simple-select-list div.simple-select-list-item:hove
 }
 div.select.simple-select div.simple-select-list div.simple-select-list-item:not(:nth-child(1)) {
   border-top: 1px solid #cccccc;
+}
+body.ui2018.uiupdate.dark div.select.simple-select input[type="text"].simple-select-display,
+body.ui2025.uiupdate.dark div.select.simple-select input[type="text"].simple-select-display {
+  background-color: #222222;
+  border: 1px solid #333333;
+  color: #cccccc;
+}
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+}
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item {
+  color: #cccccc;
+  background: #222222;
+}
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item em,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item em {
+  color: white;
+}
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item.selected,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item.selected,
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item:hover,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item:hover {
+  color: white;
+  background: #16c1f3;
+}
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item.selected em,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item.selected em,
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item:hover em,
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item:hover em {
+  color: white;
+}
+body.ui2018.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item:not(:nth-child(1)),
+body.ui2025.uiupdate.dark div.select.simple-select div.simple-select-list div.simple-select-list-item:not(:nth-child(1)) {
+  border-top: 1px solid #333333;
 }
 
 
@@ -21370,7 +21415,7 @@ li.cf-designer-element.disabled * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  /* 19/02/2024 New White lsit Select Filter */
+  /* 19/02/2024 New White list Select Filter */
 
   /**/
 }
@@ -22344,9 +22389,9 @@ body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .sel
   border: 2px solid #444444;
 }
 body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container {
-  -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2) !important;
-  -moz-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2) !important;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2) !important;
+  -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2018.dark .cf-designer-element-popup .inner .settings .edit-template .select-filter-container .select-filter-container-inner .select-filter-grid-container .select-filter-grid-inner div.select-filter-grid-wrapper {
   background-color: #222222;
@@ -24379,9 +24424,9 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   color: white;
   background-color: #1268b3;
   border-color: #333333 !important;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover svg path,
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover svg path,
@@ -24412,6 +24457,9 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters {
   background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.select,
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[name],
@@ -24421,9 +24469,9 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists {
   background: #222222;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.sort-pills span.sort-pill {
   background: rgba(255, 255, 255, 0.1);
@@ -24439,9 +24487,9 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes {
   background: #222222;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):after {
   border-right: 1px solid #333333;
@@ -24545,13 +24593,13 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   background: #e33100;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tabs div.inbox-tabs-right div.inbox-tab-loader {
-  background-image: url(data:image/gif;base64,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);
+  background-image: url(data:image/gif;base64,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) !important;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search {
   background: #222222;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-search input[type="text"] {
   color: #cccccc;
@@ -24574,16 +24622,16 @@ body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes {
   background: #222222;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
   background: #333333;
   color: #cccccc;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
   color: #999999;
@@ -25961,16 +26009,16 @@ body.ui2018.uiupdate.cform.admin.dark div.admin-results table tfoot tr td {
 }
 body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes {
   background: #222222;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons div.colum-menu-box div.colum-menu {
   background: #333333;
   color: #cccccc;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
 body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table thead tr th:not(.buttons):not([data-ascending]) {
   color: #999999;
