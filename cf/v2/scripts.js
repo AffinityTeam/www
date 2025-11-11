@@ -23265,12 +23265,24 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.ShowModeToggle = true;
       }
     }
-	if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
-	{
-      this.IsPayrollAdmin = true;
-      this.ViewMode = 'Admin';
-      this.ShowModeToggle = true;
-	}
+    if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
+    {
+        this.IsPayrollAdmin = true;
+        this.ViewMode = 'Admin';
+        this.ShowModeToggle = true;
+    }
+
+    /**/
+
+    this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
+
+    // Restore saved ViewMode from localStorage if available
+    if (this.EnableLocalStore && this.IsPayrollAdmin && Affinity2018.Storage.Local.Has(`InboxViewMode-${this.StorageKeySuffix}`))
+    {
+      this.ViewMode = Affinity2018.Storage.Local.Get(`InboxViewMode-${this.StorageKeySuffix}`);
+    }
+
+    /**/
 
     // force shrink wrapper for admin "wide" mode.
     this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
@@ -23409,6 +23421,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchNode.addEventListener('keyup', this._searchNodeKeyUpHandler);
     this.SearchStartDateNode = this.SearchBox.querySelector('input#StartDate');
     this.SearchEndDateNode = this.SearchBox.querySelector('input#EndDate');
+
+    // Setup toggle event listener (toggle is in search bar)
+    let adminToggle = this.ResultNode.querySelector('.toggle-container.mode-switch input[type="checkbox"]');
+    if (adminToggle)
+    {
+      adminToggle.removeEventListener("change", this._switchMode);
+      adminToggle.addEventListener("change", this._switchMode);
+    }
 
     /**/
 
@@ -23577,13 +23597,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     
     this.ResultNode.removeEventListener('click', this._gridClicked);
     this.ResultNode.addEventListener('click', this._gridClicked);
-
-    let adminToggles = this.ResultNode.querySelectorAll('.toggle-container input[type="checkbox"]');
-    for (let adminToggle of adminToggles)
-    {
-      adminToggle.removeEventListener("change", this._switchMode);
-      adminToggle.addEventListener("change", this._switchMode);
-    }
 
     window.removeEventListener('click', this._checkColumnSelectHide);
     window.addEventListener('click', this._checkColumnSelectHide);
@@ -23813,7 +23826,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._hideLoader();
     this._injectSearchColumnTabs();
     this._applyHiddenColumns();
-    this._prcessSortBar();
+    this._prcessSortBar(false); // false = do not search again
 
     this.SortBarNode.classList.remove('locked');
     this.BoxesNode.classList.remove('locked');
@@ -23831,7 +23844,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SortBarNode.classList.remove('locked');
     this.BoxesNode.classList.remove('locked');
 
-    this._prcessSortBar();
+    this._prcessSortBar(false); // false = do not search again
 
     this._hideLoader();
   }
@@ -23865,7 +23878,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           )
           {
 
-            // Search inside column checkbox - hidden and no lionger used, but still geenrated // TODO: Remove this?
+            // Search inside column checkbox - hidden and no longer used, but still generated // TODO: Remove this?
             let labelName = columnNode.innerText;
             let columnName = columnNode.dataset.name;
             if (columnName.toLowerCase() !== 'paypoint')
@@ -25292,11 +25305,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (event.target.checked)
     {
-      await this._switchToAdmin();
+      await this._switchToDetault();
     }
     else
     {
-      await this._switchToDetault();
+      await this._switchToAdmin();
     }
   }
 
@@ -25321,6 +25334,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'Admin';
       this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
+      if (this.EnableLocalStore)
+      {
+        Affinity2018.Storage.Local.Set(`InboxViewMode-${this.StorageKeySuffix}`, this.ViewMode);
+      }
       this.ResultNode.innerHTML = this.AdminResultGridTemplate();
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
@@ -25351,6 +25368,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'User';
       this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
+      if (this.EnableLocalStore)
+      {
+        Affinity2018.Storage.Local.Set(`InboxViewMode-${this.StorageKeySuffix}`, this.ViewMode);
+      }
       this.ResultNode.innerHTML = this.ResultGridTemplate();
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
@@ -25545,26 +25566,42 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.AdminResultGridTemplate = () =>
     {
+      /*
       let toggleToAction = this.ToggleTemplate({
-        Label: 'Admin',
+        Label: 'My Forms',
         Id: 'AdminToggleToAction',
-        On: true
+        On: false
       });
       let toggleInProgress = this.ToggleTemplate({
-        Label: 'Admin',
+        Label: 'My Forms',
         Id: 'AdminToggleInProgress',
-        On: true
+        On: false
       });
       let toggleCompleted = this.ToggleTemplate({
-        Label: 'Admin',
+        Label: 'My Forms',
         Id: 'AdminToggleCompleted',
-        On: true
+        On: false
       });
+      */
+      let toggleToAction = '';
+      let toggleInProgress = '';
+      let toggleCompleted = '';
+      let toggleNode = '';
+      if (this.ShowModeToggle)
+      {
+        toggleNode = this.ToggleTemplate({
+          Label: 'My Forms',
+          Id: 'AdminToggleToAction',
+          ClassName: 'mode-switch',
+          On: false
+        });
+      }
+      let hasToggleClass = this.ShowModeToggle ? ' has-toggle' : '';
       return `
-      <div class="inbox-v2-wrapper admin-mode show-filters">
+      <div class="inbox-v2-wrapper admin-mode show-filters${hasToggleClass}">
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
-          <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
+          <div class="inbox-tab"        data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
           <div class="inbox-tab hidden" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div>
           <div class="inbox-tab hidden" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
         </div>
@@ -25574,10 +25611,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
             <input class="search" type="text" name="search" placeholder="Search" />
             <button class="white icon" data-action="show-hide-filters">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Filters
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Filters
             </button>
             <button class="white" data-action="show-hide-columns-select">
               <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25593,6 +25630,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
               <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
             </div>
+            ${toggleNode}
           </div>
           <div class="inbox-tab-button">
             <button data-action="startnew">Start a New Form</button>
@@ -25645,13 +25683,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
-          Sorting by ToAction <div class="sort-pills"></div> <button class="white">Reset</button>
+          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="InProgress">
-          Sorting by InProgress <div class="sort-pills"></div> <button class="white">Reset</button>
+          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="Completed">
-          Sorting by Completed <div class="sort-pills"></div> <button class="white">Reset</button>
+          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -25923,26 +25961,36 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let toggleToAction = '';
       let toggleInProgress = '';
       let toggleCompleted = '';
+      let toggleNode = '';
       if (this.ShowModeToggle)
       {
+        /*
         toggleToAction = this.ToggleTemplate({
-          Label: 'Admin',
+          Label: 'My Forms',
           Id: 'AdminToggleToAction',
-          On: false
+          On: true
         });
         toggleInProgress = this.ToggleTemplate({
-          Label: 'Admin',
+          Label: 'My Forms',
           Id: 'AdminToggleInProgress',
-          On: false
+          On: true
         });
         toggleCompleted = this.ToggleTemplate({
-          Label: 'Admin',
+          Label: 'My Forms',
           Id: 'AdminToggleCompleted',
-          On: false
+          On: true
+        });
+        */
+        toggleNode = this.ToggleTemplate({
+          Label: 'My Forms',
+          Id: 'AdminToggleToAction',
+          ClassName: 'mode-switch',
+          On: true
         });
       }
+      let hasToggleClass = this.ShowModeToggle ? ' has-toggle' : '';
       return `
-      <div class="inbox-v2-wrapper user-mode">
+      <div class="inbox-v2-wrapper user-mode${hasToggleClass}">
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
           <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
@@ -25974,6 +26022,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
               <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
             </div>
+            ${toggleNode}
           </div>
           <div class="inbox-tab-button">
             <button data-action="startnew">Start a New Form</button>
@@ -26009,13 +26058,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
-          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
+          Sorting by ToAction <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="InProgress">
-          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
+          Sorting by InProgress <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
         <div class="inbox-sort-bar" data-category="Completed">
-          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
+          Sorting by Completed <div class="sort-pills"></div> <button class="white">Reset</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -26277,6 +26326,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       if (activeGrid)
       {
         let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
+        if (data.TotalPages === 0 || data.Items.length === 0)
+        {
+          return '';
+        }
         return `
           <tr>
               <td colspan="${activeGridheaders.length}">Page ${data.CurrentPage} of ${data.TotalPages}</td>
@@ -26450,8 +26503,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.ToggleTemplate = data =>
     {
       let checked = data.On ? ' checked="checked"' : '';
+      let className = data.ClassName ? ` ${data.ClassName}` : '';
       return `
-      <div class="toggle-container">
+      <div class="toggle-container${className}">
         <label class="toggle-title" for="${data.Id}">${data.Label}</label>
         <label class="toggle-switch">
           <input type="checkbox" id="${data.Id}"${checked} />

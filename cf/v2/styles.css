@@ -58,15 +58,17 @@
 (12585,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (12587,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
 (22584,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22590,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22780,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(22781,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(22782,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(23290,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23356,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24275,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24276,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24277,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22587,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22593,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22596,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(22786,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22787,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(22788,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23302,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23368,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24287,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24288,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24289,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -22653,11 +22655,17 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode {
   --search-offset: 580px;
 }
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode.has-toggle {
+  --search-offset: 710px;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode.show-filters div.inbox-search-filters {
   height: 115px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode {
   --search-offset: 430px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode.has-toggle {
+  --search-offset: 560px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode.show-filters div.inbox-search-filters {
   height: 80px;
@@ -23148,6 +23156,12 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper.check-first input[type="checkbox"],
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper.check-first input[type="checkbox"] {
   margin: 0 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.toggle-container,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.toggle-container,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.toggle-container {
+  vertical-align: top;
+  margin: 5px 0 0 10px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.select {
   width: 145px;
