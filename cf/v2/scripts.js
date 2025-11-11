@@ -23213,6 +23213,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       '_gridClicked',
 
       '_checkColumnSelectHide', '_showColumnSelect', '_hideColumnSelect',
+      '_checkSortAfterColumnChange',
 
       '_searchNodeKeyUpHandler',
       '_rowButtonClicked',
@@ -23794,7 +23795,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         }
         categoryNode.querySelector('tbody').innerHTML = html;
 
-        if (data.CategorySettings[category].TotalPages === 1)
+        if (data.CategorySettings[category].TotalPages < 2)
         {
           categoryNode.querySelector('tfoot').innerHTML = this.ResultFooterTemplate(category, data.CategorySettings[category]);
         }
@@ -23853,22 +23854,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         let selectHtml = '';
         let selectDefaultDateHtml = '';
 
-        // attempt a full reset and cleanup of the previous items
-
-        /* Not needed. This is captured in _gridClickded
-        for (let check of searchChecksListNode.querySelectorAll(`input[type="checkbox"]`))
-        {
-          check.removeEventListener('change', this._checkHiddenRows);
-        }
-        for (let check of searchChecksNode.querySelectorAll(`input[type="checkbox"]`))
-        {
-          check.removeEventListener('change', this._searchCheckChanged);
-        }
-        */
-
         searchDateColumnSelect.removeEventListener('change', this._searchDateSelectChanged);
-
-        // and build them all again
 
         for (let columnNode of columnNodes)
         {
@@ -23879,7 +23865,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           )
           {
 
-            // Search inside column checkbox
+            // Search inside column checkbox - hidden and no lionger used, but still geenrated // TODO: Remove this?
             let labelName = columnNode.innerText;
             let columnName = columnNode.dataset.name;
             if (columnName.toLowerCase() !== 'paypoint')
@@ -23896,11 +23882,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let checked = !columnNode.classList.contains('hidden') ? ` checked` : ``;
             let storeKey = `InboxColumnsShow-${this.ViewMode}-${category}-${columnName}-${this.StorageKeySuffix}`;
             let currentlySet = this.EnableLocalStore ? Affinity2018.Storage.Local.Has(storeKey) : false;
+            let matchingSortDataIndex = this.State.CategorySettings[this.State.ActiveCategory].SortFields.findIndex(item => item.Name === columnName);
             if (currentlySet)
             {
               checked = Affinity2018.Storage.Local.Get(storeKey) ? ` checked` : ``;
             }
             columnChecksHtml += `<div><input type="checkbox" data-category="${category}" value="${columnName}" id="show-hide-check-${category}-${columnName}" ${checked}></checkbox><label for="show-hide-check-${category}-${columnName}">${labelName}</label></div>`;
+            if (checked === '' && matchingSortDataIndex > -1)
+            {
+              this.State.CategorySettings[this.State.ActiveCategory].SortFields.splice(matchingSortDataIndex, 1);
+            }
             
             // Search on what date column select options
             if (columnNode.dataset.type.contains('date'))
@@ -23925,17 +23916,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         searchDateColumnSelect.innerHTML = selectDefaultDateHtml + selectHtml;
 
         this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
-
-        /* _gridClicked will capture this.
-        for (let check of searchChecksListNode.querySelectorAll(`input[type="checkbox"]`))
-        {
-          check.addEventListener('change', this._checkHiddenRows);
-        }
-        for (let check of searchChecksNode.querySelectorAll(`input[type="checkbox"]`))
-        {
-          check.addEventListener('change', this._searchCheckChanged);
-        }
-        */
 
         searchDateColumnSelect.addEventListener('change', this._searchDateSelectChanged);
 
@@ -24198,7 +24178,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       startDateAsDate.setMilliseconds(0);
       this.SearchBox.querySelector('input#StartDate').value = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDateFormat);
       this.SearchBox.querySelector('input#StartDate').widgets.DateTime.updateFromTarget();
-      state.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
+      //state.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
     }
     if (endDateAsDate !== null)
     {
@@ -24208,24 +24188,25 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       endDateAsDate.setMilliseconds(0);
       this.SearchBox.querySelector('input#EndDate').value = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDateFormat);
       this.SearchBox.querySelector('input#EndDate').widgets.DateTime.updateFromTarget();
-      state.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
+      //state.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
     }
 
     // Do FieldSpecificSearch properties
     state.FieldSpecificSearch = [];
 
-    // show completed forms (P-type users only)
+    // Show completed forms (P-type users only)
     // When checked: Send IsComplete flag to override category filter (show both complete and incomplete)
     // When unchecked: Don't send IsComplete flag (category filter applies normally, showing only incomplete)
     if (document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]') && document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]').checked)
     {
       state.FieldSpecificSearch.push({
         FieldName: 'IsComplete',
-        SearchValue: true
+        SearchValue: 'true'
       });
     }
 
-    // if SearchShowUnassigned is ticked
+    // OLD - if SearchShowUnassigned is ticked
+    /*
     if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
     {
       let effectiveDateIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'EffectiveDate');
@@ -24253,6 +24234,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         state.FieldSpecificSearch.splice(effectiveDateIndexFound, 1);
       }
+    }
+    */
+   
+    if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
+    {
+      state.FieldSpecificSearch.push({
+        FieldName: 'ModelNames',
+        SearchValue: 'Employee, Empad, Sdates, Branch, Cst, Dept, Division, Groupd, Payl, Posts'
+      });
+    }
+    else
+    {
+      state.FieldSpecificSearch.push({
+        FieldName: 'ModelNames',
+        SearchValue: 'Employee, Empad, Sdates'
+      });
     }
 
     // Set date column to search within, plus relevant dates, only if PayPont is ALL or unset
@@ -24288,7 +24285,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let payPointData = this.PayPoints.find(item => item.PayPoint.toString() === selectedPayPoint.toString());
       state.FieldSpecificSearch.push({
         FieldName: 'PayPoint',
-        SearchValue: selectedPayPoint,
+        SearchValue: selectedPayPoint.toString(),
         StartDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
         EndDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
       });
@@ -24327,7 +24324,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       state.FieldSpecificSearch.push({
         FieldName: 'PayPoint',
-        SearchValue: 999
+        SearchValue: '999'
       });
     }
 
@@ -24435,7 +24432,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.State.EndDate = '';
     this.PayPointSelectNode.selectedIndex = 0;
     this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
-    await this.GetResults();
+    //await this.GetResults(); // no?
+    this._attemptSearchDebounced('_reset');
   }
 
   /**/
@@ -24543,9 +24541,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               headerNode.dataset.ascending = !ascending;
             }
 
-            this._updateSortData();
-
-            await this.GetResults();
+            await this._updateSortData(true, true); // redraw, then search
           }
           else if (event.target.classList.contains('sort-pill-close'))
           {
@@ -24561,9 +24557,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
             event.target.parentNode.parentNode.removeChild(event.target.parentNode);
 
-            this._updateSortData();
-
-            await this.GetResults();
+            await this._updateSortData(true, true); // redraw, then search
           }
           else if (event.target.classList.contains('toggle-search-checks'))
           {
@@ -24680,10 +24674,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
             event.target.dataset.ascending = ascendingString;
 
-            this._updateSortData();
-
-            await this._attemptSearchDebounced('_gridClicked -> th -> sorting');
-
+            await this._updateSortData(true, true); // redraw, then search
           }
 
           break;
@@ -24695,18 +24686,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let id = event.target.id ? event.target.id : null;
             switch (id)
             {
+                
               case 'SearchShowCompletedForms':
-                this._attemptSearchDebounced('_gridClicked -> input -> checkbox -> SearchShowCompletedForms');
-                return;
-                break;
-
               case 'SearchShowUnassigned':
-                this._attemptSearchDebounced('_gridClicked -> input -> checkbox -> SearchShowUnassigned');
-                return;
-                break;
-
               case 'Show999':
-                this._attemptSearchDebounced('_gridClicked -> input -> checkbox -> Show999');
+                this._attemptSearchDebounced(`_gridClicked -> input -> checkbox -> ${id}`);
                 return;
                 break;
             }
@@ -24720,7 +24704,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 event.stopPropagation();
                 //event.preventDefault();
               }
-              await this._attemptSearchDebounced('_gridClicked -> input -> checkbox -> show hide columns');
+              await this._checkSortAfterColumnChange(event.target); // Will do _attemptSearchDebounced
               setTimeout(this._showColumnSelect, 50, event);
               return;
             }
@@ -24763,6 +24747,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       event.preventDefault();
     }
     this.ColumnListNode.classList.remove('show');
+  }
+  async _checkSortAfterColumnChange(checkboxNode)
+  {
+    if (checkboxNode)
+    {
+      let category = checkboxNode.dataset.category;
+      let columnName = checkboxNode.value;
+      let headerNode = this.ResultNode.querySelector(`table[data-category="${category}"] th[data-name="${columnName}"]`);
+      if (!checkboxNode.checked && headerNode.dataset.ascending !== 'null')
+      {
+        headerNode.dataset.ascending = 'null';
+      }
+    }
+    await this._updateSortData(true, true); // redraw, then search
   }
 
   /**/
@@ -24883,7 +24881,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (data.Success)
     {
-      await this.GetResults();
+      await this._attemptSearchDebounced('_processRow');
     }
     else
     {
@@ -25019,12 +25017,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       //Affinity2018.Storage.Local.Set(`InboxPage-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, page);
     }
     this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
-    await this.GetResults();
+    await this._attemptSearchDebounced(`pagination -> _gotoPage -> page ${page}`);
   }
 
   /**/
 
-  _updateSortData()
+  async _updateSortData(redraw = false, reload = false)
   {
     let sorts = [];
     let headers = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
@@ -25054,9 +25052,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
     }
+
+    if (redraw)
+    {
+      await this._prcessSortBar(reload);
+    }
   }
 
-  _prcessSortBar(resetData = true)
+  async _prcessSortBar(reload = true)
   {
     let sortBarNode = this.ResultNode.querySelector(`div.inbox-sort-bar[data-category="${this.State.ActiveCategory}"]`);
     let sotbarPillNode = sortBarNode.querySelector('div.sort-pills');
@@ -25125,16 +25128,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           index++
         }
 
-        this._updateSortData();
-
-        if (resetData)
-        {
-            await this.GetResults();
-        }
-
+        //this._updateSortData();
 
       }).bind(this));
 
+    }
+
+    if (reload)
+    {
+      await this._attemptSearchDebounced('_prcessSortBar -> reload: true');
     }
 
   }
@@ -25146,13 +25148,29 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       event.preventDefault();
       event.stopPropagation();
     }
-    let defaultSortSate = this.StateStore[`${this.ViewMode}Default`].CategorySettings[this.State.ActiveCategory].SortFields;
-    this.State.CategorySettings[this.State.ActiveCategory].SortFields = JSON.parse(JSON.stringify(defaultSortSate));
+    let defaultSortSate = JSON.parse(JSON.stringify(this.StateStore[`${this.ViewMode}Default`].CategorySettings[this.State.ActiveCategory].SortFields));
+    /**/
+    let checkboxContainerNode = this.ColumnListNode.querySelector(`div.show-hide-columns-check-list[data-category="${this.State.ActiveCategory}"]`);
+    if (checkboxContainerNode)
+    {
+      let uncheckedCheckboxes = checkboxContainerNode.querySelectorAll(`input[type="checkbox"]:not(:checked)`);
+      for (let checkboxNode of uncheckedCheckboxes)
+      {
+        let columnName = checkboxNode.value; 
+        let matchingSortDataIndex = defaultSortSate.findIndex(item => item.Name === columnName);
+        if (matchingSortDataIndex > -1)
+        {
+          defaultSortSate.splice(matchingSortDataIndex, 1);
+        }
+      }
+    }
+    /**/
+    this.State.CategorySettings[this.State.ActiveCategory].SortFields = defaultSortSate;
     if (this.EnableLocalStore)
     {
       Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
     }
-    await this.GetResults();
+    await this._prcessSortBar(true); // do search
   }
 
   /**/
@@ -25307,7 +25325,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
       this._gotoTab(this.State.ActiveCategory);
-      await this.GetResults();
+      //await this.GetResults(); // No?
+      await this._attemptSearchDebounced('_switchToAdmin');
     }
   }
 
@@ -25336,7 +25355,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
       this._gotoTab(this.State.ActiveCategory);
-      await this.GetResults();
+      //await this.GetResults(); // no?
+      await this._attemptSearchDebounced('_switchToDetault');
     }
   }
 
