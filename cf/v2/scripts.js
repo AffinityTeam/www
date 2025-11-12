@@ -23469,8 +23469,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let today = luxon.DateTime.local();
     let minDate = today.minus({ years: 7 });
 
-    let startDate = minDate.toJSDate();
-    let endDate = today.toJSDate();
+    let startDate = null;
+    let endDate = null;
 
     // Only apply pay point dates for P type admins
     if (this.ViewMode === 'Admin')
@@ -23513,11 +23513,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchStartDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
     this.SearchStartDateNode.dataset.calendarNullable = true;
     this.SearchStartDateNode.dataset.alignToDisplay = true;
-    this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDate).toFormat(this.SearchDateFormat);
     if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
     {
       this.SearchStartDateNode.widgets.DateTime.nullable = true;
-      this.SearchStartDateNode.widgets.DateTime.setDate(startDate, false);
     }
     this.SearchStartDateNode.removeEventListener('change', this._searchDateChanged);
     this.SearchStartDateNode.addEventListener('change', this._searchDateChanged);
@@ -23527,12 +23525,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchEndDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
     this.SearchEndDateNode.dataset.calendarNullable = true;
     this.SearchEndDateNode.dataset.alignToDisplay = true;
-    this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(endDate).toFormat(this.SearchDateFormat);
     if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
     {
       this.SearchEndDateNode.widgets.DateTime.nullable = true;
-      this.SearchEndDateNode.widgets.DateTime.setDate(endDate, false);
     }
+
+    if (this.ViewMode === 'Admin')
+    {
+      this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDate).toFormat(this.SearchDateFormat);
+      if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
+      {
+        this.SearchStartDateNode.widgets.DateTime.setDate(startDate, false);
+      }
+      this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(endDate).toFormat(this.SearchDateFormat);
+      if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
+      {
+        this.SearchEndDateNode.widgets.DateTime.setDate(endDate, false);
+      }
+    }
+    else
+    {
+      this.SearchStartDateNode.value = '';
+      if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
+      {
+        this.SearchStartDateNode.widgets.DateTime.setNone();
+      }
+      this.SearchEndDateNode.value = '';
+      if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
+      {
+        this.SearchStartDateNode.widgets.DateTime.setNone();
+      }
+    }
+
     this.SearchEndDateNode.removeEventListener('change', this._searchDateChanged);
     this.SearchEndDateNode.addEventListener('change', this._searchDateChanged);
 
@@ -23877,10 +23901,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             && columnNode.dataset.searchable.toString().toLowerCase() === 'true'
           )
           {
-
-            // Search inside column checkbox - hidden and no longer used, but still generated // TODO: Remove this?
+              
             let labelName = columnNode.innerText;
             let columnName = columnNode.dataset.name;
+            // Search inside column checkbox - hidden and no longer used, but still generated // TODO: Remove this?
+            /*
             if (columnName.toLowerCase() !== 'paypoint')
             {
               html += this.SearchCheckTemplate({
@@ -23890,6 +23915,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 Tooltip: `Include '${labelName}' in the search`
               });
             }
+            */
 
             // hide / show column checkbox (Columns menu)
             let checked = !columnNode.classList.contains('hidden') ? ` checked` : ``;
@@ -23909,6 +23935,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             // Search on what date column select options
             if (columnNode.dataset.type.contains('date'))
             {
+              labelName = labelName.contains(' / ') ? labelName.split(' / ')[0] : labelName;
               if (!columnName.toLowerCase().contains(this.SearchDateDefault.toLowerCase().trim()))
               {
                 selectHtml += `<option value="${columnName}">${labelName}</option>`;
@@ -23916,6 +23943,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               else
               {
                 selectDefaultDateHtml = `<option value="${columnName}">${labelName}</option>`;
+              }
+              if (columnName === 'StateEnteredAt')
+              {
+                if (!'completedat'.contains(this.SearchDateDefault.toLowerCase().trim()))
+                {
+                  selectHtml += `<option value="CompletedAt">Date Completed</option>`;
+                }
+                else
+                {
+                  selectDefaultDateHtml = `<option value="CompletedAt">Date Completed</option>`;
+                }
               }
             }
           }
@@ -23928,7 +23966,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         searchChecksListNode.innerHTML = columnChecksHtml;
         searchDateColumnSelect.innerHTML = selectDefaultDateHtml + selectHtml;
 
-        this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
+        if (this.ViewMode === 'Admin')
+        {
+          this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
+        }
 
         searchDateColumnSelect.addEventListener('change', this._searchDateSelectChanged);
 
@@ -23955,65 +23996,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _searchDateChanged(event)
   {
-    /*
-    let startDate = this.SearchBox.querySelector('input#StartDate').value;
-    let startDateAsDate = startDate.trim() === '' ? null : new Date(startDate.trim());
-    let endDate = this.SearchBox.querySelector('input#EndDate').value;
-    let endDateAsDate = endDate.trim() === '' ? null : new Date(endDate.trim());
-    if (startDateAsDate !== null && endDateAsDate !== null)
-    {
-      let matchingPayPoint = this.PayPoints.find(item =>
-      {
-        let currentStart = new Date(item.CurrentPeriodStartDate);
-        let currentEnd = new Date(item.CurrentPeriodEndDate);
-        return currentStart.getTime() === startDateAsDate.getTime() && currentEnd.getTime() === endDateAsDate.getTime();
-      });
-
-      if (matchingPayPoint)
-      {
-        let matchingIndex = Array.from(this.PayPointSelectNode.querySelectorAll('option')).findIndex(opt => opt.value.toString() === matchingPayPoint.PayPoint.toString());
-        this.PayPointSelectNode.selectedIndex = matchingIndex;
-      }
-      else
-      {
-        let oldestStartItem = this.PayPoints[0];
-        let oldestEndItem = this.PayPoints[0];
-        let newestEndItem = this.PayPoints[0];
-        let oldestStart = new Date(oldestStartItem.CurrentPeriodStartDate);
-        let oldestEnd = new Date(oldestEndItem.CurrentPeriodEndDate);
-        let newestEnd = new Date(newestEndItem.CurrentPeriodEndDate);
-        for (let item of this.PayPoints) 
-        {
-          let currentStart = new Date(item.CurrentPeriodStartDate);
-          let currentEnd = new Date(item.CurrentPeriodEndDate);
-          if (currentStart < oldestStart) 
-          {
-            oldestStartItem = item;
-            oldestStart = currentStart;
-          }
-          if (currentEnd < oldestEnd) 
-          {
-            oldestEndItem = item;
-            oldestEnd = currentEnd;
-          }
-          if (currentEnd > newestEnd) 
-          {
-            newestEndItem = item;
-            newestEnd = currentEnd;
-          }
-        }
-        if (oldestStart.getTime() === startDateAsDate.getTime() && newestEnd.getTime() === endDateAsDate.getTime())
-        {
-          this.PayPointSelectNode.selectedIndex = 0;
-        }
-        else
-        {
-          let emptyIndex = Array.from(this.PayPointSelectNode.querySelectorAll('option')).findIndex(opt => opt.value === '');
-          this.PayPointSelectNode.selectedIndex = emptyIndex;
-        }
-      }
-    }
-    */
     this._attemptSearchDebounced('_searchDateChanged');
   }
 
@@ -24692,6 +24674,28 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           break;
 
+        case 'td':
+
+          clearTimeout(this._rowClickedAutoLoadEdit);
+          if (window.getSelection().toString().trim() === '')
+          {
+            let editButton = event.target.closest('tr').querySelector('button.edit');
+            let viewButton = event.target.closest('tr').querySelector('button.view');
+            let instance = event.target.closest('tr').dataset.instance ? event.target.closest('tr').dataset.instance.replace('instances/', '') : null;
+            if (editButton && instance)
+            {
+              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, 250, `${this.EditUrl}${instance}`, true);
+              return;
+            }
+            if (viewButton && instance)
+            {
+              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, 250, `${this.ViewUrl}${instance}`, true);
+              return;
+            }
+          }
+
+          break;
+
         case 'input':
 
           if (event.target.type === 'checkbox')
@@ -24749,6 +24753,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       event.stopPropagation();
       event.preventDefault();
     }
+    let buttonNode = this.ColumnListNode.parentNode.querySelector('button[data-action="show-hide-columns-select"]');
+    let parent = buttonNode.offsetParent;
+    let buttonLeft = buttonNode.offsetLeft;
+    let buttonRight = buttonLeft + buttonNode.offsetWidth;
+    let rightWithinParent = parent.clientWidth - buttonRight;
+    this.ColumnListNode.style.right = `${rightWithinParent}px`;
     this.ColumnListNode.classList.add('show');
   }
   _hideColumnSelect(event)
@@ -25328,8 +25338,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
       )
       {
-        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
-        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
+        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
+        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
+        //this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
+        //this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
+      }
+      else
+      {
+        this.SearchBox.querySelector('input#StartDate').value = '';
+        this.SearchBox.querySelector('input#EndDate').value = '';
       }
       this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'Admin';
@@ -25362,8 +25379,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
       )
       {
-        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
-        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
+        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
+        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
+        //this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
+        //this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
+      }
+      else
+      {
+        this.SearchBox.querySelector('input#StartDate').value = '';
+        this.SearchBox.querySelector('input#EndDate').value = '';
       }
       this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
       this.ViewMode = 'User';
@@ -25610,7 +25634,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
             <input class="search" type="text" name="search" placeholder="Search" />
-            <button class="white icon" data-action="show-hide-filters">
+            <button class="white" data-action="show-hide-filters">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -25656,14 +25680,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
         </div>
-        <div class="search-row inline">
-          <label>&nbsp;</label>
+        <div class="search-row no-label">
           <div class="check-wrapper check-first">
             <input type="checkbox" id="SearchShowCompletedForms">
             <label for="SearchShowCompletedForms">Include completed forms</label>
-          </div>        
-        </div>
-        <div class="search-row no-label">
+          </div>  
           <div class="check-wrapper check-first">
             <input type="checkbox" id="SearchShowUnassigned">
             <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="No Pay Point and or No Date Effective">Include Non-employee forms</label>
@@ -25706,21 +25727,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="CurrentAssigneeName">
               <col data-name="CurrentState">
-              <col class="buttons">
+              <col class="buttons large">
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"             data-type="string"  >Relates To</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"  data-type="string"  >Previous Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"       data-type="string"  >Last Action Taken</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Received</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
-                <th class="buttons">
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >Relates To</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >Pay Point</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >Workflow Name</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >Previous Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >Last Action Taken</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >Last Updated / Completed</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >Current Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >Current State</th>
+                <th class="buttons large">
                   ${toggleToAction}
                 </th>
               </tr>
@@ -25748,16 +25769,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"             data-type="string"  >Relates To</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"  data-type="string"  >Previous Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"       data-type="string"  >Last Action Taken</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Received</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >Relates To</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >Pay Point</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >Workflow Name</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >Previous Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >Last Action Taken</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >Last Updated / Completed</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >Current Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >Current State</th>
                 <th class="buttons large">
                   ${toggleInProgress}
                 </th>
@@ -25786,16 +25807,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"   data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"             data-type="string"  >Relates To</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"              data-type="int"     >Pay Point</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"         data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"          data-type="string"  >Workflow Name</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"  data-type="string"  >Previous Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"       data-type="string"  >Last Action Taken</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"        data-type="date"    >Date Received</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"   data-type="string"  >Current Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"          data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >Name</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >Relates To</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >Pay Point</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >Effective Date</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >Workflow Name</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >Previous Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >Last Action Taken</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >Last Updated / Completed</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >Current Assignee</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >Current State</th>
                 <th class="buttons">
                   ${toggleCompleted}
                 </th>
@@ -25820,9 +25841,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
-
-      //let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      //let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase() : '';
 
       let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
       let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
@@ -25868,9 +25886,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
 
       let deletButton = '';
-      if (Affinity2018.UserProfile.MemberType === 'P')
+      if (this.IsPayrollAdmin)
       {
-        deletButton = `<button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>`;
+        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
+          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>`;
       }
 
       switch (category)
@@ -25880,21 +25904,30 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               >${nameString}</td>
-              <td data-name="RelatesTo"                                   >${relatesTo}</td>
-              <td data-name="PayPoint"              class="paypoint"      >${payPoint}</td>
-              <td data-name="EffectiveDate"         class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="WorkflowName"                                >${workflowName}</td>
-              <td data-name="PreviousAssigneeName"                        >${previousAssigneeName}</td>
-              <td data-name="LastActionTaken"                             >${lastActionTaken}</td>
-              <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
-              <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
-              <td data-name="CurrentState"                                >${currentState}</td>
-              <td class="buttons">
-                <button class="blue details icononly ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 -960 960 960"><path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/></svg>
+              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
+              <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
+              <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
+              <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
+              <td data-name="WorkflowName"                                ><text>${workflowName}</text></td>
+              <td data-name="PreviousAssigneeName"                        ><text>${previousAssigneeName}</text></td>
+              <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
+              <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
+              <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
+              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
+              <td class="buttons large">
+                <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
+                  <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Edit
                 </button>
-                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
+                <button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left">
+                  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                    <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
+                  </svg>
+                </button>
                 ${deletButton}
               </td>
             </tr>
@@ -25906,20 +25939,37 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               >${nameString}</td>
-              <td data-name="RelatesTo"                                   >${relatesTo}</td>
-              <td data-name="PayPoint"              class="paypoint"      >${payPoint}</td>
-              <td data-name="EffectiveDate"         class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="WorkflowName"                                >${workflowName}</td>
-              <td data-name="PreviousAssigneeName"                        >${previousAssigneeName}</td>
-              <td data-name="LastActionTaken"                             >${lastActionTaken}</td>
-              <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
-              <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
-              <td data-name="CurrentState"                                >${currentState}</td>
+              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
+              <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
+              <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
+              <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
+              <td data-name="WorkflowName"                                ><text>${workflowName}</text></td>
+              <td data-name="PreviousAssigneeName"                        ><text>${previousAssigneeName}</text></td>
+              <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
+              <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
+              <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
+              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
               <td class="buttons large">
-                <button class="blue details icon-work-flow-multiple icononly ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left"></button>
-                <button class="blue view"><span class="icon-page"></span>View</button>
-                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
+                <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
+                  <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Edit
+                </button>
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  View
+                </button>
+                <button class="white light-grey filled details icon ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 -960 960 960"><path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/></svg>
+                </button>
                 ${deletButton}
               </td>
             </tr>
@@ -25931,18 +25981,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               >${nameString}</td>
-              <td data-name="RelatesTo"                                   >${relatesTo}</td>
-              <td data-name="PayPoint"              class="paypoint"      >${payPoint}</td>
-              <td data-name="EffectiveDate"         class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="WorkflowName"                                >${workflowName}</td>
-              <td data-name="PreviousAssigneeName"                        >${previousAssigneeName}</td>
-              <td data-name="LastActionTaken"                             >${lastActionTaken}</td>
-              <td data-name="StateEnteredAt"        class="datetime"      >${enteredAtTimeString}</td>
-              <td data-name="CurrentAssigneeName"                         >${currentAssigneeName}</td>
-              <td data-name="CurrentState"                                >${currentState}</td>
+              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
+              <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
+              <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
+              <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
+              <td data-name="WorkflowName"                                ><text>${workflowName}</text></td>
+              <td data-name="PreviousAssigneeName"                        ><text>${previousAssigneeName}</text></td>
+              <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
+              <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
+              <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
+              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
               <td class="buttons">
-                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  View
+                </button>
               </td>
             </tr>
           `;
@@ -26002,18 +26060,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
             <input class="search" type="text" name="search" placeholder="Search" />
-            <button class="white icon" data-action="show-hide-filters">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Filters
+            <button class="white" data-action="show-hide-filters">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Filters
             </button>
             <button class="white" data-action="show-hide-columns-select">
-              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.75 14.9899C12.75 13.241 14.1678 11.8232 15.9167 11.8232C17.6656 11.8232 19.0833 13.241 19.0833 14.9899C19.0833 16.7388 17.6656 18.1565 15.9167 18.1565C14.1678 18.1565 12.75 16.7388 12.75 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.36444 14.9899H0.75" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.19892 0.75H6.46449C7.81703 0.75 8.91341 1.8559 8.91341 3.22018V18.2798C8.91341 19.6441 7.81703 20.75 6.46449 20.75H3.19892C1.84638 20.75 0.75 19.6441 0.75 18.2798V3.22018C0.75 1.8559 1.84638 0.75 3.19892 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0349 0.75H18.3015C19.653 0.75 20.7493 1.8559 20.7493 3.22018V18.2798C20.7493 19.6441 19.653 20.75 18.3015 20.75H15.0349C13.6823 20.75 12.5859 19.6441 12.5859 18.2798V3.22018C12.5859 1.8559 13.6823 0.75 15.0349 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Columns
             </button>
@@ -26047,6 +26103,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <label for="EndDate">Date To</label>
             <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
+        </div>
+        <div class="search-row no-label hidden">
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="SearchShowUnassigned" class="hidden" disabled>
+            <label for="SearchShowUnassigned" class="ui-has-tooltip hidden" data-tooltip="No Pay Point and or No Date Effective">Include Non-employee forms</label>
+          </div>     
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="Show999" class="hidden" disabled>
+            <label for="Show999" class="hidden">Include Pay Point 999</label>
+          </div> 
         </div>
         <div class="search-row search-columns hidden">
           <label>Search in columns <span class="toggle-search-checks-visible">Show</span></label>
@@ -26108,7 +26174,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26119,7 +26185,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
-                <th class="buttons large">
+                <th class="buttons">
                   ${toggleInProgress}
                 </th>
               </tr>
@@ -26215,9 +26281,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
 
       let deletButton = '';
-      if (Affinity2018.UserProfile.MemberType === 'P')
+      if (this.IsPayrollAdmin)
       {
-        deletButton = `<button class="red delete icononly ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}"><span class="icon-cross"></span></button>`;
+        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
+          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>`;
       }
 
       switch (category)
@@ -26227,14 +26299,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
-              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
+              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
+              <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
+              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
+              <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
+              <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
+              <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
               <td class="buttons">
-                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
+                <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
+                  <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Edit
+                </button>
                 ${deletButton}
               </td>
             </tr>
@@ -26246,15 +26325,23 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="CurrentAssigneeName"                   >${currentAssigneeName}</td>
-              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
-              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
-              <td class="buttons large">
-                <button class="blue view"><span class="icon-page"></span>View</button>
+              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
+              <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
+              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
+              <td data-name="CurrentAssigneeName"                   ><text>${currentAssigneeName}</text></td>
+              <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
+              <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
+              <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
+              <td class="buttons">
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  View
+                </button>
                 ${deletButton}
               </td>
             </tr>
@@ -26266,15 +26353,23 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         >${nameString}</td>
-              <td data-name="RelatesTo"                             >${relatesTo}</td>
-              <td data-name="CurrentState"                          >${currentState}</td>
-              <td data-name="CompletedByName"                       >${completedByName}</td>
-              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
-              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
-              <td data-name="PayPoint"        class="paypoint"      >${payPoint}</td>
+              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
+              <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
+              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
+              <td data-name="CompletedByName"                       ><text>${completedByName}</text></td>
+              <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
+              <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
+              <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
               <td class="buttons">
-                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  View
+                </button>
               </td>
             </tr>
           `;

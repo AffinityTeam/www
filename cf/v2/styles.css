@@ -57,18 +57,15 @@
 (12440,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (12585,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (12587,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(22584,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22587,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22593,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22596,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(22786,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(22787,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(22788,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(23302,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23368,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24287,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24288,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24289,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23111,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23114,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23120,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23123,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23691,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23757,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24715,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24716,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24717,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -22554,11 +22551,13 @@ body.ui2018.uiupdate.inbox button.icononly,
 body.ui2018.uiupdate.inbox a.button.icononly {
   width: 36px;
   text-align: center;
+  font-size: 0;
 }
 body.ui2018.uiupdate.inbox button.icononly span:first-child,
 body.ui2018.uiupdate.inbox a.button.icononly span:first-child {
   padding: 0;
   margin: 0;
+  font-size: 16px;
 }
 body.ui2018.uiupdate.inbox button.icononly svg,
 body.ui2018.uiupdate.inbox a.button.icononly svg {
@@ -22607,6 +22606,531 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   color: #344356;
   background: none;
 }
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link) {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  height: 35px;
+  line-height: 35px;
+  margin: 0;
+  padding: 0 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #1268b3;
+  border: 1px solid #8a99ab !important;
+  font-size: 14px;
+  font-family: Montserrat, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: normal;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  -webkit-border-radius: 35px;
+  -moz-border-radius: 35px;
+  border-radius: 35px;
+  -webkit-box-shadow: 0px 5px 20px 0px #00378033;
+  -moz-box-shadow: 0px 5px 20px 0px #00378033;
+  box-shadow: 0px 5px 20px 0px #00378033;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link) svg {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 18px;
+  max-height: 18px;
+  margin: 0 5px 0 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link) svg path {
+  stroke: white;
+  stroke-width: 1.5px;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white {
+  color: #666666;
+  background-color: white;
+  border-color: #e2e6eb !important;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:hover {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white svg path {
+  stroke: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey {
+  background-color: white !important;
+  color: #666666 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey.icon svg path {
+  stroke: #666666 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey:hover {
+  background-color: white !important;
+  color: #666666 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey:hover.icon svg path {
+  stroke: #8c8c8c !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey {
+  background-color: white !important;
+  color: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey.icon svg path {
+  stroke: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey:hover {
+  background-color: white !important;
+  color: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey:hover.icon svg path {
+  stroke: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red {
+  background-color: white !important;
+  color: #e33100 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red.icon svg path {
+  stroke: #e33100 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red:hover {
+  background-color: white !important;
+  color: #e33100 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red:hover.icon svg path {
+  stroke: #ff5d31 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange {
+  background-color: white !important;
+  color: #ff5c00 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange.icon svg path {
+  stroke: #ff5c00 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange:hover {
+  background-color: white !important;
+  color: #ff5c00 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange:hover.icon svg path {
+  stroke: #ff8d4d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta {
+  background-color: white !important;
+  color: #a9014b !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta.icon svg path {
+  stroke: #a9014b !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta:hover {
+  background-color: white !important;
+  color: #a9014b !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta:hover.icon svg path {
+  stroke: #f5016d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow {
+  background-color: white !important;
+  color: #ffb515 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow.icon svg path {
+  stroke: #ffb515 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow:hover {
+  background-color: white !important;
+  color: #ffb515 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow:hover.icon svg path {
+  stroke: #ffcd62 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green {
+  background-color: white !important;
+  color: #8dca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green.icon svg path {
+  stroke: #8dca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green:hover {
+  background-color: white !important;
+  color: #8dca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green:hover.icon svg path {
+  stroke: #afda72 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red {
+  background-color: white !important;
+  color: #e33100 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red.icon.filled svg path {
+  fill: #e33100 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red.icon:not(.filled) svg path {
+  stroke: #e33100 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red:hover {
+  background-color: #e2e6eb !important;
+  color: #ff5d31 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red:hover.icon.filled svg path {
+  fill: #ff5d31 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.red:hover.icon:not(.filled) svg path {
+  stroke: #ff5d31 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange {
+  background-color: white !important;
+  color: #ff5c00 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange.icon.filled svg path {
+  fill: #ff5c00 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange.icon:not(.filled) svg path {
+  stroke: #ff5c00 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange:hover {
+  background-color: #e2e6eb !important;
+  color: #ff8d4d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange:hover.icon.filled svg path {
+  fill: #ff8d4d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.orange:hover.icon:not(.filled) svg path {
+  stroke: #ff8d4d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta {
+  background-color: white !important;
+  color: #a9014b !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta.icon.filled svg path {
+  fill: #a9014b !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta.icon:not(.filled) svg path {
+  stroke: #a9014b !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta:hover {
+  background-color: #e2e6eb !important;
+  color: #f5016d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta:hover.icon.filled svg path {
+  fill: #f5016d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.magenta:hover.icon:not(.filled) svg path {
+  stroke: #f5016d !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow {
+  background-color: white !important;
+  color: #ffb515 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow.icon.filled svg path {
+  fill: #ffb515 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow.icon:not(.filled) svg path {
+  stroke: #ffb515 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow:hover {
+  background-color: #e2e6eb !important;
+  color: #ffcd62 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow:hover.icon.filled svg path {
+  fill: #ffcd62 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.yellow:hover.icon:not(.filled) svg path {
+  stroke: #ffcd62 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green {
+  background-color: white !important;
+  color: #8dca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green.icon.filled svg path {
+  fill: #8dca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green.icon:not(.filled) svg path {
+  stroke: #8dca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green:hover {
+  background-color: #e2e6eb !important;
+  color: #afda72 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green:hover.icon.filled svg path {
+  fill: #afda72 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.green:hover.icon:not(.filled) svg path {
+  stroke: #afda72 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.blue {
+  background-color: white !important;
+  color: #16c1f3 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.blue.icon.filled svg path {
+  fill: #16c1f3 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.blue.icon:not(.filled) svg path {
+  stroke: #16c1f3 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.blue:hover {
+  background-color: #e2e6eb !important;
+  color: #5fd4f7 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.blue:hover.icon.filled svg path {
+  fill: #5fd4f7 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.blue:hover.icon:not(.filled) svg path {
+  stroke: #5fd4f7 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-yellow {
+  background-color: white !important;
+  color: #b27e0f !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-yellow.icon.filled svg path {
+  fill: #b27e0f !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-yellow.icon:not(.filled) svg path {
+  stroke: #b27e0f !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-yellow:hover {
+  background-color: #e2e6eb !important;
+  color: #ecac21 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-yellow:hover.icon.filled svg path {
+  fill: #ecac21 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-yellow:hover.icon:not(.filled) svg path {
+  stroke: #ecac21 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-green {
+  background-color: white !important;
+  color: #628d25 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-green.icon.filled svg path {
+  fill: #628d25 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-green.icon:not(.filled) svg path {
+  stroke: #628d25 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-green:hover {
+  background-color: #e2e6eb !important;
+  color: #8cca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-green:hover.icon.filled svg path {
+  fill: #8cca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-green:hover.icon:not(.filled) svg path {
+  stroke: #8cca35 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-blue {
+  background-color: white !important;
+  color: #0f87aa !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-blue.icon.filled svg path {
+  fill: #0f87aa !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-blue.icon:not(.filled) svg path {
+  stroke: #0f87aa !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-blue:hover {
+  background-color: #e2e6eb !important;
+  color: #1bbceb !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-blue:hover.icon.filled svg path {
+  fill: #1bbceb !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.dark-blue:hover.icon:not(.filled) svg path {
+  stroke: #1bbceb !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey {
+  background-color: white !important;
+  color: #666666 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey.icon.filled svg path {
+  fill: #666666 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey.icon:not(.filled) svg path {
+  stroke: #666666 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey:hover {
+  background-color: #e2e6eb !important;
+  color: #8c8c8c !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey:hover.icon.filled svg path {
+  fill: #8c8c8c !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.grey:hover.icon:not(.filled) svg path {
+  stroke: #8c8c8c !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey {
+  background-color: white !important;
+  color: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey.icon.filled svg path {
+  fill: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey.icon:not(.filled) svg path {
+  stroke: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey:hover {
+  background-color: #e2e6eb !important;
+  color: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey:hover.icon.filled svg path {
+  fill: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.light-grey:hover.icon:not(.filled) svg path {
+  stroke: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled-grey,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:disabled {
+  background-color: white !important;
+  color: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled-grey.icon.filled svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled.icon.filled svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:disabled.icon.filled svg path {
+  fill: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled-grey.icon:not(.filled) svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled.icon:not(.filled) svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:disabled.icon:not(.filled) svg path {
+  stroke: #999999 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled-grey:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled:hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:disabled:hover {
+  background-color: #e2e6eb !important;
+  color: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled-grey:hover.icon.filled svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled:hover.icon.filled svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:disabled:hover.icon.filled svg path {
+  fill: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled-grey:hover.icon:not(.filled) svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.disabled:hover.icon:not(.filled) svg path,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white:disabled:hover.icon:not(.filled) svg path {
+  stroke: #bfbfbf !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-light-blue {
+  background-color: white !important;
+  color: #16c1f3 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-light-blue.icon.filled svg path {
+  fill: #16c1f3 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-light-blue.icon:not(.filled) svg path {
+  stroke: #16c1f3 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-light-blue:hover {
+  background-color: #e2e6eb !important;
+  color: #5fd4f7 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-light-blue:hover.icon.filled svg path {
+  fill: #5fd4f7 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-light-blue:hover.icon:not(.filled) svg path {
+  stroke: #5fd4f7 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-blue {
+  background-color: white !important;
+  color: #106eb6 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-blue.icon.filled svg path {
+  fill: #106eb6 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-blue.icon:not(.filled) svg path {
+  stroke: #106eb6 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-blue:hover {
+  background-color: #e2e6eb !important;
+  color: #2796ec !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-blue:hover.icon.filled svg path {
+  fill: #2796ec !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-blue:hover.icon:not(.filled) svg path {
+  stroke: #2796ec !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-dark-blue {
+  background-color: white !important;
+  color: #106eb6 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-dark-blue.icon.filled svg path {
+  fill: #106eb6 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-dark-blue.icon:not(.filled) svg path {
+  stroke: #106eb6 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-dark-blue:hover {
+  background-color: #e2e6eb !important;
+  color: #2796ec !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-dark-blue:hover.icon.filled svg path {
+  fill: #2796ec !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).white.affinity-dark-blue:hover.icon:not(.filled) svg path {
+  stroke: #2796ec !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).icon,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).icononly {
+  color: transparent !important;
+  font-size: 0 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).icon svg,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link).icononly svg {
+  margin: 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link):hover {
+  color: white;
+  background-color: #1268b3;
+  border-color: #e2e6eb !important;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link):hover svg path {
+  stroke: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link):hover.white {
+  color: #666666;
+  background-color: #e2e6eb;
+  border-color: #e2e6eb !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button:not(.link):hover.white svg path {
+  stroke: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.link {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  border: none !important;
+  background: none !important;
+  font-weight: normal;
+  color: #333333;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.link:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.show-filters div.inbox-search-filters {
   margin: 10px;
   padding: 10px;
@@ -22653,19 +23177,19 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   pointer-events: all;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode {
-  --search-offset: 580px;
+  --search-offset: 630px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode.has-toggle {
-  --search-offset: 710px;
+  --search-offset: 760px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-mode.show-filters div.inbox-search-filters {
   height: 115px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode {
-  --search-offset: 430px;
+  --search-offset: 480px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode.has-toggle {
-  --search-offset: 560px;
+  --search-offset: 610px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.user-mode.show-filters div.inbox-search-filters {
   height: 80px;
@@ -22828,144 +23352,6 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar input[type="text"][name] {
   min-width: 200px;
   max-width: 300px;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link),
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link),
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  height: 35px;
-  line-height: 35px;
-  margin: 0;
-  padding: 0 10px;
-  color: white;
-  cursor: pointer;
-  background-color: #1268b3;
-  border: 1px solid #8a99ab !important;
-  font-size: 14px;
-  font-family: Montserrat, Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-weight: normal;
-  outline: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  -ms-appearance: none !important;
-  -o-appearance: none !important;
-  appearance: none !important;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -webkit-box-shadow: box-shadow: 0px 5px 20px 0px #00378033;
-  -moz-box-shadow: box-shadow: 0px 5px 20px 0px #00378033;
-  box-shadow: box-shadow: 0px 5px 20px 0px #00378033;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link) svg,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link) svg,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) svg {
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 18px;
-  max-height: 18px;
-  margin: 0 5px 0 0;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link) svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link) svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) svg path {
-  stroke: white;
-  stroke-width: 1.5px;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -o-transition: all 250ms;
-  transition: all 250ms;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white {
-  color: #666666;
-  background-color: white;
-  border-color: #e2e6eb !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white:hover,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white:hover,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white:hover {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).white svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).white svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).white svg path {
-  stroke: #999999;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).icon,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).icon,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).icon {
-  color: transparent;
-  font-size: 0;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link).icon svg,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link).icon svg,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link).icon svg {
-  margin: 0;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover {
-  color: white;
-  background-color: #1268b3;
-  border-color: #e2e6eb !important;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover svg path {
-  stroke: white;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover.white,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover.white,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover.white {
-  color: #666666;
-  background-color: #e2e6eb;
-  border-color: #e2e6eb !important;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button:not(.link):hover.white svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button:not(.link):hover.white svg path,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link):hover.white svg path {
-  stroke: #999999;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button.link,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button.link,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button.link {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0;
-  padding: 0;
-  border: none !important;
-  background: none !important;
-  font-weight: normal;
-  color: #333333;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar button.link:hover,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters button.link:hover,
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button.link:hover {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar input[type="checkbox"],
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters input[type="checkbox"],
@@ -23475,9 +23861,9 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   font-size: 14px;
   font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
   background: #106eb6;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 35px;
+  -moz-border-radius: 35px;
+  border-radius: 35px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search {
   background: red !important;
@@ -23922,15 +24308,48 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons {
-  width: 180px;
-  min-width: 180px;
+  width: 110px;
+  min-width: 110px;
   text-align: right;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons .button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons .button:not(.link),
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons .button:not(.link) {
+  -webkit-border-radius: 35px;
+  -moz-border-radius: 35px;
+  border-radius: 35px;
+  -webkit-box-shadow: 0px 5px 20px 0px #00378033;
+  -moz-box-shadow: 0px 5px 20px 0px #00378033;
+  box-shadow: 0px 5px 20px 0px #00378033;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons .button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons .button:not(.link).white,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons .button:not(.link).white {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons .button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons .button:not(.link):hover,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons .button:not(.link):hover {
+  -webkit-box-shadow: 0px 5px 20px 0px #00378033;
+  -moz-box-shadow: 0px 5px 20px 0px #00378033;
+  box-shadow: 0px 5px 20px 0px #00378033;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.large,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.large,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large {
-  width: 240px;
-  min-width: 240px;
+  width: 150px;
+  min-width: 150px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   position: relative;
@@ -24052,6 +24471,12 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
   line-height: 22px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:not([colspan]) {
+  cursor: pointer;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:not([colspan]) text {
+  cursor: text;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td[colspan] {
   vertical-align: top;
