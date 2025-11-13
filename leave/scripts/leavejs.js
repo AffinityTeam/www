@@ -5790,7 +5790,7 @@ var UILeaveApply = new Class({
 
         if (this.leavePeriodDaysContainer !== undefined) {
             this.leavePeriodDaysContainer.destroy();
-
+            this.leavePeriodDaysBoxHeaderRow.hide();
             if (this.totalPeriodDaysDetail !== undefined) {
                 this.totalPeriodDaysDetail.destroy();
             }
