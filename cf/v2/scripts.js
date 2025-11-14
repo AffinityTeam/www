@@ -23145,6 +23145,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.DeleteAPI = '/Inbox/Delete/';
     this.DetailsEndpoint = '/AdminV2/Details/';
     this.PayPointAPI = '/Lookup/GetAssignedPayPoints/';
+    this.AvailableFormsAPI = '/Inbox/GetAvailableForms';
 
     this.SearchDateFormat = 'yyyy-MM-dd'; // luxon date format
     this.SearchDatePostFormat = 'yyyy-MM-dd'; // luxon date format
@@ -23945,7 +23946,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               {
                 selectDefaultDateHtml = `<option value="${columnName}">${labelName}</option>`;
               }
-              if (columnName === 'StateEnteredAt')
+              if (this.ViewMode === 'Admin' && columnName === 'StateEnteredAt')
               {
                 if (!'completedat'.contains(this.SearchDateDefault.toLowerCase().trim()))
                 {
@@ -24061,10 +24062,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         if (event.target.value === 'CompletedAt')
         {
           checkNode.checked = true;
+          checkNode.parentNode.classList.add('disabled');
         }
         else
         {
           checkNode.checked = false;
+          checkNode.parentNode.classList.remove('disabled');
         }
       }
       this._resetPagesToOne();
@@ -24092,17 +24095,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._attemptSearchDebounced('_searchCheckChanged');
   }
 
-  _attemptSearchDebounced(from, pageOverride = null)
+  _attemptSearchDebounced(from)
   {
     clearTimeout(this._attemptSearchDebouncerTimer);
     // Clear and start the loader, we will either keep deboncin or make it to _attemptSearch.
     // Better to shwo loader now so we do not appear to have a dealy.
     Affinity2018.Tooltips.Hide();
     this._showLoader();
-    this._attemptSearchDebouncerTimer = setTimeout(this._attemptSearch, 500, from, pageOverride);
+    this._attemptSearchDebouncerTimer = setTimeout(this._attemptSearch, 500, from);
   }
 
-  async _attemptSearch(from, pageOverride = null)
+  async _attemptSearch(from)
   {
     if (this.LocalDebug)
     {
@@ -24116,12 +24119,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let state = JSON.parse(JSON.stringify(this.State));
 
     state.AdminMode = this.ViewMode === 'Admin';
-    
-    // Apply page override if provided (from pagination click)
-    if (pageOverride !== null)
-    {
-      state.CategorySettings[this.State.ActiveCategory].CurrentPage = pageOverride;
-    }
 
     // Add checked VISIBLE columns
     for (let category in state.CategorySettings)
@@ -24341,15 +24338,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     if (JSON.stringify(state) === JSON.stringify(this.SearchSate)) 
     {
       this._hideLoader();
+      console.log('\tNo change in search data found. Search abandoned.');
+      console.log(state);
+      console.groupEnd();
       return;
     }
-    this.SearchSate = state;
+    this.SearchSate = JSON.parse(JSON.stringify(state)); // copy for next comparrison, not a weak ref to the object, else comparison will fail as the object is the same reference
     
     if (this.LocalDebug)
     {
+      console.log('\tAttempting search request...');
       console.log(this.SearchSate);
-      //console.log(JSON.stringify(this.SearchSate, null, 2));
-      console.groupEnd();
     }
 
     let url = `${this.SearchAPI}`;
@@ -24363,6 +24362,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!response.ok)
     {
+      console.groupEnd();
       this._hideLoader();
       Affinity2018.Dialog.Show({
         message: `No results found<!-- ${response.status} -->`,
@@ -24377,6 +24377,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!data || data === '')
     {
+      console.groupEnd();
       this._hideLoader();
       Affinity2018.Dialog.Show({
         message: `No results found<!-- ${response.status} -->`,
@@ -24386,6 +24387,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.State.SearchQuery = null;
       return false;
     }
+    console.log('\tGot search results!');
+    console.groupEnd();
     this.State = state;
     this._gotResults(data);
     return true;
@@ -25058,9 +25061,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       //Affinity2018.Storage.Local.Set(`InboxPage-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, page);
     }
-    // Don't update this.State here - pass page as parameter to _attemptSearch so comparison detects the change
-    // this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
-    await this._attemptSearchDebounced(`pagination -> _gotoPage -> page ${page}`, page);
+    this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
+    await this._attemptSearchDebounced(`pagination -> _gotoPage -> page ${page}`);
   }
 
   /**/
@@ -25171,7 +25173,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           index++
         }
 
-        //this._updateSortData();
+        // Update sort state from DOM and trigger search (without redrawing pills)
+        await this._updateSortData(false, false); // Update state only, no redraw
+        this._resetPagesToOne(); // Reset to page 1 when sort order changes
+        await this._attemptSearchDebounced('sort pill drag/drop');
 
       }).bind(this));
 
@@ -25222,7 +25227,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     Affinity2018.ShowPageLoader(true, 0);
 
-    let response = await fetch(`/Inbox/GetAvailableForms`);
+    let api = `${this.AvailableFormsAPI}?AdminMode=${(this.ViewMode === 'Admin')}`;
+
+    let response = await fetch(api);
 
     if (!response.ok)
     {
@@ -25664,8 +25671,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.75 14.9899C12.75 13.241 14.1678 11.8232 15.9167 11.8232C17.6656 11.8232 19.0833 13.241 19.0833 14.9899C19.0833 16.7388 17.6656 18.1565 15.9167 18.1565C14.1678 18.1565 12.75 16.7388 12.75 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.36444 14.9899H0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Columns
             </button>
@@ -26087,9 +26094,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               Filters
             </button>
             <button class="white" data-action="show-hide-columns-select">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.19892 0.75H6.46449C7.81703 0.75 8.91341 1.8559 8.91341 3.22018V18.2798C8.91341 19.6441 7.81703 20.75 6.46449 20.75H3.19892C1.84638 20.75 0.75 19.6441 0.75 18.2798V3.22018C0.75 1.8559 1.84638 0.75 3.19892 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0349 0.75H18.3015C19.653 0.75 20.7493 1.8559 20.7493 3.22018V18.2798C20.7493 19.6441 19.653 20.75 18.3015 20.75H15.0349C13.6823 20.75 12.5859 19.6441 12.5859 18.2798V3.22018C12.5859 1.8559 13.6823 0.75 15.0349 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Columns
             </button>

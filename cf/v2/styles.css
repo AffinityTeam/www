@@ -61,11 +61,11 @@
 (23114,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23120,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23123,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23691,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23757,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24715,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24716,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24717,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23711,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23777,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24735,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24736,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24737,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -22617,7 +22617,7 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   color: white;
   cursor: pointer;
   background-color: #1268b3;
-  border: 1px solid #8a99ab !important;
+  border: 1px solid #1268b3 !important;
   font-size: 14px;
   font-family: Montserrat, Arial, "Helvetica Neue", Helvetica, sans-serif;
   font-weight: normal;
@@ -23542,6 +23542,26 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper.check-first input[type="checkbox"],
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper.check-first input[type="checkbox"] {
   margin: 0 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper.disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper.disabled,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper.disabled {
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  -webkit-filter: grayscale(1);
+  -moz-filter: grayscale(1);
+  -o-filter: grayscale(1);
+  -ms-filter: grayscale(1);
+  filter: grayscale(1);
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.search-row div.check-wrapper.disabled *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.search-row div.check-wrapper.disabled *,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar div.search-row div.check-wrapper.disabled * {
+  touch-action: none;
+  pointer-events: none;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.toggle-container,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-filters div.toggle-container,
@@ -24780,7 +24800,7 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-sort-bar button:not(.link) {
   color: white;
   background-color: #1268b3;
-  border: 1px solid #8a99ab !important;
+  border: 1px solid #1268b3 !important;
   -webkit-box-shadow: box-shadow: 0px 5px 20px 0px #000;
   -moz-box-shadow: box-shadow: 0px 5px 20px 0px #000;
   box-shadow: box-shadow: 0px 5px 20px 0px #000;
