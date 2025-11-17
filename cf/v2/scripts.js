@@ -23160,6 +23160,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.LocalDebug = false;
 
+    this.UserDefaultView = 'User';
+    this.AdminDefaultView = 'User';
+
   }
 
   /**
@@ -23263,14 +23266,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       if (this.MemberType === "P")
       {
         this.IsPayrollAdmin = true;
-        this.ViewMode = 'Admin';
+        this.ViewMode = this.AdminDefaultView;
         this.ShowModeToggle = true;
       }
+    }
+    if (parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
+    {
+        this.IsPayrollAdmin = false;
+        this.ViewMode = this.AdminDefaultView;
+        this.ShowModeToggle = true;
     }
     if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
     {
         this.IsPayrollAdmin = true;
-        this.ViewMode = 'Admin';
+        this.ViewMode = this.AdminDefaultView;
         this.ShowModeToggle = true;
     }
 
@@ -23833,6 +23842,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           }
         }
         categoryNode.querySelector('tbody').innerHTML = html;
+
+        // check fro delete buttons
+        categoryNode.classList.remove('has-delete');
+        let allDeleteButtons = this.State.CategorySettings[category].Items.filter(item => item.CanDelete);
+        if (allDeleteButtons.length > 0 && this.State.CategorySettings[category].Items.length > allDeleteButtons.length)
+        {
+          categoryNode.classList.add('has-delete');
+        }
 
         if (data.CategorySettings[category].TotalPages < 2)
         {
@@ -25913,7 +25930,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
 
       let deletButton = '';
-      if (this.IsPayrollAdmin)
+      //if (this.IsPayrollAdmin)
+      if (data.CanDelete)
       {
         deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
           <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25941,7 +25959,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons large">
+              <td class="buttons large${deletButton === '' ? '' : ' has-delete'}">
                 <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
                   <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
@@ -25976,7 +25994,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons large">
+              <td class="buttons large${deletButton === '' ? '' : ' has-delete'}">
                 <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
                   <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>

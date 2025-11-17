@@ -63,9 +63,9 @@
 (23123,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23711,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
 (23777,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24735,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24736,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24737,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24739,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24740,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24741,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -24288,6 +24288,9 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   min-width: 100%;
   max-width: 100%;
 }
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table.has-delete tbody tr td:not(.has-delete) {
+  padding: 0 50px 0 0;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
@@ -24298,8 +24301,8 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col:nth-child(1),
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th:nth-child(1),
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td:nth-child(1) {
-  width: 270px !important;
-  min-width: 270px !important;
+  width: 280px !important;
+  min-width: 280px !important;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col[data-name="PayPoint"],
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th[data-name="PayPoint"],
@@ -24509,6 +24512,7 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   margin: 0;
   padding: 1px 5px 0 5px;
   font-size: 12px;
+  white-space: nowrap;
   background: rgba(22, 193, 243, 0.25);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
