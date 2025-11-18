@@ -24423,15 +24423,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     value = value.toString().trim();
     let searchTerm = this.SearchNode.value.trim();
-    if (searchTerm !== '' && value !== '')
+    if (searchTerm !== '' && value !== '' && value.contains(searchTerm))
     {
-      let domQuery = `input[type="checkbox"]#${category}_${column}`;
+      let domQuery = `input[type="checkbox"]#show-hide-check-${category}-${column}`;
       let checkbox = document.querySelector(domQuery);
-      if (
-        checkbox
-        && checkbox.checked
-        && value.contains(searchTerm)
-      )
+      if (checkbox && checkbox.checked)
       {
         let safe = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         value = value.replace(new RegExp(safe, 'gi'), (match) => `<em class="search-match">${match}</em>`);
