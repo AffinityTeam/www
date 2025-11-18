@@ -20844,6 +20844,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (this.ViewType === 'Preview')
     {
+      // Tests vlaidation and form behaviour, but does nto attetmnp to post any data to the server.
       this.SaveButtonData =
       {
         "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_validation_button'),
@@ -20872,54 +20873,45 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "visible": true
     });
 
-    var backData = {
-      "Type": "Button",
-      "DestinationStateId": "",
-      "SateType": 0,
-      "ActionType": "back",
-      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_back_button'),
-      "Color": "blue",
-      "Icon": "arrow-left",
-      "Path": null,
-      "visible": true
-    };
+    // Determine if we need a close button, back button, or no button at all
+    // Close button: only if window was opened via window.open()
+    // Back button: only if there's history to go back to
+    // No button: if neither condition is met
+    var backData = null;
 
-    if (document.referrer !== '') // we have a referrer, so maybe been opened by JS, so lets try close
+    if (window.opener !== null)
     {
-      if (window.opener !== null)
-      {
-        backData.Name = $a.Lang.ReturnPath('generic.buttons.close');
-        backData.Color = 'orange';
-        backData.Icon = 'cross';
-        backData.Path = null;
-      }
-      else
-      {
-        backData.Name = $a.Lang.ReturnPath('generic.buttons.back');
-        backData.Color = 'blue';
-        backData.Icon = 'arrow-left';
-        backData.Path = null;
-      }
+      // Window opened by JavaScript - show close button
+      backData = {
+        "Type": "Button",
+        "DestinationStateId": "",
+        "SateType": 0,
+        "ActionType": "back",
+        "Name": $a.Lang.ReturnPath('generic.buttons.close'),
+        "Color": "orange",
+        "Icon": "cross",
+        "Path": null,
+        "visible": true
+      };
     }
-    else
+    else if (window.history.length > 1)
     {
-      if (['Preview'].contains(this.ViewType))
-      {
-        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
-        backData.Color = 'blue';
-        backData.Icon = 'brush';
-        backData.Path = null;
-      }
-      if (['Form', 'ViewOnly'].contains(this.ViewType))
-      {
-        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
-        backData.Color = 'blue';
-        backData.Icon = 'empty-inbox';
-        backData.Path = null;
-      }
+      // Has history to navigate back - show back button
+      backData = {
+        "Type": "Button",
+        "DestinationStateId": "",
+        "SateType": 0,
+        "ActionType": "back",
+        "Name": $a.Lang.ReturnPath('generic.buttons.back'),
+        "Color": "blue",
+        "Icon": "arrow-left",
+        "Path": null,
+        "visible": true
+      };
     }
 
-    buttons.push(backData);
+    // Only add button if we determined one is needed
+    if (backData !== null) buttons.push(backData);
 
     this._gotWorkflowButtons(buttons);
 
@@ -22937,44 +22929,31 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
   _close (ev)
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
-    var templateId, instanceId, path, redirectWindow;
-    if (document.referrer !== '')
+    
+    // Priority 1: Close if window was opened by JavaScript
+    if (window.opener !== null)
     {
-      if (window.opener === null)
+      // iOS Safari workaround for more reliable closing
+      if (Affinity2018.Browser.ismac || Affinity2018.Browser.isipad)
       {
-        path = document.referrer;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
+        window.open('', '_self').close();
       }
-      window.close();
+      else
+      {
+        window.close();
+      }
       return;
     }
-    if (this.ViewType === 'Preview')
+    
+    // Priority 2: Go back if history exists
+    if (window.history.length > 1)
     {
-      templateId = this.CleverForms.GetTemplateGuid();
-      if (templateId)
-      {
-        path = this.CleverForms.DesignerPath + '?templateId=' + templateId;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
-      }
+      window.history.back();
+      return;
     }
-    if (this.ViewType === 'Form')
-    {
-      instanceId = this.CleverForms.GetInstanceGuid();
-      if (instanceId)
-      {
-        path = this.CleverForms.InboxPath; // + '?instanceId=' + instanceId;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
-      }
-    }
+    
+    // Priority 3: No valid navigation option (button shouldn't exist, but safety check)
+    console.warn('CleverForms Form: No valid navigation option available for close/back button');
   }
 
 
