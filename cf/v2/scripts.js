@@ -23296,18 +23296,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     /**/
 
     // force shrink wrapper for admin "wide" mode.
-    this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
-    if (this.LocalDebug)
+    //this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
+    //if (this.LocalDebug)
+    //{
+    if (this.ViewMode === 'Admin')
     {
-      if (this.ViewMode === 'Admin')
-      {
-        document.body.classList.remove('menu-show-full');
-      }
-      else
-      {
-        document.body.classList.add('menu-show-full');
-      }
+      document.body.classList.remove('menu-show-full');
     }
+    //else
+    //{
+    //  document.body.classList.add('menu-show-full');
+    //}
+    //}
 
     /**/
     
@@ -23339,6 +23339,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
 
     await this._setupResultNodes();
+
+    this._setTitle();
 
     await this._injectSearchColumnTabs();
 
@@ -23383,7 +23385,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!response.ok)
     {
-      this._gotResultsError(`HTTP error: Status ${response.status}`);
+      this._gotResultsError($a.Lang.ReturnPath('app.cf.inbox.errors.http_error', { status: response.status }));
       return false;
     }
 
@@ -23391,7 +23393,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!data || data === '')
     {
-      this._gotResultsError(`No usable data found`);
+      this._gotResultsError($a.Lang.ReturnPath('app.cf.inbox.errors.no_data'));
       return false;
     }
 
@@ -23455,7 +23457,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-    let payPointSelectHtml = `<option value="-1">All Pay Points</option>`;
+    let payPointSelectHtml = `<option value="-1">${$a.Lang.ReturnPath('app.cf.inbox.labels.pay_point_select_all')}</option>`;
     for (let payPointData of this.PayPoints)
     {
       payPointSelectHtml += `<option value="${payPointData.PayPoint}">${payPointData.Description} (${payPointData.PayPoint})</option>`;
@@ -23906,7 +23908,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         let searchChecksListNode = this.ColumnListNode.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
         let searchDateColumnSelect = this.SearchBox.querySelector(`div.select[data-category="${category}"] select[name="search-date-select"]`);
         let html = '';
-        let columnChecksHtml = '<label name="Visible Columns">Visible Columns</label>';
+        let columnChecksHtml = `<label name="Visible Columns">${$a.Lang.ReturnPath('app.cf.inbox.labels.visible_columns')}</label>`;
         let selectHtml = '';
         let selectDefaultDateHtml = '';
 
@@ -23954,7 +23956,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             // Search on what date column select options
             if (columnNode.dataset.type.contains('date'))
             {
-              labelName = labelName.contains(' / ') ? labelName.split(' / ')[0] : labelName;
+              let placeholder = labelName;
+              labelName = placeholder.contains(' / ') ? placeholder.split(' / ')[0].trim() : placeholder;
+              let injectLabelName = placeholder.contains(' / ') ? placeholder.split(' / ')[1].trim() : null;
+              if (injectLabelName && !injectLabelName.startsWith('Date'))
+              {
+                injectLabelName = 'Date ' + injectLabelName;
+              }
               if (!columnName.toLowerCase().contains(this.SearchDateDefault.toLowerCase().trim()))
               {
                 selectHtml += `<option value="${columnName}">${labelName}</option>`;
@@ -23967,11 +23975,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               {
                 if (!'completedat'.contains(this.SearchDateDefault.toLowerCase().trim()))
                 {
-                  selectHtml += `<option value="CompletedAt">Date Completed</option>`;
+                  selectHtml += `<option value="CompletedAt">${injectLabelName}</option>`;
                 }
                 else
                 {
-                  selectDefaultDateHtml = `<option value="CompletedAt">Date Completed</option>`;
+                  selectDefaultDateHtml = `<option value="CompletedAt">${injectLabelName}</option>`;
                 }
               }
             }
@@ -24898,20 +24906,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     try
     {
       await this.ShowDialogAsync({
-        message: `Are you sure you want to ${type} this form?`,
+        message: $a.Lang.ReturnPath('app.cf.inbox.process_row_message', { type: type }),
         textAlign: 'left',
         buttons: {
           ok: {
             show: true,
             icon: 'tick',
-            text: 'Yes',
+            text: $a.Lang.ReturnPath('app.cf.inbox.process_row_message_confirm'),
             color: 'blue'
           },
           else: false,
           cancel: {
             show: true,
             icon: 'cross',
-            text: 'No',
+            text: $a.Lang.ReturnPath('app.cf.inbox.process_row_message_deny'),
             color: 'grey'
           }
         }
@@ -25355,6 +25363,23 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   /*Mode Switch */
 
+  _setTitle()
+  {
+    // Update page title based on current ViewMode
+    let titleNode = document.querySelector('div.inbox-header span.section-title');
+    if (titleNode)
+    {
+      if (this.ViewMode === 'Admin')
+      {
+        titleNode.innerText = $a.Lang.ReturnPath('app.cf.inbox.title_admin');
+      }
+      else
+      {
+        titleNode.innerText = $a.Lang.ReturnPath('app.cf.inbox.title');
+      }
+    }
+  }
+
   async _switchMode(event)
   {
     if (event.target.checked)
@@ -25402,6 +25427,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ResultNode.innerHTML = this.AdminResultGridTemplate();
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
+      this._setTitle();
       this._gotoTab(this.State.ActiveCategory);
       //await this.GetResults(); // No?
       await this._attemptSearchDebounced('_switchToAdmin');
@@ -25443,6 +25469,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ResultNode.innerHTML = this.ResultGridTemplate();
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
       this._setupResultNodes();
+      this._setTitle();
       this._gotoTab(this.State.ActiveCategory);
       //await this.GetResults(); // no?
       await this._attemptSearchDebounced('_switchToDetault');
@@ -25658,7 +25685,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       if (this.ShowModeToggle)
       {
         toggleNode = this.ToggleTemplate({
-          Label: 'My Forms',
+          Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_admin'),
           Id: 'AdminToggleToAction',
           ClassName: 'mode-switch',
           On: false
@@ -25669,20 +25696,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       <div class="inbox-v2-wrapper admin-mode show-filters${hasToggleClass}">
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
-          <div class="inbox-tab"        data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
-          <div class="inbox-tab hidden" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div>
-          <div class="inbox-tab hidden" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
+          <div class="inbox-tab"        data-category="ToAction"   ><icon class="icon-inbox"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span>0</span></div>
+          <div class="inbox-tab hidden" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div>
+          <div class="inbox-tab hidden" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
         </div>
         <div class="inbox-tabs-right">
           <div class="inbox-tab-loader"></div>
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
-            <input class="search" type="text" name="search" placeholder="Search" />
+            <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
             <button class="white" data-action="show-hide-filters">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Filters
+              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
             </button>
             <button class="white" data-action="show-hide-columns-select">
               <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25691,7 +25718,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Columns
+              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
             </button>
             <div class="show-hide-columns-check-lists">
               <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
@@ -25701,14 +25728,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             ${toggleNode}
           </div>
           <div class="inbox-tab-button">
-            <button data-action="startnew">Start a New Form</button>
+            <button data-action="startnew">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}</button>
           </div>
         </div>
       </div>
       <div class="inbox-search-filters">
         <div class="search-row inline">
           <div class="form-row">
-            <label>Filter by</label>
+            <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}</label>
             <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
@@ -25716,45 +25743,45 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="search-row inline search-dates">
           <div class="form-row">
-            <label for="StartDate">Date From</label>
+            <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
             <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
           <div class="form-row">
-            <label for="EndDate">Date To</label>
+            <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
             <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
         </div>
         <div class="search-row no-label">
           <div class="check-wrapper check-first">
             <input type="checkbox" id="SearchShowCompletedForms">
-            <label for="SearchShowCompletedForms">Include completed forms</label>
+            <label for="SearchShowCompletedForms">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_forms')}</label>
           </div>  
           <div class="check-wrapper check-first">
             <input type="checkbox" id="SearchShowUnassigned">
-            <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="No Pay Point and or No Date Effective">Include Non-employee forms</label>
+            <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
           </div>     
           <div class="check-wrapper check-first">
             <input type="checkbox" id="Show999">
-            <label for="Show999">Include Pay Point 999</label>
+            <label for="Show999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
           </div> 
         </div>
         <div class="search-row search-columns hidden">
-          <label>Search in columns <span class="toggle-search-checks-visible">Show</span></label>
+          <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.column_to_search')} <span class="toggle-search-checks-visible">${$a.Lang.ReturnPath('app.cf.inbox.buttons.column_to_search_show')}</span></label>
           <div class="hidden" data-category="ToAction"></div>
           <div class="hidden" data-category="InProgress"></div>
           <div class="hidden" data-category="Completed"></div>
         </div>
-        <button class="grey link ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch">Reset view</button>
+        <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
-          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
+          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
         </div>
         <div class="inbox-sort-bar" data-category="InProgress">
-          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
+          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
         </div>
         <div class="inbox-sort-bar" data-category="Completed">
-          Sorting by <div class="sort-pills"></div> <button class="white">Reset</button>
+          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -25775,16 +25802,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >Relates To</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >Pay Point</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >Workflow Name</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >Previous Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >Last Action Taken</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >Last Updated / Completed</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >Current Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
                 <th class="buttons large">
                   ${toggleToAction}
                 </th>
@@ -25813,16 +25840,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >Relates To</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >Pay Point</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >Workflow Name</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >Previous Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >Last Action Taken</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >Last Updated / Completed</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >Current Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
                 <th class="buttons large">
                   ${toggleInProgress}
                 </th>
@@ -25851,16 +25878,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >Relates To</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >Pay Point</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >Workflow Name</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >Previous Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >Last Action Taken</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >Last Updated / Completed</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >Current Assignee</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >Current State</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
+                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
+                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
                 <th class="buttons">
                   ${toggleCompleted}
                 </th>
@@ -25873,7 +25900,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </table>
         </div>
       </div>
-      <div class="footer-status-message">Tip: Use the <strong>Columns</strong> menu to tailor your view. Your choices are saved.</div>
+      <div class="footer-status-message">${$a.Lang.ReturnPath('app.cf.inbox.bottom_tip')}</div>
       </div>
       `;
     };
@@ -25903,7 +25930,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let tooltipMessage = '';
       if (isOverdue)
       {
-        tooltipMessage += 'Form is Overdue'
+        tooltipMessage += $a.Lang.ReturnPath('app.cf.inbox.form_overdue');
       }
       if (tooltipMessage !== '')
       {
@@ -25933,12 +25960,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       //if (this.IsPayrollAdmin)
       if (data.CanDelete)
       {
-        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
+        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
           <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
         </button>`;
       }
 
@@ -25960,18 +25988,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
               <td class="buttons large${deletButton === '' ? '' : ' has-delete'}">
-                <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
+                <button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
                   <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  Edit
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
                 </button>
-                <button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left">
+                <button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
                   <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                     <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
                   </svg>
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
                 </button>
                 ${deletButton}
               </td>
@@ -25995,25 +26024,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
               <td class="buttons large${deletButton === '' ? '' : ' has-delete'}">
-                <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
+                <button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
                   <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  Edit
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
                 </button>
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
                   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  View
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
                 </button>
-                <button class="white light-grey filled details icon ui-has-tooltip" data-tooltip="Form Details" data-tooltip-dir="left">
+                <button class="white light-grey filled details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 -960 960 960"><path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/></svg>
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
                 </button>
                 ${deletButton}
               </td>
@@ -26037,14 +26067,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
               <td class="buttons">
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
                   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  View
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
                 </button>
               </td>
             </tr>
@@ -26057,7 +26087,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       return '';
     };
 
-    /* User Results */
+    /* My Forms Results */
 
     this.ResultGridTemplate = () =>
     {
@@ -26085,7 +26115,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         });
         */
         toggleNode = this.ToggleTemplate({
-          Label: 'My Forms',
+          Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_my_forms'),
           Id: 'AdminToggleToAction',
           ClassName: 'mode-switch',
           On: true
@@ -26096,20 +26126,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       <div class="inbox-v2-wrapper user-mode${hasToggleClass}">
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
-          <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
-          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div> 
-          <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
+          <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span>0</span></div>
+          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div> 
+          <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
         </div>
         <div class="inbox-tabs-right">
           <div class="inbox-tab-loader"></div>
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
-            <input class="search" type="text" name="search" placeholder="Search" />
+            <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
             <button class="white" data-action="show-hide-filters">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Filters
+              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
             </button>
             <button class="white" data-action="show-hide-columns-select">
               <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26118,7 +26148,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Columns
+              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
             </button>
             <div class="show-hide-columns-check-lists">
               <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
@@ -26128,14 +26158,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             ${toggleNode}
           </div>
           <div class="inbox-tab-button">
-            <button data-action="startnew">Start a New Form</button>
+            <button data-action="startnew">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}</button>  
           </div>
         </div>
       </div>
       <div class="inbox-search-filters">
         <div class="search-row inline">
           <div class="form-row">
-            <label>Filter by</label>
+            <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}</label>
             <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
             <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
@@ -26143,41 +26173,41 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
         <div class="search-row inline search-dates">
           <div class="form-row">
-            <label for="StartDate">Date From</label>
+            <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
             <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
           <div class="form-row">
-            <label for="EndDate">Date To</label>
+            <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
             <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
           </div>
         </div>
         <div class="search-row no-label hidden">
           <div class="check-wrapper check-first">
             <input type="checkbox" id="SearchShowUnassigned" class="hidden" disabled>
-            <label for="SearchShowUnassigned" class="ui-has-tooltip hidden" data-tooltip="No Pay Point and or No Date Effective">Include Non-employee forms</label>
+            <label for="SearchShowUnassigned" class="ui-has-tooltip hidden" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
           </div>     
           <div class="check-wrapper check-first">
             <input type="checkbox" id="Show999" class="hidden" disabled>
-            <label for="Show999" class="hidden">Include Pay Point 999</label>
+            <label for="Show999" class="hidden">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
           </div> 
         </div>
         <div class="search-row search-columns hidden">
-          <label>Search in columns <span class="toggle-search-checks-visible">Show</span></label>
+          <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.column_to_search')} <span class="toggle-search-checks-visible">${$a.Lang.ReturnPath('app.cf.inbox.buttons.column_to_search_show')}</span></label>
           <div class="hidden" data-category="ToAction"></div>
           <div class="hidden" data-category="InProgress"></div>
           <div class="hidden" data-category="Completed"></div>
         </div>
-        <button class="grey link ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch">Reset view</button>
+        <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
-          Sorting by ToAction <div class="sort-pills"></div> <button class="white">Reset</button>
+          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
         </div>
         <div class="inbox-sort-bar" data-category="InProgress">
-          Sorting by InProgress <div class="sort-pills"></div> <button class="white">Reset</button>
+           ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
         </div>
         <div class="inbox-sort-bar" data-category="Completed">
-          Sorting by Completed <div class="sort-pills"></div> <button class="white">Reset</button>
+          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
         </div>
       </div>
       <div class="inbox-tab-boxes">
@@ -26194,12 +26224,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >Date Received</th>
-                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.state')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.recieved')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
                 <th class="buttons">
                   ${toggleToAction}
                 </th>
@@ -26225,13 +26255,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Current State</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >Assigned To</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
-                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.state')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.assigned_to')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.assigned')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
                 <th class="buttons">
                   ${toggleInProgress}
                 </th>
@@ -26257,13 +26287,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >Name</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >Relates To</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >Final State</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >Completed By</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
-                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >Pay Point</th>
+                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
+                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.final_state')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.completed_by')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.completed')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
+                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
                 <th class="buttons">
                   ${toggleCompleted}
                 </th>
@@ -26276,7 +26306,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </table>
         </div>
       </div>
-      <div class="footer-status-message">Tip: Use the <strong>Columns</strong> menu to tailor your view. Your choices are saved.</div>
+      <div class="footer-status-message">${$a.Lang.ReturnPath('app.cf.inbox.bottom_tip')}</div>
       </div>
       `;
     };
@@ -26305,7 +26335,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let tooltipMessage = '';
       if (isOverdue)
       {
-        tooltipMessage += 'Form is Overdue'
+        tooltipMessage += $a.Lang.ReturnPath('app.cf.inbox.form_overdue');
       }
       if (tooltipMessage !== '')
       {
@@ -26330,12 +26360,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let deletButton = '';
       if (this.IsPayrollAdmin)
       {
-        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="Delete this form" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
+        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
           <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
         </button>`;
       }
 
@@ -26353,13 +26384,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
               <td class="buttons">
-                <button class="white blue edit icon ui-has-tooltip" data-tooltip="Edit Form" data-tooltip-dir="left">
+                <button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
                   <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  Edit
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
                 </button>
                 ${deletButton}
               </td>
@@ -26380,14 +26411,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
               <td class="buttons">
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
                   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  View
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
                 </button>
                 ${deletButton}
               </td>
@@ -26408,14 +26439,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
               <td class="buttons">
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="View Form" data-tooltip-dir="left">
+                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
                   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  View
+                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
                 </button>
               </td>
             </tr>
@@ -26454,7 +26485,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
         return `
           <tr>
-              <td colspan="${activeGridheaders.length}">No results to display</td>
+              <td colspan="${activeGridheaders.length}">${$a.Lang.ReturnPath('app.cf.inbox.no_results')}</td>
           </tr>
         `;
       }
