@@ -23196,6 +23196,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_gridClicked',
 
+      '_mobileIndicateScroll', '_mobileIndicateScrollHide',
+
       '_checkColumnSelectHide', '_showColumnSelect', '_hideColumnSelect',
       '_checkSortAfterColumnChange',
 
@@ -23262,6 +23264,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.ShowModeToggle = true;
     }
 
+    /* testing */
+    this.IsPayrollAdmin = true;
+    this.ViewMode = this.AdminDefaultView;
+    this.ShowModeToggle = true;
+    /**/
+
     /**/
 
     this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
@@ -23316,6 +23324,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.ResultNode.innerHTML = this.ViewMode === 'Admin' ? this.AdminResultGridTemplate() : this.ResultGridTemplate();
     this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
     this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
+
+    /**/
+
+    // Create mobile scroll indicator message
+    this.scrollMessage = false;
+    if (Affinity2018.IsMobile)
+    {
+      this.scrollMessage = document.createElement('div');
+      this.scrollMessage.classList.add('scroll-message');
+      this.scrollMessage.innerHTML = 'Scroll to see more';
+      this.BoxesNode.appendChild(this.scrollMessage);
+    }
 
     await this._setupResultNodes();
 
@@ -23668,17 +23688,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     if (this.InboxWrapperNode.classList.contains('show-filters'))
     {
       this.InboxWrapperNode.classList.remove('show-filters');
-      /* We are getting rid of all the "searhc in" checkboxes and use column visibility instead
-      if (this.InboxWrapperNode.classList.contains('show-filter-checks'))
-      {
-        this.InboxWrapperNode.classList.remove('show-filter-checks');
-        setTimeout((() => { this.InboxWrapperNode.classList.remove('show-filters'); }).bind(this), 10);
-      }
-      else
-      {
-        this.InboxWrapperNode.classList.remove('show-filters');
-      }
-      */
     }
   }
 
@@ -23724,7 +23733,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
       else
       {
-        // TODO: Should we throw and break out?> We can't really continue with no paypoint data
         if (this.ViewMode === 'Admin')
         {
           throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
@@ -23758,7 +23766,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!response.ok)
     {
-      //this.DefaultState = JSON.parse(JSON.stringify(this.State));
       throw new Error("Can not load default states for this view");
       return false;
     }
@@ -23767,7 +23774,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!data || data === '')
     {
-      //this.DefaultState = JSON.parse(JSON.stringify(this.State));
       throw new Error("Can not load default states for this view");
       return false;
     }
@@ -23854,6 +23860,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.SortBarNode.classList.remove('locked');
     this.BoxesNode.classList.remove('locked');
+
+    // Show mobile scroll indicator if needed
+    this._mobileIndicateScroll();
   }
 
   _gotResultsError(error)
@@ -23904,18 +23913,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               
             let labelName = columnNode.innerText;
             let columnName = columnNode.dataset.name;
-            // Search inside column checkbox - hidden and no longer used, but still generated // TODO: Remove this?
-            /*
-            if (columnName.toLowerCase() !== 'paypoint')
-            {
-              html += this.SearchCheckTemplate({
-                Label: labelName,
-                Category: category,
-                Column: columnName,
-                Tooltip: `Include '${labelName}' in the search`
-              });
-            }
-            */
 
             // hide / show column checkbox (Columns menu)
             let checked = !columnNode.classList.contains('hidden') ? ` checked` : ``;
@@ -24208,38 +24205,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         SearchValue: 'true'
       });
     }
-
-    // OLD - if SearchShowUnassigned is ticked
-    /*
-    if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
-    {
-      let effectiveDateIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'EffectiveDate');
-      if (effectiveDateIndexFound === -1)
-      {
-        state.FieldSpecificSearch.push({
-          FieldName: 'EffectiveDate',
-          SearchValue: 'null'
-        });
-      }
-      else
-      {
-        state.FieldSpecificSearch[effectiveDateIndexFound].SearchValue = 'null';
-      }
-      state.FieldSpecificSearch.push({
-        FieldName: 'PayPoint',
-        SearchValue: 'null'
-      });
-    }
-    else
-    {
-      // if SearchShowUnassigned is NOT ticked, remove 'EffectiveDate' entry
-      let effectiveDateIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'EffectiveDate');
-      if (effectiveDateIndexFound > -1)
-      {
-        state.FieldSpecificSearch.splice(effectiveDateIndexFound, 1);
-      }
-    }
-    */
    
     if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
     {
@@ -24447,7 +24412,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.State.EndDate = '';
     this.PayPointSelectNode.selectedIndex = 0;
     this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
-    //await this.GetResults(); // no?
     this._attemptSearchDebounced('_reset');
   }
 
@@ -24695,6 +24659,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           break;
 
         case 'td':
+
+          // Disable click-to-edit on mobile devices
+          if (Affinity2018.IsMobile) return;
 
           clearTimeout(this._rowClickedAutoLoadEdit);
           if (window.getSelection().toString().trim() === '')
@@ -25047,6 +25014,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
 
       this._prcessSortBar(false);
+
+      // Show mobile scroll indicator if needed
+      this._mobileIndicateScroll();
     }
   }
 
@@ -25513,6 +25483,40 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     return number + (['st', 'nd', 'rd'][((number + 90) % 100 - 10) % 10 - 1] || 'th');
   }
 
+  /**/
+
+  // Mobile scroll indicator - show message when table overflows horizontally
+  _mobileIndicateScroll()
+  {
+    clearTimeout(this.scrollMessageAutoClose);
+    if (this.scrollMessage)
+    {
+      window.removeEventListener('click', this._mobileIndicateScrollHide);
+    }
+    
+    let activeBox = this.BoxesNode.querySelector(`div.inbox-tab-box[data-category="${this.State.ActiveCategory}"]:not(.hidden)`);
+    if (activeBox)
+    {
+      let table = activeBox.querySelector('table.inbox-grid');
+      if (Affinity2018.IsMobile && this.scrollMessage && table && table.parentNode.scrollWidth > table.parentNode.clientWidth)
+      {
+        this.scrollMessage.classList.add('show');
+        this.scrollMessageAutoClose = setTimeout(this._mobileIndicateScrollHide, 5000);
+        window.addEventListener('click', this._mobileIndicateScrollHide);
+      }
+    }
+  }
+
+  _mobileIndicateScrollHide()
+  {
+    clearTimeout(this.scrollMessageAutoClose);
+    if (this.scrollMessage)
+    {
+      window.removeEventListener('click', this._mobileIndicateScrollHide);
+      this.scrollMessage.classList.remove('show');
+    }
+  }
+
   _cloneEvent(event, target)
   {
     let clonedEvent = null;
@@ -25636,23 +25640,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.AdminResultGridTemplate = () =>
     {
-      /*
-      let toggleToAction = this.ToggleTemplate({
-        Label: 'My Forms',
-        Id: 'AdminToggleToAction',
-        On: false
-      });
-      let toggleInProgress = this.ToggleTemplate({
-        Label: 'My Forms',
-        Id: 'AdminToggleInProgress',
-        On: false
-      });
-      let toggleCompleted = this.ToggleTemplate({
-        Label: 'My Forms',
-        Id: 'AdminToggleCompleted',
-        On: false
-      });
-      */
       let toggleToAction = '';
       let toggleInProgress = '';
       let toggleCompleted = '';
@@ -26072,23 +26059,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let toggleNode = '';
       if (this.ShowModeToggle)
       {
-        /*
-        toggleToAction = this.ToggleTemplate({
-          Label: 'My Forms',
-          Id: 'AdminToggleToAction',
-          On: true
-        });
-        toggleInProgress = this.ToggleTemplate({
-          Label: 'My Forms',
-          Id: 'AdminToggleInProgress',
-          On: true
-        });
-        toggleCompleted = this.ToggleTemplate({
-          Label: 'My Forms',
-          Id: 'AdminToggleCompleted',
-          On: true
-        });
-        */
         toggleNode = this.ToggleTemplate({
           Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_my_forms'),
           Id: 'AdminToggleToAction',
@@ -26626,14 +26596,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <label for="${forId}">${data.Label}</label>
         </div>
       `;
-      /*
-      return `
-        <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
-          <label for="${forId}">${data.Label}</label>
-          <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
-        </div>
-      `;
-      */
     };
 
     this.SortPillTemplate = data =>
