@@ -23265,9 +23265,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     /* testing */
-    this.IsPayrollAdmin = true;
-    this.ViewMode = this.AdminDefaultView;
-    this.ShowModeToggle = true;
+    //this.IsPayrollAdmin = true;
+    //this.ViewMode = this.AdminDefaultView;
+    //this.ShowModeToggle = true;
     /**/
 
     /**/
