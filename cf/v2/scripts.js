@@ -6841,7 +6841,8 @@
         isandroid: false,
         ismac: false,
         isipad: false,
-        istablet: false
+        istablet: false,
+        isios: false
       };
       if (document.querySelector('body')) this.getBrowser();
       else setTimeout(this.checkBody, 10);
@@ -6918,6 +6919,30 @@
         if (Affinity2018.Browser.platform.toLowerCase().contains('ios')) Affinity2018.Browser.ismac = true;
         if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
         if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
+        
+        // iOS 26+ detection: Feature-based detection to override user-agent based flags when iOS privacy blocks/modifies UA
+        // iOS Safari specific features: navigator.vendor = "Apple Computer, Inc.", supports -webkit-touch-callout, has touch events
+        var isAppleVendor = navigator.vendor && navigator.vendor.indexOf('Apple') > -1;
+        var hasTouchEvents = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        var hasWebkitCSS = CSS && CSS.supports && CSS.supports('-webkit-touch-callout', 'none');
+        
+        // If we detect Apple vendor + touch + webkit CSS, it's iOS Safari (iPhone/iPad)
+        if (isAppleVendor && hasTouchEvents && hasWebkitCSS)
+        {
+          Affinity2018.Browser.isios = true;
+          Affinity2018.Browser.issafari = true; // Override in case UA parsing failed
+          Affinity2018.Browser.ismac = true; // iOS devices report as mac
+          // Note: Desktop Safari on Mac won't match because no touch events (maxTouchPoints = 0)
+        }
+        
+        // Additional iPad detection via MacIntel + touch (iOS 13+ iPads report as MacIntel)
+        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+        {
+          Affinity2018.Browser.isios = true;
+          Affinity2018.Browser.isipad = true;
+          Affinity2018.Browser.issafari = true;
+          Affinity2018.Browser.ismac = true;
+        }
         // Mobile detection (replaces WURFL functionality)
         Affinity2018.MobileChecked = true;
         var device = result.device;
@@ -23288,10 +23313,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-    window.fuck = this;
-
-
-
     this._forceHidePageLoader();
     this.MemberType = '';
     this.IsPayrollAdmin = false;
@@ -23321,7 +23342,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (document.location.href.contains('localhost'))
     {
-      /* testing */
+      /* testing *
       this.IsPayrollAdmin = true;
       this.ViewMode = this.AdminDefaultView;
       this.ShowModeToggle = true;
@@ -24461,26 +24482,108 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     Affinity2018.Tooltips.Hide();
     this._hideLoader();
+    
     if (this.ViewMode !== 'Admin') 
     {
       this._hideSearch();
     }
+    
+    // Clear search box
     this.SearchNode.value = '';
     this.State.SearchQuery = '';
-    let checks = this.SearchBox.querySelectorAll(`div.search-columns input[type="checkbox"]`);
-    for (let check of checks)
+    
+    // Reset pagination to page 1 for all categories
+    this._resetPagesToOne();
+    
+    // Reset column visibility checkboxes to StateStore defaults for all categories
+    // AND clear localStorage so defaults are reloaded on next load
+    /* Business decision is to keep user visibiltiy selection, even though this and searchable fields are the same thing.
+    for (let category in this.State.CategorySettings)
     {
-      check.checked = true;
+      let checkboxes = this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`);
+      for (let checkbox of checkboxes)
+      {
+        let columnName = checkbox.value;
+        // Reset to default (all visible/checked)
+        checkbox.checked = true;
+        // Clear localStorage for this column so default is used on next load
+        if (this.EnableLocalStore)
+        {
+          let storeKey = `InboxColumnsShow-${this.ViewMode}-${category}-${columnName}-${this.StorageKeySuffix}`;
+          Affinity2018.Storage.Local.Delete(storeKey);
+        }
+      }
     }
+    // Apply the reset column visibility to the DOM
+    this._applyHiddenColumns();
+    */
+  
+    // Clear date filters
     this.SearchBox.querySelector('input#StartDate').value = '';
     this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
     this.SearchBox.querySelector('input#EndDate').value = '';
     this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
     this.State.StartDate = '';
     this.State.EndDate = '';
-    this.PayPointSelectNode.selectedIndex = 0;
-    this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
-    this._attemptSearchDebounced('_reset');
+    
+    // Reset PayPoint select and dates (Admin mode only)
+    if (this.ViewMode === 'Admin')
+    {
+      this.PayPointSelectNode.selectedIndex = 0;
+      if (this.PayPointSelectNode.widgets && this.PayPointSelectNode.widgets.SimpleSelect)
+      {
+        this.PayPointSelectNode.widgets.SimpleSelect.UpdateList();
+      }
+
+      // In Admin mode, set PayPoint dates without triggering search
+      let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
+      let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
+      let earliest, latest;
+      
+      if (this.PayPoints.length > 0)
+      {
+        // Default PayPoint value is '-1' (All Pay Points)
+        earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+        latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+        
+        if (fromDateNode.hasOwnProperty('widgets') && fromDateNode.widgets.hasOwnProperty('DateTime'))
+        {
+          fromDateNode.widgets.DateTime.setDate(new Date(earliest), false);
+          toDateNode.widgets.DateTime.setDate(new Date(latest), false);
+        }
+        else
+        {
+          fromDateNode.value = earliest;
+          toDateNode.value = latest;
+        }
+      }
+    }
+    // else: User mode - dates remain cleared (already set to empty above)
+    
+    // Reset date column selects to default for all categories
+    let dateSelects = this.SearchBox.querySelectorAll('select[name="search-date-select"]');
+    for (let dateSelect of dateSelects)
+    {
+      dateSelect.selectedIndex = 0; // Select first option (default date column)
+    }
+    
+    // Reset global filter checkboxes to default states
+    let completedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms');
+    if (completedCheckbox) completedCheckbox.checked = false;
+    
+    let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
+    if (unassignedCheckbox) unassignedCheckbox.checked = false;
+    
+    let show999Checkbox = document.querySelector('input[type="checkbox"]#Show999');
+    if (show999Checkbox) show999Checkbox.checked = false;
+    
+    // Clear saved filter states (so mode switching starts fresh)
+    this.FilterState.User = null;
+    this.FilterState.Admin = null;
+    
+    // Direct search (no debounce) - locks UI with loader
+    //this._attemptSearchDebounced('_reset');
+    await this._attemptSearch('_reset');
   }
 
   /**
@@ -44222,7 +44325,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     clearTimeout(this._setWindowClickDelay);
     this.displayNode.removeEventListener('click', this._stopEvents);
-    this.autocompleteNode.removeEventListener('click', this._stopEvents);
+    
+    // iOS Safari has event timing issues where parent handlers block child handlers
+    // Use listNode instead of autocompleteNode so <li> click handlers execute first
+    if (Affinity2018.Browser.isios)
+    {
+      this.listNode.removeEventListener('click', this._stopEvents);
+    }
+    else
+    {
+      this.autocompleteNode.removeEventListener('click', this._stopEvents);
+    }
+    
     this._clearWindowClick();
   }
   _setHideShowEvents()
@@ -44230,7 +44344,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._setWindowClickDelay);
     this._clearShowHideEvents();
     this.displayNode.addEventListener('click', this._stopEvents);
-    this.autocompleteNode.addEventListener('click', this._stopEvents);
+    
+    // iOS Safari has event timing issues where parent handlers block child handlers
+    // Use listNode instead of autocompleteNode so <li> click handlers execute first
+    if (Affinity2018.Browser.isios)
+    {
+      this.listNode.addEventListener('click', this._stopEvents);
+    }
+    else
+    {
+      this.autocompleteNode.addEventListener('click', this._stopEvents);
+    }
+    
     this._setWindowClickDelay = setTimeout(this._setWindowClick, 100);
   }
 
