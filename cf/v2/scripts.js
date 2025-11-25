@@ -23338,7 +23338,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
     
-    this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinityfils.com');
+    this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinitylogon.com');
 
     if (this.LocalDebug && Affinity2018.IsMobile && Affinity2018.Browser.issafari)
     {
@@ -24897,7 +24897,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 else
                 {
                   this._showSearch();
-                  this.SearchNode.focus();
+                  // Skip focus on Apple mobile - iOS zooms on input focus
+                  if (!Affinity2018.IsAppleMobile) this.SearchNode.focus();
                 }
                 break
 
@@ -25041,7 +25042,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             else
             {
               this._showSearch();
-              this.SearchNode.focus();
+              // Skip focus on Apple mobile - iOS zooms on input focus
+              if (!Affinity2018.IsAppleMobile) this.SearchNode.focus();
             }
           }
           else
