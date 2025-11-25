@@ -6883,6 +6883,12 @@
         if (Affinity2018.Browser.isie && !isNaN(parseInt(Affinity2018.Browser.major))) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
         if (Affinity2018.Browser.isedge) body.classList.add('edge');
         if (Affinity2018.Browser.isfirefox) body.classList.add('firefox');
+
+        // IsAppleMobile: Reliable iOS/iPadOS detection - if mobile AND safari, it's Apple mobile
+        Affinity2018.IsAppleMobile = Affinity2018.IsMobile && Affinity2018.Browser.issafari;
+        Affinity2018.IsAppleMobile = !Affinity2018.IsAppleMobile && Affinity2018.IsMobile && Affinity2018.Browser.isios;
+        Affinity2018.IsAppleMobile = !Affinity2018.IsAppleMobile && Affinity2018.IsMobile && Affinity2018.Browser.ismac;
+
         window.dispatchEvent(new Event('MobileChecked'));
         if (Affinity2018.IsMobile && (window.location.host.contains('localhost') || window.location.host.contains('.test')))
         {
@@ -23331,6 +23337,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.MemberType = '';
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
+    
+    this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinityfils.com');
+
+    if (this.LocalDebug && Affinity2018.IsMobile && Affinity2018.Browser.issafari)
+    {
+      //document.body.classList.add('apple-mobile'); .. makes everything red
+      if (document.querySelector('div.test-device-info'))
+      {
+        document.querySelector('div.test-device-info').classList.add('show');
+      }
+    }
+
     this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
     if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
     {
@@ -23405,11 +23423,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       // Hide both page loader and inline loader on bfcache restore
       this._forceHidePageLoader();
       if (this.InlineLoaderNode) this.InlineLoaderNode.classList.add('hidden');
-      Affinity2018.Tooltips.HideAll();
       Affinity2018.Calendars.HideAll();
       Affinity2018.SimpleSelects.HideAll();
       Affinity2018.Autocompletes.HideAll();
       Affinity2018.Dialog.Hide();
+      Affinity2018.Tooltips.Hide();
     }).bind(this));
 
     /**/
@@ -23801,16 +23819,32 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!response.ok)
     {
-      throw new Error("Can not load AssignedPayPoints for this view");
-      return false;
+      if (this.LocalDebug)
+      {
+        console.warn("Can not load AssignedPayPoints for this view");
+        data = [];
+      }
+      else
+      {
+        throw new Error("Can not load AssignedPayPoints for this view");
+        return false;
+      }
     }
 
     let data = await response.json();
 
     if (!data || data === '')
     {
-      throw new Error("Can not load AssignedPayPoints for this view");
-      return false;
+      if (this.LocalDebug)
+      {
+        console.warn("Can not load AssignedPayPoints for this view");
+        data = [];
+      }
+      else
+      {
+        throw new Error("Can not load AssignedPayPoints for this view");
+        return false;
+      }
     }
 
     if (data.length === 0)
@@ -23826,9 +23860,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             data = [{"PayPoint":1,"Description":"Indoor Workforce ASU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-20T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-06T12:00:00.000Z","TotalDays":14},{"PayPoint":2,"Description":"Outdoor W/Force AWU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14},{"PayPoint":3,"Description":"Contractors","PayPointCountryCode":"N","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14}];
             break;
           default:
-            if (this.ViewMode === 'Admin')
+            if (this.LocalDebug)
             {
-              throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
+              console.warn("No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.");
+              data = [];
+            }
+            else
+            {
+              if (this.ViewMode === 'Admin')
+              {
+                throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
+              }
             }
             break;
         }   
@@ -23836,8 +23878,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       else
       {
         if (this.ViewMode === 'Admin')
-        {
-          throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
+        { 
+          if (this.LocalDebug)
+          {
+            console.warn("No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.");
+            data = [];
+          }
+          else
+          {
+            throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
+          }
         }
       }
     }
@@ -24821,7 +24871,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             switch (event.target.dataset.action)
             {
               case 'startnew':
-
+                  
+                event.preventDefault();
+                event.stopPropagation();
                 await this._startNewForm();
                 break
 
@@ -25648,6 +25700,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         {
           if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
           {
+            var value = selectNode.value.toString().trim();
             Affinity2018.ShowPageLoader(true, 0);
             if (autoCompleteWidget !== null)
             {
@@ -25665,12 +25718,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               let input = document.createElement('input');
               input.type = 'hidden';
               input.name = 'templateAndWorkflowIds';
-              input.value = selectNode.value;
+              input.value = value;
               form.appendChild(input);
               document.body.appendChild(form);
               form.submit();
               document.body.removeChild(form);
-            }, 500);
+            }, 1000);
           }
         },
         onCancel: () =>
@@ -43365,7 +43418,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         li.setAttribute('role', 'option'); // Add ARIA role for accessibility and iOS clickability heuristics
         if (optionNode.dataset.filterCss) optionNode.dataset.filterCss.split(' ').forEach(function (filterCss) { li.classList.add(filterCss); })
         // iOS: Use touchend for reliable touch handling; Others: Use click
-        if (Affinity2018.Browser.isios) {
+        if (Affinity2018.IsAppleMobile) {
           li.addEventListener('touchend', this._itemClicked);
         } else {
           li.addEventListener('click', this._itemClicked);
@@ -44121,7 +44174,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     if (!this.enabled) return false;
 
     // iOS: Prevent synthetic click event that Safari generates after touchend
-    if (Affinity2018.Browser.isios && ev && ev.type === 'touchend')
+    if (Affinity2018.IsAppleMobile && ev && ev.type === 'touchend')
     {
       ev.preventDefault();
     }
@@ -44387,7 +44440,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
         // iOS: Remove touchend; Others: Remove click
-        if (Affinity2018.Browser.isios) {
+        if (Affinity2018.IsAppleMobile) {
           node.removeEventListener('touchend', this._itemClicked);
         } else {
           node.removeEventListener('click', this._itemClicked);
@@ -44405,7 +44458,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
         // iOS: Use touchend for reliable touch handling; Others: Use click
-        if (Affinity2018.Browser.isios) {
+        if (Affinity2018.IsAppleMobile) {
           node.removeEventListener('touchend', this._itemClicked);
           node.addEventListener('touchend', this._itemClicked);
         } else {
@@ -44465,7 +44518,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     
     // iOS Safari has event timing issues where parent handlers block child handlers
     // Use listNode instead of autocompleteNode so <li> click handlers execute first
-    if (Affinity2018.Browser.isios)
+    if (Affinity2018.IsAppleMobile)
     {
       this.listNode.removeEventListener('click', this._stopEvents);
     }
@@ -44484,7 +44537,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     
     // iOS Safari has event timing issues where parent handlers block child handlers
     // Use listNode instead of autocompleteNode so <li> click handlers execute first
-    if (Affinity2018.Browser.isios)
+    if (Affinity2018.IsAppleMobile)
     {
       this.listNode.addEventListener('click', this._stopEvents);
     }

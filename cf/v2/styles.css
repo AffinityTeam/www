@@ -53,19 +53,19 @@
 (11414,108): run-time error CSS1030: Expected identifier, found ','
 (11414,250): run-time error CSS1031: Expected selector, found ')'
 (11414,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(12441,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12442,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12587,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(12589,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(23117,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12444,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12445,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12590,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(12592,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
 (23120,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23126,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23123,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23129,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23718,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23784,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24909,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24910,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24911,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23132,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23721,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23787,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24912,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24913,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24914,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -11582,6 +11582,9 @@ body div.test-device-info {
 body div.test-device-info * {
   touch-action: none;
   pointer-events: none;
+}
+body div.test-device-info.show {
+  display: block;
 }
 /***************************************************************************************************************************************************/
 
@@ -25279,6 +25282,48 @@ body.ui2025.uiupdate.inbox .gu-transit {
 body.ui2025.uiupdate.inbox.dark .gu-mirror {
   background: rgba(255, 255, 255, 0.1) !important;
   color: #cccccc !important;
+}
+body.ui2025.uiupdate.apple-mobile {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * * * * * * {
+  background-color: red !important;
+}
+body.ui2025.uiupdate.apple-mobile * * * * * * * * * * * * * {
+  background-color: red !important;
 }
 
 
