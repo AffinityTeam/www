@@ -6920,22 +6920,36 @@
         if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
         if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
         
-        // iOS 26+ detection: Feature-based detection to override user-agent based flags when iOS privacy blocks/modifies UA
-        // iOS Safari specific features: navigator.vendor = "Apple Computer, Inc.", supports -webkit-touch-callout, has touch events
+        // iOS detection: Feature-based detection to override user-agent based flags when iOS privacy blocks/modifies UA
+        // Multiple feature checks for robustness - combined checks catch all iOS browsers
         var isAppleVendor = navigator.vendor && navigator.vendor.indexOf('Apple') > -1;
         var hasTouchEvents = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         var hasWebkitCSS = CSS && CSS.supports && CSS.supports('-webkit-touch-callout', 'none');
         
-        // If we detect Apple vendor + touch + webkit CSS, it's iOS Safari (iPhone/iPad)
+        // navigator.standalone exists on iOS Safari only (not Chrome/Firefox on iOS, not Mac Safari)
+        // Useful as additional signal but NOT sufficient alone - Chrome/Firefox iOS don't have it
+        var hasStandaloneProperty = 'standalone' in navigator;
+        
+        // Primary iOS check: Apple vendor + touch + webkit CSS catches ALL iOS browsers
+        // (Safari, Chrome, Firefox on iOS all use WebKit and support -webkit-touch-callout)
+        // Note: Desktop Safari on Mac won't match because no touch events (maxTouchPoints = 0)
         if (isAppleVendor && hasTouchEvents && hasWebkitCSS)
         {
           Affinity2018.Browser.isios = true;
-          Affinity2018.Browser.issafari = true; // Override in case UA parsing failed
-          Affinity2018.Browser.ismac = true; // iOS devices report as mac
-          // Note: Desktop Safari on Mac won't match because no touch events (maxTouchPoints = 0)
+          Affinity2018.Browser.issafari = true;
+          Affinity2018.Browser.ismac = true;
+        }
+        
+        // Additional iOS Safari check: navigator.standalone only exists on iOS Safari
+        if (isAppleVendor && hasStandaloneProperty)
+        {
+          Affinity2018.Browser.isios = true;
+          Affinity2018.Browser.issafari = true; // Definitely Safari if standalone exists
+          Affinity2018.Browser.ismac = true;
         }
         
         // Additional iPad detection via MacIntel + touch (iOS 13+ iPads report as MacIntel)
+        // Note: navigator.platform is deprecated but still works; Safari has no alternative yet
         if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
         {
           Affinity2018.Browser.isios = true;
@@ -23391,6 +23405,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       // Hide both page loader and inline loader on bfcache restore
       this._forceHidePageLoader();
       if (this.InlineLoaderNode) this.InlineLoaderNode.classList.add('hidden');
+      Affinity2018.Tooltips.HideAll();
+      Affinity2018.Calendars.HideAll();
+      Affinity2018.SimpleSelects.HideAll();
+      Affinity2018.Autocompletes.HideAll();
+      Affinity2018.Dialog.Hide();
     }).bind(this));
 
     /**/
@@ -25630,6 +25649,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
           {
             Affinity2018.ShowPageLoader(true, 0);
+            if (autoCompleteWidget !== null)
+            {
+               autoCompleteWidget.Destroy();
+               autoCompleteWidget = null;
+            }
+            Affinity2018.Dialog.Hide();
             setTimeout(() =>
             {
               Affinity2018.ShowPageLoader(true, 0);
@@ -25643,12 +25668,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               input.value = selectNode.value;
               form.appendChild(input);
               document.body.appendChild(form);
-              if (autoCompleteWidget !== null)
-              {
-                 autoCompleteWidget.Destroy();
-                 autoCompleteWidget = null;
-              }
-              Affinity2018.Dialog.Hide();
               form.submit();
               document.body.removeChild(form);
             }, 500);
@@ -43343,8 +43362,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         li.dataset.index = index;
         li.className = 'visible';
         li.id = this.uuid + '-li-' + index;
+        li.setAttribute('role', 'option'); // Add ARIA role for accessibility and iOS clickability heuristics
         if (optionNode.dataset.filterCss) optionNode.dataset.filterCss.split(' ').forEach(function (filterCss) { li.classList.add(filterCss); })
-        li.addEventListener('click', this._itemClicked);
+        // iOS: Use touchend for reliable touch handling; Others: Use click
+        if (Affinity2018.Browser.isios) {
+          li.addEventListener('touchend', this._itemClicked);
+        } else {
+          li.addEventListener('click', this._itemClicked);
+        }
         this.listNode.appendChild(li);
         if (optionNode.selected)
         {
@@ -44095,6 +44120,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     if (!this.enabled) return false;
 
+    // iOS: Prevent synthetic click event that Safari generates after touchend
+    if (Affinity2018.Browser.isios && ev && ev.type === 'touchend')
+    {
+      ev.preventDefault();
+    }
+
     if (ev && 'isTrusted' in ev && ev.isTrusted) 
     {
       this.humanInteraction = true;
@@ -44355,7 +44386,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
-        node.removeEventListener('click', this._itemClicked);
+        // iOS: Remove touchend; Others: Remove click
+        if (Affinity2018.Browser.isios) {
+          node.removeEventListener('touchend', this._itemClicked);
+        } else {
+          node.removeEventListener('click', this._itemClicked);
+        }
       }.bind(this));
       return true;
     }
@@ -44368,8 +44404,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
-        node.removeEventListener('click', this._itemClicked);
-        node.addEventListener('click', this._itemClicked);
+        // iOS: Use touchend for reliable touch handling; Others: Use click
+        if (Affinity2018.Browser.isios) {
+          node.removeEventListener('touchend', this._itemClicked);
+          node.addEventListener('touchend', this._itemClicked);
+        } else {
+          node.removeEventListener('click', this._itemClicked);
+          node.addEventListener('click', this._itemClicked);
+        }
       }.bind(this));
       return true;
     }
@@ -44896,7 +44938,7 @@ function returnSelectOptions (data, searchFor, ismobile, filter)
 function returnListItem (data)
 {
   if (data.html.indexOf('(null)') > 0) data.html = data.html.replace('(null)', '').trim();
-  var li = '<li';
+  var li = '<li role="option"'; // Add ARIA role for accessibility and iOS clickability heuristics
   if (data.hasOwnProperty('uuid')) li += ' id="' + data.uuid + '-li-' + data.originalIndex + '"';
   else if (data.hasOwnProperty('id')) li += ' id="' + data.id + '"';
   li += ' class="' + data.klass + '"';
