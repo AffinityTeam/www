@@ -23345,7 +23345,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       //document.body.classList.add('apple-mobile'); .. makes everything red
       if (document.querySelector('div.test-device-info'))
       {
-        document.querySelector('div.test-device-info').classList.add('show');
+        //document.querySelector('div.test-device-info').classList.add('show');
       }
     }
 
