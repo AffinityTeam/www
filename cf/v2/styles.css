@@ -61,11 +61,11 @@
 (23123,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23129,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23132,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23721,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23787,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24912,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24913,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24914,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(23785,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23851,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24976,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24977,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(24978,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -23779,6 +23779,70 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   bottom: 10px;
   right: 25px;
 }
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message {
+  position: relative;
+  width: calc(100% - 20px);
+  margin: 20px 10px 0 10px;
+  padding: 10px;
+  background: white;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  height: 20px;
+  line-height: 20px;
+  margin: 0 5px 0 0;
+  font-size: 22px;
+  color: red;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message div.warning-text {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 0 5px;
+  font-size: 14px;
+  color: #666666;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message strong {
+  display: block;
+  font-size: 14px;
+  margin: 5px 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message.hidden {
+  display: none;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-filters,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-sort-bars,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-tab-boxes,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.footer-status-message {
+  display: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-bar div.select,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-bar input.search,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-bar button[data-action="show-hide-filters"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-bar button[data-action="show-hide-columns-select"],
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-bar div.show-hide-columns-check-lists {
+  display: none !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-search-bar div.toggle-container {
+  margin: 20px 20px 0 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-tabs {
+  min-height: 0;
+  margin: 10px 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper.admin-halted div.inbox-tabs div.inbox-tabs-left {
+  display: none;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tabs {
   position: relative;
   min-height: 36px;
@@ -25048,6 +25112,21 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
   background-color: #1a1a1a;
   border: 1px solid #2b2b2b !important;
 }
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message {
+  background: #222222;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message icon {
+  color: #ff6666;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message div.warning-text {
+  color: #cccccc;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-warning-message strong {
+  color: white;
+}
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-search-bar div.show-hide-columns-check-lists {
   background: #222222;
   -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
@@ -25282,48 +25361,6 @@ body.ui2025.uiupdate.inbox .gu-transit {
 body.ui2025.uiupdate.inbox.dark .gu-mirror {
   background: rgba(255, 255, 255, 0.1) !important;
   color: #cccccc !important;
-}
-body.ui2025.uiupdate.apple-mobile {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * * * * * * {
-  background-color: red !important;
-}
-body.ui2025.uiupdate.apple-mobile * * * * * * * * * * * * * {
-  background-color: red !important;
 }
 
 

@@ -23227,6 +23227,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.LocalDebug = false;
 
+    this.WasAdminHalted = false;
+
     this.UserDefaultView = 'User';
     this.AdminDefaultView = 'User';
 
@@ -23269,7 +23271,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_showLoader', '_hideLoader',
 
-      '_loadStates', '_getPayPoints',
+      '_loadStates', '_getPayPoints', '_gotPayPoints', '_gotPayPointsError',
 
       '_gotResults', '_gotResultsError',
 
@@ -23309,6 +23311,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_showSearch', '_hideSearch',
 
+      '_showAdminWarning', '_hideAdminWarning',
+
       // html templates
       '_templates'
 
@@ -23340,14 +23344,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     
     this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinitylogon.com');
 
+    /*
     if (this.LocalDebug && Affinity2018.IsMobile && Affinity2018.Browser.issafari)
     {
-      //document.body.classList.add('apple-mobile'); .. makes everything red
       if (document.querySelector('div.test-device-info'))
       {
-        //document.querySelector('div.test-device-info').classList.add('show');
+        document.querySelector('div.test-device-info').classList.add('show');
       }
     }
+    */
 
     this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
     if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
@@ -23372,15 +23377,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.ShowModeToggle = true;
     }
 
-    if (document.location.href.contains('localhost'))
-    {
-      /* testing *
-      this.IsPayrollAdmin = true;
-      this.ViewMode = this.AdminDefaultView;
-      this.ShowModeToggle = true;
-      /**/
-    }
-
     /**/
 
     this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
@@ -23392,20 +23388,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     /**/
-
-    // force shrink wrapper for admin "wide" mode.
-    //this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinity');
-    //if (this.LocalDebug)
-    //{
+    
     if (this.ViewMode === 'Admin')
     {
       document.body.classList.remove('menu-show-full');
     }
-    //else
-    //{
-    //  document.body.classList.add('menu-show-full');
-    //}
-    //}
 
     /**/
     
@@ -23449,6 +23436,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
+    // Show warning in Admin mode if no PayPoints available and halt the UI
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      this._showAdminWarning('no-pay-points');
+      this.InboxWrapperNode.classList.add('admin-halted');
+    }
+
+    /**/
+
     // Create mobile scroll indicator message
     this.scrollMessage = false;
     if (Affinity2018.IsMobile)
@@ -23487,6 +23483,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async GetResults()
   {
+    // Block search if Admin mode has no PayPoints (unless LocalDebug)
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      console.warn('GetResults blocked: Admin mode requires Pay Points to function.');
+      return false;
+    }
+
     this._showLoader();
 
     this.SortBarNode.classList.add('locked');
@@ -23813,44 +23816,47 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   /**/
 
+  _showAdminWarning(warningType)
+  {
+    let warningNode = this.ResultNode.querySelector(`.inbox-warning-message[data-warning-type="${warningType}"]`);
+    if (warningNode)
+    {
+      warningNode.classList.remove('hidden');
+    }
+  }
+
+  _hideAdminWarning(warningType)
+  {
+    let warningNode = this.ResultNode.querySelector(`.inbox-warning-message[data-warning-type="${warningType}"]`);
+    if (warningNode)
+    {
+      warningNode.classList.add('hidden');
+    }
+  }
+
+  /**/
+
   async _getPayPoints()
   {
     let response = await fetch(`${this.PayPointAPI}`);
 
     if (!response.ok)
     {
-      if (this.LocalDebug)
-      {
-        console.warn("Can not load AssignedPayPoints for this view");
-        data = [];
-      }
-      else
-      {
-        throw new Error("Can not load AssignedPayPoints for this view");
-        return false;
-      }
+      this._gotPayPointsError();
+      return this.PayPoints;
     }
 
     let data = await response.json();
 
     if (!data || data === '')
     {
-      if (this.LocalDebug)
-      {
-        console.warn("Can not load AssignedPayPoints for this view");
-        data = [];
-      }
-      else
-      {
-        throw new Error("Can not load AssignedPayPoints for this view");
-        return false;
-      }
+      this._gotPayPointsError();
+      return this.PayPoints;
     }
 
     if (data.length === 0)
     {
-      console.log(`%c⚠ %cNo AssignedPayPoints returned. View can not render results with no AssignedPayPoints data.`, `color: #FF6666; font-size: 16px`, `color: #FF6666; font-weight: bold`);
-      // temp fallabck for testing if API fails
+      // temp fallback for testing if API fails
       if (this.LocalDebug)
       {
         switch (Affinity2018.UserProfile.UserGuid)
@@ -23858,42 +23864,29 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           case 'e5000002-5112-0000-0000-000000000000':
             console.log(`%c⚠ %cUsing stubbed fallback.`, `color: #FF6666; font-size: 16px`, `color: #FF6666; font-weight: bold`);
             data = [{"PayPoint":1,"Description":"Indoor Workforce ASU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-20T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-06T12:00:00.000Z","TotalDays":14},{"PayPoint":2,"Description":"Outdoor W/Force AWU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14},{"PayPoint":3,"Description":"Contractors","PayPointCountryCode":"N","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14}];
-            break;
+            this._gotPayPoints(data);
+            return this.PayPoints;
           default:
-            if (this.LocalDebug)
-            {
-              console.warn("No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.");
-              data = [];
-            }
-            else
-            {
-              if (this.ViewMode === 'Admin')
-              {
-                throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
-              }
-            }
-            break;
+            this._gotPayPointsError();
+            return this.PayPoints;
         }   
       }
       else
       {
-        if (this.ViewMode === 'Admin')
-        { 
-          if (this.LocalDebug)
-          {
-            console.warn("No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.");
-            data = [];
-          }
-          else
-          {
-            throw new Error('No AssignedPayPoints returned. Admin mode inbox can not render results with no AssignedPayPoints data.');
-          }
-        }
+        this._gotPayPointsError();
+        return this.PayPoints;
       }
     }
 
+    this._gotPayPoints(data);
+    return this.PayPoints;
+  }
+
+  _gotPayPoints(data)
+  {
     this.PayPoints = data;
 
+    // Loop and set dates from ISO strings to Date objects
     for (let pp of this.PayPoints)
     {
       let index = this.PayPoints.indexOf(pp);
@@ -23908,8 +23901,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       console.log(JSON.stringify(this.PayPoints, null, 2));
       console.groupEnd();
     }
+  }
 
-    return this.PayPoints;
+  _gotPayPointsError()
+  {
+    console.warn("No AssignedPayPoints returned. Admin mode requires Pay Point data to function correctly.");
+    this.PayPoints = [];
   }
 
   async _loadStates()
@@ -24262,9 +24259,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _attemptSearchDebounced(from)
   {
-    clearTimeout(this._attemptSearchDebouncerTimer);
     // Clear and start the loader, we will either keep deboncin or make it to _attemptSearch.
-    // Better to shwo loader now so we do not appear to have a dealy.
+    clearTimeout(this._attemptSearchDebouncerTimer);
+
+    // Block search if Admin mode has no PayPoints (unless LocalDebug)
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      console.warn(`_attemptSearchDebounced blocked (from: ${from}): Admin mode requires Pay Points to function.`);
+      return;
+    }
+
+    // Better to show loader now so we do not appear to have a delay.
     Affinity2018.Tooltips.Hide();
     this._showLoader();
     this._attemptSearchDebouncerTimer = setTimeout(this._attemptSearch, 500, from);
@@ -24273,6 +24278,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   async _attemptSearch(from)
   {
     clearTimeout(this._attemptSearchDebouncerTimer);
+    
+    // Block search if Admin mode has no PayPoints (unless LocalDebug)
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      console.warn(`_attemptSearch blocked (from: ${from}): Admin mode requires Pay Points to function.`);
+      this._hideLoader();
+      return false;
+    }
     
     if (this.LocalDebug)
     {
@@ -25815,17 +25828,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       // Capture current filter state before switching
       this.FilterState.User = this._captureFilterState();
       
-      this._showSearch();
+      document.body.classList.remove('menu-show-full');
 
-      if (this.LocalDebug)
+      if (this.PayPoints && this.PayPoints.length > 0)
       {
-        document.body.classList.remove('menu-show-full');
+        this._showSearch();
       }
 
       if (
-          this.SearchBox.querySelector('input#StartDate') 
-          && this.SearchBox.querySelector('input#StartDate').hasOwnProperty('widgets')
-          && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
+        this.SearchBox.querySelector('input#StartDate') 
+        && this.SearchBox.querySelector('input#StartDate').hasOwnProperty('widgets')
+        && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
       )
       {
         this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
@@ -25849,6 +25862,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       this.ResultNode.innerHTML = this.AdminResultGridTemplate();
       this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
+      
       await this._setupResultNodes();
       this._setTitle();
       
@@ -25861,6 +25875,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
       
       this._gotoTab(this.State.ActiveCategory);
+      
+      // Check if PayPoints are missing BEFORE attempting search (unless LocalDebug)
+      if ((!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+      {
+        this._showAdminWarning('no-pay-points');
+        this.InboxWrapperNode.classList.add('admin-halted');
+        this.WasAdminHalted = true; // Flag that Admin was halted
+        return; // Don't attempt search or restore state
+      }
+
       //await this._attemptSearchDebounced('_switchToAdmin');
       await this._attemptSearch('_switchToAdmin');
     }
@@ -25919,6 +25943,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
       
       this._gotoTab(this.State.ActiveCategory);
+      
+      // Force search if switching back from halted Admin view
+      if (this.WasAdminHalted)
+      {
+        this.WasAdminHalted = false; // Reset flag
+        this.SearchSate = null; // Clear search state to force new search
+      }
+      
       //await this._attemptSearchDebounced('_switchToDetault');
       await this._attemptSearch('_switchToDetault');
     }
@@ -26237,6 +26269,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="hidden" data-category="Completed"></div>
         </div>
         <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
+      </div>
+      <div class="inbox-warning-message hidden" data-warning-type="no-pay-points">
+        <div class="warning-content">
+          <icon class="icon-warning"></icon>
+          <div class="warning-text">
+            <strong>${$a.Lang.ReturnPath('app.cf.inbox.warnings.no_pay_points_title')}</strong>
+            <p>${$a.Lang.ReturnPath('app.cf.inbox.warnings.no_pay_points_message')}</p>
+          </div>
+        </div>
       </div>
       <div class="inbox-sort-bars">
         <div class="inbox-sort-bar" data-category="ToAction">
@@ -42709,6 +42750,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.fuzzyRunning = false;
     this.workerComplete = true;
     this.status = 'closed';
+
+    // iOS touch tracking: distinguish tap from scroll
+    this._touchStartX = 0;
+    this._touchStartY = 0;
+    this._touchMoveThreshold = 10; // pixels - if moved more than this, it's a scroll
   }
 
   constructor(targetNode)
@@ -42735,7 +42781,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_doFocus', '_doClick', '_doKeyDown', '_doKeyUp',
       '_elementDown', '_elementUp',
 
-      '_itemClicked',
+      '_itemClicked', '_itemTouchStart',
       '_restoreSelectedList', '_clearList',
       
       '_unsetScrollEvents', '_setScrollEvents', 
@@ -43419,8 +43465,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         li.id = this.uuid + '-li-' + index;
         li.setAttribute('role', 'option'); // Add ARIA role for accessibility and iOS clickability heuristics
         if (optionNode.dataset.filterCss) optionNode.dataset.filterCss.split(' ').forEach(function (filterCss) { li.classList.add(filterCss); })
-        // iOS: Use touchend for reliable touch handling; Others: Use click
+        // iOS: Use touchstart+touchend for reliable touch handling; Others: Use click
         if (Affinity2018.IsAppleMobile) {
+          li.addEventListener('touchstart', this._itemTouchStart);
           li.addEventListener('touchend', this._itemClicked);
         } else {
           li.addEventListener('click', this._itemClicked);
@@ -44171,13 +44218,32 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
+  // iOS: Record touch start position to distinguish tap from scroll
+  _itemTouchStart(ev)
+  {
+    if (ev && ev.touches && ev.touches.length > 0) {
+      this._touchStartX = ev.touches[0].clientX;
+      this._touchStartY = ev.touches[0].clientY;
+    }
+  }
+
   _itemClicked(ev)
   {
     if (!this.enabled) return false;
 
-    // iOS: Prevent synthetic click event that Safari generates after touchend
+    // iOS: Check if this was a scroll gesture (finger moved significantly)
     if (Affinity2018.IsAppleMobile && ev && ev.type === 'touchend')
     {
+      if (ev.changedTouches && ev.changedTouches.length > 0) {
+        var touch = ev.changedTouches[0];
+        var deltaX = Math.abs(touch.clientX - this._touchStartX);
+        var deltaY = Math.abs(touch.clientY - this._touchStartY);
+        // If finger moved more than threshold, it was a scroll - ignore
+        if (deltaX > this._touchMoveThreshold || deltaY > this._touchMoveThreshold) {
+          return false;
+        }
+      }
+      // It was a tap - prevent synthetic click
       ev.preventDefault();
     }
 
@@ -44441,8 +44507,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
-        // iOS: Remove touchend; Others: Remove click
+        // iOS: Remove touchstart+touchend; Others: Remove click
         if (Affinity2018.IsAppleMobile) {
+          node.removeEventListener('touchstart', this._itemTouchStart);
           node.removeEventListener('touchend', this._itemClicked);
         } else {
           node.removeEventListener('click', this._itemClicked);
@@ -44459,9 +44526,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
-        // iOS: Use touchend for reliable touch handling; Others: Use click
+        // iOS: Use touchstart+touchend for reliable touch handling; Others: Use click
         if (Affinity2018.IsAppleMobile) {
+          node.removeEventListener('touchstart', this._itemTouchStart);
           node.removeEventListener('touchend', this._itemClicked);
+          node.addEventListener('touchstart', this._itemTouchStart);
           node.addEventListener('touchend', this._itemClicked);
         } else {
           node.removeEventListener('click', this._itemClicked);
