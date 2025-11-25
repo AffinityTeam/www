@@ -23190,7 +23190,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.EditUrl = '/Instance/Edit/';
     this.ViewUrl = '/Instance/View/';
     this.DeleteAPI = '/Inbox/Delete/';
-    this.DetailsEndpoint = '/AdminV2/Details/';
+    this.DetailsEndpoint = '/Admin/Details/';
     this.PayPointAPI = '/Lookup/GetAssignedPayPoints/';
     this.AvailableFormsAPI = '/Inbox/GetAvailableForms/';
 
@@ -23378,13 +23378,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     /**/
     
     // Stop bfcache leaving loaders open
+    // bfcache cleanup: When navigating to another page (e.g., edit/view form),
+    // the full page loader may be visible. Browser's bfcache preserves this state
+    // in the snapshot. When user clicks back, the loader would remain stuck visible.
+    // These handlers ensure loaders are always hidden on page hide and page restore.
     window.addEventListener('pagehide', (() =>
     {
       this._forceHidePageLoader();
     }).bind(this));
     window.addEventListener('pageshow', (() =>
     {
+      // Hide both page loader and inline loader on bfcache restore
       this._forceHidePageLoader();
+      if (this.InlineLoaderNode) this.InlineLoaderNode.classList.add('hidden');
     }).bind(this));
 
     /**/
@@ -23735,7 +23741,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _showLoader()
   {
-    this.InlineLoaderNode.classList.remove('hidden');
     if (this.IsPayrollAdmin)
     {
       this._forceShowPageLoader();
@@ -23749,7 +23754,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _hideLoader()
   {
-    this.InlineLoaderNode.classList.add('hidden');
     this._forceHidePageLoader();
   }
 
@@ -23940,6 +23944,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SortBarNode.classList.remove('locked');
     this.BoxesNode.classList.remove('locked');
 
+    this.InlineLoaderNode.classList.add('hidden');
+
     // Show mobile scroll indicator if needed
     this._mobileIndicateScroll();
   }
@@ -23957,6 +23963,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.BoxesNode.classList.remove('locked');
 
     this._prcessSortBar(false); // false = do not search again
+
+    this.InlineLoaderNode.classList.add('hidden');
 
     this._hideLoader();
   }
@@ -25143,6 +25151,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let delay = newTab ? 0 : 500;
     if (event.target.classList.contains('edit'))
     {
+      // Same-tab navigation: Show page loader immediately, then delay navigation.
+      // The delay gives the browser time to render the loader before the (slow) 
+      // navigation call locks up the UI. Without this, users click repeatedly 
+      // waiting for something to happen. The loader stays visible during navigation
+      // and is cleaned up by pageshow handler when returning via browser back.
       if (!newTab) this._forceShowPageLoader();
       setTimeout((() =>
       {
@@ -25152,6 +25165,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
     if (event.target.classList.contains('view'))
     {
+      // Same pattern as edit button - show loader, delay nav to prevent UI lock
       if (!newTab) this._forceShowPageLoader();
       setTimeout((() =>
       {
@@ -25333,6 +25347,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.State.CategorySettings.hasOwnProperty(category) && document.querySelector(`div.inbox-tab-box[data-category="${category}"]`))
     {
+
       for (let tab of document.querySelectorAll(`div.inbox-tab`))
       {
         tab.classList.remove('selected');
@@ -25587,7 +25602,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         selectNode.appendChild(option);
       }
       selectNode.placeholder = placeholder;
-      Affinity2018.HidePageLoader(true);
+      Affinity2018.ShowPageLoader(true);
       let autoCompleteWidget = null;
       Affinity2018.Dialog.Show({
         message: placeholder,
@@ -25614,10 +25629,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         {
           if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
           {
-            Affinity2018.HidePageLoader(true);
-            Affinity2018.ShowPageLoader(true);
+            Affinity2018.ShowPageLoader(true, 0);
             setTimeout(() =>
             {
+              Affinity2018.ShowPageLoader(true, 0);
               let form = document.createElement('form');
               form.classList.add('hidden');
               form.method = 'GET';
@@ -25628,17 +25643,34 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               input.value = selectNode.value;
               form.appendChild(input);
               document.body.appendChild(form);
+              if (autoCompleteWidget !== null)
+              {
+                 autoCompleteWidget.Destroy();
+                 autoCompleteWidget = null;
+              }
+              Affinity2018.Dialog.Hide();
               form.submit();
               document.body.removeChild(form);
             }, 500);
           }
         },
-        onClose: () => 
+        onCancel: () =>
         {
+          Affinity2018.HidePageLoader(true);
           if (autoCompleteWidget !== null)
           {
             autoCompleteWidget.Destroy();
+            autoCompleteWidget = null;
           }
+        },
+        onClose: () =>
+        {
+          Affinity2018.HidePageLoader(true);
+          if (autoCompleteWidget !== null)
+          {
+            autoCompleteWidget.Destroy();
+            autoCompleteWidget = null;
+          } 
         }
       });
       Affinity2018.Dialog.Set(`
@@ -25649,6 +25681,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
       `);
       selectNode = Affinity2018.Dialog.ContentNode.querySelector('select');
+      selectNode.addEventListener('ready', () =>
+      {
+        Affinity2018.HidePageLoader(true);
+      });
       autoCompleteWidget = new Affinity2018.Classes.Plugins.AutocompleteWidget(selectNode);
       //if (autoCompleteWidget && autoCompleteWidget.ready)
       //{
@@ -26056,7 +26092,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="inbox-tab hidden" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
         </div>
         <div class="inbox-tabs-right">
-          <div class="inbox-tab-loader"></div>
+          <div class="inbox-tab-loader hidden"></div>
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
             <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
@@ -26469,7 +26505,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
         </div>
         <div class="inbox-tabs-right">
-          <div class="inbox-tab-loader"></div>
+          <div class="inbox-tab-loader hidden"></div>
           <div class="inbox-search-bar">
             <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
             <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
@@ -33061,6 +33097,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       {
         this.FormData.Value = inputWidget.GetData();
       }
+      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
+      {
+        // Read-only bank number field - get value from disabled input
+        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
+        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
+        {
+          // Keep the original value from Config, not the formatted display string
+          this.FormData.Value = this.Config.Details.Value;
+        }
+        else
+        {
+          this.FormData.Value = null;
+        }
+      }
       else
       {
         if (this.Config.Details.hasOwnProperty('AffinityField'))
@@ -33950,6 +34000,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         else this.FormData.Value = '';
         // methodName, input, parsed, format, output, color1, color2
         //Affinity2018.DateLog('GetFromFormRow', date, date, inputWidget.outputFormat, this.FormData.Value);
+      }
+      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
+      {
+        // Read-only date field - get value from disabled input
+        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
+        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
+        {
+          // Keep the original ISO date value from Config, not the formatted display string
+          this.FormData.Value = this.Config.Details.Value;
+        }
+        else
+        {
+          this.FormData.Value = '';
+        }
       }
 
       return this.FormData;
@@ -35780,12 +35844,29 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-calendar');
+      if (inputNode && inputNode.hasOwnProperty('widgets') && inputNode.widgets.hasOwnProperty('DateTime'))
+      {
+        var inputWidget = inputNode.widgets.DateTime;
+        var date = inputWidget.getRawDate();
 
-      var inputWidget = inputNode.widgets.DateTime;
-      var date = inputWidget.getRawDate();
+        if (inputNode.value.trim() !== '' && date !== false) this.FormData.Value = date.toString(inputWidget.outputFormat);
+        else this.FormData.Value = '';
+      }
+      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
+      {
+        // Read-only date field - get value from disabled input
+        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
+        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
+        {
+          // Keep the original ISO date value from Config, not the formatted display string
+          this.FormData.Value = this.Config.Details.Value;
+        }
+        else
+        {
+          this.FormData.Value = '';
+        }
+      }
 
-      if (inputNode.value.trim() !== '' && date !== false) this.FormData.Value = date.toString(inputWidget.outputFormat);
-      else this.FormData.Value = '';
       return this.FormData;
     }
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
@@ -40390,6 +40471,20 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
         if ($a.isArray(value)) value[0] = value[0].replace(/\-/g, '').trim();
         this.FormData.Value = value;
       }
+      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
+      {
+        // Read-only tax number field - get value from disabled input
+        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
+        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
+        {
+          // Keep the original value from Config, not the formatted display string
+          this.FormData.Value = this.Config.Details.Value;
+        }
+        else
+        {
+          this.FormData.Value = null;
+        }
+      }
       else
       {
         if (this.Config.Details.hasOwnProperty('AffinityField'))
@@ -44458,8 +44553,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
   }
 
-  _reset()
+  _reset(fromDestroy)
   {
+    fromDestroy = fromDestroy === undefined ? false : fromDestroy;
 
     // TODO: Implement Search Mode
     this.searchMode = false;
@@ -44482,21 +44578,44 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       {
         selectedNode = this.lastSelected;
       }
-      this.items.forEach(function (liNode, index)
+
+      if (fromDestroy) return;
+
+      // Auto-repair logic: Ensure this.items is valid before forEach
+      // If items is broken/missing, attempt to recreate from listNode
+      // If recreation fails, use empty array to prevent forEach errors
+      // Note: this.items can be Array or NodeList (both support forEach and length)
+      if (!this.items || this.items.length === 0)
       {
-        this.listNode.appendChild(liNode);
-        this.listNode.classList.remove('selected', 'hidden', 'visible');
-        if (!this.fuzzySearchLargeDataDelay)
+        if (this.listNode)
         {
-          liNode.innerHTML = this._cleanDisplay(liNode.innerText);
+          this.items = this.listNode.querySelectorAll('li');
         }
-        if (selectedNode && liNode === selectedNode)
+        else
         {
-          liNode.classList.add('selected');
-          this.listNode.scrollTo(0, Affinity2018.getOffsetRect(liNode).y - 5);
-          this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
+          this.items = [];
         }
-      }.bind(this));
+      }
+
+      // Only iterate if we have valid items
+      if (this.items && this.items.length > 0)
+      {
+        this.items.forEach(function (liNode, index)
+        {
+          this.listNode.appendChild(liNode);
+          this.listNode.classList.remove('selected', 'hidden', 'visible');
+          if (!this.fuzzySearchLargeDataDelay)
+          {
+            liNode.innerHTML = this._cleanDisplay(liNode.innerText);
+          }
+          if (selectedNode && liNode === selectedNode)
+          {
+            liNode.classList.add('selected');
+            this.listNode.scrollTo(0, Affinity2018.getOffsetRect(liNode).y - 5);
+            this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
+          }
+        }.bind(this));
+      }
     }
   }
 
@@ -44529,7 +44648,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   Destroy()
   {
-    this._reset();
+    this._reset(true);
     this._clearShowHideEvents();
     clearTimeout(this._elementKeyUpTimer);
     clearTimeout(this._fuzzySearchDelay);
