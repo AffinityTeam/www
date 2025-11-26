@@ -26426,8 +26426,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
       let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
 
-      console.log(data);
-
       let tooltip = '';
       let tooltipMessage = '';
       if (isOverdue)
