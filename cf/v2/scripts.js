@@ -26318,9 +26318,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons large">
-                  ${toggleToAction}
-                </th>
+                <th class="buttons large"></th>
               </tr>
             </thead>
             <tbody>
@@ -26356,9 +26354,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons large">
-                  ${toggleInProgress}
-                </th>
+                <th class="buttons large"></th>
               </tr>
             </thead>
             <tbody>
@@ -26380,7 +26376,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="CurrentAssigneeName">
               <col data-name="CurrentState">
-              <col class="buttons">
+              <col class="buttons large">
             </colgroup>
             <thead>
               <tr>
@@ -26394,9 +26390,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons">
-                  ${toggleCompleted}
-                </th>
+                <th class="buttons large"></th>
               </tr>
             </thead>
             <tbody>
@@ -26432,6 +26426,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
       let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
 
+      console.log(data);
+
       let tooltip = '';
       let tooltipMessage = '';
       if (isOverdue)
@@ -26462,11 +26458,48 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       previousAssigneeName = this._checkForSearchMatch(category, 'PreviousAssigneeName', previousAssigneeName);
       lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
 
-      let deletButton = '';
-      //if (this.IsPayrollAdmin)
+      let buttonCount = 0;
+      let hasDelete = false;
+      let actionButtons = '';
+      if (data.CanEdit)
+      {
+        // Edit Button
+        actionButtons += `<button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
+          <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
+        </button>`;
+        buttonCount++;
+        // Details Button
+        actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
+          <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+            <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
+          </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
+        </button>`;
+        buttonCount++;
+      }
+      else
+      {
+        // View Button
+        actionButtons += `<button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
+          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
+        </button>`;
+        buttonCount++;
+      }
+
       if (data.CanDelete)
       {
-        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
+        actionButtons += `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
           <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
@@ -26474,6 +26507,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </svg>
           ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
         </button>`;
+        buttonCount++;
+        hasDelete = true;
       }
 
       switch (category)
@@ -26493,22 +26528,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons large${deletButton === '' ? '' : ' has-delete'}">
-                <button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-                  <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-                </button>
-                <button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-                  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-                    <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-                </button>
-                ${deletButton}
+              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+                ${actionButtons}
               </td>
             </tr>
           `;
@@ -26529,29 +26550,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons large${deletButton === '' ? '' : ' has-delete'}">
-                <button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-                  <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-                </button>
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-                </button>
-                <button class="white light-grey filled details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 -960 960 960"><path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/></svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-                </button>
-                ${deletButton}
+              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+                ${actionButtons}
               </td>
             </tr>
           `;
@@ -26571,17 +26571,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons">
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-                </button>
+              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+                ${actionButtons}
               </td>
             </tr>
           `;
@@ -26709,7 +26700,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons">
+              <col class="buttons large">
             </colgroup>
             <thead>
               <tr>
@@ -26719,9 +26710,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.recieved')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons">
-                  ${toggleToAction}
-                </th>
+                <th class="buttons large"></th>
               </tr>
             </thead>
             <tbody>
@@ -26740,7 +26729,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons">
+              <col class="buttons large">
             </colgroup>
             <thead>
               <tr>
@@ -26751,9 +26740,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.assigned')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons">
-                  ${toggleInProgress}
-                </th>
+                <th class="buttons large"> </th>
               </tr>
             </thead>
             <tbody>
@@ -26772,7 +26759,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons">
+              <col class="buttons large">
             </colgroup>
             <thead>
               <tr>
@@ -26783,9 +26770,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons">
-                  ${toggleCompleted}
-                </th>
+                <th class="buttons large"></th>
               </tr>
             </thead>
             <tbody>
@@ -26845,11 +26830,49 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       payPoint = this._checkForSearchMatch(category, 'PayPoint', payPoint);
       currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
       completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
-
-      let deletButton = '';
-      if (this.IsPayrollAdmin)
+      
+      let buttonCount = 0;
+      let hasDelete = false;
+      let actionButtons = '';
+      if (data.CanEdit)
       {
-        deletButton = `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
+        // Edit Button
+        actionButtons += `<button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
+          <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
+        </button>`;
+        buttonCount++;
+        // Details Button
+        actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
+          <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+            <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
+          </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
+        </button>`;
+        buttonCount++;
+      }
+      else
+      {
+        // View Button
+        actionButtons += `<button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
+          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
+        </button>`;
+        buttonCount++;
+      }
+
+      if (data.CanDelete)
+      {
+        actionButtons += `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
           <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
@@ -26857,6 +26880,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </svg>
           ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
         </button>`;
+        buttonCount++;
+        hasDelete = true;
       }
 
       switch (category)
@@ -26872,16 +26897,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons">
-                <button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-                  <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-                </button>
-                ${deletButton}
+              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+                ${actionButtons}
+              </td>
               </td>
             </tr>
           `;
@@ -26899,17 +26917,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons">
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-                </button>
-                ${deletButton}
+              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+                ${actionButtons}
               </td>
             </tr>
           `;
@@ -26927,15 +26936,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons">
-                <button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
+              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+                  ${actionButtons}
                 </button>
               </td>
             </tr>
