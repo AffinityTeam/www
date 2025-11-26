@@ -7772,7 +7772,7 @@
               if (token)
               {
                 window.AntiForgeryToken = token;
-                console.log(appName + ": Antiforgery token refreshed successfully");
+                //console.log(appName + ": Antiforgery token refreshed successfully");
                 setupInterceptors();
                 // Token obtained successfully
                 callback(token);
@@ -7810,15 +7810,15 @@
                 if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
                 {
                   xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
-                  console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
+                  //console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
                 }
                 else if (method !== 'GET' && !shouldAddToken(url))
                 {
-                  console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
+                  //console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
                 }
                 else if (method !== 'GET')
                 {
-                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
+                  //console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
                 }
                 return originalSend.call(this, data);
               };
@@ -7832,11 +7832,11 @@
               }
             }
             window.XMLHttpRequest.prototype = originalXHR.prototype;
-            console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
+            //console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
           }
           else if (window.XMLHttpRequest && window.XMLHttpRequest._antiForgeryPatched)
           {
-            console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
+            //console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
           }
           // Add Fetch interceptor that adds antiforgery token for non-GET requests
           if (window.fetch && !window.fetch._antiForgeryPatched)
@@ -7854,30 +7854,30 @@
               {
                 delete options.headers['__RequestVerificationToken'];
                 options.headers['__RequestVerificationToken'] = antiForgeryToken;
-                console.log(appName + ": Added antiforgery token to fetch", method, url);
+                //console.log(appName + ": Added antiforgery token to fetch", method, url);
               }
               else if (method !== 'GET' && !shouldAddToken(url))
               {
-                console.log(appName + ": Skipping antiforgery token for external fetch", method, url);
+                //console.log(appName + ": Skipping antiforgery token for external fetch", method, url);
               }
               else if (method !== 'GET')
               {
-                console.log(appName + ": No antiforgery token available for fetch", method, url);
+                //console.log(appName + ": No antiforgery token available for fetch", method, url);
               }
               return originalFetch.call(this, url, options);
             };
-            console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
+            //console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
           }
           else if (window.fetch && window.fetch._antiForgeryPatched)
           {
-            console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
+            //console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         }
         window.RefreshAntiForgeryToken = refreshAntiForgeryToken;
         // Auth event listeners removed - tokens no longer depend on authentication state
         if (window.AntiForgeryToken)
         {
-          console.log(appName + ": Initial antiforgery token set.");
+          //console.log(appName + ": Initial antiforgery token set.");
           setupInterceptors();
           clearInterval(window._antiTokenRefreshTimer);
           window._antiTokenRefreshTimer = setInterval(function ()
@@ -7887,7 +7887,7 @@
         }
         else
         {
-          console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
+          //console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
           refreshAntiForgeryToken()
             .then(function (token)
             {
