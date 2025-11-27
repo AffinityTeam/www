@@ -6882,6 +6882,12 @@
         if (Affinity2018.Browser.isie && !isNaN(parseInt(Affinity2018.Browser.major))) body.classList.add('ie' + parseInt(Affinity2018.Browser.major));
         if (Affinity2018.Browser.isedge) body.classList.add('edge');
         if (Affinity2018.Browser.isfirefox) body.classList.add('firefox');
+
+        // IsAppleMobile: Reliable iOS/iPadOS detection - if mobile AND safari, it's Apple mobile
+        Affinity2018.IsAppleMobile = Affinity2018.IsMobile && Affinity2018.Browser.issafari;
+        Affinity2018.IsAppleMobile = !Affinity2018.IsAppleMobile && Affinity2018.IsMobile && Affinity2018.Browser.isios;
+        Affinity2018.IsAppleMobile = !Affinity2018.IsAppleMobile && Affinity2018.IsMobile && Affinity2018.Browser.ismac;
+
         window.dispatchEvent(new Event('MobileChecked'));
         if (Affinity2018.IsMobile && (window.location.host.contains('localhost') || window.location.host.contains('.test')))
         {
@@ -6918,6 +6924,44 @@
         if (Affinity2018.Browser.platform.toLowerCase().contains('ios')) Affinity2018.Browser.ismac = true;
         if (result.device.model !== undefined && result.device.model.toLowerCase().contains('ipad')) Affinity2018.Browser.isipad = true;
         if (Affinity2018.Browser.isipad && !Affinity2018.Browser.ismac) Affinity2018.Browser.ismac = true;
+        
+        // iOS detection: Feature-based detection to override user-agent based flags when iOS privacy blocks/modifies UA
+        // Multiple feature checks for robustness - combined checks catch all iOS browsers
+        var isAppleVendor = navigator.vendor && navigator.vendor.indexOf('Apple') > -1;
+        var hasTouchEvents = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        var hasWebkitCSS = CSS && CSS.supports && CSS.supports('-webkit-touch-callout', 'none');
+        
+        // navigator.standalone exists on iOS Safari only (not Chrome/Firefox on iOS, not Mac Safari)
+        // Useful as additional signal but NOT sufficient alone - Chrome/Firefox iOS don't have it
+        var hasStandaloneProperty = 'standalone' in navigator;
+        
+        // Primary iOS check: Apple vendor + touch + webkit CSS catches ALL iOS browsers
+        // (Safari, Chrome, Firefox on iOS all use WebKit and support -webkit-touch-callout)
+        // Note: Desktop Safari on Mac won't match because no touch events (maxTouchPoints = 0)
+        if (isAppleVendor && hasTouchEvents && hasWebkitCSS)
+        {
+          Affinity2018.Browser.isios = true;
+          Affinity2018.Browser.issafari = true;
+          Affinity2018.Browser.ismac = true;
+        }
+        
+        // Additional iOS Safari check: navigator.standalone only exists on iOS Safari
+        if (isAppleVendor && hasStandaloneProperty)
+        {
+          Affinity2018.Browser.isios = true;
+          Affinity2018.Browser.issafari = true; // Definitely Safari if standalone exists
+          Affinity2018.Browser.ismac = true;
+        }
+        
+        // Additional iPad detection via MacIntel + touch (iOS 13+ iPads report as MacIntel)
+        // Note: navigator.platform is deprecated but still works; Safari has no alternative yet
+        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+        {
+          Affinity2018.Browser.isios = true;
+          Affinity2018.Browser.isipad = true;
+          Affinity2018.Browser.issafari = true;
+          Affinity2018.Browser.ismac = true;
+        }
         // Mobile detection (replaces WURFL functionality)
         Affinity2018.MobileChecked = true;
         var device = result.device;
@@ -18806,7 +18850,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_modalChanged', '_checkForHidden', '_scrollToError',
 
-      '_submit', '_print', '_close',
+      '_submit', '_print', '_close', '_back',
 
       '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests', '_checkLookupWidgetsReady',
 
@@ -20361,57 +20405,71 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "visible": true
     });
 
-    var backData = {
+    let navButton = this._getNavButtons();
+    buttons.push(navButton);
+
+    this._gotWorkflowButtons(buttons);
+
+  }
+
+  _getNavButtons()
+  {
+    // Determine if we need a close button, back button, or inbox button
+    // iOS: Never show Close due to opener pollution from window.open(_self) redirect bug
+    // Non-iOS: Use opener and history to decide
+    let isApple = Affinity2018.Browser.issafari;
+    let hasOpener = window.opener !== null;
+    let hasHistory = window.history.length > 1;
+    let backButtonData = {
       "Type": "Button",
       "DestinationStateId": "",
       "SateType": 0,
       "ActionType": "back",
-      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_back_button'),
+      "Name": $a.Lang.ReturnPath('generic.buttons.back'),
       "Color": "blue",
       "Icon": "arrow-left",
       "Path": null,
       "visible": true
     };
-
-    if (document.referrer !== '') // we have a referrer, so maybe been opened by JS, so lets try close
+    let closeButtonData = {
+      "Type": "Button",
+      "DestinationStateId": "",
+      "SateType": 0,
+      "ActionType": "close",
+      "Name": $a.Lang.ReturnPath('generic.buttons.close'),
+      "Color": "orange",
+      "Icon": "cross",
+      "Path": null,
+      "visible": true
+    };
+    let inboxButtonData = {
+      "Type": "Button",
+      "DestinationStateId": "",
+      "SateType": 0,
+      "ActionType": "back",
+      "Name": "Inbox",
+      "Color": "blue",
+      "Icon": "inbox",
+      "Path": null,
+      "visible": true
+    };
+    if (isApple)
     {
-      if (window.opener !== null)
+      // iOS: never show Close due to opener pollution bug
+      if (hasHistory)
       {
-        backData.Name = $a.Lang.ReturnPath('generic.buttons.close');
-        backData.Color = 'orange';
-        backData.Icon = 'cross';
-        backData.Path = null;
+        return backButtonData;
       }
-      else
-      {
-        backData.Name = $a.Lang.ReturnPath('generic.buttons.back');
-        backData.Color = 'blue';
-        backData.Icon = 'arrow-left';
-        backData.Path = null;
-      }
+      return inboxButtonData;
     }
-    else
+    // Non-iOS: normal behavior
+    // If history exists (navigated here), show Back
+    // Otherwise show Inbox (new tab, direct entry, etc.)
+    if (hasHistory)
     {
-      if (['Preview'].contains(this.ViewType))
-      {
-        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
-        backData.Color = 'blue';
-        backData.Icon = 'brush';
-        backData.Path = null;
-      }
-      if (['Form', 'ViewOnly'].contains(this.ViewType))
-      {
-        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
-        backData.Color = 'blue';
-        backData.Icon = 'empty-inbox';
-        backData.Path = null;
-      }
+      return backButtonData;
     }
-
-    buttons.push(backData);
-
-    this._gotWorkflowButtons(buttons);
-
+    return inboxButtonData;
   }
 
 
@@ -20461,7 +20519,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (data.ActionType === 'save') buttonNode.addEventListener('click', this._save);
           if (data.ActionType === 'post') buttonNode.addEventListener('click', this._submit);
           if (data.ActionType === 'print') buttonNode.addEventListener('click', this._print);
-          if (data.ActionType === 'back') buttonNode.addEventListener('click', this._close);
+          if (data.ActionType === 'back') buttonNode.addEventListener('click', this._back);
+          if (data.ActionType === 'close') buttonNode.addEventListener('click', this._close);
 
           target.appendChild(buttonNode);
 
@@ -22419,51 +22478,57 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
    
   /**
-   * Summary. Submit (Workflow button clicked)
+   * Summary. Back button clicked - navigate back via history or to inbox
+   * @this    Class scope
+   * @access  private
+   */
+  _back (ev)
+  {
+    if ($a.isEvent(ev)) $a.stopEvent(ev);
+    
+    // Priority 1: Go back if history exists
+    if (window.history.length > 1)
+    {
+      window.history.back();
+      return;
+    }
+    
+    // Priority 2: Navigate to inbox (cached view is fine, nothing posted)
+    let path = this.CleverForms.InboxPath;
+    if (window.location.hash) path += window.location.hash;
+    window.location.href = path;
+  }
+
+
+   
+  /**
+   * Summary. Close button clicked - close the window
    * @this    Class scope
    * @access  private
    */
   _close (ev)
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
-    var templateId, instanceId, path, redirectWindow;
-    if (document.referrer !== '')
+    
+    // Close button only appears when window.opener exists (non-iOS)
+    // Try to close the window
+    if (window.opener !== null)
     {
-      if (window.opener === null)
+      // iOS Safari workaround for more reliable closing
+      if (Affinity2018.Browser.issafari)
       {
-        path = document.referrer;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
+        window.open('', '_self').close();
       }
-      window.close();
+      else
+      {
+        window.close();
+      }
       return;
     }
-    if (this.ViewType === 'Preview')
-    {
-      templateId = this.CleverForms.GetTemplateGuid();
-      if (templateId)
-      {
-        path = this.CleverForms.DesignerPath + '?templateId=' + templateId;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
-      }
-    }
-    if (this.ViewType === 'Form')
-    {
-      instanceId = this.CleverForms.GetInstanceGuid();
-      if (instanceId)
-      {
-        path = this.CleverForms.InboxPath; // + '?instanceId=' + instanceId;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
-      }
-    }
+    
+    // Fallback if close fails (shouldn't happen, but be safe)
+    console.warn('CleverForms Form: Close button clicked but window.opener is null');
+    this._back(ev);
   }
 
 
@@ -22745,6 +22810,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
+    // iOS bfcache cleanup: Hide UI elements that persist incorrectly on back navigation
+    window.addEventListener('pageshow', (() =>
+    {
+      Affinity2018.Tooltips.HideAll();
+      Affinity2018.Calendars.HideAll();
+      Affinity2018.SimpleSelects.HideAll();
+      Affinity2018.Autocompletes.HideAll();
+      Affinity2018.Dialog.Hide();
+    }).bind(this));
+
     this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
 
     this.ResultNode = document.querySelector('div.inbox');
@@ -23154,7 +23229,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             else
             {
               this.SearchBox.classList.add('show');
-              this.SearchNode.focus();
+              // Skip focus on Apple mobile - iOS zooms on input focus
+              if (!Affinity2018.IsAppleMobile) this.SearchNode.focus();
             }
           }
           else
@@ -39677,6 +39753,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.wrapperHeaderOffset = 0;
 
+    // iOS touch tracking: Store touchstart position to detect scroll vs tap
+    this._touchStartX = 0;
+    this._touchStartY = 0;
+    this._touchMoveThreshold = 10; // pixels - movement beyond this = scroll, not tap
+
     this.fuzzyRunning = false;
     this.workerComplete = true;
     this.status = 'closed';
@@ -39706,7 +39787,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_doFocus', '_doClick', '_doKeyDown', '_doKeyUp',
       '_elementDown', '_elementUp',
 
-      '_itemClicked',
+      '_itemClicked', '_itemTouchStart',
       '_restoreSelectedList', '_clearList',
       
       '_unsetScrollEvents', '_setScrollEvents', 
@@ -40388,8 +40469,15 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         li.dataset.index = index;
         li.className = 'visible';
         li.id = this.uuid + '-li-' + index;
+        li.setAttribute('role', 'option'); // Add ARIA role for accessibility and iOS clickability heuristics
         if (optionNode.dataset.filterCss) optionNode.dataset.filterCss.split(' ').forEach(function (filterCss) { li.classList.add(filterCss); })
-        li.addEventListener('click', this._itemClicked);
+        // iOS: Use touchstart+touchend for reliable touch handling; Others: Use click
+        if (Affinity2018.IsAppleMobile) {
+          li.addEventListener('touchstart', this._itemTouchStart);
+          li.addEventListener('touchend', this._itemClicked);
+        } else {
+          li.addEventListener('click', this._itemClicked);
+        }
         this.listNode.appendChild(li);
         if (optionNode.selected)
         {
@@ -41136,9 +41224,34 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
+  // iOS: Store touch position on touchstart to detect scroll vs tap
+  _itemTouchStart(ev)
+  {
+    if (ev && ev.touches && ev.touches.length > 0) {
+      this._touchStartX = ev.touches[0].clientX;
+      this._touchStartY = ev.touches[0].clientY;
+    }
+  }
+
+  /**/
+
   _itemClicked(ev)
   {
     if (!this.enabled) return false;
+
+    // iOS: Check if this was a scroll gesture (finger moved significantly)
+    if (Affinity2018.IsAppleMobile && ev && ev.type === 'touchend')
+    {
+      if (ev.changedTouches && ev.changedTouches.length > 0) {
+        var touch = ev.changedTouches[0];
+        var deltaX = Math.abs(touch.clientX - this._touchStartX);
+        var deltaY = Math.abs(touch.clientY - this._touchStartY);
+        // If finger moved more than threshold, it was a scroll - ignore
+        if (deltaX > this._touchMoveThreshold || deltaY > this._touchMoveThreshold) {
+          return false;
+        }
+      }
+    }
 
     if (ev && 'isTrusted' in ev && ev.isTrusted) 
     {
@@ -41400,7 +41513,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
-        node.removeEventListener('click', this._itemClicked);
+        // iOS: Remove touchstart+touchend; Others: Remove click
+        if (Affinity2018.IsAppleMobile) {
+          node.removeEventListener('touchstart', this._itemTouchStart);
+          node.removeEventListener('touchend', this._itemClicked);
+        } else {
+          node.removeEventListener('click', this._itemClicked);
+        }
       }.bind(this));
       return true;
     }
@@ -41413,8 +41532,16 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
       this.listNode.querySelectorAll('li').forEach(function (node)
       {
-        node.removeEventListener('click', this._itemClicked);
-        node.addEventListener('click', this._itemClicked);
+        // iOS: Use touchstart+touchend for reliable touch handling; Others: Use click
+        if (Affinity2018.IsAppleMobile) {
+          node.removeEventListener('touchstart', this._itemTouchStart);
+          node.removeEventListener('touchend', this._itemClicked);
+          node.addEventListener('touchstart', this._itemTouchStart);
+          node.addEventListener('touchend', this._itemClicked);
+        } else {
+          node.removeEventListener('click', this._itemClicked);
+          node.addEventListener('click', this._itemClicked);
+        }
       }.bind(this));
       return true;
     }
@@ -41465,7 +41592,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     clearTimeout(this._setWindowClickDelay);
     this.displayNode.removeEventListener('click', this._stopEvents);
-    this.autocompleteNode.removeEventListener('click', this._stopEvents);
+    
+    // iOS Safari has event timing issues where parent handlers block child handlers
+    // Use listNode instead of autocompleteNode so <li> click handlers execute first
+    if (Affinity2018.IsAppleMobile)
+    {
+      this.listNode.removeEventListener('click', this._stopEvents);
+    }
+    else
+    {
+      this.autocompleteNode.removeEventListener('click', this._stopEvents);
+    }
+    
     this._clearWindowClick();
   }
   _setHideShowEvents()
@@ -41473,7 +41611,18 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     clearTimeout(this._setWindowClickDelay);
     this._clearShowHideEvents();
     this.displayNode.addEventListener('click', this._stopEvents);
-    this.autocompleteNode.addEventListener('click', this._stopEvents);
+    
+    // iOS Safari has event timing issues where parent handlers block child handlers
+    // Use listNode instead of autocompleteNode so <li> click handlers execute first
+    if (Affinity2018.IsAppleMobile)
+    {
+      this.listNode.addEventListener('click', this._stopEvents);
+    }
+    else
+    {
+      this.autocompleteNode.addEventListener('click', this._stopEvents);
+    }
+    
     this._setWindowClickDelay = setTimeout(this._setWindowClick, 100);
   }
 
@@ -41901,6 +42050,7 @@ function returnListItem (data)
   li += ' class="' + data.klass + '"';
   li += ' data-index="' + data.originalIndex + '"';
   li += ' data-value="' + data.value + '"';
+  li += ' role="option"';
   li += ' data-display="' + data.html + '"';
   li += '>';
   li += data.html;

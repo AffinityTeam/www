@@ -20,43 +20,43 @@
 (7239,74): run-time error CSS1030: Expected identifier, found ','
 (7239,216): run-time error CSS1031: Expected selector, found ')'
 (7239,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(9030,113): run-time error CSS1030: Expected identifier, found ','
-(9030,125): run-time error CSS1031: Expected selector, found ')'
-(9030,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(10087,73): run-time error CSS1030: Expected identifier, found ','
-(10087,95): run-time error CSS1031: Expected selector, found ')'
-(10087,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10095,73): run-time error CSS1030: Expected identifier, found ','
-(10095,95): run-time error CSS1031: Expected selector, found ')'
-(10095,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10117,73): run-time error CSS1030: Expected identifier, found ','
-(10117,95): run-time error CSS1031: Expected selector, found ')'
-(10117,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10126,73): run-time error CSS1030: Expected identifier, found ','
-(10126,95): run-time error CSS1031: Expected selector, found ')'
-(10126,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10134,73): run-time error CSS1030: Expected identifier, found ','
-(10134,95): run-time error CSS1031: Expected selector, found ')'
-(10134,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10142,73): run-time error CSS1030: Expected identifier, found ','
-(10142,95): run-time error CSS1031: Expected selector, found ')'
-(10142,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10150,73): run-time error CSS1030: Expected identifier, found ','
-(10150,95): run-time error CSS1031: Expected selector, found ')'
-(10150,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10535,133): run-time error CSS1030: Expected identifier, found ','
-(10535,274): run-time error CSS1031: Expected selector, found ')'
-(10535,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(11127,167): run-time error CSS1030: Expected identifier, found ','
-(11127,309): run-time error CSS1031: Expected selector, found ')'
-(11127,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11409,108): run-time error CSS1030: Expected identifier, found ','
-(11409,250): run-time error CSS1031: Expected selector, found ')'
-(11409,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(12436,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12437,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12579,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(12581,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(9032,113): run-time error CSS1030: Expected identifier, found ','
+(9032,125): run-time error CSS1031: Expected selector, found ')'
+(9032,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(10089,73): run-time error CSS1030: Expected identifier, found ','
+(10089,95): run-time error CSS1031: Expected selector, found ')'
+(10089,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10097,73): run-time error CSS1030: Expected identifier, found ','
+(10097,95): run-time error CSS1031: Expected selector, found ')'
+(10097,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10119,73): run-time error CSS1030: Expected identifier, found ','
+(10119,95): run-time error CSS1031: Expected selector, found ')'
+(10119,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10128,73): run-time error CSS1030: Expected identifier, found ','
+(10128,95): run-time error CSS1031: Expected selector, found ')'
+(10128,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10136,73): run-time error CSS1030: Expected identifier, found ','
+(10136,95): run-time error CSS1031: Expected selector, found ')'
+(10136,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10144,73): run-time error CSS1030: Expected identifier, found ','
+(10144,95): run-time error CSS1031: Expected selector, found ')'
+(10144,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10152,73): run-time error CSS1030: Expected identifier, found ','
+(10152,95): run-time error CSS1031: Expected selector, found ')'
+(10152,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10537,133): run-time error CSS1030: Expected identifier, found ','
+(10537,274): run-time error CSS1031: Expected selector, found ')'
+(10537,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(11129,167): run-time error CSS1030: Expected identifier, found ','
+(11129,309): run-time error CSS1031: Expected selector, found ')'
+(11129,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(11411,108): run-time error CSS1030: Expected identifier, found ','
+(11411,250): run-time error CSS1031: Expected selector, found ')'
+(11411,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(12438,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12439,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12581,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(12583,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
  */
 /***************************************************************************************************************************************************/
 
@@ -8039,7 +8039,7 @@ body.ui2018.uiupdate .default-form .form-row.check-label-pair label,
 body.ui2018.uiupdate.cform .default-form .form-row.check-label-pair label {
   vertical-align: top;
   max-width: 630px;
-  margin: 11px 0 0 0;
+  margin: 5px 0 0 5px;
   padding: 0;
   height: unset;
   line-height: 22px;
@@ -8117,6 +8117,7 @@ body.ui2018.uiupdate.cform .form .form-row.row-multiselect label,
 body.ui2018.uiupdate .default-form .form-row.row-multiselect label,
 body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect label {
   height: unset;
+  margin: 5px 0 0 5px;
   white-space: unset !important;
   -ms-text-overflow: unset !important;
   -o-text-overflow: unset !important;
@@ -8425,6 +8426,7 @@ body.ui2018.uiupdate.cform .default-form .form-row.row-affinityfield .currencybo
   width: 22px;
   height: 44px;
   line-height: 44px;
+  vertical-align: top;
   text-align: center;
   color: black;
 }
@@ -15526,6 +15528,7 @@ body.ui2018.cform .default-form .form-row .radio-label-pair label,
 body.ui2018 .example-template .preview .default-form .form-row .radio-label-pair label {
   width: auto;
   max-width: 640px;
+  margin: 5px 0 0 5px;
 }
 body.ui2018.cform form .form-row .check-label-pair.select-filter,
 body.ui2018 .example-template .preview form .form-row .check-label-pair.select-filter,
