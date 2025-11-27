@@ -26318,7 +26318,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons large"></th>
+                <th class="buttons"></th>
               </tr>
             </thead>
             <tbody>
@@ -26340,7 +26340,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="CurrentAssigneeName">
               <col data-name="CurrentState">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26354,7 +26354,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons large"></th>
+                <th class="buttons"></th>
               </tr>
             </thead>
             <tbody>
@@ -26376,7 +26376,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="CurrentAssigneeName">
               <col data-name="CurrentState">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26390,7 +26390,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons large"></th>
+                <th class="buttons"></th>
               </tr>
             </thead>
             <tbody>
@@ -26514,6 +26514,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'ToAction':
 
+          if (buttonCount > 2)
+          {
+            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
+            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
+          }
+
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
               <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
@@ -26526,7 +26532,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+              <td class="buttons button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26535,6 +26541,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           break;
 
         case 'InProgress':
+          
+          if (buttonCount > 2)
+          {
+            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
+            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
+          }
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
@@ -26548,7 +26560,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+              <td class="buttons button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26558,6 +26570,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'Completed':
 
+          if (buttonCount > 2)
+          {
+            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
+            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
+          }
+
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
               <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
@@ -26569,7 +26587,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+              <td class="buttons button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26698,7 +26716,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26708,7 +26726,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.recieved')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons large"></th>
+                <th class="buttons"></th>
               </tr>
             </thead>
             <tbody>
@@ -26727,7 +26745,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26738,7 +26756,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.assigned')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons large"> </th>
+                <th class="buttons"></th>
               </tr>
             </thead>
             <tbody>
@@ -26757,7 +26775,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="EffectiveDate">
               <col data-name="PayPoint">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26768,7 +26786,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.completed')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
                 <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons large"></th>
+                <th class="buttons"></th>
               </tr>
             </thead>
             <tbody>
@@ -26887,6 +26905,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'ToAction':
 
+          if (buttonCount > 2)
+          {
+            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
+            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
+          }
+
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
               <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
@@ -26895,7 +26919,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+              <td class="buttons button-count-${buttonCount}">
                 ${actionButtons}
               </td>
               </td>
@@ -26906,6 +26930,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'InProgress':
 
+          if (buttonCount > 2)
+          {
+            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
+            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
+          }
+
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
               <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
@@ -26915,7 +26945,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+              <td class="buttons button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26924,6 +26954,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           break;
 
         case 'Completed':
+
+          if (buttonCount > 2)
+          {
+            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
+            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
+          }
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
@@ -26934,7 +26970,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${buttonCount > 2 ? ' large' : ''}${hasDelete ? ' has-delete' : ''}">
+              <td class="buttons button-count-${buttonCount}">
                   ${actionButtons}
                 </button>
               </td>

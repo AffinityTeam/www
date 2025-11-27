@@ -63,9 +63,9 @@
 (23132,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23785,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
 (23851,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24976,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24977,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24978,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25002,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25003,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25004,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -24362,9 +24362,6 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   min-width: 100%;
   max-width: 100%;
 }
-body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table.has-delete tbody tr td:not(.has-delete) {
-  padding: 0 85px 0 0;
-}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td {
@@ -24447,6 +24444,35 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.large {
   width: 150px;
   min-width: 150px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.button-count-1,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.button-count-1,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.button-count-1 {
+  padding: 0 84px 0 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.button-count-2,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.button-count-2,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.button-count-2 {
+  width: 150px;
+  min-width: 150px;
+  padding: 0 42px 0 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.button-count-2 button,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.button-count-2 button,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.button-count-2 button {
+  margin: 0 0 0 2px;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.button-count-3,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.button-count-3,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.button-count-3 {
+  width: 150px;
+  min-width: 150px;
+  padding: 0;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table colgroup col.buttons.button-count-3 button,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th.buttons.button-count-3 button,
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table tbody tr td.buttons.button-count-3 button {
+  margin: 0 0 0 2px;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr th {
   position: relative;
