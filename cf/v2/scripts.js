@@ -18850,7 +18850,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_modalChanged', '_checkForHidden', '_scrollToError',
 
-      '_submit', '_print', '_close',
+      '_submit', '_print', '_close', '_back',
 
       '_ready', '_resizeSection', '_resizeAllSections', '_checkWidgetsLoaded', '_widgetsLoaded', '_checkRequests', '_checkLookupWidgetsReady',
 
@@ -20405,57 +20405,71 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       "visible": true
     });
 
-    var backData = {
+    let navButton = this._getNavButtons();
+    buttons.push(navButton);
+
+    this._gotWorkflowButtons(buttons);
+
+  }
+
+  _getNavButtons()
+  {
+    // Determine if we need a close button, back button, or inbox button
+    // iOS: Never show Close due to opener pollution from window.open(_self) redirect bug
+    // Non-iOS: Use opener and history to decide
+    let isApple = Affinity2018.Browser.issafari;
+    let hasOpener = window.opener !== null;
+    let hasHistory = window.history.length > 1;
+    let backButtonData = {
       "Type": "Button",
       "DestinationStateId": "",
       "SateType": 0,
       "ActionType": "back",
-      "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_back_button'),
+      "Name": $a.Lang.ReturnPath('generic.buttons.back'),
       "Color": "blue",
       "Icon": "arrow-left",
       "Path": null,
       "visible": true
     };
-
-    if (document.referrer !== '') // we have a referrer, so maybe been opened by JS, so lets try close
+    let closeButtonData = {
+      "Type": "Button",
+      "DestinationStateId": "",
+      "SateType": 0,
+      "ActionType": "close",
+      "Name": $a.Lang.ReturnPath('generic.buttons.close'),
+      "Color": "orange",
+      "Icon": "cross",
+      "Path": null,
+      "visible": true
+    };
+    let inboxButtonData = {
+      "Type": "Button",
+      "DestinationStateId": "",
+      "SateType": 0,
+      "ActionType": "back",
+      "Name": "Inbox",
+      "Color": "blue",
+      "Icon": "inbox",
+      "Path": null,
+      "visible": true
+    };
+    if (isApple)
     {
-      if (window.opener !== null)
+      // iOS: never show Close due to opener pollution bug
+      if (hasHistory)
       {
-        backData.Name = $a.Lang.ReturnPath('generic.buttons.close');
-        backData.Color = 'orange';
-        backData.Icon = 'cross';
-        backData.Path = null;
+        return backButtonData;
       }
-      else
-      {
-        backData.Name = $a.Lang.ReturnPath('generic.buttons.back');
-        backData.Color = 'blue';
-        backData.Icon = 'arrow-left';
-        backData.Path = null;
-      }
+      return inboxButtonData;
     }
-    else
+    // Non-iOS: normal behavior
+    // If history exists (navigated here), show Back
+    // Otherwise show Inbox (new tab, direct entry, etc.)
+    if (hasHistory)
     {
-      if (['Preview'].contains(this.ViewType))
-      {
-        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.designer_back_button'),
-        backData.Color = 'blue';
-        backData.Icon = 'brush';
-        backData.Path = null;
-      }
-      if (['Form', 'ViewOnly'].contains(this.ViewType))
-      {
-        backData.Name = $a.Lang.ReturnPath('application.cleverfroms.designer.inbox_back_button'),
-        backData.Color = 'blue';
-        backData.Icon = 'empty-inbox';
-        backData.Path = null;
-      }
+      return backButtonData;
     }
-
-    buttons.push(backData);
-
-    this._gotWorkflowButtons(buttons);
-
+    return inboxButtonData;
   }
 
 
@@ -20505,7 +20519,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           if (data.ActionType === 'save') buttonNode.addEventListener('click', this._save);
           if (data.ActionType === 'post') buttonNode.addEventListener('click', this._submit);
           if (data.ActionType === 'print') buttonNode.addEventListener('click', this._print);
-          if (data.ActionType === 'back') buttonNode.addEventListener('click', this._close);
+          if (data.ActionType === 'back') buttonNode.addEventListener('click', this._back);
+          if (data.ActionType === 'close') buttonNode.addEventListener('click', this._close);
 
           target.appendChild(buttonNode);
 
@@ -22463,51 +22478,57 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
    
   /**
-   * Summary. Submit (Workflow button clicked)
+   * Summary. Back button clicked - navigate back via history or to inbox
+   * @this    Class scope
+   * @access  private
+   */
+  _back (ev)
+  {
+    if ($a.isEvent(ev)) $a.stopEvent(ev);
+    
+    // Priority 1: Go back if history exists
+    if (window.history.length > 1)
+    {
+      window.history.back();
+      return;
+    }
+    
+    // Priority 2: Navigate to inbox (cached view is fine, nothing posted)
+    let path = this.CleverForms.InboxPath;
+    if (window.location.hash) path += window.location.hash;
+    window.location.href = path;
+  }
+
+
+   
+  /**
+   * Summary. Close button clicked - close the window
    * @this    Class scope
    * @access  private
    */
   _close (ev)
   {
     if ($a.isEvent(ev)) $a.stopEvent(ev);
-    var templateId, instanceId, path, redirectWindow;
-    if (document.referrer !== '')
+    
+    // Close button only appears when window.opener exists (non-iOS)
+    // Try to close the window
+    if (window.opener !== null)
     {
-      if (window.opener === null)
+      // iOS Safari workaround for more reliable closing
+      if (Affinity2018.Browser.issafari)
       {
-        path = document.referrer;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
+        window.open('', '_self').close();
       }
-      window.close();
+      else
+      {
+        window.close();
+      }
       return;
     }
-    if (this.ViewType === 'Preview')
-    {
-      templateId = this.CleverForms.GetTemplateGuid();
-      if (templateId)
-      {
-        path = this.CleverForms.DesignerPath + '?templateId=' + templateId;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
-      }
-    }
-    if (this.ViewType === 'Form')
-    {
-      instanceId = this.CleverForms.GetInstanceGuid();
-      if (instanceId)
-      {
-        path = this.CleverForms.InboxPath; // + '?instanceId=' + instanceId;
-        if (window.location.hash) path += window.location.hash
-        redirectWindow = window.open(path, '_self');
-        redirectWindow.location;
-        return;
-      }
-    }
+    
+    // Fallback if close fails (shouldn't happen, but be safe)
+    console.warn('CleverForms Form: Close button clicked but window.opener is null');
+    this._back(ev);
   }
 
 
