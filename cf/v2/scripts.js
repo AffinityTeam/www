@@ -20889,7 +20889,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (this.ViewType === 'Preview')
     {
-      // Tests vlaidation and form behaviour, but does nto attetmnp to post any data to the server.
       this.SaveButtonData =
       {
         "Name": $a.Lang.ReturnPath('application.cleverfroms.designer.preview_validation_button'),
@@ -20984,6 +20983,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     }
     return inboxButtonData;
   }
+
 
 
   /**
@@ -45104,6 +45104,7 @@ function returnListItem (data)
   li += ' class="' + data.klass + '"';
   li += ' data-index="' + data.originalIndex + '"';
   li += ' data-value="' + data.value + '"';
+  li += ' role="option"';
   li += ' data-display="' + data.html + '"';
   li += '>';
   li += data.html;
