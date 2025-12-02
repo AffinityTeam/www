@@ -23979,7 +23979,23 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         }
         categoryNode.querySelector('tbody').innerHTML = html;
 
-        // check fro delete buttons
+        // Check for uniform button counts across all rows
+        // If all rows have the same button count, add 'uniform-buttons' class for proper right-alignment
+        categoryNode.classList.remove('uniform-buttons');
+        if (this.State.CategorySettings[category].Items.length > 0)
+        {
+          let buttonCounts = this.State.CategorySettings[category].Items.map(item => {
+            // CanEdit = 2 buttons (Edit + Details), else 1 button (View), plus CanDelete adds 1
+            return (item.CanEdit ? 2 : 1) + (item.CanDelete ? 1 : 0);
+          });
+          let uniqueCounts = new Set(buttonCounts);
+          if (uniqueCounts.size === 1)
+          {
+            categoryNode.classList.add('uniform-buttons');
+          }
+        }
+
+        // Check for delete buttons (mixed delete permissions)
         categoryNode.classList.remove('has-delete');
         let allDeleteButtons = this.State.CategorySettings[category].Items.filter(item => item.CanDelete);
         if (allDeleteButtons.length > 0 && this.State.CategorySettings[category].Items.length > allDeleteButtons.length)
@@ -27058,6 +27074,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           let lastHidden = data.CurrentPage < 2 ? ' disabled' : '';
           let nextHidden = data.CurrentPage < data.TotalPages ? '' : ' disabled';
           let placeHolder = document.createElement('div');
+
+          // Pagination nav arrow SVGs
+          let navLeftSvg = `<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5307 12.2392C7.37606 12.2392 7.21981 12.1881 7.08933 12.0861L0.262568 6.64853C0.0966507 6.51614 0 6.31676 0 6.10461C0 5.89407 0.0966507 5.69309 0.262568 5.5623L7.06033 0.153474C7.36317 -0.087379 7.80615 -0.0395275 8.04939 0.260342C8.29263 0.560212 8.2443 0.998852 7.94147 1.2397L1.8267 6.10461L7.97207 10.9998C8.27491 11.2407 8.32324 11.6793 8.08 11.9792C7.93985 12.1499 7.73689 12.2392 7.5307 12.2392Z" fill="currentColor"/></svg>`;
+          let navRightSvg = `<svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.705364 11.6667C0.860241 11.6667 1.01673 11.618 1.14741 11.5207L7.98456 6.33753C8.15073 6.21133 8.24753 6.02127 8.24753 5.81906C8.24753 5.61836 8.15073 5.42678 7.98456 5.30211L1.17645 0.146295C0.873147 -0.0832917 0.42949 -0.0376785 0.185883 0.248164C-0.0577259 0.534007 -0.00932598 0.952128 0.293973 1.18171L6.41805 5.81906L0.26332 10.4853C-0.039979 10.7149 -0.088378 11.133 0.15523 11.4188C0.295587 11.5815 0.498862 11.6667 0.705364 11.6667Z" fill="currentColor"/></svg>`;
+
           if (data.Items.length > 0)
           {
             let large = '';
@@ -27130,13 +27151,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 }
               }
             }
+
             return `
               <tr>
                 <td colspan="${activeGridheaders.length}">
                   <div class="pagination">
-                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+                    <span class="page-last${lastHidden}">${navLeftSvg}</span>
                     ${placeHolder.innerHTML}
-                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+                    <span class="page-next${nextHidden}">${navRightSvg}</span>
                     <br />
                     <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
                   </div>
@@ -27150,9 +27172,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <tr>
                 <td colspan="${activeGridheaders.length}">
                   <div class="pagination">
-                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
+                    <span class="page-last${lastHidden}">${navLeftSvg}</span>
                     ${placeHolder.innerHTML}
-                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
+                    <span class="page-next${nextHidden}">${navRightSvg}</span>
                     <br />
                     <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
                   </div>
