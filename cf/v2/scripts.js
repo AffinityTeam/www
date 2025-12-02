@@ -23221,7 +23221,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ColumnSettingTimeouts = {};
 
-    this.PayrollAdminIncludes5M = true;
+    this.PayrollAdminIncludes5M = false;
 
     this.SearchDateDefault = 'StateEnteredAt'; // EffectiveDate
 
@@ -24400,20 +24400,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         SearchValue: 'true'
       });
     }
-   
-    if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
+    if (this.ViewMode === 'Admin')
     {
-      state.FieldSpecificSearch.push({
-        FieldName: 'ModelNames',
-        SearchValue: 'Employee, Empad, Sdates, Branch, Cst, Dept, Division, Groupd, Payl, Posts'
-      });
-    }
-    else
-    {
-      state.FieldSpecificSearch.push({
-        FieldName: 'ModelNames',
-        SearchValue: 'Employee, Empad, Sdates'
-      });
+      if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'ModelNames',
+          SearchValue: 'Employee, Empad, Sdates, Branch, Cst, Dept, Division, Groupd, Payl, Posts'
+        });
+      }
+      else
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'ModelNames',
+          SearchValue: 'Employee, Empad, Sdates'
+        });
+      }
     }
 
     // Set date column to search within, plus relevant dates, only if PayPont is ALL or unset
@@ -46037,6 +46039,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.ShowCountryIfUnknown = true;
 
     this.FirstLoad = true;
+    this.HasValidated = false;
 
     this.humanInteraction = false;
 
@@ -46732,7 +46735,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     else
     {
       var postData = new FormData();
-      PostData.append('BankAccount', this._stringFromNodes());
+      postData.append('BankAccount', this._stringFromNodes());
       postData.append('CountryCode', this.countrySelectNode.value);
       if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
       this.validationLookup = axios({
@@ -46780,6 +46783,23 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       response = {
         data: response
+      };
+    }
+
+    if (
+      typeof response === 'object'
+      && response.hasOwnProperty('data')
+      && !$a.isArray(response.data)
+    )
+    {
+      // check fort upper and lower case versions of all
+      response = {
+        data: [{
+          IsValid: response.data.hasOwnProperty('IsValid') ? response.data.IsValid : response.data.hasOwnProperty('success') ? response.data.success : false,
+          CountryCode: response.data.hasOwnProperty('CountryCode') ? response.data.CountryCode : this.CleverForms.FormCountry,
+          BranchName: response.data.hasOwnProperty('BranchName') ? response.data.BranchName : response.data.hasOwnProperty('branchName') ? response.data.branchName : null,
+          BankName: response.data.hasOwnProperty('BankName') ? response.data.BankName : response.data.hasOwnProperty('bankName') ? response.data.bankName : null
+        }]
       };
     }
 
@@ -46899,7 +46919,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     else
     {
-      if (this._stringFromNodes() === '') this._setIcon();
+      if (this._stringFromNodes() === '' && !this.HasValidated) this._setIcon();
       else this._setIcon(this.Valid);
     }
     if (this.CleverForms.hasOwnProperty('Form'))
@@ -46908,6 +46928,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
+    this.HasValidated = true;
   }
   
   _checkHumanInteraction()
@@ -56802,6 +56823,7 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.ShowCountryIfUnknown = true;
 
     this.FirstLoad = true;
+    this.HasValidated = false;
 
     this.humanInteraction = false;
 
@@ -57463,11 +57485,12 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
     else
     {
-      if (this._stringFromNodes() === '') this._setIcon();
+      if (this._stringFromNodes() === '' && !this.HasValidated) this._setIcon();
       else this._setIcon(this.Valid);
     }
     this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
+    this.HasValidated = true;
   }
 
 
@@ -57498,6 +57521,20 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     {
       response = {
         data: response
+      };
+    }
+
+    if (
+      typeof response === 'object'
+      && response.hasOwnProperty('data')
+      && !$a.isArray(response.data)
+    )
+    {
+      response = {
+        data: [{
+          IsValid: response.data.success,
+          CountryCode: this.CleverForms.FormCountry
+        }]
       };
     }
 
