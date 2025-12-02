@@ -24400,7 +24400,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         SearchValue: 'true'
       });
     }
-    if (this.ViewMode === 'Admin')
+    if (this.ViewMode !== 'Admin')
     {
       if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
       {
@@ -24445,8 +24445,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     // Add the selected PayPoint and relevant dates
-    if (this.PayPointSelectNode.value !== '-1' && this.PayPointSelectNode.value !== '') // PayPoint has a value - NOT "all"" or unset
+    if (this.PayPointSelectNode.value === '-1')
     {
+      // stack all of them with NO dates - TODO: What do we do for the dates in this case?
+      for (let payPointData of this.PayPoints)
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'PayPoint',
+          SearchValue: payPointData.PayPoint
+        });
+      }
+    }
+    else if (this.PayPointSelectNode.value !== '')
+    {
+      // add only selected    
       let selectedPayPoint = this.PayPointSelectNode.value;
       let payPointData = this.PayPoints.find(item => item.PayPoint.toString() === selectedPayPoint.toString());
       state.FieldSpecificSearch.push({
@@ -24455,34 +24467,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         StartDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
         EndDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
       });
-    }
-    else
-    {
-      let payPointIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'PayPoint');
-      // If we DO have search dates, clear the pay point ones
-      if (payPointIndexFound > -1)
-      {
-        state.FieldSpecificSearch[payPointIndexFound].StartDate = 'null';
-        state.FieldSpecificSearch[payPointIndexFound].EndDate = 'nulll';
-      }
-    }
-
-    // if we have a selectd date column with dates, null abny PayPoint dates
-    let payPointIndex = state.FieldSpecificSearch.findIndex(item => item.FieldName === 'PayPoint');
-    if (payPointIndex > -1) // we have a paypoint node
-    {
-      // loop over date column selectable names
-      for (let option of optionNodes)
-      {
-        let dateColumnIndex = state.FieldSpecificSearch.findIndex(item => item.FieldName === option.value && item.StartDate !== 'null');
-        // if we find a date column search with dates set, we need to reset paypoint dates
-        if (dateColumnIndex > -1)
-        {
-          state.FieldSpecificSearch[payPointIndex].StartDate = 'null';
-          state.FieldSpecificSearch[payPointIndex].EndDate = 'null';
-          break;
-        }
-      }
     }
 
     // show pay point 999
