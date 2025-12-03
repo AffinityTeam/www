@@ -23382,7 +23382,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
 
     // Restore saved ViewMode from localStorage if available
-    if (this.EnableLocalStore && this.IsPayrollAdmin && Affinity2018.Storage.Local.Has(`InboxViewMode-${this.StorageKeySuffix}`))
+    if (this.EnableLocalStore && this.ShowModeToggle && Affinity2018.Storage.Local.Has(`InboxViewMode-${this.StorageKeySuffix}`))
     {
       this.ViewMode = Affinity2018.Storage.Local.Get(`InboxViewMode-${this.StorageKeySuffix}`);
     }
