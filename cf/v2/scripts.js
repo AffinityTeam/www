@@ -23982,16 +23982,33 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         // Check for uniform button counts across all rows
         // If all rows have the same button count, add 'uniform-buttons' class for proper right-alignment
         categoryNode.classList.remove('uniform-buttons');
-        if (this.State.CategorySettings[category].Items.length > 0)
+        if (this.ViewMode === 'Admin')
         {
-          let buttonCounts = this.State.CategorySettings[category].Items.map(item => {
-            // CanEdit = 2 buttons (Edit + Details), else 1 button (View), plus CanDelete adds 1
-            return (item.CanEdit ? 2 : 1) + (item.CanDelete ? 1 : 0);
-          });
-          let uniqueCounts = new Set(buttonCounts);
-          if (uniqueCounts.size === 1)
+          if (this.State.CategorySettings[category].Items.length > 0)
           {
-            categoryNode.classList.add('uniform-buttons');
+            let buttonCounts = this.State.CategorySettings[category].Items.map(item => {
+              // CanEdit = 2 buttons (Edit + Details), else 1 button (View), plus CanDelete adds 1
+              return (item.CanEdit ? 2 : 1) + (item.CanDelete ? 1 : 0);
+            });
+            let uniqueCounts = new Set(buttonCounts);
+            if (uniqueCounts.size === 1)
+            {
+              categoryNode.classList.add('uniform-buttons');
+            }
+          }
+        }
+        else
+        {
+          if (this.State.CategorySettings[category].Items.length > 0)
+          {
+            let buttonCounts = this.State.CategorySettings[category].Items.map(item => {
+              return (item.CanEdit ? 1 : 0) + (item.CanDelete ? 1 : 0);
+            });
+            let uniqueCounts = new Set(buttonCounts);
+            if (uniqueCounts.size === 1)
+            {
+              categoryNode.classList.add('uniform-buttons');
+            }
           }
         }
 
@@ -24390,18 +24407,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     // Do FieldSpecificSearch properties
     state.FieldSpecificSearch = [];
 
-    // Show completed forms (P-type users only)
-    // When checked: Send IsComplete flag to override category filter (show both complete and incomplete)
-    // When unchecked: Don't send IsComplete flag (category filter applies normally, showing only incomplete)
-    if (document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]') && document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]').checked)
+    if (this.ViewMode === 'Admin')
     {
-      state.FieldSpecificSearch.push({
-        FieldName: 'IsComplete',
-        SearchValue: 'true'
-      });
-    }
-    if (this.ViewMode !== 'Admin')
-    {
+      // Show completed forms (P-type users only)
+      // When checked: Send IsComplete flag to override category filter (show both complete and incomplete)
+      // When unchecked: Don't send IsComplete flag (category filter applies normally, showing only incomplete)
+      if (document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]') && document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]').checked)
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'IsComplete',
+          SearchValue: 'true'
+        });
+      }
+      else
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'IsComplete',
+          SearchValue: 'false'
+        });
+      }
+
       if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
       {
         state.FieldSpecificSearch.push({
@@ -24444,38 +24469,43 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
     }
 
-    // Add the selected PayPoint and relevant dates
-    if (this.PayPointSelectNode.value === '-1')
+    if (this.ViewMode === 'Admin')
     {
-      // stack all of them with NO dates - TODO: What do we do for the dates in this case?
-      for (let payPointData of this.PayPoints)
+      // Add the selected PayPoint and relevant dates
+      if (this.PayPointSelectNode.value === '-1')
+      {
+        // stack all of them with NO dates
+        for (let payPointData of this.PayPoints)
+        {
+          state.FieldSpecificSearch.push({
+            FieldName: 'PayPoint',
+            SearchValue: payPointData.PayPoint,
+            StartDate: 'null',
+            EndDate: 'null'
+          });
+        }
+      }
+      else if (this.PayPointSelectNode.value !== '')
+      {
+        // add only selected    
+        let selectedPayPoint = this.PayPointSelectNode.value;
+        let payPointData = this.PayPoints.find(item => item.PayPoint.toString() === selectedPayPoint.toString());
+        state.FieldSpecificSearch.push({
+          FieldName: 'PayPoint',
+          SearchValue: selectedPayPoint.toString(),
+          StartDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
+          EndDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
+        });
+      }
+
+      // show pay point 999
+      if (document.querySelector('input[type="checkbox"][id="Show999"]') && document.querySelector('input[type="checkbox"][id="Show999"]').checked)
       {
         state.FieldSpecificSearch.push({
           FieldName: 'PayPoint',
-          SearchValue: payPointData.PayPoint
+          SearchValue: '999'
         });
       }
-    }
-    else if (this.PayPointSelectNode.value !== '')
-    {
-      // add only selected    
-      let selectedPayPoint = this.PayPointSelectNode.value;
-      let payPointData = this.PayPoints.find(item => item.PayPoint.toString() === selectedPayPoint.toString());
-      state.FieldSpecificSearch.push({
-        FieldName: 'PayPoint',
-        SearchValue: selectedPayPoint.toString(),
-        StartDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
-        EndDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
-      });
-    }
-
-    // show pay point 999
-    if (document.querySelector('input[type="checkbox"][id="Show999"]') && document.querySelector('input[type="checkbox"][id="Show999"]').checked)
-    {
-      state.FieldSpecificSearch.push({
-        FieldName: 'PayPoint',
-        SearchValue: '999'
-      });
     }
 
     // Clear FieldSpecificSearch if it is empty
@@ -26306,7 +26336,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <col data-name="StateEnteredAt">
               <col data-name="CurrentAssigneeName">
               <col data-name="CurrentState">
-              <col class="buttons large">
+              <col class="buttons">
             </colgroup>
             <thead>
               <tr>
@@ -26511,13 +26541,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         hasDelete = true;
       }
 
+      let largeClass = ' ';
       switch (category)
       {
 
         case 'ToAction':
 
+          largeClass = ' ';
           if (buttonCount > 2)
           {
+            largeClass = ' large ';
             this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
             this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
           }
@@ -26534,7 +26567,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons button-count-${buttonCount}">
+              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26544,8 +26577,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'InProgress':
           
+          largeClass = ' ';
           if (buttonCount > 2)
           {
+            largeClass = ' large ';
             this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
             this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
           }
@@ -26562,7 +26597,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
               <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons button-count-${buttonCount}">
+              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26572,8 +26607,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'Completed':
 
+          largeClass = ' ';
           if (buttonCount > 2)
           {
+            largeClass = ' large ';
             this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
             this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
           }
@@ -26589,7 +26626,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td class="buttons button-count-${buttonCount}">
+              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26864,14 +26901,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
         </button>`;
         buttonCount++;
-        // Details Button
-        actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-            <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-        </button>`;
-        buttonCount++;
+        //// Details Button - NON Admins do not ever get a details button
+        //actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
+        //  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        //    <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
+        //  </svg>
+        //  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
+        //</button>`;
+        //buttonCount++;
       }
       else
       {
@@ -26902,13 +26939,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         hasDelete = true;
       }
 
+      let largeClass = ' ';
       switch (category)
       {
 
         case 'ToAction':
 
+          largeClass = ' ';
           if (buttonCount > 2)
           {
+            largeClass = ' large ';
             this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
             this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
           }
@@ -26921,7 +26961,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons button-count-${buttonCount}">
+              <td class="buttons${largeClass}button-count-${buttonCount}">
                 ${actionButtons}
               </td>
               </td>
@@ -26932,8 +26972,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'InProgress':
 
+          largeClass = ' ';
           if (buttonCount > 2)
           {
+            largeClass = ' large ';
             this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
             this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
           }
@@ -26947,7 +26989,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons button-count-${buttonCount}">
+              <td class="buttons${largeClass}button-count-${buttonCount}">
                 ${actionButtons}
               </td>
             </tr>
@@ -26957,8 +26999,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'Completed':
 
+          largeClass = ' ';
           if (buttonCount > 2)
           {
+            largeClass = ' large ';
             this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
             this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
           }
@@ -26972,7 +27016,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons button-count-${buttonCount}">
+              <td class="buttons${largeClass}button-count-${buttonCount}">
                   ${actionButtons}
                 </button>
               </td>
