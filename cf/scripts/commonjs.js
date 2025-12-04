@@ -18788,7 +18788,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               })
               .catch(function (error)
               {
-                console.error(appName + ": Failed to refresh token", error);
+                //console.error(appName + ": Failed to refresh token", error);
                 callback(error);
               });
           }
@@ -18813,7 +18813,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
               })
               .catch(function (error)
               {
-                console.error(appName + ": Failed to refresh token", error);
+                //console.error(appName + ": Failed to refresh token", error);
                 callback(error);
               });
           }
@@ -18981,7 +18981,7 @@ if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.Cle
             })
             .catch(function (error)
             {
-              console.error(appName + ": Failed to get initial antiforgery token:", error);
+              //console.error(appName + ": Failed to get initial antiforgery token:", error);
               clearInterval(window._antiTokenRefreshTimer);
               window._antiTokenRefreshTimer = setInterval(function ()
               {
