@@ -7781,7 +7781,7 @@
             })
             .catch(error =>
             {
-              console.error(appName + ": Failed to refresh token", error);
+              //console.error(appName + ": Failed to refresh token", error);
               callback(error);
             });
         }
@@ -7899,7 +7899,7 @@
             })
             .catch(function (error)
             {
-              console.error(appName + ": Failed to get initial antiforgery token:", error);
+              //console.error(appName + ": Failed to get initial antiforgery token:", error);
               clearInterval(window._antiTokenRefreshTimer);
               window._antiTokenRefreshTimer = setInterval(function ()
               {
