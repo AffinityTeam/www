@@ -27249,7 +27249,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       return `
       <div class="toggle-container${className}">
         <label class="toggle-title" for="${data.Id}">${data.Label}</label>
-        <label class="toggle-switch">
+        <label class="toggle-switch left-red right-blue">
           <input type="checkbox" id="${data.Id}"${checked} />
           <span class="slider"></span>
         </label>

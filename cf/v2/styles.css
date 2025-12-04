@@ -63,9 +63,9 @@
 (23046,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23699,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
 (23765,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24964,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24965,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(24966,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25216,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25217,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25218,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
  */
 /***************************************************************************************************************************************************/
 
@@ -24830,10 +24830,10 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-border-radius: 22px;
   -moz-border-radius: 22px;
   border-radius: 22px;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch .slider::before {
   content: "";
@@ -24846,10 +24846,10 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch input:checked + .slider {
   background-color: #16c1f3;
@@ -24859,6 +24859,258 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -webkit-transform: translateX(18px);
   -ms-transform: translateX(18px);
   transform: translateX(18px);
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.red input:checked + .slider {
+  background-color: #e33100;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.red input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.orange input:checked + .slider {
+  background-color: #ff5c00;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.orange input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.magenta input:checked + .slider {
+  background-color: #a9014b;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.magenta input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.yellow input:checked + .slider {
+  background-color: #ffb515;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.yellow input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.green input:checked + .slider {
+  background-color: #8dca35;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.green input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.blue input:checked + .slider {
+  background-color: #16c1f3;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.dark-yellow input:checked + .slider {
+  background-color: #b27e0f;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.dark-yellow input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.dark-green input:checked + .slider {
+  background-color: #628d25;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.dark-green input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.dark-blue input:checked + .slider {
+  background-color: #0f87aa;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.dark-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.grey input:checked + .slider {
+  background-color: #666666;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.grey input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.light-grey input:checked + .slider {
+  background-color: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.light-grey input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.affinity-light-blue input:checked + .slider {
+  background-color: #16c1f3;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.affinity-light-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.affinity-blue input:checked + .slider {
+  background-color: #106eb6;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.affinity-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.affinity-dark-blue input:checked + .slider {
+  background-color: #106eb6;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.affinity-dark-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-red .slider {
+  background-color: #e33100;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-red .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-orange .slider {
+  background-color: #ff5c00;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-orange .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-magenta .slider {
+  background-color: #a9014b;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-magenta .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-yellow .slider {
+  background-color: #ffb515;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-yellow .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-green .slider {
+  background-color: #8dca35;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-green .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-blue .slider {
+  background-color: #16c1f3;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-blue .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-dark-yellow .slider {
+  background-color: #b27e0f;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-dark-yellow .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-dark-green .slider {
+  background-color: #628d25;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-dark-green .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-dark-blue .slider {
+  background-color: #0f87aa;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-dark-blue .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-grey .slider {
+  background-color: #666666;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-grey .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-light-grey .slider {
+  background-color: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-light-grey .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-affinity-light-blue .slider {
+  background-color: #16c1f3;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-affinity-light-blue .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-affinity-blue .slider {
+  background-color: #106eb6;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-affinity-blue .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-affinity-dark-blue .slider {
+  background-color: #106eb6;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.left-affinity-dark-blue .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-red input:checked + .slider {
+  background-color: #e33100;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-red input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-orange input:checked + .slider {
+  background-color: #ff5c00;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-orange input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-magenta input:checked + .slider {
+  background-color: #a9014b;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-magenta input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-yellow input:checked + .slider {
+  background-color: #ffb515;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-yellow input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-green input:checked + .slider {
+  background-color: #8dca35;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-green input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-blue input:checked + .slider {
+  background-color: #16c1f3;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-dark-yellow input:checked + .slider {
+  background-color: #b27e0f;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-dark-yellow input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-dark-green input:checked + .slider {
+  background-color: #628d25;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-dark-green input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-dark-blue input:checked + .slider {
+  background-color: #0f87aa;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-dark-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-grey input:checked + .slider {
+  background-color: #666666;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-grey input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-light-grey input:checked + .slider {
+  background-color: #999999;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-light-grey input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-affinity-light-blue input:checked + .slider {
+  background-color: #16c1f3;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-affinity-light-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-affinity-blue input:checked + .slider {
+  background-color: #106eb6;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-affinity-blue input:checked + .slider::before {
+  background-color: white;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-affinity-dark-blue input:checked + .slider {
+  background-color: #106eb6;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper .toggle-container .toggle-switch.right-affinity-dark-blue input:checked + .slider::before {
+  background-color: white;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.footer-status-message {
   color: #999999;
