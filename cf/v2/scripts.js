@@ -23355,26 +23355,29 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     */
 
     this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
-    if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
+    this.Is5MUser = parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000;
+
+    if (this.MemberType === "P")
     {
-      if (this.MemberType === "P")
+      this.IsPayrollAdmin = true;
+      this.ViewMode = this.AdminDefaultView;
+      this.ShowModeToggle = true;
+    }
+    else  
+    {
+      if (this.Is5MUser && this.MemberType !== 'M')
       {
-        this.IsPayrollAdmin = true;
+        this.IsPayrollAdmin = false;
         this.ViewMode = this.AdminDefaultView;
         this.ShowModeToggle = true;
       }
     }
-    if (parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
+
+    if (this.PayrollAdminIncludes5M && this.Is5MUser)
     {
-        this.IsPayrollAdmin = false;
-        this.ViewMode = this.AdminDefaultView;
-        this.ShowModeToggle = true;
-    }
-    if (this.PayrollAdminIncludes5M && parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000)
-    {
-        this.IsPayrollAdmin = true;
-        this.ViewMode = this.AdminDefaultView;
-        this.ShowModeToggle = true;
+      this.IsPayrollAdmin = true;
+      this.ViewMode = this.AdminDefaultView;
+      this.ShowModeToggle = true;
     }
 
     /**/
