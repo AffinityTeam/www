@@ -23355,9 +23355,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     */
 
     this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
+    this.IsFormAdmin = Affinity2018.UserProfile.IsFormAdmin ?? false;
     this.Is5MUser = parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000;
 
-    if (this.MemberType === "P")
+    if (this.MemberType === "P" || this.IsFormAdmin)
     {
       this.IsPayrollAdmin = true;
       this.ViewMode = this.AdminDefaultView;
