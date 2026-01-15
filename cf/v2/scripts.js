@@ -113,7 +113,7 @@
       'https:/' + '/cdnjs.cloudflare.com/polyfill/v3/polyfill.js?features=Intl.~locale.en',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js',
-      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js',
+      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
       //'https:/' + '/cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js',
       //'https:/' + '/cdnjs.cloudflare.com/ajax/libs/css-element-queries/1.2.3/ElementQueries.min.js',
       'https:/' + '/cdnjs.cloudflare.com/ajax/libs/css-element-queries/1.2.3/ResizeSensor.js'
@@ -123,7 +123,7 @@
     ],
     Styles: [
       //'https:/'+'/fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i,700,700i',
-      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css'
+      'https:/' + '/cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.css'
     ],
     Fonts: [
       'Montserrat',
@@ -6841,8 +6841,7 @@
         isandroid: false,
         ismac: false,
         isipad: false,
-        istablet: false,
-        isios: false
+        istablet: false
       };
       if (document.querySelector('body')) this.getBrowser();
       else setTimeout(this.checkBody, 10);
@@ -7772,7 +7771,7 @@
               if (token)
               {
                 window.AntiForgeryToken = token;
-                //console.log(appName + ": Antiforgery token refreshed successfully");
+                console.log(appName + ": Antiforgery token refreshed successfully");
                 setupInterceptors();
                 // Token obtained successfully
                 callback(token);
@@ -7781,7 +7780,7 @@
             })
             .catch(error =>
             {
-              //console.error(appName + ": Failed to refresh token", error);
+              console.error(appName + ": Failed to refresh token", error);
               callback(error);
             });
         }
@@ -7810,15 +7809,15 @@
                 if (antiForgeryToken && method !== 'GET' && shouldAddToken(url))
                 {
                   xhr.setRequestHeader('__RequestVerificationToken', antiForgeryToken);
-                  //console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
+                  console.log(appName + ": Added antiforgery token to XMLHttpRequest", method, url);
                 }
                 else if (method !== 'GET' && !shouldAddToken(url))
                 {
-                  //console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
+                  console.log(appName + ": Skipping antiforgery token for external XMLHttpRequest", method, url);
                 }
                 else if (method !== 'GET')
                 {
-                  //console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
+                  console.log(appName + ": No antiforgery token available for XMLHttpRequest", method, url);
                 }
                 return originalSend.call(this, data);
               };
@@ -7832,11 +7831,11 @@
               }
             }
             window.XMLHttpRequest.prototype = originalXHR.prototype;
-            //console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
+            console.log("%c" + appName + ": XMLHttpRequest injected anti-forgery token interceptor", "color: green");
           }
           else if (window.XMLHttpRequest && window.XMLHttpRequest._antiForgeryPatched)
           {
-            //console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
+            console.log("%c" + appName + ": XMLHttpRequest already injected anti-forgery token interceptor", "color: yellow");
           }
           // Add Fetch interceptor that adds antiforgery token for non-GET requests
           if (window.fetch && !window.fetch._antiForgeryPatched)
@@ -7854,30 +7853,30 @@
               {
                 delete options.headers['__RequestVerificationToken'];
                 options.headers['__RequestVerificationToken'] = antiForgeryToken;
-                //console.log(appName + ": Added antiforgery token to fetch", method, url);
+                console.log(appName + ": Added antiforgery token to fetch", method, url);
               }
               else if (method !== 'GET' && !shouldAddToken(url))
               {
-                //console.log(appName + ": Skipping antiforgery token for external fetch", method, url);
+                console.log(appName + ": Skipping antiforgery token for external fetch", method, url);
               }
               else if (method !== 'GET')
               {
-                //console.log(appName + ": No antiforgery token available for fetch", method, url);
+                console.log(appName + ": No antiforgery token available for fetch", method, url);
               }
               return originalFetch.call(this, url, options);
             };
-            //console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
+            console.log("%c" + appName + ": Fetch injected anti-forgery token interceptor", "color: green");
           }
           else if (window.fetch && window.fetch._antiForgeryPatched)
           {
-            //console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
+            console.log("%c" + appName + ": Fetch already injected anti-forgery token interceptor", "color: yellow");
           }
         }
         window.RefreshAntiForgeryToken = refreshAntiForgeryToken;
         // Auth event listeners removed - tokens no longer depend on authentication state
         if (window.AntiForgeryToken)
         {
-          //console.log(appName + ": Initial antiforgery token set.");
+          console.log(appName + ": Initial antiforgery token set.");
           setupInterceptors();
           clearInterval(window._antiTokenRefreshTimer);
           window._antiTokenRefreshTimer = setInterval(function ()
@@ -7887,7 +7886,7 @@
         }
         else
         {
-          //console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
+          console.log(appName + ": Initial antiforgery token is not set. Attempt to get one..");
           refreshAntiForgeryToken()
             .then(function (token)
             {
@@ -7899,7 +7898,7 @@
             })
             .catch(function (error)
             {
-              //console.error(appName + ": Failed to get initial antiforgery token:", error);
+              console.error(appName + ": Failed to get initial antiforgery token:", error);
               clearInterval(window._antiTokenRefreshTimer);
               window._antiTokenRefreshTimer = setInterval(function ()
               {
@@ -8226,26 +8225,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   {
     this.CurrentPage = 1;
     this.PageSize = 50;
-
-    this.DefaultState = {
-      CurrentPage: this.CurrentPage,
-      PageSize: this.PageSize,
-      TotalPages: 0,
-      TotalCount: 0,
-      Models: [],
-      SortFields: [{
-        Name: 'StateEnteredAt',
-        Ascending: false
-      }]
-    };
-    
-    this.State = JSON.parse(JSON.stringify(this.DefaultState));
-    
-    this.DefaultAPI = '/AdminV2/Page';
-
-    this.SearchDateFormat = 'yyyy-MM-dd'; // luxon date format
-    this.SearchDatePostFormat = 'yyyy-MM-dd'; // luxon date format
-
   }
 
   /**
@@ -8269,33 +8248,22 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
       // public
 
-      'Search', 'Clear',
+      'Search',
 
       'GetResults',
 
       // private
 
-
-      '_search', '_clear',
-      '_checkForSearchMatch',
+      '_search',
       '_toggelModels',
       '_toggleAllModes',
-
-      '_showLoader', '_hideLoader',
-
       '_gotResults', '_gotResultsError',
-      '_injectSearchColumnCheckboxes',
 
-      '_searchCheckboxClicked',
-      '_searchModelCheckboxClicked',
+      '_searchParentCheckboxClicked',
+      '_searchChildCheckboxClicked',
 
       '_getCurrentPage',
       '_gridClicked',
-
-      '_updateSortData',
-      '_processSortBar',
-      '_sortReset',
-      '_ordinal',
 
       // html templates
       '_templates'
@@ -8322,16 +8290,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
    */
   async _init()
   {
-    this.IsPayrollAdmin = false;
-    if (Affinity2018.UserProfile.hasOwnProperty('MemberType'))
-    {
-      this.MemberType = Affinity2018.UserProfile.MemberType;
-      if (this.MemberType === "P" || parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000) // Payroll Admin
-      {
-        this.IsPayrollAdmin = true;
-      }
-    }
-
     this.SearchNode = document.querySelector('div.admin-search');
     this.ResultNode = document.querySelector('div.admin-results');
 
@@ -8340,33 +8298,18 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     this.SearchNode.innerHTML = this.SearchTemplate;
     this.ShowHideModelsNode = this.SearchNode.querySelector('a.show-hide');
     this.SearchModelsNode = this.SearchNode.querySelector('div.model-checks');
-    this.SearchInputNode = document.querySelector('input[type="text"]');
 
     let today = luxon.DateTime.local();
-    let minDate = today.minus({ years: 7 });
-    let maxDate = today.plus({ months: 0 });
-
-    if (this.SearchDateFormat.contains('h:') || this.SearchDateFormat.contains('H:') || this.SearchDatePostFormat.contains('h:') || this.SearchDatePostFormat.contains('H:'))
-    {
-      this.SearchNode.querySelector('input#StartDate').setAttribute('type', 'datetime-local');
-      this.SearchNode.querySelector('input#EndDate').setAttribute('type', 'datetime-local');
-    }
-
-    //let startdate = today.minus({ months: 1 });
-    //let endDate = today.plus({ months: 1 });
-    //this.SearchNode.querySelector('#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
-    //this.SearchNode.querySelector('#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
-    this.SearchNode.querySelector('#StartDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchNode.querySelector('#EndDate').setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchNode.querySelector('#StartDate').setAttribute('max', `${maxDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchNode.querySelector('#EndDate').setAttribute('max', `${maxDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchNode.querySelector('#StartDate').value = ``;
-    this.SearchNode.querySelector('#EndDate').value = ``;
+    let startdate = today.minus({ months: 1 });
+    let endDate = today.plus({ months: 1 });
+    this.SearchNode.querySelector('#StartDate').value = `${startdate.toFormat('yyyy-MM-dd')}`;
+    this.SearchNode.querySelector('#EndDate').value = `${endDate.toFormat('yyyy-MM-dd')}`;
 
     let size = this.SearchModelsNode.getBoundingClientRect();
     this.SearchModelsNode.style.height = size.height + 'px';
     this._toggelModels();
 
+    this.SearchTextNode = this.SearchNode.querySelector('#SearchText');
     this.SearchTemplateNode = this.SearchNode.querySelector('#TemplateDescription');
     this.SearchRelatesToNode = this.SearchNode.querySelector('#RelatesTo');
     this.SearchModelChecksContainer = this.SearchNode.querySelector('div.model-checks');
@@ -8374,16 +8317,12 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
     this.SelectAllModelsButton = this.SearchNode.querySelector('a.select-all-models');
 
-    this.SearchApplyButton = this.SearchNode.querySelector('button.blue');
-    this.SearchClearButton = this.SearchNode.querySelector('button.grey');
+    this.SearchApplyButton = this.SearchNode.querySelector('.form-row.buttons button.blue');
+    this.SearchClearButton = this.SearchNode.querySelector('.form-row.buttons button.grey');
 
     /**/
 
     this.ResultNode.innerHTML = this.ResultGridTemplate;
-
-    this.SearchColumnCheckboxNode = this.SearchNode.querySelector('.form-row.search-columns');
-
-    this._injectSearchColumnCheckboxes();
 
     this.GridNode = this.ResultNode.querySelector('table');
     this.ResultGridNode = this.GridNode.querySelector('tbody');
@@ -8393,19 +8332,17 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
     /**/
 
-    let models = [];
-    for (let checkBox of this.SearchModelsNode.querySelectorAll('.model-checks input[type="checkbox"]'))
+    for (let parentNode of this.SearchModelsNode.querySelectorAll('.checkbox-group'))
     {
-      if (checkBox && checkBox.hasAttribute('id') && checkBox.id.trim() !== '')
+      if (parentNode.querySelector('input[type="checkbox"]'))
       {
-          checkBox.addEventListener('click', this._searchModelCheckboxClicked);
-          models.push(checkBox.id);
+        parentNode.querySelector('input[type="checkbox"]').addEventListener('click', this._searchParentCheckboxClicked);
+        for (let childNode of parentNode.querySelector('.sub-checkboxes').querySelectorAll('input[type="checkbox"]'))
+        {
+          childNode.addEventListener('click', this._searchChildCheckboxClicked);
+        }
       }
     }
-    this.DefaultState.Models = models;
-    this.State = JSON.parse(JSON.stringify(this.DefaultState));
-
-    console.log(this.State);
 
     /**/
 
@@ -8414,28 +8351,15 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     this.SelectAllModelsButton.addEventListener('click', this._toggleAllModes);
 
     this.SearchApplyButton.addEventListener('click', this._search);
-    this.SearchClearButton.addEventListener('click', this._clear);
-    this.SearchInputNode.addEventListener('keyup', (event =>
-    {
-      if (event.key.toLowerCase() === 'enter')
-      {
-        this._search();
-      }
-    }).bind(this));
-    
-    this.ResultNode.addEventListener('click', this._gridClicked);
+
+    this.GridNode.addEventListener('click', this._gridClicked);
 
     /**/
 
-    // Initialize sort bar
-    this.SortBarNode = this.ResultNode.querySelector('div.inbox-sort-bars');
-    this.SortPillDragAndDrop = null;
-
-    // Setup initial sort state and display sort pills
-    this._processSortBar();
-
-    // Load initial results with default sort
-    await this.GetResults();
+    // simulate grid click to do initial load and make sure we get the default sort according to inital template HTML
+    await this._gridClicked({
+      target: document.querySelector('th[data-name="StateEnteredAt"]')
+    });
 
   }
 
@@ -8452,176 +8376,57 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
-  async Clear()
-  {
-    // reset search query
-    this.SearchInputNode.value = '';
-    // reset dates
-    this.SearchNode.querySelector('#StartDate').value = '';
-    this.SearchNode.querySelector('#EndDate').value = '';
-    // reset column checks
-    for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
-    {
-      check.checked = true;
-    }
-    // reset mode checks
-    for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]'))
-    {
-      check.checked = true;
-    }
-    this.SelectAllModelsButton.innerHTML = 'Unselect All';
-    // reset
-    this.CurrentPage = 1;
-    // Reset sort state to default
-    this.State.SortFields = JSON.parse(JSON.stringify(this.DefaultState.SortFields));
-    for (let column of this.GridNode.querySelectorAll('thead th'))
-    {
-      if (column.dataset.name)
-      {
-        column.dataset.ascending = column.dataset.name === 'StateEnteredAt' ? 'false' : 'null';
-      }
-    }
-    await this._search();
-  }
 
   async Search(search = '', filter = '', ascending = true)
   {
+    Affinity2018.ShowPageLoader(true);
     await this.GetResults(search, filter, ascending);
   }
 
   async GetResults(search = '', filter = '', ascending = true)
   {
-    this._showLoader();
-    
-    let url = `${this.DefaultAPI}`;
+    let api = '/AdminV2/Page';
+    /**/
+    let models = [];
+    let exactMatchCheckbox = this.SearchNode.querySelector('#ExactMatch');
+    let isExactMatch = exactMatchCheckbox ? exactMatchCheckbox.checked : false;
+    let selectedModelChecks = this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked');
+    for (let check of selectedModelChecks)
+    {
+      if (check && check.hasAttribute('id') && check.id.trim() !== '')
+      {
+        models.push(check.id);
+      }
+    }
+
+    let adminSearchCriteria = {
+      page: this._getCurrentPage(),
+      pageSize: this.PageSize,
+      searchText: search !== '' ? search : this.SearchTextNode.value.trim(),
+      models: models.join(','),
+      exactMatch: isExactMatch,
+      startDate: this.SearchNode.querySelector('#StartDate').value,
+      endDate: this.SearchNode.querySelector('#EndDate').value
+    };
 
     if (filter !== '')
     {
-      // Single sort override (for backwards compatibility)
-      this.State.SortFields = [{
-        Name: filter,
-        Ascending: ascending
-      }];
-    }
-    
-    let startDate = this.SearchNode.querySelector('input#StartDate').value;
-    let startDateAsDate = startDate.trim() === '' ? null : new Date(startDate.trim());
-    let endDate = this.SearchNode.querySelector('input#EndDate').value;
-    let endDateAsDate = endDate.trim() === '' ? null : new Date(endDate.trim());
-
-    if (startDateAsDate !== null && endDateAsDate === null)
-    {
-      endDateAsDate = new Date(startDateAsDate);
-      endDateAsDate.setHours(23);
-      endDateAsDate.setMinutes(59);
-      endDateAsDate.setSeconds(59);
-      endDateAsDate.setMilliseconds(0);
+      adminSearchCriteria.sortField = filter;
+      adminSearchCriteria.ascending = ascending;
     }
 
-    if (startDateAsDate === null && endDateAsDate !== null)
-    {
-      startDateAsDate = new Date(endDateAsDate);
-      startDateAsDate.setHours(0);
-      startDateAsDate.setMinutes(0);
-      startDateAsDate.setSeconds(0);
-      startDateAsDate.setMilliseconds(0);
-    }
+    let query = new URLSearchParams(adminSearchCriteria).toString();
+    let url = `${api}?${query}`;
 
-    if (
-      startDateAsDate !== null 
-      && endDateAsDate !== null
-      && startDateAsDate > endDateAsDate
-    )
-    {
-      let temp = new Date(startDateAsDate);
-      startDateAsDate = new Date(endDateAsDate);
-      endDateAsDate = new Date(temp);
-    }
-
-    if (startDateAsDate !== null)
-    {
-      startDateAsDate.setHours(0);
-      startDateAsDate.setMinutes(0);
-      startDateAsDate.setSeconds(0);
-      startDateAsDate.setMilliseconds(0);
-      this.SearchNode.querySelector('input#StartDate').value = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDateFormat);
-      this.State.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
-    }
-    
-    if (endDateAsDate !== null)
-    {
-      endDateAsDate.setHours(23);
-      endDateAsDate.setMinutes(59);
-      endDateAsDate.setSeconds(59);
-      endDateAsDate.setMilliseconds(0);
-      this.SearchNode.querySelector('input#EndDate').value = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDateFormat);
-      this.State.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
-    }
-
-    this.State.CurrentPage = this._getCurrentPage();
-    this.State.PageSize = this.PageSize;
-    this.State.SearchQuery = search !== '' ? search : this.SearchInputNode.value.trim();
-
-    //
-
-    let response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.State)
-    });
+    let response = await fetch(url);
 
     if (!response.ok)
     {
       this._gotResultsError(`HTTP error: Status ${response.status}`);
       return false;
     }
-    let responseClone = response.clone()
-    let data = null;
-    try
-    {
-      data = await response.json();
-    }
-    catch(err)
-    {
-      let html = await responseClone.text();
-      if (html.contains('error-page'))
-      {
-        let parser = new DOMParser()
-        let documentObj = parser.parseFromString(html, "text/html");
-        let messageNode = documentObj.querySelector("message p");
-        let message = messageNode ? messageNode.innerText.trim() : '';
-        if (message.toLowerCase().contains('permission'))
-        {
-          this._gotResultsError(`No usable data found`);
-          Affinity2018.Dialog.Show({
-            message: message,
-            showOk: true,
-            showCancel: false,
-            textAlign: 'left'
-          });
-        }
-        else
-        {
-          if (message !== '')
-          {
-            this._gotResultsError(`No usable data found<br /><bt />${message}`);
-          }
-          else
-          {
-            this._gotResultsError(`No usable data found`);
-          }
-        }
-        return false;
-      }
-      else
-      {
-        console.warn(err);
-        this._gotResultsError(`No usable data found`);
-        return false;
-      }
-    }
+
+    let data = await response.json();
 
     if (!data || data === '')
     {
@@ -8659,36 +8464,19 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
-  _search(event)
-  {
-    this.Search();
-  }
 
-  _clear(event)
+  async _search(event)
   {
-    this.Clear();
-  }
-
-  _checkForSearchMatch(column, value)
-  {
-    value = value.toString().trim();
-    let searchTerm = this.SearchInputNode.value.trim();
-    if (searchTerm !== '' && value !== '')
+    this.CurrentPage = 1;
+    for (let column of this.GridNode.querySelectorAll('thead th'))
     {
-      let domQuery = `input[type="checkbox"]#${column}`;
-      let checkbox = document.querySelector(domQuery);
-      if (
-        checkbox
-        && checkbox.checked
-        && value.contains(searchTerm)
-      )
+      if (column.dataset.name)
       {
-        value = value.replace(new RegExp(searchTerm, 'gi'), (match) => `<em class="search-match">${match}</em>`);
+        column.dataset.ascending = column.dataset.name === 'StateEnteredAt' ? 'false' : 'null';
       }
     }
-    return value;
+    await this.Search('', 'StateEnteredAt', false);
   }
-
 
   _toggelModels()
   {
@@ -8706,6 +8494,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   _toggleAllModes()
   {
+
     if (this.SelectAllModelsButton.innerText.trim() === 'Select All')
     {
       for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]'))
@@ -8722,42 +8511,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       }
       this.SelectAllModelsButton.innerHTML = 'Select All';
     }
-
-    this._searchModelCheckboxClicked();
-  }
-
-  _forceShowPageLoader()
-  {
-    clearTimeout(this._forcePageLoader);
-    document.body.classList.add('load-lock');
-    Affinity2018.ShowPageLoader(true, 0);
-  }
-
-  _forceHidePageLoader()
-  {
-    clearTimeout(this._forcePageLoader);
-    document.body.classList.remove('load-lock');
-    Affinity2018.HidePageLoader(true);
-  }
-
-  _showLoader()
-  {
-    //this.InlineLoaderNode.classList.remove('hidden');
-    if (this.IsPayrollAdmin)
-    {
-      this._forceShowPageLoader();
-    }
-    else
-    {
-      clearTimeout(this._forcePageLoader);
-      this._forcePageLoader = setTimeout(this._forceShowPageLoader, 500);
-    }
-  }
-
-  _hideLoader()
-  {
-    //this.InlineLoaderNode.classList.add('hidden');
-    this._forceHidePageLoader();
   }
 
   _gotResults(data)
@@ -8780,19 +8533,15 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       this._gotResultsError(`No results to show`);
     }
     this.CurrentPage = data.Page;
-    
-    // Update sort bar and ordinals after results load
-    this._processSortBar();
-    this._hideLoader();
+    Affinity2018.HidePageLoader(true);
   }
 
   _gotResultsError(error)
   {
-    console.warn(error.replaceAll('<br />', '\n'));
+    console.warn(error);
     this.ResultGridNode.innerHTML = this.ErrorResultTemplate(error);
     this.ResultFooterNode.innerHTML = '';
-    this._processSortBar();
-    this._hideLoader();
+    Affinity2018.HidePageLoader(true);
   }
 
   _deleteInstance(instanceId)
@@ -8805,7 +8554,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       textAlign: 'left',
       onOk: (async () =>
       {
-        this._showLoader();
+        Affinity2018.ShowPageLoader();
         await fetch(`/AdminV2/Delete?instanceId=${instanceId}`, {
           method: 'POST',
         });
@@ -8815,30 +8564,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
         await this.Search('', filterName, filterValue === 'true' ? true : false);
       }).bind(this)
     });
-  }
-
-  _injectSearchColumnCheckboxes()
-  {
-    let html = '';
-    let headerNodes = this.ResultNode.querySelectorAll('thead th:not(.buttons)');
-    for (var headerNode of headerNodes)
-    {
-      let label = headerNode.innerText.trim();
-      if (label !== '')
-      {
-        html += this.SearchCheckTemplate({
-          ColumnName: headerNode.dataset.name,
-          label: label,
-          Tooltip: `Include '${label}' in the search`
-        });
-      }
-    }
-    this.SearchColumnCheckboxNode.innerHTML = html;
-    for (let checkBox of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
-    {  
-      checkBox.addEventListener('click', this._searchCheckboxClicked);
-    }
-    Affinity2018.Tooltips.Apply();
   }
 
   /**/
@@ -8853,10 +8578,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       switch (tagName)
       {
         case 'button':
-          if (event.target.closest('div.inbox-sort-bar'))
-          {
-            await this._sortReset(event);
-          }
           break;
 
         case 'a':
@@ -8876,45 +8597,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
           else if (event.target.classList.contains('page-next'))
           {
             await this._gotoPage(this._getCurrentPage() + 1);
-          }
-          else if (event.target.classList.contains('sort-pill-icon'))
-          {
-            event.preventDefault();
-            event.stopPropagation();
-
-            let column = event.target.parentNode.dataset.column;
-            let ascending = JSON.parse(event.target.parentNode.dataset.ascending.toLowerCase());
-            let direction = ascending ? 'desc' : 'asc';
-            event.target.classList.remove('asc', 'desc');
-            event.target.classList.add(direction);
-            event.target.parentNode.dataset.ascending = !ascending;
-            let headerNode = this.ResultNode.querySelector(`table thead tr th[data-name="${column}"]`);
-            if (headerNode)
-            {
-              headerNode.dataset.ascending = !ascending;
-            }
-
-            this._updateSortData();
-
-            await this.GetResults();
-          }
-          else if (event.target.classList.contains('sort-pill-close'))
-          {
-            event.preventDefault();
-            event.stopPropagation();
-
-            let column = event.target.parentNode.dataset.column;
-            let headerNode = this.ResultNode.querySelector(`table thead tr th[data-name="${column}"]`);
-            if (headerNode)
-            {
-              headerNode.dataset.ascending = 'null';
-            }
-
-            event.target.parentNode.parentNode.removeChild(event.target.parentNode);
-
-            this._updateSortData();
-
-            await this.GetResults();
           }
           else
           {
@@ -8942,46 +8624,31 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
         case 'th':
 
-          if (event.target.hasAttribute('data-ascending'))
+          if (event.target.dataset.ascending) // not buttons, for example
           {
-            let sortHeaders = this.ResultNode.querySelectorAll(`table thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
-            let ascendingString = event.target.dataset.ascending;
-            
-            if (ascendingString === 'null' && sortHeaders.length >= 8)
+            let ascendingString = event.target.dataset.ascending; // should never be NOT set .. || null; // get current sort else null
+
+            if (ascendingString !== 'null') // already sorting on this column
             {
-              Affinity2018.Dialog.Show({
-                message: $a.Lang.ReturnPath('app.cf.inbox.max_column_sort'),
-                showOk: true,
-                showCancel: false
-              });
-              return;
+              ascendingString = ascendingString === 'true' ? 'false' : 'true'; // so swap!
+            }
+            else // is a new sort for this column, so default to true unless it is a date column, in which case, default to false
+            {
+              ascendingString = event.target.dataset.type === 'date' ? 'false' : 'true';
             }
 
-            if (ascendingString === 'null')
+            for (let column of this.GridNode.querySelectorAll('thead th'))
             {
-              ascendingString = 'true';
-            }
-            else if (ascendingString === 'true')
-            {
-              ascendingString = 'false';
-            }
-            else
-            {
-              if (sortHeaders.length > 1)
+              if (column.dataset.name)
               {
-                ascendingString = 'null';
-              }
-              else
-              {
-                ascendingString = 'true';
+                column.dataset.ascending = 'null';
               }
             }
 
             event.target.dataset.ascending = ascendingString;
 
-            this._updateSortData();
+            await this.Search('', event.target.dataset.name, event.target.dataset.ascending === 'true' ? true : false);
 
-            await this.GetResults();
           }
 
           break;
@@ -8995,49 +8662,41 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     console.log(event.target.dataset.name);
   }
 
-  _searchCheckboxClicked(event)
+  _rowButtonClicked(event)
   {
-    let searchFields = [];
-    for (let check of this.SearchColumnCheckboxNode.querySelectorAll('input[type="checkbox"]'))
+    if (event.target.classList.contains('delete') && event.target.dataset.instanceid)
     {
-      if (check.checked)
-      {
-        searchFields.push(check.dataset.column);
-      }
+      this._deleteInstance(event.target.dataset.instanceid);
     }
-    this.State.SearchFields = searchFields;
-    console.log(this.State);
   }
 
-  _searchModelCheckboxClicked(ev)
+  _searchParentCheckboxClicked(ev)
   {
-    if (ev)
+    let parentNode = ev.target.closest('.checkbox-group');
+    if (parentNode)
     {
-      let parentNode = ev.target.parentNode.classList.contains('parent') ? ev.target.parentNode : null;
-      if (parentNode)
+      let childChecks = parentNode.querySelectorAll('.inline-checkbox:not(.parent) input[type="checkbox"]');
+      for (let check of childChecks)
       {
-        let parentChecks = parentNode.querySelectorAll('.sub-checkboxes input[type="checkbox"]');
-        if (parentChecks.length > 0)
+        check.checked = ev.target.checked;
+      }
+    }
+  }
+
+  _searchChildCheckboxClicked(ev)
+  {
+    let parentNode = ev.target.closest('.checkbox-group');
+    if (parentNode)
+    {
+      let parentCheck = parentNode.querySelector('.inline-checkbox.parent input[type="checkbox"]');
+      if (parentCheck)
+      {
+        if (ev.target.checked && !parentCheck.checked)
         {
-          for (var checkBox of parentChecks)
-          {
-            checkBox.checked = ev.target.checked;
-          }
+          parentCheck.checked = true;
         }
       }
     }
-
-    let models = [];
-    for (let check of this.SearchModelChecksContainer.querySelectorAll('input[type="checkbox"]:checked'))
-    {
-      if (check && check.hasAttribute('id') && check.id.trim() !== '')
-      {
-        models.push(check.id);
-      }
-    }
-    this.State.Models = models;
-
-    console.log(this.State);
   }
 
   /**/
@@ -9128,121 +8787,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
     return clonedEvent;
   }
 
-  _updateSortData()
-  {
-    let sorts = [];
-    let headers = this.ResultNode.querySelectorAll(`table thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
-
-    if (headers.length === 0)
-    {
-      this._sortReset();
-      return;
-    }
-
-    let sortedHeaders = [...headers].sort((a, b) =>
-    {
-      let orderA = isNaN(parseInt(a.dataset.order)) ? -1 : parseInt(a.dataset.order);
-      let orderB = isNaN(parseInt(b.dataset.order)) ? -1 : parseInt(b.dataset.order);
-      return orderA - orderB;
-    });
-
-    for (let header of sortedHeaders)
-    {
-      sorts.push({
-        Name: header.dataset.name,
-        Ascending: header.dataset.ascending
-      });
-    }
-    this.State.SortFields = sorts;
-  }
-
-  _processSortBar(resetData = true)
-  {
-    let sortBarNode = this.ResultNode.querySelector(`div.inbox-sort-bar`);
-    let sortPillNode = sortBarNode.querySelector('div.sort-pills');
-    sortPillNode.innerHTML = '';
-
-    let allHeaderNodes = this.ResultNode.querySelectorAll(`table thead tr th[data-ascending]`);
-    for (let headerNode of allHeaderNodes)
-    {
-      headerNode.dataset.ascending = null;
-      headerNode.dataset.order = null;
-      headerNode.dataset.orderStr = null;
-    }
-
-    // Always show sort bar
-    sortBarNode.classList.add('show');
-
-    let sortData = this.State.SortFields;
-
-    let html = '';
-    for (let item of sortData)
-    {
-      let headerNode = this.ResultNode.querySelector(`table thead tr th[data-name="${item.Name}"]`);
-      let label = headerNode.innerText.trim();
-      let index = sortData.indexOf(item);
-      html += this.SortPillTemplate({
-        Column: item.Name,
-        Label: label,
-        Ascending: item.Ascending,
-        Type: headerNode.dataset.type,
-        Index: index
-      });
-      headerNode.dataset.ascending = item.Ascending;
-      headerNode.dataset.order = sortData.length > 1 ? index : 0;
-      headerNode.dataset.orderStr = sortData.length > 1 ? this._ordinal(index + 1) : null;
-    }
-
-    sortPillNode.innerHTML = html;
-
-    if (this.SortPillDragAndDrop)
-    {
-      this.SortPillDragAndDrop.destroy();
-      delete this.SortPillDragAndDrop;
-    }
-
-    if (sortData.length > 1)
-    {
-      this.SortPillDragAndDrop = dragula([sortPillNode]);
-      this.SortPillDragAndDrop.on('drop', (async (el, target, source, sibling) =>
-      {
-        let index = 0;
-        for (let child of target.children)
-        {
-          let header = this.ResultNode.querySelector(`table thead tr th[data-name="${child.dataset.column}"]`);
-          header.dataset.order = index;
-          header.dataset.orderStr = this._ordinal(index + 1);
-          index++
-        }
-
-        this._updateSortData();
-
-        if (resetData)
-        {
-            await this.GetResults();
-        }
-
-      }).bind(this));
-    }
-  }
-
-  _ordinal(number)
-  {
-    return number + (['st', 'nd', 'rd'][((number + 90) % 100 - 10) % 10 - 1] || 'th');
-  }
-
-  async _sortReset(event)
-  {
-    if (event)
-    {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    this.State.SortFields = JSON.parse(JSON.stringify(this.DefaultState.SortFields));
-    this._processSortBar();
-    await this.GetResults();
-  }
-
 
 
   /***************************************************************************************************************************************************/
@@ -9267,34 +8811,25 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
   _templates()
   {
 
-    this.SearchCheckTemplate = (data) =>
-    {
-      return `
-        <div class="check-wrapper ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
-          <label for="${data.ColumnName}">${data.label}</label>
-          <input type="checkbox" id="${data.ColumnName}" data-column="${data.ColumnName}" checked />
-        </div>
-      `;
-    };
-
     this.SearchTemplate = `
         <div class="default-form">
 
             <div class="form-row">
+                <label for="SearchText">Search</label>
                 <div class="search-container">
-                    <input id="SearchText" name="SearchText" type="text" placeholder="Search">
-                    <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
-                    <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
+                    <input id="SearchText" name="SearchText" type="text">
+                    <div class="inline-checkbox">
+                        <input type="checkbox" id="ExactMatch" name="ExactMatch">
+                        <label for="ExactMatch">Exact Match</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-row search-columns"></div>
-
             <div class="form-row dates">
-                <label for="StartDate">From</label>
-                <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31">
+                <label for="StartDate">Form</label>
+                <input id="StartDate" name="StartDate" type="date" min="2000-01-01" max="2050-12-31" value="2020-01-01">
                 <label for="EndDate">To</label>
-                <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31">
+                <input id="EndDate" name="EndDate" type="date" min="2000-01-01" max="2050-12-31" value="2030-12-39">
             </div>
 
             <div class="form-row hidden">
@@ -9337,55 +8872,51 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Branch" checked />
-                        <label for="Branch">Branch</label>
+                        <label for="BRANCH">Branch</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Cst" checked />
-                        <label for="Cst">Cost Centre</label>
+                        <label for="CST">Cost Centre</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Dept" checked />
-                        <label for="Dept">Department</label>
+                        <label for="DEPT">Department</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Division" checked />
-                        <label for="Division">Division</label>
+                        <label for="DIVISION">Division</label>
                     </div> 
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Groupd" checked />
-                        <label for="Groupd">Groups</label>
+                        <label for="GROUPD">Groups</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Payl" checked />
-                        <label for="Payl">Pay Location</label>
+                        <label for="PAYL">Pay Location</label>
                     </div>
 
                     <div class="inline-checkbox">
                         <input type="checkbox" id="Posts" checked />
-                        <label for="Posts">Position</label>
+                        <label for="POSTS">Position</label>
                     </div>
 
                 </div>
 
+            </div>
+            <div class="form-row buttons">
+                <button class="blue">Search</button>
             </div>
         </div>
     `;
 
 
     this.ResultGridTemplate = `
-        <div class="inbox-sort-bars">
-          <div class="inbox-sort-bar">
-            Sorting by <div class="sort-pills"></div> <button>Reset</button>
-          </div>
-        </div>
-        <div class="inbox-tab-boxes">
-          <div class="inbox-tab-box">
-            <table class="admin-grid">
+        <table class="admin-grid">
             <thead>
                 <tr>
                     <th class="cell-width-150"  data-type="string" data-ascending="null" data-name="TemplateDescription">Form Name</th>
@@ -9393,10 +8924,10 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
                     <th class="cell-width-auto" data-type="string" data-name="PayPoint">Pay Point</th>
                     <th class="cell-width-100"  data-type="date"   data-ascending="null" data-name="EffectiveDate">Effective Date</th>
                     <th class="cell-width-200"  data-type="string" data-ascending="null" data-name="WorkflowName">Workflow Name</th>
-                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="PreviousAssigneeName">Previous Assignee</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="PreviousAssigneeEmployeeNo">Previous Assignee</th>
                     <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="LastActionTaken">Last Action Taken</th>
                     <th class="cell-width-auto" data-type="date"   data-ascending="null" data-name="StateEnteredAt">At</th>
-                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentAssigneeName">Current Assignee</th>
+                    <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentAssigneeEmployeeNo">Current Assignee</th>
                     <th class="cell-width-auto" data-type="string" data-ascending="null" data-name="CurrentState">Current State</th>
                     <th class="cell-width-auto admin-buttons"></th>
                 </tr>
@@ -9405,56 +8936,29 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
             </tbody>
             <tfoot>
             </tfoot>
-            </table>
-          </div>
-        </div>
+        </table>
     `;
 
 
     this.ResultTemplate = data =>
     {
-      let enteredAt = Affinity2018.stringToDate(data.StateEnteredAt);
-      let enteredAtDateString = Affinity2018.getDate(enteredAt, 'dd.MM.yyyy');
-      let enteredAtTimeString = enteredAtDateString + ' ' + Affinity2018.getDate(enteredAt, 'hh:mm a').toLowerCase();
-      
-      let effectiveDate = data.EffectiveDate !== null ? Affinity2018.stringToDate(data.EffectiveDate) : null;
-      let effectiveDateString = effectiveDate ? Affinity2018.getDate(effectiveDate, 'dd.MM.yyyy') : '';
-
-      let templateDescription = data.TemplateDescription === null ? '' : data.TemplateDescription;
-      let relatesTo = data.RelatesTo === null ? '' : data.RelatesTo;
-      let payPoint = data.PayPoint === null ? '' : data.PayPoint;
-      let workflowName = data.WorkflowName === null ? '' : data.WorkflowName;
-      let previousAssigneeName = data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName;
-      let lastActionTaken = data.LastActionTaken === null ? '' : data.LastActionTaken;
-      let currentAssigneeName = data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName;
-      let currentState = data.CurrentState === null ? '' : data.CurrentState;
-
-      templateDescription = this._checkForSearchMatch('TemplateDescription', templateDescription);
-      relatesTo = this._checkForSearchMatch('RelatesTo', relatesTo);
-      payPoint = this._checkForSearchMatch('PayPoint', payPoint);
-      workflowName = this._checkForSearchMatch('WorkflowName', workflowName);
-      previousAssigneeName = this._checkForSearchMatch('PreviousAssigneeName', previousAssigneeName);
-      lastActionTaken = this._checkForSearchMatch('LastActionTaken', lastActionTaken);
-      currentAssigneeName = this._checkForSearchMatch('CurrentAssigneeName', currentAssigneeName);
-      currentState = this._checkForSearchMatch('CurrentState', currentState);
-
-      enteredAtTimeString = this._checkForSearchMatch('StateEnteredAt', enteredAtTimeString);
-      effectiveDateString = this._checkForSearchMatch('EffectiveDate', effectiveDateString);
-
+      let date = Affinity2018.stringToDate(data.StateEnteredAt);
+      let dateString = Affinity2018.getDate(date, 'dd.MM.yyyy');
+      let dateTimeString = dateString + ' ' + Affinity2018.getDate(date, 'hh:mm a').toLowerCase();
       if (!data.hasOwnProperty('InstanceId') || data.InstanceId === null)
       {
         return `
           <tr data-name="${data.TemplateDescription}">
-              <td class="cell-width-150">${templateDescription}</td>
-              <td class="cell-width-100">${relatesTo}</td>
-              <td class="cell-width-auto">${payPoint}</td>
-              <td class="cell-width-100">${effectiveDateString}</td>
-              <td class="cell-width-200">${workflowName}</td>
-              <td class="cell-width-auto">${previousAssigneeName}</td>
-              <td class="cell-width-auto"${lastActionTaken}</td>
-              <td class="cell-width-auto">${enteredAtTimeString}</th>
-              <td class="cell-width-auto">${currentAssigneeName}</td>
-              <td class="cell-width-auto">${currentState}</td>
+              <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
+              <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
+              <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
+              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
+              <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
+              <td class="cell-width-auto"${data.LastActionTaken === null ? '' : data.LastActionTaken}</td>
+              <td class="cell-width-auto">${dateTimeString}</th>
+              <td class="cell-width-auto">${data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName}</td>
+              <td class="cell-width-auto">${data.CurrentState === null ? '' : data.CurrentState}</td>
               <td class="cell-width-auto admin-buttons"></td>
           </tr>
         `;
@@ -9463,16 +8967,16 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
       {
         return `
           <tr data-name="${data.TemplateDescription}">
-              <td class="cell-width-150">${templateDescription}</td>
-              <td class="cell-width-100">${relatesTo}</td>
-              <td class="cell-width-auto">${payPoint}</td>
-              <td class="cell-width-100">${effectiveDateString}</td>
-              <td class="cell-width-200">${workflowName}</td>
-              <td class="cell-width-auto">${previousAssigneeName}</td>
-              <td class="cell-width-auto">${lastActionTaken}</td>
-              <td class="cell-width-auto">${enteredAtTimeString}</th>
-              <td class="cell-width-auto">${currentAssigneeName}</td>
-              <td class="cell-width-auto">${currentState}</td>
+              <td class="cell-width-150">${data.TemplateDescription === null ? '' : data.TemplateDescription}</td>
+              <td class="cell-width-100">${data.RelatesTo === null ? '' : data.RelatesTo}</td>
+              <td class="cell-width-auto">${data.PayPoint === null ? '' : data.PayPoint}</td>
+              <td class="cell-width-100">${data.EffectiveDate === null ? '' : data.EffectiveDate}</td>
+              <td class="cell-width-200">${data.WorkflowName === null ? '' : data.WorkflowName}</td>
+              <td class="cell-width-auto">${data.PreviousAssigneeName === null ? '' : data.PreviousAssigneeName}</td>
+              <td class="cell-width-auto">${data.LastActionTaken === null ? '' : data.LastActionTaken}</td>
+              <td class="cell-width-auto">${dateTimeString}</th>
+              <td class="cell-width-auto">${data.CurrentAssigneeName === null ? '' : data.CurrentAssigneeName}</td>
+              <td class="cell-width-auto">${data.CurrentState === null ? '' : data.CurrentState}</td>
               <td class="cell-width-auto admin-buttons">
                   <a class="button blue" href="/Admin/Details/${data.InstanceId}">
                       <span class="icon-work-flow-multiple"></span>
@@ -9616,18 +9120,6 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
             </div>
           </td>
         </tr>
-      `;
-    };
-
-    this.SortPillTemplate = data =>
-    {
-      let direction = data.Ascending ? 'asc' : 'desc';
-      return `
-        <span class="sort-pill" data-column="${data.Column}" data-ascending="${data.Ascending}" data-type="${data.Type}">
-          ${data.Label}
-          <span class="sort-pill-icon ${direction}"></span>
-          <span class="sort-pill-close"></span>
-        </span>
       `;
     };
 
@@ -9939,7 +9431,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
     * @param {String} FileId The AffinityField.FieldName
     */
     //this.GetAllAvaiableForms = Affinity2018.Path + 'TemplateV2/GetAll';
-    this.GetAllAvaiableForms = Affinity2018.Path + 'Inbox/GetAllAvailableForms';
+    this.GetAllAvaiableForms = Affinity2018.Path + 'Inbox/GetAvailableForms';
 
 
 
@@ -12252,16 +11744,12 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       if (response.data.hasOwnProperty('EmployeeCountry')) country = $a.toString(response.data.EmployeeCountry);
       if (response.data.hasOwnProperty('PayPointCountry')) country = $a.toString(response.data.PayPointCountry);
 
-      var memberType = "";
-      if (response.data.hasOwnProperty('MemberType')) memberType = $a.toString(response.data.MemberType).toUpperCase();
-
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
         PayPoint: paypoint,
-        Country: country,
-        MemberType: memberType
+        Country: country
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
@@ -22490,7 +21978,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           $a.ShowPageLoader();
           setTimeout(function()
           {
-            // use window.open to reload the page instead of switching to a cached page view
             var path = this.CleverForms.InboxPath;
             if (window.location.hash) path += window.location.hash
             var redirectWindow = window.open(path, '_self');
@@ -22551,7 +22038,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     if (this.ForceResetEmployeeData !== null)
     {
-      // use window.open to reload the page instead of switching to a cached page view
+      //window.location.href = window.location.href;
       redirectWindow = window.open(window.location.href, '_self');
       redirectWindow.location;
     }
@@ -23164,20 +22651,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 };;
 /**
  *
- * Summary.       CleverForms Inbox.
+ * Summary.       CleverForms Admin.
  *
- * Description.   Creates an instance of CleverForms Inbox.
+ * Description.   Creates an instance of CleverForms Admin.
  *                Important: Must follow ECMAScript 5 (ES5) standards to support Internet Explorer 11.
  *
  * @author        Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
  *
  *
  * @since         16.06.2020
- * @class         Inbox
- * @class         Inbox
+ * @class         Admin
  * @namespace     Affinity2018.Classes.Apps.CleverForms
  * @memberof      CleverForms
- * @constructs    Affinity2018.Classes.Apps.CleverForms.Inbox
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.Admin
  *
  * @public
  */
@@ -23195,14 +22681,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 {
 
   /**
-   * Summary. Sets class scoped variables required for the Inbox instance
+   * Summary. Sets class scoped variables required for the Admin instance
    * @this    Class scope
    * @access  private
    */
   _options()
   {
-    this.ViewMode = 'User'; // User / Admin
-
     this.EnableLocalStore = true;
 
     this.DefaultAPI = '/InboxV2/FetchInbox';
@@ -23210,32 +22694,56 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.EditUrl = '/Instance/Edit/';
     this.ViewUrl = '/Instance/View/';
     this.DeleteAPI = '/Inbox/Delete/';
-    this.DetailsEndpoint = '/Admin/Details/';
-    this.PayPointAPI = '/Lookup/GetAssignedPayPoints/';
-    this.AvailableFormsAPI = '/Inbox/GetAvailableForms/';
-
-    this.SearchDateFormat = 'yyyy-MM-dd'; // luxon date format
-    this.SearchDatePostFormat = 'yyyy-MM-dd'; // luxon date format
+    this.ArchiveAPI = '/Inbox/Archive/';
+    this.RestoreAPI = '/Inbox/Restore/';
 
     this.PageSize = 25;
 
+    this.ShowingSearchResults = false;
+
     this.ColumnSettingTimeouts = {};
 
-    this.PayrollAdminIncludes5M = false;
-
-    this.SearchDateDefault = 'StateEnteredAt'; // EffectiveDate
-
-    this.LocalDebug = false;
-
-    this.WasAdminHalted = false;
-
-    this.UserDefaultView = 'User';
-    this.AdminDefaultView = 'User';
-
-    // Filter state storage (session only, not persisted)
-    this.FilterState = {
-      User: null,
-      Admin: null
+    this.State = {
+      ActiveCategory: 'ToAction',
+      SearchQuery: '',
+      CategorySettings: {
+        ToAction: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'StateEnteredAt',
+          Ascending: false,
+          Items: []
+        },
+        InProgress: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'StateEnteredAt',
+          Ascending: false,
+          Items: []
+        },
+        Completed: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'StateEnteredAt',
+          Ascending: false,
+          Items: []
+        },
+        Archived: {
+          TotalCount: 0,
+          CurrentPage: 1,
+          TotalPages: 0,
+          PageSize: this.PageSize,
+          SortField: 'CompletedBy',
+          Ascending: false,
+          Items: []
+        }
+      }
     };
 
   }
@@ -23267,51 +22775,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       // private
 
-      '_setupResultNodes',
-
-      '_showLoader', '_hideLoader',
-
-      '_loadStates', '_getPayPoints', '_gotPayPoints', '_gotPayPointsError',
-
       '_gotResults', '_gotResultsError',
 
-      '_injectSearchColumnTabs',
-
-      '_searchDateChanged', '_searchPayPointSelectChanged',
-      '_searchDateSelectChanged', '_searchCheckChanged',
-
-      '_attemptSearchDebounced',
       '_attemptSearch',
-      '_checkForSearchMatch',
-      '_resetPagesToOne',
 
       '_getCurrentPage',
       '_gotoTab',
 
-      '_reset',
-      '_captureFilterState',
-      '_restoreFilterState',
-
       '_gridClicked',
 
-      '_mobileIndicateScroll', '_mobileIndicateScrollHide',
-
-      '_checkColumnSelectHide', '_showColumnSelect', '_hideColumnSelect',
-      '_checkSortAfterColumnChange',
-
-      '_searchNodeKeyUpHandler',
       '_rowButtonClicked',
 
-      '_saveHiddenColumns',
-      '_applyHiddenColumns',
-
-      '_updateSortData', '_prcessSortBar', '_sortReset',
-
-      '_switchMode', '_switchToAdmin', '_switchToDetault',
-
-      '_showSearch', '_hideSearch',
-
-      '_showAdminWarning', '_hideAdminWarning',
+      '_checkHiddenRows',
 
       // html templates
       '_templates'
@@ -23322,8 +22797,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this._templates();
 
     this.CleverForms = Affinity2018.Apps.CleverForms.Default;
-
-    window.Inbox = this;
 
     if (Affinity2018.UiReady) this._init();
     else window.addEventListener('MainInit', this._init);
@@ -23337,137 +22810,113 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-    this._forceHidePageLoader();
-    this.MemberType = '';
-    this.IsPayrollAdmin = false;
-    this.ShowModeToggle = false;
-    
-    this.LocalDebug = document.location.href.contains('localhost') || document.location.href.contains('testaffinitylogon.com');
-
-    /*
-    if (this.LocalDebug && Affinity2018.IsMobile && Affinity2018.Browser.issafari)
-    {
-      if (document.querySelector('div.test-device-info'))
-      {
-        document.querySelector('div.test-device-info').classList.add('show');
-      }
-    }
-    */
-
-    this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
-    this.IsFormAdmin = Affinity2018.UserProfile.IsFormAdmin ?? false;
-    this.Is5MUser = parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000;
-
-    if (this.MemberType === "P" || this.IsFormAdmin)
-    {
-      this.IsPayrollAdmin = true;
-      this.ViewMode = this.AdminDefaultView;
-      this.ShowModeToggle = true;
-    }
-    else  
-    {
-      if (this.Is5MUser && this.MemberType !== 'M')
-      {
-        this.IsPayrollAdmin = false;
-        this.ViewMode = this.AdminDefaultView;
-        this.ShowModeToggle = true;
-      }
-    }
-
-    if (this.PayrollAdminIncludes5M && this.Is5MUser)
-    {
-      this.IsPayrollAdmin = true;
-      this.ViewMode = this.AdminDefaultView;
-      this.ShowModeToggle = true;
-    }
-
-    /**/
-
-    this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
-
-    // Restore saved ViewMode from localStorage if available
-    if (this.EnableLocalStore && this.ShowModeToggle && Affinity2018.Storage.Local.Has(`InboxViewMode-${this.StorageKeySuffix}`))
-    {
-      this.ViewMode = Affinity2018.Storage.Local.Get(`InboxViewMode-${this.StorageKeySuffix}`);
-    }
-
-    /**/
-    
-    if (this.ViewMode === 'Admin')
-    {
-      document.body.classList.remove('menu-show-full');
-    }
-
-    /**/
-    
-    // Stop bfcache leaving loaders open
-    // bfcache cleanup: When navigating to another page (e.g., edit/view form),
-    // the full page loader may be visible. Browser's bfcache preserves this state
-    // in the snapshot. When user clicks back, the loader would remain stuck visible.
-    // These handlers ensure loaders are always hidden on page hide and page restore.
-    window.addEventListener('pagehide', (() =>
-    {
-      this._forceHidePageLoader();
-    }).bind(this));
+    // iOS bfcache cleanup: Hide UI elements that persist incorrectly on back navigation
     window.addEventListener('pageshow', (() =>
     {
-      // Hide both page loader and inline loader on bfcache restore
-      this._forceHidePageLoader();
-      if (this.InlineLoaderNode) this.InlineLoaderNode.classList.add('hidden');
+      Affinity2018.Tooltips.HideAll();
       Affinity2018.Calendars.HideAll();
       Affinity2018.SimpleSelects.HideAll();
       Affinity2018.Autocompletes.HideAll();
       Affinity2018.Dialog.Hide();
-      Affinity2018.Tooltips.Hide();
+    }).bind(this));
+
+    this.StorageKeySuffix = `-${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
+
+    this.ResultNode = document.querySelector('div.inbox');
+    this.ResultNode.innerHTML = this.ResultGridTemplate;
+
+    /**/
+
+    this.SearchBox = this.ResultNode.querySelector('div.inbox-search');
+    this.SearchNode = this.SearchBox.querySelector('input');
+    this.SearchNode.addEventListener('keyup', (event =>
+    {
+      if (event.key.toLowerCase() === 'enter')
+      {
+        this._attemptSearch();
+      }
     }).bind(this));
 
     /**/
 
-    console.clear();
-
-    await this._loadStates();
-
-    await this._getPayPoints();
-
-    /**/
-
-    this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
-
-    this.ResultNode = document.querySelector('div.inbox');
-    this.ResultNode.innerHTML = this.ViewMode === 'Admin' ? this.AdminResultGridTemplate() : this.ResultGridTemplate();
-    this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
-    this.BoxesNode = document.querySelector('div.inbox-tab-boxes');
-
-    /**/
-
-    // Show warning in Admin mode if no PayPoints available and halt the UI
-    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    let tab = this.State.ActiveCategory;
+    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab${this.StorageKeySuffix}`))
     {
-      this._showAdminWarning('no-pay-points');
-      this.InboxWrapperNode.classList.add('admin-halted');
+      tab = Affinity2018.Storage.Local.Get(`InboxTab${this.StorageKeySuffix}`);
+    }
+    this.State.ActiveCategory = tab;
+
+    for (let category in this.State.CategorySettings)
+    {
+      let categoryNode = document.querySelector(`table[data-category="${category}"]`);
+      categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
+      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
+      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
+
+      let sort = this.State.CategorySettings[category].SortField;
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSort${category}${this.StorageKeySuffix}`))
+      {
+        sort = Affinity2018.Storage.Local.Get(`InboxSort${category}${this.StorageKeySuffix}`);
+      }
+
+      let ascending = this.State.CategorySettings[category].Ascending;
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxAscending${category}${this.StorageKeySuffix}`))
+      {
+        ascending = Affinity2018.Storage.Local.Get(`InboxAscending${category}${this.StorageKeySuffix}`);
+      }
+
+      let page = this.State.CategorySettings[category].CurrentPage;
+      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage${category}${this.StorageKeySuffix}`))
+      {
+        page = Affinity2018.Storage.Local.Get(`InboxPage${category}${this.StorageKeySuffix}`);
+      }
+
+      this.State.CategorySettings[category].SortField = sort;
+      this.State.CategorySettings[category].Ascending = ascending || ascending === 'true' ? true : false;
+      this.State.CategorySettings[category].CurrentPage = page;
+
+      let columnNode = categoryNode.querySelector(`thead th[data-name="${sort}"]`);
+      if (columnNode.hasAttribute('data-ascending'))
+      {
+        categoryNode.querySelector(`thead th[data-name="${sort}"]`).dataset.ascending = this.State.CategorySettings[category].Ascending.toString();
+      }
+
+      // Set column settings
+      let menuNode = categoryNode.querySelector(`div.colum-menu`);
+      let menuItems = menuNode.querySelectorAll(`div.colum-menu-item[data-column]`);
+      for (let menuItem of menuItems)
+      {
+        let column = menuItem.dataset.column;
+        let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+        if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(key))
+        {
+          let showIt = Affinity2018.Storage.Local.Get(key);
+          showIt = showIt === 'true' ? true : showIt === 'false' ? false : showIt;
+          menuItem.querySelector('input[type="checkbox"]').checked = showIt ? 'checked' : null;
+        }
+        //else
+        //{
+        //  menuItem.querySelector('input[type="checkbox"]').checked = null;
+        //}
+      }
+
     }
 
+    this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
+
+    Affinity2018.Tooltips.Apply();
+
     /**/
 
-    // Create mobile scroll indicator message
-    this.scrollMessage = false;
-    if (Affinity2018.IsMobile)
-    {
-      this.scrollMessage = document.createElement('div');
-      this.scrollMessage.classList.add('scroll-message');
-      this.scrollMessage.innerHTML = 'Scroll to see more';
-      this.BoxesNode.appendChild(this.scrollMessage);
-    }
+    this.ResultNode.addEventListener('click', this._gridClicked);
 
-    await this._setupResultNodes();
-
-    this._setTitle();
-
-    await this._injectSearchColumnTabs();
+    /**/
 
     this.GotoTab(this.State.ActiveCategory);
 
-    await this._attemptSearch('_init');
+    await this.GetResults();
+
+    console.clear();
 
   }
 
@@ -23487,20 +22936,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   async GetResults()
   {
-    // Block search if Admin mode has no PayPoints (unless LocalDebug)
-    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
-    {
-      console.warn('GetResults blocked: Admin mode requires Pay Points to function.');
-      return false;
-    }
+    this.InlineLoaderNode.classList.remove('hidden');
 
-    this._showLoader();
-
-    this.SortBarNode.classList.add('locked');
-    this.BoxesNode.classList.add('locked');
-
-    this.State.AdminMode = this.ViewMode === 'Admin' ? true : false;
-
+    // now do fetch
     let url = `${this.DefaultAPI}`;
 
     let response = await fetch(url, {
@@ -23513,7 +22951,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!response.ok)
     {
-      this._gotResultsError($a.Lang.ReturnPath('app.cf.inbox.errors.http_error', { status: response.status }));
+      this._gotResultsError(`HTTP error: Status ${response.status}`);
       return false;
     }
 
@@ -23521,7 +22959,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (!data || data === '')
     {
-      this._gotResultsError($a.Lang.ReturnPath('app.cf.inbox.errors.no_data'));
+      this._gotResultsError(`No usable data found`);
       return false;
     }
 
@@ -23549,404 +22987,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
 
-  async _setupResultNodes()
-  {
-    this.GeneratedSearchTabs = false;
-
-    this.SearchBarBox = this.ResultNode.querySelector('div.inbox-search-bar');
-    this.PayPointSelectNode = document.querySelector('select[name="search-paypoint-select"]');
-    this.ColumnListNode = document.querySelector('div.show-hide-columns-check-lists');
-    this.SearchBox = this.ResultNode.querySelector('div.inbox-search-filters');
-    this.SearchNode = this.SearchBarBox.querySelector('input');
-    this.SearchNode.removeEventListener('keyup', this._searchNodeKeyUpHandler);
-    this.SearchNode.addEventListener('keyup', this._searchNodeKeyUpHandler);
-    this.SearchStartDateNode = this.SearchBox.querySelector('input#StartDate');
-    this.SearchEndDateNode = this.SearchBox.querySelector('input#EndDate');
-
-    // Setup toggle event listener (toggle is in search bar)
-    let adminToggle = this.ResultNode.querySelector('.toggle-container.mode-switch input[type="checkbox"]');
-    if (adminToggle)
-    {
-      adminToggle.removeEventListener("change", this._switchMode);
-      adminToggle.addEventListener("change", this._switchMode);
-    }
-
-    /**/
-
-    // Get tab count - if only 1, hide it
-    let categroyTabs = this.ResultNode.querySelectorAll('div.inbox-tabs div.inbox-tab:not(.hidden)');
-    if (categroyTabs.length < 2)
-    {
-      for (let categroyTab of categroyTabs)
-      {
-        categroyTab.classList.add('hidden');
-      }
-    }
-
-    /**/
-
-    let payPointSelectHtml = `<option value="-1">${$a.Lang.ReturnPath('app.cf.inbox.labels.pay_point_select_all')}</option>`;
-    for (let payPointData of this.PayPoints)
-    {
-      payPointSelectHtml += `<option value="${payPointData.PayPoint}">${payPointData.Description} (${payPointData.PayPoint})</option>`;
-    }
-    this.PayPointSelectNode.innerHTML = payPointSelectHtml;
-    this.PayPointSelectNode.removeEventListener('change', this._searchPayPointSelectChanged);
-    this.PayPointSelectNode.addEventListener('change', this._searchPayPointSelectChanged);
-
-    // hide PayPoint select from normies becuase, why do they need it?
-    if (this.ViewMode === 'User')
-    {
-      this.PayPointSelectNode.parentNode.classList.add('hidden');
-      this.PayPointSelectNode.selectedIndex = 0;
-    }
-    else
-    {
-      this.PayPointSelectNode.parentNode.classList.remove('hidden');
-    }
-
-    /**/
-
-    let today = luxon.DateTime.local();
-    let minDate = today.minus({ years: 7 });
-
-    let startDate = null;
-    let endDate = null;
-
-    // Only apply pay point dates for P type admins
-    if (this.ViewMode === 'Admin')
-    {
-      if (this.PayPoints.length > 0)
-      {
-        if (this.PayPointSelectNode.value === '-1' || this.PayPointSelectNode.value === '') // all or unset
-        {
-          startDate = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
-          endDate = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
-        }
-        else
-        {
-          let payPointData = this.PayPoints.find(item => item.PayPoint === this.PayPointSelectNode.value);
-          if (payPointData)
-          {
-            startDate = new Date(payPointData.CurrentPeriodStartDate);
-            endDate = new Date(payPointData.CurrentPeriodEndDate);
-          }
-        }
-      }
-    }
-
-    if (this.SearchDateFormat.contains('h:') || this.SearchDateFormat.contains('H:') || this.SearchDatePostFormat.contains('h:') || this.SearchDatePostFormat.contains('H:'))
-    {
-      if (this.SearchBox.type.toLowerCase().trim() !== 'text')
-      {
-        this.SearchStartDateNode.setAttribute('type', 'datetime-local');
-        this.SearchEndDateNode.setAttribute('type', 'datetime-local');
-      }
-      else
-      {
-        this.SearchStartDateNode.setAttribute('data-type', 'datetime');
-        this.SearchEndDateNode.setAttribute('data-type', 'datetime');
-      }
-    }
-
-    this.SearchStartDateNode.setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchStartDateNode.setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
-    this.SearchStartDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
-    this.SearchStartDateNode.dataset.calendarNullable = true;
-    this.SearchStartDateNode.dataset.alignToDisplay = true;
-    if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
-    {
-      this.SearchStartDateNode.widgets.DateTime.nullable = true;
-    }
-    this.SearchStartDateNode.removeEventListener('change', this._searchDateChanged);
-    this.SearchStartDateNode.addEventListener('change', this._searchDateChanged);
-
-    this.SearchEndDateNode.setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
-    this.SearchEndDateNode.setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
-    this.SearchEndDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
-    this.SearchEndDateNode.dataset.calendarNullable = true;
-    this.SearchEndDateNode.dataset.alignToDisplay = true;
-    if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
-    {
-      this.SearchEndDateNode.widgets.DateTime.nullable = true;
-    }
-
-    if (this.ViewMode === 'Admin')
-    {
-      this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDate).toFormat(this.SearchDateFormat);
-      if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
-      {
-        this.SearchStartDateNode.widgets.DateTime.setDate(startDate, false);
-      }
-      this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(endDate).toFormat(this.SearchDateFormat);
-      if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
-      {
-        this.SearchEndDateNode.widgets.DateTime.setDate(endDate, false);
-      }
-    }
-    else
-    {
-      this.SearchStartDateNode.value = '';
-      if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
-      {
-        this.SearchStartDateNode.widgets.DateTime.setNone();
-      }
-      this.SearchEndDateNode.value = '';
-      if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
-      {
-        this.SearchStartDateNode.widgets.DateTime.setNone();
-      }
-    }
-
-    this.SearchEndDateNode.removeEventListener('change', this._searchDateChanged);
-    this.SearchEndDateNode.addEventListener('change', this._searchDateChanged);
-
-    /**/
-
-    this.SortBarNode = document.querySelector('div.inbox-sort-bars');
-    this.SortPillDragAndDrop = {};
-
-    /**/
-
-    let tab = this.State.ActiveCategory;
-    if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`))
-    {
-      tab = Affinity2018.Storage.Local.Get(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`);
-    }
-    this.State.ActiveCategory = tab;
-
-    for (let category in this.State.CategorySettings)
-    {
-      let sortButton = document.querySelector(`div.inbox-sort-bar[data-category="${category}"] button`);
-      sortButton.removeEventListener('click', this._sortReset);
-      sortButton.addEventListener('click', this._sortReset);
-
-      let categoryNode = document.querySelector(`table[data-category="${category}"]`);
-      categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
-      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
-      this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
-
-      let sortData = this.State.CategorySettings[category].SortFields;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxSortData-${this.ViewMode}-${category}-${this.StorageKeySuffix}`))
-      {
-        sortData = Affinity2018.Storage.Local.Get(`InboxSortData-${this.ViewMode}-${category}-${this.StorageKeySuffix}`);
-      }
-
-      let page = this.State.CategorySettings[category].CurrentPage;
-      if (this.EnableLocalStore && Affinity2018.Storage.Local.Has(`InboxPage-${this.ViewMode}-${category}-${this.StorageKeySuffix}`))
-      {
-        page = Affinity2018.Storage.Local.Get(`InboxPage-${this.ViewMode}-${category}-${this.StorageKeySuffix}`);
-      }
-
-      this.State.CategorySettings[category].SortFields = sortData;
-      this.State.CategorySettings[category].CurrentPage = page;
-
-      for (let sortItem of sortData)
-      {
-        let columnNode = categoryNode.querySelector(`thead th[data-name="${sortItem.Name}"]`);
-        if (columnNode.hasAttribute('data-ascending'))
-        {
-          columnNode.dataset.ascending = sortItem.Ascending.toString();
-        }
-      }
-
-    }
-
-    this.InlineLoaderNode = this.ResultNode.querySelector('div.inbox-tab-loader');
-
-    Affinity2018.Tooltips.Apply();
-    Affinity2018.Calendars.Apply();
-    Affinity2018.SimpleSelects.Apply();
-
-    /**/
-    
-    this.ResultNode.removeEventListener('click', this._gridClicked);
-    this.ResultNode.addEventListener('click', this._gridClicked);
-
-    window.removeEventListener('click', this._checkColumnSelectHide);
-    window.addEventListener('click', this._checkColumnSelectHide);
-
-    return true;
-  }
-
-  _forceShowPageLoader()
-  {
-    clearTimeout(this._forcePageLoader);
-    document.body.classList.add('load-lock');
-    Affinity2018.ShowPageLoader(true, 0);
-  }
-
-  _forceHidePageLoader()
-  {
-    clearTimeout(this._forcePageLoader);
-    document.body.classList.remove('load-lock');
-    Affinity2018.HidePageLoader(true);
-  }
-
-  _showLoader()
-  {
-    if (this.IsPayrollAdmin)
-    {
-      this._forceShowPageLoader();
-    }
-    else
-    {
-      clearTimeout(this._forcePageLoader);
-      this._forcePageLoader = setTimeout(this._forceShowPageLoader, 500);
-    }
-  }
-
-  _hideLoader()
-  {
-    this._forceHidePageLoader();
-  }
-
-  /**/
-
-  _showSearch()
-  {
-    if (!this.InboxWrapperNode.classList.contains('show-filters'))
-    {
-      this.InboxWrapperNode.classList.add('show-filters');
-    }
-  }
-  _hideSearch()
-  {
-    if (this.InboxWrapperNode.classList.contains('show-filters'))
-    {
-      this.InboxWrapperNode.classList.remove('show-filters');
-    }
-  }
-
-  /**/
-
-  _showAdminWarning(warningType)
-  {
-    let warningNode = this.ResultNode.querySelector(`.inbox-warning-message[data-warning-type="${warningType}"]`);
-    if (warningNode)
-    {
-      warningNode.classList.remove('hidden');
-    }
-  }
-
-  _hideAdminWarning(warningType)
-  {
-    let warningNode = this.ResultNode.querySelector(`.inbox-warning-message[data-warning-type="${warningType}"]`);
-    if (warningNode)
-    {
-      warningNode.classList.add('hidden');
-    }
-  }
-
-  /**/
-
-  async _getPayPoints()
-  {
-    let response = await fetch(`${this.PayPointAPI}`);
-
-    if (!response.ok)
-    {
-      this._gotPayPointsError();
-      return this.PayPoints;
-    }
-
-    let data = await response.json();
-
-    if (!data || data === '')
-    {
-      this._gotPayPointsError();
-      return this.PayPoints;
-    }
-
-    if (data.length === 0)
-    {
-      // temp fallback for testing if API fails
-      if (this.LocalDebug)
-      {
-        switch (Affinity2018.UserProfile.UserGuid)
-        {
-          case 'e5000002-5112-0000-0000-000000000000':
-            console.log(`%c⚠ %cUsing stubbed fallback.`, `color: #FF6666; font-size: 16px`, `color: #FF6666; font-weight: bold`);
-            data = [{"PayPoint":1,"Description":"Indoor Workforce ASU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-20T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-06T12:00:00.000Z","TotalDays":14},{"PayPoint":2,"Description":"Outdoor W/Force AWU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14},{"PayPoint":3,"Description":"Contractors","PayPointCountryCode":"N","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14}];
-            this._gotPayPoints(data);
-            return this.PayPoints;
-          default:
-            this._gotPayPointsError();
-            return this.PayPoints;
-        }   
-      }
-      else
-      {
-        this._gotPayPointsError();
-        return this.PayPoints;
-      }
-    }
-
-    this._gotPayPoints(data);
-    return this.PayPoints;
-  }
-
-  _gotPayPoints(data)
-  {
-    this.PayPoints = data;
-
-    // Loop and set dates from ISO strings to Date objects
-    for (let pp of this.PayPoints)
-    {
-      let index = this.PayPoints.indexOf(pp);
-      this.PayPoints[index].CurrentPeriodStartDate = new Date(this.PayPoints[index].CurrentPeriodStartDate);
-      this.PayPoints[index].CurrentPeriodEndDate = new Date(this.PayPoints[index].CurrentPeriodEndDate);
-      this.PayPoints[index].TotalDays = Math.floor(Math.abs(this.PayPoints[index].CurrentPeriodEndDate - this.PayPoints[index].CurrentPeriodStartDate) / (1000 * 60 * 60 * 24));
-    }
-
-    if (this.LocalDebug && this.PayPoints.length > 0)
-    {
-      console.groupCollapsed(`AssignedPayPoints (total: ${this.PayPoints.length})`);
-      console.log(JSON.stringify(this.PayPoints, null, 2));
-      console.groupEnd();
-    }
-  }
-
-  _gotPayPointsError()
-  {
-    console.warn("No AssignedPayPoints returned. Admin mode requires Pay Point data to function correctly.");
-    this.PayPoints = [];
-  }
-
-  async _loadStates()
-  {
-    let response = await fetch(`${Affinity2018.Path}/Scripts/V2/apps/cleverforms/Inbox.json?version=${Affinity2018.Version}`);
-
-    if (!response.ok)
-    {
-      throw new Error("Can not load default states for this view");
-      return false;
-    }
-
-    let data = await response.json();
-
-    if (!data || data === '')
-    {
-      throw new Error("Can not load default states for this view");
-      return false;
-    }
-
-    this.StateStore = data;
-    this.StateStore.UserDefault = JSON.parse(JSON.stringify(this.StateStore.User));
-    this.StateStore.AdminDefault = JSON.parse(JSON.stringify(this.StateStore.Admin));
-
-    if (this.ViewMode === 'Admin')
-    {
-      this.State = this.StateStore.Admin;
-    }
-    else
-    {
-      this.State = this.StateStore.User;
-    }
-
-    return true;
-  }
-
   _gotResults(data)
   {
     for (let category in this.State.CategorySettings)
@@ -23972,59 +23012,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         if (this.State.CategorySettings[category].Items.length === 0)
         {
-          html += this.ViewMode === 'Admin' ? this.EmptyResultTemplate(category) : this.EmptyResultTemplate(category);
+          html += this.EmptyResultTemplate(category);
         }
         else
         {
           for (let item of this.State.CategorySettings[category].Items)
           {
-            html += this.ViewMode === 'Admin' ? this.AdminResultTemplate(category, item) : this.ResultTemplate(category, item);
+            html += this.ResultTemplate(category, item);
           }
         }
         categoryNode.querySelector('tbody').innerHTML = html;
 
-        // Check for uniform button counts across all rows
-        // If all rows have the same button count, add 'uniform-buttons' class for proper right-alignment
-        categoryNode.classList.remove('uniform-buttons');
-        if (this.ViewMode === 'Admin')
-        {
-          if (this.State.CategorySettings[category].Items.length > 0)
-          {
-            let buttonCounts = this.State.CategorySettings[category].Items.map(item => {
-              // CanEdit = 2 buttons (Edit + Details), else 1 button (View), plus CanDelete adds 1
-              return (item.CanEdit ? 2 : 1) + (item.CanDelete ? 1 : 0);
-            });
-            let uniqueCounts = new Set(buttonCounts);
-            if (uniqueCounts.size === 1)
-            {
-              categoryNode.classList.add('uniform-buttons');
-            }
-          }
-        }
-        else
-        {
-          if (this.State.CategorySettings[category].Items.length > 0)
-          {
-            let buttonCounts = this.State.CategorySettings[category].Items.map(item => {
-              return (item.CanEdit ? 1 : 0) + (item.CanDelete ? 1 : 0);
-            });
-            let uniqueCounts = new Set(buttonCounts);
-            if (uniqueCounts.size === 1)
-            {
-              categoryNode.classList.add('uniform-buttons');
-            }
-          }
-        }
-
-        // Check for delete buttons (mixed delete permissions)
-        categoryNode.classList.remove('has-delete');
-        let allDeleteButtons = this.State.CategorySettings[category].Items.filter(item => item.CanDelete);
-        if (allDeleteButtons.length > 0 && this.State.CategorySettings[category].Items.length > allDeleteButtons.length)
-        {
-          categoryNode.classList.add('has-delete');
-        }
-
-        if (data.CategorySettings[category].TotalPages < 2)
+        if (data.CategorySettings[category].TotalPages === 1)
         {
           categoryNode.querySelector('tfoot').innerHTML = this.ResultFooterTemplate(category, data.CategorySettings[category]);
         }
@@ -24039,18 +23038,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     Affinity2018.Tooltips.Apply();
 
-    this._hideLoader();
-    this._injectSearchColumnTabs();
-    this._applyHiddenColumns();
-    this._prcessSortBar(false); // false = do not search again
-
-    this.SortBarNode.classList.remove('locked');
-    this.BoxesNode.classList.remove('locked');
-
     this.InlineLoaderNode.classList.add('hidden');
-
-    // Show mobile scroll indicator if needed
-    this._mobileIndicateScroll();
+    this._checkHiddenRows();
   }
 
   _gotResultsError(error)
@@ -24061,841 +23050,89 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       categoryNode.querySelector('tbody').innerHTML = this.ErrorResultTemplate(error);
     }
-
-    this.SortBarNode.classList.remove('locked');
-    this.BoxesNode.classList.remove('locked');
-
-    this._prcessSortBar(false); // false = do not search again
-
     this.InlineLoaderNode.classList.add('hidden');
-
-    this._hideLoader();
   }
 
-  async _injectSearchColumnTabs()
+  async _attemptSearch()
   {
-    if (!this.GeneratedSearchTabs)
+    Affinity2018.Tooltips.Hide();
+    if (this.SearchNode.value.trim() !== '')
     {
-      this.GeneratedSearchTabs = true;
-      let boxNodes = this.ResultNode.querySelectorAll('div.inbox-tab-box');
-      for (let boxNode of boxNodes)
+      this.InlineLoaderNode.classList.remove('hidden');
+
+      let state = JSON.parse(JSON.stringify(this.State));
+      for (let category in state.CategorySettings)
       {
-        let category = boxNode.dataset.category;
-        let columnNodes = boxNode.querySelectorAll(`table.inbox-grid[data-category="${category}"] thead th`);
-        let searchChecksNode = this.SearchBox.querySelector(`div.search-columns div[data-category="${category}"]`);
-        let searchChecksListNode = this.ColumnListNode.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
-        let searchDateColumnSelect = this.SearchBox.querySelector(`div.select[data-category="${category}"] select[name="search-date-select"]`);
-        let html = '';
-        let columnChecksHtml = `<label name="Visible Columns">${$a.Lang.ReturnPath('app.cf.inbox.labels.visible_columns')}</label>`;
-        let selectHtml = '';
-        let selectDefaultDateHtml = '';
-
-        searchDateColumnSelect.removeEventListener('change', this._searchDateSelectChanged);
-
-        for (let columnNode of columnNodes)
-        {
-          if (
-            !columnNode.classList.contains('buttons')
-            && columnNode.dataset.searchable
-            && columnNode.dataset.searchable.toString().toLowerCase() === 'true'
-          )
-          {
-              
-            let labelName = columnNode.innerText;
-            let columnName = columnNode.dataset.name;
-
-            // hide / show column checkbox (Columns menu)
-            let checked = !columnNode.classList.contains('hidden') ? ` checked` : ``;
-            let storeKey = `InboxColumnsShow-${this.ViewMode}-${category}-${columnName}-${this.StorageKeySuffix}`;
-            let currentlySet = this.EnableLocalStore ? Affinity2018.Storage.Local.Has(storeKey) : false;
-            let matchingSortDataIndex = this.State.CategorySettings[this.State.ActiveCategory].SortFields.findIndex(item => item.Name === columnName);
-            if (currentlySet)
-            {
-              checked = Affinity2018.Storage.Local.Get(storeKey) ? ` checked` : ``;
-            }
-            columnChecksHtml += `<div><input type="checkbox" data-category="${category}" value="${columnName}" id="show-hide-check-${category}-${columnName}" ${checked}></checkbox><label for="show-hide-check-${category}-${columnName}">${labelName}</label></div>`;
-            if (checked === '' && matchingSortDataIndex > -1)
-            {
-              this.State.CategorySettings[this.State.ActiveCategory].SortFields.splice(matchingSortDataIndex, 1);
-            }
-            
-            // Search on what date column select options
-            if (columnNode.dataset.type.contains('date'))
-            {
-              let placeholder = labelName;
-              labelName = placeholder.contains(' / ') ? placeholder.split(' / ')[0].trim() : placeholder;
-              let injectLabelName = placeholder.contains(' / ') ? placeholder.split(' / ')[1].trim() : null;
-              if (injectLabelName && !injectLabelName.startsWith('Date'))
-              {
-                injectLabelName = 'Date ' + injectLabelName;
-              }
-              if (!columnName.toLowerCase().contains(this.SearchDateDefault.toLowerCase().trim()))
-              {
-                selectHtml += `<option value="${columnName}">${labelName}</option>`;
-              }
-              else
-              {
-                selectDefaultDateHtml = `<option value="${columnName}">${labelName}</option>`;
-              }
-              if (this.ViewMode === 'Admin' && columnName === 'StateEnteredAt')
-              {
-                if (!'completedat'.contains(this.SearchDateDefault.toLowerCase().trim()))
-                {
-                  selectHtml += `<option value="CompletedAt">${injectLabelName}</option>`;
-                }
-                else
-                {
-                  selectDefaultDateHtml = `<option value="CompletedAt">${injectLabelName}</option>`;
-                }
-              }
-            }
-          }
-        }
-
-        // Search inside column checkbox - select / unselect all
-        html += `<span class="toggle-search-checks toggled-on">${$a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks')}</span>`;
-
-        searchChecksNode.innerHTML = html;
-        searchChecksListNode.innerHTML = columnChecksHtml;
-        searchDateColumnSelect.innerHTML = selectDefaultDateHtml + selectHtml;
-
-        // Only auto-set PayPoint dates if not skipping (i.e., not just restored filter state)
-        if (this.ViewMode === 'Admin' && !this._skipPayPointDateReset)
-        {
-          this._searchPayPointSelectChanged({ target: this.PayPointSelectNode });
-        }
-
-        searchDateColumnSelect.addEventListener('change', this._searchDateSelectChanged);
-
-        if (category === this.State.ActiveCategory)
-        {
-          searchChecksNode.classList.remove('hidden');
-        }
-
+        state.CategorySettings[category].CurrentPage = 1;
       }
-      
-      // Clear the flag AFTER all categories have been processed
-      if (this._skipPayPointDateReset)
+      state.SearchQuery = this.SearchNode.value.trim();
+
+      let url = `${this.SearchAPI}`;
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(state)
+      });
+
+      if (!response.ok)
       {
-        this._skipPayPointDateReset = false;
+        this.ShowingSearchResults = false;
+        this.InlineLoaderNode.classList.add('hidden');
+        Affinity2018.Dialog.Show({
+          message: `No results found<!-- ${response.status} -->`,
+          showOk: true,
+          showCancel: false
+        });
+        this.State.SearchQuery = null;
+        return false;
       }
-      
-      Affinity2018.Tooltips.Apply();
-      Affinity2018.SimpleSelects.Apply();
+
+      let data = await response.json();
+
+      if (!data || data === '')
+      {
+        this.ShowingSearchResults = false;
+        this.InlineLoaderNode.classList.add('hidden');
+        Affinity2018.Dialog.Show({
+          message: `No results found<!-- ${response.status} -->`,
+          showOk: true,
+          showCancel: false
+        });
+        this.State.SearchQuery = null;
+        return false;
+      }
+      else
+      {
+        let allResultTotal = 0;
+        for (let category in data.CategorySettings)
+        {
+          allResultTotal += data.CategorySettings[category].TotalCount;
+        }
+        if (allResultTotal === 0)
+        {
+          this.ShowingSearchResults = false;
+          this.InlineLoaderNode.classList.add('hidden');
+          Affinity2018.Dialog.Show({
+            message: `No results found`,
+            showOk: true,
+            showCancel: false
+          });
+          this.State.SearchQuery = null;
+          return false;
+        }
+      }
+
+      this.State = state;
+
+      this.ShowingSearchResults = true;
+      this._gotResults(data);
       return true;
     }
-    return false;
-  }
-
-  _searchNodeKeyUpHandler(event)
-  {
-    if (event.key.toLowerCase() === 'enter')
-    {
-      this._resetPagesToOne();
-      this._attemptSearchDebounced('_searchNodeKeyUpHandler');
-    }
-  }
-
-  _searchDateChanged(event)
-  {
-    this._resetPagesToOne();
-    this._attemptSearchDebounced('_searchDateChanged');
-  }
-
-  _searchPayPointSelectChanged(event)
-  {
-    let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
-    let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
-    let selectedValue = event.target.value.toString();
-    let earliest = new Date().toString('yyyy-MM-dd');
-    let latest = new Date().toString('yyyy-MM-dd');
-    if (this.PayPoints.length === 0) // Should never happen
-    {
-      earliest = new Date(new Date().setMonth(new Date().getMonth() - 1));
-      latest = new Date();
-    }
     else
     {
-      if (selectedValue !== '-1')
-      {
-        let payPointData = this.PayPoints.find(pp => pp.PayPoint.toString() === selectedValue.toString());
-        earliest = payPointData.CurrentPeriodStartDate;
-        latest = payPointData.CurrentPeriodEndDate;
-      }
-      else
-      {
-        earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
-        latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
-      }
-    }
-
-    if (fromDateNode.hasOwnProperty('widgets') && fromDateNode.widgets.hasOwnProperty('DateTime'))
-    {
-      fromDateNode.widgets.DateTime.setDate(new Date(earliest), false);
-      toDateNode.widgets.DateTime.setDate(new Date(latest), false);
-    }
-    else
-    {
-      fromDateNode.value = earliest;
-      toDateNode.value = latest;
-    }
-    if (
-      (event && 'isTrusted' in event && event.isTrusted)
-      || (event && 'detail' in event && event.detail.isTrusted)
-    )
-    {
-      this._resetPagesToOne();
-      this._attemptSearchDebounced('_searchPayPointSelectChanged');
-    }
-  }
-
-  _searchDateSelectChanged(event)
-  {
-    if (Affinity2018.isEvent(event) && event.isTrusted)
-    {
-      event.stopPropagation();
-      event.preventDefault();
-      let checkNode = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms'); 
-      if (checkNode && checkNode.parentNode && !checkNode.parentNode.classList.contains('hidden'))
-      {
-        if (event.target.value === 'CompletedAt')
-        {
-          checkNode.checked = true;
-          checkNode.parentNode.classList.add('disabled');
-        }
-        else
-        {
-          checkNode.checked = false;
-          checkNode.parentNode.classList.remove('disabled');
-        }
-      }
-      this._resetPagesToOne();
-      this._attemptSearchDebounced('_searchDateSelectChanged');
-    }
-  }
-
-  _searchCheckChanged(event)
-  {
-    let check = event.target;
-    let checkWrapper = check.closest('div.check-wrapper');
-    let checks = checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]:checked');
-    let span = checkWrapper.parentNode.querySelector('.toggle-search-checks');
-    if (checks.length === checkWrapper.parentNode.querySelectorAll('input[type="checkbox"]').length)
-    {
-      span.classList.add('toggled-on');
-      span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
-    }
-    else
-    {
-      span.classList.remove('toggled-on');
-      span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
-    }
-    this._resetPagesToOne();
-    this._attemptSearchDebounced('_searchCheckChanged');
-  }
-
-  _attemptSearchDebounced(from)
-  {
-    // Clear and start the loader, we will either keep deboncin or make it to _attemptSearch.
-    clearTimeout(this._attemptSearchDebouncerTimer);
-
-    // Block search if Admin mode has no PayPoints (unless LocalDebug)
-    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
-    {
-      console.warn(`_attemptSearchDebounced blocked (from: ${from}): Admin mode requires Pay Points to function.`);
-      return;
-    }
-
-    // Better to show loader now so we do not appear to have a delay.
-    Affinity2018.Tooltips.Hide();
-    this._showLoader();
-    this._attemptSearchDebouncerTimer = setTimeout(this._attemptSearch, 500, from);
-  }
-
-  async _attemptSearch(from)
-  {
-    clearTimeout(this._attemptSearchDebouncerTimer);
-    
-    // Block search if Admin mode has no PayPoints (unless LocalDebug)
-    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
-    {
-      console.warn(`_attemptSearch blocked (from: ${from}): Admin mode requires Pay Points to function.`);
-      this._hideLoader();
-      return false;
-    }
-    
-    if (this.LocalDebug)
-    {
-      console.groupCollapsed(`%c🔎 Search -> Called from "${from}"`, 'font-weight: bold; color: #00CCCC;');
-    }
-
-    Affinity2018.Tooltips.Hide();
-    this._showLoader();
-
-    // Copy State (including current page numbers from this.State)
-    let state = JSON.parse(JSON.stringify(this.State));
-
-    state.AdminMode = this.ViewMode === 'Admin';
-
-    // Add checked VISIBLE columns
-    for (let category in state.CategorySettings)
-    {
-      // Page number preserved from this.State - reset to 1 is handled by _resetPagesToOne() in filter change methods
-      let searchFields = [];
-      let checks = this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`);
-      for (let check of checks)
-      {
-        if (check.checked)
-        {
-          searchFields.push(check.value);
-        }
-      }
-      state.CategorySettings[category].SearchFields = searchFields;
-    }
-    this._saveHiddenColumns();
-
-    state.SearchQuery = this.SearchNode.value.trim();
-
-    // Get / set search dates
-    let startDate = this.SearchBox.querySelector('input#StartDate').value;
-    let startDateAsDate = startDate.trim() === '' ? null : new Date(startDate.trim());
-    let endDate = this.SearchBox.querySelector('input#EndDate').value;
-    let endDateAsDate = endDate.trim() === '' ? null : new Date(endDate.trim());
-    if (startDateAsDate !== null && endDateAsDate === null)
-    {
-      endDateAsDate = new Date(startDateAsDate);
-      endDateAsDate.setHours(23);
-      endDateAsDate.setMinutes(59);
-      endDateAsDate.setSeconds(59);
-      endDateAsDate.setMilliseconds(0);
-    }
-    if (startDateAsDate === null && endDateAsDate !== null)
-    {
-      startDateAsDate = new Date(endDateAsDate);
-      startDateAsDate.setHours(0);
-      startDateAsDate.setMinutes(0);
-      startDateAsDate.setSeconds(0);
-      startDateAsDate.setMilliseconds(0);
-    }
-    if (
-      startDateAsDate !== null 
-      && endDateAsDate !== null
-      && startDateAsDate > endDateAsDate
-    )
-    {
-      let temp = new Date(startDateAsDate);
-      startDateAsDate = new Date(endDateAsDate);
-      endDateAsDate = new Date(temp);
-    }
-    if (startDateAsDate !== null)
-    {
-      startDateAsDate.setHours(0);
-      startDateAsDate.setMinutes(0);
-      startDateAsDate.setSeconds(0);
-      startDateAsDate.setMilliseconds(0);
-      this.SearchBox.querySelector('input#StartDate').value = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDateFormat);
-      this.SearchBox.querySelector('input#StartDate').widgets.DateTime.updateFromTarget();
-      //state.StartDate = luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat);
-    }
-    if (endDateAsDate !== null)
-    {
-      endDateAsDate.setHours(23);
-      endDateAsDate.setMinutes(59);
-      endDateAsDate.setSeconds(59);
-      endDateAsDate.setMilliseconds(0);
-      this.SearchBox.querySelector('input#EndDate').value = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDateFormat);
-      this.SearchBox.querySelector('input#EndDate').widgets.DateTime.updateFromTarget();
-      //state.EndDate = luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat);
-    }
-
-    // Do FieldSpecificSearch properties
-    state.FieldSpecificSearch = [];
-
-    if (this.ViewMode === 'Admin')
-    {
-      // Show completed forms (P-type users only)
-      // When checked: Send IsComplete flag to override category filter (show both complete and incomplete)
-      // When unchecked: Don't send IsComplete flag (category filter applies normally, showing only incomplete)
-      if (document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]') && document.querySelector('input[type="checkbox"][id="SearchShowCompletedForms"]').checked)
-      {
-        state.FieldSpecificSearch.push({
-          FieldName: 'IsComplete',
-          SearchValue: 'true'
-        });
-      }
-      else
-      {
-        state.FieldSpecificSearch.push({
-          FieldName: 'IsComplete',
-          SearchValue: 'false'
-        });
-      }
-
-      if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
-      {
-        state.FieldSpecificSearch.push({
-          FieldName: 'ModelNames',
-          SearchValue: 'Employee, Empad, Sdates, Branch, Cst, Dept, Division, Groupd, Payl, Posts'
-        });
-      }
-      else
-      {
-        state.FieldSpecificSearch.push({
-          FieldName: 'ModelNames',
-          SearchValue: 'Employee, Empad, Sdates'
-        });
-      }
-    }
-
-    // Set date column to search within, plus relevant dates, only if PayPont is ALL or unset
-    let searchDatesFor = null;
-    let searchDateColumnSelect = this.SearchBox.querySelector(`div.select[data-category="${this.State.ActiveCategory}"] select[name="search-date-select"]`);
-    let optionNodes = searchDateColumnSelect ? searchDateColumnSelect.querySelectorAll('option') : [];
-    let searchDateColumnValue = searchDateColumnSelect && searchDateColumnSelect.value.toString().trim() !== '' ? searchDateColumnSelect.value : this.SearchDateDefault;
-    if (searchDateColumnValue && startDateAsDate && endDateAsDate)
-    {
-      searchDatesFor = searchDateColumnValue;
-      let optionData = {
-        FieldName: searchDateColumnValue,
-        SearchValue: 'null',
-        StartDate: luxon.DateTime.fromJSDate(startDateAsDate).toFormat(this.SearchDatePostFormat),
-        EndDate: luxon.DateTime.fromJSDate(endDateAsDate).toFormat(this.SearchDatePostFormat)
-      };
-
-      let dateColumnIndexFound = state.FieldSpecificSearch.findIndex(item => item.FieldName === searchDateColumnValue);
-      if (dateColumnIndexFound === -1)
-      {
-        state.FieldSpecificSearch.push(optionData);
-      }
-      else
-      {
-        state.FieldSpecificSearch[dateColumnIndexFound] = optionData;
-      }
-    }
-
-    if (this.ViewMode === 'Admin')
-    {
-      // Add the selected PayPoint and relevant dates
-      if (this.PayPointSelectNode.value === '-1')
-      {
-        // stack all of them with NO dates
-        for (let payPointData of this.PayPoints)
-        {
-          state.FieldSpecificSearch.push({
-            FieldName: 'PayPoint',
-            SearchValue: payPointData.PayPoint,
-            StartDate: 'null',
-            EndDate: 'null'
-          });
-        }
-      }
-      else if (this.PayPointSelectNode.value !== '')
-      {
-        // add only selected    
-        let selectedPayPoint = this.PayPointSelectNode.value;
-        let payPointData = this.PayPoints.find(item => item.PayPoint.toString() === selectedPayPoint.toString());
-        state.FieldSpecificSearch.push({
-          FieldName: 'PayPoint',
-          SearchValue: selectedPayPoint.toString(),
-          StartDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
-          EndDate: luxon.DateTime.fromJSDate(payPointData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
-        });
-      }
-
-      // show pay point 999
-      if (document.querySelector('input[type="checkbox"][id="Show999"]') && document.querySelector('input[type="checkbox"][id="Show999"]').checked)
-      {
-        state.FieldSpecificSearch.push({
-          FieldName: 'PayPoint',
-          SearchValue: '999'
-        });
-      }
-    }
-
-    // Clear FieldSpecificSearch if it is empty
-    if (state.FieldSpecificSearch.length === 0)
-    {
-      delete state.FieldSpecificSearch;
-    }
-
-    // Only search if we have new criteria to search on.
-    if (JSON.stringify(state) === JSON.stringify(this.SearchSate)) 
-    {
-      this._hideLoader();
-      console.log('\tNo change in search data found. Search abandoned.');
-      console.log(state);
-      console.groupEnd();
-      return;
-    }
-    this.SearchSate = JSON.parse(JSON.stringify(state)); // copy for next comparrison, not a weak ref to the object, else comparison will fail as the object is the same reference
-    
-    if (this.LocalDebug)
-    {
-      console.log('\tAttempting search request...');
-      console.log(this.SearchSate);
-    }
-
-    let url = `${this.SearchAPI}`;
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(state)
-    });
-
-    if (!response.ok)
-    {
-      console.groupEnd();
-      this._hideLoader();
-      Affinity2018.Dialog.Show({
-        message: `No results found<!-- ${response.status} -->`,
-        showOk: true,
-        showCancel: false
-      });
-      this.State.SearchQuery = null;
-      return false;
-    }
-
-    let data = await response.json();
-
-    if (!data || data === '')
-    {
-      console.groupEnd();
-      this._hideLoader();
-      Affinity2018.Dialog.Show({
-        message: `No results found<!-- ${response.status} -->`,
-        showOk: true,
-        showCancel: false
-      });
-      this.State.SearchQuery = null;
-      return false;
-    }
-    console.log('\tGot search results!');
-    console.groupEnd();
-    this.State = state;
-    this._gotResults(data);
-    return true;
-  }
-
-  _checkForSearchMatch(category, column, value)
-  {
-    value = value.toString().trim();
-    let searchTerm = this.SearchNode.value.trim();
-    if (searchTerm !== '' && value !== '' && value.contains(searchTerm))
-    {
-      let domQuery = `input[type="checkbox"]#show-hide-check-${category}-${column}`;
-      let checkbox = document.querySelector(domQuery);
-      if (checkbox && checkbox.checked)
-      {
-        let safe = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        value = value.replace(new RegExp(safe, 'gi'), (match) => `<em class="search-match">${match}</em>`);
-      }
-    }
-    return value;
-  }
-
-  _resetPagesToOne()
-  {
-    // Reset all category pages to 1 when search/filter criteria change
-    for (let category in this.State.CategorySettings)
-    {
-      this.State.CategorySettings[category].CurrentPage = 1;
-    }
-  }
-
-  async _reset()
-  {
-    Affinity2018.Tooltips.Hide();
-    this._hideLoader();
-    
-    if (this.ViewMode !== 'Admin') 
-    {
-      this._hideSearch();
-    }
-    
-    // Clear search box
-    this.SearchNode.value = '';
-    this.State.SearchQuery = '';
-    
-    // Reset pagination to page 1 for all categories
-    this._resetPagesToOne();
-    
-    // Reset column visibility checkboxes to StateStore defaults for all categories
-    // AND clear localStorage so defaults are reloaded on next load
-    /* Business decision is to keep user visibiltiy selection, even though this and searchable fields are the same thing.
-    for (let category in this.State.CategorySettings)
-    {
-      let checkboxes = this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`);
-      for (let checkbox of checkboxes)
-      {
-        let columnName = checkbox.value;
-        // Reset to default (all visible/checked)
-        checkbox.checked = true;
-        // Clear localStorage for this column so default is used on next load
-        if (this.EnableLocalStore)
-        {
-          let storeKey = `InboxColumnsShow-${this.ViewMode}-${category}-${columnName}-${this.StorageKeySuffix}`;
-          Affinity2018.Storage.Local.Delete(storeKey);
-        }
-      }
-    }
-    // Apply the reset column visibility to the DOM
-    this._applyHiddenColumns();
-    */
-  
-    // Clear date filters
-    this.SearchBox.querySelector('input#StartDate').value = '';
-    this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
-    this.SearchBox.querySelector('input#EndDate').value = '';
-    this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
-    this.State.StartDate = '';
-    this.State.EndDate = '';
-    
-    // Reset PayPoint select and dates (Admin mode only)
-    if (this.ViewMode === 'Admin')
-    {
-      this.PayPointSelectNode.selectedIndex = 0;
-      if (this.PayPointSelectNode.widgets && this.PayPointSelectNode.widgets.SimpleSelect)
-      {
-        this.PayPointSelectNode.widgets.SimpleSelect.UpdateList();
-      }
-
-      // In Admin mode, set PayPoint dates without triggering search
-      let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
-      let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
-      let earliest, latest;
-      
-      if (this.PayPoints.length > 0)
-      {
-        // Default PayPoint value is '-1' (All Pay Points)
-        earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
-        latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
-        
-        if (fromDateNode.hasOwnProperty('widgets') && fromDateNode.widgets.hasOwnProperty('DateTime'))
-        {
-          fromDateNode.widgets.DateTime.setDate(new Date(earliest), false);
-          toDateNode.widgets.DateTime.setDate(new Date(latest), false);
-        }
-        else
-        {
-          fromDateNode.value = earliest;
-          toDateNode.value = latest;
-        }
-      }
-    }
-    // else: User mode - dates remain cleared (already set to empty above)
-    
-    // Reset date column selects to default for all categories
-    let dateSelects = this.SearchBox.querySelectorAll('select[name="search-date-select"]');
-    for (let dateSelect of dateSelects)
-    {
-      dateSelect.selectedIndex = 0; // Select first option (default date column)
-    }
-    
-    // Reset global filter checkboxes to default states
-    let completedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms');
-    if (completedCheckbox) completedCheckbox.checked = false;
-    
-    let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
-    if (unassignedCheckbox) unassignedCheckbox.checked = false;
-    
-    let show999Checkbox = document.querySelector('input[type="checkbox"]#Show999');
-    if (show999Checkbox) show999Checkbox.checked = false;
-    
-    // Clear saved filter states (so mode switching starts fresh)
-    this.FilterState.User = null;
-    this.FilterState.Admin = null;
-    
-    // Direct search (no debounce) - locks UI with loader
-    //this._attemptSearchDebounced('_reset');
-    await this._attemptSearch('_reset');
-  }
-
-  /**
-   * Summary. Captures current filter state from DOM
-   * @this    Class scope
-   * @access  private
-   * @returns {Object} Filter state object
-   */
-  _captureFilterState()
-  {
-    // Capture global search box value
-    let searchValue = this.SearchNode ? this.SearchNode.value : '';
-    
-    // Capture global date values (raw values, not widget state)
-    let startDateValue = this.SearchStartDateNode ? this.SearchStartDateNode.value : '';
-    let endDateValue = this.SearchEndDateNode ? this.SearchEndDateNode.value : '';
-    
-    // Capture global PayPoint selection
-    let payPointValue = this.PayPointSelectNode ? this.PayPointSelectNode.value : '-1';
-    
-    // Capture global checkbox states
-    let showCompletedChecked = false;
-    let showUnassignedChecked = false;
-    let show999Checked = false;
-    
-    let completedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms');
-    if (completedCheckbox) showCompletedChecked = completedCheckbox.checked;
-    
-    let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
-    if (unassignedCheckbox) showUnassignedChecked = unassignedCheckbox.checked;
-    
-    let show999Checkbox = document.querySelector('input[type="checkbox"]#Show999');
-    if (show999Checkbox) show999Checked = show999Checkbox.checked;
-    
-    // Capture category-specific settings for ALL categories
-    let categories = {};
-    for (let category in this.State.CategorySettings)
-    {
-      // Capture date column selection for this category
-      let dateColumnSelect = this.SearchBox ? this.SearchBox.querySelector(`div.select[data-category="${category}"] select[name="search-date-select"]`) : null;
-      let dateColumnValue = dateColumnSelect ? dateColumnSelect.value : '';
-      
-      // Capture visible columns for this category
-      let visibleColumns = [];
-      let columnCheckboxes = this.ColumnListNode ? this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`) : [];
-      for (let checkbox of columnCheckboxes)
-      {
-        if (checkbox.checked)
-        {
-          visibleColumns.push(checkbox.value);
-        }
-      }
-      
-      categories[category] = {
-        dateColumnValue: dateColumnValue,
-        visibleColumns: visibleColumns
-      };
-    }
-    
-    return {
-      // Global filters
-      searchValue: searchValue,
-      startDateValue: startDateValue,
-      endDateValue: endDateValue,
-      payPointValue: payPointValue,
-      showCompletedChecked: showCompletedChecked,
-      showUnassignedChecked: showUnassignedChecked,
-      show999Checked: show999Checked,
-      
-      // Category-specific filters
-      categories: categories
-    };
-  }
-
-  /**
-   * Summary. Restores filter state to DOM
-   * @this    Class scope
-   * @access  private
-   * @param   {Object} filterState Filter state object to restore
-   */
-  _restoreFilterState(filterState)
-  {
-    if (!filterState) return;
-    
-    // Restore global search box value
-    if (this.SearchNode && filterState.searchValue !== undefined)
-    {
-      this.SearchNode.value = filterState.searchValue;
-    }
-    
-    // Restore global date values
-    if (this.SearchStartDateNode && filterState.startDateValue !== undefined)
-    {
-      if (filterState.startDateValue === '')
-      {
-        this.SearchStartDateNode.value = '';
-        if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
-        {
-          this.SearchStartDateNode.widgets.DateTime.setNone();
-        }
-      }
-      else
-      {
-        let startDateObj = new Date(filterState.startDateValue);
-        this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDateObj).toFormat(this.SearchDateFormat);
-        if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
-        {
-          this.SearchStartDateNode.widgets.DateTime.setDate(startDateObj, false);
-        }
-      }
-    }
-    
-    if (this.SearchEndDateNode && filterState.endDateValue !== undefined)
-    {
-      if (filterState.endDateValue === '')
-      {
-        this.SearchEndDateNode.value = '';
-        if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime'))
-        {
-          this.SearchEndDateNode.widgets.DateTime.setNone();
-        }
-      }
-      else
-      {
-        let endDateObj = new Date(filterState.endDateValue);
-        this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(endDateObj).toFormat(this.SearchDateFormat);
-        if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime'))
-        {
-          this.SearchEndDateNode.widgets.DateTime.setDate(endDateObj, false);
-        }
-      }
-    }
-    
-    // Restore global PayPoint selection
-    if (this.PayPointSelectNode && filterState.payPointValue !== undefined)
-    {
-      this.PayPointSelectNode.value = filterState.payPointValue;
-    }
-    
-    // Restore global checkbox states
-    let completedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms');
-    if (completedCheckbox && filterState.showCompletedChecked !== undefined)
-    {
-      completedCheckbox.checked = filterState.showCompletedChecked;
-    }
-    
-    let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
-    if (unassignedCheckbox && filterState.showUnassignedChecked !== undefined)
-    {
-      unassignedCheckbox.checked = filterState.showUnassignedChecked;
-    }
-    
-    let show999Checkbox = document.querySelector('input[type="checkbox"]#Show999');
-    if (show999Checkbox && filterState.show999Checked !== undefined)
-    {
-      show999Checkbox.checked = filterState.show999Checked;
-    }
-    
-    // Restore category-specific settings for ALL categories
-    if (filterState.categories)
-    {
-      for (let category in filterState.categories)
-      {
-        let categoryState = filterState.categories[category];
-        
-        // Restore date column selection for this category
-        if (categoryState.dateColumnValue !== undefined && categoryState.dateColumnValue !== '')
-        {
-          let dateColumnSelect = this.SearchBox ? this.SearchBox.querySelector(`div.select[data-category="${category}"] select[name="search-date-select"]`) : null;
-          if (dateColumnSelect)
-          {
-            dateColumnSelect.value = categoryState.dateColumnValue;
-          }
-        }
-        
-        // Restore visible columns for this category
-        if (categoryState.visibleColumns !== undefined && Array.isArray(categoryState.visibleColumns))
-        {
-          let columnCheckboxes = this.ColumnListNode ? this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`) : [];
-          for (let checkbox of columnCheckboxes)
-          {
-            // Check if this column was in the saved visible list
-            checkbox.checked = categoryState.visibleColumns.includes(checkbox.value);
-          }
-        }
-      }
+      this.ShowingSearchResults = false;
     }
   }
 
@@ -24920,59 +23157,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             switch (event.target.dataset.action)
             {
               case 'startnew':
-                  
-                event.preventDefault();
-                event.stopPropagation();
+
                 await this._startNewForm();
                 break
 
               case 'resetsearch':
 
-                await this._reset();
+                Affinity2018.Tooltips.Hide();
+                this.SearchBox.classList.remove('show');
+                this.SearchNode.value = '';
+                this.State.SearchQuery = '';
+                if (this.ShowingSearchResults)
+                {
+                  await this.GetResults();
+                  this.ShowingSearchResults = false;
+                }
                 break
 
               case 'attemptsearch':
 
-                await this._attemptSearch('_gridClicked -> attemptsearch button');
+                await this._attemptSearch();
                 break
-
-              case 'show-hide-filters':
-
-                if (this.InboxWrapperNode.classList.contains('show-filters'))
-                {
-                  this._hideSearch();
-                  this.SearchNode.blur();
-                }
-                else
-                {
-                  this._showSearch();
-                  // Skip focus on Apple mobile - iOS zooms on input focus
-                  if (!Affinity2018.IsAppleMobile) this.SearchNode.focus();
-                }
-                break
-
-              case 'show-hide-columns-select':
-
-                if (this.ColumnListNode.classList.contains('show'))
-                {
-                  this._hideColumnSelect(event);
-                }
-                else
-                {
-                  this._showColumnSelect(event);
-                }
-                break;
 
               default:
-                //console.log('Unkown Button Clicked?');
-                //console.log(event.target);
+                console.log('Unkown Button Clicked?');
+                console.log(event.target);
                 break;
             }
           }
           else
           {
-            //console.log('Unkown Button Clicked?');
-            //console.log(event.target);
+            console.log('Unkown Button Clicked?');
+            console.log(event.target);
           }
           break;
 
@@ -24990,88 +23206,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             await this._gotoPage(this._getCurrentPage() + 1);
           }
-          else if (event.target.classList.contains('sort-pill-icon'))
-          {
-            event.preventDefault();
-            event.stopPropagation();
-
-            let column = event.target.parentNode.dataset.column;
-            let ascending = JSON.parse(event.target.parentNode.dataset.ascending.toLowerCase());
-            let direction = ascending ? 'desc' : 'asc';
-            event.target.classList.remove('asc', 'desc');
-            event.target.classList.add(direction);
-            event.target.parentNode.dataset.ascending = !ascending;
-            let headerNode = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${column}"]`);
-            if (headerNode)
-            {
-              headerNode.dataset.ascending = !ascending;
-            }
-
-            await this._updateSortData(true, true); // redraw, then search
-          }
-          else if (event.target.classList.contains('sort-pill-close'))
-          {
-            event.preventDefault();
-            event.stopPropagation();
-
-            let column = event.target.parentNode.dataset.column;
-            let headerNode = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${column}"]`);
-            if (headerNode)
-            {
-              headerNode.dataset.ascending = 'null';
-            }
-
-            event.target.parentNode.parentNode.removeChild(event.target.parentNode);
-
-            await this._updateSortData(true, true); // redraw, then search
-          }
-          else if (event.target.classList.contains('toggle-search-checks'))
-          {
-            let span = event.target;
-            let checkWrapper = span.parentNode;
-            let checks = checkWrapper.querySelectorAll('input[type="checkbox"]');
-            let allChecked = span.classList.contains('toggled-on');
-            for (let check of checks)
-            {
-              check.checked = allChecked ? false : true;
-            }
-            if (allChecked)
-            {
-              span.classList.remove('toggled-on');
-              span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.select_all_search_checks');
-            }
-            else 
-            {
-              span.classList.add('toggled-on');
-              span.innerHTML = $a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks');
-            }
-            this._attemptSearchDebounced('_gridClicked -> span -> toggle-search-checks');
-          }
-          else if (event.target.classList.contains('toggle-search-checks-visible'))
-          {
-            // this is now hidden so should never get hit
-            debugger;
-            let container = event.target.closest('div.search-columns');
-            let checkListNode = container ? container.querySelector(`div[data-category="${this.State.ActiveCategory}"]`) : null;
-            if (checkListNode)
-            {
-              let isVisible = this.InboxWrapperNode.classList.contains('show-filter-checks');
-              if (this.InboxWrapperNode.classList.contains('show-filter-checks'))
-              {
-                this.InboxWrapperNode.classList.remove('show-filter-checks')
-                event.target.innerHTML = 'Show';
-              }
-              else
-              {
-                this.InboxWrapperNode.classList.add('show-filter-checks')
-                event.target.innerHTML = 'Hide';
-              }
-            }
-          }
           else
           {
-            //console.log('Unknown Span Clicked?');
-            //console.log(event.target);
+            console.log('Unknown Span Clicked?');
+            console.log(event.target);
           }
           break;
 
@@ -25085,20 +23223,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           {
             if (this.SearchBox.classList.contains('show'))
             {
-              this._hideSearch();
+              this.SearchBox.classList.remove('show');
               this.SearchNode.blur();
             }
             else
             {
-              this._showSearch();
+              this.SearchBox.classList.add('show');
               // Skip focus on Apple mobile - iOS zooms on input focus
               if (!Affinity2018.IsAppleMobile) this.SearchNode.focus();
             }
           }
           else
           {
-            //console.log('Unknown Div Clicked?');
-            //console.log(event.target);
+            console.log('Unknown Div Clicked?');
+            console.log(event.target);
           }
           break;
 
@@ -25107,101 +23245,49 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           if (event.target.hasAttribute('data-ascending'))
           {
             let ascendingString = event.target.dataset.ascending;
-            let sortHeaders = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
 
-            if (ascendingString === 'null' && sortHeaders.length >= 8)
+            if (ascendingString !== 'null')
             {
-              Affinity2018.Dialog.Show({
-                message: $a.Lang.ReturnPath('app.cf.inbox.max_column_sort'),
-                showOk: true,
-                showCancel: false
-              });
-              return;
-            }
-
-            if (ascendingString === 'null')
-            {
-              ascendingString = 'true';
-            }
-            else if (ascendingString === 'true')
-            {
-              ascendingString = 'false';
+              ascendingString = ascendingString === 'true' ? 'false' : 'true';
             }
             else
             {
-              if (sortHeaders.length > 1)
+              ascendingString = 'true';
+            }
+
+            if (event.target.dataset.type && event.target.dataset.type === 'date')
+            {
+              if (ascendingString !== 'null')
               {
-                ascendingString = 'null';
+                //ascendingString = ascendingString === 'true' ? 'false' : 'true';
               }
-              else
+            }
+
+            let gridNode = document.querySelector(`table[data-category="${this.State.ActiveCategory}"]`);
+            for (let column of gridNode.querySelectorAll('thead th'))
+            {
+              if (column.dataset.name && column.hasAttribute('data-ascending'))
               {
-                ascendingString = 'true';
+                column.dataset.ascending = 'null';
               }
             }
 
             event.target.dataset.ascending = ascendingString;
 
-            await this._updateSortData(true, true); // redraw, then search
-          }
-
-          break;
-
-        case 'td':
-
-          // Disable click-to-edit on mobile devices
-          if (Affinity2018.IsMobile) return;
-
-          clearTimeout(this._rowClickedAutoLoadEdit);
-          if (window.getSelection().toString().trim() === '')
-          {
-            let editButton = event.target.closest('tr').querySelector('button.edit');
-            let viewButton = event.target.closest('tr').querySelector('button.view');
-            let instance = event.target.closest('tr').dataset.instance ? event.target.closest('tr').dataset.instance.replace('instances/', '') : null;
-            if (editButton && instance)
+            if (ascendingString === 'null')
             {
-              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, 250, `${this.EditUrl}${instance}`, true);
-              return;
+              debugger;
             }
-            if (viewButton && instance)
-            {
-              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, 250, `${this.ViewUrl}${instance}`, true);
-              return;
-            }
-          }
 
-          break;
-
-        case 'input':
-
-          if (event.target.type === 'checkbox')
-          {
-            let id = event.target.id ? event.target.id : null;
-            switch (id)
+            this.State.CategorySettings[this.State.ActiveCategory].SortField = event.target.dataset.name;
+            this.State.CategorySettings[this.State.ActiveCategory].Ascending = event.target.dataset.ascending === 'true' ? true : false;
+            if (this.EnableLocalStore)
             {
-                
-              case 'SearchShowCompletedForms':
-              case 'SearchShowUnassigned':
-              case 'Show999':
-                this._resetPagesToOne();
-                this._attemptSearchDebounced(`_gridClicked -> input -> checkbox -> ${id}`);
-                return;
-                break;
+              Affinity2018.Storage.Local.Set(`InboxSort${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortField);
+              Affinity2018.Storage.Local.Set(`InboxAscending${this.State.ActiveCategory}${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].Ascending);
             }
-              
-            if (id !== null && id.startsWith('show-hide-check'))
-            {
-              // Keep column select menu open when clicking checkboxes
-              clearTimeout(this._columnSelecAutoHide);
-              if (Affinity2018.isEvent(event) && event.isTrusted)
-              {
-                event.stopPropagation();
-                //event.preventDefault();
-              }
-              setTimeout(this._showColumnSelect, 50, event);
-              this._resetPagesToOne();
-              await this._checkSortAfterColumnChange(event.target); // Will do _attemptSearchDebounced
-              return;
-            }
+
+            await this.GetResults();
 
           }
 
@@ -25210,94 +23296,40 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         case 'input':
         case 'label':
 
+          let menuItem = event.target.closest('div.colum-menu-item[data-column]');
+          if (menuItem)
+          {
+            this._checkHiddenRows();
+          }
+
           break;
 
       }
     }
   }
 
-  /**/ 
-
-  _checkColumnSelectHide()
-  {
-    this._columnSelecAutoHide = setTimeout(this._hideColumnSelect, 50);
-  }
-  _showColumnSelect(event)
-  {
-    clearTimeout(this._columnSelecAutoHide);
-    if (Affinity2018.isEvent(event) && event.isTrusted)
-    {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-    let buttonNode = this.ColumnListNode.parentNode.querySelector('button[data-action="show-hide-columns-select"]');
-    let parent = buttonNode.offsetParent;
-    let buttonLeft = buttonNode.offsetLeft;
-    let buttonRight = buttonLeft + buttonNode.offsetWidth;
-    let rightWithinParent = parent.clientWidth - buttonRight;
-    this.ColumnListNode.style.right = `${rightWithinParent}px`;
-    this.ColumnListNode.classList.add('show');
-  }
-  _hideColumnSelect(event)
-  {
-    clearTimeout(this._columnSelecAutoHide);
-    if (Affinity2018.isEvent(event) && event.isTrusted)
-    {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-    this.ColumnListNode.classList.remove('show');
-  }
-  async _checkSortAfterColumnChange(checkboxNode)
-  {
-    if (checkboxNode)
-    {
-      let category = checkboxNode.dataset.category;
-      let columnName = checkboxNode.value;
-      let headerNode = this.ResultNode.querySelector(`table[data-category="${category}"] th[data-name="${columnName}"]`);
-      if (!checkboxNode.checked && headerNode.dataset.ascending !== 'null')
-      {
-        headerNode.dataset.ascending = 'null';
-      }
-    }
-    await this._updateSortData(true, true); // redraw, then search
-  }
-
-  /**/
-
   _rowButtonClicked(event)
   {
     let rowNode = event.target.closest('tr');
     let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
-    let newTab = event && event.ctrlKey;
-    let delay = newTab ? 0 : 500;
     if (event.target.classList.contains('edit'))
     {
-      // Same-tab navigation: Show page loader immediately, then delay navigation.
-      // The delay gives the browser time to render the loader before the (slow) 
-      // navigation call locks up the UI. Without this, users click repeatedly 
-      // waiting for something to happen. The loader stays visible during navigation
-      // and is cleaned up by pageshow handler when returning via browser back.
-      if (!newTab) this._forceShowPageLoader();
-      setTimeout((() =>
-      {
-        this._loadUrl(`${this.EditUrl}${instance}`, newTab);
-      }).bind(this), delay);
+      this._loadUrl(`${this.EditUrl}${instance}`, event.ctrlKey);
       return;
     }
     if (event.target.classList.contains('view'))
     {
-      // Same pattern as edit button - show loader, delay nav to prevent UI lock
-      if (!newTab) this._forceShowPageLoader();
-      setTimeout((() =>
-      {
-        this._loadUrl(`${this.ViewUrl}${instance}`, newTab);
-      }).bind(this), delay);
+      this._loadUrl(`${this.ViewUrl}${instance}`, event.ctrlKey);
       return;
     }
-    if (event.target.classList.contains('details'))
+    if (event.target.classList.contains('archive'))
     {
-      this._showRowDetails(rowNode);
+      this._processRow('archive', rowNode);
+      return;
+    }
+    if (event.target.classList.contains('restore'))
+    {
+      this._processRow('restore', rowNode);
       return;
     }
     if (event.target.classList.contains('delete'))
@@ -25305,8 +23337,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this._processRow('delete', rowNode);
       return;
     }
-    //console.log('Unkown Button Clicked?');
-    //console.log(event.target);
+    console.log('Unkown Button Clicked?');
+    console.log(event.target);
   }
 
   _loadUrl(url, newTab = false)
@@ -25325,142 +23357,150 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
   }
 
-  _showRowDetails(rowNode)
-  {
-    this._showLoader();
-    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
-    let url = `${this.DetailsEndpoint}${instance}`;
-    setTimeout(this._loadUrl, 100, url);
-  }
-
   async _processRow(type, rowNode)
   {
     this.DeleteAPI = '/Inbox/Delete/';
-    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
-    let url = `${this.DeleteAPI}?id=${instance}&redirect=false`;
-
-    try
+    this.ArchiveAPI = '/Inbox/Archive/';
+    this.RestoreAPI = '/Inbox/Restore/';
+    if (rowNode)
     {
-      await this.ShowDialogAsync({
-        message: $a.Lang.ReturnPath('app.cf.inbox.process_row_message', { type: type }),
-        textAlign: 'left',
-        buttons: {
-          ok: {
-            show: true,
-            icon: 'tick',
-            text: $a.Lang.ReturnPath('app.cf.inbox.process_row_message_confirm'),
-            color: 'blue'
-          },
-          else: false,
-          cancel: {
-            show: true,
-            icon: 'cross',
-            text: $a.Lang.ReturnPath('app.cf.inbox.process_row_message_deny'),
-            color: 'grey'
+      let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+      let api = null;
+      switch (type)
+      {
+        case 'archive':
+          api = this.ArchiveAPI;
+          rowNode.classList.add('archiving');
+          break;
+        case 'restore':
+          api = this.RestoreAPI;
+          rowNode.classList.add('restoring');
+          break;
+        case 'delete':
+          api = this.DeleteAPI;
+          rowNode.classList.add('deleting');
+          break;
+      }
+
+      let url = `${api}?id=${instance}&redirect=false`;
+
+      try
+      {
+        await this.ShowDialogAsync({
+          message: `Are you sure you want to ${type} this form?`,
+          textAlign: 'left',
+          buttons: {
+            ok: {
+              show: true,
+              icon: 'tick',
+              text: 'Yes',
+              color: 'blue'
+            },
+            else: false,
+            cancel: {
+              show: true,
+              icon: 'cross',
+              text: 'No',
+              color: 'grey'
+            }
           }
+        });
+      }
+      catch (message)
+      {
+        rowNode.classList.remove('archiving', 'restoring', 'deleting');
+        Affinity2018.HidePageLoader(true);
+        return false;
+      }
+
+      Affinity2018.ShowPageLoader(true);
+
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         }
       });
-    }
-    catch (message)
-    {
-      Affinity2018.HidePageLoader(true);
-      return false;
-    }
 
-    Affinity2018.ShowPageLoader(true);
-
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+      if (!response.ok)
+      {
+        rowNode.classList.remove('archiving', 'restoring', 'deleting');
+        console.warn(response);
+        Affinity2018.HidePageLoader(true);
+        return false;
       }
-    });
 
-    if (!response.ok)
-    {
-      console.warn(response);
+      let data = await response.json();
+
+      if (data.Success)
+      {
+        await this.GetResults();
+      }
+      else
+      {
+        rowNode.classList.remove('archiving', 'restoring', 'deleting');
+        console.warn(response);
+        Affinity2018.HidePageLoader(true);
+        return false;
+      }
+
       Affinity2018.HidePageLoader(true);
-      return false;
+      return true;
     }
-
-    let data = await response.json();
-
-    if (data.Success)
-    {
-      this._attemptSearchDebounced('_processRow');
-    }
-    else
-    {
-      console.warn(response);
-      Affinity2018.HidePageLoader(true);
-      return false;
-    }
-
-    Affinity2018.HidePageLoader(true);
-    return true;
+    return false;
   }
 
-  // Save user's column visibility preferences to localStorage
-  _saveHiddenColumns()
+  _checkHiddenRows()
   {
-    for (let category in this.State.CategorySettings)
+    let timeout = 10;
+    clearTimeout(this._checkHiddenRowsThorttle);
+    this._checkHiddenRowsThorttle = setTimeout((() => 
     {
-      let menuNode = this.SearchBarBox.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
-      let menuItems = menuNode ? menuNode.querySelectorAll(`div`) : [];
-      for (let menuItem of menuItems)
+      //console.clear();
+      //console.log('check hidden rows');
+      for (let category in this.State.CategorySettings)
       {
-        let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
-        let column = menuItem.querySelector(`input[type="checkbox"]`).value;
-        let key = `InboxColumnsShow-${this.ViewMode}-${category}-${column}-${this.StorageKeySuffix}`;
-        let currentSet = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(key) : null;
-        if (currentSet !== showIt && this.EnableLocalStore)
+        let gridNode = document.querySelector(`table[data-category="${category}"]`);
+        let menuNode = gridNode.querySelector(`div.colum-menu`);
+        let menuItems = menuNode.querySelectorAll(`div.colum-menu-item[data-column]`);
+        for (let menuItem of menuItems)
         {
-          Affinity2018.Storage.Local.Set(key, showIt);
+          let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
+          let column = menuItem.dataset.column;
+          let key = `InboxColumnsShow${category}${column}${this.StorageKeySuffix}`;
+          let currentSet = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(key) : null;
+          if (currentSet !== showIt && this.EnableLocalStore)
+          {
+            Affinity2018.Storage.Local.Set(key, showIt);
+          }
+          let columnNodes = gridNode.querySelectorAll(`th[data-name="${column}"], td[data-name="${column}"]`);
+          for (let columnNode of columnNodes)
+          {
+            if (showIt)
+            {
+              columnNode.classList.remove('hidden');
+            }
+            else
+            {
+              columnNode.classList.add('hidden');
+            }
+          }
+          // Do footer colspans too ..
+          let activeGridheaders = gridNode.querySelectorAll(`thead th:not(.hidden)`);
+          let footerRows = gridNode.querySelectorAll(`tfoot td`);
+          for (let footerRow of footerRows)
+          {
+            footerRow.setAttribute('colspan', activeGridheaders.length);
+          }
+          // Then reset any mesage rows in body
+          let gridRows = gridNode.querySelectorAll(`tbody td[colspan]`);
+          for (let gridRow of gridRows)
+          {
+            gridRow.setAttribute('colspan', activeGridheaders.length);
+          }
         }
       }
-    }
-  }
-
-  // Apply hidden classes to DOM based on checkbox state
-  _applyHiddenColumns()
-  {
-    for (let category in this.State.CategorySettings)
-    {
-      let gridNode = document.querySelector(`table[data-category="${category}"]`);
-
-      let menuNode = this.SearchBarBox.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
-      let menuItems = menuNode ? menuNode.querySelectorAll(`div`) : [];
-      for (let menuItem of menuItems)
-      {
-        let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
-        let column = menuItem.querySelector(`input[type="checkbox"]`).value;
-        let columnNodes = gridNode.querySelectorAll(`col[data-name="${column}"], th[data-name="${column}"], td[data-name="${column}"]`);
-        for (let columnNode of columnNodes)
-        {
-          if (showIt)
-          {
-            columnNode.classList.remove('hidden');
-          }
-          else
-          {
-            columnNode.classList.add('hidden');
-          }
-        }
-        // Do footer colspans too ..
-        let activeGridheaders = gridNode.querySelectorAll(`thead th:not(.hidden)`);
-        let footerRows = gridNode.querySelectorAll(`tfoot td`);
-        for (let footerRow of footerRows)
-        {
-          footerRow.setAttribute('colspan', activeGridheaders.length);
-        }
-        // Then reset any mesage rows in body
-        let gridRows = gridNode.querySelectorAll(`tbody td[colspan]`);
-        for (let gridRow of gridRows)
-        {
-          gridRow.setAttribute('colspan', activeGridheaders.length);
-        }
-      }
-    }
+    }).bind(this), timeout);
   }
 
   /**/
@@ -25469,7 +23509,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.State.CategorySettings.hasOwnProperty(category) && document.querySelector(`div.inbox-tab-box[data-category="${category}"]`))
     {
-
       for (let tab of document.querySelectorAll(`div.inbox-tab`))
       {
         tab.classList.remove('selected');
@@ -25478,40 +23517,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       {
         box.classList.add('hidden');
       }
-      for (let checks of document.querySelectorAll(`div.search-columns div[data-category]`))
-      {
-        checks.classList.add('hidden');
-      }
-      for (let checksbox of document.querySelectorAll(`div.inbox-sort-bar[data-category]`))
-      {
-        checksbox.classList.add('hidden');
-      }
-      for (let columnCheckList of document.querySelectorAll(`div.show-hide-columns-check-list`))
-      {
-        columnCheckList.classList.add('hidden');
-      }
-      for (let select of document.querySelectorAll(`div.inbox-search-filters div.select[data-category]`))
-      {
-        select.classList.add('hidden');
-      }
-
       document.querySelector(`div.inbox-tab-box[data-category="${category}"]`).classList.remove('hidden');
       document.querySelector(`div.inbox-tab[data-category="${category}"]`).classList.add('selected');
-      document.querySelector(`div.search-columns div[data-category="${category}"]`).classList.remove('hidden');
-      document.querySelector(`div.inbox-sort-bar[data-category="${category}"]`).classList.add('show');
-      document.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`).classList.remove('hidden');
-      document.querySelector(`div.inbox-search-filters div.select[data-category="${category}"]`).classList.remove('hidden');
-
       this.State.ActiveCategory = category;
       if (this.EnableLocalStore)
       {
-        Affinity2018.Storage.Local.Set(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`, category);
+        Affinity2018.Storage.Local.Set(`InboxTab${this.StorageKeySuffix}`, category);
       }
-
-      this._prcessSortBar(false);
-
-      // Show mobile scroll indicator if needed
-      this._mobileIndicateScroll();
     }
   }
 
@@ -25524,169 +23536,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     if (this.EnableLocalStore)
     {
-      //Affinity2018.Storage.Local.Set(`InboxPage-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, page);
+      Affinity2018.Storage.Local.Set(`InboxPage${this.State.ActiveCategory}${this.StorageKeySuffix}`, page);
     }
     this.State.CategorySettings[this.State.ActiveCategory].CurrentPage = page;
-    //await this._attemptSearchDebounced(`pagination -> _gotoPage -> page ${page}`);
-    await this._attemptSearch(`pagination -> _gotoPage -> page ${page}`);
-  }
-
-  /**/
-
-  async _updateSortData(redraw = false, reload = false)
-  {
-    let sorts = [];
-    let headers = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-order][data-ascending]:not([data-ascending="null"])`);
-
-    if (headers.length === 0)
-    {
-      this._sortReset();
-      return;
-    }
-
-    let sortedHeaders = [...headers].sort((a, b) =>
-    {
-      let orderA = isNaN(parseInt(a.dataset.order)) ? -1 : parseInt(a.dataset.order);
-      let orderB = isNaN(parseInt(b.dataset.order)) ? -1 : parseInt(b.dataset.order);
-      return orderA - orderB;
-    });
-
-    for (let header of sortedHeaders)
-    {
-      sorts.push({
-        Name: header.dataset.name,
-        Ascending: header.dataset.ascending
-      });
-    }
-    this.State.CategorySettings[this.State.ActiveCategory].SortFields = sorts;
-    if (this.EnableLocalStore)
-    {
-      Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
-    }
-
-    if (redraw)
-    {
-      await this._prcessSortBar(reload);
-    }
-  }
-
-  async _prcessSortBar(reload = true)
-  {
-    let sortBarNode = this.ResultNode.querySelector(`div.inbox-sort-bar[data-category="${this.State.ActiveCategory}"]`);
-    let sotbarPillNode = sortBarNode.querySelector('div.sort-pills');
-    sotbarPillNode.innerHTML = '';
-
-    let allHeaderNodes = this.ResultNode.querySelectorAll(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-ascending]`);
-    for (let headerNode of allHeaderNodes)
-    {
-      headerNode.dataset.ascending = null;
-      headerNode.dataset.order = null;
-      headerNode.dataset.orderStr = null;
-    }
-
-    let allSortBars = this.ResultNode.querySelectorAll(`div.inbox-sort-bar`);
-    for (let barNode of allSortBars)
-    {
-      barNode.classList.remove('show', 'hidden');
-    }
-
-    let sortData = this.State.CategorySettings[this.State.ActiveCategory].SortFields;
-
-    let html = '';
-    for (let item of sortData)
-    {
-      let headerNode = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${item.Name}"]`);
-      let label = headerNode.innerText.trim();
-      let index = sortData.indexOf(item);
-      html += this.SortPillTemplate({
-        Column: item.Name,
-        Label: label,
-        Ascending: item.Ascending,
-        Type: headerNode.dataset.type,
-        Index: index
-      });
-      headerNode.dataset.ascending = item.Ascending;
-      headerNode.dataset.order = sortData.length > 1 ? index : 0;
-      headerNode.dataset.orderStr = sortData.length > 1 ? this._ordinal(index + 1) : null;
-    }
-
-    sotbarPillNode.innerHTML = html;
-
-    if (this.SortPillDragAndDrop[this.State.ActiveCategory])
-    {
-      this.SortPillDragAndDrop[this.State.ActiveCategory].destroy();
-      delete this.SortPillDragAndDrop[this.State.ActiveCategory];
-    }
-
-    // always show, not only when there is only 1 sorting column
-    sortBarNode.classList.add('show');
-
-    if (sortData.length > 1)
-    {
-      this.SortPillDragAndDrop[this.State.ActiveCategory] = dragula([sotbarPillNode], {
-        direction: 'horizontal'
-      });
-      this.SortPillDragAndDrop[this.State.ActiveCategory].on('drop', (async (el, target, source, sibling) =>
-      {
-
-        let index = 0;
-        target.children;
-        for (let child of target.children)
-        {
-          let header = this.ResultNode.querySelector(`table[data-category="${this.State.ActiveCategory}"] thead tr th[data-name="${child.dataset.column}"]`);
-          header.dataset.order = index;
-          header.dataset.orderStr = this._ordinal(index + 1);
-          index++
-        }
-
-        // Update sort state from DOM and trigger search (without redrawing pills)
-        await this._updateSortData(false, false); // Update state only, no redraw
-        this._resetPagesToOne(); // Reset to page 1 when sort order changes
-        //await this._attemptSearchDebounced('sort pill drag/drop');
-        await this._attemptSearch('sort pill drag/drop');
-
-      }).bind(this));
-
-    }
-
-    if (reload)
-    {
-      //await this._attemptSearchDebounced('_prcessSortBar -> reload: true');
-      await this._attemptSearch('_prcessSortBar -> reload: true');
-    }
-
-  }
-
-  async _sortReset(event)
-  {
-    if (event)
-    {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    let defaultSortSate = JSON.parse(JSON.stringify(this.StateStore[`${this.ViewMode}Default`].CategorySettings[this.State.ActiveCategory].SortFields));
-    /**/
-    let checkboxContainerNode = this.ColumnListNode.querySelector(`div.show-hide-columns-check-list[data-category="${this.State.ActiveCategory}"]`);
-    if (checkboxContainerNode)
-    {
-      let uncheckedCheckboxes = checkboxContainerNode.querySelectorAll(`input[type="checkbox"]:not(:checked)`);
-      for (let checkboxNode of uncheckedCheckboxes)
-      {
-        let columnName = checkboxNode.value; 
-        let matchingSortDataIndex = defaultSortSate.findIndex(item => item.Name === columnName);
-        if (matchingSortDataIndex > -1)
-        {
-          defaultSortSate.splice(matchingSortDataIndex, 1);
-        }
-      }
-    }
-    /**/
-    this.State.CategorySettings[this.State.ActiveCategory].SortFields = defaultSortSate;
-    if (this.EnableLocalStore)
-    {
-      Affinity2018.Storage.Local.Set(`InboxSortData-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`, this.State.CategorySettings[this.State.ActiveCategory].SortFields);
-    }
-    await this._prcessSortBar(true); // do search
+    await this.GetResults();
   }
 
   /**/
@@ -25695,9 +23548,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     Affinity2018.ShowPageLoader(true, 0);
 
-    let api = `${this.AvailableFormsAPI}?AdminMode=${(this.ViewMode === 'Admin')}`;
-
-    let response = await fetch(api);
+    let response = await fetch(`/Inbox/GetAvailableForms`);
 
     if (!response.ok)
     {
@@ -25710,11 +23561,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     if (data)
     {
-      let placeholder = $a.Lang.ReturnPath('app.cf.inbox.start_new_message');
       let selectNode = document.createElement('select');
       let option = document.createElement('option');
       option.value = '';
-      option.innerHTML = placeholder;
+      option.innerHTML = 'Select a Form';
       selectNode.appendChild(option);
       for (let item of data)
       {
@@ -25723,77 +23573,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         option.value = `${item.TemplateId};${item.WorkflowDefinitionId}`;
         selectNode.appendChild(option);
       }
-      selectNode.placeholder = placeholder;
-      Affinity2018.ShowPageLoader(true);
+      Affinity2018.HidePageLoader(true);
       let autoCompleteWidget = null;
       Affinity2018.Dialog.Show({
-        message: placeholder,
+        message: `Select a Form`,
+        showOk: true,
+        showCancel: true,
         showInput: false,
         textAlign: 'left',
-        buttons: {
-          ok: {
-            show: true,
-            icon: 'tick',
-            text: 'Start',
-            color: 'green',
-            order: 1
-          },
-          else: false,
-          cancel: {
-            show: true,
-            icon: 'cross',
-            text: 'Cancel',
-            color: 'grey',
-            order: 3
-          }
-        },
         onOk: () =>
         {
           if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
           {
-            var value = selectNode.value.toString().trim();
-            Affinity2018.ShowPageLoader(true, 0);
-            if (autoCompleteWidget !== null)
-            {
-               autoCompleteWidget.Destroy();
-               autoCompleteWidget = null;
-            }
-            Affinity2018.Dialog.Hide();
-            setTimeout(() =>
-            {
-              Affinity2018.ShowPageLoader(true, 0);
-              let form = document.createElement('form');
-              form.classList.add('hidden');
-              form.method = 'GET';
-              form.action = '/Inbox/Create';
-              let input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = 'templateAndWorkflowIds';
-              input.value = value;
-              form.appendChild(input);
-              document.body.appendChild(form);
-              form.submit();
-              document.body.removeChild(form);
-            }, 1000);
+            let form = document.createElement('form');
+            form.classList.add('hidden');
+            form.method = 'POST';
+            form.action = '/Inbox/Create';
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'templateAndWorkflowIds';
+            input.value = selectNode.value;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
           }
         },
-        onCancel: () =>
+        onClose: () => 
         {
-          Affinity2018.HidePageLoader(true);
           if (autoCompleteWidget !== null)
           {
             autoCompleteWidget.Destroy();
-            autoCompleteWidget = null;
           }
-        },
-        onClose: () =>
-        {
-          Affinity2018.HidePageLoader(true);
-          if (autoCompleteWidget !== null)
-          {
-            autoCompleteWidget.Destroy();
-            autoCompleteWidget = null;
-          } 
         }
       });
       Affinity2018.Dialog.Set(`
@@ -25804,10 +23615,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         </div>
       `);
       selectNode = Affinity2018.Dialog.ContentNode.querySelector('select');
-      selectNode.addEventListener('ready', () =>
-      {
-        Affinity2018.HidePageLoader(true);
-      });
       autoCompleteWidget = new Affinity2018.Classes.Plugins.AutocompleteWidget(selectNode);
       //if (autoCompleteWidget && autoCompleteWidget.ready)
       //{
@@ -25826,221 +23633,41 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     Affinity2018.HidePageLoader(true);
   }
 
-  /*Mode Switch */
-
-  _setTitle()
-  {
-    // Update page title based on current ViewMode
-    let titleNode = document.querySelector('div.inbox-header span.section-title');
-    if (titleNode)
-    {
-      if (this.ViewMode === 'Admin')
-      {
-        titleNode.innerText = $a.Lang.ReturnPath('app.cf.inbox.title_admin');
-      }
-      else
-      {
-        titleNode.innerText = $a.Lang.ReturnPath('app.cf.inbox.title');
-      }
-    }
-  }
-
-  async _switchMode(event)
-  {
-    if (event.target.checked)
-    {
-      await this._switchToDetault();
-    }
-    else
-    {
-      await this._switchToAdmin();
-    }
-  }
-
-  async _switchToAdmin()
-  {
-    if (this.ViewMode !== 'Admin')
-    {
-      // Capture current filter state before switching
-      this.FilterState.User = this._captureFilterState();
-      
-      document.body.classList.remove('menu-show-full');
-
-      if (this.PayPoints && this.PayPoints.length > 0)
-      {
-        this._showSearch();
-      }
-
-      if (
-        this.SearchBox.querySelector('input#StartDate') 
-        && this.SearchBox.querySelector('input#StartDate').hasOwnProperty('widgets')
-        && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
-      )
-      {
-        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
-        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
-        //this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
-        //this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
-      }
-      else
-      {
-        this.SearchBox.querySelector('input#StartDate').value = '';
-        this.SearchBox.querySelector('input#EndDate').value = '';
-      }
-
-      this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
-      this.ViewMode = 'Admin';
-      this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
-      if (this.EnableLocalStore)
-      {
-        Affinity2018.Storage.Local.Set(`InboxViewMode-${this.StorageKeySuffix}`, this.ViewMode);
-      }
-
-      this.ResultNode.innerHTML = this.AdminResultGridTemplate();
-      this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
-      
-      await this._setupResultNodes();
-      this._setTitle();
-      
-      // Restore Admin filter state if available
-      if (this.FilterState.Admin)
-      {
-        this._restoreFilterState(this.FilterState.Admin);
-        // Set flag to prevent PayPoint date override when results come back
-        this._skipPayPointDateReset = true;
-      }
-      
-      this._gotoTab(this.State.ActiveCategory);
-      
-      // Check if PayPoints are missing BEFORE attempting search (unless LocalDebug)
-      if ((!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
-      {
-        this._showAdminWarning('no-pay-points');
-        this.InboxWrapperNode.classList.add('admin-halted');
-        this.WasAdminHalted = true; // Flag that Admin was halted
-        return; // Don't attempt search or restore state
-      }
-
-      //await this._attemptSearchDebounced('_switchToAdmin');
-      await this._attemptSearch('_switchToAdmin');
-    }
-  }
-
-  async _switchToDetault()
-  {
-    if (this.ViewMode !== 'User')
-    {
-      // Capture current filter state before switching
-      this.FilterState.Admin = this._captureFilterState();
-      
-      this._hideSearch();
-
-      if (this.LocalDebug)
-      {
-        document.body.classList.add('menu-show-full');
-      }
-
-      if (
-          this.SearchBox.querySelector('input#StartDate') 
-          && this.SearchBox.querySelector('input#StartDate').hasOwnProperty('widgets')
-          && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
-      )
-      {
-        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
-        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
-        //this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
-        //this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
-      }
-      else
-      {
-        this.SearchBox.querySelector('input#StartDate').value = '';
-        this.SearchBox.querySelector('input#EndDate').value = '';
-      }
-
-      this.StateStore[this.ViewMode] = JSON.parse(JSON.stringify(this.State));
-      this.ViewMode = 'User';
-      this.State = JSON.parse(JSON.stringify(this.StateStore[this.ViewMode]));
-      if (this.EnableLocalStore)
-      {
-        Affinity2018.Storage.Local.Set(`InboxViewMode-${this.StorageKeySuffix}`, this.ViewMode);
-      }
-
-      this.ResultNode.innerHTML = this.ResultGridTemplate();
-      this.InboxWrapperNode = this.ResultNode.querySelector('div.inbox-v2-wrapper');
-      await this._setupResultNodes();
-      this._setTitle();
-      
-      // Restore User filter state if available
-      if (this.FilterState.User)
-      {
-        this._restoreFilterState(this.FilterState.User);
-        // Set flag to prevent PayPoint date override when results come back
-        this._skipPayPointDateReset = true;
-      }
-      
-      this._gotoTab(this.State.ActiveCategory);
-      
-      // Force search if switching back from halted Admin view
-      if (this.WasAdminHalted)
-      {
-        this.WasAdminHalted = false; // Reset flag
-        this.SearchSate = null; // Clear search state to force new search
-      }
-      
-      //await this._attemptSearchDebounced('_switchToDetault');
-      await this._attemptSearch('_switchToDetault');
-    }
-  }
-
-  /* Helpers */
+  /**/
 
   _parseUglyGen1Date(dateStr, format = 'd.MM.yyyy h:mma')
   {
+
     if (!dateStr) return '';
-
-    // is ISO
-    if (dateStr.endsWith('Z'))
-    {
-      return luxon.DateTime.fromISO(dateStr).setZone("local").toFormat(format);
-    }
-
-    // is date only
-    if (!/\d{1,2}:\d{2}(?::\d{2})?/.test(dateStr))
-    {
-      return luxon.DateTime.fromFormat(dateStr, "dd/MM/yyyy").toFormat(format);
-    }
-
-    // else
-
     let isUTC = false;
-
+  
     if (dateStr.toLowerCase().indexOf('.') !== -1)
     {
       dateStr = dateStr.replace(/\./gi, '/');
     }
-
+  
     if (new RegExp('[0-9]T[0-9]', 'i').test(dateStr))
     {
       dateStr = dateStr.replace(/(.*[0-9])t([0-9].*)/i, '$1 $2');
     }
-
+  
     if (new RegExp('[0-9]Z', 'i').test(dateStr))
     {
       dateStr = dateStr.replace(/(.*[0-9])Z/i, '$1 UTC');
     }
-
+  
     if (dateStr.toLowerCase().indexOf('utc') !== -1)
     {
       dateStr = dateStr.trim().replace(/(.*[0-9]) UTC/i, '$1');
       isUTC = true;
     }
-
+  
     let jsDate = new Date(Date.parse(dateStr));
-
-    let adjustedDate = isUTC
+  
+    let adjustedDate = isUTC 
       ? new Date(jsDate.getTime() - jsDate.getTimezoneOffset() * 60 * 1000)
       : jsDate;
-
+    
     let dt = luxon.DateTime.fromJSDate(adjustedDate);
 
     return dt.toFormat(format);
@@ -26048,45 +23675,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   }
 
   /**/
-
-  _ordinal(number)
-  {
-    return number + (['st', 'nd', 'rd'][((number + 90) % 100 - 10) % 10 - 1] || 'th');
-  }
-
-  /**/
-
-  // Mobile scroll indicator - show message when table overflows horizontally
-  _mobileIndicateScroll()
-  {
-    clearTimeout(this.scrollMessageAutoClose);
-    if (this.scrollMessage)
-    {
-      window.removeEventListener('click', this._mobileIndicateScrollHide);
-    }
-    
-    let activeBox = this.BoxesNode.querySelector(`div.inbox-tab-box[data-category="${this.State.ActiveCategory}"]:not(.hidden)`);
-    if (activeBox)
-    {
-      let table = activeBox.querySelector('table.inbox-grid');
-      if (Affinity2018.IsMobile && this.scrollMessage && table && table.parentNode.scrollWidth > table.parentNode.clientWidth)
-      {
-        this.scrollMessage.classList.add('show');
-        this.scrollMessageAutoClose = setTimeout(this._mobileIndicateScrollHide, 5000);
-        window.addEventListener('click', this._mobileIndicateScrollHide);
-      }
-    }
-  }
-
-  _mobileIndicateScrollHide()
-  {
-    clearTimeout(this.scrollMessageAutoClose);
-    if (this.scrollMessage)
-    {
-      window.removeEventListener('click', this._mobileIndicateScrollHide);
-      this.scrollMessage.classList.remove('show');
-    }
-  }
 
   _cloneEvent(event, target)
   {
@@ -26206,674 +23794,174 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   _templates()
   {
-
-    /* Admin Results */
-
-    this.AdminResultGridTemplate = () =>
-    {
-      let toggleToAction = '';
-      let toggleInProgress = '';
-      let toggleCompleted = '';
-      let toggleNode = '';
-      if (this.ShowModeToggle)
-      {
-        toggleNode = this.ToggleTemplate({
-          Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_admin'),
-          Id: 'AdminToggleToAction',
-          ClassName: 'mode-switch',
-          On: false
-        });
-      }
-      let hasToggleClass = this.ShowModeToggle ? ' has-toggle' : '';
-      return `
-      <div class="inbox-v2-wrapper admin-mode show-filters${hasToggleClass}">
-      <div class="inbox-tabs">
-        <div class="inbox-tabs-left">
-          <div class="inbox-tab"        data-category="ToAction"   ><icon class="icon-inbox"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span>0</span></div>
-          <div class="inbox-tab hidden" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div>
-          <div class="inbox-tab hidden" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
-        </div>
-        <div class="inbox-tabs-right">
-          <div class="inbox-tab-loader hidden"></div>
-          <div class="inbox-search-bar">
-            <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
-            <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
-            <button class="white" data-action="show-hide-filters">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
-            </button>
-            <button class="white" data-action="show-hide-columns-select">
-              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
-            </button>
-            <div class="show-hide-columns-check-lists">
-              <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
-            </div>
-            ${toggleNode}
-          </div>
-          <div class="inbox-tab-button">
-            <button data-action="startnew">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}</button>
-          </div>
+    this.ResultGridTemplate = `
+    <div class="inbox-tabs">
+      <div class="inbox-tabs-left">
+        <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>To Action <span>0</span></div>
+        <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>In Progress <span>0</span></div> 
+        <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>Completed <span>0</span></div>
+        <div class="inbox-tab" data-category="Archived"   ><icon class="icon-archive"></icon>Archived <span>0</span></div>
+      </div>
+      <div class="inbox-tabs-right">
+        <div class="inbox-tab-loader"></div>
+        <div class="inbox-tab-button">
+          <button data-action="startnew">Start a New Form</button>
         </div>
       </div>
-      <div class="inbox-search-filters">
-        <div class="search-row inline">
-          <div class="form-row">
-            <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}</label>
-            <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
-            <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
-            <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
-          </div>
-        </div>
-        <div class="search-row inline search-dates">
-          <div class="form-row">
-            <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-          <div class="form-row">
-            <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-        </div>
-        <div class="search-row no-label">
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="SearchShowCompletedForms">
-            <label for="SearchShowCompletedForms">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_forms')}</label>
-          </div>  
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="SearchShowUnassigned">
-            <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
-          </div>     
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="Show999">
-            <label for="Show999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
-          </div> 
-        </div>
-        <div class="search-row search-columns hidden">
-          <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.column_to_search')} <span class="toggle-search-checks-visible">${$a.Lang.ReturnPath('app.cf.inbox.buttons.column_to_search_show')}</span></label>
-          <div class="hidden" data-category="ToAction"></div>
-          <div class="hidden" data-category="InProgress"></div>
-          <div class="hidden" data-category="Completed"></div>
-        </div>
-        <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
+    </div>
+    <div class="inbox-search">
+      <div class="search-row">
+        <input type="text" placeholder="Search" />
+        <button class="grey icononly ui-has-tooltip" data-tooltip="Reset Search and Refresh Inbox" data-tooltip-dir="left" data-action="resetsearch"><span class="icon-blocked"></span></button>
+        <button class="blue" data-action="attemptsearch"><span class="icon-search"></span>Search</button>
       </div>
-      <div class="inbox-warning-message hidden" data-warning-type="no-pay-points">
-        <div class="warning-content">
-          <icon class="icon-warning"></icon>
-          <div class="warning-text">
-            <strong>${$a.Lang.ReturnPath('app.cf.inbox.warnings.no_pay_points_title')}</strong>
-            <p>${$a.Lang.ReturnPath('app.cf.inbox.warnings.no_pay_points_message')}</p>
-          </div>
-        </div>
-      </div>
-      <div class="inbox-sort-bars">
-        <div class="inbox-sort-bar" data-category="ToAction">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-        <div class="inbox-sort-bar" data-category="InProgress">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-        <div class="inbox-sort-bar" data-category="Completed">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-      </div>
-      <div class="inbox-tab-boxes">
-        <div class="inbox-tab-box" data-category="ToAction">
-          <table class="inbox-grid" data-category="ToAction">
-            <colgroup>
-              <col data-name="TemplateDescription">
-              <col data-name="RelatesTo">
-              <col data-name="PayPoint">
-              <col data-name="EffectiveDate">
-              <col data-name="WorkflowName">
-              <col data-name="PreviousAssigneeName">
-              <col data-name="LastActionTaken">
-              <col data-name="StateEnteredAt">
-              <col data-name="CurrentAssigneeName">
-              <col data-name="CurrentState">
-              <col class="buttons">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-        <div class="inbox-tab-box hidden" data-category="InProgress">
-          <table class="inbox-grid" data-category="InProgress">
-            <colgroup>
-              <col data-name="TemplateDescription">
-              <col data-name="RelatesTo">
-              <col data-name="PayPoint">
-              <col data-name="EffectiveDate">
-              <col data-name="WorkflowName">
-              <col data-name="PreviousAssigneeName">
-              <col data-name="LastActionTaken">
-              <col data-name="StateEnteredAt">
-              <col data-name="CurrentAssigneeName">
-              <col data-name="CurrentState">
-              <col class="buttons">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-        <div class="inbox-tab-box hidden" data-category="Completed">
-          <table class="inbox-grid" data-category="Completed">
-            <colgroup>
-              <col data-name="TemplateDescription">
-              <col data-name="RelatesTo">
-              <col data-name="PayPoint">
-              <col data-name="EffectiveDate">
-              <col data-name="WorkflowName">
-              <col data-name="PreviousAssigneeName">
-              <col data-name="LastActionTaken">
-              <col data-name="StateEnteredAt">
-              <col data-name="CurrentAssigneeName">
-              <col data-name="CurrentState">
-              <col class="buttons">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
-                <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th data-ascending="true" data-searchable="true"  data-name="EffectiveDate"              data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="WorkflowName"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PreviousAssigneeName"       data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="LastActionTaken"            data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"             data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"               data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.current_state')}</th>
-                <th class="buttons"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      <div class="footer-status-message">${$a.Lang.ReturnPath('app.cf.inbox.bottom_tip')}</div>
-      </div>
-      `;
-    };
-
-    this.AdminResultTemplate = (category, data) =>
-    {
-      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase() : '';
-
-      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
-      let effectiveDateTimeString = effectiveDate;
-
-      let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
-      let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
-      let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
-      let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
-      let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
-
-      let workflowName = !data.hasOwnProperty('WorkflowName') || data.WorkflowName === null || data.WorkflowName === 'null' ? '' : data.WorkflowName;
-      let previousAssigneeName = !data.hasOwnProperty('PreviousAssigneeName') || data.PreviousAssigneeName === null || data.PreviousAssigneeName === 'null' ? '' : data.PreviousAssigneeName;
-      let lastActionTaken = !data.hasOwnProperty('LastActionTaken') || data.LastActionTaken === null || data.LastActionTaken === 'null' ? '' : data.LastActionTaken;
-
-      let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
-
-      let tooltip = '';
-      let tooltipMessage = '';
-      if (isOverdue)
-      {
-        tooltipMessage += $a.Lang.ReturnPath('app.cf.inbox.form_overdue');
-      }
-      if (tooltipMessage !== '')
-      {
-        tooltip = ` data-tooltip="${tooltipMessage}" data-tooltip-dir="top,right"`;
-      }
-
-      let nameString = data.TemplateDescription;
-      if (data.SharedBy !== null)
-      {
-        nameString += `<br /><span>${data.SharedBy}</span>`;
-      }
-
-      nameString = this._checkForSearchMatch(category, 'TemplateDescription', nameString);
-      relatesTo = this._checkForSearchMatch(category, 'RelatesTo', relatesTo);
-      currentState = this._checkForSearchMatch(category, 'CurrentState', currentState);
-      enteredAtTimeString = this._checkForSearchMatch(category, 'StateEnteredAt', enteredAtTimeString);
-      effectiveDateTimeString = this._checkForSearchMatch(category, 'EffectiveDate', effectiveDateTimeString);
-      payPoint = this._checkForSearchMatch(category, 'PayPoint', payPoint);
-      currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
-      completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
-
-      workflowName = this._checkForSearchMatch(category, 'WorkflowName', workflowName);
-      previousAssigneeName = this._checkForSearchMatch(category, 'PreviousAssigneeName', previousAssigneeName);
-      lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
-
-      let buttonCount = 0;
-      let hasDelete = false;
-      let actionButtons = '';
-      if (data.CanEdit)
-      {
-        // Edit Button
-        actionButtons += `<button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-        </button>`;
-        buttonCount++;
-        // Details Button
-        actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-            <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-        </button>`;
-        buttonCount++;
-      }
-      else
-      {
-        // View Button
-        actionButtons += `<button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-        </button>`;
-        buttonCount++;
-      }
-
-      if (data.CanDelete)
-      {
-        actionButtons += `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
-        </button>`;
-        buttonCount++;
-        hasDelete = true;
-      }
-
-      let largeClass = ' ';
-      switch (category)
-      {
-
-        case 'ToAction':
-
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
-          return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
-              <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
-              <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
-              <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
-              <td data-name="WorkflowName"                                ><text>${workflowName}</text></td>
-              <td data-name="PreviousAssigneeName"                        ><text>${previousAssigneeName}</text></td>
-              <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
-              <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
-              <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+    </div>
+    <div class="inbox-tab-boxes">
+      <div class="inbox-tab-box" data-category="ToAction">
+        <table class="inbox-grid" data-category="ToAction">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Recieved</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th class="buttons">
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="ToActionEffectiveDateColumn" checked /><label for="ToActionEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="ToActionPayPointColumn" /><label for="ToActionPayPointColumn">Pay Point</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
             </tr>
-          `;
-
-          break;
-
-        case 'InProgress':
-          
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
-          return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
-              <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
-              <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
-              <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
-              <td data-name="WorkflowName"                                ><text>${workflowName}</text></td>
-              <td data-name="PreviousAssigneeName"                        ><text>${previousAssigneeName}</text></td>
-              <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
-              <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
-              <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+      <div class="inbox-tab-box hidden" data-category="InProgress">
+        <table class="inbox-grid" data-category="InProgress">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Current State</th>
+              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Assigned To</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Assigned</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th class="buttons">
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="InProgressEffectiveDateColumn" checked /><label for="InProgressEffectiveDateColumn">Effective Date</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
             </tr>
-          `;
-
-          break;
-
-        case 'Completed':
-
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
-          return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
-              <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
-              <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
-              <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
-              <td data-name="WorkflowName"                                ><text>${workflowName}</text></td>
-              <td data-name="PreviousAssigneeName"                        ><text>${previousAssigneeName}</text></td>
-              <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
-              <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
-              <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+      <div class="inbox-tab-box hidden" data-category="Completed">
+        <table class="inbox-grid" data-category="Completed">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="StateEnteredAt"      data-type="date"    >Date Completed</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th class="buttons">
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="CompletedEffectiveDateColumn" checked /><label for="CompletedEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="CompletedPayPointColumn" /><label for="CompletedPayPointColumn">Pay Point</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
             </tr>
-          `;
-
-          break;
-
-      }
-
-      return '';
-    };
-
-    /* My Forms Results */
-
-    this.ResultGridTemplate = () =>
-    {
-      let toggleToAction = '';
-      let toggleInProgress = '';
-      let toggleCompleted = '';
-      let toggleNode = '';
-      if (this.ShowModeToggle)
-      {
-        toggleNode = this.ToggleTemplate({
-          Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_my_forms'),
-          Id: 'AdminToggleToAction',
-          ClassName: 'mode-switch',
-          On: true
-        });
-      }
-      let hasToggleClass = this.ShowModeToggle ? ' has-toggle' : '';
-      return `
-      <div class="inbox-v2-wrapper user-mode${hasToggleClass}">
-      <div class="inbox-tabs">
-        <div class="inbox-tabs-left">
-          <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span>0</span></div>
-          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div> 
-          <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
-        </div>
-        <div class="inbox-tabs-right">
-          <div class="inbox-tab-loader hidden"></div>
-          <div class="inbox-search-bar">
-            <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
-            <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
-            <button class="white" data-action="show-hide-filters">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
-            </button>
-            <button class="white" data-action="show-hide-columns-select">
-              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
-            </button>
-            <div class="show-hide-columns-check-lists">
-              <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
-            </div>
-            ${toggleNode}
-          </div>
-          <div class="inbox-tab-button">
-            <button data-action="startnew">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}</button>  
-          </div>
-        </div>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
       </div>
-      <div class="inbox-search-filters">
-        <div class="search-row inline">
-          <div class="form-row">
-            <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}</label>
-            <div class="select hidden" data-category="ToAction"><select name="search-date-select"></select></div>
-            <div class="select hidden" data-category="InProgress"><select name="search-date-select"></select></div>
-            <div class="select hidden" data-category="Completed"><select name="search-date-select"></select></div>
-          </div>
-        </div>
-        <div class="search-row inline search-dates">
-          <div class="form-row">
-            <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-          <div class="form-row">
-            <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
-          </div>
-        </div>
-        <div class="search-row no-label hidden">
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="SearchShowUnassigned" class="hidden" disabled>
-            <label for="SearchShowUnassigned" class="ui-has-tooltip hidden" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
-          </div>     
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="Show999" class="hidden" disabled>
-            <label for="Show999" class="hidden">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
-          </div> 
-        </div>
-        <div class="search-row search-columns hidden">
-          <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.column_to_search')} <span class="toggle-search-checks-visible">${$a.Lang.ReturnPath('app.cf.inbox.buttons.column_to_search_show')}</span></label>
-          <div class="hidden" data-category="ToAction"></div>
-          <div class="hidden" data-category="InProgress"></div>
-          <div class="hidden" data-category="Completed"></div>
-        </div>
-        <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
+      <div class="inbox-tab-box hidden" data-category="Archived">
+        <table class="inbox-grid" data-category="Archived">
+          <thead>
+            <tr>
+              <th data-ascending="null" data-name="TemplateDescription" data-type="string"  >Name</th>
+              <th                       data-name="RelatesTo"           data-type="string"  >Relates To</th>
+              <th data-ascending="null" data-name="StateName"           data-type="string"  >Final State</th>
+              <th data-ascending="null" data-name="StateAssigneeName"   data-type="string"  >Completed By</th>
+              <th data-ascending="null" data-name="CompletedBy"         data-type="string"  >Date Completed</th>
+              <th data-ascending="null" data-name="EffectiveDate"       data-type="date"    >Effective Date</th>
+              <th                       data-name="PayPoint"            data-type="int"     >Pay Point</th>
+              <th class="buttons">
+                <div class="icon-search column-search ui-has-tooltip" data-tooltip="Search the Inbox" data-tooltip-dir="left"></div>
+                <div class="icon-dots-vert colum-menu-box">
+                  <div class="colum-menu">
+                    <div class="colum-menu-item">More Columns</div>
+                    <div class="colum-menu-item" data-column="EffectiveDate">
+                      <input type="checkbox" id="ArchivedEffectiveDateColumn" checked /><label for="ArchivedEffectiveDateColumn">Effective Date</label>
+                    </div>
+                    <div class="colum-menu-item" data-column="PayPoint">
+                      <input type="checkbox" id="ArchivedPayPointColumn" /><label for="ArchivedPayPointColumn">Pay Point</label>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
       </div>
-      <div class="inbox-sort-bars">
-        <div class="inbox-sort-bar" data-category="ToAction">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-        <div class="inbox-sort-bar" data-category="InProgress">
-           ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-        <div class="inbox-sort-bar" data-category="Completed">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-      </div>
-      <div class="inbox-tab-boxes">
-        <div class="inbox-tab-box" data-category="ToAction">
-          <table class="inbox-grid" data-category="ToAction">
-            <colgroup>
-              <col data-name="TemplateDescription">
-              <col data-name="RelatesTo">
-              <col data-name="CurrentState">
-              <col data-name="StateEnteredAt">
-              <col data-name="EffectiveDate">
-              <col data-name="PayPoint">
-              <col class="buttons">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.state')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.recieved')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-        <div class="inbox-tab-box hidden" data-category="InProgress">
-          <table class="inbox-grid" data-category="InProgress">
-            <colgroup>
-              <col data-name="TemplateDescription">
-              <col data-name="RelatesTo">
-              <col data-name="CurrentState">
-              <col data-name="CurrentAssigneeName">
-              <col data-name="StateEnteredAt">
-              <col data-name="EffectiveDate">
-              <col data-name="PayPoint">
-              <col class="buttons">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.state')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentAssigneeName" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.assigned_to')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.assigned')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-        <div class="inbox-tab-box hidden" data-category="Completed">
-          <table class="inbox-grid" data-category="Completed">
-            <colgroup>
-              <col data-name="TemplateDescription">
-              <col data-name="RelatesTo">
-              <col data-name="CurrentState">
-              <col data-name="CompletedByName">
-              <col data-name="StateEnteredAt">
-              <col data-name="EffectiveDate">
-              <col data-name="PayPoint">
-              <col class="buttons">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription" data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
-                <th                       data-searchable="true"  data-name="RelatesTo"           data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CurrentState"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.final_state')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="CompletedByName"     data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.completed_by')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="StateEnteredAt"      data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.completed')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="EffectiveDate"       data-type="date"    >${$a.Lang.ReturnPath('app.cf.inbox.columns.effective')}</th>
-                <th data-ascending="null" data-searchable="true"  data-name="PayPoint"            data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
-                <th class="buttons"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      <div class="footer-status-message">${$a.Lang.ReturnPath('app.cf.inbox.bottom_tip')}</div>
-      </div>
-      `;
-    };
+    </div>
+    `;
+
 
     this.ResultTemplate = (category, data) =>
     {
-      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase(): '';
+      // TODO: do not use correct date parseing, use INCORECT date parsing to match Gen1. 
+      // If compaunts cokm in one day, we will have tio use correct parses and update Dashbaord tile, and Gen1 Inbox.
+      // Affinity2018.getDate(data.StateEnteredAt, 'dd.MM.yyyy hh:mm a', true, true)
 
-      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
+
+      let effectiveDate = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
-      //let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      //let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase(): '';
-
-      let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
-      let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
-      let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
-      let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
-      let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
-
-      let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
-
-      let tooltip = '';
-      let tooltipMessage = '';
-      if (isOverdue)
-      {
-        tooltipMessage += $a.Lang.ReturnPath('app.cf.inbox.form_overdue');
-      }
-      if (tooltipMessage !== '')
-      {
-        tooltip = ` data-tooltip="${tooltipMessage}" data-tooltip-dir="top,right"`;
-      }
+      let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
+      let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mm a').toLowerCase(): '';
 
       let nameString = data.TemplateDescription;
       if(data.SharedBy !== null)
@@ -26881,93 +23969,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         nameString += `<br /><span>${data.SharedBy}</span>`;
       }
 
-      nameString = this._checkForSearchMatch(category, 'TemplateDescription', nameString);
-      relatesTo = this._checkForSearchMatch(category, 'RelatesTo', relatesTo);
-      currentState = this._checkForSearchMatch(category, 'CurrentState', currentState);
-      enteredAtTimeString = this._checkForSearchMatch(category, 'StateEnteredAt', enteredAtTimeString);
-      effectiveDateTimeString = this._checkForSearchMatch(category, 'EffectiveDate', effectiveDateTimeString);
-      payPoint = this._checkForSearchMatch(category, 'PayPoint', payPoint);
-      currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
-      completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
-      
-      let buttonCount = 0;
-      let hasDelete = false;
-      let actionButtons = '';
-      if (data.CanEdit)
-      {
-        // Edit Button
-        actionButtons += `<button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-        </button>`;
-        buttonCount++;
-        //// Details Button - NON Admins do not ever get a details button
-        //actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-        //  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-        //    <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
-        //  </svg>
-        //  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-        //</button>`;
-        //buttonCount++;
-      }
-      else
-      {
-        // View Button
-        actionButtons += `<button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-        </button>`;
-        buttonCount++;
-      }
-
-      if (data.CanDelete)
-      {
-        actionButtons += `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
-        </button>`;
-        buttonCount++;
-        hasDelete = true;
-      }
-
-      let largeClass = ' ';
       switch (category)
       {
 
         case 'ToAction':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
-              <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
-              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
-              <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
-              <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
-              <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${largeClass}button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td class="buttons">
+                <button class="blue edit"><span class="icon-edit"></span>Edit</button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -26976,25 +23993,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'InProgress':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
-              <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
-              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
-              <td data-name="CurrentAssigneeName"                   ><text>${currentAssigneeName}</text></td>
-              <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
-              <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
-              <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${largeClass}button-count-${buttonCount}">
-                ${actionButtons}
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="StateAssigneeName"                     >${data.StateAssigneeName}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
               </td>
             </tr>
           `;
@@ -27003,26 +24012,39 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'Completed':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
+          return `
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${enteredAtTimeString}</td>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="orange icononly archive ui-has-tooltip" data-tooltip="Archive this Form" data-tooltip-dir="left"><span class="icon-archive"></span></button>
+              </td>
+            </tr>
+          `;
+
+          break;
+
+        case 'Archived':
 
           return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
-              <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
-              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
-              <td data-name="CompletedByName"                       ><text>${completedByName}</text></td>
-              <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
-              <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
-              <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${largeClass}button-count-${buttonCount}">
-                  ${actionButtons}
-                </button>
+            <tr data-instance="${data.InstanceId}">
+              <td data-name="TemplateDescription"                   >${nameString}</td>
+              <td data-name="RelatesTo"                             >${data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo}</td>
+              <td data-name="StateName"                             >${data.StateName}</td>
+              <td data-name="CompletedBy"                           >${data.CompletedBy}</td>
+              <td data-name="StateEnteredAt"  class="datetime"      >${completedByTimeString}</th>
+              <td data-name="EffectiveDate"   class="effectivedate" >${effectiveDateTimeString}</td>
+              <td data-name="PayPoint"        class="paypoint"      >${data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint}</td>
+              <td class="buttons">
+                <button class="blue view"><span class="icon-page"></span>View</button>
+                <button class="green icononly restore ui-has-tooltip" data-tooltip="Restore this Form" data-tooltip-dir="left"><span class="icon-refresh"></span></button>
+                <button class="red icononly delete ui-has-tooltip" data-tooltip="Delete this Form" data-tooltip-dir="left"><span class="icon-cross"></span></button>
               </td>
             </tr>
           `;
@@ -27034,7 +24056,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       return '';
     };
 
-    /* Error and Empty rows */
 
     this.ErrorResultTemplate = error =>
     {
@@ -27060,7 +24081,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
         return `
           <tr>
-              <td colspan="${activeGridheaders.length}">${$a.Lang.ReturnPath('app.cf.inbox.no_results')}</td>
+              <td colspan="${activeGridheaders.length}">No results to display</td>
           </tr>
         `;
       }
@@ -27074,10 +24095,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       if (activeGrid)
       {
         let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
-        if (data.TotalPages === 0 || data.Items.length === 0)
-        {
-          return '';
-        }
         return `
           <tr>
               <td colspan="${activeGridheaders.length}">Page ${data.CurrentPage} of ${data.TotalPages}</td>
@@ -27108,11 +24125,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           let lastHidden = data.CurrentPage < 2 ? ' disabled' : '';
           let nextHidden = data.CurrentPage < data.TotalPages ? '' : ' disabled';
           let placeHolder = document.createElement('div');
-
-          // Pagination nav arrow SVGs
-          let navLeftSvg = `<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5307 12.2392C7.37606 12.2392 7.21981 12.1881 7.08933 12.0861L0.262568 6.64853C0.0966507 6.51614 0 6.31676 0 6.10461C0 5.89407 0.0966507 5.69309 0.262568 5.5623L7.06033 0.153474C7.36317 -0.087379 7.80615 -0.0395275 8.04939 0.260342C8.29263 0.560212 8.2443 0.998852 7.94147 1.2397L1.8267 6.10461L7.97207 10.9998C8.27491 11.2407 8.32324 11.6793 8.08 11.9792C7.93985 12.1499 7.73689 12.2392 7.5307 12.2392Z" fill="currentColor"/></svg>`;
-          let navRightSvg = `<svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.705364 11.6667C0.860241 11.6667 1.01673 11.618 1.14741 11.5207L7.98456 6.33753C8.15073 6.21133 8.24753 6.02127 8.24753 5.81906C8.24753 5.61836 8.15073 5.42678 7.98456 5.30211L1.17645 0.146295C0.873147 -0.0832917 0.42949 -0.0376785 0.185883 0.248164C-0.0577259 0.534007 -0.00932598 0.952128 0.293973 1.18171L6.41805 5.81906L0.26332 10.4853C-0.039979 10.7149 -0.088378 11.133 0.15523 11.4188C0.295587 11.5815 0.498862 11.6667 0.705364 11.6667Z" fill="currentColor"/></svg>`;
-
           if (data.Items.length > 0)
           {
             let large = '';
@@ -27171,8 +24183,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             }
             else
             {
-              // just load them all
-              for (p = 1; p <= data.TotalPages; p++)
+              // jsut load them all
+              for (p = 1; p < data.TotalPages; p++)
               {
                 large = p > 99 ? ' large' : '';
                 if (p === data.CurrentPage)
@@ -27185,14 +24197,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 }
               }
             }
-
             return `
               <tr>
                 <td colspan="${activeGridheaders.length}">
                   <div class="pagination">
-                    <span class="page-last${lastHidden}">${navLeftSvg}</span>
+                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
                     ${placeHolder.innerHTML}
-                    <span class="page-next${nextHidden}">${navRightSvg}</span>
+                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
                     <br />
                     <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
                   </div>
@@ -27206,9 +24217,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <tr>
                 <td colspan="${activeGridheaders.length}">
                   <div class="pagination">
-                    <span class="page-last${lastHidden}">${navLeftSvg}</span>
+                    <span class="page-last${lastHidden}"><icon class="icon-arrow-left"></icon></span>
                     ${placeHolder.innerHTML}
-                    <span class="page-next${nextHidden}">${navRightSvg}</span>
+                    <span class="page-next${nextHidden}"><icon class="icon-arrow-right"></icon></span>
                     <br />
                     <span class="total-items select-enabled">Page ${data.CurrentPage} of ${data.TotalPages}</span>
                   </div>
@@ -27221,46 +24232,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       return '';
     };
 
-    /* other */
-
-    this.SearchCheckTemplate = (data) =>
-    {
-      let forId = `${data.Category}_${data.Column}`;
-      return `
-        <div class="check-wrapper check-first ui-has-tooltip" data-tooltip="${data.Tooltip}" data-tooltip-direction="top,right">
-          <input type="checkbox" id="${forId}" data-categroy="${data.Category}" data-column="${data.Column}" checked />
-          <label for="${forId}">${data.Label}</label>
-        </div>
-      `;
-    };
-
-    this.SortPillTemplate = data =>
-    {
-      let direction = data.Ascending ? 'asc' : 'desc';
-      return `
-        <span class="sort-pill" data-column="${data.Column}" data-ascending="${data.Ascending}" data-type="${data.Type}">
-          ${data.Label}
-          <span class="sort-pill-icon ${direction}"></span>
-          <span class="sort-pill-close"></span>
-        </span>
-      `;
-    };
-
-    this.ToggleTemplate = data =>
-    {
-      let checked = data.On ? ' checked="checked"' : '';
-      let className = data.ClassName ? ` ${data.ClassName}` : '';
-      return `
-      <div class="toggle-container${className}">
-        <label class="toggle-title" for="${data.Id}">${data.Label}</label>
-        <label class="toggle-switch left-blue right-blue">
-          <input type="checkbox" id="${data.Id}"${checked} />
-          <span class="slider"></span>
-        </label>
-      </div>
-      `;
-    }
   }
+
 };;
 /**
  *
@@ -33304,20 +30277,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
       {
         this.FormData.Value = inputWidget.GetData();
       }
-      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
-      {
-        // Read-only bank number field - get value from disabled input
-        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
-        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
-        {
-          // Keep the original value from Config, not the formatted display string
-          this.FormData.Value = this.Config.Details.Value;
-        }
-        else
-        {
-          this.FormData.Value = null;
-        }
-      }
       else
       {
         if (this.Config.Details.hasOwnProperty('AffinityField'))
@@ -34207,20 +31166,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
         else this.FormData.Value = '';
         // methodName, input, parsed, format, output, color1, color2
         //Affinity2018.DateLog('GetFromFormRow', date, date, inputWidget.outputFormat, this.FormData.Value);
-      }
-      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
-      {
-        // Read-only date field - get value from disabled input
-        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
-        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
-        {
-          // Keep the original ISO date value from Config, not the formatted display string
-          this.FormData.Value = this.Config.Details.Value;
-        }
-        else
-        {
-          this.FormData.Value = '';
-        }
       }
 
       return this.FormData;
@@ -36051,29 +32996,12 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
       // get any special elements
 
       var inputNode = this.FormRowNode.querySelector('input.ui-calendar');
-      if (inputNode && inputNode.hasOwnProperty('widgets') && inputNode.widgets.hasOwnProperty('DateTime'))
-      {
-        var inputWidget = inputNode.widgets.DateTime;
-        var date = inputWidget.getRawDate();
 
-        if (inputNode.value.trim() !== '' && date !== false) this.FormData.Value = date.toString(inputWidget.outputFormat);
-        else this.FormData.Value = '';
-      }
-      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
-      {
-        // Read-only date field - get value from disabled input
-        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
-        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
-        {
-          // Keep the original ISO date value from Config, not the formatted display string
-          this.FormData.Value = this.Config.Details.Value;
-        }
-        else
-        {
-          this.FormData.Value = '';
-        }
-      }
+      var inputWidget = inputNode.widgets.DateTime;
+      var date = inputWidget.getRawDate();
 
+      if (inputNode.value.trim() !== '' && date !== false) this.FormData.Value = date.toString(inputWidget.outputFormat);
+      else this.FormData.Value = '';
       return this.FormData;
     }
     throw '{0} "{1}" ({2}) could not get base post data for form post'.format(this.Config.Type, this.Config.Details.Label, this.Config.UniqueName);
@@ -40678,20 +37606,6 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
         if ($a.isArray(value)) value[0] = value[0].replace(/\-/g, '').trim();
         this.FormData.Value = value;
       }
-      else if (this.IsReadOnly || this.Config.Details.IsReadOnly)
-      {
-        // Read-only tax number field - get value from disabled input
-        var readOnlyInputNode = this.FormRowNode.querySelector('input[disabled]');
-        if (readOnlyInputNode && readOnlyInputNode.value.trim() !== '')
-        {
-          // Keep the original value from Config, not the formatted display string
-          this.FormData.Value = this.Config.Details.Value;
-        }
-        else
-        {
-          this.FormData.Value = null;
-        }
-      }
       else
       {
         if (this.Config.Details.hasOwnProperty('AffinityField'))
@@ -42839,14 +39753,14 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.wrapperHeaderOffset = 0;
 
+    // iOS touch tracking: Store touchstart position to detect scroll vs tap
+    this._touchStartX = 0;
+    this._touchStartY = 0;
+    this._touchMoveThreshold = 10; // pixels - movement beyond this = scroll, not tap
+
     this.fuzzyRunning = false;
     this.workerComplete = true;
     this.status = 'closed';
-
-    // iOS touch tracking: distinguish tap from scroll
-    this._touchStartX = 0;
-    this._touchStartY = 0;
-    this._touchMoveThreshold = 10; // pixels - if moved more than this, it's a scroll
   }
 
   constructor(targetNode)
@@ -44310,7 +41224,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   /**/
 
-  // iOS: Record touch start position to distinguish tap from scroll
+  // iOS: Store touch position on touchstart to detect scroll vs tap
   _itemTouchStart(ev)
   {
     if (ev && ev.touches && ev.touches.length > 0) {
@@ -44318,6 +41232,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       this._touchStartY = ev.touches[0].clientY;
     }
   }
+
+  /**/
 
   _itemClicked(ev)
   {
@@ -44335,8 +41251,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           return false;
         }
       }
-      // It was a tap - prevent synthetic click
-      ev.preventDefault();
     }
 
     if (ev && 'isTrusted' in ev && ev.isTrusted) 
@@ -44811,9 +41725,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }
   }
 
-  _reset(fromDestroy)
+  _reset()
   {
-    fromDestroy = fromDestroy === undefined ? false : fromDestroy;
 
     // TODO: Implement Search Mode
     this.searchMode = false;
@@ -44836,44 +41749,21 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       {
         selectedNode = this.lastSelected;
       }
-
-      if (fromDestroy) return;
-
-      // Auto-repair logic: Ensure this.items is valid before forEach
-      // If items is broken/missing, attempt to recreate from listNode
-      // If recreation fails, use empty array to prevent forEach errors
-      // Note: this.items can be Array or NodeList (both support forEach and length)
-      if (!this.items || this.items.length === 0)
+      this.items.forEach(function (liNode, index)
       {
-        if (this.listNode)
+        this.listNode.appendChild(liNode);
+        this.listNode.classList.remove('selected', 'hidden', 'visible');
+        if (!this.fuzzySearchLargeDataDelay)
         {
-          this.items = this.listNode.querySelectorAll('li');
+          liNode.innerHTML = this._cleanDisplay(liNode.innerText);
         }
-        else
+        if (selectedNode && liNode === selectedNode)
         {
-          this.items = [];
+          liNode.classList.add('selected');
+          this.listNode.scrollTo(0, Affinity2018.getOffsetRect(liNode).y - 5);
+          this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
         }
-      }
-
-      // Only iterate if we have valid items
-      if (this.items && this.items.length > 0)
-      {
-        this.items.forEach(function (liNode, index)
-        {
-          this.listNode.appendChild(liNode);
-          this.listNode.classList.remove('selected', 'hidden', 'visible');
-          if (!this.fuzzySearchLargeDataDelay)
-          {
-            liNode.innerHTML = this._cleanDisplay(liNode.innerText);
-          }
-          if (selectedNode && liNode === selectedNode)
-          {
-            liNode.classList.add('selected');
-            this.listNode.scrollTo(0, Affinity2018.getOffsetRect(liNode).y - 5);
-            this._setDisplayValue(this._cleanDisplay(selectedNode.innerText));
-          }
-        }.bind(this));
-      }
+      }.bind(this));
     }
   }
 
@@ -44906,7 +41796,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   Destroy()
   {
-    this._reset(true);
+    this._reset();
     this._clearShowHideEvents();
     clearTimeout(this._elementKeyUpTimer);
     clearTimeout(this._fuzzySearchDelay);
@@ -45154,7 +42044,7 @@ function returnSelectOptions (data, searchFor, ismobile, filter)
 function returnListItem (data)
 {
   if (data.html.indexOf('(null)') > 0) data.html = data.html.replace('(null)', '').trim();
-  var li = '<li role="option"'; // Add ARIA role for accessibility and iOS clickability heuristics
+  var li = '<li';
   if (data.hasOwnProperty('uuid')) li += ' id="' + data.uuid + '-li-' + data.originalIndex + '"';
   else if (data.hasOwnProperty('id')) li += ' id="' + data.id + '"';
   li += ' class="' + data.klass + '"';
@@ -46071,7 +42961,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.ShowCountryIfUnknown = true;
 
     this.FirstLoad = true;
-    this.HasValidated = false;
 
     this.humanInteraction = false;
 
@@ -46767,7 +43656,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     else
     {
       var postData = new FormData();
-      postData.append('BankAccount', this._stringFromNodes());
+      PostData.append('BankAccount', this._stringFromNodes());
       postData.append('CountryCode', this.countrySelectNode.value);
       if (this.validationLookup && this.validationLookup.hasOwnProperty('cancelToken')) this.validationLookup.cancelToken.source.cancel(true);
       this.validationLookup = axios({
@@ -46815,23 +43704,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     {
       response = {
         data: response
-      };
-    }
-
-    if (
-      typeof response === 'object'
-      && response.hasOwnProperty('data')
-      && !$a.isArray(response.data)
-    )
-    {
-      // check fort upper and lower case versions of all
-      response = {
-        data: [{
-          IsValid: response.data.hasOwnProperty('IsValid') ? response.data.IsValid : response.data.hasOwnProperty('success') ? response.data.success : false,
-          CountryCode: response.data.hasOwnProperty('CountryCode') ? response.data.CountryCode : this.CleverForms.FormCountry,
-          BranchName: response.data.hasOwnProperty('BranchName') ? response.data.BranchName : response.data.hasOwnProperty('branchName') ? response.data.branchName : null,
-          BankName: response.data.hasOwnProperty('BankName') ? response.data.BankName : response.data.hasOwnProperty('bankName') ? response.data.bankName : null
-        }]
       };
     }
 
@@ -46951,7 +43823,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     else
     {
-      if (this._stringFromNodes() === '' && !this.HasValidated) this._setIcon();
+      if (this._stringFromNodes() === '') this._setIcon();
       else this._setIcon(this.Valid);
     }
     if (this.CleverForms.hasOwnProperty('Form'))
@@ -46960,7 +43832,6 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     }
     this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
-    this.HasValidated = true;
   }
   
   _checkHumanInteraction()
@@ -55940,360 +52811,6 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
 };
 ;
-
-if(!('Affinity2018' in window)) Affinity2018 = {};
-if(!('Classes' in Affinity2018)) Affinity2018.Classes = {};
-if(!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
-
-if(!('Apps' in Affinity2018)) Affinity2018.Apps = {};
-if(!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
-
-Affinity2018.Classes.Plugins.SimpleSelects = class
-{
-  _options()
-  {
-    this.widgets = [];
-  }
-
-  constructor()
-  {
-    this._options();
-    [
-      'Apply', 'Remove',
-      'HideAll',
-      '_apply'
-    ].bindEach(this);
-    
-    this.Ready = true;
-  }
-
-  Apply(node)
-  {
-    var temp = [];
-    if (node !== undefined && node !== null)
-    {
-      temp = [this._apply(node)];
-    }
-    else
-    {
-      document.querySelectorAll('.ui-has-simple-select').forEach(function (node)
-      {
-        temp.push(this._apply(node));
-      }.bind(this));
-    }
-    return {
-      total: temp.length,
-      widgets: temp
-    }
-  }
-
-  Remove(node)
-  {
-    if (
-      node.classList.contains('ui-simple-select')
-      && node.hasOwnProperty('widgets')
-      && node.widgets.hasOwnProperty('SimpleSelect')
-    )
-    {
-      node.widgets.SimpleSelects.Destroy();
-    }
-  }
-
-  HideAll(except)
-  {
-    var key, widget;
-    for (key in this.widgets)
-    {
-      if (this.widgets.hasOwnProperty(key))
-      {
-        widget = this.widgets[key];
-        if (typeof except === 'object' && except.hasOwnProperty('UID'))
-        {
-          if (widget.UID !== except.UID) widget.Hide();
-        }
-        else
-        {
-          widget.Hide();
-        }
-      }
-    }
-    Affinity2018.unlockBodyScroll();
-  }
-
-  /**/
-
-  _apply(node)
-  {
-    return new Affinity2018.Classes.Plugins.SimpleSelectWidget(node);
-  }
-
-};
-
-
-Affinity2018.Classes.Plugins.SimpleSelectWidget = class extends Affinity2018.ClassEvents
-{
-
-  _options()
-  {
-    this.Data = [];
-  }
-
-  constructor(targetNode)
-  {
-    super();
-    this._options();
-    [
-      '_init',
-
-      'Show', 'Hide',
-
-      'UpdateList',
-
-      'UpdateList',
-
-      '_displayClicked',
-      '_displayKeyUp',
-      '_listClicked',
-
-      '_checkHide',
-
-      '_templates',
-
-      'Destroy'
-
-    ].bindEach(this);
-    this._templates();
-
-    if (!Affinity2018.isDomElement(targetNode))
-    {
-      console.error('No valid element was passed to SimpleSelectWidget, dummy!');
-      return;
-    }
-
-    if (targetNode.classList.contains('ui-simple-select'))
-    {
-      return;
-    }
-
-    this.TargetNode = targetNode;
-    this.UID = this.TargetNode.id ? this.TargetNode.id : Affinity2018.uuid();
-
-    this.InitSize = this.TargetNode.getBoundingClientRect();
-    
-    this.TargetNode.classList.remove('ui-has-simple-select');
-    this.TargetNode.classList.add('ui-simple-select');
-
-    this._init();
-
-  }
-
-  _init()
-  {
-    if (!this.TargetNode.hasOwnProperty('widgets')) this.TargetNode.widgets = {};
-    this.TargetNode.widgets.SimpleSelect = this;
-
-    this.ParentNode = this.TargetNode.parentNode;
-    this.ParentNode.classList.add('simple-select');
-
-    this.DisplayNode = document.createElement('input');
-    this.DisplayNode.classList.add('simple-select-display');
-    this.DisplayNode.type = 'text';
-    this.DisplayNode.name = `simple-select-display-${this.UID}`;
-    this.ParentNode.appendChild(this.DisplayNode);
-
-    this.ListNode = document.createElement('div');
-    this.ListNode.classList.add('simple-select-list');
-    this.ListNode.style.marginTop = `${this.InitSize.height}px`;
-    this.ParentNode.appendChild(this.ListNode);
-
-    this.IncludeKey = this.TargetNode.hasOwnProperty('data-inlcude-key');
-
-    this.DisplayNode.addEventListener('click', this._displayClicked);
-    this.DisplayNode.addEventListener('keyup', this._displayKeyUp);
-
-    this.ListNode.addEventListener('click', this._listClicked);
-    
-    window.addEventListener('click', this._checkHide);
-
-    this.UpdateList();
-  }
-
-  /**/
-
-  Show()
-  {
-    clearTimeout(this._autoHide);
-    for (let data of this.Data)
-    {
-      let optionNode = this.ListNode.querySelector(`div[data-index="${data.Index}"]`);
-      if (optionNode)
-      {
-        optionNode.innerHTML = data.Display;
-        optionNode.classList.remove('selected');
-        if (data.Index === this.Index)
-        {
-          optionNode.classList.add('selected');
-        }
-      }
-    }
-    this.ListNode.classList.add('show');
-  }
-
-  Hide()
-  {
-    clearTimeout(this._autoHide);
-    this.ListNode.classList.remove('show');
-  }
-
-  UpdateList()
-  {
-    this._updateList();
-  }
-
-  /**/
-
-  _updateList()
-  {
-    let selectedIndex = Math.max(this.TargetNode.selectedIndex, 0);
-    let options = this.TargetNode.querySelectorAll('option');
-    let optionsHTML = ``;
-    let index = 0;
-    for (let option of options)
-    {
-      let display = option.innerHTML;
-      if (this.IncludeKey)
-      {
-        display += ` (${optoin.value})`;
-      }
-      let data = {
-        Display: display,
-        Value: option.value,
-        Index: index,
-        Selected: index === selectedIndex
-      };
-      this.Data.push(data);
-      optionsHTML += this._optionTemplate(data);
-      if (index === selectedIndex)
-      {
-        this.Value = option.value;
-        this.Display = option.innerHTML;
-        this.Index = index;
-        this.DisplayNode.value = this.Display;
-      }
-      index++;
-    }
-    this.ListNode.innerHTML = optionsHTML;
-  }
-
-  _listClicked(event)
-  {
-    if (Affinity2018.isEvent(event) && event.isTrusted)
-    {
-      event.stopPropagation();
-      event.preventDefault();
-      clearTimeout(this._autoHide);
-      let optionNode = null;
-      if (event.target.classList.contains('simple-select-list-item'))
-      {
-        optionNode = event.target;
-      }
-      else
-      {
-        optionNode = event.target.closest('.simple-select-list-item');
-      }
-      if (optionNode)
-      {
-        this.Value = optionNode.dataset.value;
-        this.Display = optionNode.dataset.display;
-        this.Index = parseInt(optionNode.dataset.index);
-        this.TargetNode.value = this.Value;
-        this.TargetNode.selectedIndex = this.Index;
-        this.TargetNode.dispatchEvent(new CustomEvent('change', { detail: { isTrusted: true }}));
-        this.DisplayNode.value = this.Display;
-        this.dispatchEvent(new CustomEvent('change', { detail: { isTrusted: true }}));
-        this.Hide();
-      }
-    }
-  }
-
-  _displayClicked(event)
-  {
-    if (Affinity2018.isEvent(event) && event.isTrusted)
-    {
-      event.stopPropagation();
-      event.preventDefault();
-      clearTimeout(this._autoHide);
-      this.Show();
-      this.DisplayNode.select();
-    }
-  }
-
-  _displayKeyUp(event)
-  {
-    if (Affinity2018.isEvent(event) && event.isTrusted)
-    {
-      let escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      let value = this.DisplayNode.value;
-      for (let data of this.Data)
-      {
-        let optionNode = this.ListNode.querySelector(`div[data-index="${data.Index}"]`);
-        let regex = new RegExp(escapeRegex(value), 'i');
-        let found = regex.test(data.Display);
-        if (found)
-        {
-          let regex = new RegExp(escapeRegex(value), 'gi');
-          optionNode.innerHTML = data.Display.replace(regex, (match) => `<em>${match}</em>`)
-        }
-        else
-        {
-          optionNode.innerHTML = data.Display;
-        }
-      }
-    }
-  }
-
-  _checkHide()
-  {
-    this._autoHide = setTimeout(this.Hide, 50);
-  }
-
-  /**/
-
-  _templates()
-  {
-    this._optionTemplate = data =>
-    {
-      let selectedClass = data.Selected ? ' selected': '';
-      return `<div class="simple-select-list-item${selectedClass}" data-value="${data.Value}" data-display="${data.Display}" data-index="${data.Index}">${data.Display}</div>`;
-    };
-  }
-
-  /**/
-
-  Destroy()
-  {
-    this.DisplayNode.removeEventListener('click', this._displayClicked);
-    this.DisplayNode.removeEventListener('keyup', this._displayKeyUp);
-    this.ListNode.removeEventListener('click', this._listClicked);
-    window.removeEventListener('click', this._checkHide);
-    this.TargetNode.classList.remove('ui-has-simple-select', 'ui-simple-select');
-    this.TargetNode.widgets.SimpleSelect = null;
-    delete this.TargetNode.widgets.SimpleSelect;
-    this.ParentNode.removeChild(this.DisplayNode);
-    this.ParentNode.removeChild(this.ListNode);
-    this.ParentNode.classList.remove('simple-select');
-    for (var key in this)
-    {
-      if (this.hasOwnProperty(key))
-      {
-        this[key] = null;
-        delete this[key];
-      }
-    }
-    return true;
-  }
-
-};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                            ************************************************************************************/
@@ -56855,7 +53372,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     this.ShowCountryIfUnknown = true;
 
     this.FirstLoad = true;
-    this.HasValidated = false;
 
     this.humanInteraction = false;
 
@@ -57517,12 +54033,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     }
     else
     {
-      if (this._stringFromNodes() === '' && !this.HasValidated) this._setIcon();
+      if (this._stringFromNodes() === '') this._setIcon();
       else this._setIcon(this.Valid);
     }
     this._checkHumanInteraction();
     this.initInputNode.dispatchEvent(new CustomEvent('validated'));
-    this.HasValidated = true;
   }
 
 
@@ -57553,20 +54068,6 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
     {
       response = {
         data: response
-      };
-    }
-
-    if (
-      typeof response === 'object'
-      && response.hasOwnProperty('data')
-      && !$a.isArray(response.data)
-    )
-    {
-      response = {
-        data: [{
-          IsValid: response.data.success,
-          CountryCode: this.CleverForms.FormCountry
-        }]
       };
     }
 
