@@ -8,38 +8,38 @@
 (485,35-39): run-time error JS1004: Expected ';': this
 (486,5-6): run-time error JS1002: Syntax error: }
 (488,39-40): run-time error JS1004: Expected ';': {
-(512,6-7): run-time error JS1195: Expected expression: ,
-(514,27-28): run-time error JS1004: Expected ';': {
-(521,6-7): run-time error JS1195: Expected expression: ,
-(523,21-22): run-time error JS1195: Expected expression: )
-(523,23-24): run-time error JS1004: Expected ';': {
-(541,6-7): run-time error JS1195: Expected expression: ,
-(543,23-24): run-time error JS1195: Expected expression: )
-(543,25-26): run-time error JS1004: Expected ';': {
-(550,6-7): run-time error JS1195: Expected expression: ,
-(552,21-22): run-time error JS1195: Expected expression: )
-(552,23-24): run-time error JS1004: Expected ';': {
-(559,6-7): run-time error JS1195: Expected expression: ,
-(561,26-27): run-time error JS1195: Expected expression: )
-(561,28-29): run-time error JS1004: Expected ';': {
-(582,6-7): run-time error JS1195: Expected expression: ,
-(584,28-29): run-time error JS1195: Expected expression: )
-(584,30-31): run-time error JS1004: Expected ';': {
-(604,6-7): run-time error JS1195: Expected expression: ,
-(606,37-38): run-time error JS1004: Expected ';': {
-(617,6-7): run-time error JS1195: Expected expression: ,
-(619,49-50): run-time error JS1004: Expected ';': {
-(631,6-7): run-time error JS1195: Expected expression: ,
-(633,35-36): run-time error JS1195: Expected expression: )
-(633,37-38): run-time error JS1004: Expected ';': {
-(705,6-7): run-time error JS1195: Expected expression: ,
-(707,43-44): run-time error JS1004: Expected ';': {
-(825,6-7): run-time error JS1195: Expected expression: ,
-(827,37-38): run-time error JS1195: Expected expression: )
-(827,39-40): run-time error JS1004: Expected ';': {
-(929,6-7): run-time error JS1195: Expected expression: ,
-(931,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
-(544,36-42): run-time error JS1018: 'return' statement outside of function: return
+(523,6-7): run-time error JS1195: Expected expression: ,
+(525,27-28): run-time error JS1004: Expected ';': {
+(532,6-7): run-time error JS1195: Expected expression: ,
+(534,21-22): run-time error JS1195: Expected expression: )
+(534,23-24): run-time error JS1004: Expected ';': {
+(552,6-7): run-time error JS1195: Expected expression: ,
+(554,23-24): run-time error JS1195: Expected expression: )
+(554,25-26): run-time error JS1004: Expected ';': {
+(561,6-7): run-time error JS1195: Expected expression: ,
+(563,21-22): run-time error JS1195: Expected expression: )
+(563,23-24): run-time error JS1004: Expected ';': {
+(570,6-7): run-time error JS1195: Expected expression: ,
+(572,26-27): run-time error JS1195: Expected expression: )
+(572,28-29): run-time error JS1004: Expected ';': {
+(593,6-7): run-time error JS1195: Expected expression: ,
+(595,28-29): run-time error JS1195: Expected expression: )
+(595,30-31): run-time error JS1004: Expected ';': {
+(615,6-7): run-time error JS1195: Expected expression: ,
+(617,37-38): run-time error JS1004: Expected ';': {
+(628,6-7): run-time error JS1195: Expected expression: ,
+(630,49-50): run-time error JS1004: Expected ';': {
+(642,6-7): run-time error JS1195: Expected expression: ,
+(644,35-36): run-time error JS1195: Expected expression: )
+(644,37-38): run-time error JS1004: Expected ';': {
+(716,6-7): run-time error JS1195: Expected expression: ,
+(718,43-44): run-time error JS1004: Expected ';': {
+(836,6-7): run-time error JS1195: Expected expression: ,
+(838,37-38): run-time error JS1195: Expected expression: )
+(838,39-40): run-time error JS1004: Expected ';': {
+(940,6-7): run-time error JS1195: Expected expression: ,
+(942,23-31): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(555,36-42): run-time error JS1018: 'return' statement outside of function: return
  */
 var TeamLeave = new Class({
 
@@ -531,6 +531,17 @@ var UIManagerLeaveCalendar = new Class({
     toggleDisableButton: function (e) {
         if (e.origin.includes("leave-ui")) {
             switch (e.data.action) {
+                case "CalendarUI-OpenLeaveDetail":
+                    if (e.data.isManager) {
+                        Affinity.leave.manager.leaveDetail.getDetail(e.data.employeeNo, e.data.leaveId, e.data.auth);
+                    }
+                    else {
+                        Affinity.leave.employee.leaveDetail.getDetail(e.data.employeeNo, e.data.leaveId, {
+                            AuthorisationId: -1,
+                            StatusCode: e.data.auth.StatusCode
+                        });
+                    }
+                    break;
                 case "DraggableNavLoaded":
                     this.disableToggleBtn = false;
                     break;
