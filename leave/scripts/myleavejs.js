@@ -2112,7 +2112,7 @@ var UITeamLeaveCalendar = new Class({
 			if (e.origin.includes("leave-ui")) {
 					switch (e.data.action) {
 							case "CalendarUI-OpenLeaveDetail":
-								if (e.data.isManager) {
+								if (Affinity.leave.isManager) {
 									Affinity.leave.manager.leaveDetail.getDetail(e.data.employeeNo, e.data.leaveId, e.data.auth);
 								}
 								else {
