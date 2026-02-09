@@ -12255,13 +12255,17 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       var memberType = "";
       if (response.data.hasOwnProperty('MemberType')) memberType = $a.toString(response.data.MemberType).toUpperCase();
 
+      var isFormAdmin = false;
+      if (response.data.hasOwnProperty('IsFormAdmin')) isFormAdmin = response.data.IsFormAdmin === true;
+
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
         UserGuid: 'e0000000-0000-0000-0000-000000000000',
         PayPoint: paypoint,
         Country: country,
-        MemberType: memberType
+        MemberType: memberType,
+        IsFormAdmin: isFormAdmin
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
@@ -23221,8 +23225,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ColumnSettingTimeouts = {};
 
-    this.PayrollAdminIncludes5M = false;
-
     this.SearchDateDefault = 'StateEnteredAt'; // EffectiveDate
 
     this.LocalDebug = false;
@@ -23356,25 +23358,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
     this.IsFormAdmin = Affinity2018.UserProfile.IsFormAdmin ?? false;
-    this.Is5MUser = parseInt(Affinity2018.UserProfile.EmployeeNumber) >= 5000000;
 
     if (this.MemberType === "P" || this.IsFormAdmin)
-    {
-      this.IsPayrollAdmin = true;
-      this.ViewMode = this.AdminDefaultView;
-      this.ShowModeToggle = true;
-    }
-    else  
-    {
-      if (this.Is5MUser && this.MemberType !== 'M')
-      {
-        this.IsPayrollAdmin = false;
-        this.ViewMode = this.AdminDefaultView;
-        this.ShowModeToggle = true;
-      }
-    }
-
-    if (this.PayrollAdminIncludes5M && this.Is5MUser)
     {
       this.IsPayrollAdmin = true;
       this.ViewMode = this.AdminDefaultView;
