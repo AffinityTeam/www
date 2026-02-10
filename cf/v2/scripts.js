@@ -23010,7 +23010,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       return;
     }
     
-    // Priority 2: Navigate to inbox (cached view is fine, nothing posted)
+    // Priority 2: Navigate to inbox (auto-save may have posted data)
     let path = this.CleverForms.InboxPath;
     if (window.location.hash) path += window.location.hash;
     window.location.href = path;
@@ -23394,7 +23394,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       this._forceHidePageLoader();
     }).bind(this));
-    window.addEventListener('pageshow', (() =>
+    window.addEventListener('pageshow', ((event) =>
     {
       // Hide both page loader and inline loader on bfcache restore
       this._forceHidePageLoader();
@@ -23404,6 +23404,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       Affinity2018.Autocompletes.HideAll();
       Affinity2018.Dialog.Hide();
       Affinity2018.Tooltips.Hide();
+
+      // If restored from bfcache, re-fetch inbox data so new/changed forms appear.
+      // Without this, auto-saved changes made on the form page won't show until a
+      // manual browser refresh.
+      if (event.persisted)
+      {
+        this._attemptSearch('pageshow-bfcache-restore');
+      }
     }).bind(this));
 
     /**/
