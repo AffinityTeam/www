@@ -23366,6 +23366,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.ShowModeToggle = true;
     }
 
+    
+
     /**/
 
     this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
@@ -23605,6 +23607,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     let startDate = null;
     let endDate = null;
+
+    // Hide "Start a New Form" button for Member Type "M" in Admin mode
+    let startNewButton = this.ResultNode.querySelector('button[data-action="startnew"]');
+    if (startNewButton)
+    {
+      if (this.ViewMode === 'Admin' && this.MemberType === 'M')
+      {
+        startNewButton.parentNode.classList.add('hidden'); // Hide the parent div.inbox-tab-button
+      }
+      else
+      {
+        startNewButton.parentNode.classList.remove('hidden');
+      }
+    }
 
     // Only apply pay point dates for P type admins
     if (this.ViewMode === 'Admin')
