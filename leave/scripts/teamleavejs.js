@@ -1943,7 +1943,7 @@ var UIManagerLeaveBalances = new Class({
             if (description.length > 1) {
                 descriptionCharCheck = description[1];
             }
-            if (this.inArray(code.Code, this.availableLeaveCodes) && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
+            if (code.DisplayBalanceInUI && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
                 new Element('option', {
                     'html': code.Description,
                     'id': code.Code,
@@ -2119,14 +2119,14 @@ var EmployeeBalancesWidget = new Class({
                     if (typeOf(this.filter) === 'array') {
                         Array.each(this.filter, function (filteron) {
                             if (typeOf(filteron) === 'string') {
-                                if (filteron.toLowerCase().indexOf((balanceData.CodeDescription.toLowerCase())) > -1) {
+                                if (filteron.toLowerCase() === balanceData.CodeDescription.toLowerCase()) {
                                     this.updatePosition(balanceData);
                                 }
                             }
                         });
                     }
                     if (typeOf(this.filter) === 'string') {
-                        if (this.filter.toLowerCase().indexOf((balanceData.CodeDescription.toLowerCase())) > -1){
+                        if (this.filter.toLowerCase() === balanceData.CodeDescription.toLowerCase()){
                             this.updatePosition(balanceData);
                         }
                     }

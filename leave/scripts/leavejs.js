@@ -16736,7 +16736,8 @@ var UIEmployeeLeaveBalances = new Class({
         else {
             Array.each(data, function (panelbox) {
                 Array.each(panelbox.CodeBalances, function (panel) {
-                    if (defaultLeaveCodes.indexOf(panel.LeaveCode) > -1) {
+                   // if (defaultLeaveCodes.indexOf(panel.LeaveCode) > -1) {
+                    if (panel.DisplayBalanceInUI) {
                         var totalUnits = panel.TotalHours;
                         var totalLabel = 'Hours';
                         if (panel.UnitType === 'D') {
@@ -16806,6 +16807,7 @@ var UIEmployeeLeaveBalances = new Class({
                         console.log('isLeaveInWeeks:' + panel.IsLeaveInWeeksConfigured);
                         this.renderEalStory(this.storyContainer, panel, panel.IsLeaveInWeeksConfigured);
                         this.ppeTotalsStory = new Element('div', { 'class': 'ppeTotalsStory', 'style': 'display: none;', 'html': '<br />' + panel.PpeTotalsStory }).inject(this.detailsWrapper);
+
                     }
 
                 }.bind(this));
