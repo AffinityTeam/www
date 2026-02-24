@@ -26469,9 +26469,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let lastActionTaken = !data.hasOwnProperty('LastActionTaken') || data.LastActionTaken === null || data.LastActionTaken === 'null' ? '' : data.LastActionTaken;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      // isOverdue calc is causing issues with raven index rebuilds, so we're setting it to false for now
-      //let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
-      let isOverdue = false;
+      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
 
       let tooltip = '';
       let tooltipMessage = '';
@@ -26873,9 +26871,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      // isOverdue calc is causing issues with raven index rebuilds, so we're setting it to false for now
-      //let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
-      let isOverdue = false;
+      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
 
       let tooltip = '';
       let tooltipMessage = '';
