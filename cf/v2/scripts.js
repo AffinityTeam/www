@@ -26302,9 +26302,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <input type="checkbox" id="SearchShowUnassigned">
             <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
           </div>     
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="Show999">
-            <label for="Show999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
+          <div class="check-wrapper check-first hidden"><!-- BROKEN: Backend PP999 filtering not working. Remove hidden + disabled once backend is fixed. Target: next release cycle. -->
+            <input type="checkbox" id="Show999" class="hidden" disabled>
+            <label for="Show999" class="hidden">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
           </div> 
         </div>
         <div class="search-row search-columns hidden">
@@ -26469,7 +26469,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let lastActionTaken = !data.hasOwnProperty('LastActionTaken') || data.LastActionTaken === null || data.LastActionTaken === 'null' ? '' : data.LastActionTaken;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+      // isOverdue calc is causing issues with raven index rebuilds, so we're setting it to false for now
+      //let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+      let isOverdue = false;
 
       let tooltip = '';
       let tooltipMessage = '';
@@ -26871,7 +26873,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+      // isOverdue calc is causing issues with raven index rebuilds, so we're setting it to false for now
+      //let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+      let isOverdue = false;
 
       let tooltip = '';
       let tooltipMessage = '';
