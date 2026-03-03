@@ -1943,7 +1943,7 @@ var UIManagerLeaveBalances = new Class({
             if (description.length > 1) {
                 descriptionCharCheck = description[1];
             }
-            if (code.DisplayBalanceInUI && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
+            if (this.inArray(code.Code, this.availableLeaveCodes) && !this.inArray(descriptionCharCheck, this.nonconfiguredLeaveTypes)) {
                 new Element('option', {
                     'html': code.Description,
                     'id': code.Code,
