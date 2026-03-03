@@ -16736,8 +16736,8 @@ var UIEmployeeLeaveBalances = new Class({
         else {
             Array.each(data, function (panelbox) {
                 Array.each(panelbox.CodeBalances, function (panel) {
-                    if (defaultLeaveCodes.indexOf(panel.LeaveCode) > -1) {
-                    //if (panel.DisplayBalanceInUI) {
+                   // if (defaultLeaveCodes.indexOf(panel.LeaveCode) > -1) {
+                    if (panel.DisplayBalanceInUI) {
                         var totalUnits = panel.TotalHours;
                         var totalLabel = 'Hours';
                         if (panel.UnitType === 'D') {
