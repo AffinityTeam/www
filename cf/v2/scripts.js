@@ -24487,11 +24487,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           FieldName: 'PayPoint',
           SearchValue: '999'
         });
-        // Also include all other pay points using their system date ranges.
-        // null is treated as a wildcard by the backend (excludes 999, which is a reserved placeholder).
+        // Include forms with no PayPoint assigned (e.g. new-employee forms)
         state.FieldSpecificSearch.push({
           FieldName: 'PayPoint',
-          SearchValue: null
+          SearchValue: 'null'
         });
       }
     }
