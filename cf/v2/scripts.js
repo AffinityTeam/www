@@ -10693,112 +10693,81 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
 
   /**
-   * Summary. ?
+   * Summary. Formats a lookup description for display. Never mutates the description string from the DB.
+   *          Trims whitespace, appends (code) if includeCode is true, appends - Country if provided.
+   *          Encoding-agnostic: input and output are raw text. Caller is responsible for HTML encoding at the DOM boundary.
+   * @param   {string}  display     - The raw description from the DB
+   * @param   {string}  code        - The lookup code/key
+   * @param   {boolean} includeCode - Whether to append (code) for searchability
+   * @param   {string}  countryCode - Optional country code to append
+   * @returns {string}  Formatted display string
    * @this    Class scope
-   * @access  private
+   * @access  public
+   */
+  FormatLookupDisplayValue (display, code, includeCode, countryCode)
+  {
+    countryCode = countryCode === undefined ? null : countryCode;
+
+    // Normalise display to a trimmed string (raw text, no encoding/decoding)
+    let result = display === null || display === undefined ? '' : display.toString().trim();
+
+    // Normalise code to a trimmed string
+    let codeStr = '';
+    if (code !== null && code !== undefined)
+    {
+      codeStr = typeof code === 'number' ? code.toString().trim() : typeof code === 'string' ? code.trim() : '';
+    }
+
+    // If display is empty, fall back to code as the display
+    if (result === '')
+    {
+      result = codeStr;
+    }
+
+    // Append (code) for searchability, but only if code is non-empty and different from the display
+    if (includeCode && codeStr !== '' && result !== codeStr)
+    {
+      result = result + ` (${codeStr})`;
+    }
+
+    // Append country display if provided (e.g. " - AU" or " - NZ")
+    if (countryCode !== null)
+    {
+      let countryDisplay = this.GetCountryShortVariant(countryCode);
+      if (countryDisplay && countryDisplay.trim() !== '')
+      {
+        result = result + ' - ' + countryDisplay;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * @deprecated Use FormatLookupDisplayValue instead. This alias exists to catch any missed callers.
    */
   CleanLookupDisplayValue (display, code, includeCode, countryCode)
   {
-    countryCode = countryCode === undefined ? null : countryCode;
-    let displayString = display === null ? 'null' : display.toString();
-    let countryCodeDisplay = countryCode !== null ? this.GetCountryShortVariant(countryCode) : null;
-    let cleanStr = displayString && typeof displayString === 'string' && displayString.trim() !== '' ? displayString.trim() : '',
-        codeStr  = code && typeof code === 'string' && code.trim() !== '' ? code.trim() : typeof code === 'number' ? code.toString().trim() : '',
-        lastChar;
-
-    if (typeof code === undefined || code === null)
-    {
-      let parts = [];
-      if (displayString.contains(','))
-      {
-        parts = displayString.split(',');
-      }
-      else if (displayString.contains('-'))
-      {
-        parts = displayString.split('-');
-      }
-      if (parts.length > 1)
-      {
-        code = parts[0].trim().length < parts[1].trim().length ? parts[0].trim() : parts[1].trim();
-        codeStr = code;
-      }
-    }
-    if (displayString !== '')
-    {
-      cleanStr = displayString.trim().replace(/&amp;/gi, '&');
-      if (cleanStr === codeStr) codeStr = '';
-      lastChar = cleanStr.charAt(cleanStr.length - 1);
-      if ([',', '-', '_', ':'].contains(lastChar)) cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
-      if (includeCode)
-      {
-        if (codeStr !== '')
-        {
-          cleanStr = cleanStr.replace(`${code} - `, '').trim();
-          cleanStr = cleanStr.replace(`${code}, `, '').trim();
-          cleanStr = cleanStr.replace(`${code} `, '').trim();
-          cleanStr = cleanStr.replace(` ${code}`, '').trim();
-          cleanStr = cleanStr.replace(`,${code}`, '').trim();
-          cleanStr = cleanStr.replace(`${code},`, '').trim();
-          cleanStr = cleanStr.replace(`(${code})`, '').trim();
-          cleanStr = cleanStr + ` (${codeStr})`;
-        }
-        if (cleanStr.trim().startsWith('- ')) cleanStr = cleanStr.trim().replace('- ', '').trim();
-        if (cleanStr.trim().startsWith('_ ')) cleanStr = cleanStr.trim().replace('_ ', '').trim();
-        if (cleanStr.charAt(0).toUpperCase() !== cleanStr.charAt(0)) cleanStr = cleanStr.substring(0, 1).toUpperCase() + cleanStr.substring(1);
-      }
-    }
-    else
-    {
-      cleanStr = codeStr !== '' ? code.trim() : '';
-    }
-
-    if (countryCode !== null && countryCodeDisplay !== null && countryCodeDisplay !== countryCode)
-    {
-      if (cleanStr.endsWith(' - ' + countryCode))
-      {
-        // TODO: Use regexp to only replace at end
-        cleanStr = cleanStr.replaceAll(' - ' + countryCode, ' - ' + countryCodeDisplay);
-      }
-      if (cleanStr.contains(' - ' + countryCode + ' ('))
-      {
-        cleanStr = cleanStr.replaceAll(' - ' + countryCode + ' (', ' - ' + countryCodeDisplay + ' (');
-      }
-    }
-
-    return cleanStr;
+    return this.FormatLookupDisplayValue(display, code, includeCode, countryCode);
   }
 
 
 
   /**
-   * Summary. ?
+   * Summary. Returns a DisplayValue string as-is (trimmed). DisplayValue is pre-formatted by the server
+   *          (e.g. "Description (Code) - Country") and should never be mutated on the client.
+   *          Encoding-agnostic: input and output are raw text. Caller is responsible for HTML encoding at the DOM boundary.
+   * @param   {string} display - The DisplayValue from the API
+   * @param   {string} code    - Unused, kept for call-site compatibility
+   * @param   {string} country - Unused, kept for call-site compatibility
+   * @returns {string} The trimmed display string
    * @this    Class scope
-   * @access  private
+   * @access  public
    */
   TrimLookupDisplayValue(display, code, country)
   {
-    if (code === undefined || code === null || (typeof code === 'string' && code.trim() === ''))
-    {
-      return display;
-    }
-    country = country === undefined || country === null ? (Affinity2018.hasOwnProperty('FormCountry') ? Affinity2018.FormCountry : '') : country;
-    let testWithCountryCodeOnly = display;
-    let testWithCountryShortOnly = display;
-    if (country !== '')
-    {
-      testWithCountryCodeOnly = `${code} - ${this.GetCountryCodeVariant(country)}`;
-      testWithCountryShortOnly = `${code} - ${this.GetCountryShortVariant(country)}`;
-      if (display === testWithCountryCodeOnly)
-      {
-        display = testWithCountryShortOnly;
-      }
-    }
-    if (display.startsWith(`${code} - `) && display !== testWithCountryShortOnly)
-    {
-      display = display.substring(code.toString().length + 3).trim();
-      return display;
-    }
-    return display;
+    if (display === null || display === undefined) return '';
+    return display.toString().trim();
   }
 
 
@@ -10988,7 +10957,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
           list[a] = sortObjectKeys(list[a]);
           if (convertValue)
           {
-            list[a].Value = this.CleanLookupDisplayValue(list[a].Value, list[a].Key, true);
+            list[a].Value = this.FormatLookupDisplayValue(list[a].Value, list[a].Key, true);
           }
           if (ignoreValue)
           {
@@ -12969,7 +12938,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         && (
           postData.CustomList === undefined
           || postData.CustomList === null
-          || postData.CustomList === []
+          || (Array.isArray(postData.CustomList) && postData.CustomList.length === 0)
         )
         && config.Details.ItemSource.hasOwnProperty('Items')
       )
@@ -12981,7 +12950,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         && (
           postData.CustomList === undefined
           || postData.CustomList === null
-          || postData.CustomList === []
+          || (Array.isArray(postData.CustomList) && postData.CustomList.length === 0)
         )
         && config.Details.ItemSource.hasOwnProperty('WhiteList')
       )
@@ -24518,6 +24487,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           FieldName: 'PayPoint',
           SearchValue: '999'
         });
+        // Include forms with no PayPoint assigned (e.g. new-employee forms)
+        state.FieldSpecificSearch.push({
+          FieldName: 'PayPoint',
+          SearchValue: 'null'
+        });
       }
     }
 
@@ -26302,9 +26276,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <input type="checkbox" id="SearchShowUnassigned">
             <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
           </div>     
-          <div class="check-wrapper check-first hidden"><!-- BROKEN: Backend PP999 filtering not working. Remove hidden + disabled once backend is fixed. Target: next release cycle. -->
-            <input type="checkbox" id="Show999" class="hidden" disabled>
-            <label for="Show999" class="hidden">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
+          <div class="check-wrapper check-first">
+            <input type="checkbox" id="Show999">
+            <label for="Show999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
           </div> 
         </div>
         <div class="search-row search-columns hidden">
@@ -26469,9 +26443,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let lastActionTaken = !data.hasOwnProperty('LastActionTaken') || data.LastActionTaken === null || data.LastActionTaken === 'null' ? '' : data.LastActionTaken;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      // isOverdue calc is causing issues with raven index rebuilds, so we're setting it to false for now
-      //let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
-      let isOverdue = false;
+      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
 
       let tooltip = '';
       let tooltipMessage = '';
@@ -26873,9 +26845,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
-      // isOverdue calc is causing issues with raven index rebuilds, so we're setting it to false for now
-      //let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
-      let isOverdue = false;
+      let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
 
       let tooltip = '';
       let tooltipMessage = '';
@@ -31623,7 +31593,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       }
       else
       {
-        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
+        descriptionDisplay = Affinity2018.Apps.CleverForms.Default.FormatLookupDisplayValue(item.Value, item.Key, addCodeToDisplay, country);
       }
       html += template.format({
         description: item.Value,
@@ -39464,11 +39434,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
             }
             else
             {
-              display = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+              display = this.CleverForms.FormatLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
             }
             optionNode = document.createElement('option');
             optionNode.value = listItem[keys[1]];
-            optionNode.innerHTML = display;
+            optionNode.innerHTML = Affinity2018.encodeHTML(display);
             if (!selected && $a.isBool(listItem.Selected) && listItem.Selected === true)
             {
               optionNode.selected = 'selected';
@@ -39846,11 +39816,11 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
               optionNode.value = listItem[keys[1]];
               if (listItem.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(listItem.DisplayValue))
               {
-                optionNode.innerHTML = this.CleverForms.TrimLookupDisplayValue(listItem.DisplayValue, listItem[keys[1]]);
+                optionNode.innerHTML = Affinity2018.encodeHTML(this.CleverForms.TrimLookupDisplayValue(listItem.DisplayValue, listItem[keys[1]]));
               }
               else
               {
-                optionNode.innerHTML = this.CleverForms.CleanLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true);
+                optionNode.innerHTML = Affinity2018.encodeHTML(this.CleverForms.FormatLookupDisplayValue(listItem[keys[0]], listItem[keys[1]], true));
               }
               if (!selected && listItem.Selected)
               {
@@ -41034,15 +41004,15 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
         }
         else
         {
-          value = this.CleverForms.CleanLookupDisplayValue(match.Value, value, true);
+          value = this.CleverForms.FormatLookupDisplayValue(match.Value, value, true);
         }
       }
       else
       {
-        value = this.CleverForms.CleanLookupDisplayValue(value, null, true);
+        value = this.CleverForms.FormatLookupDisplayValue(value, null, true);
       }
     }
-    var html = this.HtmlRowTemplate.format(this.Config.Details.Label, value);
+    var html = this.HtmlRowTemplate.format(Affinity2018.encodeHTML(this.Config.Details.Label), Affinity2018.encodeHTML(value));
     this.FormRowNode = super.SetFormRow(target, html);
     if (this.FormRowNode)
     {
@@ -41101,7 +41071,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
           }
           else
           {
-            value = this.CleverForms.CleanLookupDisplayValue(value.Value, code, true);
+            value = this.CleverForms.FormatLookupDisplayValue(value.Value, code, true);
           }
         }
         else
@@ -41123,7 +41093,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
         }
         else
         {
-          value = this.CleverForms.CleanLookupDisplayValue(match.Value, code, true);
+          value = this.CleverForms.FormatLookupDisplayValue(match.Value, code, true);
         }
       }
     }
@@ -43283,11 +43253,10 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     return false;
   }
 
-  refreshFromSelect(ignoreClean)
+  refreshFromSelect()
   {
-    ignoreClean = ignoreClean === undefined ? false : ignoreClean;
     this._setDisplayValue('');
-    this._updateOptions(ignoreClean);
+    this._updateOptions();
   }
 
   /**/
@@ -43466,19 +43435,16 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   }
 
-  _updateOptions(ignoreClean)
+  _updateOptions()
   {
-    ignoreClean = ignoreClean === undefined ? false : ignoreClean;
     this._clearList();
-    this._processOptions(ignoreClean);
+    this._processOptions();
   }
 
-  _processOptions(ignoreClean)
+  _processOptions()
   {
 
     if (!Affinity2018.isDomElement(this.targetNode) || !this.targetNode) return false;
-
-    ignoreClean = ignoreClean === undefined ? false : ignoreClean;
 
     var continueBool = false,
         optionNodes = this.targetNode.querySelectorAll('option'),
@@ -43547,8 +43513,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         defaultValue: defaultValue,
         encodedDefaultValue: encodedDefaultValue,
         filter: this.filter,
-        uuid: this.uuid,
-        ignoreClean: ignoreClean
+        uuid: this.uuid
       });
 
       continueBool = true;
@@ -43559,7 +43524,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       this.targetNode.querySelectorAll('option').forEach(function (optionNode, index)
       {
-        html = this._cleanDisplay(optionNode.innerHTML.replace(/\,/g, ' - '));
+        html = this._cleanDisplay(optionNode.innerHTML);
         value = optionNode.value;
         li = document.createElement('li');
         li.innerHTML = html;
@@ -44560,7 +44525,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     if (typeof str === 'string' && str.trim() !== '')
     {
-      return str.trim().replace(/&amp;/gi, '&');
+      return Affinity2018.decodeHTML(str.trim());
     }
     return str;
   }
@@ -44569,7 +44534,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     if (typeof str === 'string' && str.trim() !== '')
     {
-      return str.replace(/&amp;/gi, '&');
+      return Affinity2018.decodeHTML(str);
     }
     return str;
   }
@@ -44984,40 +44949,30 @@ var originalListHTML = '';
 var originalListItems = [];
 var initialSelected = '';
 
-function cleanDisplay (str, key)
+// Decode HTML entities (no DOM available in worker context, so manual replacement).
+// Handles numeric (&#NNN;), hex (&#xHHH;), and the 5 standard named entities.
+function decodeHTMLEntities (str)
 {
-  var cleanStr = str, lastChar;
-  if (key === undefined)
-  {
-    if (str.indexOf(' (') !== -1)
-    {
-      // Do not assume that if key is in str and in brckets, that it is also the end of the string. We may have a dash and country code onm the end of the string.
-      let keyCutStart = str.indexOf(' (') + 2;
-      let keyCutEnd = str.indexOf(')', keyCutStart);
-      key = keyCutStart !== -1 && keyCutEnd !== -1 ? str.substring(keyCutStart, keyCutEnd) : '';
-    }
-  }
+  if (!str || typeof str !== 'string') return str || '';
+  return str
+    .replace(/&#(\d+);/g, function (m, dec) { return String.fromCharCode(dec); })
+    .replace(/&#x([0-9a-f]+);/gi, function (m, hex) { return String.fromCharCode(parseInt(hex, 16)); })
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'");
+}
+
+// Trim whitespace and decode HTML entities for display. No other mutation --
+// option text is already formatted upstream by FormatLookupDisplayValue / TrimLookupDisplayValue.
+function cleanDisplay (str)
+{
   if (str && typeof str === 'string' && str.trim() !== '')
   {
-    cleanStr = str.trim().replace(/&amp;/gi, '&');
-    lastChar = cleanStr.charAt(cleanStr.length - 1);
-    if (lastChar === '-' || lastChar === '_' || lastChar === ':' || lastChar === ',')
-    {
-      cleanStr = cleanStr.substring(0, cleanStr.length - 1).trim();
-    }
-  } else cleanStr = 'Not Set';
-  if (key && typeof key === 'string' && key.trim() !== '')
-  {
-    if (cleanStr.indexOf(key) === -1)
-    {
-      cleanStr = cleanStr + ' (' + key + ')';
-    }
-    if (cleanStr.startsWith(`${key} - `))
-    {
-      cleanStr = cleanStr.substring(key.toString().length + 3).trim();
-    }
+    return decodeHTMLEntities(str.trim());
   }
-  return cleanStr;
+  return str || 'Not Set';
 }
 
 function escapeRegExp (str)
@@ -45181,27 +45136,20 @@ function returnListItem (data)
   return li;
 }
 
-function returnList(uuid, html, defaultValue, encodedDefaultValue, filter, ignoreClean)
+function returnList(uuid, html, defaultValue, encodedDefaultValue, filter)
 {
-  ignoreClean = ignoreClean === undefined ? false : ignoreClean;
-
-  var options = html.split('</option>'),
-      items = [], // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
+  var items = [], // TODO: Retire this in favour for data here in the worker, rather than passing it about ...
       returndata = {
           defaultID: false,
           html: '',
           total: 0
       },
       finalHtml = '',
-      i = 0, j = 0,
+      j = 0,
       selected = false,
-      klass, html, ogvalue, display, value, li, wordsArr, soundexArr;
-
-  //var test = 'Fire Prevention (23) Officer edit (103)';
-  //options[1] = '<option value="' + test + '">' + test;
+      klass, ogvalue, display, value, li, wordsArr, soundexArr;
 
   var optionPattern = /<option\s+(?:value="([^"]*)")\s*([^>]*)>([^<]*?)(?:\s*\(([^)]*)\))?<\/option>/g;
-  var options = [];
   var match;
   var i = 0;
   while ((match = optionPattern.exec(html)) !== null)
@@ -45213,14 +45161,9 @@ function returnList(uuid, html, defaultValue, encodedDefaultValue, filter, ignor
     ogvalue = (key === null || key === "null" || key === "") ? display : display + ' (' + key + ')';
     klass = 'visible';
 
-    if (ignoreClean)
-    {
-      display = ogvalue;
-    }
-    else
-    {
-      display = cleanDisplay(ogvalue.replace(/\, /g, ' - '));
-    }
+    // Decode entities for display and search (option innerHTML is HTML-encoded at the DOM boundary)
+    ogvalue = decodeHTMLEntities(ogvalue);
+    display = cleanDisplay(ogvalue);
 
     if (attributes.includes('selected') || value === defaultValue || value === encodedDefaultValue)
     {
@@ -45964,7 +45907,7 @@ onmessage = function (msgData)
   }
   if (opts.job === "getList")
   {
-    returnList(opts.uuid, opts.html, opts.defaultValue, opts.encodedDefaultValue, opts.filter, opts.ignoreClean);
+    returnList(opts.uuid, opts.html, opts.defaultValue, opts.encodedDefaultValue, opts.filter);
   }
   if (opts.job === "getSelectedList")
   {
@@ -55291,7 +55234,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           //console.log(this.targetNode.dataset.propertyName, ' set to ', defaultValue);
         }
         ac = this.targetNode.widgets.Autocomplete;
-        ac.refreshFromSelect(true); // true denotes "ignore cleaning"
+        ac.refreshFromSelect();
       }
       else
       {
@@ -55366,13 +55309,11 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
     if (data.hasOwnProperty('DisplayValue') && !$a.isNullOrEmpty(data.DisplayValue))
     {
       orignalDisplay = data.DisplayValue;
-      orignalDisplay = Affinity2018.encodeHTML(orignalDisplay);
       displayStr = this.CleverForms.TrimLookupDisplayValue(orignalDisplay, data[this.config.DataKey], country);
     }
     else
     {
       orignalDisplay = data[this.config.DisplayKey];
-      orignalDisplay = Affinity2018.encodeHTML(orignalDisplay);
       displayStr = this._cleanValue(orignalDisplay, data[this.config.DataKey], country);
     }
     if (displayStr.trim() !== '')
@@ -55390,7 +55331,8 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         }
       }
 
-      resultsNode.innerHTML = displayStr;
+      // HTML-encode at the DOM boundary -- format functions work with raw text
+      resultsNode.innerHTML = Affinity2018.encodeHTML(displayStr);
       resultsNode.value = data[dataKey];
       if (!this.hasSelected && this.config.Value === data[dataKey])
       {
@@ -55531,7 +55473,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           }
           else
           {
-            requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+            requiredValue = this.CleverForms.FormatLookupDisplayValue(found.Value, found.Key, true);
           }
         }
         let name = 'The value';
@@ -55676,7 +55618,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
         }
         else
         {
-          requiredValue = this.CleverForms.CleanLookupDisplayValue(found.Value, found.Key, true);
+          requiredValue = this.CleverForms.FormatLookupDisplayValue(found.Value, found.Key, true);
         }
       }
 
@@ -55703,7 +55645,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
           this.config.Value = value;
           this.targetNode.widgets.Autocomplete.defaultValue = value;
           this.targetNode.dataset.defaultValue = value;
-          this.targetNode.widgets.Autocomplete.refreshFromSelect(true);  // true denotes "ignore cleaning"
+          this.targetNode.widgets.Autocomplete.refreshFromSelect();
           //console.log(this.targetNode.dataset.propertyName, ' set to ', value);
         }
       }
@@ -55814,7 +55756,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
 
         if (this.targetNode.widgets.Autocomplete)
         {
-          this.targetNode.widgets.Autocomplete.refreshFromSelect(true); // true denotes "ignore cleaning"
+          this.targetNode.widgets.Autocomplete.refreshFromSelect();
         }
       }
     }
@@ -55838,7 +55780,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   {
     if (Affinity2018.Apps.hasOwnProperty('CleverForms')) 
     {
-      return Affinity2018.Apps.CleverForms.Default.CleanLookupDisplayValue(str, key, this.config.IncludeDataInDisplay, country);
+      return Affinity2018.Apps.CleverForms.Default.FormatLookupDisplayValue(str, key, this.config.IncludeDataInDisplay, country);
     }
     return str;
   }
