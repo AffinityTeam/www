@@ -24084,14 +24084,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
             // hide / show column checkbox (Columns menu)
             let checked = !columnNode.classList.contains('hidden') ? ` checked` : ``;
+            let disabled = '';
             let storeKey = `InboxColumnsShow-${this.ViewMode}-${category}-${columnName}-${this.StorageKeySuffix}`;
             let currentlySet = this.EnableLocalStore ? Affinity2018.Storage.Local.Has(storeKey) : false;
             let matchingSortDataIndex = this.State.CategorySettings[this.State.ActiveCategory].SortFields.findIndex(item => item.Name === columnName);
-            if (currentlySet)
+            if (columnName === 'TemplateDescription')
+            {
+              checked = ' checked';
+              disabled = ' disabled';
+            }
+            else if (currentlySet)
             {
               checked = Affinity2018.Storage.Local.Get(storeKey) ? ` checked` : ``;
             }
-            columnChecksHtml += `<div><input type="checkbox" data-category="${category}" value="${columnName}" id="show-hide-check-${category}-${columnName}" ${checked}></checkbox><label for="show-hide-check-${category}-${columnName}">${labelName}</label></div>`;
+            columnChecksHtml += `<div><input type="checkbox" data-category="${category}" value="${columnName}" id="show-hide-check-${category}-${columnName}" ${checked}${disabled}></checkbox><label for="show-hide-check-${category}-${columnName}">${labelName}</label></div>`;
             if (checked === '' && matchingSortDataIndex > -1)
             {
               this.State.CategorySettings[this.State.ActiveCategory].SortFields.splice(matchingSortDataIndex, 1);
@@ -24874,7 +24880,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           let columnCheckboxes = this.ColumnListNode ? this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`) : [];
           for (let checkbox of columnCheckboxes)
           {
-            // Check if this column was in the saved visible list
+            if (checkbox.disabled) continue;
             checkbox.checked = categoryState.visibleColumns.includes(checkbox.value);
           }
         }
@@ -25016,7 +25022,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let allChecked = span.classList.contains('toggled-on');
             for (let check of checks)
             {
-              check.checked = allChecked ? false : true;
+              if (!check.disabled)
+              {
+                check.checked = allChecked ? false : true;
+              }
             }
             if (allChecked)
             {
@@ -25140,14 +25149,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             let editButton = event.target.closest('tr').querySelector('button.edit');
             let viewButton = event.target.closest('tr').querySelector('button.view');
             let instance = event.target.closest('tr').dataset.instance ? event.target.closest('tr').dataset.instance.replace('instances/', '') : null;
+            let newTab = event && event.ctrlKey;
+            let delay = newTab ? 0 : 250;
             if (editButton && instance)
             {
-              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, 250, `${this.EditUrl}${instance}`, true);
+              if (!newTab) this._forceShowPageLoader();
+              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, delay, `${this.EditUrl}${instance}`, newTab);
               return;
             }
             if (viewButton && instance)
             {
-              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, 250, `${this.ViewUrl}${instance}`, true);
+              if (!newTab) this._forceShowPageLoader();
+              this._rowClickedAutoLoadEdit = setTimeout(this._loadUrl, delay, `${this.ViewUrl}${instance}`, newTab);
               return;
             }
           }
