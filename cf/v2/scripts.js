@@ -26248,12 +26248,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let reason = '';
       Affinity2018.Dialog.Show({
         message: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_prompt') +
-          `<textarea class="archive-reason-input" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_placeholder')}" style="width:100%;min-height:80px;margin-top:10px;resize:vertical;font-family:inherit;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:4px;"></textarea>`,
+          `<textarea class="archive-reason-input" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_placeholder')}" style="width:100%;min-height:80px;margin-top:10px;resize:vertical;font-family:inherit;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;"></textarea>`,
         textAlign: 'left',
-        showOk: true,
-        showCancel: true,
-        okText: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_confirm'),
-        cancelText: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_cancel'),
+        buttons: {
+          ok: { show: true, text: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_confirm'), color: 'blue', standard: true },
+          else: false,
+          cancel: { show: true, text: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_cancel'), color: 'grey', standard: true }
+        },
         onOk: () =>
         {
           let ta = document.querySelector('.archive-reason-input');
@@ -26273,12 +26274,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       let reason = '';
       Affinity2018.Dialog.Show({
         message: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_prompt') +
-          `<textarea class="archive-reason-input" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_placeholder')}" style="width:100%;min-height:80px;margin-top:10px;resize:vertical;font-family:inherit;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:4px;"></textarea>`,
+          `<textarea class="archive-reason-input" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_placeholder')}" style="width:100%;min-height:80px;margin-top:10px;resize:vertical;font-family:inherit;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;"></textarea>`,
         textAlign: 'left',
-        showOk: true,
-        showCancel: true,
-        okText: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_confirm'),
-        cancelText: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_cancel'),
+        buttons: {
+          ok: { show: true, text: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_confirm'), color: 'blue', standard: true },
+          else: false,
+          cancel: { show: true, text: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_cancel'), color: 'grey', standard: true }
+        },
         onOk: () =>
         {
           let ta = document.querySelector('.archive-reason-input');

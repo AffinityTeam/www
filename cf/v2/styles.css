@@ -63,11 +63,11 @@
 (23183,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (23846,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
 (23912,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(25610,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25611,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25612,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(26339,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25613,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25614,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25615,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
 (26342,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26345,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -24762,6 +24762,9 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   touch-action: none;
   pointer-events: none;
 }
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table.inbox-grid thead tr th:not(.buttons):not(.bulk-check)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]) {
+  padding-top: 26px;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table.inbox-grid thead tr th:not(.buttons):not(.bulk-check)[data-order-str]:not([data-order-str="null"]):not([data-order="null"]):before {
   content: attr(data-order-str);
   -moz-opacity: 1;
@@ -28674,6 +28677,21 @@ body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons {
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.button,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *[class*="btn-"] {
   margin: 0 5px !important;
+}
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content input,
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content textarea {
+  background-color: #222222;
+  border: 1px solid #333333 !important;
+  color: #cccccc;
+}
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content input:hover,
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content textarea:hover,
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content input:focus,
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content textarea:focus,
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content input:active,
+body.ui2018.uiupdate.ui2025.dark #dialog #dialog-content textarea:active {
+  background-color: #222222;
+  border: 1px solid #333333 !important;
 }
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table thead tr {
   background-color: #f5f7fa !important;
