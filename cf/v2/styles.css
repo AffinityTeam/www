@@ -50,24 +50,24 @@
 (11157,167): run-time error CSS1030: Expected identifier, found ','
 (11157,309): run-time error CSS1031: Expected selector, found ')'
 (11157,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11439,108): run-time error CSS1030: Expected identifier, found ','
-(11439,250): run-time error CSS1031: Expected selector, found ')'
-(11439,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(12469,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12470,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12615,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(12617,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(23252,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23255,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23261,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23264,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23927,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23993,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(25689,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25690,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25691,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(26418,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26421,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(11457,108): run-time error CSS1030: Expected identifier, found ','
+(11457,250): run-time error CSS1031: Expected selector, found ')'
+(11457,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(12487,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12488,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12633,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(12635,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(23270,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23273,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23279,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23282,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23945,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24011,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(25707,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25708,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25709,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(26436,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26439,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -11460,6 +11460,24 @@ body.ui2018.uiupdate.cform.mobile #loader {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+body.dark #Wrapper-container .ss-dashboard-wrap-nav-item.active {
+  background-color: #111111;
+  color: white;
+}
+body.dark #Wrapper-container .ss-dashboard-wrap-nav-item-top-edge {
+  background: radial-gradient(circle at 0 0, transparent 12px, #111111 8px);
+}
+body.dark #Wrapper-container .ss-dashboard-wrap-nav-item-bottom-edge {
+  background: radial-gradient(circle at 0 100%, transparent 12px, #111111 8px);
+}
+body.dark #Wrapper-container .ss-dashboard-wrap-main-header {
+  background-color: #222222;
+}
+body.dark #Wrapper-container .ss-dashboard-wrap-main-header .ss-dbw-btn {
+  background: #222222;
+  border-color: #222222;
+  color: white;
 }
 @media print {
   body.ui2018.uiupdate #SS-DashboardWrapper,
