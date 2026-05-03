@@ -57,17 +57,17 @@
 (12457,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (12602,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (12604,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(23171,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23174,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23180,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23183,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23846,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(23912,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(25613,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25614,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25615,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(26342,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26345,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23229,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23232,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23238,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23241,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23904,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(23970,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(25671,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25672,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25673,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(26400,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26403,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -20725,17 +20725,75 @@ div.cf-preview-banner icon {
   vertical-align: top;
   font-size: 25px;
 }
+div.cf-preview-banner a {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #106eb6;
+}
 div.cf-preview-banner .btn-primary {
   display: block;
   position: absolute;
   top: 0;
   right: 5px;
+  height: 40px;
   margin: 4px 0 0 15px !important;
+  padding: 0 20px;
+  background: linear-gradient(135deg, #16c1f3, #106eb6) !important;
+  border: none !important;
+  color: white !important;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 38px;
   text-decoration: none;
+  cursor: pointer;
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  border-radius: 8px !important;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2) !important;
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2) !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+}
+div.cf-preview-banner .btn-primary svg {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  top: 0;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  color: white;
+  fill: none;
+  stroke: currentColor;
 }
 div.cf-preview-banner .btn-primary:hover {
   text-decoration: none;
   margin: 5px 0 0 14px !important;
+  background: linear-gradient(135deg, #16c1f3, #106eb6) !important;
+  border: none !important;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 55, 128, 0.1) !important;
+  -moz-box-shadow: 0 1px 3px rgba(0, 55, 128, 0.1) !important;
+  box-shadow: 0 1px 3px rgba(0, 55, 128, 0.1) !important;
+  -webkit-filter: brightness(1.1);
+  -moz-filter: brightness(1.1);
+  -o-filter: brightness(1.1);
+  -ms-filter: brightness(1.1);
+  filter: brightness(1.1);
+}
+body.ui2018.dark.cform div.cf-preview-banner {
+  background: #3d3200;
+  border-color: #665200;
+  color: #ffc107;
+}
+body.ui2018.dark.cform div.cf-preview-banner a {
+  color: #16c1f3;
 }
 a.cf-trusted-link,
 div.archived a.cf-trusted-link,
@@ -26669,7 +26727,7 @@ body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content di
   display: inline-block;
   position: relative;
   margin: 0;
-  top: 5px;
+  top: 0;
   left: -5px;
   width: 20px;
   height: 20px;
