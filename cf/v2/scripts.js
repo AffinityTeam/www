@@ -6,42 +6,42 @@
 (2784,11-12): run-time error JS1002: Syntax error: }
 (2788,11-12): run-time error JS1002: Syntax error: }
 (2793,7-8): run-time error JS1002: Syntax error: }
-(2945,68-69): run-time error JS1195: Expected expression: )
-(2945,71-72): run-time error JS1195: Expected expression: >
-(2949,10-11): run-time error JS1195: Expected expression: ,
-(2952,5-6): run-time error JS1002: Syntax error: }
-(3048,32-37): run-time error JS1195: Expected expression: class
-(3771,32-37): run-time error JS1195: Expected expression: class
-(3863,29-30): run-time error JS1004: Expected ';': {
-(3864,29-30): run-time error JS1004: Expected ';': {
-(3865,29-30): run-time error JS1004: Expected ';': {
-(3866,29-30): run-time error JS1004: Expected ';': {
-(3923,3-4): run-time error JS1002: Syntax error: }
-(3936,37-38): run-time error JS1004: Expected ';': {
-(4513,36-41): run-time error JS1195: Expected expression: class
-(4593,3-4): run-time error JS1002: Syntax error: }
-(4710,3-4): run-time error JS1002: Syntax error: }
-(4726,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
-(4699,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4697,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4694,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4685,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4671,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4669,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4666,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4662,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4658,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4654,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4653,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4644,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4591,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4589,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4583,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4579,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4570,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4561,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4566,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4527,9,4537,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(2951,68-69): run-time error JS1195: Expected expression: )
+(2951,71-72): run-time error JS1195: Expected expression: >
+(2955,10-11): run-time error JS1195: Expected expression: ,
+(2958,5-6): run-time error JS1002: Syntax error: }
+(3054,32-37): run-time error JS1195: Expected expression: class
+(3777,32-37): run-time error JS1195: Expected expression: class
+(3869,29-30): run-time error JS1004: Expected ';': {
+(3870,29-30): run-time error JS1004: Expected ';': {
+(3871,29-30): run-time error JS1004: Expected ';': {
+(3872,29-30): run-time error JS1004: Expected ';': {
+(3929,3-4): run-time error JS1002: Syntax error: }
+(3942,37-38): run-time error JS1004: Expected ';': {
+(4519,36-41): run-time error JS1195: Expected expression: class
+(4599,3-4): run-time error JS1002: Syntax error: }
+(4716,3-4): run-time error JS1002: Syntax error: }
+(4732,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
+(4705,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4703,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4700,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4691,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4677,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4675,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4672,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4668,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4664,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4660,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4659,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4650,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4597,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4595,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4589,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4585,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4576,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4567,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4572,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4533,9,4543,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -52,19 +52,19 @@
             return v;
           }
         })(value)
-(3936,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3921,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3917,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3913,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3907,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3899,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3887,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3866,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3865,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3864,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3863,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3861,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
-(2951,7-20): run-time error JS1018: 'return' statement outside of function: return string
+(3942,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3927,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3923,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3919,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3913,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3905,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3893,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3872,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3871,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3870,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3869,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3867,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(2957,7-20): run-time error JS1018: 'return' statement outside of function: return string
  */
 (function ()
 {
@@ -2991,15 +2991,17 @@
 
   /**
    * Affinity2018.encodeHTML()
-   * Returns a decoded html string
-   * 
+   * Returns an HTML-encoded string safe for use in text content.
+   * When encodeQuotes is true, also encodes " and ' for safe use in attribute values (e.g. href="...").
+   *
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
-   * 
+   *
    * @param {string} string
+   * @param {boolean} [encodeQuotes] - When true, also escapes double and single quotes for attribute-safe output
    */
   if (!(Affinity2018.hasOwnProperty('encodeHTML')))
   {
-    Affinity2018.encodeHTML = function (string)
+    Affinity2018.encodeHTML = function (string, encodeQuotes)
     {
       clearTimeout(Affinity2018._encodeHTMLTempNodeCleanupTimer);
       if (Affinity2018.isString(string))
@@ -3010,6 +3012,10 @@
         }
         Affinity2018._encodeHTMLTempNode.textContent = string;
         string = Affinity2018._encodeHTMLTempNode.innerHTML;
+        if (encodeQuotes)
+        {
+          string = string.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
         Affinity2018._encodeHTMLTempNodeCleanupTimer = setTimeout(() =>
         {
           delete Affinity2018._encodeHTMLTempNode;
@@ -5194,21 +5200,24 @@
             icon: 'tick',
             text: 'OK',
             color: 'blue',
-            order: 3
+            order: 3,
+            standard: false
           },
           else: {
             show: false,
             icon: 'tick',
             text: 'Else',
             color: 'blue',
-            order: 2
+            order: 2,
+            standard: false
           },
           cancel: {
             show: true,
             icon: 'cross',
             text: 'Cancel',
             color: 'grey',
-            order: 1
+            order: 1,
+            standard: false
           }
         },
         input: {
@@ -5403,7 +5412,7 @@
           )
           {
             this.okButton.innerHTML = `<span class="icon-` + this.data.buttons.ok.icon + `"></span>` + this.data.buttons.ok.text;
-            this.okButton.className = 'button ok';
+            this.okButton.className = this.data.buttons.ok.standard ? 'btn-secondary ok' : 'button ok';
             this.okButton.classList.add(this.data.buttons.ok.color);
             this.buttonsEl.classList.remove('hidden');
             gotOk = true;
@@ -5422,7 +5431,7 @@
           )
           {
             this.elseButton.innerHTML = `<span class="icon-` + this.data.buttons.else.icon + `"></span>` + this.data.buttons.else.text;
-            this.elseButton.className = 'button else';
+            this.elseButton.className = this.data.buttons.else.standard ? 'btn-secondary else' : 'button else';
             this.elseButton.classList.add(this.data.buttons.else.color);
             this.buttonsEl.classList.remove('hidden');
             gotElse = true;
@@ -5441,7 +5450,7 @@
           )
           {
             this.cancelButton.innerHTML = `<span class="icon-` + this.data.buttons.cancel.icon + `"></span>` + this.data.buttons.cancel.text;
-            this.cancelButton.className = 'button cancel';
+            this.cancelButton.className = this.data.buttons.cancel.standard ? 'btn-secondary cancel' : 'button cancel';
             this.cancelButton.classList.add(this.data.buttons.cancel.color);
             this.buttonsEl.classList.remove('hidden');
             gotCancel = true;
@@ -10403,6 +10412,26 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
 
   _init()
   {
+    // Collapse the dashboard wrapper sidebar on all CF pages for a wider content area.
+    // The wrapper is a React app whose useEffect adds 'menu-show-full' asynchronously
+    // after this runs, so we observe the body for that class being re-added and remove
+    // it once. The observer disconnects after the first catch so users can still toggle
+    // the sidebar manually via the burger menu.
+    document.body.classList.remove('menu-show-full');
+    let menuObserver = new MutationObserver((mutations) =>
+    {
+      for (let mutation of mutations)
+      {
+        if (mutation.attributeName === 'class' && document.body.classList.contains('menu-show-full'))
+        {
+          document.body.classList.remove('menu-show-full');
+          menuObserver.disconnect();
+          break;
+        }
+      }
+    });
+    menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
     Affinity2018.ShowPageLoader();
 
     var url = Affinity2018.Path + '/Scripts/V2/apps/cleverforms/Elements.json?version=' + Affinity2018.Version;
@@ -19323,6 +19352,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       '_getWorkflowButtons', '_gotWorkflowButtons', '_getWorkflowButtonsFailed',
       '_checkIdentitySelects',
       '_compileCommentLanguage', '_collpaseComments', '_expandComments', '_toggleComments',
+      '_linkifyUrls',
 
       '_reset', '_doReset',
 
@@ -19333,7 +19363,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_getFromFormDataByName', '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
 
-      '_modalChanged', '_checkForHidden', '_scrollToError',
+      '_modalChanged', '_onEmployeeSelected', '_checkForHidden', '_scrollToError',
 
       '_submit', '_print', '_close', '_back',
 
@@ -19436,11 +19466,32 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           buttonNode = null;
           topButtonsNode.classList.remove('hidden');
         }
+
+        // When opened from the Start New Form dialog (fromstart=true), append
+        // a "Start a new form" button to the preview banner so the user can
+        // jump straight into creating this form.
+        let params = new URLSearchParams(window.location.search);
+        if (params.get('fromstart') === 'true')
+        {
+          let wfId = params.get('wfId');
+          let templateId = document.querySelector('input#TemplateId')?.value;
+          let banner = document.querySelector('.cf-preview-banner');
+          if (banner && templateId && wfId)
+          {
+            let btn = document.createElement('a');
+            btn.href = `/Inbox/Create?templateAndWorkflowIds=${templateId};${wfId}`;
+            btn.className = 'btn-primary';
+            btn.innerHTML = '<svg class="ss-app-config-ico-mail" width="25" height="24" viewBox="0 0 25 24" fill="none"><path d="M17.7677 9.06113L13.5023 12.4954C12.6951 13.1283 11.5635 13.1283 10.7563 12.4954L6.45422 9.06113" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.38787 3.5H16.8158C18.1752 3.51525 19.469 4.08993 20.396 5.0902C21.323 6.09048 21.8022 7.42903 21.722 8.79412V15.322C21.8022 16.6871 21.323 18.0256 20.396 19.0259C19.469 20.0262 18.1752 20.6009 16.8158 20.6161H7.38787C4.46796 20.6161 2.5 18.2407 2.5 15.322V8.79412C2.5 5.87545 4.46796 3.5 7.38787 3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>' + $a.Lang.ReturnPath('app.cf.inbox.buttons.start_new_from_preview');
+            banner.appendChild(btn);
+          }
+        }
+
         this._loadTemplate();
       }
       if (this.ViewType === 'Form') 
       {
         window.addEventListener('ModelLookupChanged', this._modalChanged);
+        window.addEventListener('GotEmployeeData', this._onEmployeeSelected);
         this._loadInstance();
       }
       if (this.ViewType === 'ViewOnly') this._loadInstance();
@@ -20668,7 +20719,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         html = this.historyTemplate.format({
           ActionTaken: data.ActionTaken,
           AssigneeName: data.AssigneeName,
-          Comment: data.Comment === null ? '' : data.Comment,
+          Comment: this._linkifyUrls(data.Comment === null ? '' : data.Comment),
           OriginatorName: data.OriginatorName,
           Date: asDate,
           Time: asTime
@@ -20687,11 +20738,9 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           let archivedData = data.ActionTaken.toLowerCase().contains('archive');
           if (archivedData)
           {
-            archivedTemplate = this.archivedTemplate.format({
-              ActionTakenBy: data.ActionTakenByName,
-              Date: arDate,
-              Time: asTime
-            });
+            let archiveReason = this._linkifyUrls(data.Comment || 'No reason recorded');
+            let byLine = data.ActionTakenByName ? ` - by ${data.ActionTakenByName} on ${arDate}` : '';
+            archivedTemplate = `<span><icon class="icon-warning yellow"></icon> <strong>Archived</strong>${byLine} - "${archiveReason}".</span>`;
           }
         }
       }.bind(this));
@@ -20739,6 +20788,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         {
           this._collpaseComments();
         }
+      }
+      if (archivedTemplate === '' && this.FormData && this.FormData.Archived)
+      {
+        archivedTemplate = `<icon class="icon-warning yellow"></icon> <strong>Archived</strong>`;
       }
       if (archivedTemplate !== '')
       {
@@ -21190,7 +21243,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       Complex: complexStr,
       Date: $a.getDate(data.EnteredAtUtc, 'ccc d MMM yyyy'),
       Time: $a.getDate(data.EnteredAtUtc, 'h:mma'),
-      Comment: hasComment ? data.Comment : '',
+      Comment: hasComment ? this._linkifyUrls(data.Comment) : '',
       CommentClass: hasComment ? 'comment' : 'hidden'
     });
     /**/
@@ -22759,7 +22812,54 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       this._checkForHidden(false);
     }
   }
-  
+
+  // Early duplicate warning — fires when the employee is selected/loaded (non-blocking inline banner)
+  // Restricted to admin users (P-type / Form Admin) to avoid exposing form metadata to regular users.
+  async _onEmployeeSelected()
+  {
+    if (this.ViewType !== 'Form') return;
+
+    // Remove any previous warning
+    let existing = document.querySelector('.cf-duplicate-banner');
+    if (existing) existing.remove();
+
+    let profile = Affinity2018.UserProfile;
+    let isAdmin = profile && (profile.MemberType === 'P' || profile.IsFormAdmin === true);
+    if (!isAdmin) return;
+
+    let employeeNo = this.CleverForms ? this.CleverForms.GetFormEmployeeNo() : null;
+    if (!employeeNo || employeeNo === -1) return;
+
+    let templateId = this.CleverForms.GetTemplateGuid();
+    if (!templateId && this.TemplateData) templateId = this.TemplateData.Id;
+    if (!templateId && this.FormData && this.FormData[0]) templateId = this.FormData[0].TemplateId;
+
+    let instanceId = this.CleverForms.GetInstanceGuid();
+    if (!templateId) return;
+
+    try
+    {
+      let response = await fetch(Affinity2018.Path + `Instance/CheckDuplicate?templateId=${encodeURIComponent(templateId)}&instanceKey=${encodeURIComponent(employeeNo)}&excludeInstanceId=${encodeURIComponent(instanceId || '')}`);
+      let data = await response.json();
+      if (!data || !data.data || !data.data.HasDuplicate) return;
+      data = data.data;
+
+      let who = data.EmployeeName || 'this employee';
+      let state = data.CurrentState || 'Unknown';
+      let viewId = (data.InstanceId || '').replace('instances/', '').replace('Instances/', '');
+      let msg = `A <strong>${data.TemplateName || ''}</strong> form for <strong>${who}</strong> is already in progress (${state})`;
+      if (data.CurrentAssigneeName) msg += ` - ${data.CurrentAssigneeName}`;
+      msg += ` - <a href="/InstanceV2/ViewOnly/${viewId}" target="_blank">View it here</a>`;
+
+      let banner = document.createElement('div');
+      banner.className = 'cf-duplicate-banner';
+      banner.innerHTML = msg;
+      let formNode = document.querySelector('#form');
+      if (formNode) formNode.parentNode.insertBefore(banner, formNode);
+    }
+    catch (ex) { console.warn('Early duplicate check failed', ex); }
+  }
+
 
    
   /**
@@ -23019,6 +23119,49 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
 
+  /**
+   * Summary. Converts trusted URLs in plain text into clickable anchor tags.
+   * Only whitelisted domains and same-origin URLs are linkified; all others render as plain text.
+   * Uses Affinity2018.encodeHTML with encodeQuotes for attribute-safe output.
+   * @this    Class scope
+   * @access  private
+   */
+  _linkifyUrls(text)
+  {
+    if (!text) return text;
+    let trustedDomains = ['affinitylogon.com', 'testaffinitylogon.com', 'affinityteam.com', 'atlassian.net'];
+    let encode = (str) => Affinity2018.encodeHTML(str, true);
+    let urlPattern = /(https?:\/\/[^\s<>"']+)/gi;
+    let parts = [];
+    let lastIndex = 0;
+    let match;
+    while ((match = urlPattern.exec(text)) !== null)
+    {
+      if (match.index > lastIndex) parts.push(encode(text.substring(lastIndex, match.index)));
+      let url = match[0];
+      try
+      {
+        let parsed = new URL(url);
+        let hostname = parsed.hostname.toLowerCase();
+        let isSameOrigin = hostname === window.location.hostname.toLowerCase();
+        let isTrusted = (parsed.protocol === 'https:' || parsed.protocol === 'http:')
+          && (isSameOrigin || trustedDomains.some(d => hostname === d || hostname.endsWith('.' + d)));
+        if (!isTrusted) { parts.push(encode(url)); }
+        else
+        {
+          let safeUrl = encode(url);
+          parts.push(`<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="cf-trusted-link">${safeUrl}</a>`);
+        }
+      }
+      catch (e) { parts.push(encode(url)); }
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) parts.push(encode(text.substring(lastIndex)));
+    return parts.join('');
+  }
+
+
+
   /***************************************************************************************************************************************************/
   /***************************************************************************************************************************************************/
   /***                                                             ***********************************************************************************/
@@ -23183,7 +23326,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.EditUrl = '/Instance/Edit/';
     this.ViewUrl = '/Instance/View/';
     this.DeleteAPI = '/Inbox/Delete/';
+    this.ArchiveAPI = '/InboxV2/Archive';
+    this.UnarchiveAPI = '/InboxV2/Unarchive';
+    this.BulkArchiveAPI = '/InboxV2/BulkArchive';
+    this.BulkUnarchiveAPI = '/InboxV2/BulkUnarchive';
+    this.BulkDeleteAPI = '/InboxV2/BulkDelete';
     this.DetailsEndpoint = '/Admin/Details/';
+
+    // Bulk selection state — Map<instanceId, { isArchived, canDelete, canArchive }>
+    // Persists across pagination, cleared on page refresh or explicit clear
+    this._bulkSelection = new Map();
     this.PayPointAPI = '/Lookup/GetAssignedPayPoints/';
     this.AvailableFormsAPI = '/Inbox/GetAvailableForms/';
 
@@ -23250,6 +23402,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_searchDateChanged', '_searchPayPointSelectChanged',
       '_searchDateSelectChanged', '_searchCheckChanged',
+      '_saveDateState',
 
       '_attemptSearchDebounced',
       '_attemptSearch',
@@ -23278,11 +23431,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       '_updateSortData', '_prcessSortBar', '_sortReset',
 
-      '_switchMode', '_switchToAdmin', '_switchToDetault',
+      '_switchMode', '_switchModeFromTab', '_switchToAdmin', '_switchToDetault',
 
-      '_showSearch', '_hideSearch',
+      '_showSearch', '_hideSearch', '_updateFilterToggleText',
 
       '_showAdminWarning', '_hideAdminWarning',
+
+      '_openSidePanel', '_closeSidePanel', '_clearSidePanel', '_applySidePanel',
+      '_syncFilterLozenge', '_syncAllFilterLozenges',
+      '_checkFilterPanelSize', '_debouncedCheckFilterPanelSize',
+      '_saveFilterState', '_loadFilterState',
+      '_escapeKeyHandler',
+
+      '_showTemplatePreview',
 
       // html templates
       '_templates'
@@ -23348,11 +23509,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
 
     /**/
-    
-    if (this.ViewMode === 'Admin')
-    {
-      document.body.classList.remove('menu-show-full');
-    }
 
     /**/
     
@@ -23519,20 +23675,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.SearchBarBox = this.ResultNode.querySelector('div.inbox-search-bar');
     this.PayPointSelectNode = document.querySelector('select[name="search-paypoint-select"]');
-    this.ColumnListNode = document.querySelector('div.show-hide-columns-check-lists');
     this.SearchBox = this.ResultNode.querySelector('div.inbox-search-filters');
+
+    // Side panel node refs — ColumnListNode points at panel's column section
+    this.SidePanelNode = this.ResultNode.querySelector('div.inbox-side-panel');
+    this.SidePanelBackdrop = this.ResultNode.querySelector('div.inbox-side-panel-backdrop');
+    this.ColumnListNode = this.SidePanelNode
+      ? this.SidePanelNode.querySelector('div.show-hide-columns-check-lists')
+      : document.querySelector('div.show-hide-columns-check-lists');
     this.SearchNode = this.SearchBarBox.querySelector('input');
     this.SearchNode.removeEventListener('keyup', this._searchNodeKeyUpHandler);
     this.SearchNode.addEventListener('keyup', this._searchNodeKeyUpHandler);
     this.SearchStartDateNode = this.SearchBox.querySelector('input#StartDate');
     this.SearchEndDateNode = this.SearchBox.querySelector('input#EndDate');
 
-    // Setup toggle event listener (toggle is in search bar)
-    let adminToggle = this.ResultNode.querySelector('.toggle-container.mode-switch input[type="checkbox"]');
-    if (adminToggle)
+    // Setup L1 tab click listeners (My Forms / Admin navigation)
+    let l1Tabs = this.ResultNode.querySelectorAll('.inbox-l1-tab');
+    for (let tab of l1Tabs)
     {
-      adminToggle.removeEventListener("change", this._switchMode);
-      adminToggle.addEventListener("change", this._switchMode);
+      tab.removeEventListener('click', this._switchModeFromTab);
+      tab.addEventListener('click', this._switchModeFromTab);
     }
 
     /**/
@@ -23572,7 +23734,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     /**/
 
     let today = luxon.DateTime.local();
-    let minDate = today.minus({ years: 7 });
+    let minDate = today.minus({ years: 10 });
 
     let startDate = null;
     let endDate = null;
@@ -23591,8 +23753,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
     }
 
-    // Only apply pay point dates for P type admins
-    if (this.ViewMode === 'Admin')
+    // F1: Determine whether the saved (or default) date-select is "Current Pay Period".
+    // The dropdown DOM isn't populated yet (_injectSearchColumnTabs runs later), so
+    // we read localStorage directly. No saved value = first load = CurrentPayPeriod default.
+    let savedDateSelect = this.EnableLocalStore
+      ? Affinity2018.Storage.Local.Get(`InboxDateSelect-${this.ViewMode}-${this.State.ActiveCategory}-${this.StorageKeySuffix}`)
+      : null;
+    let isCurrentPayPeriod = !savedDateSelect || savedDateSelect === 'CurrentPayPeriod';
+
+    // Only auto-fill pay point dates when "Current Pay Period" is the active date filter
+    if (this.ViewMode === 'Admin' && isCurrentPayPeriod)
     {
       if (this.PayPoints.length > 0)
       {
@@ -23613,6 +23783,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       }
     }
 
+    // F1: Restore saved dates from localStorage for non-CurrentPayPeriod Admin filters
+    let restoredStartDate = null;
+    let restoredEndDate = null;
+    if (this.ViewMode === 'Admin' && !isCurrentPayPeriod && this.EnableLocalStore)
+    {
+      restoredStartDate = Affinity2018.Storage.Local.Get(`InboxStartDate-${this.ViewMode}-${this.StorageKeySuffix}`) || null;
+      restoredEndDate = Affinity2018.Storage.Local.Get(`InboxEndDate-${this.ViewMode}-${this.StorageKeySuffix}`) || null;
+    }
+
     if (this.SearchDateFormat.contains('h:') || this.SearchDateFormat.contains('H:') || this.SearchDatePostFormat.contains('h:') || this.SearchDatePostFormat.contains('H:'))
     {
       if (this.SearchBox.type.toLowerCase().trim() !== 'text')
@@ -23630,6 +23809,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchStartDateNode.setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
     this.SearchStartDateNode.setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
     this.SearchStartDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
+    this.SearchStartDateNode.dataset.calendarDisplayFormat = 'dd MMM yyyy';
     this.SearchStartDateNode.dataset.calendarNullable = true;
     this.SearchStartDateNode.dataset.alignToDisplay = true;
     if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
@@ -23642,6 +23822,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     this.SearchEndDateNode.setAttribute('min', `${minDate.toFormat(this.SearchDateFormat)}`);
     this.SearchEndDateNode.setAttribute('max', `${today.toFormat(this.SearchDateFormat)}`);
     this.SearchEndDateNode.dataset.calendarReturnFormat = this.SearchDatePostFormat;
+    this.SearchEndDateNode.dataset.calendarDisplayFormat = 'dd MMM yyyy';
     this.SearchEndDateNode.dataset.calendarNullable = true;
     this.SearchEndDateNode.dataset.alignToDisplay = true;
     if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
@@ -23649,8 +23830,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.SearchEndDateNode.widgets.DateTime.nullable = true;
     }
 
-    if (this.ViewMode === 'Admin')
+    if (this.ViewMode === 'Admin' && isCurrentPayPeriod && startDate && endDate)
     {
+      // "Current Pay Period" — auto-fill from pay point period dates
       this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDate).toFormat(this.SearchDateFormat);
       if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
       {
@@ -23662,6 +23844,28 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.SearchEndDateNode.widgets.DateTime.setDate(endDate, false);
       }
     }
+    else if (this.ViewMode === 'Admin' && !isCurrentPayPeriod && (restoredStartDate || restoredEndDate))
+    {
+      // Non-CurrentPayPeriod Admin — restore saved dates from localStorage
+      if (restoredStartDate)
+      {
+        let startDateObj = new Date(restoredStartDate);
+        this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(startDateObj).toFormat(this.SearchDateFormat);
+        if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
+        {
+          this.SearchStartDateNode.widgets.DateTime.setDate(startDateObj, false);
+        }
+      }
+      if (restoredEndDate)
+      {
+        let endDateObj = new Date(restoredEndDate);
+        this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(endDateObj).toFormat(this.SearchDateFormat);
+        if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime'))
+        {
+          this.SearchEndDateNode.widgets.DateTime.setDate(endDateObj, false);
+        }
+      }
+    }
     else
     {
       this.SearchStartDateNode.value = '';
@@ -23670,9 +23874,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         this.SearchStartDateNode.widgets.DateTime.setNone();
       }
       this.SearchEndDateNode.value = '';
-      if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime')) 
+      if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime'))
       {
-        this.SearchStartDateNode.widgets.DateTime.setNone();
+        this.SearchEndDateNode.widgets.DateTime.setNone();
       }
     }
 
@@ -23700,7 +23904,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       sortButton.addEventListener('click', this._sortReset);
 
       let categoryNode = document.querySelector(`table[data-category="${category}"]`);
-      categoryNode.querySelector('tbody').innerHTML = this.EmptyResultTemplate(category);
+      categoryNode.querySelector('tbody').innerHTML = this.LoadingResultTemplate(category);
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"]`).classList.remove('selected');
       this.ResultNode.querySelector(`.inbox-tab[data-category="${category}"] span`).innerHTML = '0';
 
@@ -23743,6 +23947,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     window.removeEventListener('click', this._checkColumnSelectHide);
     window.addEventListener('click', this._checkColumnSelectHide);
+
+    // Side panel: backdrop click closes, Escape key closes
+    if (this.SidePanelBackdrop)
+    {
+      this.SidePanelBackdrop.removeEventListener('click', this._closeSidePanel);
+      this.SidePanelBackdrop.addEventListener('click', this._closeSidePanel);
+    }
+    document.removeEventListener('keydown', this._escapeKeyHandler);
+    document.addEventListener('keydown', this._escapeKeyHandler);
+
+    // Restore filter checkbox state from localStorage (Admin only)
+    this._loadFilterState();
+
+    // F3c: Re-check filter panel size on window resize (lozenges may wrap/unwrap)
+    window.removeEventListener('resize', this._debouncedCheckFilterPanelSize);
+    window.addEventListener('resize', this._debouncedCheckFilterPanelSize);
 
     return true;
   }
@@ -23787,6 +24007,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       this.InboxWrapperNode.classList.add('show-filters');
     }
+    this._checkFilterPanelSize();
   }
   _hideSearch()
   {
@@ -23794,6 +24015,55 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       this.InboxWrapperNode.classList.remove('show-filters');
     }
+  }
+
+  // Updates the "Show filters" / "Hide filters" toggle button text based on current state
+  _updateFilterToggleText()
+  {
+    let toggleText = this.InboxWrapperNode.querySelector('.filter-toggle-text');
+    if (toggleText)
+    {
+      toggleText.textContent = this.InboxWrapperNode.classList.contains('show-filters')
+        ? $a.Lang.ReturnPath('app.cf.inbox.buttons.hide_filters')
+        : $a.Lang.ReturnPath('app.cf.inbox.buttons.show_filters');
+    }
+  }
+
+  // F3c: Checks if the filter-menu-row has wrapped onto multiple lines and toggles
+  // a tiered 'large-filters-mode-N-lines' class on the wrapper so CSS can
+  // apply the correct fixed height for smooth animation.
+  _checkFilterPanelSize()
+  {
+    if (!this.SearchBox || !this.InboxWrapperNode) return;
+    if (!this.InboxWrapperNode.classList.contains('show-filters')) return;
+
+    let filterMenuRow = this.SearchBox.querySelector('.filter-menu-row');
+    if (!filterMenuRow) return;
+
+    // Line thresholds: 1 line = ~65px, 2 lines = ~110px, 3 lines = ~155px
+    let rowHeight = filterMenuRow.getBoundingClientRect().height;
+    let mode = (rowHeight > 155) ? '4-lines'
+             : (rowHeight > 110) ? '3-lines'
+             : (rowHeight > 65)  ? '2-lines'
+             : null;
+
+    // Remove all tiered classes, then apply the correct one (if any)
+    this.InboxWrapperNode.classList.remove(
+      'large-filters-mode-2-lines',
+      'large-filters-mode-3-lines',
+      'large-filters-mode-4-lines'
+    );
+    if (mode)
+    {
+      this.InboxWrapperNode.classList.add('large-filters-mode-' + mode);
+    }
+  }
+
+  // Debounced wrapper for window resize — avoids excessive recalculation during drag
+  _debouncedCheckFilterPanelSize()
+  {
+    clearTimeout(this._filterPanelSizeTimer);
+    this._filterPanelSizeTimer = setTimeout(this._checkFilterPanelSize, 200);
   }
 
   /**/
@@ -24067,6 +24337,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         let columnChecksHtml = `<label name="Visible Columns">${$a.Lang.ReturnPath('app.cf.inbox.labels.visible_columns')}</label>`;
         let selectHtml = '';
         let selectDefaultDateHtml = '';
+        let selectCurrentPayPeriodHtml = '';
 
         searchDateColumnSelect.removeEventListener('change', this._searchDateSelectChanged);
 
@@ -24139,9 +24410,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         // Search inside column checkbox - select / unselect all
         html += `<span class="toggle-search-checks toggled-on">${$a.Lang.ReturnPath('app.cf.inbox.unselect_all_search_checks')}</span>`;
 
+        // F1: Admin gets "Current Pay Period" as the first (default) option
+        if (this.ViewMode === 'Admin')
+        {
+          selectCurrentPayPeriodHtml = `<option value="CurrentPayPeriod">${$a.Lang.ReturnPath('app.cf.inbox.labels.current_pay_period')}</option>`;
+        }
+
         searchChecksNode.innerHTML = html;
         searchChecksListNode.innerHTML = columnChecksHtml;
-        searchDateColumnSelect.innerHTML = selectDefaultDateHtml + selectHtml;
+        searchDateColumnSelect.innerHTML = selectCurrentPayPeriodHtml + selectDefaultDateHtml + selectHtml;
+
+        // F1: Restore saved date-select value from localStorage
+        if (this.EnableLocalStore)
+        {
+          let savedDateSelect = Affinity2018.Storage.Local.Get(
+            `InboxDateSelect-${this.ViewMode}-${category}-${this.StorageKeySuffix}`
+          );
+          if (savedDateSelect)
+          {
+            searchDateColumnSelect.value = savedDateSelect;
+          }
+        }
 
         // Only auto-set PayPoint dates if not skipping (i.e., not just restored filter state)
         if (this.ViewMode === 'Admin' && !this._skipPayPointDateReset)
@@ -24184,10 +24473,28 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   {
     this._resetPagesToOne();
     this._attemptSearchDebounced('_searchDateChanged');
+    this._saveDateState();
   }
 
   _searchPayPointSelectChanged(event)
   {
+    // F6: Only auto-fill dates when "Current Pay Period" is the active date filter
+    let activeDateSelect = this.SearchBox.querySelector(
+      `div.select:not(.hidden) select[name="search-date-select"]`
+    );
+    if (!activeDateSelect || activeDateSelect.value !== 'CurrentPayPeriod')
+    {
+      if (
+        (event && 'isTrusted' in event && event.isTrusted)
+        || (event && 'detail' in event && event.detail.isTrusted)
+      )
+      {
+        this._resetPagesToOne();
+        this._attemptSearchDebounced('_searchPayPointSelectChanged');
+      }
+      return;
+    }
+
     let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
     let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
     let selectedValue = event.target.value.toString();
@@ -24223,6 +24530,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       fromDateNode.value = earliest;
       toDateNode.value = latest;
     }
+    this._saveDateState();
     if (
       (event && 'isTrusted' in event && event.isTrusted)
       || (event && 'detail' in event && event.detail.isTrusted)
@@ -24253,6 +24561,48 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           checkNode.parentNode.classList.remove('disabled');
         }
       }
+
+      // F1: When switching to "Current Pay Period", auto-fill dates from the active pay point.
+      // When switching to any other column, keep dates as they are (user can adjust manually).
+      if (event.target.value === 'CurrentPayPeriod')
+      {
+        let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
+        let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
+        let selectedPayPoint = this.PayPointSelectNode ? this.PayPointSelectNode.value : '-1';
+        let earliest, latest;
+        if (this.PayPoints.length > 0)
+        {
+          if (selectedPayPoint === '-1' || selectedPayPoint === '')
+          {
+            earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+            latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+          }
+          else
+          {
+            let payPointData = this.PayPoints.find(pp => pp.PayPoint.toString() === selectedPayPoint.toString());
+            if (payPointData)
+            {
+              earliest = payPointData.CurrentPeriodStartDate;
+              latest = payPointData.CurrentPeriodEndDate;
+            }
+          }
+          if (earliest && latest)
+          {
+            if (fromDateNode.hasOwnProperty('widgets') && fromDateNode.widgets.hasOwnProperty('DateTime'))
+            {
+              fromDateNode.widgets.DateTime.setDate(new Date(earliest), false);
+              toDateNode.widgets.DateTime.setDate(new Date(latest), false);
+            }
+            else
+            {
+              fromDateNode.value = earliest;
+              toDateNode.value = latest;
+            }
+          }
+        }
+      }
+
+      this._saveDateState();
       this._resetPagesToOne();
       this._attemptSearchDebounced('_searchDateSelectChanged');
     }
@@ -24367,9 +24717,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       && startDateAsDate > endDateAsDate
     )
     {
-      let temp = new Date(startDateAsDate);
-      startDateAsDate = new Date(endDateAsDate);
-      endDateAsDate = new Date(temp);
+      endDateAsDate = new Date(startDateAsDate);
     }
     if (startDateAsDate !== null)
     {
@@ -24415,6 +24763,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         });
       }
 
+      // Include archived forms — sends IsArchived=true to remove the default exclusion filter
+      if (document.querySelector('input[type="checkbox"][id="SearchShowArchivedForms"]') && document.querySelector('input[type="checkbox"][id="SearchShowArchivedForms"]').checked)
+      {
+        state.FieldSpecificSearch.push({
+          FieldName: 'IsArchived',
+          SearchValue: 'true'
+        });
+      }
+
       if (document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]') && document.querySelector('input[type="checkbox"][id="SearchShowUnassigned"]').checked)
       {
         state.FieldSpecificSearch.push({
@@ -24436,6 +24793,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     let searchDateColumnSelect = this.SearchBox.querySelector(`div.select[data-category="${this.State.ActiveCategory}"] select[name="search-date-select"]`);
     let optionNodes = searchDateColumnSelect ? searchDateColumnSelect.querySelectorAll('option') : [];
     let searchDateColumnValue = searchDateColumnSelect && searchDateColumnSelect.value.toString().trim() !== '' ? searchDateColumnSelect.value : this.SearchDateDefault;
+    // F1: "Current Pay Period" is a UI-only preset — the server filters on StateEnteredAt
+    if (searchDateColumnValue === 'CurrentPayPeriod')
+    {
+      searchDateColumnValue = 'StateEnteredAt';
+    }
     if (searchDateColumnValue && startDateAsDate && endDateAsDate)
     {
       searchDatesFor = searchDateColumnValue;
@@ -24685,13 +25047,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     // Reset global filter checkboxes to default states
     let completedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms');
     if (completedCheckbox) completedCheckbox.checked = false;
+
+    let archivedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowArchivedForms');
+    if (archivedCheckbox) archivedCheckbox.checked = false;
     
     let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
     if (unassignedCheckbox) unassignedCheckbox.checked = false;
     
     let show999Checkbox = document.querySelector('input[type="checkbox"]#Show999');
     if (show999Checkbox) show999Checkbox.checked = false;
-    
+
+    // Clear localStorage filter state, date state, and sync lozenges
+    this._saveFilterState();
+    this._saveDateState();
+    this._syncAllFilterLozenges();
+
     // Clear saved filter states (so mode switching starts fresh)
     this.FilterState.User = null;
     this.FilterState.Admin = null;
@@ -24721,11 +25091,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     
     // Capture global checkbox states
     let showCompletedChecked = false;
+    let showArchivedChecked = false;
     let showUnassignedChecked = false;
     let show999Checked = false;
     
     let completedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowCompletedForms');
     if (completedCheckbox) showCompletedChecked = completedCheckbox.checked;
+
+    let archivedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowArchivedForms');
+    if (archivedCheckbox) showArchivedChecked = archivedCheckbox.checked;
     
     let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
     if (unassignedCheckbox) showUnassignedChecked = unassignedCheckbox.checked;
@@ -24844,6 +25218,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     {
       completedCheckbox.checked = filterState.showCompletedChecked;
     }
+
+    let archivedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowArchivedForms');
+    if (archivedCheckbox && filterState.showArchivedChecked !== undefined)
+    {
+      archivedCheckbox.checked = filterState.showArchivedChecked;
+    }
     
     let unassignedCheckbox = document.querySelector('input[type="checkbox"]#SearchShowUnassigned');
     if (unassignedCheckbox && filterState.showUnassignedChecked !== undefined)
@@ -24858,6 +25238,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
     
     // Restore category-specific settings for ALL categories
+    let restoredCurrentPayPeriod = false;
     if (filterState.categories)
     {
       for (let category in filterState.categories)
@@ -24871,6 +25252,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           if (dateColumnSelect)
           {
             dateColumnSelect.value = categoryState.dateColumnValue;
+          }
+          // F1: Track if active category is restoring CurrentPayPeriod
+          if (category === this.State.ActiveCategory && categoryState.dateColumnValue === 'CurrentPayPeriod')
+          {
+            restoredCurrentPayPeriod = true;
           }
         }
         
@@ -24886,6 +25272,53 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         }
       }
     }
+
+    // F1: When restoring "Current Pay Period", recalculate dates from fresh pay point data
+    // (the pay period may have rolled over since the state was captured)
+    if (restoredCurrentPayPeriod && this.ViewMode === 'Admin' && this.PayPoints && this.PayPoints.length > 0)
+    {
+      let selectedPayPoint = this.PayPointSelectNode ? this.PayPointSelectNode.value : '-1';
+      let earliest, latest;
+      if (selectedPayPoint === '-1' || selectedPayPoint === '')
+      {
+        earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+        latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+      }
+      else
+      {
+        let payPointData = this.PayPoints.find(pp => pp.PayPoint.toString() === selectedPayPoint.toString());
+        if (payPointData)
+        {
+          earliest = payPointData.CurrentPeriodStartDate;
+          latest = payPointData.CurrentPeriodEndDate;
+        }
+      }
+      if (earliest && latest)
+      {
+        if (this.SearchStartDateNode)
+        {
+          this.SearchStartDateNode.value = luxon.DateTime.fromJSDate(new Date(earliest)).toFormat(this.SearchDateFormat);
+          if (this.SearchStartDateNode.hasOwnProperty('widgets') && this.SearchStartDateNode.widgets.hasOwnProperty('DateTime'))
+          {
+            this.SearchStartDateNode.widgets.DateTime.setDate(new Date(earliest), false);
+          }
+        }
+        if (this.SearchEndDateNode)
+        {
+          this.SearchEndDateNode.value = luxon.DateTime.fromJSDate(new Date(latest)).toFormat(this.SearchDateFormat);
+          if (this.SearchEndDateNode.hasOwnProperty('widgets') && this.SearchEndDateNode.widgets.hasOwnProperty('DateTime'))
+          {
+            this.SearchEndDateNode.widgets.DateTime.setDate(new Date(latest), false);
+          }
+        }
+      }
+    }
+
+    // Sync filter lozenges to match restored checkbox state
+    this._syncAllFilterLozenges();
+
+    // Set initial filter toggle button text
+    this._updateFilterToggleText();
   }
 
   /**/
@@ -24938,6 +25371,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                   // Skip focus on Apple mobile - iOS zooms on input focus
                   if (!Affinity2018.IsAppleMobile) this.SearchNode.focus();
                 }
+                this._updateFilterToggleText();
                 break
 
               case 'show-hide-columns-select':
@@ -24950,6 +25384,38 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 {
                   this._showColumnSelect(event);
                 }
+                break;
+
+              case 'open-side-panel':
+                this._openSidePanel();
+                break;
+
+              case 'side-panel-close':
+                this._closeSidePanel();
+                break;
+
+              case 'side-panel-apply':
+                await this._applySidePanel();
+                break;
+
+              case 'side-panel-clear':
+                this._clearSidePanel();
+                break;
+
+              case 'bulk-archive':
+                this._bulkArchive();
+                break;
+
+              case 'bulk-unarchive':
+                this._bulkUnarchive();
+                break;
+
+              case 'bulk-delete':
+                this._bulkDelete();
+                break;
+
+              case 'bulk-clear':
+                this._bulkClearSelection();
                 break;
 
               default:
@@ -25058,6 +25524,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 this.InboxWrapperNode.classList.add('show-filter-checks')
                 event.target.innerHTML = 'Hide';
               }
+            }
+          }
+          else if (event.target.classList.contains('filter-lozenge-close'))
+          {
+            // Dismiss a filter lozenge — uncheck canonical checkbox, hide lozenge, save + search
+            let filterId = event.target.dataset.filter;
+            if (filterId)
+            {
+              let canonicalCb = document.querySelector(`input[type="checkbox"]#${filterId}`);
+              if (canonicalCb) canonicalCb.checked = false;
+              this._syncFilterLozenge(filterId, false);
+              this._saveFilterState();
+              this._resetPagesToOne();
+              await this._attemptSearch('_gridClicked -> filter-lozenge-close');
             }
           }
           else
@@ -25182,20 +25662,39 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
                 this._attemptSearchDebounced(`_gridClicked -> input -> checkbox -> ${id}`);
                 return;
                 break;
+
+              case 'SearchShowArchivedForms':
+                this._resetPagesToOne();
+                // When "Include archived" is unchecked, strip archived IDs from bulk selection
+                if (!event.target.checked) this._stripArchivedFromSelection();
+                this._attemptSearchDebounced(`_gridClicked -> input -> checkbox -> ${id}`);
+                return;
+                break;
+            }
+
+            // Bulk selection checkboxes (no id, identified by class)
+            if (event.target.classList.contains('bulk-select-checkbox'))
+            {
+              this._handleBulkCheckboxChange(event.target);
+              return;
             }
               
             if (id !== null && id.startsWith('show-hide-check'))
             {
-              // Keep column select menu open when clicking checkboxes
+              // Side panel mode: column clicks are staged — no immediate effect until Apply
+              if (this.SidePanelNode && this.SidePanelNode.classList.contains('open'))
+              {
+                return;
+              }
+              // Fallback: legacy inline column select (no longer used but kept for safety)
               clearTimeout(this._columnSelecAutoHide);
               if (Affinity2018.isEvent(event) && event.isTrusted)
               {
                 event.stopPropagation();
-                //event.preventDefault();
               }
               setTimeout(this._showColumnSelect, 50, event);
               this._resetPagesToOne();
-              await this._checkSortAfterColumnChange(event.target); // Will do _attemptSearchDebounced
+              await this._checkSortAfterColumnChange(event.target);
               return;
             }
 
@@ -25261,6 +25760,261 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   /**/
 
+  // Opens the side panel. Copies canonical checkbox state → panel checkboxes (Admin).
+  _openSidePanel()
+  {
+    if (!this.SidePanelNode || !this.SidePanelBackdrop) return;
+
+    // Populate panel filter checkboxes from live canonical state (Admin only)
+    let panelFilters = this.SidePanelNode.querySelectorAll('.side-panel-filter-item input[type="checkbox"]');
+    for (let panelCb of panelFilters)
+    {
+      let canonicalId = panelCb.dataset.filterId;
+      let liveCb = document.querySelector(`input[type="checkbox"]#${canonicalId}`);
+      panelCb.checked = liveCb ? liveCb.checked : false;
+    }
+
+    // Column checkboxes are already live via _injectSearchColumnTabs (ColumnListNode IS panel's column section)
+
+    this.SidePanelNode.classList.add('open');
+    this.SidePanelBackdrop.classList.add('open');
+  }
+
+  // Closes the side panel without applying. Reverts panel checkboxes to live state.
+  _closeSidePanel()
+  {
+    if (!this.SidePanelNode || !this.SidePanelBackdrop) return;
+
+    this.SidePanelNode.classList.remove('open');
+    this.SidePanelBackdrop.classList.remove('open');
+
+    // Revert panel filter checkboxes to live canonical state
+    let panelFilters = this.SidePanelNode.querySelectorAll('.side-panel-filter-item input[type="checkbox"]');
+    for (let panelCb of panelFilters)
+    {
+      let canonicalId = panelCb.dataset.filterId;
+      let liveCb = document.querySelector(`input[type="checkbox"]#${canonicalId}`);
+      panelCb.checked = liveCb ? liveCb.checked : false;
+    }
+
+    // Revert panel column checkboxes to localStorage / default state
+    for (let category in this.State.CategorySettings)
+    {
+      let checkboxes = this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`);
+      for (let checkbox of checkboxes)
+      {
+        if (checkbox.disabled) continue;
+        let columnName = checkbox.value;
+        let storeKey = `InboxColumnsShow-${this.ViewMode}-${category}-${columnName}-${this.StorageKeySuffix}`;
+        let stored = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(storeKey) : null;
+        if (stored !== null)
+        {
+          checkbox.checked = stored;
+        }
+        else
+        {
+          let defaults = this.StateStore[this.ViewMode].DefaultVisibleColumns || null;
+          checkbox.checked = defaults ? defaults.includes(columnName) : true;
+        }
+      }
+    }
+  }
+
+  // Resets panel checkboxes to defaults (columns from StateStore defaults, filters all unchecked)
+  _clearSidePanel()
+  {
+    if (!this.SidePanelNode) return;
+
+    // Reset filter checkboxes to unchecked
+    let panelFilters = this.SidePanelNode.querySelectorAll('.side-panel-filter-item input[type="checkbox"]');
+    for (let panelCb of panelFilters)
+    {
+      panelCb.checked = false;
+    }
+
+    // Reset column checkboxes to StateStore defaults
+    let defaultVisibleColumns = this.StateStore[this.ViewMode].DefaultVisibleColumns || null;
+    for (let category in this.State.CategorySettings)
+    {
+      let checkboxes = this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`);
+      for (let checkbox of checkboxes)
+      {
+        if (checkbox.disabled) continue;
+        let columnName = checkbox.value;
+        checkbox.checked = defaultVisibleColumns ? defaultVisibleColumns.includes(columnName) : true;
+      }
+    }
+  }
+
+  // Commits panel state: writes to canonical checkboxes, saves to localStorage, updates grid, syncs lozenges, triggers search
+  async _applySidePanel()
+  {
+    if (!this.SidePanelNode) return;
+
+    // 1. Commit filter checkbox state to canonical hidden checkboxes (Admin only)
+    let panelFilters = this.SidePanelNode.querySelectorAll('.side-panel-filter-item input[type="checkbox"]');
+    for (let panelCb of panelFilters)
+    {
+      let canonicalId = panelCb.dataset.filterId;
+      let liveCb = document.querySelector(`input[type="checkbox"]#${canonicalId}`);
+      if (liveCb)
+      {
+        liveCb.checked = panelCb.checked;
+      }
+    }
+
+    // 2. Save filter state and column visibility to localStorage
+    this._saveFilterState();
+    this._saveHiddenColumns();
+
+    // 3. Sort cleanup — remove sort on any newly-hidden columns
+    for (let category in this.State.CategorySettings)
+    {
+      let checkboxes = this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`);
+      for (let checkbox of checkboxes)
+      {
+        if (!checkbox.checked)
+        {
+          let headerNode = this.ResultNode.querySelector(`table[data-category="${category}"] th[data-name="${checkbox.value}"]`);
+          if (headerNode && headerNode.dataset.ascending !== 'null')
+          {
+            headerNode.dataset.ascending = 'null';
+          }
+        }
+      }
+    }
+
+    // 4. Apply column visibility to grid DOM
+    this._applyHiddenColumns();
+
+    // 5. Sync filter lozenges in toolbar
+    this._syncAllFilterLozenges();
+
+    // 6. Reset pagination and close panel
+    this._resetPagesToOne();
+    this.SidePanelNode.classList.remove('open');
+    this.SidePanelBackdrop.classList.remove('open');
+
+    // 7. Update sorts then search
+    await this._updateSortData(true, true);
+  }
+
+  /**/
+
+  // Shows/hides a single filter lozenge based on its matching canonical checkbox state
+  _syncFilterLozenge(filterId, checked)
+  {
+    let lozenge = this.ResultNode.querySelector(`.filter-lozenge[data-filter="${filterId}"]`);
+    if (!lozenge) return;
+    if (checked)
+    {
+      lozenge.classList.remove('hidden');
+    }
+    else
+    {
+      lozenge.classList.add('hidden');
+    }
+    this._checkFilterPanelSize();
+  }
+
+  // Syncs all filter lozenges to match canonical checkbox state
+  _syncAllFilterLozenges()
+  {
+    let lozenges = this.ResultNode.querySelectorAll('.filter-lozenge[data-filter]');
+    for (let lozenge of lozenges)
+    {
+      let filterId = lozenge.dataset.filter;
+      let canonicalCb = document.querySelector(`input[type="checkbox"]#${filterId}`);
+      if (canonicalCb)
+      {
+        if (canonicalCb.checked)
+        {
+          lozenge.classList.remove('hidden');
+        }
+        else
+        {
+          lozenge.classList.add('hidden');
+        }
+      }
+    }
+    this._checkFilterPanelSize();
+  }
+
+  /**/
+
+  // D5: Save filter checkbox states to localStorage (Admin only)
+  _saveFilterState()
+  {
+    if (!this.EnableLocalStore || this.ViewMode !== 'Admin') return;
+    let filterIds = ['SearchShowCompletedForms', 'SearchShowArchivedForms', 'SearchShowUnassigned', 'Show999'];
+    for (let filterId of filterIds)
+    {
+      let cb = document.querySelector(`input[type="checkbox"]#${filterId}`);
+      if (cb)
+      {
+        Affinity2018.Storage.Local.Set(`InboxFilter-${this.ViewMode}-${filterId}-${this.StorageKeySuffix}`, cb.checked);
+      }
+    }
+  }
+
+  // D5: Load filter checkbox states from localStorage and sync lozenges (Admin only)
+  _loadFilterState()
+  {
+    if (!this.EnableLocalStore || this.ViewMode !== 'Admin') return;
+    let filterIds = ['SearchShowCompletedForms', 'SearchShowArchivedForms', 'SearchShowUnassigned', 'Show999'];
+    for (let filterId of filterIds)
+    {
+      let storeKey = `InboxFilter-${this.ViewMode}-${filterId}-${this.StorageKeySuffix}`;
+      if (Affinity2018.Storage.Local.Has(storeKey))
+      {
+        let stored = Affinity2018.Storage.Local.Get(storeKey);
+        let cb = document.querySelector(`input[type="checkbox"]#${filterId}`);
+        if (cb) cb.checked = stored;
+      }
+    }
+    this._syncAllFilterLozenges();
+  }
+
+  // F1: Persists the current date-select dropdown value (per category) and From/To date
+  // input values to localStorage. Called on date-select change, date input change,
+  // pay point change (when dates auto-fill), and reset.
+  _saveDateState()
+  {
+    if (!this.EnableLocalStore) return;
+    for (let category in this.State.CategorySettings)
+    {
+      let dateSelect = this.SearchBox
+        ? this.SearchBox.querySelector(`div.select[data-category="${category}"] select[name="search-date-select"]`)
+        : null;
+      if (dateSelect)
+      {
+        Affinity2018.Storage.Local.Set(
+          `InboxDateSelect-${this.ViewMode}-${category}-${this.StorageKeySuffix}`,
+          dateSelect.value
+        );
+      }
+    }
+    Affinity2018.Storage.Local.Set(
+      `InboxStartDate-${this.ViewMode}-${this.StorageKeySuffix}`,
+      this.SearchStartDateNode ? this.SearchStartDateNode.value : ''
+    );
+    Affinity2018.Storage.Local.Set(
+      `InboxEndDate-${this.ViewMode}-${this.StorageKeySuffix}`,
+      this.SearchEndDateNode ? this.SearchEndDateNode.value : ''
+    );
+  }
+
+  // Escape key closes the side panel
+  _escapeKeyHandler(event)
+  {
+    if (event.key === 'Escape' && this.SidePanelNode && this.SidePanelNode.classList.contains('open'))
+    {
+      this._closeSidePanel();
+    }
+  }
+
+  /**/
+
   _rowButtonClicked(event)
   {
     let rowNode = event.target.closest('tr');
@@ -25301,8 +26055,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this._processRow('delete', rowNode);
       return;
     }
-    //console.log('Unkown Button Clicked?');
-    //console.log(event.target);
+    if (event.target.classList.contains('archive'))
+    {
+      this._archiveRow(rowNode);
+      return;
+    }
+    if (event.target.classList.contains('unarchive'))
+    {
+      this._unarchiveRow(rowNode);
+      return;
+    }
   }
 
   _loadUrl(url, newTab = false)
@@ -25345,14 +26107,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             show: true,
             icon: 'tick',
             text: $a.Lang.ReturnPath('app.cf.inbox.process_row_message_confirm'),
-            color: 'blue'
+            color: 'blue',
+            standard: true
           },
           else: false,
           cancel: {
             show: true,
             icon: 'cross',
             text: $a.Lang.ReturnPath('app.cf.inbox.process_row_message_deny'),
-            color: 'grey'
+            color: 'grey',
+            standard: true
           }
         }
       });
@@ -25396,22 +26160,341 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     return true;
   }
 
+  // Archive a single row — shows reason dialog, then calls archive API
+  async _archiveRow(rowNode)
+  {
+    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+    if (!instance) return;
+
+    let reason = '';
+    try
+    {
+      reason = await this._showArchiveReasonDialog();
+    }
+    catch (e) { return; }
+
+    if (!reason || !reason.trim())
+    {
+      await this.ShowDialogAsync({
+        message: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_required'),
+        buttons: { ok: { show: true, text: 'OK', color: 'blue', standard: true }, else: false, cancel: false }
+      }).catch(() => {});
+      return;
+    }
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      let response = await fetch(this.ArchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceId: instance, Reason: reason.trim() })
+      });
+      let data = await response.json();
+      if (data.Success)
+      {
+        this._attemptSearchDebounced('_archiveRow');
+      }
+    }
+    catch (ex) { console.warn('Archive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  // Unarchive a single row — prompts for reason, then calls unarchive API
+  async _unarchiveRow(rowNode)
+  {
+    let instance = rowNode && rowNode.dataset.instance ? rowNode.dataset.instance.replace('instances/', '') : '';
+    if (!instance) return;
+
+    let reason;
+    try
+    {
+      reason = await this._showUnarchiveReasonDialog();
+    }
+    catch (e) { return; }
+
+    if (!reason || !reason.trim())
+    {
+      await this.ShowDialogAsync({
+        message: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_required'),
+        buttons: { ok: { show: true, text: 'OK', color: 'blue', standard: true }, else: false, cancel: false }
+      }).catch(() => {});
+      return;
+    }
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      let response = await fetch(this.UnarchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceId: instance, Reason: reason.trim() })
+      });
+      let data = await response.json();
+      if (data.Success)
+      {
+        this._attemptSearchDebounced('_unarchiveRow');
+      }
+    }
+    catch (ex) { console.warn('Unarchive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  // Shows a dialog with a textarea for mandatory archive reason
+  _showArchiveReasonDialog()
+  {
+    return new Promise((resolve, reject) =>
+    {
+      let reason = '';
+      Affinity2018.Dialog.Show({
+        message: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_prompt') +
+          `<textarea class="archive-reason-input" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_placeholder')}" style="width:100%;min-height:80px;margin-top:10px;resize:vertical;font-family:inherit;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:4px;"></textarea>`,
+        textAlign: 'left',
+        showOk: true,
+        showCancel: true,
+        okText: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_confirm'),
+        cancelText: $a.Lang.ReturnPath('app.cf.inbox.archive_reason_dialog_cancel'),
+        onOk: () =>
+        {
+          let ta = document.querySelector('.archive-reason-input');
+          reason = ta ? ta.value.trim() : '';
+          resolve(reason);
+        },
+        onCancel: () => { reject('cancelled'); }
+      });
+    });
+  }
+
+  // Shows a dialog with a textarea for mandatory unarchive reason
+  _showUnarchiveReasonDialog()
+  {
+    return new Promise((resolve, reject) =>
+    {
+      let reason = '';
+      Affinity2018.Dialog.Show({
+        message: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_prompt') +
+          `<textarea class="archive-reason-input" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_placeholder')}" style="width:100%;min-height:80px;margin-top:10px;resize:vertical;font-family:inherit;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:4px;"></textarea>`,
+        textAlign: 'left',
+        showOk: true,
+        showCancel: true,
+        okText: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_confirm'),
+        cancelText: $a.Lang.ReturnPath('app.cf.inbox.unarchive_reason_dialog_cancel'),
+        onOk: () =>
+        {
+          let ta = document.querySelector('.archive-reason-input');
+          reason = ta ? ta.value.trim() : '';
+          resolve(reason);
+        },
+        onCancel: () => { reject('cancelled'); }
+      });
+    });
+  }
+
+  // Handle bulk checkbox change — add/remove from selection Map
+  _handleBulkCheckboxChange(checkbox)
+  {
+    let instanceId = checkbox.dataset.instance;
+    if (!instanceId) return;
+
+    if (checkbox.checked)
+    {
+      let row = checkbox.closest('tr');
+      this._bulkSelection.set(instanceId, {
+        isArchived: row ? row.dataset.archived === 'true' : false,
+        canDelete: row ? row.querySelector('button.delete') !== null : false,
+        canArchive: row ? row.querySelector('button.archive') !== null : false
+      });
+    }
+    else
+    {
+      this._bulkSelection.delete(instanceId);
+    }
+    this._updateBulkBar();
+  }
+
+  // Strip archived IDs from bulk selection (when "Include archived" is unchecked)
+  _stripArchivedFromSelection()
+  {
+    for (let [id, meta] of this._bulkSelection)
+    {
+      if (meta.isArchived) this._bulkSelection.delete(id);
+    }
+    this._updateBulkBar();
+  }
+
+  // Update the sticky bulk actions bar visibility and button states
+  _updateBulkBar()
+  {
+    let bar = document.querySelector('.inbox-bulk-bar');
+    if (!bar) return;
+
+    let count = this._bulkSelection.size;
+    if (count === 0)
+    {
+      bar.classList.add('hidden');
+      return;
+    }
+
+    bar.classList.remove('hidden');
+    bar.querySelector('.bulk-count').textContent = count === 1
+      ? $a.Lang.ReturnPath('app.cf.inbox.labels.bulk_count_singular', { count: count })
+      : $a.Lang.ReturnPath('app.cf.inbox.labels.bulk_count_plural', { count: count });
+
+    // Compute button visibility from selection metadata
+    let hasNonArchived = false;
+    let hasArchived = false;
+    let allCanDelete = count > 0;
+    for (let [, meta] of this._bulkSelection)
+    {
+      if (meta.isArchived) hasArchived = true;
+      else hasNonArchived = true;
+      if (!meta.canDelete) allCanDelete = false;
+    }
+
+    bar.querySelector('.bulk-archive-btn').classList.toggle('hidden', !hasNonArchived);
+    bar.querySelector('.bulk-archive-reason').classList.toggle('hidden', !hasNonArchived);
+    bar.querySelector('.bulk-unarchive-btn').classList.toggle('hidden', !hasArchived);
+    bar.querySelector('.bulk-unarchive-reason').classList.toggle('hidden', !hasArchived);
+    bar.querySelector('.bulk-delete-btn').classList.toggle('hidden', !allCanDelete);
+  }
+
+  // Bulk archive all selected non-archived rows
+  async _bulkArchive()
+  {
+    let ids = [];
+    for (let [id, meta] of this._bulkSelection)
+    {
+      if (!meta.isArchived) ids.push(id);
+    }
+    if (ids.length === 0) return;
+
+    let reasonInput = document.querySelector('.bulk-archive-reason textarea');
+    let reason = reasonInput ? reasonInput.value.trim() : '';
+    if (!reason)
+    {
+      await this.ShowDialogAsync({
+        message: $a.Lang.ReturnPath('app.cf.inbox.warnings.bulk_archive_reason_required'),
+        buttons: { ok: { show: true, text: 'OK', color: 'blue', standard: true }, else: false, cancel: false }
+      }).catch(() => {});
+      if (reasonInput) reasonInput.focus();
+      return;
+    }
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      await fetch(this.BulkArchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceIds: ids, Reason: reason })
+      });
+      this._bulkClearSelection();
+      this._attemptSearchDebounced('_bulkArchive');
+    }
+    catch (ex) { console.warn('Bulk archive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  // Bulk unarchive all selected archived rows
+  async _bulkUnarchive()
+  {
+    let ids = [];
+    for (let [id, meta] of this._bulkSelection)
+    {
+      if (meta.isArchived) ids.push(id);
+    }
+    if (ids.length === 0) return;
+
+    let reasonInput = document.querySelector('.bulk-unarchive-reason textarea');
+    let reason = reasonInput ? reasonInput.value.trim() : '';
+    if (!reason)
+    {
+      await this.ShowDialogAsync({
+        message: $a.Lang.ReturnPath('app.cf.inbox.warnings.bulk_unarchive_reason_required'),
+        buttons: { ok: { show: true, text: 'OK', color: 'blue', standard: true }, else: false, cancel: false }
+      }).catch(() => {});
+      if (reasonInput) reasonInput.focus();
+      return;
+    }
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      await fetch(this.BulkUnarchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceIds: ids, Reason: reason })
+      });
+      this._bulkClearSelection();
+      this._attemptSearchDebounced('_bulkUnarchive');
+    }
+    catch (ex) { console.warn('Bulk unarchive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  // Bulk delete all selected rows that have CanDelete
+  async _bulkDelete()
+  {
+    let ids = [];
+    for (let [id, meta] of this._bulkSelection)
+    {
+      if (meta.canDelete) ids.push(id);
+    }
+    if (ids.length === 0) return;
+
+    try
+    {
+      await this.ShowDialogAsync({
+        message: ids.length === 1
+          ? $a.Lang.ReturnPath('app.cf.inbox.warnings.bulk_delete_confirm_singular', { count: ids.length })
+          : $a.Lang.ReturnPath('app.cf.inbox.warnings.bulk_delete_confirm_plural', { count: ids.length }),
+        textAlign: 'left',
+        buttons: {
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('app.cf.inbox.delete_dialog.confirm'), color: 'blue', standard: true },
+          else: false,
+          cancel: { show: true, icon: 'cross', text: $a.Lang.ReturnPath('app.cf.inbox.delete_dialog.cancel'), color: 'grey', standard: true }
+        }
+      });
+    }
+    catch (e) { return; }
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      await fetch(this.BulkDeleteAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceIds: ids })
+      });
+      this._bulkClearSelection();
+      this._attemptSearchDebounced('_bulkDelete');
+    }
+    catch (ex) { console.warn('Bulk delete failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  // Clear all bulk selections
+  _bulkClearSelection()
+  {
+    this._bulkSelection.clear();
+    this._updateBulkBar();
+    let checkboxes = this.ResultNode.querySelectorAll('.bulk-select-checkbox');
+    for (let cb of checkboxes) cb.checked = false;
+  }
+
   // Save user's column visibility preferences to localStorage
   _saveHiddenColumns()
   {
     for (let category in this.State.CategorySettings)
     {
-      let menuNode = this.SearchBarBox.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
-      let menuItems = menuNode ? menuNode.querySelectorAll(`div`) : [];
-      for (let menuItem of menuItems)
+      let checkboxes = this.ColumnListNode ? this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`) : [];
+      for (let checkbox of checkboxes)
       {
-        let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
-        let column = menuItem.querySelector(`input[type="checkbox"]`).value;
-        let key = `InboxColumnsShow-${this.ViewMode}-${category}-${column}-${this.StorageKeySuffix}`;
+        let key = `InboxColumnsShow-${this.ViewMode}-${category}-${checkbox.value}-${this.StorageKeySuffix}`;
         let currentSet = this.EnableLocalStore ? Affinity2018.Storage.Local.Get(key) : null;
-        if (currentSet !== showIt && this.EnableLocalStore)
+        if (currentSet !== checkbox.checked && this.EnableLocalStore)
         {
-          Affinity2018.Storage.Local.Set(key, showIt);
+          Affinity2018.Storage.Local.Set(key, checkbox.checked);
         }
       }
     }
@@ -25423,17 +26506,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     for (let category in this.State.CategorySettings)
     {
       let gridNode = document.querySelector(`table[data-category="${category}"]`);
-
-      let menuNode = this.SearchBarBox.querySelector(`div.show-hide-columns-check-list[data-category="${category}"]`);
-      let menuItems = menuNode ? menuNode.querySelectorAll(`div`) : [];
-      for (let menuItem of menuItems)
+      let checkboxes = this.ColumnListNode ? this.ColumnListNode.querySelectorAll(`input[type="checkbox"][data-category="${category}"]`) : [];
+      for (let checkbox of checkboxes)
       {
-        let showIt = menuItem.querySelector(`input[type="checkbox"]`).checked;
-        let column = menuItem.querySelector(`input[type="checkbox"]`).value;
-        let columnNodes = gridNode.querySelectorAll(`col[data-name="${column}"], th[data-name="${column}"], td[data-name="${column}"]`);
+        let columnNodes = gridNode.querySelectorAll(`col[data-name="${checkbox.value}"], th[data-name="${checkbox.value}"], td[data-name="${checkbox.value}"]`);
         for (let columnNode of columnNodes)
         {
-          if (showIt)
+          if (checkbox.checked)
           {
             columnNode.classList.remove('hidden');
           }
@@ -25442,19 +26521,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             columnNode.classList.add('hidden');
           }
         }
-        // Do footer colspans too ..
-        let activeGridheaders = gridNode.querySelectorAll(`thead th:not(.hidden)`);
-        let footerRows = gridNode.querySelectorAll(`tfoot td`);
-        for (let footerRow of footerRows)
-        {
-          footerRow.setAttribute('colspan', activeGridheaders.length);
-        }
-        // Then reset any mesage rows in body
-        let gridRows = gridNode.querySelectorAll(`tbody td[colspan]`);
-        for (let gridRow of gridRows)
-        {
-          gridRow.setAttribute('colspan', activeGridheaders.length);
-        }
+      }
+      // Update footer colspans after visibility changes
+      let activeGridheaders = gridNode.querySelectorAll(`thead th:not(.hidden)`);
+      let footerRows = gridNode.querySelectorAll(`tfoot td`);
+      for (let footerRow of footerRows)
+      {
+        footerRow.setAttribute('colspan', activeGridheaders.length);
+      }
+      let gridRows = gridNode.querySelectorAll(`tbody td[colspan]`);
+      for (let gridRow of gridRows)
+      {
+        gridRow.setAttribute('colspan', activeGridheaders.length);
       }
     }
   }
@@ -25730,17 +26808,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           ok: {
             show: true,
             icon: 'tick',
-            text: 'Start',
+            text: $a.Lang.ReturnPath('app.cf.inbox.start_dialog.start'),
             color: 'green',
-            order: 1
+            order: 1,
+            standard: true
           },
-          else: false,
+          else: this.MemberType !== 'M' ? {
+            show: true,
+            icon: 'search',
+            text: $a.Lang.ReturnPath('app.cf.inbox.start_dialog.preview'),
+            color: 'blue',
+            order: 2,
+            standard: true
+          } : false,
           cancel: {
             show: true,
             icon: 'cross',
-            text: 'Cancel',
+            text: $a.Lang.ReturnPath('app.cf.inbox.start_dialog.cancel'),
             color: 'grey',
-            order: 3
+            order: 3,
+            standard: true
           }
         },
         onOk: () =>
@@ -25805,14 +26892,50 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         Affinity2018.HidePageLoader(true);
       });
       autoCompleteWidget = new Affinity2018.Classes.Plugins.AutocompleteWidget(selectNode);
-      //if (autoCompleteWidget && autoCompleteWidget.ready)
-      //{
-      //  autoCompleteWidget.show();
-      //}
-      //else
-      //{
-      //  selectNode.addEventListener('ready', autoCompleteWidget.show);
-      //}
+
+      // Disable Start and Preview until a template is selected
+      let okBtn = document.getElementById('dialog-ok');
+      let elseBtn = document.getElementById('dialog-else');
+      if (okBtn)
+      {
+        okBtn.disabled = true;
+        okBtn.classList.add('disabled');
+      }
+      if (elseBtn)
+      {
+        elseBtn.disabled = true;
+        elseBtn.classList.add('disabled');
+      }
+      selectNode.addEventListener('change', () =>
+      {
+        let hasSelection = selectNode.value && selectNode.value !== '' && selectNode.value !== 'null';
+        if (okBtn)
+        {
+          okBtn.disabled = !hasSelection;
+          okBtn.classList.toggle('disabled', !hasSelection);
+        }
+        if (elseBtn)
+        {
+          elseBtn.disabled = !hasSelection;
+          elseBtn.classList.toggle('disabled', !hasSelection);
+        }
+      });
+
+      // Intercept the else (Preview) button click with a capturing listener.
+      // This fires before the dialog's own handler, stops the event so the dialog
+      // does NOT close, then opens Preview in a named tab.
+      if (elseBtn)
+      {
+        elseBtn.addEventListener('click', (ev) =>
+        {
+          Affinity2018.stopEvent(ev);
+          if (selectNode.value && selectNode.value !== '' && selectNode.value !== 'null')
+          {
+            let parts = selectNode.value.split(';');
+            this._showTemplatePreview(parts[0], parts[1]);
+          }
+        }, true);
+      }
     }
     else
     {
@@ -25820,6 +26943,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       debugger;
     }
     Affinity2018.HidePageLoader(true);
+  }
+
+  // Opens the template preview in a named tab.
+  // Passes fromstart=true + workflowDefinitionId so the preview JS can
+  // render a "Start a new form" link.
+  _showTemplatePreview(templateId, workflowDefinitionId)
+  {
+    let url = `/TemplateV2/Preview/${templateId}`;
+    if (workflowDefinitionId) url += `?fromstart=true&wfId=${encodeURIComponent(workflowDefinitionId)}`;
+    window.open(url, 'preview');
   }
 
   /*Mode Switch */
@@ -25853,14 +26986,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     }
   }
 
+  // L1 tab click handler — replaces toggle for mode switching
+  async _switchModeFromTab(event)
+  {
+    let targetMode = event.target.dataset.mode;
+    if (targetMode === this.ViewMode) return;
+    if (targetMode === 'Admin')
+    {
+      await this._switchToAdmin();
+    }
+    else
+    {
+      await this._switchToDetault();
+    }
+  }
+
   async _switchToAdmin()
   {
     if (this.ViewMode !== 'Admin')
     {
       // Capture current filter state before switching
       this.FilterState.User = this._captureFilterState();
-      
-      document.body.classList.remove('menu-show-full');
 
       if (this.PayPoints && this.PayPoints.length > 0)
       {
@@ -25930,11 +27076,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       this.FilterState.Admin = this._captureFilterState();
       
       this._hideSearch();
-
-      if (this.LocalDebug)
-      {
-        document.body.classList.add('menu-show-full');
-      }
 
       if (
           this.SearchBox.querySelector('input#StartDate') 
@@ -26203,62 +27344,84 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
   _templates()
   {
 
+    // Side panel HTML — Admin gets filters + columns sections, User gets columns only
+    this._sidePanelTemplate = () =>
+    {
+      let isAdmin = this.ViewMode === 'Admin';
+      let panelTitle = isAdmin
+        ? $a.Lang.ReturnPath('app.cf.inbox.labels.filters_side_panel_title')
+        : $a.Lang.ReturnPath('app.cf.inbox.buttons.columns');
+
+      // FILTERS section — Admin only (4 checkboxes mirroring canonical hidden checkboxes)
+      let filtersSection = '';
+      if (isAdmin)
+      {
+        filtersSection = `
+          <div class="side-panel-section" data-section="filters">
+            <label class="section-label">${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}</label>
+            <div class="side-panel-filter-item">
+              <input type="checkbox" id="SidePanelShowCompleted" data-filter-id="SearchShowCompletedForms">
+              <label for="SidePanelShowCompleted">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_forms')}</label>
+            </div>
+            <div class="side-panel-filter-item">
+              <input type="checkbox" id="SidePanelShowArchived" data-filter-id="SearchShowArchivedForms">
+              <label for="SidePanelShowArchived">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_archived_forms')}</label>
+            </div>
+            <div class="side-panel-filter-item">
+              <input type="checkbox" id="SidePanelShowUnassigned" data-filter-id="SearchShowUnassigned">
+              <label for="SidePanelShowUnassigned" class="ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
+            </div>
+            <div class="side-panel-filter-item">
+              <input type="checkbox" id="SidePanelShow999" data-filter-id="Show999">
+              <label for="SidePanelShow999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
+            </div>
+          </div>`;
+      }
+
+      return `
+        <div class="inbox-side-panel-backdrop"></div>
+        <div class="inbox-side-panel">
+          <div class="inbox-side-panel-header">
+            <button class="side-panel-close btn-borderless" data-action="side-panel-close">&times;</button>
+            <span class="side-panel-title">${panelTitle}</span>
+            <div class="side-panel-actions">
+              <button class="btn-link side-panel-clear" data-action="side-panel-clear">${$a.Lang.ReturnPath('app.cf.inbox.labels.filters_side_panel_reset')}</button>
+              <button class="side-panel-apply" data-action="side-panel-apply">${$a.Lang.ReturnPath('app.cf.inbox.labels.filters_side_panel_apply')}</button>
+            </div>
+          </div>
+          <div class="inbox-side-panel-body">
+            ${filtersSection}
+            <div class="side-panel-section" data-section="columns">
+              <label class="section-label">${$a.Lang.ReturnPath('app.cf.inbox.labels.visible_columns')}</label>
+              <div class="show-hide-columns-check-lists">
+                <div class="show-hide-columns-check-list" data-category="ToAction"></div>
+                <div class="show-hide-columns-check-list" data-category="InProgress"></div>
+                <div class="show-hide-columns-check-list" data-category="Completed"></div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    };
+
     /* Admin Results */
 
     this.AdminResultGridTemplate = () =>
     {
-      let toggleToAction = '';
-      let toggleInProgress = '';
-      let toggleCompleted = '';
-      let toggleNode = '';
-      if (this.ShowModeToggle)
-      {
-        toggleNode = this.ToggleTemplate({
-          Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_admin'),
-          Id: 'AdminToggleToAction',
-          ClassName: 'mode-switch',
-          On: false
-        });
-      }
-      let hasToggleClass = this.ShowModeToggle ? ' has-toggle' : '';
+      let l1TabsNode = this.ShowModeToggle ? this.L1TabsTemplate() : '';
       return `
-      <div class="inbox-v2-wrapper admin-mode show-filters${hasToggleClass}">
+      <div class="inbox-v2-wrapper admin-mode show-filters">
+      <div class="inbox-header-actions">
+        <button class="btn-primary" data-action="startnew">
+          <svg class="ss-app-config-ico-mail" width="25" height="24" viewBox="0 0 25 24" fill="none"><path d="M17.7677 9.06113L13.5023 12.4954C12.6951 13.1283 11.5635 13.1283 10.7563 12.4954L6.45422 9.06113" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.38787 3.5H16.8158C18.1752 3.51525 19.469 4.08993 20.396 5.0902C21.323 6.09048 21.8022 7.42903 21.722 8.79412V15.322C21.8022 16.6871 21.323 18.0256 20.396 19.0259C19.469 20.0262 18.1752 20.6009 16.8158 20.6161H7.38787C4.46796 20.6161 2.5 18.2407 2.5 15.322V8.79412C2.5 5.87545 4.46796 3.5 7.38787 3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}
+        </button>
+      </div>
+      ${l1TabsNode}
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
           <div class="inbox-tab"        data-category="ToAction"   ><icon class="icon-inbox"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span>0</span></div>
           <div class="inbox-tab hidden" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div>
           <div class="inbox-tab hidden" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
-        </div>
-        <div class="inbox-tabs-right">
-          <div class="inbox-tab-loader hidden"></div>
-          <div class="inbox-search-bar">
-            <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
-            <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
-            <button class="white" data-action="show-hide-filters">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
-            </button>
-            <button class="white" data-action="show-hide-columns-select">
-              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
-            </button>
-            <div class="show-hide-columns-check-lists">
-              <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
-            </div>
-            ${toggleNode}
-          </div>
-          <div class="inbox-tab-button">
-            <button data-action="startnew">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}</button>
-          </div>
         </div>
       </div>
       <div class="inbox-search-filters">
@@ -26273,26 +27436,31 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="search-row inline search-dates">
           <div class="form-row">
             <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
           </div>
           <div class="form-row">
             <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
           </div>
         </div>
-        <div class="search-row no-label">
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="SearchShowCompletedForms">
-            <label for="SearchShowCompletedForms">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_forms')}</label>
-          </div>  
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="SearchShowUnassigned">
-            <label for="SearchShowUnassigned" class="ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
-          </div>     
-          <div class="check-wrapper check-first">
-            <input type="checkbox" id="Show999">
-            <label for="Show999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
-          </div> 
+        <div class="search-row inline filter-menu-row">
+          <label>&nbsp;</label>
+          <button class="btn-secondary" data-action="open-side-panel">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
+          </button>
+          <span class="lozenge affinity-light-blue filter-lozenge hidden" data-filter="SearchShowCompletedForms">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_forms')} <span class="filter-lozenge-close" data-filter="SearchShowCompletedForms">&times;</span></span>
+          <span class="lozenge affinity-light-blue filter-lozenge hidden" data-filter="SearchShowArchivedForms">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_archived_forms')} <span class="filter-lozenge-close" data-filter="SearchShowArchivedForms">&times;</span></span>
+          <span class="lozenge affinity-light-blue filter-lozenge hidden" data-filter="SearchShowUnassigned">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')} <span class="filter-lozenge-close" data-filter="SearchShowUnassigned">&times;</span></span>
+          <span class="lozenge affinity-light-blue filter-lozenge hidden" data-filter="Show999">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')} <span class="filter-lozenge-close" data-filter="Show999">&times;</span></span>
+        </div>
+        <div class="search-row no-label hidden">
+          <input type="checkbox" id="SearchShowCompletedForms" class="hidden">
+          <input type="checkbox" id="SearchShowArchivedForms" class="hidden">
+          <input type="checkbox" id="SearchShowUnassigned" class="hidden">
+          <input type="checkbox" id="Show999" class="hidden">
         </div>
         <div class="search-row search-columns hidden">
           <label>${$a.Lang.ReturnPath('app.cf.inbox.labels.column_to_search')} <span class="toggle-search-checks-visible">${$a.Lang.ReturnPath('app.cf.inbox.buttons.column_to_search_show')}</span></label>
@@ -26300,7 +27468,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="hidden" data-category="InProgress"></div>
           <div class="hidden" data-category="Completed"></div>
         </div>
-        <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
+        <button class="btn-link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
       </div>
       <div class="inbox-warning-message hidden" data-warning-type="no-pay-points">
         <div class="warning-content">
@@ -26311,21 +27479,45 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </div>
         </div>
       </div>
-      <div class="inbox-sort-bars">
-        <div class="inbox-sort-bar" data-category="ToAction">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+      <div class="inbox-toolbar">
+        <div class="inbox-sort-bars">
+          <div class="inbox-sort-bar" data-category="ToAction">
+            ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} <div class="sort-pills"></div> <button class="btn-link">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+          </div>
+          <div class="inbox-sort-bar" data-category="InProgress">
+            ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} <div class="sort-pills"></div> <button class="btn-link">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+          </div>
+          <div class="inbox-sort-bar" data-category="Completed">
+            ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} <div class="sort-pills"></div> <button class="btn-link">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+          </div>
         </div>
-        <div class="inbox-sort-bar" data-category="InProgress">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-        <div class="inbox-sort-bar" data-category="Completed">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+        <div class="inbox-tab-loader hidden"></div>
+        <div class="inbox-search-bar">
+          <div class="select"><select name="search-paypoint-select" data-inlcude-key="true" class="ui-has-simple-select"></select></div>
+          <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
+          <button class="btn-secondary" data-action="show-hide-filters">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="filter-toggle-text">${$a.Lang.ReturnPath('app.cf.inbox.buttons.hide_filters')}</span>
+          </button>
+          <button class="btn-secondary" data-action="open-side-panel">
+            <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
+          </button>
         </div>
       </div>
+      ${this._sidePanelTemplate()}
       <div class="inbox-tab-boxes">
         <div class="inbox-tab-box" data-category="ToAction">
           <table class="inbox-grid" data-category="ToAction">
             <colgroup>
+              <col class="bulk-check">
               <col data-name="TemplateDescription">
               <col data-name="RelatesTo">
               <col data-name="PayPoint">
@@ -26340,6 +27532,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
+                <th class="bulk-check"></th>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
                 <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
                 <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
@@ -26362,6 +27555,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="inbox-tab-box hidden" data-category="InProgress">
           <table class="inbox-grid" data-category="InProgress">
             <colgroup>
+              <col class="bulk-check">
               <col data-name="TemplateDescription">
               <col data-name="RelatesTo">
               <col data-name="PayPoint">
@@ -26376,6 +27570,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
+                <th class="bulk-check"></th>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
                 <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
                 <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
@@ -26398,6 +27593,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="inbox-tab-box hidden" data-category="Completed">
           <table class="inbox-grid" data-category="Completed">
             <colgroup>
+              <col class="bulk-check">
               <col data-name="TemplateDescription">
               <col data-name="RelatesTo">
               <col data-name="PayPoint">
@@ -26412,6 +27608,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             </colgroup>
             <thead>
               <tr>
+                <th class="bulk-check"></th>
                 <th data-ascending="null" data-searchable="true"  data-name="TemplateDescription"        data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.name')}</th>
                 <th                       data-searchable="true"  data-name="RelatesTo"                  data-type="string"  >${$a.Lang.ReturnPath('app.cf.inbox.columns.relates_to')}</th>
                 <th data-ascending="true" data-searchable="true"  data-name="PayPoint"                   data-type="int"     >${$a.Lang.ReturnPath('app.cf.inbox.columns.paypoint')}</th>
@@ -26432,6 +27629,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           </table>
         </div>
       </div>
+      <div class="inbox-bulk-bar hidden">
+        <span class="bulk-count">${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_count_plural', { count: 0 })}</span>
+        <div class="bulk-archive-reason hidden"><textarea placeholder="${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_archive_reason_placeholder')}"></textarea></div>
+        <button class="btn-secondary blue bulk-archive-btn hidden" data-action="bulk-archive">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_archive')}</button>
+        <div class="bulk-unarchive-reason hidden"><textarea placeholder="${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_unarchive_reason_placeholder')}"></textarea></div>
+        <button class="btn-secondary blue bulk-unarchive-btn hidden" data-action="bulk-unarchive">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_unarchive')}</button>
+        <button class="btn-secondary red bulk-delete-btn hidden" data-action="bulk-delete">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_delete')}</button>
+        <button class="btn-secondary bulk-clear-btn" data-action="bulk-clear">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_clear')}</button>
+      </div>
       <div class="footer-status-message">${$a.Lang.ReturnPath('app.cf.inbox.bottom_tip')}</div>
       </div>
       `;
@@ -26439,15 +27645,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.AdminResultTemplate = (category, data) =>
     {
-      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase() : '';
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd MMM yyyy') : '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ', ' + this._parseUglyGen1Date(data.StateEnteredAt, 'h:mm a').toLowerCase() : '';
 
-      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd MMM yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
       let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
       let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
       let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
+      let stateTypeClass = data.IsArchived ? 'state-archived' : data.IsComplete ? 'state-success' : (data.LastActionTaken === 'Initiate Form' || data.LastActionTaken === null) ? 'state-progress' : 'state-pending';
+      let stateColorClass = data.IsArchived ? 'orange' : data.IsComplete ? 'green' : (data.LastActionTaken === 'Initiate Form' || data.LastActionTaken === null) ? 'yellow' : 'affinity-light-blue';
       let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
 
@@ -26457,22 +27665,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
       let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+      let overdueLozenge = isOverdue && !data.IsArchived ? `<span class="lozenge red overdue-lozenge">${$a.Lang.ReturnPath('app.cf.inbox.status.overdue')}</span>` : '';
+      let archivedLozenge = data.IsArchived ? `<span class="lozenge orange archived-lozenge">${$a.Lang.ReturnPath('app.cf.inbox.tabs.archived')}</span>` : '';
+      let archivedClass = data.IsArchived ? ' class="archived-row"' : '';
 
       let tooltip = '';
-      let tooltipMessage = '';
-      if (isOverdue)
-      {
-        tooltipMessage += $a.Lang.ReturnPath('app.cf.inbox.form_overdue');
-      }
-      if (tooltipMessage !== '')
-      {
-        tooltip = ` data-tooltip="${tooltipMessage}" data-tooltip-dir="top,right"`;
-      }
 
       let nameString = data.TemplateDescription;
       if (data.SharedBy !== null)
       {
-        nameString += `<br /><span>${data.SharedBy}</span>`;
+        nameString += `<br /><span class="lozenge affinity-light-blue shared-delegate-lozenge">${data.SharedBy}</span>`;
       }
 
       nameString = this._checkForSearchMatch(category, 'TemplateDescription', nameString);
@@ -26488,76 +27690,57 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       previousAssigneeName = this._checkForSearchMatch(category, 'PreviousAssigneeName', previousAssigneeName);
       lastActionTaken = this._checkForSearchMatch(category, 'LastActionTaken', lastActionTaken);
 
-      let buttonCount = 0;
-      let hasDelete = false;
+      // Build row action buttons — archived rows get View + Unarchive only
       let actionButtons = '';
-      if (data.CanEdit)
+      if (data.IsArchived)
       {
-        // Edit Button
-        actionButtons += `<button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-        </button>`;
-        buttonCount++;
-        // Details Button
-        actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-            <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-        </button>`;
-        buttonCount++;
+        actionButtons += `<button class="menu-item btn-borderless view">${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}</button>`;
+        actionButtons += `<div class="row-actions-divider"></div>`;
+        actionButtons += `<button class="menu-item btn-borderless unarchive">${$a.Lang.ReturnPath('app.cf.inbox.buttons.unarchive')}</button>`;
+        if (data.CanDelete)
+        {
+          actionButtons += `<div class="row-actions-divider"></div>`;
+          actionButtons += `<button class="menu-item btn-borderless delete">${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}</button>`;
+        }
       }
       else
       {
-        // View Button
-        actionButtons += `<button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-        </button>`;
-        buttonCount++;
+        if (data.CanEdit)
+        {
+          actionButtons += `<button class="menu-item btn-borderless edit">${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}</button>`;
+          actionButtons += `<button class="menu-item btn-borderless details">${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}</button>`;
+        }
+        else
+        {
+          actionButtons += `<button class="menu-item btn-borderless view">${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}</button>`;
+        }
+        if (data.CanArchive)
+        {
+          actionButtons += `<div class="row-actions-divider"></div>`;
+          actionButtons += `<button class="menu-item btn-borderless archive">${$a.Lang.ReturnPath('app.cf.inbox.buttons.archive')}</button>`;
+        }
+        if (data.CanDelete)
+        {
+          actionButtons += `<div class="row-actions-divider"></div>`;
+          actionButtons += `<button class="menu-item btn-borderless delete">${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}</button>`;
+        }
       }
 
-      if (data.CanDelete)
-      {
-        actionButtons += `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
-        </button>`;
-        buttonCount++;
-        hasDelete = true;
-      }
+      let actionCell = `<td class="buttons"><div class="row-actions"><span class="row-actions-trigger" tabindex="0">&#8942;</span><div class="row-actions-menu">${actionButtons}</div></div></td>`;
 
-      let largeClass = ' ';
+      // Checkbox cell for bulk selection (admin mode only)
+      let isSelected = this._bulkSelection.has(data.InstanceId);
+      let checkboxCell = `<td class="bulk-check"><input type="checkbox" class="bulk-select-checkbox" data-instance="${data.InstanceId}" ${isSelected ? 'checked' : ''}></td>`;
+
       switch (category)
       {
 
         case 'ToAction':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
-            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
+            <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}" data-archived="${data.IsArchived || false}"${archivedClass}>
+              ${checkboxCell}
+              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}${archivedLozenge}${overdueLozenge}</text></td>
               <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
               <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
               <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
@@ -26566,28 +27749,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+              <td data-name="CurrentState"                                ><text>${currentState ? `<span class="lozenge ${stateColorClass} state-lozenge ${stateTypeClass}">${currentState}</span>` : ''}</text></td>
+              ${actionCell}
             </tr>
           `;
 
           break;
 
         case 'InProgress':
-          
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
 
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
+              ${checkboxCell}
+              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}${overdueLozenge}</text></td>
               <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
               <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
               <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
@@ -26596,10 +27770,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td data-name="CurrentState"                                ><text>${currentState}</text></td>
-              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+              <td data-name="CurrentState"                                ><text>${currentState ? `<span class="lozenge ${stateColorClass} state-lozenge ${stateTypeClass}">${currentState}</span>` : ''}</text></td>
+              ${actionCell}
             </tr>
           `;
 
@@ -26607,17 +27779,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'Completed':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}</text></td>
+              ${checkboxCell}
+              <td data-name="TemplateDescription"${tooltip}               ><text>${nameString}${overdueLozenge}</text></td>
               <td data-name="RelatesTo"                                   ><text>${relatesTo}</text></td>
               <td data-name="PayPoint"              class="paypoint"      ><text>${payPoint}</text></td>
               <td data-name="EffectiveDate"         class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
@@ -26626,9 +27791,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
               <td data-name="LastActionTaken"                             ><text>${lastActionTaken}</text></td>
               <td data-name="StateEnteredAt"        class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="CurrentAssigneeName"                         ><text>${currentAssigneeName}</text></td>
-              <td class="buttons${largeClass}admin-button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+              ${actionCell}
             </tr>
           `;
 
@@ -26643,58 +27806,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ResultGridTemplate = () =>
     {
-      let toggleToAction = '';
-      let toggleInProgress = '';
-      let toggleCompleted = '';
-      let toggleNode = '';
-      if (this.ShowModeToggle)
-      {
-        toggleNode = this.ToggleTemplate({
-          Label: $a.Lang.ReturnPath('app.cf.inbox.labels.toggel_my_forms'),
-          Id: 'AdminToggleToAction',
-          ClassName: 'mode-switch',
-          On: true
-        });
-      }
-      let hasToggleClass = this.ShowModeToggle ? ' has-toggle' : '';
+      let l1TabsNode = this.ShowModeToggle ? this.L1TabsTemplate() : '';
       return `
-      <div class="inbox-v2-wrapper user-mode${hasToggleClass}">
+      <div class="inbox-v2-wrapper user-mode">
+      <div class="inbox-header-actions">
+        <button class="btn-primary" data-action="startnew">
+          <svg class="ss-app-config-ico-mail" width="25" height="24" viewBox="0 0 25 24" fill="none"><path d="M17.7677 9.06113L13.5023 12.4954C12.6951 13.1283 11.5635 13.1283 10.7563 12.4954L6.45422 9.06113" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.38787 3.5H16.8158C18.1752 3.51525 19.469 4.08993 20.396 5.0902C21.323 6.09048 21.8022 7.42903 21.722 8.79412V15.322C21.8022 16.6871 21.323 18.0256 20.396 19.0259C19.469 20.0262 18.1752 20.6009 16.8158 20.6161H7.38787C4.46796 20.6161 2.5 18.2407 2.5 15.322V8.79412C2.5 5.87545 4.46796 3.5 7.38787 3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}
+        </button>
+      </div>
+      ${l1TabsNode}
       <div class="inbox-tabs">
         <div class="inbox-tabs-left">
           <div class="inbox-tab" data-category="ToAction"   ><icon class="icon-inbox"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span>0</span></div>
-          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div> 
+          <div class="inbox-tab" data-category="InProgress" ><icon class="icon-clock"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span>0</span></div>
           <div class="inbox-tab" data-category="Completed"  ><icon class="icon-tick"></icon>${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span>0</span></div>
-        </div>
-        <div class="inbox-tabs-right">
-          <div class="inbox-tab-loader hidden"></div>
-          <div class="inbox-search-bar">
-            <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
-            <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
-            <button class="white" data-action="show-hide-filters">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.filters')}
-            </button>
-            <button class="white" data-action="show-hide-columns-select">
-              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
-            </button>
-            <div class="show-hide-columns-check-lists">
-              <div class="show-hide-columns-check-list hidden" data-category="ToAction"   ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="InProgress" ></div>
-              <div class="show-hide-columns-check-list hidden" data-category="Completed"  ></div>
-            </div>
-            ${toggleNode}
-          </div>
-          <div class="inbox-tab-button">
-            <button data-action="startnew">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start_new')}</button>  
-          </div>
         </div>
       </div>
       <div class="inbox-search-filters">
@@ -26709,11 +27835,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="search-row inline search-dates">
           <div class="form-row">
             <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
           </div>
           <div class="form-row">
             <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="">
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
           </div>
         </div>
         <div class="search-row no-label hidden">
@@ -26721,7 +27847,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <input type="checkbox" id="SearchShowUnassigned" class="hidden" disabled>
             <label for="SearchShowUnassigned" class="ui-has-tooltip hidden" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned_tooltip')}">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_show_unassigned')}</label>
           </div>     
-          <div class="check-wrapper check-first hidden"><!-- Admin-only feature, not applicable to User mode -->
+          <div class="check-wrapper check-first hidden">
             <input type="checkbox" id="Show999" class="hidden" disabled>
             <label for="Show999" class="hidden">${$a.Lang.ReturnPath('app.cf.inbox.labels.include_pay_point_999')}</label>
           </div> 
@@ -26732,19 +27858,42 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           <div class="hidden" data-category="InProgress"></div>
           <div class="hidden" data-category="Completed"></div>
         </div>
-        <button class="grey link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
+        <button class="btn-link ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset_tooltip')}" data-tooltip-dir="left" data-action="resetsearch">${$a.Lang.ReturnPath('app.cf.inbox.labels.search_reset')}</button>
       </div>
-      <div class="inbox-sort-bars">
-        <div class="inbox-sort-bar" data-category="ToAction">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+      <div class="inbox-toolbar">
+        <div class="inbox-sort-bars">
+          <div class="inbox-sort-bar" data-category="ToAction">
+            ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} <div class="sort-pills"></div> <button class="btn-link">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+          </div>
+          <div class="inbox-sort-bar" data-category="InProgress">
+            ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} <div class="sort-pills"></div> <button class="btn-link">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+          </div>
+          <div class="inbox-sort-bar" data-category="Completed">
+            ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} <div class="sort-pills"></div> <button class="btn-link">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+          </div>
         </div>
-        <div class="inbox-sort-bar" data-category="InProgress">
-           ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
-        </div>
-        <div class="inbox-sort-bar" data-category="Completed">
-          ${$a.Lang.ReturnPath('app.cf.inbox.labels.sorting_by')} ${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <div class="sort-pills"></div> <button class="white">${$a.Lang.ReturnPath('app.cf.inbox.buttons.sort_reset')}</button>
+        <div class="inbox-tab-loader hidden"></div>
+        <div class="inbox-search-bar">
+          <div class="select"><select name="search-paypoint-select" class="ui-has-simple-select"></select></div>
+          <input class="search" type="text" name="search" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" />
+          <button class="btn-secondary" data-action="show-hide-filters">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04332 20.75L12.8196 18.5019V12.6103L20.3093 5.01456C20.5916 4.72995 20.75 4.33933 20.75 3.93027V2.26754C20.75 1.42869 20.0917 0.75 19.2795 0.75H2.22049C1.40826 0.75 0.75 1.42869 0.75 2.26754V3.9683C0.75 4.35431 0.891694 4.72534 1.14719 5.0065L8.04332 12.6103V20.75Z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="filter-toggle-text">${$a.Lang.ReturnPath('app.cf.inbox.buttons.show_filters')}</span>
+          </button>
+          <button class="btn-secondary" data-action="open-side-panel">
+            <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 3.91778C7.08333 5.66556 5.66556 7.08444 3.91667 7.08444C2.16778 7.08444 0.75 5.66556 0.75 3.91778C0.75 2.16889 2.16778 0.75 3.91667 0.75C5.66556 0.75 7.08333 2.16889 7.08333 3.91778Z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.4688 3.91777H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 14.9899C7.08333 16.7388 5.66556 18.1565 3.91667 18.1565C2.16778 18.1565 0.75 16.7388 0.75 14.9899C0.75 13.241 2.16778 11.8232 3.91667 11.8232C5.66556 11.8232 7.08333 13.241 7.08333 14.9899Z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.4688 14.9899H19.0832" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            ${$a.Lang.ReturnPath('app.cf.inbox.buttons.columns')}
+          </button>
         </div>
       </div>
+      ${this._sidePanelTemplate()}
       <div class="inbox-tab-boxes">
         <div class="inbox-tab-box" data-category="ToAction">
           <table class="inbox-grid" data-category="ToAction">
@@ -26842,39 +27991,33 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     this.ResultTemplate = (category, data) =>
     {
-      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase(): '';
+      let enteredAt = data.hasOwnProperty('StateEnteredAt') && data.StateEnteredAt !== null  ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd MMM yyyy') : '';
+      let enteredAtTimeString = enteredAt !== '' ? enteredAt + ', ' + this._parseUglyGen1Date(data.StateEnteredAt, 'h:mm a').toLowerCase(): '';
 
-      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd.MM.yyyy') : '';
+      let effectiveDate = data.hasOwnProperty('EffectiveDate') && data.EffectiveDate !== null ? this._parseUglyGen1Date(data.EffectiveDate, 'dd MMM yyyy') : '';
       let effectiveDateTimeString = effectiveDate;
 
-      //let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd.MM.yyyy') : '';
-      //let completedByTimeString = enteredAt !== '' ? enteredAt + ' ' + this._parseUglyGen1Date(data.StateEnteredAt, 'hh:mma').toLowerCase(): '';
+      //let completedBy = data.hasOwnProperty('StateEnteredAt') ? this._parseUglyGen1Date(data.StateEnteredAt, 'dd MMM yyyy') : '';
+      //let completedByTimeString = enteredAt !== '' ? enteredAt + ', ' + this._parseUglyGen1Date(data.StateEnteredAt, 'h:mm a').toLowerCase(): '';
 
       let relatesTo = !data.hasOwnProperty('RelatesTo') || data.RelatesTo === null || data.RelatesTo === 'null' ? '' : data.RelatesTo;
       let payPoint = !data.hasOwnProperty('PayPoint') || data.PayPoint === null || data.PayPoint === 'null' ? '' : data.PayPoint;
       let currentState = !data.hasOwnProperty('CurrentState') || data.CurrentState === null || data.CurrentState === 'null' ? '' : data.CurrentState;
+      let stateTypeClass = data.IsArchived ? 'state-archived' : data.IsComplete ? 'state-success' : (data.LastActionTaken === 'Initiate Form' || data.LastActionTaken === null) ? 'state-progress' : 'state-pending';
+      let stateColorClass = data.IsArchived ? 'orange' : data.IsComplete ? 'green' : (data.LastActionTaken === 'Initiate Form' || data.LastActionTaken === null) ? 'yellow' : 'affinity-light-blue';
       let currentAssigneeName = !data.hasOwnProperty('CurrentAssigneeName') || data.CurrentAssigneeName === null || data.CurrentAssigneeName === 'null' ? '' : data.CurrentAssigneeName;
       let completedByName = !data.hasOwnProperty('CompletedByName') || data.CompletedByName === null || data.CompletedByName === 'null' ? '' : data.CompletedByName;
 
       let isOutdated = data.hasOwnProperty('IsOld') && data.IsOld ? true : false;
       let isOverdue = data.hasOwnProperty('IsOverdue') && data.IsOverdue ? true : false;
+      let overdueLozenge = isOverdue ? `<span class="lozenge red overdue-lozenge">${$a.Lang.ReturnPath('app.cf.inbox.status.overdue')}</span>` : '';
 
       let tooltip = '';
-      let tooltipMessage = '';
-      if (isOverdue)
-      {
-        tooltipMessage += $a.Lang.ReturnPath('app.cf.inbox.form_overdue');
-      }
-      if (tooltipMessage !== '')
-      {
-        tooltip = ` data-tooltip="${tooltipMessage}" data-tooltip-dir="top,right"`;
-      }
 
       let nameString = data.TemplateDescription;
       if(data.SharedBy !== null)
       {
-        nameString += `<br /><span>${data.SharedBy}</span>`;
+        nameString += `<br /><span class="lozenge affinity-light-blue shared-delegate-lozenge">${data.SharedBy}</span>`;
       }
 
       nameString = this._checkForSearchMatch(category, 'TemplateDescription', nameString);
@@ -26886,85 +28029,37 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       currentAssigneeName = this._checkForSearchMatch(category, 'CurrentAssigneeName', currentAssigneeName);
       completedByName = this._checkForSearchMatch(category, 'CompletedByName', completedByName);
       
-      let buttonCount = 0;
-      let hasDelete = false;
       let actionButtons = '';
       if (data.CanEdit)
       {
-        // Edit Button
-        actionButtons += `<button class="white blue edit icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip')}" data-tooltip-dir="left">
-          <svg width="20" height="19" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.47016 11.3686L11.403 1.43577C12.4173 0.421415 14.0628 0.421415 15.0771 1.43577L16.4038 2.76247C17.4182 3.77683 17.4182 5.42224 16.4038 6.43659L6.43181 16.4086C5.98816 16.8522 5.38675 17.1011 4.75887 17.1011H0.674988L0.777694 12.9812C0.793576 12.3755 1.04134 11.7974 1.47016 11.3686Z" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.1646 2.69429L15.1421 7.67076" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.7328 17.1012H17.775" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}
-        </button>`;
-        buttonCount++;
-        //// Details Button - NON Admins do not ever get a details button
-        //actionButtons += `<button class="white light-grey filled white details icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.info_tooltip')}" data-tooltip-dir="left">
-        //  <svg width="20" height="22" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-        //    <path d="M160-480v240-480 240Zm400 360q17 0 28.5-11.5T600-160q0-17-11.5-28.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120Zm240-400q17 0 28.5-11.5T840-560q0-17-11.5-28.5T800-600q-17 0-28.5 11.5T760-560q0 17 11.5 28.5T800-520Zm-560 0h200v-80H240v80Zm0 160h200v-80H240v80Zm-80 200q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h200v80H160ZM560-40q-50 0-85-35t-35-85q0-39 22.5-70t57.5-43v-127h240v-47q-35-12-57.5-43T680-560q0-50 35-85t85-35q50 0 85 35t35 85q0 39-22.5 70T840-447v127H600v47q35 12 57.5 43t22.5 70q0 50-35 85t-85 35Z"/>
-        //  </svg>
-        //  ${$a.Lang.ReturnPath('app.cf.inbox.buttons.info')}
-        //</button>`;
-        //buttonCount++;
+        actionButtons += `<button class="menu-item btn-borderless edit">${$a.Lang.ReturnPath('app.cf.inbox.buttons.edit')}</button>`;
       }
       else
       {
-        // View Button
-        actionButtons += `<button class="white blue view icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.view_tooltip')}" data-tooltip-dir="left">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.7156 14.2236H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.7156 10.0371H5.49561" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.2507 5.86029H5.4957" stroke-linecap="round" stroke-linejoin="round"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.908 0.75C12.908 0.75 5.231 0.754 5.219 0.754C2.459 0.771 0.75 2.587 0.75 5.357V14.553C0.75 17.337 2.472 19.16 5.256 19.16C5.256 19.16 12.932 19.157 12.945 19.157C15.705 19.14 17.415 17.323 17.415 14.553V5.357C17.415 2.573 15.692 0.75 12.908 0.75Z" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}
-        </button>`;
-        buttonCount++;
+        actionButtons += `<button class="menu-item btn-borderless view">${$a.Lang.ReturnPath('app.cf.inbox.buttons.view')}</button>`;
       }
-
       if (data.CanDelete)
       {
-        actionButtons += `<button class="white red delete icon ui-has-tooltip" data-tooltip="${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete_tooltip')}" data-tooltip-dir="left" data-action="${this.DeleteAPI}${data.InstanceId}">
-          <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.3247 7.4675C16.3247 7.4675 15.7817 14.2025 15.4667 17.0395C15.3167 18.3945 14.4797 19.1885 13.1087 19.2135C10.4997 19.2605 7.8877 19.2635 5.2797 19.2085C3.9607 19.1815 3.1377 18.3775 2.9907 17.0465C2.6737 14.1845 2.1337 7.4675 2.1337 7.4675" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.708 4.239H0.75" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14.4404 4.239C13.6554 4.239 12.9794 3.684 12.8254 2.915L12.5824 1.699C12.4324 1.138 11.9244 0.75 11.3454 0.75H7.1124C6.5334 0.75 6.0254 1.138 5.8754 1.699L5.6324 2.915C5.4784 3.684 4.8024 4.239 4.0174 4.239" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}
-        </button>`;
-        buttonCount++;
-        hasDelete = true;
+        actionButtons += `<div class="row-actions-divider"></div>`;
+        actionButtons += `<button class="menu-item btn-borderless delete">${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}</button>`;
       }
 
-      let largeClass = ' ';
+      let actionCell = `<td class="buttons"><div class="row-actions"><span class="row-actions-trigger" tabindex="0">&#8942;</span><div class="row-actions-menu">${actionButtons}</div></div></td>`;
+
       switch (category)
       {
 
         case 'ToAction':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
+              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}${overdueLozenge}</text></td>
               <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
-              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
+              <td data-name="CurrentState"                          ><text>${currentState ? `<span class="lozenge ${stateColorClass} state-lozenge ${stateTypeClass}">${currentState}</span>` : ''}</text></td>
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${largeClass}button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
-              </td>
+              ${actionCell}
             </tr>
           `;
 
@@ -26972,26 +28067,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'InProgress':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
+              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}${overdueLozenge}</text></td>
               <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
-              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
+              <td data-name="CurrentState"                          ><text>${currentState ? `<span class="lozenge ${stateColorClass} state-lozenge ${stateTypeClass}">${currentState}</span>` : ''}</text></td>
               <td data-name="CurrentAssigneeName"                   ><text>${currentAssigneeName}</text></td>
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${largeClass}button-count-${buttonCount}">
-                ${actionButtons}
-              </td>
+              ${actionCell}
             </tr>
           `;
 
@@ -26999,27 +28084,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
         case 'Completed':
 
-          largeClass = ' ';
-          if (buttonCount > 2)
-          {
-            largeClass = ' large ';
-            this.ResultNode.querySelector('table thead tr th.buttons').classList.add('large');
-            this.ResultNode.querySelector('table colgroup col.buttons').classList.add('large');
-          }
-
           return `
             <tr data-instance="${data.InstanceId}" data-outdated="${isOutdated}" data-overdue="${isOverdue}">
-              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}</text></td>
+              <td data-name="TemplateDescription"${tooltip}         ><text>${nameString}${overdueLozenge}</text></td>
               <td data-name="RelatesTo"                             ><text>${relatesTo}</text></td>
-              <td data-name="CurrentState"                          ><text>${currentState}</text></td>
+              <td data-name="CurrentState"                          ><text>${currentState ? `<span class="lozenge ${stateColorClass} state-lozenge ${stateTypeClass}">${currentState}</span>` : ''}</text></td>
               <td data-name="CompletedByName"                       ><text>${completedByName}</text></td>
               <td data-name="StateEnteredAt"  class="datetime"      ><text>${enteredAtTimeString}</text></td>
               <td data-name="EffectiveDate"   class="effectivedate" ><text>${effectiveDateTimeString}</text></td>
               <td data-name="PayPoint"        class="paypoint"      ><text>${payPoint}</text></td>
-              <td class="buttons${largeClass}button-count-${buttonCount}">
-                  ${actionButtons}
-                </button>
-              </td>
+              ${actionCell}
             </tr>
           `;
 
@@ -27057,6 +28131,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         return `
           <tr>
               <td colspan="${activeGridheaders.length}">${$a.Lang.ReturnPath('app.cf.inbox.no_results')}</td>
+          </tr>
+        `;
+      }
+      return '';
+    };
+
+    // Loading placeholder shown while grid data is being fetched
+    this.LoadingResultTemplate = category =>
+    {
+      let activeGrid = document.querySelector(`table[data-category="${category}"]`);
+      if (activeGrid)
+      {
+        let activeGridheaders = activeGrid.querySelectorAll(`thead th:not(.hidden)`);
+        return `
+          <tr>
+              <td colspan="${activeGridheaders.length}">${$a.Lang.ReturnPath('app.cf.inbox.loading_results')}</td>
           </tr>
         `;
       }
@@ -27256,6 +28346,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       </div>
       `;
     }
+
+    // L1 navigation tabs (My Forms / Admin) — replaces toggle for mode switching
+    this.L1TabsTemplate = () =>
+    {
+      let userActive = this.ViewMode === 'User' ? ' active' : '';
+      let adminActive = this.ViewMode === 'Admin' ? ' active' : '';
+      return `
+      <div class="tabs-l1 inbox-l1-tabs">
+        <div class="tab-l1 inbox-l1-tab${userActive}" data-mode="User">${$a.Lang.ReturnPath('app.cf.inbox.labels.toggel_my_forms')}</div>
+        <div class="tab-l1 inbox-l1-tab${adminActive}" data-mode="Admin">${$a.Lang.ReturnPath('app.cf.inbox.labels.toggel_admin')}</div>
+      </div>
+      `;
+    };
   }
 };;
 /**
@@ -46914,13 +48017,26 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
     this.FirstLoad = false;
     this.LastValidation = this._stringFromNodes();
 
-    if (this.Valid)
+    // An empty entry is an acceptable state (no value provided). Override the
+    // remote validation result so a cleared field shows the neutral icon and
+    // reports valid. Required-field enforcement is handled separately by the
+    // form-level submit validator (which inspects the hidden input value).
+    if (this.LastValidation.replace(/\-/g, '').trim() === '')
+    {
+      this.Valid = true;
+      this.bankNameNode.innerHTML = '';
+      this.branchNameNode.innerHTML = '';
+      this.bankNameNode.classList.add('hidden');
+      this.branchNameNode.classList.add('hidden');
+      this._setIcon();
+    }
+    else if (this.Valid)
     {
       this._setIcon(this.Valid);
     }
     else
     {
-      if (this._stringFromNodes() === '' && !this.HasValidated) this._setIcon();
+      if (!this.HasValidated) this._setIcon();
       else this._setIcon(this.Valid);
     }
     if (this.CleverForms.hasOwnProperty('Form'))
@@ -57479,13 +58595,22 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   {
     if (this.FirstLoad) this._setIcon();
     this.LastValidation = this._stringFromNodes();
-    if (this.Valid)
+    // An empty entry is an acceptable state (no value provided). Override the
+    // remote validation result so a cleared field shows the neutral icon and
+    // reports valid. Required-field enforcement is handled separately by the
+    // form-level submit validator (which inspects the hidden input value).
+    if (this.LastValidation.replace(/\-/g, '').trim() === '')
+    {
+      this.Valid = true;
+      this._setIcon();
+    }
+    else if (this.Valid)
     {
       this._setIcon(this.Valid);
     }
     else
     {
-      if (this._stringFromNodes() === '' && !this.HasValidated) this._setIcon();
+      if (!this.HasValidated) this._setIcon();
       else this._setIcon(this.Valid);
     }
     this._checkHumanInteraction();
