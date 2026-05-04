@@ -26815,14 +26815,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             order: 1,
             standard: true
           },
-          else: this.MemberType !== 'M' ? {
+          else: {
             show: true,
             icon: 'search',
             text: $a.Lang.ReturnPath('app.cf.inbox.start_dialog.preview'),
             color: 'blue',
             order: 2,
             standard: true
-          } : false,
+          },
           cancel: {
             show: true,
             icon: 'cross',
