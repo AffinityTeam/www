@@ -1,40 +1,37 @@
 /* Minification failed. Returning unminified contents.
-(7057,59): run-time error CSS1030: Expected identifier, found ','
-(7057,81): run-time error CSS1031: Expected selector, found ')'
-(7057,81): run-time error CSS1025: Expected comma or open brace, found ')'
 (7065,59): run-time error CSS1030: Expected identifier, found ','
 (7065,81): run-time error CSS1031: Expected selector, found ')'
 (7065,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7097,82): run-time error CSS1030: Expected identifier, found ','
-(7097,153): run-time error CSS1031: Expected selector, found ')'
-(7097,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(7179,64): run-time error CSS1030: Expected identifier, found ','
-(7179,71): run-time error CSS1031: Expected selector, found ')'
-(7179,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(7187,63): run-time error CSS1030: Expected identifier, found ','
-(7187,70): run-time error CSS1031: Expected selector, found ')'
-(7187,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(7195,72): run-time error CSS1030: Expected identifier, found ','
-(7195,79): run-time error CSS1031: Expected selector, found ')'
-(7195,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(7255,74): run-time error CSS1030: Expected identifier, found ','
-(7255,216): run-time error CSS1031: Expected selector, found ')'
-(7255,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(9048,113): run-time error CSS1030: Expected identifier, found ','
-(9048,125): run-time error CSS1031: Expected selector, found ')'
-(9048,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(10113,73): run-time error CSS1030: Expected identifier, found ','
-(10113,95): run-time error CSS1031: Expected selector, found ')'
-(10113,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(7073,59): run-time error CSS1030: Expected identifier, found ','
+(7073,81): run-time error CSS1031: Expected selector, found ')'
+(7073,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7105,82): run-time error CSS1030: Expected identifier, found ','
+(7105,153): run-time error CSS1031: Expected selector, found ')'
+(7105,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(7187,64): run-time error CSS1030: Expected identifier, found ','
+(7187,71): run-time error CSS1031: Expected selector, found ')'
+(7187,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(7195,63): run-time error CSS1030: Expected identifier, found ','
+(7195,70): run-time error CSS1031: Expected selector, found ')'
+(7195,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(7203,72): run-time error CSS1030: Expected identifier, found ','
+(7203,79): run-time error CSS1031: Expected selector, found ')'
+(7203,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(7263,74): run-time error CSS1030: Expected identifier, found ','
+(7263,216): run-time error CSS1031: Expected selector, found ')'
+(7263,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(9056,113): run-time error CSS1030: Expected identifier, found ','
+(9056,125): run-time error CSS1031: Expected selector, found ')'
+(9056,125): run-time error CSS1025: Expected comma or open brace, found ')'
 (10121,73): run-time error CSS1030: Expected identifier, found ','
 (10121,95): run-time error CSS1031: Expected selector, found ')'
 (10121,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10143,73): run-time error CSS1030: Expected identifier, found ','
-(10143,95): run-time error CSS1031: Expected selector, found ')'
-(10143,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10152,73): run-time error CSS1030: Expected identifier, found ','
-(10152,95): run-time error CSS1031: Expected selector, found ')'
-(10152,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10129,73): run-time error CSS1030: Expected identifier, found ','
+(10129,95): run-time error CSS1031: Expected selector, found ')'
+(10129,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10151,73): run-time error CSS1030: Expected identifier, found ','
+(10151,95): run-time error CSS1031: Expected selector, found ')'
+(10151,95): run-time error CSS1025: Expected comma or open brace, found ')'
 (10160,73): run-time error CSS1030: Expected identifier, found ','
 (10160,95): run-time error CSS1031: Expected selector, found ')'
 (10160,95): run-time error CSS1025: Expected comma or open brace, found ')'
@@ -44,30 +41,33 @@
 (10176,73): run-time error CSS1030: Expected identifier, found ','
 (10176,95): run-time error CSS1031: Expected selector, found ')'
 (10176,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10565,133): run-time error CSS1030: Expected identifier, found ','
-(10565,274): run-time error CSS1031: Expected selector, found ')'
-(10565,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(11157,167): run-time error CSS1030: Expected identifier, found ','
-(11157,309): run-time error CSS1031: Expected selector, found ')'
-(11157,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11458,108): run-time error CSS1030: Expected identifier, found ','
-(11458,250): run-time error CSS1031: Expected selector, found ')'
-(11458,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(12488,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12489,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(12634,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(12636,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(23271,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23274,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23280,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23283,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(23946,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(24012,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(25708,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25709,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(25710,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(26437,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26440,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(10184,73): run-time error CSS1030: Expected identifier, found ','
+(10184,95): run-time error CSS1031: Expected selector, found ')'
+(10184,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(10573,133): run-time error CSS1030: Expected identifier, found ','
+(10573,274): run-time error CSS1031: Expected selector, found ')'
+(10573,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(11165,167): run-time error CSS1030: Expected identifier, found ','
+(11165,309): run-time error CSS1031: Expected selector, found ')'
+(11165,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(11466,108): run-time error CSS1030: Expected identifier, found ','
+(11466,250): run-time error CSS1031: Expected selector, found ')'
+(11466,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(12496,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12497,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(12642,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(12644,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(23279,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23282,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23288,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23291,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(23954,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(24020,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(25716,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25717,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(25718,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(26445,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26448,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -2794,6 +2794,14 @@ body.ui2025 *,
 body.ui2025 *::before,
 body.ui2025 *::after {
   box-sizing: unset;
+}
+#Wrapper-container {
+  box-sizing: border-box;
+}
+#Wrapper-container *,
+#Wrapper-container *::before,
+#Wrapper-container *::after {
+  box-sizing: border-box;
 }
 body.ui2018 {
   margin: 0;
@@ -30870,5 +30878,23 @@ body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box tabl
 }
 body.ui2018.uiupdate.cform.admin.dark div.inbox-tab-boxes div.inbox-tab-box table tfoot tr td {
   border-top: 1px solid #333333;
+}
+
+/* commons.shim.less
+ * 
+ * The dashboard wrapper force-injects "newui" into the <body> class attribute,
+ * which activates all Gen1 .newui-scoped styles and breaks Gen2 layout.
+ * Because of this, we must EXCLUDE the original Gen1 bundle (~/Content/commonless)
+ * from Gen2 pages entirely, and carry over only the global styles Gen2 still needs.
+ *
+ * Only add styles here that are:
+ *   1. Confirmed used by Gen2 views/scripts/styles
+ *   2. NOT already defined in the V2 styles
+ */
+
+.noshadow {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
 
