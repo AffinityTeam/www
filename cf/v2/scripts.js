@@ -20795,8 +20795,8 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       }
       if (archivedTemplate !== '')
       {
-        document.querySelector('div.archived').innerHTML = archivedTemplate;
-        document.querySelector('div.archived').classList.remove('hidden'); 
+        document.querySelector('div.cf-archived-banner').innerHTML = archivedTemplate;
+        document.querySelector('div.cf-archived-banner').classList.remove('hidden'); 
       }
     }
   }
@@ -22852,7 +22852,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       msg += ` - <a href="/InstanceV2/ViewOnly/${viewId}" target="_blank">View it here</a>`;
 
       let banner = document.createElement('div');
-      banner.className = 'cf-duplicate-banner';
+      banner.className = 'cf-banner blue cf-duplicate-banner';
       banner.innerHTML = msg;
       let formNode = document.querySelector('#form');
       if (formNode) formNode.parentNode.insertBefore(banner, formNode);
