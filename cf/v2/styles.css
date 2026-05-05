@@ -53,21 +53,21 @@
 (11411,108): run-time error CSS1030: Expected identifier, found ','
 (11411,250): run-time error CSS1031: Expected selector, found ')'
 (11411,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(15027,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15028,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15173,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(15175,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(25669,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25672,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25678,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25681,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26344,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26410,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28106,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28107,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28108,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28835,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28838,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15085,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15086,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15231,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(15233,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(25727,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25730,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25736,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25739,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26402,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26468,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28164,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28165,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28166,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28893,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(28896,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -11734,18 +11734,24 @@ body div.test-device-info.show {
 
 /***************************************************************************************************************************************************/
 
-body.ui2018.uiupdate.ui2025 button[data-action="startnew"],
-body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"],
-body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"],
-body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"],
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"],
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"],
+body.ui2018.uiupdate.ui2025 *.btn-primary,
+body.ui2018.uiupdate.ui2025.inbox *.btn-primary,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-primary,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-primary,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-primary,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-primary,
 body.ui2018.uiupdate.ui2025 button.btn-primary,
 body.ui2018.uiupdate.ui2025.inbox button.btn-primary,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-primary,
 body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-primary,
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-primary,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary {
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary,
+body.ui2018.uiupdate.ui2025 button[data-action="startnew"],
+body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"] {
   display: inline-block;
   height: 40px;
   vertical-align: top;
@@ -11773,18 +11779,24 @@ body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content di
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018.uiupdate.ui2025 button[data-action="startnew"] svg,
-body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"] svg,
-body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"] svg,
-body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"] svg,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"] svg,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"] svg,
+body.ui2018.uiupdate.ui2025 *.btn-primary svg,
+body.ui2018.uiupdate.ui2025.inbox *.btn-primary svg,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-primary svg,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-primary svg,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-primary svg,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-primary svg,
 body.ui2018.uiupdate.ui2025 button.btn-primary svg,
 body.ui2018.uiupdate.ui2025.inbox button.btn-primary svg,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-primary svg,
 body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-primary svg,
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-primary svg,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary svg {
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary svg,
+body.ui2018.uiupdate.ui2025 button[data-action="startnew"] svg,
+body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"] svg,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"] svg,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"] svg,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"] svg,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"] svg {
   display: inline-block;
   position: relative;
   margin: 0;
@@ -11796,18 +11808,24 @@ body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content di
   fill: none;
   stroke: currentColor;
 }
-body.ui2018.uiupdate.ui2025 button[data-action="startnew"]:hover,
-body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"]:hover,
-body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"]:hover,
-body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:hover,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:hover,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"]:hover,
+body.ui2018.uiupdate.ui2025 *.btn-primary:hover,
+body.ui2018.uiupdate.ui2025.inbox *.btn-primary:hover,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-primary:hover,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-primary:hover,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-primary:hover,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-primary:hover,
 body.ui2018.uiupdate.ui2025 button.btn-primary:hover,
 body.ui2018.uiupdate.ui2025.inbox button.btn-primary:hover,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-primary:hover,
 body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-primary:hover,
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-primary:hover,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary:hover {
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary:hover,
+body.ui2018.uiupdate.ui2025 button[data-action="startnew"]:hover,
+body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"]:hover,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"]:hover,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:hover,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:hover,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"]:hover {
   margin-top: 1px;
   background: linear-gradient(135deg, #16c1f3, #106eb6) !important;
   border: none !important;
@@ -11820,30 +11838,42 @@ body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content di
   -ms-filter: brightness(1.1);
   filter: brightness(1.1);
 }
-body.ui2018.uiupdate.ui2025 button[data-action="startnew"].disabled,
-body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"].disabled,
-body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"].disabled,
-body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"].disabled,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"].disabled,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025 *.btn-primary.disabled,
+body.ui2018.uiupdate.ui2025.inbox *.btn-primary.disabled,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-primary.disabled,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-primary.disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-primary.disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-primary.disabled,
 body.ui2018.uiupdate.ui2025 button.btn-primary.disabled,
 body.ui2018.uiupdate.ui2025.inbox button.btn-primary.disabled,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-primary.disabled,
 body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-primary.disabled,
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-primary.disabled,
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary.disabled,
-body.ui2018.uiupdate.ui2025 button[data-action="startnew"]:disabled,
-body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"]:disabled,
-body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"]:disabled,
-body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:disabled,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:disabled,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"]:disabled,
+body.ui2018.uiupdate.ui2025 button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"].disabled,
+body.ui2018.uiupdate.ui2025 *.btn-primary:disabled,
+body.ui2018.uiupdate.ui2025.inbox *.btn-primary:disabled,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-primary:disabled,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-primary:disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-primary:disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-primary:disabled,
 body.ui2018.uiupdate.ui2025 button.btn-primary:disabled,
 body.ui2018.uiupdate.ui2025.inbox button.btn-primary:disabled,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-primary:disabled,
 body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-primary:disabled,
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-primary:disabled,
-body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary:disabled {
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-primary:disabled,
+body.ui2018.uiupdate.ui2025 button[data-action="startnew"]:disabled,
+body.ui2018.uiupdate.ui2025.inbox button[data-action="startnew"]:disabled,
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button[data-action="startnew"]:disabled,
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button[data-action="startnew"]:disabled,
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button[data-action="startnew"]:disabled {
   background: #cccccc !important;
   color: #999999 !important;
   -moz-opacity: 0.4;
@@ -14192,25 +14222,38 @@ div.cf-banner icon {
   vertical-align: top;
   font-size: 25px;
 }
-div.cf-banner a {
+div.cf-banner a,
+div.cf-banner a.cf-trusted-link {
   font-weight: bold;
   text-decoration: underline;
   color: #106eb6;
 }
-div.cf-banner a.cf-trusted-link {
-  color: #16c1f3;
-}
 div.cf-banner.orange {
-  background: rgba(255, 92, 0, 0.08);
-  border: 1px solid rgba(255, 92, 0, 0.3);
+  background: #f8eceb;
+  border: 1px solid #f9cab3;
+  color: #333333;
+}
+div.cf-banner.orange icon {
+  color: #ff5c00;
+  fill: #ff5c00;
 }
 div.cf-banner.yellow {
-  background: rgba(255, 181, 21, 0.08);
-  border: 1px solid rgba(255, 181, 21, 0.3);
+  background: #f8f4ec;
+  border: 1px solid #f9e5b9;
+  color: #333333;
+}
+div.cf-banner.yellow icon {
+  color: #ffb515;
+  fill: #ffb515;
 }
 div.cf-banner.blue {
-  background: rgba(16, 110, 182, 0.08);
-  border: 1px solid rgba(16, 110, 182, 0.3);
+  background: #e5eef9;
+  border: 1px solid #b2cfe9;
+  color: #333333;
+}
+div.cf-banner.blue icon {
+  color: #106eb6;
+  fill: #106eb6;
 }
 div.cf-banner.cf-preview-banner {
   position: sticky;
@@ -14234,23 +14277,38 @@ body.ui2018.dark.cform div.cf-banner {
   -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
 }
-body.ui2018.dark.cform div.cf-banner a {
-  color: #16c1f3;
+body.ui2018.dark.cform div.cf-banner a,
+body.ui2018.dark.cform div.cf-banner a.cf-trusted-link {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #106eb6;
 }
 body.ui2018.dark.cform div.cf-banner.orange {
-  background: rgba(255, 92, 0, 0.15);
-  border: 1px solid rgba(255, 92, 0, 0.3);
+  background: #351c0e;
+  border: 1px solid #58280c;
+  color: #cccccc;
+}
+body.ui2018.dark.cform div.cf-banner.orange icon {
   color: #ff5c00;
+  fill: #ff5c00;
 }
 body.ui2018.dark.cform div.cf-banner.yellow {
-  background: rgba(255, 181, 21, 0.15);
-  border: 1px solid rgba(255, 181, 21, 0.3);
+  background: #352a12;
+  border: 1px solid #584212;
+  color: #cccccc;
+}
+body.ui2018.dark.cform div.cf-banner.yellow icon {
   color: #ffb515;
+  fill: #ffb515;
 }
 body.ui2018.dark.cform div.cf-banner.blue {
-  background: rgba(16, 110, 182, 0.15);
-  border: 1px solid rgba(16, 110, 182, 0.3);
+  background: #111f2a;
+  border: 1px solid #112d43;
+  color: #cccccc;
+}
+body.ui2018.dark.cform div.cf-banner.blue icon {
   color: #106eb6;
+  fill: #106eb6;
 }
 .duplicate-warning-box {
   background: #fff3cd;
