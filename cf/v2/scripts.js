@@ -7761,6 +7761,22 @@
           // Deny all other external domains
           return false;
         };
+        // Should we force withCredentials on this XHR? Only for cross-origin
+        // same-site requests (e.g. cleverforms → legw) so auth cookies are sent.
+        // Fixes Brave blocking cookies on cross-subdomain XHR.
+        const shouldSendCredentials = function(url)
+        {
+          if (!url || url.indexOf('://') === -1 || url.indexOf('/') === 0) return false;
+          try
+          {
+            var hostname = new URL(url, window.location.origin).hostname.toLowerCase();
+            if (hostname === window.location.hostname.toLowerCase()) return false;
+            if (hostname.endsWith('.testaffinitylogon.com') || hostname === 'testaffinitylogon.com') return true;
+            if (hostname.endsWith('.affinitylogon.com') || hostname === 'affinitylogon.com') return true;
+          }
+          catch (e) { }
+          return false;
+        };
         function refreshAntiForgeryToken(callbackMethod)
         {
           const callback = typeof callbackMethod === 'function' ? callbackMethod : function () {};
@@ -7811,7 +7827,10 @@
               {
                 method = httpMethod ? httpMethod.toUpperCase() : 'GET';
                 url = httpUrl || '';
-                return originalOpen.call(this, httpMethod, httpUrl, async, user, password);
+                var result = originalOpen.call(this, httpMethod, httpUrl, async, user, password);
+                // Ensure auth cookies are sent with cross-origin same-site requests
+                if (shouldSendCredentials(url)) xhr.withCredentials = true;
+                return result;
               };
               xhr.send = function(data)
               {
