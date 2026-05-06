@@ -53,21 +53,21 @@
 (11411,108): run-time error CSS1030: Expected identifier, found ','
 (11411,250): run-time error CSS1031: Expected selector, found ')'
 (11411,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(15095,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15096,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15241,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(15243,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(25737,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25740,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25746,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25749,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26412,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26478,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28174,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28175,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28176,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28903,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28906,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15150,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15151,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15296,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(15298,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(25806,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25809,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25815,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25818,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26481,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26547,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28243,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28244,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28245,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28972,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(28975,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -12051,6 +12051,61 @@ body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content bu
 body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-borderless span {
   margin: 0 5px 0 0;
 }
+body.ui2018.uiupdate.ui2025 *.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox *.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025 button.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox button.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-secondary [class^="icon-"],
+body.ui2018.uiupdate.ui2025 *.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox *.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025 button.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox button.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-borderless [class^="icon-"],
+body.ui2018.uiupdate.ui2025 *.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox *.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 button.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox button.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-secondary [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 *.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox *.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content *.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content *.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper *.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 button.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox button.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons button.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025 div.pagewrapper div.pagecontent div.content button.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content button.btn-borderless [class*=" icon-"],
+body.ui2018.uiupdate.ui2025.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper button.btn-borderless [class*=" icon-"] {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  line-height: 34px;
+  font-size: 16px;
+  margin: 0 5px 0 0;
+}
 body.ui2018.uiupdate.ui2025 *.btn-secondary:hover,
 body.ui2018.uiupdate.ui2025.inbox *.btn-secondary:hover,
 body.ui2018.uiupdate.ui2025 #dialog #dialog-buttons *.btn-secondary:hover,
@@ -18875,6 +18930,10 @@ body.ui2018.cform .section#buttons.locked .workflow-buttons .button,
 body.ui2018 .example-template .preview .section#buttons.locked .workflow-buttons .button,
 body.ui2018.cform .section#buttons.locked .buttons .button,
 body.ui2018 .example-template .preview .section#buttons.locked .buttons .button,
+body.ui2018.cform .section#buttons.locked .workflow-buttons .btn-secondary,
+body.ui2018 .example-template .preview .section#buttons.locked .workflow-buttons .btn-secondary,
+body.ui2018.cform .section#buttons.locked .buttons .btn-secondary,
+body.ui2018 .example-template .preview .section#buttons.locked .buttons .btn-secondary,
 body.ui2018.cform .section#buttons.locked .workflow-buttons .button-list,
 body.ui2018 .example-template .preview .section#buttons.locked .workflow-buttons .button-list,
 body.ui2018.cform .section#buttons.locked .buttons .button-list,
@@ -18893,6 +18952,10 @@ body.ui2018.cform .section#buttons.locked .workflow-buttons .button *,
 body.ui2018 .example-template .preview .section#buttons.locked .workflow-buttons .button *,
 body.ui2018.cform .section#buttons.locked .buttons .button *,
 body.ui2018 .example-template .preview .section#buttons.locked .buttons .button *,
+body.ui2018.cform .section#buttons.locked .workflow-buttons .btn-secondary *,
+body.ui2018 .example-template .preview .section#buttons.locked .workflow-buttons .btn-secondary *,
+body.ui2018.cform .section#buttons.locked .buttons .btn-secondary *,
+body.ui2018 .example-template .preview .section#buttons.locked .buttons .btn-secondary *,
 body.ui2018.cform .section#buttons.locked .workflow-buttons .button-list *,
 body.ui2018 .example-template .preview .section#buttons.locked .workflow-buttons .button-list *,
 body.ui2018.cform .section#buttons.locked .buttons .button-list *,
@@ -18957,7 +19020,11 @@ body.ui2018 .example-template .preview .section#buttons .buttons button,
 body.ui2018.cform .section#buttons .workflow-buttons .button,
 body.ui2018 .example-template .preview .section#buttons .workflow-buttons .button,
 body.ui2018.cform .section#buttons .buttons .button,
-body.ui2018 .example-template .preview .section#buttons .buttons .button {
+body.ui2018 .example-template .preview .section#buttons .buttons .button,
+body.ui2018.cform .section#buttons .workflow-buttons .btn-secondary,
+body.ui2018 .example-template .preview .section#buttons .workflow-buttons .btn-secondary,
+body.ui2018.cform .section#buttons .buttons .btn-secondary,
+body.ui2018 .example-template .preview .section#buttons .buttons .btn-secondary {
   vertical-align: middle;
   margin: 0 10px 0 0;
 }
@@ -19016,7 +19083,9 @@ body.ui2018 .example-template .preview .user-instructions .preview-top-buttons {
   margin: 0 0 10px -5px;
 }
 body.ui2018.cform .user-instructions .preview-top-buttons .button,
-body.ui2018 .example-template .preview .user-instructions .preview-top-buttons .button {
+body.ui2018 .example-template .preview .user-instructions .preview-top-buttons .button,
+body.ui2018.cform .user-instructions .preview-top-buttons .btn-secondary,
+body.ui2018 .example-template .preview .user-instructions .preview-top-buttons .btn-secondary {
   margin: 10px 0 0 5px;
 }
 body.uiupdate.dark.ss-dashboard-wrapper div#SS-DashboardWrapper div.ss-dashboard-wrap-navigator div.ss-dashboard-wrap-navigator-wrapper div.link-item-wrapper div.ss-dashboard-wrap-nav-item.active,
