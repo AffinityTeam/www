@@ -26475,13 +26475,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     Affinity2018.HidePageLoader(true);
   }
 
-  // Clear all bulk selections
+  // Clear all bulk selections and reason textareas
   _bulkClearSelection()
   {
     this._bulkSelection.clear();
     this._updateBulkBar();
     let checkboxes = this.ResultNode.querySelectorAll('.bulk-select-checkbox');
     for (let cb of checkboxes) cb.checked = false;
+    let archiveReason = document.querySelector('.bulk-archive-reason textarea');
+    if (archiveReason) archiveReason.value = '';
+    let unarchiveReason = document.querySelector('.bulk-unarchive-reason textarea');
+    if (unarchiveReason) unarchiveReason.value = '';
   }
 
   // Save user's column visibility preferences to localStorage
@@ -27021,8 +27025,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
       )
       {
-        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
-        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
+        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone(false);
+        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone(false);
         //this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
         //this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
       }
@@ -27085,8 +27089,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
           && this.SearchBox.querySelector('input#StartDate').widgets.hasOwnProperty('DateTime')
       )
       {
-        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone();
-        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone();
+        this.SearchBox.querySelector('input#StartDate').widgets.DateTime.setNone(false);
+        this.SearchBox.querySelector('input#EndDate').widgets.DateTime.setNone(false);
         //this.SearchBox.querySelector('input#StartDate').widgets.DateTime.Destroy();
         //this.SearchBox.querySelector('input#EndDate').widgets.DateTime.Destroy();
       }
@@ -27438,11 +27442,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="search-row inline search-dates">
           <div class="form-row">
             <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="one-time-code">
           </div>
           <div class="form-row">
             <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="one-time-code">
           </div>
         </div>
         <div class="search-row inline filter-menu-row">
@@ -27633,9 +27637,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       </div>
       <div class="inbox-bulk-bar hidden">
         <span class="bulk-count">${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_count_plural', { count: 0 })}</span>
-        <div class="bulk-archive-reason hidden"><textarea placeholder="${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_archive_reason_placeholder')}"></textarea></div>
+        <div class="bulk-archive-reason hidden"><textarea placeholder="${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_archive_reason_placeholder')}" autocomplete="off"></textarea></div>
         <button class="btn-secondary blue bulk-archive-btn hidden" data-action="bulk-archive">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_archive')}</button>
-        <div class="bulk-unarchive-reason hidden"><textarea placeholder="${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_unarchive_reason_placeholder')}"></textarea></div>
+        <div class="bulk-unarchive-reason hidden"><textarea placeholder="${$a.Lang.ReturnPath('app.cf.inbox.labels.bulk_unarchive_reason_placeholder')}" autocomplete="off"></textarea></div>
         <button class="btn-secondary blue bulk-unarchive-btn hidden" data-action="bulk-unarchive">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_unarchive')}</button>
         <button class="btn-secondary red bulk-delete-btn hidden" data-action="bulk-delete">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_delete')}</button>
         <button class="btn-secondary bulk-clear-btn" data-action="bulk-clear">${$a.Lang.ReturnPath('app.cf.inbox.buttons.bulk_clear')}</button>
@@ -27837,11 +27841,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
         <div class="search-row inline search-dates">
           <div class="form-row">
             <label for="StartDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
-            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
+            <input id="StartDate" name="StartDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="one-time-code">
           </div>
           <div class="form-row">
             <label for="EndDate">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
-            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="off">
+            <input id="EndDate" name="EndDate" class="ui-has-calendar" data-type="date" type="input" min="2000-01-01" max="2050-12-31" value="" autocomplete="one-time-code">
           </div>
         </div>
         <div class="search-row no-label hidden">
@@ -49107,6 +49111,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     this.displayNode = document.createElement('input');
     this.displayNode.type = 'text';
+    this.displayNode.setAttribute('autocomplete', 'one-time-code');
     this.displayNode.widgets = { DateTime: this };
     this.targetNode.parentNode.insertBefore(this.displayNode, this.targetNode.nextSibling);
 
@@ -49610,8 +49615,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.setDate(new Date(), true, false);
   }
 
-  setNone()
+  setNone(dispatchEvent)
   {
+    dispatchEvent = typeof dispatchEvent === 'boolean' ? dispatchEvent : true;
     this.date = this.__uiDate = new Date();
     this._setAll();
     this._buildCalendar();
@@ -49622,7 +49628,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
     this.displayNode.value = '';
     this.targetNode.value = '';
-    this.targetNode.dispatchEvent(new Event('change'));
+    if (dispatchEvent) this.targetNode.dispatchEvent(new Event('change'));
   }
 
   setTimeFromWidget(dateTime)
