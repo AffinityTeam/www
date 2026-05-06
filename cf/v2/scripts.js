@@ -20303,7 +20303,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       showInput: false,
       textAlign: 'left',
       buttons: {
-        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok'), standard: true },
         cancel: { show: false }
       }
     });
@@ -20480,7 +20480,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       showInput: false,
       textAlign: 'left',
       buttons: {
-        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+        ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok'), standard: true },
         cancel: { show: false }
       }
     });
@@ -21153,7 +21153,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var formButtonsNode = this.ButtonsNode.querySelector('.section-body .buttons');
 
       var worflowButtonMargin = Math.round(formButtonsNode.getBoundingClientRect().width) + 20;
-      if (!Affinity2018.IsMobile) workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
+
+      if (!Affinity2018.IsMobile) 
+      {
+        //workflowButtonsNode.style.paddingRight = worflowButtonMargin + 'px';
+        workflowButtonsNode.style.maxWidth = `calc(100% - ${worflowButtonMargin}px)`;
+      }
     }
     this._ready();
   }
@@ -21874,7 +21879,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         $a.Dialog.Show({
           message: $a.Lang.ReturnPath('application.cleverfroms.designer.preview_test_validation_message'),
           buttons: {
-            ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+            ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok'), standard: true },
             cancel: { show: false }
           }
         });
@@ -22787,7 +22792,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         canBackgroundClose: false,
         textAlign: 'left',
         buttons: {
-          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok'), standard: true },
           cancel: { show: false }
         }
       });
@@ -22918,7 +22923,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
         canBackgroundClose: false,
         textAlign: 'left',
         buttons: {
-          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok') },
+          ok: { show: true, icon: 'tick', text: $a.Lang.ReturnPath('generic.buttons.ok'), standard: true },
         },
         onClose: this._scrollToError
       });
@@ -23241,13 +23246,13 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     `;
 
     this.buttonTemplate = `
-    <div class="button {Color}" data-type="{Type}" data-action="{ActionType}">
+    <div class="btn-secondary {Color}" data-type="{Type}" data-action="{ActionType}">
       <icon class="icon-{Icon}"></icon>{Name}
     </div>
     `;
 
     this.buttonLinkTemplate = `
-    <a href="{Path}" target="{Target}" class="button {Color}" data-type="{Type}">
+    <a href="{Path}" target="{Target}" class="btn-secondary {Color}" data-type="{Type}">
       <icon class="icon-{Icon}"></icon>{Name}
     </a>
     `;
