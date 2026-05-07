@@ -23269,14 +23269,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     <div>
     `;
 
+    // Canary gate: '' = off (old buttons for all), 'none' = on but no companies yet, '1197,1222' = on for listed companies
+    var tweety = Affinity2018.Tweety;
+    var buttonClassName = 'button';
+    if (tweety && tweety !== 'none' && tweety.split(',').contains(Affinity2018.UserProfile.CompanyNumber.toString())) buttonClassName = 'btn-secondary';
+
     this.buttonTemplate = `
-    <div class="btn-secondary {Color}" data-type="{Type}" data-action="{ActionType}">
+    <div class="${buttonClassName} {Color}" data-type="{Type}" data-action="{ActionType}">
       <icon class="icon-{Icon}"></icon>{Name}
     </div>
     `;
 
     this.buttonLinkTemplate = `
-    <a href="{Path}" target="{Target}" class="btn-secondary {Color}" data-type="{Type}">
+    <a href="{Path}" target="{Target}" class="${buttonClassName} {Color}" data-type="{Type}">
       <icon class="icon-{Icon}"></icon>{Name}
     </a>
     `;
