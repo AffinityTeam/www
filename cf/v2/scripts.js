@@ -26860,7 +26860,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             icon: 'tick',
             text: $a.Lang.ReturnPath('app.cf.inbox.start_dialog.start'),
             color: 'green',
-            order: 1,
+            order: 3,
             standard: true
           },
           else: {
@@ -26876,7 +26876,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             icon: 'cross',
             text: $a.Lang.ReturnPath('app.cf.inbox.start_dialog.cancel'),
             color: 'grey',
-            order: 3,
+            order: 1,
             standard: true
           }
         },
