@@ -19402,7 +19402,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
       '_getFromFormDataByName', '_getPostData', '_post', '_postCatch', '_postThen', '_clearRowError', '_clearErrors', '_setPosted', '_postComplete', '_postFailed',
 
-      '_modalChanged', '_onEmployeeSelected', '_checkForHidden', '_scrollToError',
+      '_modalChanged', '_checkDuplicateEmployee', '_checkForHidden', '_scrollToError',
 
       '_submit', '_print', '_close', '_back',
 
@@ -19530,7 +19530,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (this.ViewType === 'Form') 
       {
         window.addEventListener('ModelLookupChanged', this._modalChanged);
-        window.addEventListener('GotEmployeeData', this._onEmployeeSelected);
         this._loadInstance();
       }
       if (this.ViewType === 'ViewOnly') this._loadInstance();
@@ -21612,7 +21611,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
     clearTimeout(this.AutoSaveTimer);
 
-    var button = $a.getEventNode(ev, 'button'),
+    var button = $a.getEventNode(ev, 'btn-secondary') || $a.getEventNode(ev, 'button'),
       buttonData = button.buttonData,
       firstErrorRow = { row: false, index: 999999 },
       firstRequiredErrorRow = { row: false, index: 999999 },
@@ -22858,16 +22857,27 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       this.SelectedUserData = ev.detail.Data;
       this._checkForHidden(false);
+
+      // Duplicate check: only for EMPLOYEE model key changes with a valid employee number
+      if (ev.detail.Model === 'EMPLOYEE')
+      {
+        let employeeNo = ev.detail.FieldKey;
+        if (employeeNo && !isNaN(parseInt(employeeNo)))
+        {
+          this._checkDuplicateEmployee(parseInt(employeeNo));
+        }
+      }
     }
   }
 
-  // Early duplicate warning — fires when the employee is selected/loaded (non-blocking inline banner)
+  // Duplicate employee check — calls the CheckDuplicate API for the given employee number.
+  // Shows a non-blocking inline banner if a duplicate in-flight form is found.
   // Restricted to admin users (P-type / Form Admin) to avoid exposing form metadata to regular users.
-  async _onEmployeeSelected()
+  async _checkDuplicateEmployee(employeeNo)
   {
     if (this.ViewType !== 'Form') return;
 
-    // Remove any previous warning
+    // Always clear any existing banner first
     let existing = document.querySelector('.cf-duplicate-banner');
     if (existing) existing.remove();
 
@@ -22875,7 +22885,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     let isAdmin = profile && (profile.MemberType === 'P' || profile.IsFormAdmin === true);
     if (!isAdmin) return;
 
-    let employeeNo = this.CleverForms ? this.CleverForms.GetFormEmployeeNo() : null;
     if (!employeeNo || employeeNo === -1) return;
 
     let templateId = this.CleverForms.GetTemplateGuid();
@@ -22889,6 +22898,12 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     {
       let response = await fetch(Affinity2018.Path + `Instance/CheckDuplicate?templateId=${encodeURIComponent(templateId)}&instanceKey=${encodeURIComponent(employeeNo)}&excludeInstanceId=${encodeURIComponent(instanceId || '')}`);
       let data = await response.json();
+
+      // If the employee changed while the fetch was in flight,
+      // discard this stale result so we don't show a banner for the wrong employee.
+      let currentEmp = this.CleverForms ? this.CleverForms.GetFormEmployeeNo() : null;
+      if (currentEmp !== employeeNo) return;
+
       if (!data || !data.data || !data.data.HasDuplicate) return;
       data = data.data;
 
@@ -22905,7 +22920,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       let formNode = document.querySelector('#form');
       if (formNode) formNode.parentNode.insertBefore(banner, formNode);
     }
-    catch (ex) { console.warn('Early duplicate check failed', ex); }
+    catch (ex) { console.warn('Duplicate employee check failed', ex); }
   }
 
 
