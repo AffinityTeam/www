@@ -5339,6 +5339,7 @@
     _setMessage()
     {
       this.ContentNode.innerHTML = '';
+      this.ContentNode.classList.remove('left', 'center', 'right');
       this.ContentNode.classList.add(this.data.textAlign.replace(/\s/gi, '').trim());
       this.Set(this.data.message);
     }
@@ -5347,7 +5348,16 @@
     {
       this.inputEl.classList.add('hidden');
       this.inputBox.classList.add('hidden');
+      this.inputBox.value = '';
+      this.inputBox.placeholder = '';
+      this.inputBox.removeAttribute('maxlength');
+      this.inputBox.classList.remove('error');
       this.textareaBox.classList.add('hidden');
+      this.textareaBox.value = '';
+      this.textareaBox.placeholder = '';
+      this.textareaBox.rows = 1;
+      this.textareaBox.classList.remove('error');
+      if (this.inputError) this.inputError.classList.add('hidden');
       if (
         this.data.hasOwnProperty('input')
         && Affinity2018.isPropObject(this.data, 'input')
@@ -5400,6 +5410,16 @@
 
     _setButtons()
     {
+      // Reset all button DOM elements to default state before applying new config.
+      // Without this, buttons from a previous dialog leak their className/innerHTML
+      // into the next dialog when that button is hidden or not configured.
+      this.okButton.className = 'hidden';
+      this.okButton.innerHTML = '';
+      this.elseButton.className = 'hidden';
+      this.elseButton.innerHTML = '';
+      this.cancelButton.className = 'hidden';
+      this.cancelButton.innerHTML = '';
+
       var gotOk = false, gotElse = false, gotCancel = false;
       if (this.data.buttons)
       {
