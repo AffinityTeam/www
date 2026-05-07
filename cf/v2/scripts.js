@@ -21385,6 +21385,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
     this.PostState = 'none';
     this._clearErrors();
 
+    // Clear any duplicate-employee banners left over from a previous selection
+    let dupeBanner = document.querySelector('.cf-duplicate-banner');
+    if (dupeBanner) dupeBanner.remove();
+
     let root = this;
     
     // TOTAL reset
