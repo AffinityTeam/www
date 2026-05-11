@@ -10452,24 +10452,22 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   _init()
   {
     // Collapse the dashboard wrapper sidebar on all CF pages for a wider content area.
-    // The wrapper is a React app whose useEffect adds 'menu-show-full' asynchronously
-    // after this runs, so we observe the body for that class being re-added and remove
-    // it once. The observer disconnects after the first catch so users can still toggle
-    // the sidebar manually via the burger menu.
-    document.body.classList.remove('menu-show-full');
-    let menuObserver = new MutationObserver((mutations) =>
+    // The wrapper exposes window.Affinity.DBWCollapseMenu() and fires a "DBWReady"
+    // CustomEvent on document once it has rendered. If the wrapper is already ready
+    // we call collapse immediately; otherwise we listen for the event.
+    // Fallback: if the wrapper is an older version without DBWReady, the event
+    // will never fire and the menu stays in whatever state it loaded in.
+    if (window.Affinity && window.Affinity.DBWReady)
     {
-      for (let mutation of mutations)
+      window.Affinity.DBWCollapseMenu();
+    }
+    else
+    {
+      document.addEventListener('DBWReady', function ()
       {
-        if (mutation.attributeName === 'class' && document.body.classList.contains('menu-show-full'))
-        {
-          document.body.classList.remove('menu-show-full');
-          menuObserver.disconnect();
-          break;
-        }
-      }
-    });
-    menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        window.Affinity.DBWCollapseMenu();
+      }, { once: true });
+    }
 
     Affinity2018.ShowPageLoader();
 
