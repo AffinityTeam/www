@@ -10452,24 +10452,48 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   _init()
   {
     // Collapse the dashboard wrapper sidebar on all CF pages for a wider content area.
-    // The wrapper is a React app whose useEffect adds 'menu-show-full' asynchronously
-    // after this runs, so we observe the body for that class being re-added and remove
-    // it once. The observer disconnects after the first catch so users can still toggle
-    // the sidebar manually via the burger menu.
-    document.body.classList.remove('menu-show-full');
-    let menuObserver = new MutationObserver((mutations) =>
+    // New wrappers expose window.Affinity.DBWCollapseMenu() and fire a "DBWReady"
+    // CustomEvent on document once rendered. The wrapper may load much later than CF,
+    // so we always prefer the API and only fall back to the MutationObserver body-class
+    // hack if the wrapper never fires DBWReady within 5 seconds (i.e. truly old wrapper).
+    if (window.Affinity && typeof window.Affinity.DBWCollapseMenu === 'function')
     {
-      for (let mutation of mutations)
+      // New wrapper already rendered -- collapse directly via API
+      window.Affinity.DBWCollapseMenu();
+    }
+    else
+    {
+      // Wrapper not ready yet (or old wrapper without the API).
+      // Listen for DBWReady with a 5s timeout -- if the event never fires,
+      // assume old/missing wrapper and fall back to the MutationObserver hack.
+      var dbwFallbackTimer = setTimeout(function ()
       {
-        if (mutation.attributeName === 'class' && document.body.classList.contains('menu-show-full'))
+        // Timed out waiting for DBWReady -- old/unknown wrapper, use body class hack.
+        // Strip 'menu-show-full' and observe for the React useEffect re-adding it.
+        // Observer disconnects after one catch so users can still toggle via burger menu.
+        document.body.classList.remove('menu-show-full');
+        var menuObserver = new MutationObserver(function (mutations)
         {
-          document.body.classList.remove('menu-show-full');
-          menuObserver.disconnect();
-          break;
-        }
-      }
-    });
-    menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+          for (var i = 0; i < mutations.length; i++)
+          {
+            if (mutations[i].attributeName === 'class' && document.body.classList.contains('menu-show-full'))
+            {
+              document.body.classList.remove('menu-show-full');
+              menuObserver.disconnect();
+              break;
+            }
+          }
+        });
+        menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      }, 5000);
+
+      document.addEventListener('DBWReady', function ()
+      {
+        clearTimeout(dbwFallbackTimer);
+        if (typeof window.Affinity.DBWCollapseMenu === 'function')
+          window.Affinity.DBWCollapseMenu();
+      }, { once: true });
+    }
 
     Affinity2018.ShowPageLoader();
 
