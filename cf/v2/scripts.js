@@ -10453,46 +10453,44 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   {
     // Collapse the dashboard wrapper sidebar on all CF pages for a wider content area.
     // New wrappers expose window.Affinity.DBWCollapseMenu() and fire a "DBWReady"
-    // CustomEvent on document once rendered. The wrapper may load much later than CF,
-    // so we always prefer the API and only fall back to the MutationObserver body-class
-    // hack if the wrapper never fires DBWReady within 5 seconds (i.e. truly old wrapper).
+    // CustomEvent on document once rendered. We check with typeof before calling.
+    // Older/different wrappers without the API fall back to the original body-class
+    // hack: strip 'menu-show-full' and use a MutationObserver to catch the React
+    // useEffect re-adding it asynchronously (observer disconnects after one catch
+    // so users can still toggle the sidebar via the burger menu).
     if (window.Affinity && typeof window.Affinity.DBWCollapseMenu === 'function')
     {
       // New wrapper already rendered -- collapse directly via API
       window.Affinity.DBWCollapseMenu();
     }
-    else
+    else if (window.Affinity && window.Affinity.DBWReady === false)
     {
-      // Wrapper not ready yet (or old wrapper without the API).
-      // Listen for DBWReady with a 5s timeout -- if the event never fires,
-      // assume old/missing wrapper and fall back to the MutationObserver hack.
-      var dbwFallbackTimer = setTimeout(function ()
-      {
-        // Timed out waiting for DBWReady -- old/unknown wrapper, use body class hack.
-        // Strip 'menu-show-full' and observe for the React useEffect re-adding it.
-        // Observer disconnects after one catch so users can still toggle via burger menu.
-        document.body.classList.remove('menu-show-full');
-        var menuObserver = new MutationObserver(function (mutations)
-        {
-          for (var i = 0; i < mutations.length; i++)
-          {
-            if (mutations[i].attributeName === 'class' && document.body.classList.contains('menu-show-full'))
-            {
-              document.body.classList.remove('menu-show-full');
-              menuObserver.disconnect();
-              break;
-            }
-          }
-        });
-        menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-      }, 5000);
-
+      // New wrapper is loading but not ready yet -- wait for the event
       document.addEventListener('DBWReady', function ()
       {
-        clearTimeout(dbwFallbackTimer);
         if (typeof window.Affinity.DBWCollapseMenu === 'function')
           window.Affinity.DBWCollapseMenu();
+        else
+          document.body.classList.remove('menu-show-full');
       }, { once: true });
+    }
+    else
+    {
+      // Old/unknown wrapper -- use the body class hack with MutationObserver
+      document.body.classList.remove('menu-show-full');
+      var menuObserver = new MutationObserver(function (mutations)
+      {
+        for (var i = 0; i < mutations.length; i++)
+        {
+          if (mutations[i].attributeName === 'class' && document.body.classList.contains('menu-show-full'))
+          {
+            document.body.classList.remove('menu-show-full');
+            menuObserver.disconnect();
+            break;
+          }
+        }
+      });
+      menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     }
 
     Affinity2018.ShowPageLoader();
