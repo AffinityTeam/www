@@ -53,21 +53,21 @@
 (11411,108): run-time error CSS1030: Expected identifier, found ','
 (11411,250): run-time error CSS1031: Expected selector, found ')'
 (11411,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(15150,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15151,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15296,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(15298,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(25806,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25809,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25815,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(25818,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26481,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26547,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28244,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28245,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28246,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28973,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28976,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15172,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15173,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15318,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(15320,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(25828,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25831,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25837,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(25840,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26503,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26569,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28265,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28266,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28267,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28994,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(28997,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -14136,6 +14136,21 @@ body.ui2025.uiupdate.inbox.dark span.archived-lozenge {
 /**  Row Action Overflow Menu                                                                                                                     **/
 /**  Three-dot trigger with CSS-only dropdown. Replaces legacy SVG icon buttons on grid rows.                                                      **/
 /***************************************************************************************************************************************************/
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes {
+  padding: 10px 0 10px 0 !important;
+  background: linear-gradient(-180deg, #f5f7fa 0%, #f5f7fa 10px, white 10px, white 100%) !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box {
+  background: none !important;
+  overflow: visible !important;
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes div.inbox-tab-box table.inbox-grid thead tr th {
+  background: none !important;
+  padding-top: 0px !important;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper td.buttons div.row-actions {
   position: relative;
   display: inline-block;
@@ -14177,6 +14192,10 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
 }
+body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper td.buttons div.row-actions div.row-actions-menu.hover-above {
+  top: auto;
+  bottom: -200%;
+}
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper td.buttons div.row-actions div.row-actions-menu button {
   display: block !important;
   width: 100% !important;
@@ -14214,6 +14233,9 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper td.buttons div.row-actions:hover div.row-actions-menu,
 body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper td.buttons div.row-actions:focus-within div.row-actions-menu {
   display: block;
+}
+body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper div.inbox-tab-boxes {
+  background: linear-gradient(-180deg, #1a1a1a 0%, #1a1a1a 10px, #222222 10px, #222222 100%) !important;
 }
 body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.inbox-v2-wrapper td.buttons div.row-actions span.row-actions-trigger {
   color: #cccccc;
@@ -27050,7 +27072,6 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   width: 100%;
   min-width: 100%;
   max-width: 100%;
-  min-height: 220px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-border-radius: 6px 6px 0 0;
