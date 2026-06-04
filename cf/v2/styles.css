@@ -63,11 +63,11 @@
 (25818,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (26481,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
 (26547,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28243,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28244,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28245,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28972,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28975,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(28244,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28245,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28246,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28973,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(28976,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -27050,6 +27050,7 @@ body.ui2025.uiupdate.inbox div.pagewrapper div.pagecontent div.content div.inbox
   width: 100%;
   min-width: 100%;
   max-width: 100%;
+  min-height: 220px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-border-radius: 6px 6px 0 0;
