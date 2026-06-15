@@ -3068,7 +3068,7 @@
         Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
         document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
         document.body.classList.add('disable-scroll');
-        //console.log('!!! LOCK background scroll');
+        document.documentElement.style.overflow = 'hidden';
       }
     };
 
@@ -3082,8 +3082,8 @@
       {
         document.body.classList.remove('disable-scroll');
         document.body.removeAttribute('style');
+        document.documentElement.style.overflow = '';
         window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
-        //console.log('!!! UNLOCK background scroll');
       }
     };
   }
@@ -46243,6 +46243,25 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     let address = this.lookupNode.value.trim();
     if (address !== '')
     {
+      // Check if the address value is JSON with all-null fields (no real address data)
+      let isAllNulls = false;
+      try
+      {
+        let parsed = JSON.parse(address);
+        if (typeof parsed === 'object' && parsed !== null)
+        {
+          isAllNulls = Object.values(parsed).every(v => v === null || v === '');
+        }
+      }
+      catch (e) { /* not JSON — proceed with geocode normally */ }
+
+      if (isAllNulls)
+      {
+        console.warn('Address check skipped: all fields are null');
+        this._fillAddress();
+        return;
+      }
+
       geocoder.geocode({ address: address }, (results, status) => 
       {
         try
@@ -46262,8 +46281,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         }
         catch (error)
         {
-          debugger;
-          console.error('Error during fetch:', error);
+          console.warn('Address geocode returned no results:', error.message);
           this._fillAddress();
         }
       });
