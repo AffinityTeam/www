@@ -37290,7 +37290,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     <div class="default-form">
       <div class="form-row">
         <label>Bank Account</label>
-        <input type="text" class="ui-has-banknumber" />
+        <input type="text" class="ui-has-banknumber" inputmode="numeric" />
       </div>
     </div>
     `;
@@ -37298,7 +37298,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-banknumber" value="{value}" data-country="{country}" data-country-status="{status}" />
+      <input type="text" class="ui-has-banknumber" inputmode="numeric" value="{value}" data-country="{country}" data-country-status="{status}" />
     </div>
     `;
 
@@ -37787,7 +37787,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
         <label>{label}</label>
         <div class="currencybox">
           <div class="symbol"><strong>$</strong></div>
-          <input type="text" class="ui-has-currency" value="{value}" />
+          <input type="text" class="ui-has-currency" inputmode="decimal" value="{value}" />
         </div>
       </div>
     </div>
@@ -37798,7 +37798,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
       <label>{label}</label>
       <div class="currencybox">
         <div class="symbol"><strong>$</strong></div>
-        <input type="text" class="ui-has-currency" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
+        <input type="text" class="ui-has-currency" inputmode="decimal" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
       </div>
     </div>
     `;
@@ -40209,7 +40209,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{0}</label>
-      <input type="text" class="ui-has-email" value="{1}"/>
+      <input type="text" class="ui-has-email" inputmode="email" value="{1}"/>
     </div>
     `;
 
@@ -41483,7 +41483,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     <div class="default-form">
       <div class="form-row">
         <label>{label}</label>
-        <input type="text" class="ui-has-float" value="{value}" />
+        <input type="text" class="ui-has-float" inputmode="decimal" value="{value}" />
       </div>
     </div>
     `;
@@ -41491,7 +41491,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-float" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
+      <input type="text" class="ui-has-float" inputmode="decimal" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
     </div>
     `;
 
@@ -44765,7 +44765,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     <div class="default-form">
       <div class="form-row">
         <label>Tax Number</label>
-        <input type="text" class="ui-has-taxnumber" data-country="NZ" data-country-status="show" placeholder="Enter your tax number" />
+        <input type="text" class="ui-has-taxnumber" inputmode="numeric" data-country="NZ" data-country-status="show" placeholder="Enter your tax number" />
       </div>
     </div>
     `;
@@ -44773,7 +44773,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-taxnumber" value="{value}" data-country="{country}" data-country-status="{status}" />
+      <input type="text" class="ui-has-taxnumber" inputmode="numeric" value="{value}" data-country="{country}" data-country-status="{status}" />
     </div>
     `;
 
@@ -46577,7 +46577,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     </div>
     <div class="address-fields-row country-fields">
       <input type="text" class="field country" placeholder="Country"/>
-      <input type="text" class="field postal_code" placeholder="Postcode" />
+      <input type="text" class="field postal_code" inputmode="numeric" placeholder="Postcode" />
     </div>
     <input type="hidden" class="countrycode" />
     `;
@@ -46865,6 +46865,35 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.displayNode = this.autocompleteNode.querySelector('input');
     this.iconNode = this.autocompleteNode.querySelector('.ui-ac-display-icon');
     this.listNode = this.autocompleteNode.querySelector('ul');
+
+    if (Affinity2018.IsMobile)
+    {
+      this._mobileContainer = document.createElement('div');
+      this._mobileContainer.className = 'ui-autocomplete-mobile-container';
+      this._mobileContainer.innerHTML =
+        '<div class="ui-ac-grip"></div>'
+        + '<div class="ui-ac-mobile-search">'
+        +   '<span class="ui-ac-mobile-search-icon ui-ac-display-icon icon-search"></span>'
+        +   '<input type="text" class="ui-ac-mobile-search-input" placeholder="Search\u2026" autocomplete="one-time-code" />'
+        + '</div>'
+        + '<div class="ui-autocomplete-mobile-list-container"></div>';
+
+      this._mobileListContainer = this._mobileContainer.querySelector('.ui-autocomplete-mobile-list-container');
+      this._mobileListContainer.appendChild(this.listNode);
+      this._mobileSearchInput = this._mobileContainer.querySelector('.ui-ac-mobile-search-input');
+
+      this._mobileSearchInput.addEventListener('keyup', (ev) =>
+      {
+        this.displayNode.value = this._mobileSearchInput.value;
+        this._elementKeyUp(ev);
+      });
+      this._mobileSearchInput.addEventListener('input', () =>
+      {
+        this.displayNode.value = this._mobileSearchInput.value;
+      });
+
+      document.body.appendChild(this._mobileContainer);
+    }
 
     if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('hidden');
     else this.targetNode.classList.add('hidden');
@@ -48397,6 +48426,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
+    if (Affinity2018.IsMobile) return;
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
@@ -48654,16 +48684,22 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           this.listNode.scrollTo(0, Affinity2018.getOffsetRect(li).y - 5);
         }
       }
-      this._setPosition('show');
+      if (!Affinity2018.IsMobile) this._setPosition('show');
       this._setHideShowEvents();
       this._setScrollEvents();
 
-      if (this.IsMobile)
+      if (Affinity2018.IsMobile)
       {
-        clearTimeout(this._setListHeightDelay1);
-        clearTimeout(this._setListHeightDelay2);
-        this._setListHeightDelay1 = setTimeout(this._setListHeight, 250);
-        this._setListHeightDelay2 = setTimeout(this._setListHeight, 500);
+        if (!this._mobileScrim)
+        {
+          this._mobileScrim = document.createElement('div');
+          this._mobileScrim.className = 'ui-ac-scrim';
+          this._mobileScrim.addEventListener('click', this.hide);
+        }
+        document.body.appendChild(this._mobileScrim);
+        this._mobileContainer.classList.add('show');
+        this._mobileSearchInput.value = this.displayNode.value;
+        setTimeout(() => { this._mobileSearchInput.focus(); }, 300);
       }
 
       if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
@@ -48692,6 +48728,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
+      if (Affinity2018.IsMobile)
+      {
+        if (this._mobileContainer) this._mobileContainer.classList.remove('show');
+        if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+      }
       Affinity2018.unlockBodyScroll();
     }
   }
@@ -51905,7 +51946,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.calendarNode.classList.add('ui-calendar-container');
     this.calendarNode.innerHTML = this.calendarTemplate;
 
-    this.displayNode.parentNode.insertBefore(this.calendarNode, this.displayNode.nextSibling);
+    if (Affinity2018.IsMobile)
+    {
+      document.body.appendChild(this.calendarNode);
+    }
+    else
+    {
+      this.displayNode.parentNode.insertBefore(this.calendarNode, this.displayNode.nextSibling);
+    }
 
     this.datesNode = this.calendarNode.querySelector('.ui-cal-dates');
     this.monthNode = this.datesNode.querySelector('.ui-cal-months');
@@ -52457,6 +52505,27 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.yearNode) this.yearNode.classList.remove('show');
     this.calendarNode.classList.add('show', 'do-not-auto-hide');
     this.status = 'open';
+    if (Affinity2018.IsMobile)
+    {
+      // Scrim
+      if (!this._mobileScrim)
+      {
+        this._mobileScrim = document.createElement('div');
+        this._mobileScrim.className = 'ui-cal-scrim';
+        this._mobileScrim.addEventListener('click', this.hide);
+      }
+      document.body.appendChild(this._mobileScrim);
+
+      // Grip bar
+      if (!this.calendarNode.querySelector('.ui-cal-grip'))
+      {
+        let grip = document.createElement('div');
+        grip.className = 'ui-cal-grip';
+        this.calendarNode.insertBefore(grip, this.calendarNode.firstChild);
+      }
+
+      if (Affinity2018.hasOwnProperty('lockBodyScroll')) Affinity2018.lockBodyScroll();
+    }
     this._setPosition('show');
     this._markCalendarDates(this.date);
     if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
@@ -52480,6 +52549,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this.calendarNode.classList.remove('show');
       this.status = 'closed';
       this.mouseState = '';
+      if (Affinity2018.IsMobile)
+      {
+        if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+        if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
+      }
       //if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);
     }
   }
@@ -53003,6 +53077,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
+    if (Affinity2018.IsMobile) return;
     if (
       this.calendarNode &&
       this.status === 'open'
@@ -53025,12 +53100,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         this.calendarNode.classList.add('above');
       }
-      if (Affinity2018.mobile || Affinity2018.IsMobile)
-      {
-        var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
-        this.calendarNode.scrollIntoView({ behavior: 'auto', block: 'start' });
-        window.scrollTo(window.scrollX, window.scrollY - offset - 10);
-      }
+      // REMOVED: if (Affinity2018.mobile || Affinity2018.IsMobile) { scrollIntoView... }
     }
   }
 
