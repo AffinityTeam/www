@@ -57,18 +57,22 @@
 (15175,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (15320,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (15322,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(26042,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26045,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26051,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26054,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26717,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26783,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28479,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28480,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28481,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(29208,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29211,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30755,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(15335,16): run-time error CSS1039: Token not allowed after unary operator: '-vv-height'
+(15336,20): run-time error CSS1039: Token not allowed after unary operator: '-vv-height'
+(17140,16): run-time error CSS1039: Token not allowed after unary operator: '-vv-height'
+(26061,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26064,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26070,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26073,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26736,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26802,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28498,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28499,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28500,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(29227,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29230,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30617,20): run-time error CSS1039: Token not allowed after unary operator: '-vv-height'
+(30774,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
  */
 /***************************************************************************************************************************************************/
 
@@ -15404,8 +15408,8 @@ body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - 40px);
-  max-height: calc(100dvh - 40px);
+  height: var(--vv-height, calc(100dvh - 40px));
+  max-height: var(--vv-height, calc(100dvh - 40px));
   box-sizing: border-box;
   overscroll-behavior: contain;
   -webkit-transition: bottom 250ms;
@@ -17209,7 +17213,7 @@ body.ui2018.mobile div.ui-calendar-container {
   left: 0;
   min-width: 100vw !important;
   max-width: 100vw !important;
-  height: calc(100dvh - 40px);
+  height: var(--vv-height, calc(100dvh - 40px));
   max-height: 420px;
   padding: 16px 20px 20px;
   box-sizing: border-box;
@@ -17267,6 +17271,7 @@ body.ui2018.mobile div.ui-calendar-container.show {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
+  touch-action: none;
 }
 .ui-cal-grip {
   width: 38px;
@@ -17274,6 +17279,24 @@ body.ui2018.mobile div.ui-calendar-container.show {
   border-radius: 3px;
   background: #d7dadd;
   margin: 0 auto 10px auto;
+  position: relative;
+}
+.ui-cal-grip .ui-cal-kb-toggle {
+  position: absolute;
+  right: -60px;
+  top: -6px;
+  background: none;
+  border: 1px solid #d7dadd;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: #6e7a89;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+.ui-cal-grip .ui-cal-kb-toggle svg {
+  display: block;
 }
 
 
@@ -30667,7 +30690,7 @@ body.ui2025.uiupdate.inbox.mobile .m-scrim.m-center {
 body.ui2025.uiupdate.inbox.mobile .m-sheet {
   background: white;
   border-radius: 12px 12px 0 0;
-  max-height: calc(100dvh - 40px);
+  max-height: var(--vv-height, calc(100dvh - 40px));
   display: flex;
   flex-direction: column;
   box-shadow: 0 -10px 40px rgba(18, 104, 178, 0.16);

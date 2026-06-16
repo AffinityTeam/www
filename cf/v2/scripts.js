@@ -10,38 +10,38 @@
 (2951,71-72): run-time error JS1195: Expected expression: >
 (2955,10-11): run-time error JS1195: Expected expression: ,
 (2958,5-6): run-time error JS1002: Syntax error: }
-(3054,32-37): run-time error JS1195: Expected expression: class
-(3777,32-37): run-time error JS1195: Expected expression: class
-(3869,29-30): run-time error JS1004: Expected ';': {
-(3870,29-30): run-time error JS1004: Expected ';': {
-(3871,29-30): run-time error JS1004: Expected ';': {
-(3872,29-30): run-time error JS1004: Expected ';': {
-(3929,3-4): run-time error JS1002: Syntax error: }
-(3942,37-38): run-time error JS1004: Expected ';': {
-(4519,36-41): run-time error JS1195: Expected expression: class
-(4599,3-4): run-time error JS1002: Syntax error: }
-(4716,3-4): run-time error JS1002: Syntax error: }
-(4732,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
-(4705,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4703,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4700,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4691,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4677,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4675,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4672,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4668,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4664,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4660,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4659,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4650,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4597,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4595,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4589,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4585,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4576,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4567,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4572,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4533,9,4543,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(3078,32-37): run-time error JS1195: Expected expression: class
+(3801,32-37): run-time error JS1195: Expected expression: class
+(3893,29-30): run-time error JS1004: Expected ';': {
+(3894,29-30): run-time error JS1004: Expected ';': {
+(3895,29-30): run-time error JS1004: Expected ';': {
+(3896,29-30): run-time error JS1004: Expected ';': {
+(3953,3-4): run-time error JS1002: Syntax error: }
+(3966,37-38): run-time error JS1004: Expected ';': {
+(4543,36-41): run-time error JS1195: Expected expression: class
+(4623,3-4): run-time error JS1002: Syntax error: }
+(4740,3-4): run-time error JS1002: Syntax error: }
+(4756,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
+(4729,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4727,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4724,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4715,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4701,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4699,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4696,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4692,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4688,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4684,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4683,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4674,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4621,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4619,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4613,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4609,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4600,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4591,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4596,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4557,9,4567,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -52,18 +52,18 @@
             return v;
           }
         })(value)
-(3942,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3927,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3923,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3919,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3913,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3905,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3893,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3872,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3871,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3870,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3869,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3867,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3966,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3951,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3947,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3943,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3937,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3929,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3917,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3896,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3895,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3894,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3893,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3891,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
 (2957,7-20): run-time error JS1018: 'return' statement outside of function: return string
  */
 (function ()
@@ -3059,6 +3059,30 @@
    * @author  Ben King, benk at affinityteam.com, ben.king at source63.com, +64 21 2672729.
    * 
    */
+  // VisualViewport shim: publish actual visible height as CSS variable.
+  // The virtual keyboard does not shrink the layout viewport on any modern
+  // mobile browser. visualViewport.height is the only cross-browser source
+  // of truth for the space above the keyboard.
+  (function ()
+  {
+    if (!window.visualViewport) return;
+    var root = document.documentElement;
+    var last = 0;
+    function update()
+    {
+      var h = Math.round(window.visualViewport.height);
+      if (h !== last)
+      {
+        last = h;
+        root.style.setProperty('--vv-height', h + 'px');
+      }
+    }
+    window.visualViewport.addEventListener('resize', update);
+    window.visualViewport.addEventListener('scroll', update);
+    update();
+  })();
+
+
   if (!(Affinity2018.hasOwnProperty('lockBodyScroll')))
   {
     Affinity2018.lockBodyScroll = function ()
@@ -51956,6 +51980,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.displayNode = document.createElement('input');
     this.displayNode.type = 'text';
     this.displayNode.setAttribute('autocomplete', 'one-time-code');
+    // Suppress virtual keyboard on mobile -- calendar is the input method
+    if (Affinity2018.IsMobile) this.displayNode.setAttribute('inputmode', 'none');
     this.displayNode.widgets = { DateTime: this };
     this.targetNode.parentNode.insertBefore(this.displayNode, this.targetNode.nextSibling);
 
@@ -52531,15 +52557,40 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         this._mobileScrim = document.createElement('div');
         this._mobileScrim.className = 'ui-cal-scrim';
         this._mobileScrim.addEventListener('click', this.hide);
+        // Prevent touch scroll from chaining through scrim to body
+        this._mobileScrim.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
       }
       document.body.appendChild(this._mobileScrim);
 
-      // Grip bar
+      // Grip bar with keyboard toggle
       if (!this.calendarNode.querySelector('.ui-cal-grip'))
       {
         let grip = document.createElement('div');
         grip.className = 'ui-cal-grip';
         this.calendarNode.insertBefore(grip, this.calendarNode.firstChild);
+
+        // Keyboard toggle: lets user dismiss calendar and type a date manually
+        let kbBtn = document.createElement('button');
+        kbBtn.type = 'button';
+        kbBtn.className = 'ui-cal-kb-toggle';
+        kbBtn.title = 'Type date';
+        kbBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="14" y1="8" x2="14" y2="8"/><line x1="18" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/><line x1="8" y1="16" x2="16" y2="16"/></svg>';
+        kbBtn.addEventListener('click', function (e)
+        {
+          e.stopPropagation();
+          this.hide();
+          this.displayNode.removeAttribute('inputmode');
+          this.displayNode.focus();
+          // On blur, restore inputmode=none so next tap opens calendar again
+          var self = this;
+          var restore = function ()
+          {
+            self.displayNode.setAttribute('inputmode', 'none');
+            self.displayNode.removeEventListener('blur', restore);
+          };
+          this.displayNode.addEventListener('blur', restore);
+        }.bind(this));
+        grip.appendChild(kbBtn);
       }
 
       if (Affinity2018.hasOwnProperty('lockBodyScroll')) Affinity2018.lockBodyScroll();
