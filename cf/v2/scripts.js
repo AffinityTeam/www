@@ -50953,13 +50953,13 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       <select class="country">
       </select>
     </div>
-    <input class="bank ui-has-integer" type="text" maxlength="2">
+    <input class="bank ui-has-integer" type="text" inputmode="numeric" maxlength="2">
     <span>-</span>
-    <input class="branch ui-has-integer" type="text" maxlength="4">
+    <input class="branch ui-has-integer" type="text" inputmode="numeric" maxlength="4">
     <span>-</span>
-    <input class="account ui-has-integer" type="text" maxlength="7">
+    <input class="account ui-has-integer" type="text" inputmode="numeric" maxlength="7">
     <span class="suffix-span">-</span>
-    <input class="suffix ui-has-integer" type="text" maxlength="3">
+    <input class="suffix ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span class="tickcross grey icon-edit"></span>
     <div class="names">
       <div class="bankname hidden"></div>
@@ -61714,11 +61714,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       <select class="country">
       </select>
     </div>
-    <input class="tax1 ui-has-integer" type="text" maxlength="3">
+    <input class="tax1 ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span> - </span>
-    <input class="tax2 ui-has-integer" type="text" maxlength="3">
+    <input class="tax2 ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span> - </span>
-    <input class="tax3 ui-has-integer" type="text" maxlength="3">
+    <input class="tax3 ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span class="tickcross grey icon-edit"></span>
     `;
   }

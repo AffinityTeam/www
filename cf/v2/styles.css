@@ -57,18 +57,18 @@
 (15045,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (15190,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (15192,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(26046,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26049,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26055,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26058,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26721,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26787,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28483,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28484,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28485,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(29212,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29215,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30759,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(26050,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26053,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26059,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26062,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26725,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26791,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28487,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28488,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28489,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(29216,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29219,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30775,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
  */
 /***************************************************************************************************************************************************/
 
@@ -17156,7 +17156,7 @@ body.ui2018.uiupdate.mobile .ui-cal-keyboard {
   bottom: 12px;
   right: 16px;
   background: none;
-  border: 1px solid #d7dadd;
+  border: none;
   border-radius: 6px;
   padding: 6px 10px;
   font-size: 20px;
@@ -23425,6 +23425,10 @@ html.print .content .section#buttons .comments.open .comment-history .comment-hi
     height: unset !important;
     margin: 10px 0 20px 0;
   }
+}
+body.ui2018.cform.mobile .section-header .section-title {
+  padding-left: 0;
+  padding-right: 30px;
 }
 body.ui2018.cform.mobile .section#buttons {
   padding-bottom: 20px;
@@ -30158,15 +30162,22 @@ body.ui2025.uiupdate.inbox.mobile .m-mode-switch button.active {
 }
 body.ui2025.uiupdate.inbox.mobile .m-tabs {
   display: flex;
-  gap: 0;
+  gap: 4px;
   margin-top: 6px;
+  justify-content: space-evenly;
 }
 body.ui2025.uiupdate.inbox.mobile .m-tab {
-  flex: 1;
+  flex: 0 1 auto;
   border: none;
-  background: transparent;
+  background: none;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
   padding: 9px 4px 10px;
-  font-size: 12.5px;
+  font-size: clamp(11px, 3vw, 14px);
   font-weight: 600;
   color: #6e7a89;
   position: relative;
@@ -30175,8 +30186,13 @@ body.ui2025.uiupdate.inbox.mobile .m-tab {
   align-items: center;
   gap: 3px;
   min-height: 38px;
+  min-width: 0;
   border-radius: 0;
-  white-space: nowrap;
+}
+body.ui2025.uiupdate.inbox.mobile .m-tab:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 body.ui2025.uiupdate.inbox.mobile .m-tab.active {
   color: #1268b2;
@@ -30445,13 +30461,12 @@ body.ui2025.uiupdate.inbox.mobile .m-card-form {
   font-weight: 700;
   color: #1268b2;
   margin-top: 2px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  line-height: 1.3;
 }
 body.ui2025.uiupdate.inbox.mobile .m-ppt {
   color: #6e7a89;
   font-weight: 500;
+  margin-left: 5px;
 }
 body.ui2025.uiupdate.inbox.mobile .m-badge-stack {
   display: flex;
@@ -30817,6 +30832,7 @@ body.ui2025.uiupdate.inbox.mobile .m-control {
   color: #354355;
   background: white;
   outline: none;
+  box-sizing: border-box;
 }
 body.ui2025.uiupdate.inbox.mobile .m-control:focus {
   border-color: #00adef;
@@ -30852,6 +30868,7 @@ body.ui2025.uiupdate.inbox.mobile .m-two-col {
 }
 body.ui2025.uiupdate.inbox.mobile .m-two-col .m-field {
   flex: 1;
+  min-width: 0;
 }
 body.ui2025.uiupdate.inbox.mobile .m-toggle-row {
   display: flex;
