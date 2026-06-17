@@ -22945,7 +22945,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       msg += ` - <a href="/InstanceV2/ViewOnly/${viewId}" target="_blank">View it here</a>`;
 
       let banner = document.createElement('div');
-      banner.className = 'cf-banner blue cf-duplicate-banner';
+      banner.className = 'top-banner cf-duplicate-banner';
       banner.innerHTML = msg;
       let formNode = document.querySelector('#form');
       if (formNode) formNode.parentNode.insertBefore(banner, formNode);

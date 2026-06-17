@@ -44,31 +44,31 @@
 (10146,73): run-time error CSS1030: Expected identifier, found ','
 (10146,95): run-time error CSS1031: Expected selector, found ')'
 (10146,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10535,133): run-time error CSS1030: Expected identifier, found ','
-(10535,274): run-time error CSS1031: Expected selector, found ')'
-(10535,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(11131,167): run-time error CSS1030: Expected identifier, found ','
-(11131,309): run-time error CSS1031: Expected selector, found ')'
-(11131,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11413,108): run-time error CSS1030: Expected identifier, found ','
-(11413,250): run-time error CSS1031: Expected selector, found ')'
-(11413,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(15174,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15175,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15320,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(15322,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(26065,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26068,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26074,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26077,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26740,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26806,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28502,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28503,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28504,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(29231,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29234,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30778,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(10531,133): run-time error CSS1030: Expected identifier, found ','
+(10531,274): run-time error CSS1031: Expected selector, found ')'
+(10531,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(11127,167): run-time error CSS1030: Expected identifier, found ','
+(11127,309): run-time error CSS1031: Expected selector, found ')'
+(11127,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(11409,108): run-time error CSS1030: Expected identifier, found ','
+(11409,250): run-time error CSS1031: Expected selector, found ')'
+(11409,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(15044,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15045,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15190,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(15192,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(26046,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26049,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26055,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26058,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26721,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26787,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28483,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28484,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28485,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(29212,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29215,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30759,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
  */
 /***************************************************************************************************************************************************/
 
@@ -10551,10 +10551,6 @@ body.ui2018.uiupdate .header .title img,
 body.ui2018.uiupdate.cform .header .title img {
   display: none;
 }
-body.ui2018.uiupdate .header .title .cf-archived-banner a,
-body.ui2018.uiupdate.cform .header .title .cf-archived-banner a {
-  display: inline;
-}
 body.ui2018.uiupdate .cf-designer-element-popup,
 body.ui2018.uiupdate.cform .cf-designer-element-popup {
   position: fixed;
@@ -14274,132 +14270,6 @@ body.ui2025.uiupdate.inbox.dark div.pagewrapper div.pagecontent div.content div.
 /**  Preview (orange, sticky), Archived (yellow, block), Duplicate (blue, block)                                                                  **/
 /**  Color mixins use theme vars via rgba() — same pattern as Hub standards.less lozenges.                                                         **/
 /***************************************************************************************************************************************************/
-div.cf-banner {
-  display: block;
-  min-width: 560px;
-  min-height: 50px;
-  line-height: 50px;
-  padding: 0 15px;
-  margin: 0 5px 20px 5px;
-  font-size: 14px;
-  color: #333333;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-div.cf-banner icon {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  margin: 0 5px 0 0;
-  line-height: 45px;
-  vertical-align: top;
-  font-size: 25px;
-}
-div.cf-banner a,
-div.cf-banner a.cf-trusted-link {
-  font-weight: bold;
-  text-decoration: underline;
-  color: #106eb6;
-}
-div.cf-banner *.btn-primary {
-  display: block;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  text-decoration: none !important;
-}
-div.cf-banner.orange {
-  background: #f8eceb;
-  border: 1px solid #f9cab3;
-  color: #333333;
-}
-div.cf-banner.orange icon {
-  color: #ff5c00;
-  fill: #ff5c00;
-}
-div.cf-banner.yellow {
-  background: #f8f4ec;
-  border: 1px solid #f9e5b9;
-  color: #333333;
-}
-div.cf-banner.yellow icon {
-  color: #ffb515;
-  fill: #ffb515;
-}
-div.cf-banner.blue {
-  background: #e5eef9;
-  border: 1px solid #b2cfe9;
-  color: #333333;
-}
-div.cf-banner.blue icon {
-  color: #106eb6;
-  fill: #106eb6;
-}
-div.cf-banner.cf-preview-banner {
-  position: sticky;
-  top: 10px;
-  z-index: 200;
-  margin: -20px 5px 20px 5px;
-}
-div.cf-banner.cf-archived-banner span.archive-actions {
-  display: inline-block;
-  margin-left: 10px;
-}
-div.cf-banner.cf-duplicate-banner {
-  min-height: unset;
-  line-height: 1.4;
-  padding: 10px 14px;
-  font-size: 13px;
-}
-body.ss-dashboard-wrapper div.cf-banner.cf-preview-banner {
-  top: 90px;
-}
-body.ui2018.dark.cform div.cf-banner {
-  color: #cccccc;
-  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
-  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
-}
-body.ui2018.dark.cform div.cf-banner a,
-body.ui2018.dark.cform div.cf-banner a.cf-trusted-link {
-  font-weight: bold;
-  text-decoration: underline;
-  color: #106eb6;
-}
-body.ui2018.dark.cform div.cf-banner.orange {
-  background: #351c0e;
-  border: 1px solid #58280c;
-  color: #cccccc;
-}
-body.ui2018.dark.cform div.cf-banner.orange icon {
-  color: #ff5c00;
-  fill: #ff5c00;
-}
-body.ui2018.dark.cform div.cf-banner.yellow {
-  background: #352a12;
-  border: 1px solid #584212;
-  color: #cccccc;
-}
-body.ui2018.dark.cform div.cf-banner.yellow icon {
-  color: #ffb515;
-  fill: #ffb515;
-}
-body.ui2018.dark.cform div.cf-banner.blue {
-  background: #111f2a;
-  border: 1px solid #112d43;
-  color: #cccccc;
-}
-body.ui2018.dark.cform div.cf-banner.blue icon {
-  color: #106eb6;
-  fill: #106eb6;
-}
 .duplicate-warning-box {
   background: #fff3cd;
   padding: 12px;
@@ -23592,13 +23462,6 @@ body.ui2018.cform.mobile .section#buttons .comments textarea {
   max-width: 100%;
   box-sizing: border-box;
 }
-body.ui2018.cform.mobile .section#buttons div.cf-duplicate-banner,
-body.ui2018.cform.mobile .section#buttons div.cf-preview-banner,
-body.ui2018.cform.mobile .section#buttons .archived {
-  min-width: unset;
-  width: 100%;
-  box-sizing: border-box;
-}
 /***************************************************************************************************************************************************/
 
 /***************************************************************************************************************************************************/
@@ -23679,6 +23542,124 @@ body.ui2018.dark.cform div.cf-preview-banner a.cf-trusted-link:hover,
 body.ui2018.dark.cform div.cf-duplicate-banner a.cf-trusted-link:hover {
   color: #16c1f3;
   -webkit-text-fill-color: #16c1f3;
+}
+body.ui2025 .top-banner {
+  display: block;
+  position: relative;
+  min-width: 560px;
+  padding: 10px 10px 10px 44px;
+  margin: 0 5px 20px 5px;
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2025 .top-banner icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
+  font-size: 25px;
+  line-height: 24px;
+}
+body.ui2025 .cf-preview-banner {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  position: sticky;
+  top: 10px;
+  z-index: 200;
+  padding-right: 200px;
+  margin: -20px 5px 20px 5px;
+}
+body.ui2025 .cf-preview-banner .btn-primary {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 0 !important;
+  text-decoration: none;
+}
+body.ui2025 .cf-preview-banner .btn-primary:hover {
+  text-decoration: none;
+}
+body.ui2025 .cf-duplicate-banner {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  font-size: 13px;
+}
+body.ui2025 .cf-duplicate-banner a {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #106eb6;
+}
+body.ui2025 .cf-archived-banner {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  margin: 30px 5px -30px 5px;
+}
+body.ui2025 .cf-archived-banner a {
+  color: #0056b3;
+  text-decoration: underline;
+  cursor: pointer;
+}
+body.ui2025 .cf-archived-banner a:hover {
+  color: #003d80;
+}
+body.ui2025 .cf-archived-banner span.archive-actions {
+  display: inline-block;
+  margin-left: 10px;
+}
+body.ui2025.ss-dashboard-wrapper .cf-preview-banner {
+  top: 90px;
+}
+body.ui2025.mobile .top-banner {
+  min-width: unset;
+  width: 100%;
+  position: static;
+}
+body.ui2025.mobile .cf-preview-banner {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 10px);
+  padding-right: 10px;
+  padding-bottom: 60px;
+}
+body.ui2025.mobile .cf-preview-banner .btn-primary {
+  top: unset;
+  bottom: 10px;
+  right: 10px;
+}
+body.ui2025.mobile.ss-dashboard-wrapper .cf-preview-banner {
+  top: 90px;
+}
+body.ui2025.dark .top-banner {
+  color: #cccccc;
+  -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2025.dark .cf-duplicate-banner {
+  background: #3d3200;
+  border-color: #665200;
+  color: #ffc107;
+}
+body.ui2025.dark .cf-duplicate-banner a {
+  color: #16c1f3;
+}
+body.ui2025.dark .cf-archived-banner {
+  background: #3d3200;
+  border-color: #665200;
+  color: #ffc107;
+}
+.cf-designer-element-popup .header .title .cf-archived-banner a {
+  display: inline;
 }
 
 
