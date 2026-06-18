@@ -50,25 +50,25 @@
 (11127,167): run-time error CSS1030: Expected identifier, found ','
 (11127,309): run-time error CSS1031: Expected selector, found ')'
 (11127,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11409,108): run-time error CSS1030: Expected identifier, found ','
-(11409,250): run-time error CSS1031: Expected selector, found ')'
-(11409,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(15044,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15045,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15190,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(15192,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(26050,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26053,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26059,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26062,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26725,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26791,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28487,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28488,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28489,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(29216,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29219,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30775,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(11430,108): run-time error CSS1030: Expected identifier, found ','
+(11430,250): run-time error CSS1031: Expected selector, found ')'
+(11430,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(15065,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15066,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15211,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(15213,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(26071,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26074,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26080,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26083,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26746,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26812,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28508,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28509,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28510,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(29237,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29240,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30796,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
  */
 /***************************************************************************************************************************************************/
 
@@ -11422,6 +11422,27 @@ body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.sect
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons div.buttons {
   position: relative;
   right: unset;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .from,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .from {
+  width: 100%;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time {
+  position: static;
+  display: block;
+  line-height: normal;
+  margin-top: 4px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .date,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .date,
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .time,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .time {
+  display: block;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .comment,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .comment {
+  margin-bottom: 20px;
 }
 body.ui2018.uiupdate.mobile #loader,
 body.ui2018.uiupdate.cform.mobile #loader {
