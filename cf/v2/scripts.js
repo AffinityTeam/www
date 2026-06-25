@@ -25422,6 +25422,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     if (eventObject && 'target' in eventObject && eventObject.target !== null)
     {
       let tagName = event.target.tagName.toLowerCase();
+
+      // If the click target is a child element inside a data-row <td> (e.g. span, a, em, strong, etc.)
+      // and it's not an interactive element with its own handler, treat it as a td click so row navigation works.
+      if (tagName !== 'td' && tagName !== 'button' && tagName !== 'input' && tagName !== 'label' && tagName !== 'th')
+      {
+        let parentTd = event.target.closest('td');
+        if (parentTd && parentTd.closest('tr') && parentTd.closest('tr').dataset.instance)
+        {
+          tagName = 'td';
+        }
+      }
+
       switch (tagName)
       {
         case 'button':
