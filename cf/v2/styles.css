@@ -30978,6 +30978,13 @@ body.ui2025.uiupdate.inbox.mobile .m-two-col {
 body.ui2025.uiupdate.inbox.mobile .m-two-col .m-field {
   flex: 1;
   min-width: 0;
+  overflow: hidden;
+}
+body.ui2025.uiupdate.inbox.mobile .m-two-col input[type="date"].m-control {
+  max-width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2025.uiupdate.inbox.mobile .m-toggle-row {
   display: flex;

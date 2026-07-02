@@ -30394,6 +30394,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
         JSON.parse(JSON.stringify(defaults.CategorySettings[this.State.ActiveCategory].SortFields || []));
     }
     this._saveSortData();
+    this._lastSearchJson = null;
     this._resetPages();
     this._attemptSearch('sort-reset');
   }
