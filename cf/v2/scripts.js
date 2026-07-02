@@ -10,38 +10,38 @@
 (2951,71-72): run-time error JS1195: Expected expression: >
 (2955,10-11): run-time error JS1195: Expected expression: ,
 (2958,5-6): run-time error JS1002: Syntax error: }
-(3054,32-37): run-time error JS1195: Expected expression: class
-(3777,32-37): run-time error JS1195: Expected expression: class
-(3869,29-30): run-time error JS1004: Expected ';': {
-(3870,29-30): run-time error JS1004: Expected ';': {
-(3871,29-30): run-time error JS1004: Expected ';': {
-(3872,29-30): run-time error JS1004: Expected ';': {
-(3929,3-4): run-time error JS1002: Syntax error: }
-(3942,37-38): run-time error JS1004: Expected ';': {
-(4519,36-41): run-time error JS1195: Expected expression: class
-(4599,3-4): run-time error JS1002: Syntax error: }
-(4716,3-4): run-time error JS1002: Syntax error: }
-(4732,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
-(4705,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4703,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4700,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4691,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4677,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4675,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4672,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4668,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4664,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4660,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4659,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4650,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4597,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4595,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4589,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4585,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4576,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4567,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4572,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4533,9,4543,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+(3060,32-37): run-time error JS1195: Expected expression: class
+(3783,32-37): run-time error JS1195: Expected expression: class
+(3875,29-30): run-time error JS1004: Expected ';': {
+(3876,29-30): run-time error JS1004: Expected ';': {
+(3877,29-30): run-time error JS1004: Expected ';': {
+(3878,29-30): run-time error JS1004: Expected ';': {
+(3935,3-4): run-time error JS1002: Syntax error: }
+(3948,37-38): run-time error JS1004: Expected ';': {
+(4525,36-41): run-time error JS1195: Expected expression: class
+(4605,3-4): run-time error JS1002: Syntax error: }
+(4722,3-4): run-time error JS1002: Syntax error: }
+(4738,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
+(4711,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4709,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4706,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4697,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4683,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4681,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4678,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4674,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4670,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4666,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4665,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4656,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4603,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4601,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4595,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4591,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4582,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4573,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4578,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4539,9,4549,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
         {
           try
           {
@@ -52,18 +52,18 @@
             return v;
           }
         })(value)
-(3942,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3927,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3923,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3919,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3913,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3905,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3893,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3872,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3871,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3870,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3869,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3867,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(3948,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3933,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3929,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3925,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3919,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3911,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3899,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3878,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3877,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3876,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3875,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3873,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
 (2957,7-20): run-time error JS1018: 'return' statement outside of function: return string
  */
 (function ()
@@ -3065,10 +3065,13 @@
     {
       if (!document.body.classList.contains('disable-scroll'))
       {
-        Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
-        document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
-        document.body.classList.add('disable-scroll');
-        //console.log('!!! LOCK background scroll');
+        if (!Affinity2018.IsMobile)
+        {
+          Affinity2018.lockBodyScroll_lastScrollY = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
+          document.body.style.top = (0 - Affinity2018.lockBodyScroll_lastScrollY) + 'px';
+          document.body.classList.add('disable-scroll');
+          document.documentElement.style.overflow = 'hidden';
+        }
       }
     };
 
@@ -3080,10 +3083,13 @@
     {
       if (document.body.classList.contains('disable-scroll'))
       {
-        document.body.classList.remove('disable-scroll');
-        document.body.removeAttribute('style');
-        window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
-        //console.log('!!! UNLOCK background scroll');
+        if (!Affinity2018.IsMobile)
+        {
+          document.body.classList.remove('disable-scroll');
+          document.body.removeAttribute('style');
+          document.documentElement.style.overflow = '';
+          window.scrollTo(0, Affinity2018.lockBodyScroll_lastScrollY);
+        }
       }
     };
   }
@@ -22939,7 +22945,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       msg += ` - <a href="/InstanceV2/ViewOnly/${viewId}" target="_blank">View it here</a>`;
 
       let banner = document.createElement('div');
-      banner.className = 'cf-banner blue cf-duplicate-banner';
+      banner.className = 'top-banner cf-duplicate-banner';
       banner.innerHTML = msg;
       let formNode = document.querySelector('#form');
       if (formNode) formNode.parentNode.insertBefore(banner, formNode);
@@ -28471,6 +28477,2687 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     };
   }
 };;
+/**
+ *
+ * Summary.       CleverForms Mobile Inbox.
+ *
+ * Description.   Mobile-optimised card-based inbox view for CleverForms.
+ *                Shares the same API contract and server endpoints as the
+ *                desktop FormsInbox class. Renders bottom sheets instead of
+ *                side panels, cards instead of table rows, and "Load more"
+ *                instead of page-number pagination.
+ *
+ * @author        Ben King, benk at affinityteam.com (design + direction)
+ *                AI-assisted implementation from Claude Design prototype
+ *
+ * @since         15.06.2026
+ * @class         FormsInboxMobile
+ * @namespace     Affinity2018.Classes.Apps.CleverForms
+ * @memberof      CleverForms
+ * @constructs    Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile
+ *
+ * @public
+ */
+
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Apps' in Affinity2018.Classes)) Affinity2018.Classes.Apps = {};
+if (!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
+if (!('CleverForms' in Affinity2018.Classes.Apps)) Affinity2018.Classes.Apps.CleverForms = {};
+
+if (!('Apps' in Affinity2018)) Affinity2018.Apps = {};
+if (!('Plugins' in Affinity2018.Apps)) Affinity2018.Apps.Plugins = {};
+
+Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
+{
+
+  /**
+   * Summary. Sets class scoped variables required for the Mobile Inbox instance
+   * @this    Class scope
+   * @access  private
+   */
+  _options()
+  {
+    this.ViewMode = 'User';
+
+    this.EnableLocalStore = true;
+
+    this.DefaultAPI = '/InboxV2/FetchInbox';
+    this.SearchAPI = '/InboxV2/FetchInbox';
+    this.EditUrl = '/Instance/Edit/';
+    this.ViewUrl = '/Instance/View/';
+    this.DeleteAPI = '/Inbox/Delete/';
+    this.ArchiveAPI = '/InboxV2/Archive';
+    this.UnarchiveAPI = '/InboxV2/Unarchive';
+    this.BulkArchiveAPI = '/InboxV2/BulkArchive';
+    this.BulkUnarchiveAPI = '/InboxV2/BulkUnarchive';
+    this.BulkDeleteAPI = '/InboxV2/BulkDelete';
+    this.DetailsEndpoint = '/Admin/Details/';
+    this.PayPointAPI = '/Lookup/GetAssignedPayPoints/';
+    this.AvailableFormsAPI = '/Inbox/GetAvailableForms/';
+
+    this._bulkSelection = new Map();
+
+    this.SearchDateFormat = 'yyyy-MM-dd';
+    this.SearchDatePostFormat = 'yyyy-MM-dd';
+
+    this.PageSize = 25;
+    this.SearchDateDefault = 'StateEnteredAt';
+    this.LocalDebug = false;
+    this.WasAdminHalted = false;
+
+    this.UserDefaultView = 'User';
+    this.AdminDefaultView = 'User';
+
+    // Accumulated items per category for "load more" pagination
+    this._loadedItems = { ToAction: [], InProgress: [], Completed: [] };
+
+    // Select mode state
+    this._selectMode = false;
+
+    // Filter state storage (session only, not persisted)
+    this.FilterState = { User: null, Admin: null };
+
+    // Current filter/search state for the mobile UI
+    this._filterDraft = {
+      dateColumn: 'StateEnteredAt',
+      dateFrom: '',
+      dateTo: '',
+      payPoint: 'all',
+      toggles: {}
+    };
+
+    // Visible columns per mode — loaded from config, persisted to localStorage
+    this._visibleCols = {
+      User: ['TemplateDescription', 'RelatesTo', 'CurrentState', 'StateEnteredAt', 'EffectiveDate', 'PayPoint'],
+      Admin: ['TemplateDescription', 'RelatesTo', 'PayPoint', 'EffectiveDate', 'StateEnteredAt', 'CurrentAssigneeName', 'CurrentState']
+    };
+  }
+
+  /**
+   * Summary. Class constructor
+   * @this    Class
+   * @access  private
+   */
+  constructor()
+  {
+    this._options();
+
+    [
+      '_init',
+
+      // Public
+      'GotoTab',
+
+      // Shell & rendering
+      '_renderShell', '_setupNodes', '_renderCards', '_appendCards',
+      '_updateTabCounts', '_renderChips',
+
+      // Loading
+      '_showLoader', '_hideLoader',
+
+      // State & data
+      '_loadStates', '_getPayPoints', '_gotPayPoints', '_gotPayPointsError',
+
+      // Search / API
+      '_attemptSearchDebounced', '_attemptSearch',
+      '_gotResults',
+
+      // Search input
+      '_onSearchInput', '_onSearchClear',
+
+      // Sheets
+      '_openSheet', '_closeSheet', '_openDialog', '_closeDialog',
+      '_openFilterSheet', '_applyFilters', '_resetFilters',
+      '_openSortSheet', '_applySort', '_resetSort',
+      '_openColumnsSheet',
+      '_openNewFormSheet', '_startForm',
+      '_openDetailSheet',
+      '_openRowActionSheet', '_handleAction',
+
+      // Archive / Delete
+      '_archiveItem', '_unarchiveItem', '_deleteItem',
+      '_showReasonDialog', '_showDeleteDialog',
+
+      // Bulk operations
+      '_enterSelectMode', '_exitSelectMode',
+      '_toggleSelectItem', '_updateBulkBar',
+      '_bulkArchive', '_bulkUnarchive', '_bulkDelete', '_bulkClearSelection',
+
+      // Mode switching
+      '_switchMode', '_captureFilterState', '_restoreFilterState',
+
+      // localStorage persistence
+      '_saveViewMode', '_saveActiveTab', '_saveSortData', '_saveVisibleColumns',
+      '_saveFilterOptions', '_loadSavedState',
+
+      // Toast / utility
+      '_showToast',
+
+      // Event delegation
+      '_onShellClick',
+
+      // HTML templates
+      '_templates'
+
+    ].bindEach(this);
+
+    this._templates();
+
+    this.CleverForms = Affinity2018.Apps.CleverForms.Default;
+
+    window.Inbox = this;
+
+    if (Affinity2018.UiReady) this._init();
+    else window.addEventListener('MainInit', this._init);
+  }
+
+
+  /*==========================================================================
+    INIT
+  ==========================================================================*/
+
+  async _init()
+  {
+    Affinity2018.HidePageLoader(true);
+
+    this.MemberType = '';
+    this.IsPayrollAdmin = false;
+    this.ShowModeToggle = false;
+
+    this.LocalDebug = document.location.href.indexOf('localhost') !== -1
+                   || document.location.href.indexOf('testaffinitylogon.com') !== -1;
+
+    this.MemberType = Affinity2018.UserProfile.MemberType ?? 'null';
+    this.IsFormAdmin = Affinity2018.UserProfile.IsFormAdmin ?? false;
+
+    if (this.MemberType === "P" || this.IsFormAdmin)
+    {
+      this.IsPayrollAdmin = true;
+      this.ViewMode = this.AdminDefaultView;
+      this.ShowModeToggle = true;
+    }
+
+    this.StorageKeySuffix = `${Affinity2018.UserProfile.CompanyNumber}-${Affinity2018.UserProfile.EmployeeNumber}`;
+
+    // Restore saved ViewMode from localStorage
+    if (this.EnableLocalStore && this.ShowModeToggle && Affinity2018.Storage.Local.Has(`InboxViewMode-${this.StorageKeySuffix}`))
+    {
+      this.ViewMode = Affinity2018.Storage.Local.Get(`InboxViewMode-${this.StorageKeySuffix}`);
+    }
+
+    if (this.ViewMode === 'Admin')
+    {
+      document.body.classList.remove('menu-show-full');
+    }
+
+    // bfcache handlers — hide loaders on page hide, re-search on restore
+    window.addEventListener('pagehide', () => { Affinity2018.HidePageLoader(true); });
+    window.addEventListener('pageshow', (event) =>
+    {
+      Affinity2018.HidePageLoader(true);
+      if (event.persisted) this._attemptSearch('pageshow-bfcache-restore');
+    });
+
+    await this._loadStates();
+    await this._getPayPoints();
+
+    // Restore saved state from localStorage
+    this._loadSavedState();
+
+    // Render mobile shell into div.inbox
+    this.ResultNode = document.querySelector('div.inbox');
+    this._renderShell();
+    this._setupNodes();
+
+    // Admin halt if no pay points
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      this.WasAdminHalted = true;
+    }
+
+    this.GotoTab(this.State.ActiveCategory);
+
+    await this._attemptSearch('_init');
+  }
+
+
+  /*==========================================================================
+    STATE & DATA LOADING
+  ==========================================================================*/
+
+  async _loadStates()
+  {
+    let response = await fetch(`${Affinity2018.Path}/Scripts/V2/apps/cleverforms/Inbox.json?version=${Affinity2018.Version}`);
+
+    if (!response.ok)
+    {
+      throw new Error("Cannot load default states for this view");
+    }
+
+    let data = await response.json();
+
+    if (!data || data === '')
+    {
+      throw new Error("Cannot load default states for this view");
+    }
+
+    this.StateStore = data;
+    this.StateStore.UserDefault = JSON.parse(JSON.stringify(this.StateStore.User));
+    this.StateStore.AdminDefault = JSON.parse(JSON.stringify(this.StateStore.Admin));
+
+    if (this.ViewMode === 'Admin')
+    {
+      this.State = this.StateStore.Admin;
+    }
+    else
+    {
+      this.State = this.StateStore.User;
+    }
+
+    return true;
+  }
+
+  async _getPayPoints()
+  {
+    this.PayPoints = [];
+
+    try
+    {
+      let response = await fetch(this.PayPointAPI);
+      if (!response.ok) { this._gotPayPointsError(); return this.PayPoints; }
+
+      let data = await response.json();
+      if (!data || data === '' || data.length === 0)
+      {
+        if (this.LocalDebug)
+        {
+          // Stubbed fallback for local testing
+          switch (Affinity2018.UserProfile.UserGuid)
+          {
+            case 'e5000002-5112-0000-0000-000000000000':
+              data = [
+                {"PayPoint":1,"Description":"Indoor Workforce ASU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-20T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-06T12:00:00.000Z","TotalDays":14},
+                {"PayPoint":2,"Description":"Outdoor W/Force AWU","PayPointCountryCode":"A","CurrentPeriodEndDate":"2024-07-18T12:00:00.000Z","CurrentPeriodStartDate":"2024-07-04T12:00:00.000Z","TotalDays":14}
+              ];
+              this._gotPayPoints(data);
+              return this.PayPoints;
+            default:
+              this._gotPayPointsError();
+              return this.PayPoints;
+          }
+        }
+        this._gotPayPointsError();
+        return this.PayPoints;
+      }
+
+      this._gotPayPoints(data);
+    }
+    catch (ex)
+    {
+      console.warn('PayPoints fetch failed', ex);
+      this._gotPayPointsError();
+    }
+
+    return this.PayPoints;
+  }
+
+  _gotPayPoints(data)
+  {
+    this.PayPoints = data;
+    for (let pp of this.PayPoints)
+    {
+      let index = this.PayPoints.indexOf(pp);
+      this.PayPoints[index].CurrentPeriodStartDate = new Date(this.PayPoints[index].CurrentPeriodStartDate);
+      this.PayPoints[index].CurrentPeriodEndDate = new Date(this.PayPoints[index].CurrentPeriodEndDate);
+      this.PayPoints[index].TotalDays = Math.floor(Math.abs(
+        this.PayPoints[index].CurrentPeriodEndDate - this.PayPoints[index].CurrentPeriodStartDate
+      ) / (1000 * 60 * 60 * 24));
+    }
+  }
+
+  _gotPayPointsError()
+  {
+    console.warn("No AssignedPayPoints returned. Admin mode requires Pay Point data.");
+    this.PayPoints = [];
+  }
+
+
+  /*==========================================================================
+    SVG ICON SYSTEM — Lucide-style, 24x24 viewBox, stroke-based
+  ==========================================================================*/
+
+  _icon(name, size = 22, sw = 1.75)
+  {
+    let paths = this._ICONS[name] || '';
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+  }
+
+  get _ICONS()
+  {
+    return {
+      search:       '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+      x:            '<path d="M18 6 6 18M6 6l12 12"/>',
+      filter:       '<path d="M3 5h18M6 12h12M10 19h4"/>',
+      sort:         '<path d="M7 4v16M7 4 4 7M7 4l3 3M17 20V4M17 20l3-3M17 20l-3-3"/>',
+      columns:      '<path d="M4 6h16M4 12h16M4 18h16"/>',
+      plus:         '<path d="M12 5v14M5 12h14"/>',
+      chevronDown:  '<path d="m6 9 6 6 6-6"/>',
+      chevronUp:    '<path d="m6 15 6-6 6 6"/>',
+      arrowUp:      '<path d="M12 19V5M5 12l7-7 7 7"/>',
+      arrowDown:    '<path d="M12 5v14M19 12l-7 7-7-7"/>',
+      kebab:        '<circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/>',
+      edit:         '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+      eye:          '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+      trash:        '<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/>',
+      archive:      '<rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8M10 12h4"/>',
+      unarchive:    '<rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8M12 18v-6M9 15l3-3 3 3"/>',
+      info:         '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.7" r="0.6" fill="currentColor" stroke="none"/>',
+      check:        '<path d="m5 12 5 5L20 7"/>',
+      clock:        '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+      users:        '<path d="M16 19a4 4 0 0 0-8 0"/><circle cx="12" cy="8" r="3.2"/><path d="M5 19a3 3 0 0 1 2-2.8M19 19a3 3 0 0 0-2-2.8"/>',
+      inbox:        '<path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6Z"/>',
+      alert:        '<path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/>',
+      calendar:     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
+      reset:        '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+      doc:          '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+      selectMode:   '<path d="M3 7l2 2 3-3M3 17l2 2 3-3M12 8h9M12 18h9"/>',
+    };
+  }
+
+
+  /*==========================================================================
+    FIELD METADATA & HELPERS
+  ==========================================================================*/
+
+  get _FIELDS()
+  {
+    return {
+      TemplateDescription:  { label: 'Form Name',        type: 'string', always: true, sortable: true },
+      RelatesTo:            { label: 'Relates To',       type: 'string', sortable: true },
+      CurrentState:         { label: 'Status',           type: 'string', sortable: true },
+      PayPoint:             { label: 'Pay Point',        type: 'number', sortable: true },
+      EffectiveDate:        { label: 'Effective Date',   type: 'date',   sortable: true },
+      StateEnteredAt:       { label: 'Last Updated',     type: 'date',   sortable: true },
+      CurrentAssigneeName:  { label: 'Current Assignee', type: 'string', sortable: true },
+      WorkflowName:         { label: 'Workflow',         type: 'string', sortable: true },
+      PreviousAssigneeName: { label: 'Previous Assignee',type: 'string', sortable: true },
+      LastActionTaken:      { label: 'Last Action',      type: 'string', sortable: true },
+      CompletedByName:      { label: 'Completed By',     type: 'string', sortable: true }
+    };
+  }
+
+  get _COLUMN_CHOICES()
+  {
+    return {
+      User:  ['TemplateDescription', 'RelatesTo', 'CurrentState', 'StateEnteredAt', 'EffectiveDate', 'PayPoint', 'CurrentAssigneeName', 'WorkflowName'],
+      Admin: ['TemplateDescription', 'RelatesTo', 'CurrentState', 'PayPoint', 'EffectiveDate', 'StateEnteredAt', 'CurrentAssigneeName', 'WorkflowName', 'PreviousAssigneeName', 'LastActionTaken', 'CompletedByName']
+    };
+  }
+
+  // Columns rendered in the card header (not repeated in the meta row)
+  get _PRIMARY_COLS() { return ['TemplateDescription', 'RelatesTo', 'CurrentState', 'PayPoint']; }
+
+  _fieldLabel(key, category)
+  {
+    if (key === 'StateEnteredAt')
+    {
+      if (category === 'ToAction') return 'Received';
+      if (category === 'InProgress') return 'Assigned';
+      if (category === 'Completed') return 'Completed';
+      return 'Last Updated';
+    }
+    if (key === 'CurrentState' && category === 'Completed') return 'Final State';
+    if (key === 'CurrentAssigneeName' && category === 'InProgress') return 'Assigned To';
+    let meta = this._FIELDS[key];
+    return meta ? meta.label : key;
+  }
+
+  _fmtDate(iso)
+  {
+    if (!iso) return '\u2014';
+    try
+    {
+      return luxon.DateTime.fromISO(iso).toFormat('dd MMM yyyy');
+    }
+    catch (e)
+    {
+      return iso;
+    }
+  }
+
+  _fmtDateTime(iso)
+  {
+    if (!iso) return '\u2014';
+    try
+    {
+      return luxon.DateTime.fromISO(iso).toFormat("dd MMM yyyy '\u00b7' HH:mm");
+    }
+    catch (e)
+    {
+      return iso;
+    }
+  }
+
+  _fmtValue(key, item, category)
+  {
+    let v = item[key];
+    if (key === 'PayPoint') return v == null ? '\u2014' : `PP ${v}`;
+    let meta = this._FIELDS[key];
+    if (meta && meta.type === 'date') return this._fmtDate(v);
+    return v == null || v === '' ? '\u2014' : String(v);
+  }
+
+  // Status lozenge derivation — matches prototype logic
+  _status(item)
+  {
+    if (item.IsArchived) return { label: item.CurrentState || 'Archived', tone: 'archived' };
+    if (item.IsComplete) return { label: item.CurrentState || 'Completed', tone: 'complete' };
+    if (item.LastActionTaken === 'Initiate Form' || item.LastActionTaken == null)
+      return { label: item.CurrentState || 'Just started', tone: 'new' };
+    return { label: item.CurrentState || 'In progress', tone: 'progress' };
+  }
+
+  // Search text highlight — returns HTML with <em class="search-match"> wraps
+  _highlight(text, query)
+  {
+    if (!query || !text) return text || '';
+    let safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return String(text).replace(new RegExp(safe, 'gi'), (match) => `<em class="search-match">${match}</em>`);
+  }
+
+  // Determine available actions for a row item
+  _actionsFor(item)
+  {
+    let a = [];
+    if (this.ViewMode === 'User')
+    {
+      a.push(item.CanEdit ? 'edit' : 'view');
+      if (item.CanDelete) a.push('delete');
+    }
+    else
+    {
+      if (item.IsArchived)
+      {
+        a.push('view');
+        a.push('unarchive');
+        if (item.CanDelete) a.push('delete');
+      }
+      else
+      {
+        if (item.CanEdit) { a.push('edit'); a.push('info'); }
+        else a.push('view');
+        if (item.CanArchive) a.push('archive');
+        if (item.CanDelete) a.push('delete');
+      }
+    }
+    return a;
+  }
+
+  get _ACTION_META()
+  {
+    return {
+      edit:      { label: 'Edit form',        icon: 'edit' },
+      view:      { label: 'View (read-only)', icon: 'eye' },
+      info:      { label: 'Details',           icon: 'info' },
+      archive:   { label: 'Archive',           icon: 'archive' },
+      unarchive: { label: 'Unarchive',         icon: 'unarchive' },
+      delete:    { label: 'Delete',            icon: 'trash', destructive: true },
+    };
+  }
+
+
+  /*==========================================================================
+    HTML TEMPLATES
+  ==========================================================================*/
+
+  _templates()
+  {
+    // ---------- Main shell ----------
+    this.ShellTemplate = () =>
+    {
+      let modeSwitch = '';
+      if (this.ShowModeToggle)
+      {
+        modeSwitch = `
+          <div class="m-mode-switch">
+            <button data-mode="User" class="${this.ViewMode === 'User' ? 'active' : ''}">My Forms</button>
+            <button data-mode="Admin" class="${this.ViewMode === 'Admin' ? 'active' : ''}">Admin</button>
+          </div>`;
+      }
+
+      let selectBtn = this.ViewMode === 'Admin'
+        ? `<button class="m-tool-btn m-select-btn" data-action="select" aria-label="Select">${this._icon('selectMode', 20)}</button>`
+        : '';
+
+      // Hide "Start new form" FAB for Admin + MemberType M
+      let showFab = !(this.ViewMode === 'Admin' && this.MemberType === 'M');
+
+      return `
+        <div class="inbox-mobile">
+          <div class="m-appbar${this.ViewMode === 'Admin' ? ' no-tabs' : ''}">
+            <div class="m-appbar-top">
+              <div class="m-app-title">Clever Forms</div>
+              <button class="m-icon-btn" data-action="columns" aria-label="Columns">${this._icon('columns', 20)}</button>
+            </div>
+            ${modeSwitch}
+            ${this.ViewMode !== 'Admin' ? `<div class="m-tabs">
+              <button class="m-tab" data-category="ToAction">
+                <span class="m-tab-label">To Action <span class="m-count" data-count-category="ToAction">0</span></span>
+              </button>
+              <button class="m-tab" data-category="InProgress">
+                <span class="m-tab-label">In Progress <span class="m-count" data-count-category="InProgress">0</span></span>
+              </button>
+              <button class="m-tab" data-category="Completed">
+                <span class="m-tab-label">Completed <span class="m-count" data-count-category="Completed">0</span></span>
+              </button>
+            </div>` : ''}
+          </div>
+
+          <div class="m-toolbar">
+            <div class="m-search">
+              ${this._icon('search', 18)}
+              <input type="text" placeholder="Search forms\u2026" class="m-search-input" />
+              <button class="m-search-clear" data-action="search-clear" style="display:none">${this._icon('x', 12, 2.5)}</button>
+            </div>
+            <button class="m-tool-btn m-filter-btn" data-action="filter" aria-label="Filter">${this._icon('filter', 20)}<span class="m-badge-num" style="display:none">0</span></button>
+            <button class="m-tool-btn m-sort-btn" data-action="sort" aria-label="Sort">${this._icon('sort', 20)}</button>
+            ${selectBtn}
+          </div>
+
+          <div class="m-selectbar" style="display:none">
+            <span class="m-sel-title">Select forms</span>
+            <div class="m-sel-acts">
+              <button data-action="select-all">All</button>
+              <button data-action="select-cancel">Cancel</button>
+            </div>
+          </div>
+
+          <div class="m-chips"></div>
+
+          <div class="m-list">
+            <div class="m-cards"></div>
+            <div class="m-pager"></div>
+          </div>
+
+          ${showFab ? `<button class="m-fab" data-action="new-form">${this._icon('plus', 20)} Start a new form</button>` : ''}
+
+          <div class="m-bulkbar" style="display:none">
+            <div class="m-bulkbar-top">
+              <span class="m-bulkbar-count">0 selected</span>
+              <button class="m-bulkbar-clear" data-action="bulk-clear">Clear</button>
+            </div>
+            <div class="m-bulkbar-actions">
+              <button class="m-bb m-bb-archive" data-action="bulk-archive" style="display:none">${this._icon('archive', 17)} Archive</button>
+              <button class="m-bb m-bb-unarchive" data-action="bulk-unarchive" style="display:none">${this._icon('unarchive', 17)} Unarchive</button>
+              <button class="m-bb m-bb-delete" data-action="bulk-delete" style="display:none">${this._icon('trash', 17)} Delete</button>
+            </div>
+          </div>
+
+          <div class="m-overlay"></div>
+        </div>`;
+    };
+
+    // ---------- Card ----------
+    this.CardTemplate = (item, category) =>
+    {
+      let query = this.State.SearchQuery || '';
+      let visibleCols = this._visibleCols[this.ViewMode];
+      let showPP = visibleCols.includes('PayPoint') && item.PayPoint != null;
+      let metaCols = visibleCols.filter(c => !this._PRIMARY_COLS.includes(c));
+      let relatesVisible = visibleCols.includes('RelatesTo');
+      let st = this._status(item);
+      let selected = this._bulkSelection.has(item.InstanceId);
+
+      let checkboxHtml = this._selectMode
+        ? `<div class="m-card-check" data-action="select-toggle" data-instance="${item.InstanceId}">
+             <span class="m-cbx ${selected ? 'on' : ''}">${selected ? this._icon('check', 15, 3) : ''}</span>
+           </div>`
+        : '';
+
+      let metaHtml = '';
+      if (metaCols.length > 0)
+      {
+        let items = metaCols.map(c =>
+          `<span class="m-meta-item">${this._fieldLabel(c, category)} <b>${this._highlight(this._fmtValue(c, item, category), query)}</b></span>`
+        ).join('');
+        metaHtml = `<div class="m-card-meta">${items}</div>`;
+      }
+
+      let overdueHtml = item.IsOverdue ? `<span class="m-flag m-flag-overdue">${this._icon('clock', 13, 2)}Overdue</span>` : '';
+      let sharedHtml = item.SharedBy
+        ? `<div class="m-card-badges"><span class="m-flag m-flag-shared">${this._icon('users', 13, 2)}${item.SharedBy.replace(/\s*\(delegated\)\s*/i, '')}</span></div>`
+        : '';
+
+      let kebabHtml = !this._selectMode
+        ? `<button class="m-card-kebab" data-action="kebab" data-instance="${item.InstanceId}" aria-label="Actions">&#8942;</button>`
+        : '';
+
+      return `
+        <div class="m-card${item.IsOverdue ? ' overdue' : ''}${item.IsArchived ? ' archived' : ''}${selected ? ' selected' : ''}" data-instance="${item.InstanceId}">
+          <div class="m-card-main">
+            ${checkboxHtml}
+            <div class="m-card-tap" data-action="card-tap" data-instance="${item.InstanceId}">
+              <div class="m-card-row1">
+                <div style="min-width:0">
+                  ${relatesVisible ? `<div class="m-card-user">${this._highlight(item.RelatesTo || 'Unassigned', query)}</div>` : ''}
+                  <div class="m-card-form">
+                    ${this._highlight(item.TemplateDescription, query)}
+                    ${showPP ? `<span class="m-ppt">\u00b7 PP ${item.PayPoint}</span>` : ''}
+                  </div>
+                </div>
+                <div class="m-badge-stack">
+                  <span class="m-lozenge m-tone-${st.tone}">${this._highlight(st.label, query)}</span>
+                  ${overdueHtml}
+                </div>
+              </div>
+              ${sharedHtml}
+              ${metaHtml}
+            </div>
+            ${kebabHtml}
+          </div>
+        </div>`;
+    };
+
+    // ---------- Skeleton loading cards ----------
+    this.SkeletonTemplate = (count = 5) =>
+    {
+      let cards = '';
+      for (let i = 0; i < count; i++)
+      {
+        cards += `
+          <div class="m-sk-card">
+            <div class="m-sk" style="height:15px;width:58%"></div>
+            <div class="m-sk" style="height:12px;width:40%;margin-top:9px"></div>
+            <div style="display:flex;gap:8px;margin-top:13px">
+              <div class="m-sk" style="height:20px;width:96px;border-radius:8px"></div>
+              <div class="m-sk" style="height:20px;width:64px;border-radius:8px"></div>
+            </div>
+          </div>`;
+      }
+      return cards;
+    };
+
+    // ---------- Empty state ----------
+    this.EmptyTemplate = (type = 'no-results') =>
+    {
+      let icon = 'inbox';
+      let title = 'No forms found';
+      let body = '';
+
+      switch (type)
+      {
+        case 'no-results':
+          title = 'No forms found';
+          body = 'Try adjusting your filters or search query.';
+          break;
+        case 'empty-tab':
+          title = 'Nothing here yet';
+          body = 'Forms will appear here as they move through workflows.';
+          break;
+        case 'admin-halted':
+          icon = 'alert';
+          title = 'No pay points available';
+          body = 'Admin mode requires assigned pay points to function. Contact your administrator.';
+          break;
+        case 'error':
+          icon = 'alert';
+          title = 'Something went wrong';
+          body = 'Could not load inbox data. Please try again.';
+          break;
+      }
+
+      return `
+        <div class="m-empty">
+          <div class="m-empty-icon">${this._icon(icon, 26)}</div>
+          <h3>${title}</h3>
+          <p>${body}</p>
+        </div>`;
+    };
+
+    // ---------- Pagination (Load more) ----------
+    this.PagerTemplate = (loaded, total) =>
+    {
+      if (loaded >= total) return `<div class="m-page-info">${total} form${total !== 1 ? 's' : ''}</div>`;
+      return `
+        <div class="m-pager-inner">
+          <button class="m-load-more" data-action="load-more">Load more</button>
+          <div class="m-page-info">Showing ${loaded} of ${total}</div>
+        </div>`;
+    };
+  }
+
+
+  /*==========================================================================
+    SHELL RENDERING & NODE SETUP
+  ==========================================================================*/
+
+  _renderShell()
+  {
+    this.ResultNode.innerHTML = this.ShellTemplate();
+  }
+
+  _setupNodes()
+  {
+    this._shell = this.ResultNode.querySelector('.inbox-mobile');
+    this._listNode = this._shell.querySelector('.m-cards');
+    this._pagerNode = this._shell.querySelector('.m-pager');
+    this._chipsNode = this._shell.querySelector('.m-chips');
+    this._overlayNode = this._shell.querySelector('.m-overlay');
+    this._toolbarNode = this._shell.querySelector('.m-toolbar');
+    this._selectbarNode = this._shell.querySelector('.m-selectbar');
+    this._bulkbarNode = this._shell.querySelector('.m-bulkbar');
+    this._fabNode = this._shell.querySelector('.m-fab');
+    this._searchInput = this._shell.querySelector('.m-search-input');
+    this._searchClearBtn = this._shell.querySelector('.m-search-clear');
+
+    // Event delegation — single click handler on the shell
+    this._shell.addEventListener('click', this._onShellClick);
+
+    // Search input
+    this._searchInput.addEventListener('input', this._onSearchInput);
+    this._searchInput.addEventListener('keydown', (e) =>
+    {
+      if (e.key === 'Enter')
+      {
+        e.preventDefault();
+        this._attemptSearch('search-enter');
+      }
+    });
+  }
+
+
+  /*==========================================================================
+    EVENT DELEGATION
+  ==========================================================================*/
+
+  _onShellClick(event)
+  {
+    let target = event.target;
+
+    // Walk up to find the closest element with a data-action
+    let actionEl = target.closest('[data-action]');
+    if (!actionEl) {
+      // Check for mode switch buttons
+      let modeBtn = target.closest('.m-mode-switch button[data-mode]');
+      if (modeBtn)
+      {
+        let mode = modeBtn.dataset.mode;
+        if (mode !== this.ViewMode) this._switchMode(mode);
+        return;
+      }
+      // Check for tab buttons
+      let tabBtn = target.closest('.m-tab[data-category]');
+      if (tabBtn)
+      {
+        let cat = tabBtn.dataset.category;
+        if (cat !== this.State.ActiveCategory)
+        {
+          this.GotoTab(cat);
+          this._attemptSearch('tab-change');
+        }
+        return;
+      }
+      return;
+    }
+
+    let action = actionEl.dataset.action;
+    let instanceId = actionEl.dataset.instance;
+
+    switch (action)
+    {
+      case 'columns':
+        this._openColumnsSheet();
+        break;
+
+      case 'filter':
+        this._openFilterSheet();
+        break;
+
+      case 'sort':
+        this._openSortSheet();
+        break;
+
+      case 'search-clear':
+        this._onSearchClear();
+        break;
+
+      case 'select':
+        this._enterSelectMode();
+        break;
+
+      case 'select-all':
+        this._selectAll();
+        break;
+
+      case 'select-cancel':
+        this._exitSelectMode();
+        break;
+
+      case 'select-toggle':
+        if (instanceId) this._toggleSelectItem(instanceId);
+        break;
+
+      case 'card-tap':
+        if (this._selectMode && instanceId)
+        {
+          this._toggleSelectItem(instanceId);
+        }
+        else if (instanceId)
+        {
+          let item = this._findItem(instanceId);
+          if (item) this._openRowActionSheet(item);
+        }
+        break;
+
+      case 'kebab':
+        if (instanceId)
+        {
+          let item = this._findItem(instanceId);
+          if (item) this._openRowActionSheet(item);
+        }
+        break;
+
+      case 'new-form':
+        this._openNewFormSheet();
+        break;
+
+      case 'load-more':
+        this._loadMore();
+        break;
+
+      case 'bulk-clear':
+        this._bulkClearSelection();
+        break;
+
+      case 'bulk-archive':
+        this._bulkArchive();
+        break;
+
+      case 'bulk-unarchive':
+        this._bulkUnarchive();
+        break;
+
+      case 'bulk-delete':
+        this._bulkDelete();
+        break;
+
+      // Chip dismiss
+      case 'chip-remove':
+        let chipType = actionEl.dataset.chipType;
+        if (chipType) this._removeChip(chipType);
+        break;
+
+      case 'chips-reset':
+        this._resetFilters();
+        break;
+    }
+  }
+
+  // Find an item by InstanceId across all loaded categories
+  _findItem(instanceId)
+  {
+    for (let cat of ['ToAction', 'InProgress', 'Completed'])
+    {
+      let found = this._loadedItems[cat].find(it => it.InstanceId === instanceId);
+      if (found) return found;
+    }
+    return null;
+  }
+
+
+  /*==========================================================================
+    TAB NAVIGATION
+  ==========================================================================*/
+
+  GotoTab(category)
+  {
+    this.State.ActiveCategory = category;
+
+    // Update tab UI
+    let tabs = this._shell.querySelectorAll('.m-tab');
+    for (let tab of tabs)
+    {
+      let isCurrent = tab.dataset.category === category;
+      tab.classList.toggle('active', isCurrent);
+      let underline = tab.querySelector('.m-tab-underline');
+      if (isCurrent && !underline)
+      {
+        tab.insertAdjacentHTML('beforeend', '<span class="m-tab-underline"></span>');
+      }
+      else if (!isCurrent && underline)
+      {
+        underline.remove();
+      }
+    }
+
+    this._saveActiveTab();
+  }
+
+
+  /*==========================================================================
+    LOADER
+  ==========================================================================*/
+
+  _showLoader()
+  {
+    if (this._listNode)
+    {
+      this._listNode.innerHTML = this.SkeletonTemplate(5);
+    }
+    if (this._pagerNode) this._pagerNode.innerHTML = '';
+  }
+
+  _hideLoader()
+  {
+    // Skeleton replaced by renderCards
+  }
+
+
+  /*==========================================================================
+    SEARCH / API INTEGRATION
+  ==========================================================================*/
+
+  _onSearchInput(e)
+  {
+    let val = this._searchInput.value.trim();
+    this._searchClearBtn.style.display = val ? '' : 'none';
+
+    // Debounced search
+    clearTimeout(this._searchDebounceTimer);
+    this._searchDebounceTimer = setTimeout(() =>
+    {
+      this._resetPages();
+      this._attemptSearch('search-input');
+    }, 500);
+  }
+
+  _onSearchClear()
+  {
+    this._searchInput.value = '';
+    this._searchClearBtn.style.display = 'none';
+    this._resetPages();
+    this._attemptSearch('search-clear');
+  }
+
+  _resetPages()
+  {
+    for (let cat in this.State.CategorySettings)
+    {
+      this.State.CategorySettings[cat].CurrentPage = 1;
+    }
+    this._loadedItems = { ToAction: [], InProgress: [], Completed: [] };
+  }
+
+  _attemptSearchDebounced(from)
+  {
+    clearTimeout(this._searchDebouncerTimer);
+
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      return;
+    }
+
+    this._showLoader();
+    this._searchDebouncerTimer = setTimeout(this._attemptSearch, 500, from);
+  }
+
+  async _attemptSearch(from)
+  {
+    clearTimeout(this._searchDebouncerTimer);
+
+    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    {
+      this._renderCards();
+      return false;
+    }
+
+    if (this.LocalDebug)
+    {
+      console.groupCollapsed(`%c\ud83d\udcf1 Mobile Search -> Called from "${from}"`, 'font-weight: bold; color: #00CCCC;');
+    }
+
+    this._showLoader();
+
+    // Build state payload (same contract as desktop FormsInbox)
+    let state = JSON.parse(JSON.stringify(this.State));
+    state.AdminMode = this.ViewMode === 'Admin';
+
+    // Set visible columns as SearchFields per category
+    let visCols = this._visibleCols[this.ViewMode];
+    for (let category in state.CategorySettings)
+    {
+      state.CategorySettings[category].SearchFields = [...visCols];
+    }
+
+    state.SearchQuery = this._searchInput ? this._searchInput.value.trim() : '';
+
+    // Build FieldSpecificSearch array
+    state.FieldSpecificSearch = this._buildFieldSpecificSearch();
+
+    if (state.FieldSpecificSearch.length === 0)
+    {
+      delete state.FieldSpecificSearch;
+    }
+
+    // Deduplication — skip if identical to last search
+    let stateJson = JSON.stringify(state);
+    if (stateJson === this._lastSearchJson)
+    {
+      this._renderCards();
+      if (this.LocalDebug) { console.log('\tNo change, skipped.'); console.groupEnd(); }
+      return;
+    }
+    this._lastSearchJson = stateJson;
+
+    if (this.LocalDebug)
+    {
+      console.log('\tSending search request...');
+      console.log(state);
+    }
+
+    try
+    {
+      let response = await fetch(this.SearchAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state)
+      });
+
+      if (!response.ok)
+      {
+        if (this.LocalDebug) console.groupEnd();
+        this._listNode.innerHTML = this.EmptyTemplate('error');
+        this._pagerNode.innerHTML = '';
+        return false;
+      }
+
+      let data = await response.json();
+
+      if (!data || data === '')
+      {
+        if (this.LocalDebug) console.groupEnd();
+        this._listNode.innerHTML = this.EmptyTemplate('error');
+        this._pagerNode.innerHTML = '';
+        return false;
+      }
+
+      if (this.LocalDebug) { console.log('\tGot results!'); console.groupEnd(); }
+
+      this.State = state;
+
+      // Determine if this is an append (load more) or fresh results
+      let isAppend = from === 'load-more';
+      this._gotResults(data, isAppend);
+    }
+    catch (ex)
+    {
+      console.warn('Search failed', ex);
+      if (this.LocalDebug) console.groupEnd();
+      this._listNode.innerHTML = this.EmptyTemplate('error');
+      this._pagerNode.innerHTML = '';
+    }
+
+    return true;
+  }
+
+  // Build FieldSpecificSearch array — matches the exact contract from desktop inbox.js
+  _buildFieldSpecificSearch()
+  {
+    let fields = [];
+
+    if (this.ViewMode === 'Admin')
+    {
+      // IsComplete toggle
+      fields.push({
+        FieldName: 'IsComplete',
+        SearchValue: this._filterDraft.toggles.includeCompleted ? 'true' : 'false'
+      });
+
+      // IsArchived toggle — only sent when checked
+      if (this._filterDraft.toggles.includeArchived)
+      {
+        fields.push({ FieldName: 'IsArchived', SearchValue: 'true' });
+      }
+
+      // ModelNames (unassigned toggle)
+      if (this._filterDraft.toggles.includeUnassigned)
+      {
+        fields.push({ FieldName: 'ModelNames', SearchValue: 'Employee, Empad, Sdates, Branch, Cst, Dept, Division, Groupd, Payl, Posts' });
+      }
+      else
+      {
+        fields.push({ FieldName: 'ModelNames', SearchValue: 'Employee, Empad, Sdates' });
+      }
+
+      // Pay point
+      if (this._filterDraft.payPoint === 'all' || this._filterDraft.payPoint === '')
+      {
+        // Send all pay points with no dates
+        for (let pp of this.PayPoints)
+        {
+          fields.push({ FieldName: 'PayPoint', SearchValue: String(pp.PayPoint), StartDate: 'null', EndDate: 'null' });
+        }
+      }
+      else
+      {
+        let selectedPP = this._filterDraft.payPoint;
+        let ppData = this.PayPoints.find(p => String(p.PayPoint) === String(selectedPP));
+        if (ppData)
+        {
+          fields.push({
+            FieldName: 'PayPoint',
+            SearchValue: String(selectedPP),
+            StartDate: luxon.DateTime.fromJSDate(ppData.CurrentPeriodStartDate).toFormat(this.SearchDatePostFormat),
+            EndDate: luxon.DateTime.fromJSDate(ppData.CurrentPeriodEndDate).toFormat(this.SearchDatePostFormat)
+          });
+        }
+      }
+
+      // Show PP 999
+      if (this._filterDraft.toggles.includePP999)
+      {
+        fields.push({ FieldName: 'PayPoint', SearchValue: '999' });
+        fields.push({ FieldName: 'PayPoint', SearchValue: 'null' });
+      }
+    }
+
+    // Date range filter
+    let dateFrom = this._filterDraft.dateFrom;
+    let dateTo = this._filterDraft.dateTo;
+
+    // Auto-fill: if only one date set, duplicate to the other
+    if (dateFrom && !dateTo) dateTo = dateFrom;
+    if (dateTo && !dateFrom) dateFrom = dateTo;
+
+    if (dateFrom && dateTo)
+    {
+      let dateCol = this._filterDraft.dateColumn || 'StateEnteredAt';
+      if (dateCol === 'CurrentPayPeriod') dateCol = 'StateEnteredAt';
+
+      let existing = fields.findIndex(f => f.FieldName === dateCol);
+      let entry = {
+        FieldName: dateCol,
+        SearchValue: 'null',
+        StartDate: dateFrom,
+        EndDate: dateTo
+      };
+
+      if (existing === -1) fields.push(entry);
+      else fields[existing] = entry;
+    }
+
+    return fields;
+  }
+
+
+  /*==========================================================================
+    RESULTS HANDLING & CARD RENDERING
+  ==========================================================================*/
+
+  _gotResults(data, isAppend = false)
+  {
+    for (let category in this.State.CategorySettings)
+    {
+      if (
+        this.State.CategorySettings[category].hasOwnProperty('Items')
+        && data.hasOwnProperty('CategorySettings')
+        && data.CategorySettings.hasOwnProperty(category)
+        && data.CategorySettings[category].hasOwnProperty('Items')
+      )
+      {
+        this.State.CategorySettings[category].Items = data.CategorySettings[category].Items;
+        this.State.CategorySettings[category].TotalCount = data.CategorySettings[category].TotalCount;
+        this.State.CategorySettings[category].TotalPages = data.CategorySettings[category].TotalPages;
+
+        if (this.State.CategorySettings[category].CurrentPage > this.State.CategorySettings[category].TotalPages)
+        {
+          this.State.CategorySettings[category].CurrentPage = 1;
+        }
+
+        // Accumulate items for "load more"
+        if (isAppend && category === this.State.ActiveCategory)
+        {
+          this._loadedItems[category] = this._loadedItems[category].concat(data.CategorySettings[category].Items);
+        }
+        else if (!isAppend)
+        {
+          this._loadedItems[category] = data.CategorySettings[category].Items.slice();
+        }
+      }
+    }
+
+    this._updateTabCounts();
+    this._renderCards();
+  }
+
+  _renderCards()
+  {
+    let cat = this.State.ActiveCategory;
+    let items = this._loadedItems[cat] || [];
+    let catSettings = this.State.CategorySettings[cat];
+
+    if (this.WasAdminHalted && this.ViewMode === 'Admin')
+    {
+      this._listNode.innerHTML = this.EmptyTemplate('admin-halted');
+      this._pagerNode.innerHTML = '';
+      return;
+    }
+
+    if (items.length === 0)
+    {
+      let query = this._searchInput ? this._searchInput.value.trim() : '';
+      let hasFilters = this._activeFilterCount() > 0 || query;
+      this._listNode.innerHTML = this.EmptyTemplate(hasFilters ? 'no-results' : 'empty-tab');
+      this._pagerNode.innerHTML = '';
+      return;
+    }
+
+    let html = '';
+    for (let item of items)
+    {
+      html += this.CardTemplate(item, cat);
+    }
+    this._listNode.innerHTML = html;
+
+    // Pagination
+    let totalCount = catSettings ? catSettings.TotalCount : items.length;
+    this._pagerNode.innerHTML = this.PagerTemplate(items.length, totalCount);
+
+    // Restore checkbox state if in select mode
+    if (this._selectMode)
+    {
+      for (let [id] of this._bulkSelection)
+      {
+        let card = this._listNode.querySelector(`.m-card[data-instance="${id}"]`);
+        if (card) card.classList.add('selected');
+      }
+    }
+  }
+
+  _appendCards(newItems, category)
+  {
+    for (let item of newItems)
+    {
+      this._listNode.insertAdjacentHTML('beforeend', this.CardTemplate(item, category));
+    }
+
+    let catSettings = this.State.CategorySettings[category];
+    let totalCount = catSettings ? catSettings.TotalCount : this._loadedItems[category].length;
+    this._pagerNode.innerHTML = this.PagerTemplate(this._loadedItems[category].length, totalCount);
+  }
+
+  _updateTabCounts()
+  {
+    for (let cat of ['ToAction', 'InProgress', 'Completed'])
+    {
+      let badge = this._shell.querySelector(`[data-count-category="${cat}"]`);
+      if (badge && this.State.CategorySettings[cat])
+      {
+        badge.textContent = this.State.CategorySettings[cat].TotalCount || 0;
+      }
+    }
+  }
+
+  async _loadMore()
+  {
+    let cat = this.State.ActiveCategory;
+    let catSettings = this.State.CategorySettings[cat];
+    if (!catSettings || catSettings.CurrentPage >= catSettings.TotalPages) return;
+
+    catSettings.CurrentPage++;
+    await this._attemptSearch('load-more');
+  }
+
+  // Count active filters for the badge
+  _activeFilterCount()
+  {
+    let n = 0;
+    let t = this._filterDraft.toggles || {};
+    if (this.ViewMode === 'Admin')
+    {
+      if (t.includeCompleted) n++;
+      if (t.includeArchived) n++;
+      if (t.includeUnassigned) n++;
+      if (t.includePP999) n++;
+      if (this._filterDraft.payPoint && this._filterDraft.payPoint !== 'all') n++;
+    }
+    if (this._filterDraft.dateFrom || this._filterDraft.dateTo) n++;
+    return n;
+  }
+
+
+  /*==========================================================================
+    FILTER CHIPS
+  ==========================================================================*/
+
+  _renderChips()
+  {
+    let chips = [];
+    let t = this._filterDraft.toggles || {};
+
+    if (this._filterDraft.dateFrom || this._filterDraft.dateTo)
+    {
+      let label = `${this._fmtDate(this._filterDraft.dateFrom + 'T00:00:00Z')} \u2013 ${this._fmtDate(this._filterDraft.dateTo + 'T00:00:00Z')}`;
+      chips.push(`<span class="m-chip">${label}<button data-action="chip-remove" data-chip-type="date">${this._icon('x', 12, 2.5)}</button></span>`);
+    }
+
+    if (this.ViewMode === 'Admin')
+    {
+      if (this._filterDraft.payPoint && this._filterDraft.payPoint !== 'all')
+      {
+        let pp = this.PayPoints.find(p => String(p.PayPoint) === String(this._filterDraft.payPoint));
+        let label = pp ? `PP ${pp.PayPoint} \u2014 ${pp.Description}` : `PP ${this._filterDraft.payPoint}`;
+        chips.push(`<span class="m-chip">${label}<button data-action="chip-remove" data-chip-type="paypoint">${this._icon('x', 12, 2.5)}</button></span>`);
+      }
+      if (t.includeCompleted) chips.push(`<span class="m-chip">Completed<button data-action="chip-remove" data-chip-type="completed">${this._icon('x', 12, 2.5)}</button></span>`);
+      if (t.includeArchived) chips.push(`<span class="m-chip">Archived<button data-action="chip-remove" data-chip-type="archived">${this._icon('x', 12, 2.5)}</button></span>`);
+      if (t.includeUnassigned) chips.push(`<span class="m-chip">Unassigned<button data-action="chip-remove" data-chip-type="unassigned">${this._icon('x', 12, 2.5)}</button></span>`);
+      if (t.includePP999) chips.push(`<span class="m-chip">PP 999<button data-action="chip-remove" data-chip-type="pp999">${this._icon('x', 12, 2.5)}</button></span>`);
+    }
+
+    if (chips.length > 0)
+    {
+      chips.push(`<span class="m-chip reset" data-action="chips-reset">${this._icon('reset', 14)} Clear all</span>`);
+    }
+
+    this._chipsNode.innerHTML = chips.join('');
+    this._chipsNode.style.display = chips.length > 0 ? '' : 'none';
+
+    // Update filter badge count
+    let badge = this._shell.querySelector('.m-filter-btn .m-badge-num');
+    let count = this._activeFilterCount();
+    if (badge)
+    {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? '' : 'none';
+    }
+    let filterBtn = this._shell.querySelector('.m-filter-btn');
+    if (filterBtn) filterBtn.classList.toggle('on', count > 0);
+  }
+
+  _removeChip(type)
+  {
+    switch (type)
+    {
+      case 'date':
+        this._filterDraft.dateFrom = '';
+        this._filterDraft.dateTo = '';
+        break;
+      case 'paypoint':
+        this._filterDraft.payPoint = 'all';
+        break;
+      case 'completed':
+        this._filterDraft.toggles.includeCompleted = false;
+        break;
+      case 'archived':
+        this._filterDraft.toggles.includeArchived = false;
+        if (this._selectMode) this._stripArchivedFromSelection();
+        break;
+      case 'unassigned':
+        this._filterDraft.toggles.includeUnassigned = false;
+        break;
+      case 'pp999':
+        this._filterDraft.toggles.includePP999 = false;
+        break;
+    }
+
+    this._saveFilterOptions();
+    this._renderChips();
+    this._resetPages();
+    this._attemptSearch('chip-remove');
+  }
+
+
+  /*==========================================================================
+    BOTTOM SHEET / DIALOG SYSTEM
+  ==========================================================================*/
+
+  _openSheet(html, options = {})
+  {
+    this._overlayNode.innerHTML = `
+      <div class="m-scrim">
+        <div class="m-sheet">
+          <div class="m-sheet-grip"></div>
+          ${html}
+        </div>
+      </div>`;
+    this._overlayNode.style.display = 'block';
+
+    let scrim = this._overlayNode.querySelector('.m-scrim');
+    let sheet = this._overlayNode.querySelector('.m-sheet');
+
+    // Close on scrim tap (not sheet)
+    scrim.addEventListener('click', (e) => { if (e.target === scrim) this._closeSheet(); });
+
+    // Close on Escape
+    this._sheetEscHandler = (e) => { if (e.key === 'Escape') this._closeSheet(); };
+    window.addEventListener('keydown', this._sheetEscHandler);
+
+    // Prevent body scroll while sheet is open
+    this._shell.classList.add('sheet-open');
+
+    if (options.onClose) this._sheetOnClose = options.onClose;
+  }
+
+  _closeSheet()
+  {
+    this._overlayNode.innerHTML = '';
+    this._overlayNode.style.display = 'none';
+    this._shell.classList.remove('sheet-open');
+    if (this._sheetEscHandler) window.removeEventListener('keydown', this._sheetEscHandler);
+    if (this._sheetOnClose) { this._sheetOnClose(); this._sheetOnClose = null; }
+  }
+
+  _openDialog(html)
+  {
+    this._overlayNode.innerHTML = `
+      <div class="m-scrim m-center">
+        <div class="m-dialog">
+          ${html}
+        </div>
+      </div>`;
+    this._overlayNode.style.display = 'block';
+
+    let scrim = this._overlayNode.querySelector('.m-scrim');
+    scrim.addEventListener('click', (e) => { if (e.target === scrim) this._closeDialog(); });
+
+    this._dialogEscHandler = (e) => { if (e.key === 'Escape') this._closeDialog(); };
+    window.addEventListener('keydown', this._dialogEscHandler);
+
+    this._shell.classList.add('sheet-open');
+  }
+
+  _closeDialog()
+  {
+    this._overlayNode.innerHTML = '';
+    this._overlayNode.style.display = 'none';
+    this._shell.classList.remove('sheet-open');
+    if (this._dialogEscHandler) window.removeEventListener('keydown', this._dialogEscHandler);
+  }
+
+
+  /*==========================================================================
+    FILTER SHEET
+  ==========================================================================*/
+
+  _openFilterSheet()
+  {
+    let d = this._filterDraft;
+    let isAdmin = this.ViewMode === 'Admin';
+
+    let dateColOptions = `
+      <option value="StateEnteredAt"${d.dateColumn === 'StateEnteredAt' ? ' selected' : ''}>State Entered At</option>
+      <option value="EffectiveDate"${d.dateColumn === 'EffectiveDate' ? ' selected' : ''}>Effective Date</option>`;
+
+    let ppOptions = '';
+    if (isAdmin)
+    {
+      ppOptions = `<option value="all"${d.payPoint === 'all' ? ' selected' : ''}>All pay points</option>`;
+      for (let p of this.PayPoints)
+      {
+        ppOptions += `<option value="${p.PayPoint}"${String(d.payPoint) === String(p.PayPoint) ? ' selected' : ''}>PP ${p.PayPoint} \u2014 ${p.Description}</option>`;
+      }
+    }
+
+    let togglesHtml = '';
+    if (isAdmin)
+    {
+      let toggles = [
+        { k: 'includeCompleted', label: 'Include completed forms', desc: 'Show finished forms alongside in-progress' },
+        { k: 'includeArchived', label: 'Include archived forms', desc: 'Archived forms are hidden by default' },
+        { k: 'includeUnassigned', label: 'Include unassigned forms', desc: 'Forms for branches, departments & other entities' },
+        { k: 'includePP999', label: 'Include Pay Point 999', desc: 'Pay point 999 and forms with no pay point' },
+      ];
+
+      togglesHtml = `
+        <div style="margin-top:6px">
+          <label class="m-field-label" style="display:block;margin-bottom:4px">Show</label>
+          ${toggles.map(t => `
+            <div class="m-toggle-row">
+              <div>
+                <div class="m-tr-label">${t.label}</div>
+                <div class="m-tr-desc">${t.desc}</div>
+              </div>
+              <button class="m-switch${d.toggles[t.k] ? ' on' : ''}" data-toggle="${t.k}" role="switch" aria-checked="${!!d.toggles[t.k]}"></button>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    let body = `
+      <div class="m-field">
+        <label class="m-field-label">Date column</label>
+        <select class="m-control" data-filter="dateColumn">${dateColOptions}</select>
+      </div>
+      <div class="m-two-col">
+        <div class="m-field">
+          <label class="m-field-label">From</label>
+          <input type="date" class="m-control" data-filter="dateFrom" value="${d.dateFrom}" />
+        </div>
+        <div class="m-field">
+          <label class="m-field-label">To</label>
+          <input type="date" class="m-control" data-filter="dateTo" value="${d.dateTo}" />
+        </div>
+      </div>
+      ${isAdmin ? `<button class="m-btn m-btn-ghost m-btn-sm" data-filter-action="current-period" style="width:100%;margin-bottom:18px">${this._icon('calendar', 16)} Use current pay period</button>` : ''}
+      ${isAdmin ? `<div class="m-field"><label class="m-field-label">Pay point</label><select class="m-control" data-filter="payPoint">${ppOptions}</select></div>` : ''}
+      ${togglesHtml}`;
+
+    let foot = `
+      <button class="m-btn m-btn-ghost" data-filter-action="reset">${this._icon('reset', 17)} Reset</button>
+      <button class="m-btn m-btn-primary" data-filter-action="apply">Apply filters</button>`;
+
+    let html = `
+      <div class="m-sheet-head">
+        <div><h2>Filters</h2></div>
+        <button class="m-icon-btn" data-filter-action="close">${this._icon('x', 22)}</button>
+      </div>
+      <div class="m-sheet-body">${body}</div>
+      <div class="m-sheet-foot">${foot}</div>`;
+
+    this._openSheet(html);
+
+    // Wire up sheet-internal events
+    let sheet = this._overlayNode.querySelector('.m-sheet');
+
+    sheet.addEventListener('click', (e) =>
+    {
+      let btn = e.target.closest('[data-filter-action]');
+      if (!btn) {
+        // Toggle switch
+        let sw = e.target.closest('.m-switch[data-toggle]');
+        if (sw) {
+          sw.classList.toggle('on');
+          return;
+        }
+        return;
+      }
+
+      let action = btn.dataset.filterAction;
+      if (action === 'close') this._closeSheet();
+      else if (action === 'reset') { this._resetFilters(); this._closeSheet(); }
+      else if (action === 'current-period') this._setCurrentPayPeriod(sheet);
+      else if (action === 'apply') this._applyFiltersFromSheet(sheet);
+    });
+  }
+
+  _setCurrentPayPeriod(sheet)
+  {
+    let ppSelect = sheet.querySelector('[data-filter="payPoint"]');
+    let ppNum = ppSelect && ppSelect.value !== 'all' ? Number(ppSelect.value) : 1;
+    let pp = this.PayPoints.find(p => p.PayPoint === ppNum) || this.PayPoints[0];
+    if (!pp) return;
+
+    let dcSelect = sheet.querySelector('[data-filter="dateColumn"]');
+    if (dcSelect) dcSelect.value = 'StateEnteredAt';
+
+    let fromInput = sheet.querySelector('[data-filter="dateFrom"]');
+    let toInput = sheet.querySelector('[data-filter="dateTo"]');
+    if (fromInput) fromInput.value = luxon.DateTime.fromJSDate(pp.CurrentPeriodStartDate).toFormat('yyyy-MM-dd');
+    if (toInput) toInput.value = luxon.DateTime.fromJSDate(pp.CurrentPeriodEndDate).toFormat('yyyy-MM-dd');
+  }
+
+  _applyFiltersFromSheet(sheet)
+  {
+    this._filterDraft.dateColumn = sheet.querySelector('[data-filter="dateColumn"]')?.value || 'StateEnteredAt';
+    this._filterDraft.dateFrom = sheet.querySelector('[data-filter="dateFrom"]')?.value || '';
+    this._filterDraft.dateTo = sheet.querySelector('[data-filter="dateTo"]')?.value || '';
+
+    let ppSelect = sheet.querySelector('[data-filter="payPoint"]');
+    if (ppSelect) this._filterDraft.payPoint = ppSelect.value;
+
+    // Read toggle switches
+    let switches = sheet.querySelectorAll('.m-switch[data-toggle]');
+    for (let sw of switches)
+    {
+      this._filterDraft.toggles[sw.dataset.toggle] = sw.classList.contains('on');
+    }
+
+    this._saveFilterOptions();
+    this._renderChips();
+    this._resetPages();
+    this._closeSheet();
+    this._attemptSearch('filter-apply');
+  }
+
+  _applyFilters(opts)
+  {
+    Object.assign(this._filterDraft, opts);
+    this._saveFilterOptions();
+    this._renderChips();
+    this._resetPages();
+    this._attemptSearch('filter-apply');
+  }
+
+  _resetFilters()
+  {
+    this._filterDraft = {
+      dateColumn: 'StateEnteredAt',
+      dateFrom: '',
+      dateTo: '',
+      payPoint: 'all',
+      toggles: {}
+    };
+    this._saveFilterOptions();
+    this._renderChips();
+    this._resetPages();
+    this._attemptSearch('filter-reset');
+  }
+
+
+  /*==========================================================================
+    SORT SHEET
+  ==========================================================================*/
+
+  _openSortSheet()
+  {
+    let cat = this.State.ActiveCategory;
+    let sortFields = (this.State.CategorySettings[cat].SortFields || []).map(s => ({ ...s }));
+    let allSortable = Object.keys(this._FIELDS).filter(k => this._FIELDS[k].sortable);
+
+    let buildPills = (fields) =>
+    {
+      if (fields.length === 0) return '<p class="m-sort-empty">No sort columns \u2014 add one below.</p>';
+      return fields.map((s, i) => `
+        <div class="m-sort-pill" data-sort-idx="${i}">
+          <span class="m-sort-idx">${i + 1}</span>
+          <span class="m-sort-name">${this._fieldLabel(s.Name, cat)}</span>
+          <button class="m-sort-dir" data-sort-action="toggle-dir" data-sort-idx="${i}">
+            ${this._icon(s.Ascending ? 'arrowUp' : 'arrowDown', 14, 2.2)}
+            ${s.Ascending ? 'Asc' : 'Desc'}
+          </button>
+          <span class="m-sort-ord">
+            <button data-sort-action="move-up" data-sort-idx="${i}"${i === 0 ? ' disabled' : ''}>${this._icon('chevronUp', 14)}</button>
+            <button data-sort-action="move-down" data-sort-idx="${i}"${i === fields.length - 1 ? ' disabled' : ''}>${this._icon('chevronDown', 14)}</button>
+          </span>
+          <button class="m-sort-rm" data-sort-action="remove" data-sort-idx="${i}">${this._icon('x', 17)}</button>
+        </div>`).join('');
+    };
+
+    let buildAddRow = (fields) =>
+    {
+      let used = fields.map(s => s.Name);
+      let available = allSortable.filter(k => !used.includes(k));
+      if (fields.length >= 4 || available.length === 0) return '';
+      let options = available.map(k => `<option value="${k}">${this._fieldLabel(k, cat)}</option>`).join('');
+      return `
+        <div class="m-add-sort" style="margin-top:6px">
+          <select class="m-control" data-sort-add-select><option value="">Add a sort column\u2026</option>${options}</select>
+          <button class="m-btn m-btn-ghost m-btn-sm" data-sort-action="add">${this._icon('plus', 17)} Add</button>
+        </div>`;
+    };
+
+    let renderBody = () => buildPills(sortFields) + buildAddRow(sortFields);
+
+    let html = `
+      <div class="m-sheet-head">
+        <div><h2>Sort</h2><div class="m-sheet-sub">Up to 4 columns \u2014 first is primary, the rest break ties</div></div>
+        <button class="m-icon-btn" data-sort-sheet-action="close">${this._icon('x', 22)}</button>
+      </div>
+      <div class="m-sheet-body" data-sort-body>${renderBody()}</div>
+      <div class="m-sheet-foot">
+        <button class="m-btn m-btn-ghost" data-sort-sheet-action="reset">${this._icon('reset', 17)} Reset</button>
+        <button class="m-btn m-btn-primary" data-sort-sheet-action="apply">Apply sort</button>
+      </div>`;
+
+    this._openSheet(html);
+
+    let bodyEl = this._overlayNode.querySelector('[data-sort-body]');
+
+    let refresh = () => { bodyEl.innerHTML = renderBody(); };
+
+    this._overlayNode.querySelector('.m-sheet').addEventListener('click', (e) =>
+    {
+      let btn = e.target.closest('[data-sort-action], [data-sort-sheet-action]');
+      if (!btn) return;
+
+      let sheetAction = btn.dataset.sortSheetAction;
+      if (sheetAction === 'close') { this._closeSheet(); return; }
+      if (sheetAction === 'reset') { this._resetSort(); this._closeSheet(); return; }
+      if (sheetAction === 'apply')
+      {
+        let result = sortFields.length ? sortFields : [{ Name: 'StateEnteredAt', Ascending: false }];
+        this._applySort(result);
+        this._closeSheet();
+        return;
+      }
+
+      let action = btn.dataset.sortAction;
+      let idx = parseInt(btn.dataset.sortIdx);
+
+      if (action === 'toggle-dir' && !isNaN(idx))
+      {
+        sortFields[idx].Ascending = !sortFields[idx].Ascending;
+        refresh();
+      }
+      else if (action === 'move-up' && idx > 0)
+      {
+        [sortFields[idx - 1], sortFields[idx]] = [sortFields[idx], sortFields[idx - 1]];
+        refresh();
+      }
+      else if (action === 'move-down' && idx < sortFields.length - 1)
+      {
+        [sortFields[idx], sortFields[idx + 1]] = [sortFields[idx + 1], sortFields[idx]];
+        refresh();
+      }
+      else if (action === 'remove' && !isNaN(idx))
+      {
+        sortFields.splice(idx, 1);
+        refresh();
+      }
+      else if (action === 'add')
+      {
+        let select = bodyEl.querySelector('[data-sort-add-select]');
+        if (select && select.value && sortFields.length < 4)
+        {
+          sortFields.push({ Name: select.value, Ascending: true });
+          refresh();
+        }
+      }
+    });
+  }
+
+  _applySort(fields)
+  {
+    this.State.CategorySettings[this.State.ActiveCategory].SortFields = fields;
+    this._saveSortData();
+    this._resetPages();
+    this._attemptSearch('sort-apply');
+  }
+
+  _resetSort()
+  {
+    let defaults = this.StateStore[this.ViewMode + 'Default'];
+    if (defaults && defaults.CategorySettings[this.State.ActiveCategory])
+    {
+      this.State.CategorySettings[this.State.ActiveCategory].SortFields =
+        JSON.parse(JSON.stringify(defaults.CategorySettings[this.State.ActiveCategory].SortFields || []));
+    }
+    this._saveSortData();
+    this._resetPages();
+    this._attemptSearch('sort-reset');
+  }
+
+
+  /*==========================================================================
+    COLUMNS SHEET
+  ==========================================================================*/
+
+  _openColumnsSheet()
+  {
+    let choices = this._COLUMN_CHOICES[this.ViewMode];
+    let visCols = this._visibleCols[this.ViewMode];
+    let cat = this.State.ActiveCategory;
+
+    let rows = choices.map(k =>
+    {
+      let locked = k === 'TemplateDescription';
+      let on = locked || visCols.includes(k);
+      return `
+        <button class="m-opt-row${locked ? ' locked' : ''}" data-col-key="${k}">
+          <span class="m-cbx${on ? ' on' : ''}">${on ? this._icon('check', 15, 3) : ''}</span>
+          <span class="m-opt-label">
+            ${this._fieldLabel(k, cat)}
+            ${locked ? '<span class="m-opt-sub">Always shown</span>' : ''}
+          </span>
+        </button>`;
+    }).join('');
+
+    let html = `
+      <div class="m-sheet-head">
+        <div><h2>Columns</h2><div class="m-sheet-sub">Shown on each card \u00b7 also defines what search matches</div></div>
+        <button class="m-icon-btn" data-col-action="close">${this._icon('x', 22)}</button>
+      </div>
+      <div class="m-sheet-body">${rows}</div>
+      <div class="m-sheet-foot">
+        <button class="m-btn m-btn-primary" data-col-action="done">Done</button>
+      </div>`;
+
+    this._openSheet(html);
+
+    this._overlayNode.querySelector('.m-sheet').addEventListener('click', (e) =>
+    {
+      let closeBtn = e.target.closest('[data-col-action]');
+      if (closeBtn) { this._closeSheet(); return; }
+
+      let row = e.target.closest('.m-opt-row[data-col-key]');
+      if (!row) return;
+
+      let key = row.dataset.colKey;
+      if (key === 'TemplateDescription') return;
+
+      let cols = this._visibleCols[this.ViewMode];
+      if (cols.includes(key))
+      {
+        this._visibleCols[this.ViewMode] = cols.filter(c => c !== key);
+      }
+      else
+      {
+        this._visibleCols[this.ViewMode] = [...cols, key];
+      }
+
+      // Re-render checkbox
+      let cbx = row.querySelector('.m-cbx');
+      let isOn = this._visibleCols[this.ViewMode].includes(key);
+      cbx.className = `m-cbx${isOn ? ' on' : ''}`;
+      cbx.innerHTML = isOn ? this._icon('check', 15, 3) : '';
+
+      this._saveVisibleColumns();
+    });
+  }
+
+
+  /*==========================================================================
+    NEW FORM SHEET
+  ==========================================================================*/
+
+  async _openNewFormSheet()
+  {
+    Affinity2018.ShowPageLoader(true, 0);
+
+    let api = `${this.AvailableFormsAPI}?AdminMode=${(this.ViewMode === 'Admin')}`;
+
+    try
+    {
+      let response = await fetch(api);
+      if (!response.ok) { Affinity2018.HidePageLoader(true); return; }
+      let templates = await response.json();
+      if (!templates || templates.length === 0) { Affinity2018.HidePageLoader(true); return; }
+
+      Affinity2018.HidePageLoader(true);
+
+      let buildRows = (q) =>
+      {
+        let filtered = templates.filter(t =>
+          `${t.TemplateDescription} ${t.WorkflowName}`.toLowerCase().includes(q.toLowerCase())
+        );
+        if (filtered.length === 0) return `<p class="m-no-match">No templates match "${q}".</p>`;
+        return filtered.map(t => `
+          <div class="m-tpl-row" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">
+            <span class="m-tpl-ic">${this._icon('doc', 20)}</span>
+            <div class="m-tpl-info">
+              <div class="m-tpl-name">${this._highlight(t.TemplateDescription, q)}</div>
+              <div class="m-tpl-wf">via ${t.WorkflowName}</div>
+            </div>
+            <div class="m-tpl-actions">
+              <button class="m-tpl-preview" data-tpl-action="preview" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">Preview</button>
+              <button class="m-tpl-start" data-tpl-action="start" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">Start</button>
+            </div>
+          </div>`).join('');
+      };
+
+      let html = `
+        <div class="m-sheet-head">
+          <div><h2>Start a new form</h2><div class="m-sheet-sub">${templates.length} templates available</div></div>
+          <button class="m-icon-btn" data-nf-action="close">${this._icon('x', 22)}</button>
+        </div>
+        <div class="m-sheet-body">
+          <div class="m-search" style="margin-bottom:12px">
+            ${this._icon('search', 18)}
+            <input placeholder="Search templates\u2026" class="m-tpl-search" />
+          </div>
+          <div class="m-tpl-list">${buildRows('')}</div>
+        </div>`;
+
+      this._openSheet(html);
+
+      let sheet = this._overlayNode.querySelector('.m-sheet');
+      let tplList = sheet.querySelector('.m-tpl-list');
+      let searchInput = sheet.querySelector('.m-tpl-search');
+
+      searchInput.addEventListener('input', () => { tplList.innerHTML = buildRows(searchInput.value.trim()); });
+
+      sheet.addEventListener('click', (e) =>
+      {
+        let closeBtn = e.target.closest('[data-nf-action="close"]');
+        if (closeBtn) { this._closeSheet(); return; }
+
+        let actionBtn = e.target.closest('[data-tpl-action]');
+        if (!actionBtn) return;
+
+        let tplId = actionBtn.dataset.templateId;
+        let wfId = actionBtn.dataset.workflowId;
+
+        if (actionBtn.dataset.tplAction === 'start')
+        {
+          this._closeSheet();
+          this._startForm(tplId, wfId);
+        }
+        else if (actionBtn.dataset.tplAction === 'preview')
+        {
+          window.open(`/TemplateV2/Preview/${tplId}?fromstart=true&wfId=${wfId}`, 'preview');
+        }
+      });
+    }
+    catch (ex)
+    {
+      console.warn('Failed to load available forms', ex);
+      Affinity2018.HidePageLoader(true);
+    }
+  }
+
+  _startForm(templateId, workflowId)
+  {
+    Affinity2018.ShowPageLoader(true, 0);
+    let form = document.createElement('form');
+    form.classList.add('hidden');
+    form.method = 'GET';
+    form.action = '/Inbox/Create';
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'templateAndWorkflowIds';
+    input.value = `${templateId};${workflowId}`;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
+
+
+  /*==========================================================================
+    DETAIL SHEET
+  ==========================================================================*/
+
+  _openDetailSheet(item)
+  {
+    let cat = this.State.ActiveCategory;
+    let st = this._status(item);
+    let detailRows = [
+      'RelatesTo', 'PayPoint', 'CurrentState', 'CurrentAssigneeName', 'PreviousAssigneeName',
+      'WorkflowName', 'LastActionTaken', 'EffectiveDate', 'StateEnteredAt', 'CompletedByName'
+    ];
+
+    let gridHtml = detailRows.map(k => `
+      <div class="m-drow">
+        <div class="m-dk">${this._fieldLabel(k, cat)}</div>
+        <div class="m-dv">${this._FIELDS[k] && this._FIELDS[k].type === 'date' ? this._fmtDateTime(item[k]) : this._fmtValue(k, item, cat)}</div>
+      </div>`).join('');
+
+    gridHtml += `
+      <div class="m-drow">
+        <div class="m-dk">Instance ID</div>
+        <div class="m-dv" style="font-size:11px;color:var(--m-ink-3);font-weight:500">${item.InstanceId}</div>
+      </div>`;
+
+    let acts = this._actionsFor(item);
+    let primary = acts.find(a => a === 'edit' || a === 'view');
+    let rest = acts.filter(a => a !== primary);
+
+    let footHtml = '';
+    for (let a of rest)
+    {
+      let meta = this._ACTION_META[a];
+      footHtml += `<button class="m-btn ${meta.destructive ? 'm-btn-danger-soft' : 'm-btn-ghost'}" data-detail-action="${a}">${this._icon(meta.icon, 18)} ${meta.label}</button>`;
+    }
+    if (primary)
+    {
+      let meta = this._ACTION_META[primary];
+      footHtml += `<button class="m-btn m-btn-primary" data-detail-action="${primary}">${this._icon(meta.icon, 18)} ${meta.label}</button>`;
+    }
+
+    let overdueHtml = item.IsOverdue ? `<span class="m-flag m-flag-overdue">${this._icon('clock', 13, 2)}Overdue</span>` : '';
+    let sharedHtml = item.SharedBy ? `<span class="m-flag m-flag-shared">${this._icon('users', 13, 2)}${item.SharedBy.replace(/\s*\(delegated\)\s*/i, '')}</span>` : '';
+
+    let html = `
+      <div class="m-sheet-head">
+        <div><h2>Form details</h2></div>
+        <button class="m-icon-btn" data-detail-close>${this._icon('x', 22)}</button>
+      </div>
+      <div class="m-sheet-body">
+        <div class="m-detail-head">
+          <div class="m-dh-name">${item.TemplateDescription}</div>
+          <div class="m-dh-relates">${item.RelatesTo || 'Unassigned entity'}</div>
+          <div class="m-dh-badges">
+            <span class="m-lozenge m-tone-${st.tone}">${st.label}</span>
+            ${overdueHtml}
+            ${sharedHtml}
+          </div>
+        </div>
+        <div class="m-detail-grid">${gridHtml}</div>
+      </div>
+      <div class="m-sheet-foot">${footHtml}</div>`;
+
+    this._openSheet(html);
+
+    this._overlayNode.querySelector('.m-sheet').addEventListener('click', (e) =>
+    {
+      if (e.target.closest('[data-detail-close]')) { this._closeSheet(); return; }
+      let btn = e.target.closest('[data-detail-action]');
+      if (btn)
+      {
+        this._closeSheet();
+        this._handleAction(btn.dataset.detailAction, item);
+      }
+    });
+  }
+
+
+  /*==========================================================================
+    ROW ACTION SHEET (KEBAB MENU)
+  ==========================================================================*/
+
+  _openRowActionSheet(item)
+  {
+    let acts = this._actionsFor(item);
+
+    let actionsHtml = acts.map(a =>
+    {
+      let meta = this._ACTION_META[a];
+      return `
+        <button class="m-action-item${meta.destructive ? ' destructive' : ''}" data-row-action="${a}">
+          <span class="m-ai-ic">${this._icon(meta.icon, 20)}</span>
+          ${meta.label}
+        </button>`;
+    }).join('');
+
+    let html = `
+      <div class="m-sheet-body" style="padding-top:12px">
+        <div class="m-detail-head" style="padding-top:0">
+          <div class="m-dh-name" style="font-size:16px">${item.TemplateDescription}</div>
+          <div class="m-dh-relates" style="font-size:13px">${item.RelatesTo || 'Unassigned entity'}</div>
+        </div>
+        <div class="m-action-list">${actionsHtml}</div>
+      </div>`;
+
+    this._openSheet(html);
+
+    this._overlayNode.querySelector('.m-sheet').addEventListener('click', (e) =>
+    {
+      let btn = e.target.closest('[data-row-action]');
+      if (btn)
+      {
+        this._closeSheet();
+        this._handleAction(btn.dataset.rowAction, item);
+      }
+    });
+  }
+
+  _handleAction(action, item)
+  {
+    switch (action)
+    {
+      case 'edit':
+        Affinity2018.ShowPageLoader(true);
+        setTimeout(() => { window.location.href = `${this.EditUrl}${item.InstanceId}`; }, 100);
+        break;
+      case 'view':
+        Affinity2018.ShowPageLoader(true);
+        setTimeout(() => { window.location.href = `${this.ViewUrl}${item.InstanceId}`; }, 100);
+        break;
+      case 'info':
+        this._openDetailSheet(item);
+        break;
+      case 'archive':
+        this._archiveItem(item);
+        break;
+      case 'unarchive':
+        this._unarchiveItem(item);
+        break;
+      case 'delete':
+        this._deleteItem(item);
+        break;
+    }
+  }
+
+
+  /*==========================================================================
+    ARCHIVE / UNARCHIVE / DELETE
+  ==========================================================================*/
+
+  async _archiveItem(item)
+  {
+    let reason = await this._showReasonDialog('archive');
+    if (!reason) return;
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      let response = await fetch(this.ArchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceId: item.InstanceId, Reason: reason })
+      });
+      let data = await response.json();
+      if (data.Success)
+      {
+        this._resetPages();
+        this._attemptSearch('archive');
+      }
+    }
+    catch (ex) { console.warn('Archive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  async _unarchiveItem(item)
+  {
+    let reason = await this._showReasonDialog('unarchive');
+    if (!reason) return;
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      let response = await fetch(this.UnarchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceId: item.InstanceId, Reason: reason })
+      });
+      let data = await response.json();
+      if (data.Success)
+      {
+        this._resetPages();
+        this._attemptSearch('unarchive');
+      }
+    }
+    catch (ex) { console.warn('Unarchive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  async _deleteItem(item)
+  {
+    let confirmed = await this._showDeleteDialog(1);
+    if (!confirmed) return;
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      let url = `${this.DeleteAPI}?id=${item.InstanceId}&redirect=false`;
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      let data = await response.json();
+      if (data.Success)
+      {
+        this._resetPages();
+        this._attemptSearch('delete');
+      }
+    }
+    catch (ex) { console.warn('Delete failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  // Returns a promise that resolves with the reason string, or null if cancelled
+  _showReasonDialog(kind)
+  {
+    return new Promise((resolve) =>
+    {
+      let isArchive = kind === 'archive';
+      let html = `
+        <div class="m-dialog-body">
+          <h2>${isArchive ? 'Archive' : 'Unarchive'} form</h2>
+          <p>A reason is required for compliance and cannot be skipped.</p>
+          <div class="m-field" style="margin-bottom:4px">
+            <label class="m-field-label">Reason</label>
+            <textarea class="m-control m-reason-input" placeholder="${isArchive ? 'Why is this being archived?' : 'Why is this being unarchived?'}"></textarea>
+          </div>
+          <div class="m-field-err" style="display:none">Please enter a reason to continue.</div>
+        </div>
+        <div class="m-dialog-foot">
+          <button class="m-btn m-btn-ghost" data-reason-action="cancel">Cancel</button>
+          <button class="m-btn m-btn-primary" data-reason-action="confirm">${this._icon(isArchive ? 'archive' : 'unarchive', 17)} ${isArchive ? 'Archive' : 'Unarchive'}</button>
+        </div>`;
+
+      this._openDialog(html);
+
+      let dialog = this._overlayNode.querySelector('.m-dialog');
+      let textarea = dialog.querySelector('.m-reason-input');
+      let errEl = dialog.querySelector('.m-field-err');
+      textarea.focus();
+
+      dialog.addEventListener('click', (e) =>
+      {
+        let btn = e.target.closest('[data-reason-action]');
+        if (!btn) return;
+
+        if (btn.dataset.reasonAction === 'cancel')
+        {
+          this._closeDialog();
+          resolve(null);
+        }
+        else if (btn.dataset.reasonAction === 'confirm')
+        {
+          let reason = textarea.value.trim();
+          if (!reason)
+          {
+            errEl.style.display = '';
+            textarea.classList.add('invalid');
+            textarea.focus();
+            return;
+          }
+          this._closeDialog();
+          resolve(reason);
+        }
+      });
+    });
+  }
+
+  // Returns a promise that resolves true if confirmed, false if cancelled
+  _showDeleteDialog(count)
+  {
+    return new Promise((resolve) =>
+    {
+      let html = `
+        <div class="m-dialog-body">
+          <h2>Delete ${count > 1 ? count + ' forms' : 'form'}?</h2>
+          <p>This is permanent and can\u2019t be undone.${count > 1 ? ' All selected forms will be removed.' : ''}</p>
+        </div>
+        <div class="m-dialog-foot">
+          <button class="m-btn m-btn-ghost" data-del-action="cancel">Cancel</button>
+          <button class="m-btn m-btn-danger" data-del-action="confirm">${this._icon('trash', 17)} Delete</button>
+        </div>`;
+
+      this._openDialog(html);
+
+      this._overlayNode.querySelector('.m-dialog').addEventListener('click', (e) =>
+      {
+        let btn = e.target.closest('[data-del-action]');
+        if (!btn) return;
+        this._closeDialog();
+        resolve(btn.dataset.delAction === 'confirm');
+      });
+    });
+  }
+
+
+  /*==========================================================================
+    BULK OPERATIONS (ADMIN ONLY)
+  ==========================================================================*/
+
+  _enterSelectMode()
+  {
+    this._selectMode = true;
+    this._bulkSelection.clear();
+
+    // Show select bar, hide toolbar
+    if (this._toolbarNode) this._toolbarNode.style.display = 'none';
+    if (this._selectbarNode) this._selectbarNode.style.display = '';
+    if (this._fabNode) this._fabNode.style.display = 'none';
+
+    this._renderCards();
+    this._updateBulkBar();
+  }
+
+  _exitSelectMode()
+  {
+    this._selectMode = false;
+    this._bulkSelection.clear();
+
+    if (this._toolbarNode) this._toolbarNode.style.display = '';
+    if (this._selectbarNode) this._selectbarNode.style.display = 'none';
+    if (this._bulkbarNode) this._bulkbarNode.style.display = 'none';
+    if (this._fabNode) this._fabNode.style.display = '';
+
+    this._renderCards();
+  }
+
+  _selectAll()
+  {
+    let items = this._loadedItems[this.State.ActiveCategory] || [];
+    for (let item of items)
+    {
+      this._bulkSelection.set(item.InstanceId, {
+        isArchived: item.IsArchived,
+        canDelete: item.CanDelete,
+        canArchive: item.CanArchive
+      });
+    }
+    this._renderCards();
+    this._updateBulkBar();
+  }
+
+  _toggleSelectItem(instanceId)
+  {
+    if (this._bulkSelection.has(instanceId))
+    {
+      this._bulkSelection.delete(instanceId);
+    }
+    else
+    {
+      let item = this._findItem(instanceId);
+      if (item)
+      {
+        this._bulkSelection.set(instanceId, {
+          isArchived: item.IsArchived,
+          canDelete: item.CanDelete,
+          canArchive: item.CanArchive
+        });
+      }
+    }
+
+    // Update card selected state
+    let card = this._listNode.querySelector(`.m-card[data-instance="${instanceId}"]`);
+    if (card)
+    {
+      let selected = this._bulkSelection.has(instanceId);
+      card.classList.toggle('selected', selected);
+      let cbx = card.querySelector('.m-cbx');
+      if (cbx)
+      {
+        cbx.className = `m-cbx${selected ? ' on' : ''}`;
+        cbx.innerHTML = selected ? this._icon('check', 15, 3) : '';
+      }
+    }
+
+    this._updateBulkBar();
+  }
+
+  _updateBulkBar()
+  {
+    if (!this._bulkbarNode) return;
+
+    let count = this._bulkSelection.size;
+    if (count === 0)
+    {
+      this._bulkbarNode.style.display = 'none';
+      return;
+    }
+
+    this._bulkbarNode.style.display = '';
+    this._bulkbarNode.querySelector('.m-bulkbar-count').textContent = `${count} form${count !== 1 ? 's' : ''} selected`;
+
+    let hasNonArchived = false;
+    let hasArchived = false;
+    let allCanDelete = count > 0;
+    for (let [, meta] of this._bulkSelection)
+    {
+      if (meta.isArchived) hasArchived = true;
+      else hasNonArchived = true;
+      if (!meta.canDelete) allCanDelete = false;
+    }
+
+    this._bulkbarNode.querySelector('.m-bb-archive').style.display = hasNonArchived ? '' : 'none';
+    this._bulkbarNode.querySelector('.m-bb-unarchive').style.display = hasArchived ? '' : 'none';
+    this._bulkbarNode.querySelector('.m-bb-delete').style.display = allCanDelete ? '' : 'none';
+  }
+
+  _stripArchivedFromSelection()
+  {
+    for (let [id, meta] of this._bulkSelection)
+    {
+      if (meta.isArchived) this._bulkSelection.delete(id);
+    }
+    this._updateBulkBar();
+  }
+
+  async _bulkArchive()
+  {
+    let ids = [];
+    for (let [id, meta] of this._bulkSelection) { if (!meta.isArchived) ids.push(id); }
+    if (ids.length === 0) return;
+
+    let reason = await this._showReasonDialog('archive');
+    if (!reason) return;
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      await fetch(this.BulkArchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceIds: ids, Reason: reason })
+      });
+      this._bulkClearSelection();
+      this._exitSelectMode();
+      this._resetPages();
+      this._attemptSearch('bulk-archive');
+    }
+    catch (ex) { console.warn('Bulk archive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  async _bulkUnarchive()
+  {
+    let ids = [];
+    for (let [id, meta] of this._bulkSelection) { if (meta.isArchived) ids.push(id); }
+    if (ids.length === 0) return;
+
+    let reason = await this._showReasonDialog('unarchive');
+    if (!reason) return;
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      await fetch(this.BulkUnarchiveAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceIds: ids, Reason: reason })
+      });
+      this._bulkClearSelection();
+      this._exitSelectMode();
+      this._resetPages();
+      this._attemptSearch('bulk-unarchive');
+    }
+    catch (ex) { console.warn('Bulk unarchive failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  async _bulkDelete()
+  {
+    let ids = [];
+    for (let [id, meta] of this._bulkSelection) { if (meta.canDelete) ids.push(id); }
+    if (ids.length === 0) return;
+
+    let confirmed = await this._showDeleteDialog(ids.length);
+    if (!confirmed) return;
+
+    Affinity2018.ShowPageLoader(true);
+    try
+    {
+      await fetch(this.BulkDeleteAPI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ InstanceIds: ids })
+      });
+      this._bulkClearSelection();
+      this._exitSelectMode();
+      this._resetPages();
+      this._attemptSearch('bulk-delete');
+    }
+    catch (ex) { console.warn('Bulk delete failed', ex); }
+    Affinity2018.HidePageLoader(true);
+  }
+
+  _bulkClearSelection()
+  {
+    this._bulkSelection.clear();
+    this._updateBulkBar();
+  }
+
+
+  /*==========================================================================
+    MODE SWITCHING (ADMIN / USER)
+  ==========================================================================*/
+
+  async _switchMode(mode)
+  {
+    if (mode === this.ViewMode) return;
+
+    // Capture current filter state
+    this._captureFilterState();
+
+    // Save current state back to store
+    this.StateStore[this.ViewMode] = this.State;
+
+    this.ViewMode = mode;
+    this.State = this.StateStore[mode];
+
+    // Exit select mode if active
+    this._selectMode = false;
+    this._bulkSelection.clear();
+
+    this._saveViewMode();
+
+    if (mode === 'Admin')
+    {
+      document.body.classList.remove('menu-show-full');
+      this.WasAdminHalted = (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug;
+    }
+    else
+    {
+      this.WasAdminHalted = false;
+    }
+
+    // Re-render the entire shell (mode switch changes available UI)
+    this._renderShell();
+    this._setupNodes();
+
+    // Restore saved state for the new mode
+    this._loadSavedState();
+    this._restoreFilterState();
+    this._renderChips();
+
+    this.GotoTab(this.State.ActiveCategory);
+
+    // Clear dedup cache so search runs fresh
+    this._lastSearchJson = null;
+    this._resetPages();
+    await this._attemptSearch('mode-switch');
+  }
+
+  _captureFilterState()
+  {
+    this.FilterState[this.ViewMode] = JSON.parse(JSON.stringify(this._filterDraft));
+  }
+
+  _restoreFilterState()
+  {
+    if (this.FilterState[this.ViewMode])
+    {
+      this._filterDraft = JSON.parse(JSON.stringify(this.FilterState[this.ViewMode]));
+    }
+    else
+    {
+      this._filterDraft = {
+        dateColumn: 'StateEnteredAt',
+        dateFrom: '',
+        dateTo: '',
+        payPoint: 'all',
+        toggles: {}
+      };
+    }
+  }
+
+
+  /*==========================================================================
+    LOCALSTORAGE PERSISTENCE
+  ==========================================================================*/
+
+  _saveViewMode()
+  {
+    if (!this.EnableLocalStore) return;
+    Affinity2018.Storage.Local.Set(`InboxViewMode-${this.StorageKeySuffix}`, this.ViewMode);
+  }
+
+  _saveActiveTab()
+  {
+    if (!this.EnableLocalStore) return;
+    Affinity2018.Storage.Local.Set(`InboxTab-${this.ViewMode}-${this.StorageKeySuffix}`, this.State.ActiveCategory);
+  }
+
+  _saveSortData()
+  {
+    if (!this.EnableLocalStore) return;
+    let cat = this.State.ActiveCategory;
+    Affinity2018.Storage.Local.Set(
+      `InboxSortData-${this.ViewMode}-${cat}-${this.StorageKeySuffix}`,
+      this.State.CategorySettings[cat].SortFields
+    );
+  }
+
+  _saveVisibleColumns()
+  {
+    if (!this.EnableLocalStore) return;
+    Affinity2018.Storage.Local.Set(
+      `InboxMobileColumns-${this.ViewMode}-${this.StorageKeySuffix}`,
+      this._visibleCols[this.ViewMode]
+    );
+  }
+
+  _saveFilterOptions()
+  {
+    if (!this.EnableLocalStore) return;
+    Affinity2018.Storage.Local.Set(
+      `InboxMobileFilters-${this.ViewMode}-${this.StorageKeySuffix}`,
+      this._filterDraft
+    );
+  }
+
+  _loadSavedState()
+  {
+    if (!this.EnableLocalStore) return;
+    let suffix = this.StorageKeySuffix;
+
+    // Restore active tab
+    let savedTab = Affinity2018.Storage.Local.Get(`InboxTab-${this.ViewMode}-${suffix}`);
+    if (savedTab && this.State.CategorySettings.hasOwnProperty(savedTab))
+    {
+      this.State.ActiveCategory = savedTab;
+    }
+
+    // Restore sort data per category
+    for (let cat of ['ToAction', 'InProgress', 'Completed'])
+    {
+      let savedSort = Affinity2018.Storage.Local.Get(`InboxSortData-${this.ViewMode}-${cat}-${suffix}`);
+      if (savedSort && Array.isArray(savedSort))
+      {
+        this.State.CategorySettings[cat].SortFields = savedSort;
+      }
+    }
+
+    // Restore visible columns
+    let savedCols = Affinity2018.Storage.Local.Get(`InboxMobileColumns-${this.ViewMode}-${suffix}`);
+    if (savedCols && Array.isArray(savedCols))
+    {
+      this._visibleCols[this.ViewMode] = savedCols;
+    }
+
+    // Restore filter options
+    let savedFilters = Affinity2018.Storage.Local.Get(`InboxMobileFilters-${this.ViewMode}-${suffix}`);
+    if (savedFilters && typeof savedFilters === 'object')
+    {
+      this._filterDraft = savedFilters;
+    }
+  }
+
+
+  /*==========================================================================
+    TOAST
+  ==========================================================================*/
+
+  _showToast(msg)
+  {
+    let existing = this._shell.querySelector('.m-toast');
+    if (existing) existing.remove();
+
+    let toast = document.createElement('div');
+    toast.className = 'm-toast';
+    toast.textContent = msg;
+    this._shell.appendChild(toast);
+
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
+  }
+
+
+  /*==========================================================================
+    DIALOG PROXY — ShowDialogAsync compatibility
+    (Used by bulk operations that may fall back to the Affinity dialog system)
+  ==========================================================================*/
+
+  ShowDialogAsync(options)
+  {
+    return new Promise((resolve, reject) =>
+    {
+      Affinity2018.Dialog.Show({
+        ...options,
+        onOk: () => { resolve(options.input ? Affinity2018.Dialog.GetInputValue() : true); },
+        onCancel: () => { reject('cancel'); },
+        onClose: () => { reject('close'); }
+      });
+    });
+  }
+
+};
+;
 /**
  *
  * Summary.       Element Base Class.
@@ -34609,7 +37296,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     <div class="default-form">
       <div class="form-row">
         <label>Bank Account</label>
-        <input type="text" class="ui-has-banknumber" />
+        <input type="text" class="ui-has-banknumber" inputmode="numeric" />
       </div>
     </div>
     `;
@@ -34617,7 +37304,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-banknumber" value="{value}" data-country="{country}" data-country-status="{status}" />
+      <input type="text" class="ui-has-banknumber" inputmode="numeric" value="{value}" data-country="{country}" data-country-status="{status}" />
     </div>
     `;
 
@@ -35106,7 +37793,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
         <label>{label}</label>
         <div class="currencybox">
           <div class="symbol"><strong>$</strong></div>
-          <input type="text" class="ui-has-currency" value="{value}" />
+          <input type="text" class="ui-has-currency" inputmode="decimal" value="{value}" />
         </div>
       </div>
     </div>
@@ -35117,7 +37804,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
       <label>{label}</label>
       <div class="currencybox">
         <div class="symbol"><strong>$</strong></div>
-        <input type="text" class="ui-has-currency" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
+        <input type="text" class="ui-has-currency" inputmode="decimal" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
       </div>
     </div>
     `;
@@ -37528,7 +40215,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{0}</label>
-      <input type="text" class="ui-has-email" value="{1}"/>
+      <input type="text" class="ui-has-email" inputmode="email" value="{1}"/>
     </div>
     `;
 
@@ -38802,7 +41489,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     <div class="default-form">
       <div class="form-row">
         <label>{label}</label>
-        <input type="text" class="ui-has-float" value="{value}" />
+        <input type="text" class="ui-has-float" inputmode="decimal" value="{value}" />
       </div>
     </div>
     `;
@@ -38810,7 +41497,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-float" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
+      <input type="text" class="ui-has-float" inputmode="decimal" data-decimals="{decimals}" data-rounding="{rounding}" value="{value}" />
     </div>
     `;
 
@@ -42084,7 +44771,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     <div class="default-form">
       <div class="form-row">
         <label>Tax Number</label>
-        <input type="text" class="ui-has-taxnumber" data-country="NZ" data-country-status="show" placeholder="Enter your tax number" />
+        <input type="text" class="ui-has-taxnumber" inputmode="numeric" data-country="NZ" data-country-status="show" placeholder="Enter your tax number" />
       </div>
     </div>
     `;
@@ -42092,7 +44779,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
     this.HtmlRowTemplate = `
     <div class="form-row">
       <label>{label}</label>
-      <input type="text" class="ui-has-taxnumber" value="{value}" data-country="{country}" data-country-status="{status}" />
+      <input type="text" class="ui-has-taxnumber" inputmode="numeric" value="{value}" data-country="{country}" data-country-status="{status}" />
     </div>
     `;
 
@@ -43562,6 +46249,25 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     let address = this.lookupNode.value.trim();
     if (address !== '')
     {
+      // Check if the address value is JSON with all-null fields (no real address data)
+      let isAllNulls = false;
+      try
+      {
+        let parsed = JSON.parse(address);
+        if (typeof parsed === 'object' && parsed !== null)
+        {
+          isAllNulls = Object.values(parsed).every(v => v === null || v === '');
+        }
+      }
+      catch (e) { /* not JSON — proceed with geocode normally */ }
+
+      if (isAllNulls)
+      {
+        console.warn('Address check skipped: all fields are null');
+        this._fillAddress();
+        return;
+      }
+
       geocoder.geocode({ address: address }, (results, status) => 
       {
         try
@@ -43581,8 +46287,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         }
         catch (error)
         {
-          debugger;
-          console.error('Error during fetch:', error);
+          console.warn('Address geocode returned no results:', error.message);
           this._fillAddress();
         }
       });
@@ -43896,7 +46601,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     </div>
     <div class="address-fields-row country-fields">
       <input type="text" class="field country" placeholder="Country"/>
-      <input type="text" class="field postal_code" placeholder="Postcode" />
+      <input type="text" class="field postal_code" inputmode="numeric" placeholder="Postcode" />
     </div>
     <input type="hidden" class="countrycode" />
     `;
@@ -44184,6 +46889,35 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.displayNode = this.autocompleteNode.querySelector('input');
     this.iconNode = this.autocompleteNode.querySelector('.ui-ac-display-icon');
     this.listNode = this.autocompleteNode.querySelector('ul');
+
+    if (Affinity2018.IsMobile)
+    {
+      this._mobileContainer = document.createElement('div');
+      this._mobileContainer.className = 'ui-autocomplete-mobile-container';
+      this._mobileContainer.innerHTML =
+        '<div class="ui-ac-grip"></div>'
+        + '<div class="ui-ac-mobile-search">'
+        +   '<span class="ui-ac-mobile-search-icon ui-ac-display-icon icon-search"></span>'
+        +   '<input type="text" class="ui-ac-mobile-search-input" placeholder="Search\u2026" autocomplete="one-time-code" />'
+        + '</div>'
+        + '<div class="ui-autocomplete-mobile-list-container"></div>';
+
+      this._mobileListContainer = this._mobileContainer.querySelector('.ui-autocomplete-mobile-list-container');
+      this._mobileListContainer.appendChild(this.listNode);
+      this._mobileSearchInput = this._mobileContainer.querySelector('.ui-ac-mobile-search-input');
+
+      this._mobileSearchInput.addEventListener('keyup', (ev) =>
+      {
+        this.displayNode.value = this._mobileSearchInput.value;
+        this._elementKeyUp(ev);
+      });
+      this._mobileSearchInput.addEventListener('input', () =>
+      {
+        this.displayNode.value = this._mobileSearchInput.value;
+      });
+
+      document.body.appendChild(this._mobileContainer);
+    }
 
     if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('hidden');
     else this.targetNode.classList.add('hidden');
@@ -45716,6 +48450,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
+    if (Affinity2018.IsMobile) return;
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
@@ -45973,16 +48708,22 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           this.listNode.scrollTo(0, Affinity2018.getOffsetRect(li).y - 5);
         }
       }
-      this._setPosition('show');
+      if (!Affinity2018.IsMobile) this._setPosition('show');
       this._setHideShowEvents();
       this._setScrollEvents();
 
-      if (this.IsMobile)
+      if (Affinity2018.IsMobile)
       {
-        clearTimeout(this._setListHeightDelay1);
-        clearTimeout(this._setListHeightDelay2);
-        this._setListHeightDelay1 = setTimeout(this._setListHeight, 250);
-        this._setListHeightDelay2 = setTimeout(this._setListHeight, 500);
+        if (!this._mobileScrim)
+        {
+          this._mobileScrim = document.createElement('div');
+          this._mobileScrim.className = 'ui-ac-scrim';
+          this._mobileScrim.addEventListener('click', this.hide);
+        }
+        document.body.appendChild(this._mobileScrim);
+        this._mobileContainer.classList.add('show');
+        this._mobileSearchInput.value = this.displayNode.value;
+        setTimeout(() => { this._mobileSearchInput.focus(); }, 300);
       }
 
       if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
@@ -46011,6 +48752,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
+      if (Affinity2018.IsMobile)
+      {
+        if (this._mobileContainer) this._mobileContainer.classList.remove('show');
+        if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+      }
       Affinity2018.unlockBodyScroll();
     }
   }
@@ -48207,13 +50953,13 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
       <select class="country">
       </select>
     </div>
-    <input class="bank ui-has-integer" type="text" maxlength="2">
+    <input class="bank ui-has-integer" type="text" inputmode="numeric" maxlength="2">
     <span>-</span>
-    <input class="branch ui-has-integer" type="text" maxlength="4">
+    <input class="branch ui-has-integer" type="text" inputmode="numeric" maxlength="4">
     <span>-</span>
-    <input class="account ui-has-integer" type="text" maxlength="7">
+    <input class="account ui-has-integer" type="text" inputmode="numeric" maxlength="7">
     <span class="suffix-span">-</span>
-    <input class="suffix ui-has-integer" type="text" maxlength="3">
+    <input class="suffix ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span class="tickcross grey icon-edit"></span>
     <div class="names">
       <div class="bankname hidden"></div>
@@ -49224,7 +51970,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.calendarNode.classList.add('ui-calendar-container');
     this.calendarNode.innerHTML = this.calendarTemplate;
 
-    this.displayNode.parentNode.insertBefore(this.calendarNode, this.displayNode.nextSibling);
+    if (Affinity2018.IsMobile)
+    {
+      document.body.appendChild(this.calendarNode);
+    }
+    else
+    {
+      this.displayNode.parentNode.insertBefore(this.calendarNode, this.displayNode.nextSibling);
+    }
 
     this.datesNode = this.calendarNode.querySelector('.ui-cal-dates');
     this.monthNode = this.datesNode.querySelector('.ui-cal-months');
@@ -49568,9 +52321,17 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.calendarNode.querySelector('.ui-cal-months').addEventListener('click', this._monthsClicked);
     this.calendarNode.querySelector('.ui-cal-years').addEventListener('click', this._yearsClicked);
 
-    this.displayNode.addEventListener('focus', this.show);
-    this.displayNode.addEventListener('keyup', this._displayKeyUp);
-    this.displayNode.addEventListener('blur', this._displayBlur);
+    if (Affinity2018.IsMobile)
+    {
+      // Mobile: use click to open calendar (not focus — we need to blur to dismiss keyboard)
+      this.displayNode.addEventListener('click', this.show);
+    }
+    else
+    {
+      this.displayNode.addEventListener('focus', this.show);
+      this.displayNode.addEventListener('keyup', this._displayKeyUp);
+      this.displayNode.addEventListener('blur', this._displayBlur);
+    }
 
     this.timeDisplayNode.addEventListener('click', this._timeClicked);
 
@@ -49764,6 +52525,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   show()
   {
+    if (this.status === 'open') return;
     if (this.showInline) return;
     if (!this.showInline && Affinity2018.Calendars) Affinity2018.Calendars.HideAll(this);
     if (!this.showInline && Affinity2018.Autocompletes) Affinity2018.Autocompletes.HideAll();
@@ -49776,6 +52538,52 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.yearNode) this.yearNode.classList.remove('show');
     this.calendarNode.classList.add('show', 'do-not-auto-hide');
     this.status = 'open';
+    if (Affinity2018.IsMobile)
+    {
+      // Scrim
+      if (!this._mobileScrim)
+      {
+        this._mobileScrim = document.createElement('div');
+        this._mobileScrim.className = 'ui-cal-scrim';
+        this._mobileScrim.addEventListener('click', this.hide);
+      }
+      document.body.appendChild(this._mobileScrim);
+
+      // Grip bar
+      if (!this.calendarNode.querySelector('.ui-cal-grip'))
+      {
+        let grip = document.createElement('div');
+        grip.className = 'ui-cal-grip';
+        this.calendarNode.insertBefore(grip, this.calendarNode.firstChild);
+      }
+
+      // Keyboard icon — lets user dismiss calendar and type date manually
+      if (!this.calendarNode.querySelector('.ui-cal-keyboard'))
+      {
+        let kbBtn = document.createElement('button');
+        kbBtn.className = 'ui-cal-keyboard';
+        kbBtn.type = 'button';
+        kbBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"/></svg>';
+        kbBtn.title = 'Type date manually';
+        kbBtn.addEventListener('click', () => {
+          this.hide();
+          this.displayNode.removeEventListener('keyup', this._displayKeyUp);
+          this.displayNode.removeEventListener('blur', this._displayBlur);
+          this.displayNode.addEventListener('keyup', this._displayKeyUp);
+          this.displayNode.addEventListener('blur', this._displayBlur);
+          this.displayNode.focus();
+        });
+        this.calendarNode.appendChild(kbBtn);
+      }
+
+      if (Affinity2018.hasOwnProperty('lockBodyScroll')) Affinity2018.lockBodyScroll();
+
+      // Dismiss keyboard — calendar is tap-only, no need for keyboard
+      if (document.activeElement === this.displayNode)
+      {
+        this.displayNode.blur();
+      }
+    }
     this._setPosition('show');
     this._markCalendarDates(this.date);
     if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
@@ -49799,6 +52607,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       this.calendarNode.classList.remove('show');
       this.status = 'closed';
       this.mouseState = '';
+      if (Affinity2018.IsMobile)
+      {
+        if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+        if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
+      }
       //if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);
     }
   }
@@ -50051,6 +52864,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.humanInteraction = true;
     }
+    if (Affinity2018.IsMobile)
+    {
+      this.displayNode.removeEventListener('keyup', this._displayKeyUp);
+      this.displayNode.removeEventListener('blur', this._displayBlur);
+    }
     //if (this.nullable && this.displayNode.value.trim() === '') return;
     //this._setDateFromStr(this.displayNode.value.trim());
   }
@@ -50208,7 +53026,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     clearTimeout(this.bgEventListenerDelay);
     this._clearShowHideEvents();
-    if (this.enableAutoClose) this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
+    if (this.enableAutoClose && !Affinity2018.IsMobile) this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
     this.displayNode.addEventListener('click', this._stopEvents);
     this.calendarNode.addEventListener('click', this._stopEvents);
   }
@@ -50322,6 +53140,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
+    if (Affinity2018.IsMobile) return;
     if (
       this.calendarNode &&
       this.status === 'open'
@@ -50344,12 +53163,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         this.calendarNode.classList.add('above');
       }
-      if (Affinity2018.mobile || Affinity2018.IsMobile)
-      {
-        var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
-        this.calendarNode.scrollIntoView({ behavior: 'auto', block: 'start' });
-        window.scrollTo(window.scrollX, window.scrollY - offset - 10);
-      }
+      // REMOVED: if (Affinity2018.mobile || Affinity2018.IsMobile) { scrollIntoView... }
     }
   }
 
@@ -50398,6 +53212,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.calendarNode.querySelector('.ui-cal-months').removeEventListener('click', this._monthsClicked);
     this.calendarNode.querySelector('.ui-cal-years').removeEventListener('click', this._yearsClicked);
     this.displayNode.removeEventListener('focus', this.show);
+    this.displayNode.removeEventListener('click', this.show);
     this.displayNode.removeEventListener('keyup', this._displayKeyUp);
     this.displayNode.removeEventListener('blur', this._displayBlur);
     this.timeDisplayNode.removeEventListener('click', this._timeClicked);
@@ -51255,9 +54070,18 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
     this.ClearButtonNode.addEventListener('click', this.Clear);
 
-    this.CanvasNode.addEventListener('mousedown', this._canvasDown);
-    this.CanvasNode.addEventListener('mouseup', this._canvasUp);
-    document.addEventListener('mouseup', this._canvasUp);
+    if (Affinity2018.IsMobile)
+    {
+      this.CanvasNode.addEventListener('touchstart', this._canvasDown);
+      this.CanvasNode.addEventListener('touchend', this._canvasUp);
+      document.addEventListener('touchend', this._canvasUp);
+    }
+    else
+    {
+      this.CanvasNode.addEventListener('mousedown', this._canvasDown);
+      this.CanvasNode.addEventListener('mouseup', this._canvasUp);
+      document.addEventListener('mouseup', this._canvasUp);
+    }
 
     this.CanvasNode.addEventListener('CanvasReady', this._setData);
     
@@ -51644,6 +54468,9 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     this.CanvasNode.removeEventListener('mousedown', this._canvasDown);
     this.CanvasNode.removeEventListener('mouseup', this._canvasUp);
     document.removeEventListener('mouseup', this._canvasUp);
+    this.CanvasNode.removeEventListener('touchstart', this._canvasDown);
+    this.CanvasNode.removeEventListener('touchend', this._canvasUp);
+    document.removeEventListener('touchend', this._canvasUp);
     this.CanvasNode.removeEventListener('CanvasReady', this._setData);
     this.DrawPad.Destroy();
     this.InnerNode.innerHTML = '';
@@ -58899,11 +61726,11 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
       <select class="country">
       </select>
     </div>
-    <input class="tax1 ui-has-integer" type="text" maxlength="3">
+    <input class="tax1 ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span> - </span>
-    <input class="tax2 ui-has-integer" type="text" maxlength="3">
+    <input class="tax2 ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span> - </span>
-    <input class="tax3 ui-has-integer" type="text" maxlength="3">
+    <input class="tax3 ui-has-integer" type="text" inputmode="numeric" maxlength="3">
     <span class="tickcross grey icon-edit"></span>
     `;
   }
