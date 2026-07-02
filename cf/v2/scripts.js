@@ -19555,6 +19555,21 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
           }
         }
 
+        // Mobile: collapse the Start button when user scrolls past the header
+        if (Affinity2018.IsMobile)
+        {
+          this._previewBanner = document.querySelector('.cf-preview-banner');
+          if (this._previewBanner)
+          {
+            let dbwHeader = document.querySelector('#SS-DashboardWrapper');
+            let formTitle = document.querySelector('div.header div.title');
+            this._previewScrollThreshold = (dbwHeader ? dbwHeader.offsetHeight : 0) + (formTitle ? formTitle.offsetHeight : 0);
+            this._previewScrollTicking = false;
+            this._previewScrollState = false;
+            document.addEventListener('scroll', this._onPreviewBannerScroll.bind(this), { passive: true });
+          }
+        }
+
         this._loadTemplate();
       }
       if (this.ViewType === 'Form') 
@@ -22951,6 +22966,25 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       if (formNode) formNode.parentNode.insertBefore(banner, formNode);
     }
     catch (ex) { console.warn('Duplicate employee check failed', ex); }
+  }
+
+
+  // Mobile preview: toggle compact banner on scroll (rAF-throttled, passive)
+  _onPreviewBannerScroll()
+  {
+    if (this._previewScrollTicking) return;
+    this._previewScrollTicking = true;
+    requestAnimationFrame(() =>
+    {
+      let isScrolling = window.scrollY > this._previewScrollThreshold;
+      if (isScrolling !== this._previewScrollState)
+      {
+        if (isScrolling) this._previewBanner.classList.add('scrolling');
+        else this._previewBanner.classList.remove('scrolling');
+        this._previewScrollState = isScrolling;
+      }
+      this._previewScrollTicking = false;
+    });
   }
 
 
@@ -28702,6 +28736,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     await this._loadStates();
     await this._getPayPoints();
 
+    // Compute Admin baseline date range from pay periods (once, reused across mode switches and resets)
+    this._adminBaselineDates = { from: '', to: '' };
+    if (this.PayPoints && this.PayPoints.length > 0)
+    {
+      let earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+      let latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+      this._adminBaselineDates.from = luxon.DateTime.fromJSDate(new Date(earliest)).toFormat('yyyy-MM-dd');
+      this._adminBaselineDates.to = luxon.DateTime.fromJSDate(new Date(latest)).toFormat('yyyy-MM-dd');
+    }
+
     // Restore saved state from localStorage
     this._loadSavedState();
 
@@ -28709,6 +28753,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this.ResultNode = document.querySelector('div.inbox');
     this._renderShell();
     this._setupNodes();
+
+    // Auto-populate Admin date range from pay periods if not already set (matches desktop behaviour)
+    if (this.ViewMode === 'Admin' && this._adminBaselineDates.from && !this._filterDraft.dateFrom && !this._filterDraft.dateTo)
+    {
+      this._filterDraft.dateColumn = 'CurrentPayPeriod';
+      this._filterDraft.dateFrom = this._adminBaselineDates.from;
+      this._filterDraft.dateTo = this._adminBaselineDates.to;
+    }
 
     // Admin halt if no pay points
     if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
@@ -28718,6 +28770,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     this.GotoTab(this.State.ActiveCategory);
 
+    this._lastSearchJson = null;
+    this._resetPages();
     await this._attemptSearch('_init');
   }
 
@@ -29125,6 +29179,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       }
 
       let overdueHtml = item.IsOverdue ? `<span class="m-flag m-flag-overdue">${this._icon('clock', 13, 2)}Overdue</span>` : '';
+      let archivedHtml = item.IsArchived ? `<span class="m-flag m-flag-archived">${this._icon('archive', 13, 2)}Archived</span>` : '';
       let sharedHtml = item.SharedBy
         ? `<div class="m-card-badges"><span class="m-flag m-flag-shared">${this._icon('users', 13, 2)}${item.SharedBy.replace(/\s*\(delegated\)\s*/i, '')}</span></div>`
         : '';
@@ -29149,6 +29204,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
                 <div class="m-badge-stack">
                   <span class="m-lozenge m-tone-${st.tone}">${this._highlight(st.label, query)}</span>
                   ${overdueHtml}
+                  ${archivedHtml}
                 </div>
               </div>
               ${sharedHtml}
@@ -29368,6 +29424,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
       case 'bulk-clear':
         this._bulkClearSelection();
+        this._renderCards();
         break;
 
       case 'bulk-archive':
@@ -29809,20 +29866,50 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     await this._attemptSearch('load-more');
   }
 
-  // Count active filters for the badge
+  // Returns the default filter state for the current view mode.
+  // Anything matching these defaults should NOT show as a chip or count toward the badge.
+  _getViewDefaults()
+  {
+    if (this.ViewMode === 'Admin' && this._adminBaselineDates && this._adminBaselineDates.from)
+    {
+      return {
+        dateColumn: 'CurrentPayPeriod',
+        dateFrom: this._adminBaselineDates.from,
+        dateTo: this._adminBaselineDates.to,
+        payPoint: 'all',
+        toggles: {}
+      };
+    }
+    // My Forms defaults — no date filter, no toggles
+    return {
+      dateColumn: 'StateEnteredAt',
+      dateFrom: '',
+      dateTo: '',
+      payPoint: 'all',
+      toggles: {}
+    };
+  }
+
+  // Count active filters for the badge — only counts deviations from the current view's defaults
   _activeFilterCount()
   {
     let n = 0;
     let t = this._filterDraft.toggles || {};
-    if (this.ViewMode === 'Admin')
-    {
-      if (t.includeCompleted) n++;
-      if (t.includeArchived) n++;
-      if (t.includeUnassigned) n++;
-      if (t.includePP999) n++;
-      if (this._filterDraft.payPoint && this._filterDraft.payPoint !== 'all') n++;
-    }
-    if (this._filterDraft.dateFrom || this._filterDraft.dateTo) n++;
+    let defaults = this._getViewDefaults();
+
+    if (t.includeCompleted) n++;
+    if (t.includeArchived) n++;
+    if (t.includeUnassigned) n++;
+    if (t.includePP999) n++;
+
+    if (this._filterDraft.payPoint && this._filterDraft.payPoint !== 'all') n++;
+
+    // Only count date as active filter if column or range differs from view default
+    let dateMatchesDefault = this._filterDraft.dateColumn === defaults.dateColumn
+                          && this._filterDraft.dateFrom === defaults.dateFrom
+                          && this._filterDraft.dateTo === defaults.dateTo;
+    if (!dateMatchesDefault && (this._filterDraft.dateFrom || this._filterDraft.dateTo || this._filterDraft.dateColumn !== defaults.dateColumn)) n++;
+
     return n;
   }
 
@@ -29835,26 +29922,32 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   {
     let chips = [];
     let t = this._filterDraft.toggles || {};
+    let defaults = this._getViewDefaults();
 
-    if (this._filterDraft.dateFrom || this._filterDraft.dateTo)
+    // Only show date chip if column or range differs from view defaults
+    let dateMatchesDefault = this._filterDraft.dateColumn === defaults.dateColumn
+                          && this._filterDraft.dateFrom === defaults.dateFrom
+                          && this._filterDraft.dateTo === defaults.dateTo;
+    if (!dateMatchesDefault && (this._filterDraft.dateFrom || this._filterDraft.dateTo || this._filterDraft.dateColumn !== defaults.dateColumn))
     {
-      let label = `${this._fmtDate(this._filterDraft.dateFrom + 'T00:00:00Z')} \u2013 ${this._fmtDate(this._filterDraft.dateTo + 'T00:00:00Z')}`;
-      chips.push(`<span class="m-chip">${label}<button data-action="chip-remove" data-chip-type="date">${this._icon('x', 12, 2.5)}</button></span>`);
+      let colLabel = this._filterDraft.dateColumn !== defaults.dateColumn ? `${this._filterDraft.dateColumn}: ` : '';
+      let dateLabel = (this._filterDraft.dateFrom || this._filterDraft.dateTo)
+        ? `${this._fmtDate(this._filterDraft.dateFrom + 'T00:00:00Z')} \u2013 ${this._fmtDate(this._filterDraft.dateTo + 'T00:00:00Z')}`
+        : '';
+      chips.push(`<span class="m-chip">${colLabel}${dateLabel}<button data-action="chip-remove" data-chip-type="date">${this._icon('x', 12, 2.5)}</button></span>`);
     }
 
-    if (this.ViewMode === 'Admin')
+    if (this._filterDraft.payPoint && this._filterDraft.payPoint !== 'all')
     {
-      if (this._filterDraft.payPoint && this._filterDraft.payPoint !== 'all')
-      {
-        let pp = this.PayPoints.find(p => String(p.PayPoint) === String(this._filterDraft.payPoint));
-        let label = pp ? `PP ${pp.PayPoint} \u2014 ${pp.Description}` : `PP ${this._filterDraft.payPoint}`;
-        chips.push(`<span class="m-chip">${label}<button data-action="chip-remove" data-chip-type="paypoint">${this._icon('x', 12, 2.5)}</button></span>`);
-      }
-      if (t.includeCompleted) chips.push(`<span class="m-chip">Completed<button data-action="chip-remove" data-chip-type="completed">${this._icon('x', 12, 2.5)}</button></span>`);
-      if (t.includeArchived) chips.push(`<span class="m-chip">Archived<button data-action="chip-remove" data-chip-type="archived">${this._icon('x', 12, 2.5)}</button></span>`);
-      if (t.includeUnassigned) chips.push(`<span class="m-chip">Unassigned<button data-action="chip-remove" data-chip-type="unassigned">${this._icon('x', 12, 2.5)}</button></span>`);
-      if (t.includePP999) chips.push(`<span class="m-chip">PP 999<button data-action="chip-remove" data-chip-type="pp999">${this._icon('x', 12, 2.5)}</button></span>`);
+      let pp = this.PayPoints.find(p => String(p.PayPoint) === String(this._filterDraft.payPoint));
+      let label = pp ? `PP ${pp.PayPoint} \u2014 ${pp.Description}` : `PP ${this._filterDraft.payPoint}`;
+      chips.push(`<span class="m-chip">${label}<button data-action="chip-remove" data-chip-type="paypoint">${this._icon('x', 12, 2.5)}</button></span>`);
     }
+
+    if (t.includeCompleted) chips.push(`<span class="m-chip">Completed<button data-action="chip-remove" data-chip-type="completed">${this._icon('x', 12, 2.5)}</button></span>`);
+    if (t.includeArchived) chips.push(`<span class="m-chip">Archived<button data-action="chip-remove" data-chip-type="archived">${this._icon('x', 12, 2.5)}</button></span>`);
+    if (t.includeUnassigned) chips.push(`<span class="m-chip">Unassigned<button data-action="chip-remove" data-chip-type="unassigned">${this._icon('x', 12, 2.5)}</button></span>`);
+    if (t.includePP999) chips.push(`<span class="m-chip">PP 999<button data-action="chip-remove" data-chip-type="pp999">${this._icon('x', 12, 2.5)}</button></span>`);
 
     if (chips.length > 0)
     {
@@ -29986,9 +30079,27 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     let d = this._filterDraft;
     let isAdmin = this.ViewMode === 'Admin';
 
-    let dateColOptions = `
-      <option value="StateEnteredAt"${d.dateColumn === 'StateEnteredAt' ? ' selected' : ''}>State Entered At</option>
+    // Date column filter options per view mode.
+    // Source: modules/services/CleverFormsApi/Affinity.CleverForms.Repository/Helpers/RavenDbConstants.cs
+    //         SearchFields class (EffectiveDate) + Properties.StateEnteredAt + "CompletedAt" (QueryFilters.cs)
+    //         "CurrentPayPeriod" is a UI-only virtual option — maps to StateEnteredAt on backend, auto-fills dates from pay period range.
+    // Admin gets CurrentPayPeriod (first/default) + CompletedAt in addition to the base options.
+    // TODO: Get from source, add to FetchInbox DTO, never hard code. Was done but AI ate it.
+    let dateColOptions = '';
+
+    if (isAdmin)
+    {
+      dateColOptions += `<option value="CurrentPayPeriod"${d.dateColumn === 'CurrentPayPeriod' ? ' selected' : ''}>Current Pay Period</option>`;
+    }
+
+    dateColOptions += `
+      <option value="StateEnteredAt"${d.dateColumn === 'StateEnteredAt' ? ' selected' : ''}>Last Updated</option>
       <option value="EffectiveDate"${d.dateColumn === 'EffectiveDate' ? ' selected' : ''}>Effective Date</option>`;
+
+    if (isAdmin)
+    {
+      dateColOptions += `<option value="CompletedAt"${d.dateColumn === 'CompletedAt' ? ' selected' : ''}>Date Completed</option>`;
+    }
 
     let ppOptions = '';
     if (isAdmin)
@@ -30039,7 +30150,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <input type="date" class="m-control" data-filter="dateTo" value="${d.dateTo}" />
         </div>
       </div>
-      ${isAdmin ? `<button class="m-btn m-btn-ghost m-btn-sm" data-filter-action="current-period" style="width:100%;margin-bottom:18px">${this._icon('calendar', 16)} Use current pay period</button>` : ''}
+      ${isAdmin ? `<button class="btn-secondary" data-filter-action="current-period" style="width:100%;margin-bottom:18px">${this._icon('calendar', 16)} Use current pay period</button>` : ''}
       ${isAdmin ? `<div class="m-field"><label class="m-field-label">Pay point</label><select class="m-control" data-filter="payPoint">${ppOptions}</select></div>` : ''}
       ${togglesHtml}`;
 
@@ -30084,17 +30195,29 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   _setCurrentPayPeriod(sheet)
   {
     let ppSelect = sheet.querySelector('[data-filter="payPoint"]');
-    let ppNum = ppSelect && ppSelect.value !== 'all' ? Number(ppSelect.value) : 1;
-    let pp = this.PayPoints.find(p => p.PayPoint === ppNum) || this.PayPoints[0];
-    if (!pp) return;
+    let selectedPP = ppSelect ? ppSelect.value : 'all';
+    let earliest, latest;
+
+    if (selectedPP === 'all' || selectedPP === '')
+    {
+      earliest = this.PayPoints.reduce((min, pp) => pp.CurrentPeriodStartDate < min ? pp.CurrentPeriodStartDate : min, this.PayPoints[0].CurrentPeriodStartDate);
+      latest = this.PayPoints.reduce((max, pp) => pp.CurrentPeriodEndDate > max ? pp.CurrentPeriodEndDate : max, this.PayPoints[0].CurrentPeriodEndDate);
+    }
+    else
+    {
+      let pp = this.PayPoints.find(p => p.PayPoint === Number(selectedPP));
+      if (!pp) return;
+      earliest = pp.CurrentPeriodStartDate;
+      latest = pp.CurrentPeriodEndDate;
+    }
 
     let dcSelect = sheet.querySelector('[data-filter="dateColumn"]');
-    if (dcSelect) dcSelect.value = 'StateEnteredAt';
+    if (dcSelect) dcSelect.value = 'CurrentPayPeriod';
 
     let fromInput = sheet.querySelector('[data-filter="dateFrom"]');
     let toInput = sheet.querySelector('[data-filter="dateTo"]');
-    if (fromInput) fromInput.value = luxon.DateTime.fromJSDate(pp.CurrentPeriodStartDate).toFormat('yyyy-MM-dd');
-    if (toInput) toInput.value = luxon.DateTime.fromJSDate(pp.CurrentPeriodEndDate).toFormat('yyyy-MM-dd');
+    if (fromInput) fromInput.value = luxon.DateTime.fromJSDate(new Date(earliest)).toFormat('yyyy-MM-dd');
+    if (toInput) toInput.value = luxon.DateTime.fromJSDate(new Date(latest)).toFormat('yyyy-MM-dd');
   }
 
   _applyFiltersFromSheet(sheet)
@@ -30131,15 +30254,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
   _resetFilters()
   {
-    this._filterDraft = {
-      dateColumn: 'StateEnteredAt',
-      dateFrom: '',
-      dateTo: '',
-      payPoint: 'all',
-      toggles: {}
-    };
+    // Restore to the current view's defaults (not empty — empty gives zero results)
+    this._filterDraft = this._getViewDefaults();
+
     this._saveFilterOptions();
     this._renderChips();
+    this._lastSearchJson = null;
     this._resetPages();
     this._attemptSearch('filter-reset');
   }
@@ -30487,15 +30607,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     for (let a of rest)
     {
       let meta = this._ACTION_META[a];
-      footHtml += `<button class="m-btn ${meta.destructive ? 'm-btn-danger-soft' : 'm-btn-ghost'}" data-detail-action="${a}">${this._icon(meta.icon, 18)} ${meta.label}</button>`;
+      footHtml += `<button class="m-btn ${meta.destructive ? 'm-btn-danger-soft' : 'm-btn-ghost'}" data-detail-action="${a}">${meta.label}</button>`;
     }
     if (primary)
     {
       let meta = this._ACTION_META[primary];
-      footHtml += `<button class="m-btn m-btn-primary" data-detail-action="${primary}">${this._icon(meta.icon, 18)} ${meta.label}</button>`;
+      footHtml += `<button class="m-btn m-btn-primary" data-detail-action="${primary}">${meta.label}</button>`;
     }
 
     let overdueHtml = item.IsOverdue ? `<span class="m-flag m-flag-overdue">${this._icon('clock', 13, 2)}Overdue</span>` : '';
+    let archivedHtml = item.IsArchived ? `<span class="m-flag m-flag-archived">${this._icon('archive', 13, 2)}Archived</span>` : '';
     let sharedHtml = item.SharedBy ? `<span class="m-flag m-flag-shared">${this._icon('users', 13, 2)}${item.SharedBy.replace(/\s*\(delegated\)\s*/i, '')}</span>` : '';
 
     let html = `
@@ -30510,6 +30631,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <div class="m-dh-badges">
             <span class="m-lozenge m-tone-${st.tone}">${st.label}</span>
             ${overdueHtml}
+            ${archivedHtml}
             ${sharedHtml}
           </div>
         </div>
@@ -34686,6 +34808,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     let node = this.FormRowNode.querySelector('select') ? this.FormRowNode.querySelector('select') : null;
     if (
       node
+      && node.widgets && node.widgets.SelectLookup
       && this.FormRowNode
       && this.FormRowNode.hasOwnProperty('controller')
     )
@@ -34712,7 +34835,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
       {
         lastParentMatch = [...this.DependencyHistory].reverse().find(item => item.ParentValue === parentValue.Value);
       }
-      node.widgets.SelectLookup.HideError();
+      if (node.widgets && node.widgets.SelectLookup) node.widgets.SelectLookup.HideError();
 
       if (this.DependencyLastSelectedValue !== null && this.DependencyHistory.length > 0)
       {
@@ -36404,8 +36527,9 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
     if (Object.keys(this.CleverForms.CountrySensativeFields).contains(this.Config.Details.AffinityField.FieldName))
     {
       var label = this.FormRowNode.querySelector('label').innerText.trim();
-      var dataValue = newValue.toString().trim();
-      var rowData = this.ElementController.GetFromFormRow();
+      var dataValue = newValue != null ? newValue.toString().trim() : '';
+      var rowData = this.ElementController ? this.ElementController.GetFromFormRow() : null;
+      if (!rowData) return;
       var formValue = rowData.Value !== null ? rowData.Value.toString().trim() : null;
       var formCountry = $a.isNullOrEmpty(this.CleverForms.FormCountry) ? null : this.CleverForms.GetCountryDisplayVariant(this.CleverForms.FormCountry);
       var profileCountry = $a.isNullOrEmpty(Affinity2018.FormProfile.Country) || Affinity2018.FormProfile.Country.toString().trim().toUpperCase() === 'NULL' ? null : this.CleverForms.GetCountryDisplayVariant(Affinity2018.FormProfile.Country);

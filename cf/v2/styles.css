@@ -57,18 +57,18 @@
 (15066,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (15211,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
 (15213,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(26112,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26115,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26121,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26124,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26787,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26853,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28549,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28550,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28551,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(29278,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29281,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30837,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(26137,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26140,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26146,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26149,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26812,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26878,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28574,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28575,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28576,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(29303,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29306,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30884,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
  */
 /***************************************************************************************************************************************************/
 
@@ -23668,7 +23668,6 @@ body.ui2025 .cf-duplicate-banner a {
 body.ui2025 .cf-archived-banner {
   background: #fff3cd;
   border: 1px solid #ffc107;
-  margin: 30px 5px -30px 5px;
 }
 body.ui2025 .cf-archived-banner a {
   color: #0056b3;
@@ -23686,30 +23685,56 @@ body.ui2025.ss-dashboard-wrapper .cf-preview-banner {
   top: 90px;
 }
 body.ui2025.mobile .top-banner {
+  position: relative;
   min-width: unset;
-  width: 100%;
-  position: static;
-}
-body.ui2025.mobile .cf-preview-banner {
-  position: absolute;
-  top: 0;
   width: calc(100% - 10px);
   padding-right: 10px;
+}
+body.ui2025.mobile .cf-preview-banner {
+  position: sticky;
+  top: 10px;
+  z-index: 200;
+  margin: 0 5px 20px 5px;
+  padding-right: 10px;
   padding-bottom: 60px;
+  -webkit-transition: padding-bottom 0.2s;
+  -moz-transition: padding-bottom 0.2s;
+  -o-transition: padding-bottom 0.2s;
+  transition: padding-bottom 0.2s;
 }
 body.ui2025.mobile .cf-preview-banner .btn-primary {
   top: unset;
   bottom: 10px;
   right: 10px;
+  -webkit-transition: opacity 0.2s, visibility 0.2s;
+  -moz-transition: opacity 0.2s, visibility 0.2s;
+  -o-transition: opacity 0.2s, visibility 0.2s;
+  transition: opacity 0.2s, visibility 0.2s;
 }
-body.ui2025.mobile.ss-dashboard-wrapper .cf-preview-banner {
-  top: 90px;
+body.ui2025.mobile .cf-preview-banner.scrolling {
+  padding-bottom: 10px;
+}
+body.ui2025.mobile .cf-preview-banner.scrolling .btn-primary {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+body.ui2025.mobile .cf-archived-banner {
+  margin: 0 5px 20px 5px;
+}
+body.ui2025.mobile.ss-dashboard-wrapper .top-banner {
+  margin: 0 0 20px 5px;
 }
 body.ui2025.dark .top-banner {
   color: #cccccc;
   -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
   -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+}
+body.ui2025.dark .cf-preview-banner {
+  background: #3d3200;
+  border-color: #665200;
+  color: #ffc107;
 }
 body.ui2025.dark .cf-duplicate-banner {
   background: #3d3200;
@@ -30361,6 +30386,7 @@ body.ui2025.uiupdate.inbox.mobile .m-tool-btn {
   justify-content: center;
   color: #5a6675;
   position: relative;
+  overflow: visible;
 }
 body.ui2025.uiupdate.inbox.mobile .m-tool-btn:active {
   background: #f4f5f7;
@@ -30369,22 +30395,30 @@ body.ui2025.uiupdate.inbox.mobile .m-tool-btn.on {
   border-color: #00adef;
   color: #1268b2;
   background: #e5f7fd;
+  overflow: visible;
 }
 body.ui2025.uiupdate.inbox.mobile .m-badge-num {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 17px;
-  height: 17px;
-  padding: 0 4px;
-  border-radius: 5px;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  border-radius: 9px;
   background: #00adef;
   color: white;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
   display: grid;
   place-items: center;
   border: 2px solid white;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 1;
 }
 body.ui2025.uiupdate.inbox.mobile .m-selectbar {
   display: flex;
@@ -30417,7 +30451,7 @@ body.ui2025.uiupdate.inbox.mobile .m-sel-acts button {
 body.ui2025.uiupdate.inbox.mobile .m-chips {
   display: flex;
   gap: 6px;
-  padding: 0 14px 10px;
+  padding: 10px 14px;
   background: white;
   border-bottom: 1px solid #d7dadd;
   overflow-x: auto;
@@ -30634,6 +30668,10 @@ body.ui2025.uiupdate.inbox.mobile .m-flag-overdue {
   background: #f8e2e2;
   color: #7e2424;
 }
+body.ui2025.uiupdate.inbox.mobile .m-flag-archived {
+  background: #ebedf0;
+  color: #465566;
+}
 body.ui2025.uiupdate.inbox.mobile .m-flag-shared {
   background: #e7f0f7;
   color: #176ba7;
@@ -30789,12 +30827,17 @@ body.ui2025.uiupdate.inbox.mobile .m-sheet-body {
 }
 body.ui2025.uiupdate.inbox.mobile .m-sheet-foot {
   flex: 0 0 auto;
-  padding: 12px 16px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  padding: 10px 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
   border-top: 1px solid #d7dadd;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   background: white;
+}
+body.ui2025.uiupdate.inbox.mobile .m-sheet-foot .m-btn {
+  height: 38px;
+  font-size: 13px;
+  padding: 0 10px;
 }
 body.ui2025.uiupdate.inbox.mobile .m-dialog {
   background: white;
@@ -30840,6 +30883,10 @@ body.ui2025.uiupdate.inbox.mobile .m-btn {
   flex: 1;
   cursor: pointer;
   font-family: inherit;
+  max-width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2025.uiupdate.inbox.mobile .m-btn:disabled {
   opacity: 0.5;
@@ -30954,13 +31001,19 @@ body.ui2025.uiupdate.inbox.mobile .m-tr-desc {
   margin-top: 2px;
 }
 body.ui2025.uiupdate.inbox.mobile .m-switch {
-  width: 46px;
+  width: 50px;
+  min-width: 50px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: 14px;
   background: #d7dadd;
   border: none;
+  padding: 0;
+  margin: 0;
   position: relative;
   flex: 0 0 auto;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
   -webkit-transition: background 0.18s;
   -moz-transition: background 0.18s;
   -o-transition: background 0.18s;
@@ -30980,13 +31033,13 @@ body.ui2025.uiupdate.inbox.mobile .m-switch::after {
   border-radius: 50%;
   background: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  -webkit-transition: transform 0.18s;
-  -moz-transition: transform 0.18s;
-  -o-transition: transform 0.18s;
-  transition: transform 0.18s;
+  -webkit-transition: left 0.18s;
+  -moz-transition: left 0.18s;
+  -o-transition: left 0.18s;
+  transition: left 0.18s;
 }
 body.ui2025.uiupdate.inbox.mobile .m-switch.on::after {
-  transform: translateX(18px);
+  left: 25px;
 }
 body.ui2025.uiupdate.inbox.mobile .m-cbx {
   width: 22px;
