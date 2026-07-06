@@ -28941,6 +28941,56 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     };
   }
 
+  // Per-category column labels — mirrors the <thead> data-lang keys in inbox.js (desktop).
+  // Desktop builds these dynamically from thead th[data-name] + data-lang; mobile has no thead
+  // so we mirror the mapping here. Categories: ToAction, InProgress, Completed (User mode).
+  // Admin is a merged view — uses the ToAction label set (last_updated_completed).
+  // SYNC: when adding/removing/renaming a date column in inbox.js thead, update this map too.
+  get _COLUMN_LABELS()
+  {
+    return {
+      ToAction: {
+        TemplateDescription:  'app.cf.inbox.columns.name',
+        RelatesTo:            'app.cf.inbox.columns.relates_to',
+        CurrentState:         'app.cf.inbox.columns.state',
+        StateEnteredAt:       'app.cf.inbox.columns.recieved',
+        EffectiveDate:        'app.cf.inbox.columns.effective',
+        PayPoint:             'app.cf.inbox.columns.paypoint',
+        CurrentAssigneeName:  'app.cf.inbox.columns.current_assignee',
+        WorkflowName:         'app.cf.inbox.columns.workflow_name',
+        PreviousAssigneeName: 'app.cf.inbox.columns.previous_assignee',
+        LastActionTaken:      'app.cf.inbox.columns.last_action_taken',
+        CompletedByName:      'app.cf.inbox.columns.completed_by'
+      },
+      InProgress: {
+        TemplateDescription:  'app.cf.inbox.columns.name',
+        RelatesTo:            'app.cf.inbox.columns.relates_to',
+        CurrentState:         'app.cf.inbox.columns.state',
+        StateEnteredAt:       'app.cf.inbox.columns.assigned',
+        EffectiveDate:        'app.cf.inbox.columns.effective',
+        PayPoint:             'app.cf.inbox.columns.paypoint',
+        CurrentAssigneeName:  'app.cf.inbox.columns.assigned_to',
+        WorkflowName:         'app.cf.inbox.columns.workflow_name',
+        PreviousAssigneeName: 'app.cf.inbox.columns.previous_assignee',
+        LastActionTaken:      'app.cf.inbox.columns.last_action_taken',
+        CompletedByName:      'app.cf.inbox.columns.completed_by'
+      },
+      Completed: {
+        TemplateDescription:  'app.cf.inbox.columns.name',
+        RelatesTo:            'app.cf.inbox.columns.relates_to',
+        CurrentState:         'app.cf.inbox.columns.final_state',
+        StateEnteredAt:       'app.cf.inbox.columns.completed',
+        EffectiveDate:        'app.cf.inbox.columns.effective',
+        PayPoint:             'app.cf.inbox.columns.paypoint',
+        CurrentAssigneeName:  'app.cf.inbox.columns.current_assignee',
+        WorkflowName:         'app.cf.inbox.columns.workflow_name',
+        PreviousAssigneeName: 'app.cf.inbox.columns.previous_assignee',
+        LastActionTaken:      'app.cf.inbox.columns.last_action_taken',
+        CompletedByName:      'app.cf.inbox.columns.completed_by'
+      }
+    };
+  }
+
   get _COLUMN_CHOICES()
   {
     return {
@@ -28954,29 +29004,45 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
   _fieldLabel(key, category)
   {
-    if (key === 'StateEnteredAt')
-    {
-      if (category === 'ToAction') return 'Received';
-      if (category === 'InProgress') return 'Assigned';
-      if (category === 'Completed') return 'Completed';
-      return 'Last Updated';
-    }
-    if (key === 'CurrentState' && category === 'Completed') return 'Final State';
-    if (key === 'CurrentAssigneeName' && category === 'InProgress') return 'Assigned To';
+    // Admin is a merged view — use ToAction label set (matches desktop Admin thead which
+    // uses last_updated_completed for StateEnteredAt across all tabs).
+    let cat = (this.ViewMode === 'Admin') ? 'ToAction' : (category || this.State.ActiveCategory || 'ToAction');
+    let labels = this._COLUMN_LABELS[cat] || this._COLUMN_LABELS.ToAction;
+    let langKey = labels[key];
+    if (langKey) return $a.Lang.ReturnPath(langKey);
+    // Fallback for keys not in the per-category map (e.g. IsArchived)
     let meta = this._FIELDS[key];
     return meta ? meta.label : key;
   }
 
-  _fmtDate(iso)
+  _fmtDate(dateStr)
   {
-    if (!iso) return '\u2014';
+    if (!dateStr) return '\u2014';
     try
     {
-      return luxon.DateTime.fromISO(iso).toFormat('dd MMM yyyy');
+      // ISO format (ends with Z or has timezone offset)
+      if (dateStr.endsWith('Z') || /[+-]\d{2}:\d{2}$/.test(dateStr))
+      {
+        return luxon.DateTime.fromISO(dateStr).setZone('local').toFormat('dd MMM yyyy');
+      }
+      // Date only: dd/MM/yyyy or dd.MM.yyyy
+      if (!/\d{1,2}:\d{2}/.test(dateStr))
+      {
+        let cleaned = dateStr.replace(/\./g, '/');
+        let parsed = luxon.DateTime.fromFormat(cleaned, 'dd/MM/yyyy');
+        if (parsed.isValid) return parsed.toFormat('dd MMM yyyy');
+        // Try yyyy-MM-dd (API sometimes sends this)
+        parsed = luxon.DateTime.fromFormat(dateStr, 'yyyy-MM-dd');
+        if (parsed.isValid) return parsed.toFormat('dd MMM yyyy');
+      }
+      // Fallback: try ISO then give up
+      let dt = luxon.DateTime.fromISO(dateStr);
+      if (dt.isValid) return dt.toFormat('dd MMM yyyy');
+      return dateStr;
     }
     catch (e)
     {
-      return iso;
+      return dateStr;
     }
   }
 
@@ -29075,8 +29141,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       {
         modeSwitch = `
           <div class="m-mode-switch">
-            <button data-mode="User" class="${this.ViewMode === 'User' ? 'active' : ''}">My Forms</button>
-            <button data-mode="Admin" class="${this.ViewMode === 'Admin' ? 'active' : ''}">Admin</button>
+            <button data-mode="User" class="${this.ViewMode === 'User' ? 'active' : ''}">${$a.Lang.ReturnPath('app.cf.inbox.labels.toggel_my_forms')}</button>
+            <button data-mode="Admin" class="${this.ViewMode === 'Admin' ? 'active' : ''}">${$a.Lang.ReturnPath('app.cf.inbox.labels.toggel_admin')}</button>
           </div>`;
       }
 
@@ -29097,13 +29163,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
             ${modeSwitch}
             ${this.ViewMode !== 'Admin' ? `<div class="m-tabs">
               <button class="m-tab" data-category="ToAction">
-                <span class="m-tab-label">To Action <span class="m-count" data-count-category="ToAction">0</span></span>
+                <span class="m-tab-label">${$a.Lang.ReturnPath('app.cf.inbox.tabs.action')} <span class="m-count" data-count-category="ToAction">0</span></span>
               </button>
               <button class="m-tab" data-category="InProgress">
-                <span class="m-tab-label">In Progress <span class="m-count" data-count-category="InProgress">0</span></span>
+                <span class="m-tab-label">${$a.Lang.ReturnPath('app.cf.inbox.tabs.progress')} <span class="m-count" data-count-category="InProgress">0</span></span>
               </button>
               <button class="m-tab" data-category="Completed">
-                <span class="m-tab-label">Completed <span class="m-count" data-count-category="Completed">0</span></span>
+                <span class="m-tab-label">${$a.Lang.ReturnPath('app.cf.inbox.tabs.completed')} <span class="m-count" data-count-category="Completed">0</span></span>
               </button>
             </div>` : ''}
           </div>
@@ -29111,7 +29177,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <div class="m-toolbar">
             <div class="m-search">
               ${this._icon('search', 18)}
-              <input type="text" placeholder="Search forms\u2026" class="m-search-input" />
+              <input type="text" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" class="m-search-input" />
               <button class="m-search-clear" data-action="search-clear" style="display:none">${this._icon('x', 12, 2.5)}</button>
             </div>
             <button class="m-tool-btn m-filter-btn" data-action="filter" aria-label="Filter">${this._icon('filter', 20)}<span class="m-badge-num" style="display:none">0</span></button>
@@ -30027,6 +30093,42 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._sheetEscHandler = (e) => { if (e.key === 'Escape') this._closeSheet(); };
     window.addEventListener('keydown', this._sheetEscHandler);
 
+    // Drag-to-close on grip — touch drag down past threshold dismisses the sheet.
+    // Applied here so all sheets (filter, sort, new form, details, kebab) inherit it.
+    let grip = this._overlayNode.querySelector('.m-sheet-grip');
+    if (grip)
+    {
+      let dragStartY = 0;
+      grip.addEventListener('touchstart', (e) =>
+      {
+        if (e.touches.length !== 1) return;
+        dragStartY = e.touches[0].clientY;
+        sheet.style.transition = 'none';
+      }, { passive: true });
+
+      grip.addEventListener('touchmove', (e) =>
+      {
+        if (e.touches.length !== 1) return;
+        let deltaY = e.touches[0].clientY - dragStartY;
+        if (deltaY < 0) deltaY = 0; // only allow dragging down
+        sheet.style.transform = `translateY(${deltaY}px)`;
+      }, { passive: true });
+
+      grip.addEventListener('touchend', (e) =>
+      {
+        let deltaY = e.changedTouches[0].clientY - dragStartY;
+        sheet.style.transition = '';
+        if (deltaY > 50)
+        {
+          this._closeSheet();
+        }
+        else
+        {
+          sheet.style.transform = '';
+        }
+      }, { passive: true });
+    }
+
     // Prevent body scroll while sheet is open
     this._shell.classList.add('sheet-open');
 
@@ -30084,21 +30186,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     //         SearchFields class (EffectiveDate) + Properties.StateEnteredAt + "CompletedAt" (QueryFilters.cs)
     //         "CurrentPayPeriod" is a UI-only virtual option — maps to StateEnteredAt on backend, auto-fills dates from pay period range.
     // Admin gets CurrentPayPeriod (first/default) + CompletedAt in addition to the base options.
+    // Labels come from _COLUMN_LABELS (per-category, mirrors inbox.js thead data-lang keys).
+    // SYNC: when adding/removing/renaming a date column in inbox.js thead, update _COLUMN_LABELS.
     // TODO: Get from source, add to FetchInbox DTO, never hard code. Was done but AI ate it.
     let dateColOptions = '';
 
+    let colCat = isAdmin ? 'ToAction' : (this.State.ActiveCategory || 'ToAction');
+    let colLabels = this._COLUMN_LABELS[colCat] || this._COLUMN_LABELS.ToAction;
+
     if (isAdmin)
     {
-      dateColOptions += `<option value="CurrentPayPeriod"${d.dateColumn === 'CurrentPayPeriod' ? ' selected' : ''}>Current Pay Period</option>`;
+      dateColOptions += `<option value="CurrentPayPeriod"${d.dateColumn === 'CurrentPayPeriod' ? ' selected' : ''}>${$a.Lang.ReturnPath('app.cf.inbox.labels.current_pay_period')}</option>`;
     }
 
     dateColOptions += `
-      <option value="StateEnteredAt"${d.dateColumn === 'StateEnteredAt' ? ' selected' : ''}>Last Updated</option>
-      <option value="EffectiveDate"${d.dateColumn === 'EffectiveDate' ? ' selected' : ''}>Effective Date</option>`;
+      <option value="StateEnteredAt"${d.dateColumn === 'StateEnteredAt' ? ' selected' : ''}>${$a.Lang.ReturnPath(colLabels.StateEnteredAt)}</option>
+      <option value="EffectiveDate"${d.dateColumn === 'EffectiveDate' ? ' selected' : ''}>${$a.Lang.ReturnPath(colLabels.EffectiveDate)}</option>`;
 
     if (isAdmin)
     {
-      dateColOptions += `<option value="CompletedAt"${d.dateColumn === 'CompletedAt' ? ' selected' : ''}>Date Completed</option>`;
+      dateColOptions += `<option value="CompletedAt"${d.dateColumn === 'CompletedAt' ? ' selected' : ''}>${$a.Lang.ReturnPath('app.cf.inbox.columns.completed')}</option>`;
     }
 
     let ppOptions = '';
@@ -30135,19 +30242,26 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
         </div>`;
     }
 
+    // iOS Safari renders native <input type="date"> with no calendar icon inside the input box;
+    // Android Chrome already renders the native icon. Only wrap on iOS to avoid double-up.
+    let isIOS = Affinity2018.Browser && Affinity2018.Browser.isios;
+    let dateWrap = (inner) => isIOS
+      ? `<span class="m-date-wrap">${this._icon('calendar', 16)}${inner}</span>`
+      : inner;
+
     let body = `
       <div class="m-field">
-        <label class="m-field-label">Date column</label>
+        <label class="m-field-label">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}</label>
         <select class="m-control" data-filter="dateColumn">${dateColOptions}</select>
       </div>
       <div class="m-two-col">
         <div class="m-field">
-          <label class="m-field-label">From</label>
-          <input type="date" class="m-control" data-filter="dateFrom" value="${d.dateFrom}" />
+          <label class="m-field-label">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_from')}</label>
+          ${dateWrap(`<input type="date" class="m-control" data-filter="dateFrom" value="${d.dateFrom}" />`)}
         </div>
         <div class="m-field">
-          <label class="m-field-label">To</label>
-          <input type="date" class="m-control" data-filter="dateTo" value="${d.dateTo}" />
+          <label class="m-field-label">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_to')}</label>
+          ${dateWrap(`<input type="date" class="m-control" data-filter="dateTo" value="${d.dateTo}" />`)}
         </div>
       </div>
       ${isAdmin ? `<button class="btn-secondary" data-filter-action="current-period" style="width:100%;margin-bottom:18px">${this._icon('calendar', 16)} Use current pay period</button>` : ''}
@@ -30509,13 +30623,13 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
       let html = `
         <div class="m-sheet-head">
-          <div><h2>Start a new form</h2><div class="m-sheet-sub">${templates.length} templates available</div></div>
+          <div><h2>Start a new form</h2><div class="m-sheet-sub">${$a.Lang.ReturnPath('app.cf.inbox.start_new_message_hint_mobile', { count: templates.length })}</div></div>
           <button class="m-icon-btn" data-nf-action="close">${this._icon('x', 22)}</button>
         </div>
         <div class="m-sheet-body">
           <div class="m-search" style="margin-bottom:12px">
             ${this._icon('search', 18)}
-            <input placeholder="Search templates\u2026" class="m-tpl-search" />
+            <input placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" class="m-tpl-search" />
           </div>
           <div class="m-tpl-list">${buildRows('')}</div>
         </div>`;
@@ -30627,8 +30741,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       </div>
       <div class="m-sheet-body">
         <div class="m-detail-head">
-          <div class="m-dh-name">${item.TemplateDescription}</div>
-          <div class="m-dh-relates">${item.RelatesTo || 'Unassigned entity'}</div>
+          <div class="m-dh-name">${item.RelatesTo || 'Unassigned'}</div>
+          <div class="m-dh-relates">${item.TemplateDescription}</div>
           <div class="m-dh-badges">
             <span class="m-lozenge m-tone-${st.tone}">${st.label}</span>
             ${overdueHtml}
@@ -30676,8 +30790,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     let html = `
       <div class="m-sheet-body" style="padding-top:12px">
         <div class="m-detail-head" style="padding-top:0">
-          <div class="m-dh-name" style="font-size:16px">${item.TemplateDescription}</div>
-          <div class="m-dh-relates" style="font-size:13px">${item.RelatesTo || 'Unassigned entity'}</div>
+          <div class="m-dh-name" style="font-size:16px">${item.RelatesTo || 'Unassigned'}</div>
+          <div class="m-dh-relates" style="font-size:13px">${item.TemplateDescription}</div>
         </div>
         <div class="m-action-list">${actionsHtml}</div>
       </div>`;
