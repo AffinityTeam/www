@@ -4916,6 +4916,7 @@
         if (segment === 'ts') segment = segment.replace('ts', 'timesheets');
         if (segment === 'cf') segment = segment.replace('cf', 'cleverfroms');
         if (path.hasOwnProperty(segment)) path = path[segment];
+        else { console.warn('Lang.ReturnPath: segment "' + segment + '" not found in path "' + pathStr + '"'); return ''; }
       }
       if (path !== null && path !== undefined)
       {
@@ -4923,9 +4924,14 @@
         {
           path = this._processString(path, variables);
         }
+        else if (typeof path === 'object')
+        {
+          console.warn('Lang.ReturnPath: path "' + pathStr + '" resolved to an object, not a string');
+          return '';
+        }
         return path;
       }
-      return null;
+      return '';
     }
 
     _returnIcon(str, pathStr)
@@ -28927,17 +28933,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   get _FIELDS()
   {
     return {
-      TemplateDescription:  { label: 'Form Name',        type: 'string', always: true, sortable: true },
-      RelatesTo:            { label: 'Relates To',       type: 'string', sortable: true },
-      CurrentState:         { label: 'Status',           type: 'string', sortable: true },
-      PayPoint:             { label: 'Pay Point',        type: 'number', sortable: true },
-      EffectiveDate:        { label: 'Effective Date',   type: 'date',   sortable: true },
-      StateEnteredAt:       { label: 'Last Updated',     type: 'date',   sortable: true },
-      CurrentAssigneeName:  { label: 'Current Assignee', type: 'string', sortable: true },
-      WorkflowName:         { label: 'Workflow',         type: 'string', sortable: true },
-      PreviousAssigneeName: { label: 'Previous Assignee',type: 'string', sortable: true },
-      LastActionTaken:      { label: 'Last Action',      type: 'string', sortable: true },
-      CompletedByName:      { label: 'Completed By',     type: 'string', sortable: true }
+      TemplateDescription:  { label: $a.Lang.ReturnPath('app.cf.inbox.columns.name'),               type: 'string', always: true, sortable: true },
+      RelatesTo:            { label: $a.Lang.ReturnPath('app.cf.inbox.columns.relates_to'),        type: 'string', sortable: true },
+      CurrentState:         { label: $a.Lang.ReturnPath('app.cf.inbox.columns.state'),             type: 'string', sortable: true },
+      PayPoint:             { label: $a.Lang.ReturnPath('app.cf.inbox.columns.paypoint'),          type: 'number', sortable: true },
+      EffectiveDate:        { label: $a.Lang.ReturnPath('app.cf.inbox.columns.effective'),         type: 'date',   sortable: true },
+      StateEnteredAt:       { label: $a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed'), type: 'date',   sortable: true },
+      CurrentAssigneeName:  { label: $a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee'), type: 'string', sortable: true },
+      WorkflowName:         { label: $a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name'),     type: 'string', sortable: true },
+      PreviousAssigneeName: { label: $a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee'), type: 'string', sortable: true },
+      LastActionTaken:      { label: $a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken'), type: 'string', sortable: true },
+      CompletedByName:      { label: $a.Lang.ReturnPath('app.cf.inbox.columns.completed_by'),      type: 'string', sortable: true }
     };
   }
 
@@ -29071,11 +29077,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   // Status lozenge derivation — matches prototype logic
   _status(item)
   {
-    if (item.IsArchived) return { label: item.CurrentState || 'Archived', tone: 'archived' };
-    if (item.IsComplete) return { label: item.CurrentState || 'Completed', tone: 'complete' };
+    if (item.IsArchived) return { label: item.CurrentState || $a.Lang.ReturnPath('app.cf.inbox.status_archived_mobile'), tone: 'archived' };
+    if (item.IsComplete) return { label: item.CurrentState || $a.Lang.ReturnPath('app.cf.inbox.status_completed_mobile'), tone: 'complete' };
     if (item.LastActionTaken === 'Initiate Form' || item.LastActionTaken == null)
-      return { label: item.CurrentState || 'Just started', tone: 'new' };
-    return { label: item.CurrentState || 'In progress', tone: 'progress' };
+      return { label: item.CurrentState || $a.Lang.ReturnPath('app.cf.inbox.status_just_started_mobile'), tone: 'new' };
+    return { label: item.CurrentState || $a.Lang.ReturnPath('app.cf.inbox.status_in_progress_mobile'), tone: 'progress' };
   }
 
   // Search text highlight — returns HTML with <em class="search-match"> wraps
@@ -29117,12 +29123,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   get _ACTION_META()
   {
     return {
-      edit:      { label: 'Edit form',        icon: 'edit' },
-      view:      { label: 'View (read-only)', icon: 'eye' },
-      info:      { label: 'Details',           icon: 'info' },
-      archive:   { label: 'Archive',           icon: 'archive' },
-      unarchive: { label: 'Unarchive',         icon: 'unarchive' },
-      delete:    { label: 'Delete',            icon: 'trash', destructive: true },
+      edit:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip'),        icon: 'edit' },
+      view:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.view_readonly_mobile'), icon: 'eye' },
+      info:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.details_mobile'),      icon: 'info' },
+      archive:   { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.archive'),             icon: 'archive' },
+      unarchive: { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.unarchive'),           icon: 'unarchive' },
+      delete:    { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.delete'),              icon: 'trash', destructive: true },
     };
   }
 
@@ -29158,7 +29164,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <div class="m-appbar${this.ViewMode === 'Admin' ? ' no-tabs' : ''}">
             <div class="m-appbar-top">
               <div class="m-app-title">Clever Forms</div>
-              <button class="m-icon-btn" data-action="columns" aria-label="Columns">${this._icon('columns', 20)}</button>
             </div>
             ${modeSwitch}
             ${this.ViewMode !== 'Admin' ? `<div class="m-tabs">
@@ -29178,18 +29183,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
             <div class="m-search">
               ${this._icon('search', 18)}
               <input type="text" placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" class="m-search-input" />
-              <button class="m-search-clear" data-action="search-clear" style="display:none">${this._icon('x', 12, 2.5)}</button>
+              <button class="m-search-clear hidden" data-action="search-clear">${this._icon('x', 12, 2.5)}</button>
             </div>
-            <button class="m-tool-btn m-filter-btn" data-action="filter" aria-label="Filter">${this._icon('filter', 20)}<span class="m-badge-num" style="display:none">0</span></button>
+            <button class="m-tool-btn m-filter-btn" data-action="filter" aria-label="Filter">${this._icon('filter', 20)}<span class="m-badge-num hidden">0</span></button>
             <button class="m-tool-btn m-sort-btn" data-action="sort" aria-label="Sort">${this._icon('sort', 20)}</button>
             ${selectBtn}
           </div>
 
-          <div class="m-selectbar" style="display:none">
+          <div class="m-selectbar hidden">
             <span class="m-sel-title">Select forms</span>
             <div class="m-sel-acts">
               <button data-action="select-all">All</button>
-              <button data-action="select-cancel">Cancel</button>
+              <button data-action="select-cancel">${$a.Lang.ReturnPath('app.cf.inbox.buttons.cancel')}</button>
             </div>
           </div>
 
@@ -29202,19 +29207,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
           ${showFab ? `<button class="m-fab" data-action="new-form">${this._icon('plus', 20)} Start a new form</button>` : ''}
 
-          <div class="m-bulkbar" style="display:none">
+          <div class="m-bulkbar hidden">
             <div class="m-bulkbar-top">
               <span class="m-bulkbar-count">0 selected</span>
               <button class="m-bulkbar-clear" data-action="bulk-clear">Clear</button>
             </div>
             <div class="m-bulkbar-actions">
-              <button class="m-bb m-bb-archive" data-action="bulk-archive" style="display:none">${this._icon('archive', 17)} Archive</button>
-              <button class="m-bb m-bb-unarchive" data-action="bulk-unarchive" style="display:none">${this._icon('unarchive', 17)} Unarchive</button>
-              <button class="m-bb m-bb-delete" data-action="bulk-delete" style="display:none">${this._icon('trash', 17)} Delete</button>
+              <button class="m-bb m-bb-archive hidden" data-action="bulk-archive">${this._icon('archive', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.archive')}</button>
+              <button class="m-bb m-bb-unarchive hidden" data-action="bulk-unarchive">${this._icon('unarchive', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.unarchive')}</button>
+              <button class="m-bb m-bb-delete hidden" data-action="bulk-delete">${this._icon('trash', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}</button>
             </div>
           </div>
 
-          <div class="m-overlay"></div>
+          <div class="m-overlay hidden"></div>
         </div>`;
     };
 
@@ -29260,8 +29265,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
             ${checkboxHtml}
             <div class="m-card-tap" data-action="card-tap" data-instance="${item.InstanceId}">
               <div class="m-card-row1">
-                <div style="min-width:0">
-                  ${relatesVisible ? `<div class="m-card-user">${this._highlight(item.RelatesTo || 'Unassigned', query)}</div>` : ''}
+                <div class="m-card-content">
+                  ${relatesVisible ? `<div class="m-card-user">${this._highlight(item.RelatesTo || $a.Lang.ReturnPath('app.cf.inbox.unassigned_mobile'), query)}</div>` : ''}
                   <div class="m-card-form">
                     ${this._highlight(item.TemplateDescription, query)}
                     ${showPP ? `<span class="m-ppt">\u00b7 PP ${item.PayPoint}</span>` : ''}
@@ -29289,11 +29294,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       {
         cards += `
           <div class="m-sk-card">
-            <div class="m-sk" style="height:15px;width:58%"></div>
-            <div class="m-sk" style="height:12px;width:40%;margin-top:9px"></div>
-            <div style="display:flex;gap:8px;margin-top:13px">
-              <div class="m-sk" style="height:20px;width:96px;border-radius:8px"></div>
-              <div class="m-sk" style="height:20px;width:64px;border-radius:8px"></div>
+            <div class="m-sk m-sk-line-1"></div>
+            <div class="m-sk m-sk-line-2"></div>
+            <div class="m-sk-badges">
+              <div class="m-sk m-sk-badge-1"></div>
+              <div class="m-sk m-sk-badge-2"></div>
             </div>
           </div>`;
       }
@@ -29320,7 +29325,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
         case 'admin-halted':
           icon = 'alert';
           title = 'No pay points available';
-          body = 'Admin mode requires assigned pay points to function. Contact your administrator.';
+          body = $a.Lang.ReturnPath('app.cf.inbox.admin_no_paypoints_mobile');
           break;
         case 'error':
           icon = 'alert';
@@ -29343,7 +29348,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       if (loaded >= total) return `<div class="m-page-info">${total} form${total !== 1 ? 's' : ''}</div>`;
       return `
         <div class="m-pager-inner">
-          <button class="m-load-more" data-action="load-more">Load more</button>
+          <button class="m-load-more" data-action="load-more">${$a.Lang.ReturnPath('app.cf.inbox.load_more_mobile')}</button>
           <div class="m-page-info">Showing ${loaded} of ${total}</div>
         </div>`;
     };
@@ -29584,7 +29589,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   _onSearchInput(e)
   {
     let val = this._searchInput.value.trim();
-    this._searchClearBtn.style.display = val ? '' : 'none';
+    this._searchClearBtn.classList.toggle('hidden', !val);
 
     // Debounced search
     clearTimeout(this._searchDebounceTimer);
@@ -29598,7 +29603,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   _onSearchClear()
   {
     this._searchInput.value = '';
-    this._searchClearBtn.style.display = 'none';
+    this._searchClearBtn.classList.add('hidden');
     this._resetPages();
     this._attemptSearch('search-clear');
   }
@@ -30010,8 +30015,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       chips.push(`<span class="m-chip">${label}<button data-action="chip-remove" data-chip-type="paypoint">${this._icon('x', 12, 2.5)}</button></span>`);
     }
 
-    if (t.includeCompleted) chips.push(`<span class="m-chip">Completed<button data-action="chip-remove" data-chip-type="completed">${this._icon('x', 12, 2.5)}</button></span>`);
-    if (t.includeArchived) chips.push(`<span class="m-chip">Archived<button data-action="chip-remove" data-chip-type="archived">${this._icon('x', 12, 2.5)}</button></span>`);
+    if (t.includeCompleted) chips.push(`<span class="m-chip">${$a.Lang.ReturnPath('app.cf.inbox.chip_completed_mobile')}<button data-action="chip-remove" data-chip-type="completed">${this._icon('x', 12, 2.5)}</button></span>`);
+    if (t.includeArchived) chips.push(`<span class="m-chip">${$a.Lang.ReturnPath('app.cf.inbox.chip_archived_mobile')}<button data-action="chip-remove" data-chip-type="archived">${this._icon('x', 12, 2.5)}</button></span>`);
     if (t.includeUnassigned) chips.push(`<span class="m-chip">Unassigned<button data-action="chip-remove" data-chip-type="unassigned">${this._icon('x', 12, 2.5)}</button></span>`);
     if (t.includePP999) chips.push(`<span class="m-chip">PP 999<button data-action="chip-remove" data-chip-type="pp999">${this._icon('x', 12, 2.5)}</button></span>`);
 
@@ -30021,7 +30026,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     }
 
     this._chipsNode.innerHTML = chips.join('');
-    this._chipsNode.style.display = chips.length > 0 ? '' : 'none';
+    this._chipsNode.classList.toggle('hidden', chips.length === 0);
 
     // Update filter badge count
     let badge = this._shell.querySelector('.m-filter-btn .m-badge-num');
@@ -30029,7 +30034,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     if (badge)
     {
       badge.textContent = count;
-      badge.style.display = count > 0 ? '' : 'none';
+      badge.classList.toggle('hidden', count === 0);
     }
     let filterBtn = this._shell.querySelector('.m-filter-btn');
     if (filterBtn) filterBtn.classList.toggle('on', count > 0);
@@ -30081,7 +30086,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           ${html}
         </div>
       </div>`;
-    this._overlayNode.style.display = 'block';
+    this._overlayNode.classList.remove('hidden');
 
     let scrim = this._overlayNode.querySelector('.m-scrim');
     let sheet = this._overlayNode.querySelector('.m-sheet');
@@ -30103,28 +30108,31 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       {
         if (e.touches.length !== 1) return;
         dragStartY = e.touches[0].clientY;
-        sheet.style.transition = 'none';
-      }, { passive: true });
+        sheet.style.setProperty('--sheet-transition', 'none');
+      }, { passive: false });
 
       grip.addEventListener('touchmove', (e) =>
       {
         if (e.touches.length !== 1) return;
+        e.preventDefault(); // block background scroll
         let deltaY = e.touches[0].clientY - dragStartY;
         if (deltaY < 0) deltaY = 0; // only allow dragging down
-        sheet.style.transform = `translateY(${deltaY}px)`;
-      }, { passive: true });
+        sheet.style.setProperty('--sheet-translateY', deltaY + 'px');
+      }, { passive: false });
 
       grip.addEventListener('touchend', (e) =>
       {
         let deltaY = e.changedTouches[0].clientY - dragStartY;
-        sheet.style.transition = '';
+        sheet.style.setProperty('--sheet-transition', '');
         if (deltaY > 50)
         {
-          this._closeSheet();
+          // Animate from current position down to off-screen, then close
+          sheet.style.setProperty('--sheet-translateY', '100vh');
+          setTimeout(() => this._closeSheet(), 200);
         }
         else
         {
-          sheet.style.transform = '';
+          sheet.style.setProperty('--sheet-translateY', '');
         }
       }, { passive: true });
     }
@@ -30138,7 +30146,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   _closeSheet()
   {
     this._overlayNode.innerHTML = '';
-    this._overlayNode.style.display = 'none';
+    this._overlayNode.classList.add('hidden');
     this._shell.classList.remove('sheet-open');
     if (this._sheetEscHandler) window.removeEventListener('keydown', this._sheetEscHandler);
     if (this._sheetOnClose) { this._sheetOnClose(); this._sheetOnClose = null; }
@@ -30152,7 +30160,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           ${html}
         </div>
       </div>`;
-    this._overlayNode.style.display = 'block';
+    this._overlayNode.classList.remove('hidden');
 
     let scrim = this._overlayNode.querySelector('.m-scrim');
     scrim.addEventListener('click', (e) => { if (e.target === scrim) this._closeDialog(); });
@@ -30166,7 +30174,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   _closeDialog()
   {
     this._overlayNode.innerHTML = '';
-    this._overlayNode.style.display = 'none';
+    this._overlayNode.classList.add('hidden');
     this._shell.classList.remove('sheet-open');
     if (this._dialogEscHandler) window.removeEventListener('keydown', this._dialogEscHandler);
   }
@@ -30211,7 +30219,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     let ppOptions = '';
     if (isAdmin)
     {
-      ppOptions = `<option value="all"${d.payPoint === 'all' ? ' selected' : ''}>All pay points</option>`;
+      ppOptions = `<option value="all"${d.payPoint === 'all' ? ' selected' : ''}>${$a.Lang.ReturnPath('app.cf.inbox.labels.pay_point_select_all')}</option>`;
       for (let p of this.PayPoints)
       {
         ppOptions += `<option value="${p.PayPoint}"${String(d.payPoint) === String(p.PayPoint) ? ' selected' : ''}>PP ${p.PayPoint} \u2014 ${p.Description}</option>`;
@@ -30222,15 +30230,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     if (isAdmin)
     {
       let toggles = [
-        { k: 'includeCompleted', label: 'Include completed forms', desc: 'Show finished forms alongside in-progress' },
-        { k: 'includeArchived', label: 'Include archived forms', desc: 'Archived forms are hidden by default' },
-        { k: 'includeUnassigned', label: 'Include unassigned forms', desc: 'Forms for branches, departments & other entities' },
-        { k: 'includePP999', label: 'Include Pay Point 999', desc: 'Pay point 999 and forms with no pay point' },
+        { k: 'includeCompleted', label: $a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_mobile'), desc: $a.Lang.ReturnPath('app.cf.inbox.labels.include_completed_desc_mobile') },
+        { k: 'includeArchived', label: $a.Lang.ReturnPath('app.cf.inbox.labels.include_archived_mobile'), desc: $a.Lang.ReturnPath('app.cf.inbox.labels.include_archived_desc_mobile') },
+        { k: 'includeUnassigned', label: $a.Lang.ReturnPath('app.cf.inbox.labels.include_unassigned_mobile'), desc: $a.Lang.ReturnPath('app.cf.inbox.labels.include_unassigned_desc_mobile') },
+        { k: 'includePP999', label: $a.Lang.ReturnPath('app.cf.inbox.labels.include_pp999_mobile'), desc: $a.Lang.ReturnPath('app.cf.inbox.labels.include_pp999_desc_mobile') },
       ];
 
       togglesHtml = `
-        <div style="margin-top:6px">
-          <label class="m-field-label" style="display:block;margin-bottom:4px">Show</label>
+        <div class="m-toggle-group">
+          <label class="m-field-label m-field-label-block">${$a.Lang.ReturnPath('app.cf.inbox.labels.show_mobile')}</label>
           ${toggles.map(t => `
             <div class="m-toggle-row">
               <div>
@@ -30242,12 +30250,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
         </div>`;
     }
 
-    // iOS Safari renders native <input type="date"> with no calendar icon inside the input box;
-    // Android Chrome already renders the native icon. Only wrap on iOS to avoid double-up.
-    let isIOS = Affinity2018.Browser && Affinity2018.Browser.isios;
-    let dateWrap = (inner) => isIOS
-      ? `<span class="m-date-wrap">${this._icon('calendar', 16)}${inner}</span>`
-      : inner;
+    // All mobile platforms: wrap date inputs with our calendar icon.
+    // Native date input appearance is disabled in LESS (.m-date-wrap input) so we control the icon.
+    let dateWrap = (inner) => `<span class="m-date-wrap">${this._icon('calendar', 16)}${inner}</span>`;
 
     let body = `
       <div class="m-field">
@@ -30264,17 +30269,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           ${dateWrap(`<input type="date" class="m-control" data-filter="dateTo" value="${d.dateTo}" />`)}
         </div>
       </div>
-      ${isAdmin ? `<button class="btn-secondary" data-filter-action="current-period" style="width:100%;margin-bottom:18px">${this._icon('calendar', 16)} Use current pay period</button>` : ''}
+      ${isAdmin ? `<button class="btn-secondary m-btn-full" data-filter-action="current-period">${this._icon('calendar', 16)} ${$a.Lang.ReturnPath('app.cf.inbox.labels.current_pay_period')}</button>` : ''}
       ${isAdmin ? `<div class="m-field"><label class="m-field-label">Pay point</label><select class="m-control" data-filter="payPoint">${ppOptions}</select></div>` : ''}
       ${togglesHtml}`;
 
     let foot = `
-      <button class="m-btn m-btn-ghost" data-filter-action="reset">${this._icon('reset', 17)} Reset</button>
-      <button class="m-btn m-btn-primary" data-filter-action="apply">Apply filters</button>`;
+      <button class="m-btn m-btn-ghost" data-filter-action="reset">${this._icon('reset', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.reset_mobile')}</button>
+      <button class="m-btn m-btn-primary" data-filter-action="apply">${$a.Lang.ReturnPath('app.cf.inbox.buttons.apply_filters_mobile')}</button>`;
 
     let html = `
       <div class="m-sheet-head">
-        <div><h2>Filters</h2></div>
+        <div><h2>${$a.Lang.ReturnPath('app.cf.inbox.labels.filters_title_mobile')}</h2></div>
         <button class="m-icon-btn" data-filter-action="close">${this._icon('x', 22)}</button>
       </div>
       <div class="m-sheet-body">${body}</div>
@@ -30415,23 +30420,23 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       if (fields.length >= 4 || available.length === 0) return '';
       let options = available.map(k => `<option value="${k}">${this._fieldLabel(k, cat)}</option>`).join('');
       return `
-        <div class="m-add-sort" style="margin-top:6px">
-          <select class="m-control" data-sort-add-select><option value="">Add a sort column\u2026</option>${options}</select>
+        <div class="m-add-sort">
+          <select class="m-control" data-sort-add-select><option value="">${$a.Lang.ReturnPath('app.cf.inbox.labels.sort_add_placeholder_mobile')}</option>${options}</select>
           <button class="m-btn m-btn-ghost m-btn-sm" data-sort-action="add">${this._icon('plus', 17)} Add</button>
         </div>`;
     };
 
-    let renderBody = () => buildPills(sortFields) + buildAddRow(sortFields);
+    let renderBody = () => buildPills(sortFields) + (sortFields.length === 0 ? `<div class="m-sort-hint">${$a.Lang.ReturnPath('app.cf.inbox.labels.sort_empty_hint')}</div>` : '') + buildAddRow(sortFields);
 
     let html = `
       <div class="m-sheet-head">
-        <div><h2>Sort</h2><div class="m-sheet-sub">Up to 4 columns \u2014 first is primary, the rest break ties</div></div>
+        <div><h2>${$a.Lang.ReturnPath('app.cf.inbox.labels.sort_title_mobile')}</h2><div class="m-sheet-sub">${$a.Lang.ReturnPath('app.cf.inbox.labels.sort_sub_mobile')}</div></div>
         <button class="m-icon-btn" data-sort-sheet-action="close">${this._icon('x', 22)}</button>
       </div>
       <div class="m-sheet-body" data-sort-body>${renderBody()}</div>
       <div class="m-sheet-foot">
-        <button class="m-btn m-btn-ghost" data-sort-sheet-action="reset">${this._icon('reset', 17)} Reset</button>
-        <button class="m-btn m-btn-primary" data-sort-sheet-action="apply">Apply sort</button>
+        <button class="m-btn m-btn-ghost" data-sort-sheet-action="reset">${this._icon('reset', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.reset_mobile')}</button>
+        <button class="m-btn m-btn-primary" data-sort-sheet-action="apply">${$a.Lang.ReturnPath('app.cf.inbox.buttons.apply_sort_mobile')}</button>
       </div>`;
 
     this._openSheet(html);
@@ -30450,8 +30455,16 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       if (sheetAction === 'reset') { this._resetSort(); this._closeSheet(); return; }
       if (sheetAction === 'apply')
       {
-        let result = sortFields.length ? sortFields : [{ Name: 'StateEnteredAt', Ascending: false }];
-        this._applySort(result);
+        if (sortFields.length)
+        {
+          this._applySort(sortFields);
+        }
+        else
+        {
+          // Empty sort = reset to category default (matches desktop inbox.js behaviour)
+          this._resetSort();
+          this._showToast($a.Lang.ReturnPath('app.cf.inbox.labels.sort_defaults_restored'));
+        }
         this._closeSheet();
         return;
       }
@@ -30540,12 +30553,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     let html = `
       <div class="m-sheet-head">
-        <div><h2>Columns</h2><div class="m-sheet-sub">Shown on each card \u00b7 also defines what search matches</div></div>
+        <div><h2>${$a.Lang.ReturnPath('app.cf.inbox.labels.columns_title_mobile')}</h2><div class="m-sheet-sub">${$a.Lang.ReturnPath('app.cf.inbox.labels.columns_sub_mobile')}</div></div>
         <button class="m-icon-btn" data-col-action="close">${this._icon('x', 22)}</button>
       </div>
       <div class="m-sheet-body">${rows}</div>
       <div class="m-sheet-foot">
-        <button class="m-btn m-btn-primary" data-col-action="done">Done</button>
+        <button class="m-btn m-btn-primary" data-col-action="done">${$a.Lang.ReturnPath('app.cf.inbox.buttons.done_mobile')}</button>
       </div>`;
 
     this._openSheet(html);
@@ -30615,8 +30628,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
               <div class="m-tpl-wf">via ${t.WorkflowName}</div>
             </div>
             <div class="m-tpl-actions">
-              <button class="m-tpl-preview" data-tpl-action="preview" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">Preview</button>
-              <button class="m-tpl-start" data-tpl-action="start" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">Start</button>
+              <button class="m-tpl-preview" data-tpl-action="preview" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">${$a.Lang.ReturnPath('app.cf.inbox.buttons.preview_mobile')}</button>
+              <button class="m-tpl-start" data-tpl-action="start" data-template-id="${t.TemplateId}" data-workflow-id="${t.WorkflowDefinitionId}">${$a.Lang.ReturnPath('app.cf.inbox.buttons.start')}</button>
             </div>
           </div>`).join('');
       };
@@ -30627,7 +30640,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <button class="m-icon-btn" data-nf-action="close">${this._icon('x', 22)}</button>
         </div>
         <div class="m-sheet-body">
-          <div class="m-search" style="margin-bottom:12px">
+          <div class="m-search m-search-sheet">
             ${this._icon('search', 18)}
             <input placeholder="${$a.Lang.ReturnPath('app.cf.inbox.search_placeholder')}" class="m-tpl-search" />
           </div>
@@ -30710,8 +30723,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     gridHtml += `
       <div class="m-drow">
-        <div class="m-dk">Instance ID</div>
-        <div class="m-dv" style="font-size:11px;color:var(--m-ink-3);font-weight:500">${item.InstanceId}</div>
+        <div class="m-dk">${$a.Lang.ReturnPath('app.cf.inbox.instance_id_mobile')}</div>
+        <div class="m-dv m-dv-id">${item.InstanceId}</div>
       </div>`;
 
     let acts = this._actionsFor(item);
@@ -30741,7 +30754,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       </div>
       <div class="m-sheet-body">
         <div class="m-detail-head">
-          <div class="m-dh-name">${item.RelatesTo || 'Unassigned'}</div>
+          <div class="m-dh-name">${item.RelatesTo || $a.Lang.ReturnPath('app.cf.inbox.unassigned_mobile')}</div>
           <div class="m-dh-relates">${item.TemplateDescription}</div>
           <div class="m-dh-badges">
             <span class="m-lozenge m-tone-${st.tone}">${st.label}</span>
@@ -30788,10 +30801,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     }).join('');
 
     let html = `
-      <div class="m-sheet-body" style="padding-top:12px">
-        <div class="m-detail-head" style="padding-top:0">
-          <div class="m-dh-name" style="font-size:16px">${item.RelatesTo || 'Unassigned'}</div>
-          <div class="m-dh-relates" style="font-size:13px">${item.TemplateDescription}</div>
+      <div class="m-sheet-body">
+        <div class="m-detail-head">
+          <div class="m-dh-name m-dh-name-lg">${item.RelatesTo || $a.Lang.ReturnPath('app.cf.inbox.unassigned_mobile')}</div>
+          <div class="m-dh-relates m-dh-relates-sm">${item.TemplateDescription}</div>
         </div>
         <div class="m-action-list">${actionsHtml}</div>
       </div>`;
@@ -30921,17 +30934,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       let isArchive = kind === 'archive';
       let html = `
         <div class="m-dialog-body">
-          <h2>${isArchive ? 'Archive' : 'Unarchive'} form</h2>
+          <h2>${isArchive ? $a.Lang.ReturnPath('app.cf.inbox.reason_title_archive_mobile') : $a.Lang.ReturnPath('app.cf.inbox.reason_title_unarchive_mobile')}</h2>
           <p>A reason is required for compliance and cannot be skipped.</p>
-          <div class="m-field" style="margin-bottom:4px">
+          <div class="m-field m-field-compact">
             <label class="m-field-label">Reason</label>
-            <textarea class="m-control m-reason-input" placeholder="${isArchive ? 'Why is this being archived?' : 'Why is this being unarchived?'}"></textarea>
+            <textarea class="m-control m-reason-input" placeholder="${isArchive ? $a.Lang.ReturnPath('app.cf.inbox.reason_placeholder_archive_mobile') : $a.Lang.ReturnPath('app.cf.inbox.reason_placeholder_unarchive_mobile')}"></textarea>
           </div>
-          <div class="m-field-err" style="display:none">Please enter a reason to continue.</div>
+          <div class="m-field-err hidden">Please enter a reason to continue.</div>
         </div>
         <div class="m-dialog-foot">
-          <button class="m-btn m-btn-ghost" data-reason-action="cancel">Cancel</button>
-          <button class="m-btn m-btn-primary" data-reason-action="confirm">${this._icon(isArchive ? 'archive' : 'unarchive', 17)} ${isArchive ? 'Archive' : 'Unarchive'}</button>
+          <button class="m-btn m-btn-ghost" data-reason-action="cancel">${$a.Lang.ReturnPath('app.cf.inbox.buttons.cancel')}</button>
+          <button class="m-btn m-btn-primary" data-reason-action="confirm">${this._icon(isArchive ? 'archive' : 'unarchive', 17)} ${isArchive ? $a.Lang.ReturnPath('app.cf.inbox.buttons.archive') : $a.Lang.ReturnPath('app.cf.inbox.buttons.unarchive')}</button>
         </div>`;
 
       this._openDialog(html);
@@ -30956,7 +30969,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           let reason = textarea.value.trim();
           if (!reason)
           {
-            errEl.style.display = '';
+            errEl.classList.remove('hidden');
             textarea.classList.add('invalid');
             textarea.focus();
             return;
@@ -30975,12 +30988,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     {
       let html = `
         <div class="m-dialog-body">
-          <h2>Delete ${count > 1 ? count + ' forms' : 'form'}?</h2>
+          <h2>${count > 1 ? $a.Lang.ReturnPath('app.cf.inbox.delete_confirm_plural_mobile', { count }) : $a.Lang.ReturnPath('app.cf.inbox.delete_confirm_singular_mobile')}</h2>
           <p>This is permanent and can\u2019t be undone.${count > 1 ? ' All selected forms will be removed.' : ''}</p>
         </div>
         <div class="m-dialog-foot">
-          <button class="m-btn m-btn-ghost" data-del-action="cancel">Cancel</button>
-          <button class="m-btn m-btn-danger" data-del-action="confirm">${this._icon('trash', 17)} Delete</button>
+          <button class="m-btn m-btn-ghost" data-del-action="cancel">${$a.Lang.ReturnPath('app.cf.inbox.buttons.cancel')}</button>
+          <button class="m-btn m-btn-danger" data-del-action="confirm">${this._icon('trash', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}</button>
         </div>`;
 
       this._openDialog(html);
@@ -31006,9 +31019,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._bulkSelection.clear();
 
     // Show select bar, hide toolbar
-    if (this._toolbarNode) this._toolbarNode.style.display = 'none';
-    if (this._selectbarNode) this._selectbarNode.style.display = '';
-    if (this._fabNode) this._fabNode.style.display = 'none';
+    if (this._toolbarNode) this._toolbarNode.classList.add('hidden');
+    if (this._selectbarNode) this._selectbarNode.classList.remove('hidden');
+    if (this._fabNode) this._fabNode.classList.add('hidden');
 
     this._renderCards();
     this._updateBulkBar();
@@ -31019,10 +31032,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._selectMode = false;
     this._bulkSelection.clear();
 
-    if (this._toolbarNode) this._toolbarNode.style.display = '';
-    if (this._selectbarNode) this._selectbarNode.style.display = 'none';
-    if (this._bulkbarNode) this._bulkbarNode.style.display = 'none';
-    if (this._fabNode) this._fabNode.style.display = '';
+    if (this._toolbarNode) this._toolbarNode.classList.remove('hidden');
+    if (this._selectbarNode) this._selectbarNode.classList.add('hidden');
+    if (this._bulkbarNode) this._bulkbarNode.classList.add('hidden');
+    if (this._fabNode) this._fabNode.classList.remove('hidden');
 
     this._renderCards();
   }
@@ -31085,11 +31098,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     let count = this._bulkSelection.size;
     if (count === 0)
     {
-      this._bulkbarNode.style.display = 'none';
+      this._bulkbarNode.classList.add('hidden');
       return;
     }
 
-    this._bulkbarNode.style.display = '';
+    this._bulkbarNode.classList.remove('hidden');
     this._bulkbarNode.querySelector('.m-bulkbar-count').textContent = `${count} form${count !== 1 ? 's' : ''} selected`;
 
     let hasNonArchived = false;
@@ -31102,9 +31115,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       if (!meta.canDelete) allCanDelete = false;
     }
 
-    this._bulkbarNode.querySelector('.m-bb-archive').style.display = hasNonArchived ? '' : 'none';
-    this._bulkbarNode.querySelector('.m-bb-unarchive').style.display = hasArchived ? '' : 'none';
-    this._bulkbarNode.querySelector('.m-bb-delete').style.display = allCanDelete ? '' : 'none';
+    this._bulkbarNode.querySelector('.m-bb-archive').classList.toggle('hidden', !hasNonArchived);
+    this._bulkbarNode.querySelector('.m-bb-unarchive').classList.toggle('hidden', !hasArchived);
+    this._bulkbarNode.querySelector('.m-bb-delete').classList.toggle('hidden', !allCanDelete);
   }
 
   _stripArchivedFromSelection()
