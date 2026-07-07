@@ -70,7 +70,7 @@
 (29306,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
 (30764,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-transition'
 (30765,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-translateY'
-(30951,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(30954,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
  */
 /***************************************************************************************************************************************************/
 
@@ -30241,7 +30241,7 @@ body.ui2025.uiupdate.inbox.mobile .m-mode-switch {
   border: 1px solid #d7dadd;
   border-radius: 6px;
   padding: 2px;
-  margin: 6px 0 2px;
+  margin: 20px 0 2px 0;
 }
 body.ui2025.uiupdate.inbox.mobile .m-mode-switch button {
   flex: 1;
@@ -30838,6 +30838,9 @@ body.ui2025.uiupdate.inbox.mobile .m-sheet {
   transition: transform var(--sheet-transition, 0.2s ease-out);
   transform: translateY(var(--sheet-translateY, 0px));
 }
+body.ui2025.uiupdate.inbox.mobile .m-sheet .m-btn-full[data-filter-action] {
+  margin-bottom: 10px !important;
+}
 body.ui2025.uiupdate.inbox.mobile .hidden {
   display: none !important;
 }
@@ -30859,7 +30862,7 @@ body.ui2025.uiupdate.inbox.mobile .m-sheet-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px 12px;
+  padding: 0 16px 12px 16px;
   border-bottom: 1px solid #d7dadd;
   flex: 0 0 auto;
 }
@@ -30876,7 +30879,7 @@ body.ui2025.uiupdate.inbox.mobile .m-sheet-sub {
 body.ui2025.uiupdate.inbox.mobile .m-sheet-body {
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 16px 14px;
+  padding: 14px 16px;
 }
 body.ui2025.uiupdate.inbox.mobile .m-sheet-foot {
   flex: 0 0 auto;

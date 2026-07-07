@@ -29008,6 +29008,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   // Columns rendered in the card header (not repeated in the meta row)
   get _PRIMARY_COLS() { return ['TemplateDescription', 'RelatesTo', 'CurrentState', 'PayPoint']; }
 
+  // Columns available for sorting per category — mirrors desktop inbox.js thead per category.
+  // Admin is a merged view — uses the Admin column set (includes CurrentAssigneeName, WorkflowName, etc.).
+  // SYNC: when adding/removing/renaming a column in inbox.js thead for a category, update this map too.
+  get _SORTABLE_COLS()
+  {
+    return {
+      ToAction:   ['TemplateDescription', 'RelatesTo', 'CurrentState', 'StateEnteredAt', 'EffectiveDate', 'PayPoint'],
+      InProgress: ['TemplateDescription', 'RelatesTo', 'CurrentState', 'CurrentAssigneeName', 'StateEnteredAt', 'EffectiveDate', 'PayPoint'],
+      Completed:  ['TemplateDescription', 'RelatesTo', 'CurrentState', 'CompletedByName', 'StateEnteredAt', 'EffectiveDate', 'PayPoint'],
+      Admin:      ['TemplateDescription', 'RelatesTo', 'PayPoint', 'EffectiveDate', 'StateEnteredAt', 'CurrentAssigneeName', 'CurrentState']
+    };
+  }
+
   _fieldLabel(key, category)
   {
     // Admin is a merged view — use ToAction label set (matches desktop Admin thead which
@@ -30001,7 +30014,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
                           && this._filterDraft.dateTo === defaults.dateTo;
     if (!dateMatchesDefault && (this._filterDraft.dateFrom || this._filterDraft.dateTo || this._filterDraft.dateColumn !== defaults.dateColumn))
     {
-      let colLabel = this._filterDraft.dateColumn !== defaults.dateColumn ? `${this._filterDraft.dateColumn}: ` : '';
+      let colLabel = this._filterDraft.dateColumn !== defaults.dateColumn ? `${this._fieldLabel(this._filterDraft.dateColumn, this.State.ActiveCategory)}: ` : '';
       let dateLabel = (this._filterDraft.dateFrom || this._filterDraft.dateTo)
         ? `${this._fmtDate(this._filterDraft.dateFrom + 'T00:00:00Z')} \u2013 ${this._fmtDate(this._filterDraft.dateTo + 'T00:00:00Z')}`
         : '';
@@ -30392,7 +30405,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   {
     let cat = this.State.ActiveCategory;
     let sortFields = (this.State.CategorySettings[cat].SortFields || []).map(s => ({ ...s }));
-    let allSortable = Object.keys(this._FIELDS).filter(k => this._FIELDS[k].sortable);
+    let sortCat = (this.ViewMode === 'Admin') ? 'Admin' : cat;
+    let allSortable = (this._SORTABLE_COLS[sortCat] || this._SORTABLE_COLS.ToAction)
+      .filter(k => this._FIELDS[k] && this._FIELDS[k].sortable);
 
     let buildPills = (fields) =>
     {
