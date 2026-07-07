@@ -30270,7 +30270,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     let body = `
       <div class="m-field">
         <label class="m-field-label">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}</label>
-        <select class="m-control" data-filter="dateColumn">${dateColOptions}</select>
+        <span class="m-select-wrap">${this._icon('chevronDown', 16)}<select class="m-control" data-filter="dateColumn">${dateColOptions}</select></span>
       </div>
       <div class="m-two-col">
         <div class="m-field">
@@ -30283,7 +30283,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
         </div>
       </div>
       ${isAdmin ? `<button class="btn-secondary m-btn-full" data-filter-action="current-period">${this._icon('calendar', 16)} ${$a.Lang.ReturnPath('app.cf.inbox.labels.current_pay_period')}</button>` : ''}
-      ${isAdmin ? `<div class="m-field"><label class="m-field-label">Pay point</label><select class="m-control" data-filter="payPoint">${ppOptions}</select></div>` : ''}
+      ${isAdmin ? `<div class="m-field"><label class="m-field-label">Pay point</label><span class="m-select-wrap">${this._icon('chevronDown', 16)}<select class="m-control" data-filter="payPoint">${ppOptions}</select></span></div>` : ''}
       ${togglesHtml}`;
 
     let foot = `
@@ -30436,7 +30436,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       let options = available.map(k => `<option value="${k}">${this._fieldLabel(k, cat)}</option>`).join('');
       return `
         <div class="m-add-sort">
-          <select class="m-control" data-sort-add-select><option value="">${$a.Lang.ReturnPath('app.cf.inbox.labels.sort_add_placeholder_mobile')}</option>${options}</select>
+          <span class="m-select-wrap">${this._icon('chevronDown', 16)}<select class="m-control" data-sort-add-select><option value="">${$a.Lang.ReturnPath('app.cf.inbox.labels.sort_add_placeholder_mobile')}</option>${options}</select></span>
           <button class="m-btn m-btn-ghost m-btn-sm" data-sort-action="add">${this._icon('plus', 17)} Add</button>
         </div>`;
     };
@@ -34827,7 +34827,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
             if (fieldNodeRow)
             {
               fieldNodeRow.classList.add('required');
-              fieldNodeRow.querySelector('span.required').classList.remove('hidden');
+              let requiredSpan = fieldNodeRow.querySelector('span.required');
+              if (requiredSpan) requiredSpan.classList.remove('hidden');
               fieldNodeRow.controller.Config.Details.AffinityField.IsRequired = true;
               fieldNodeRow.controller.Config.Details.Required = true;
               console.log(` --- Update ${field} AffinityField Required State: true`);
@@ -34882,7 +34883,8 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
               if (fieldNodeRow)
               {
                 fieldNodeRow.classList.remove('required');
-                fieldNodeRow.querySelector('span.required').classList.add('hidden');
+                let requiredSpan = fieldNodeRow.querySelector('span.required');
+                if (requiredSpan) requiredSpan.classList.add('hidden');
                 fieldNodeRow.controller.Config.Details.AffinityField.IsRequired = false;
                 fieldNodeRow.controller.Config.Details.Required = false;
                 console.log(` --- Update ${field} AffinityField Required State: false`);
@@ -48989,6 +48991,47 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         }
         document.body.appendChild(this._mobileScrim);
         this._mobileContainer.classList.add('show');
+        this._mobileContainer.style.setProperty('--sheet-translateY', '0px');
+
+        // Drag-to-close on grip — touch drag down past threshold dismisses the sheet.
+        let grip = this._mobileContainer.querySelector('.ui-ac-grip');
+        if (grip && !grip._dragWired)
+        {
+          let sheet = this._mobileContainer;
+          let dragStartY = 0;
+          grip.addEventListener('touchstart', (e) =>
+          {
+            if (e.touches.length !== 1) return;
+            dragStartY = e.touches[0].clientY;
+            sheet.style.setProperty('--sheet-transition', 'none');
+          }, { passive: false });
+
+          grip.addEventListener('touchmove', (e) =>
+          {
+            if (e.touches.length !== 1) return;
+            e.preventDefault();
+            let deltaY = e.touches[0].clientY - dragStartY;
+            if (deltaY < 0) deltaY = 0;
+            sheet.style.setProperty('--sheet-translateY', deltaY + 'px');
+          }, { passive: false });
+
+          grip.addEventListener('touchend', (e) =>
+          {
+            let deltaY = e.changedTouches[0].clientY - dragStartY;
+            sheet.style.setProperty('--sheet-transition', '');
+            if (deltaY > 50)
+            {
+              sheet.style.setProperty('--sheet-translateY', '100vh');
+              setTimeout(() => this.hide(), 200);
+            }
+            else
+            {
+              sheet.style.setProperty('--sheet-translateY', '');
+            }
+          }, { passive: true });
+
+          grip._dragWired = true;
+        }
         this._mobileSearchInput.value = this.displayNode.value;
         setTimeout(() => { this._mobileSearchInput.focus(); }, 300);
       }
@@ -49022,6 +49065,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       if (Affinity2018.IsMobile)
       {
         if (this._mobileContainer) this._mobileContainer.classList.remove('show');
+        if (this._mobileContainer) { this._mobileContainer.style.setProperty('--sheet-translateY', '100vh'); this._mobileContainer.style.setProperty('--sheet-transition', ''); }
         if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
       }
       Affinity2018.unlockBodyScroll();
@@ -52804,6 +52848,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (this.monthNode) this.monthNode.classList.remove('show');
     if (this.yearNode) this.yearNode.classList.remove('show');
     this.calendarNode.classList.add('show', 'do-not-auto-hide');
+    if (Affinity2018.IsMobile) this.calendarNode.style.setProperty('--sheet-translateY', '0px');
     this.status = 'open';
     if (Affinity2018.IsMobile)
     {
@@ -52822,6 +52867,46 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         let grip = document.createElement('div');
         grip.className = 'ui-cal-grip';
         this.calendarNode.insertBefore(grip, this.calendarNode.firstChild);
+      }
+
+      // Drag-to-close on grip — touch drag down past threshold dismisses the calendar.
+      let grip = this.calendarNode.querySelector('.ui-cal-grip');
+      if (grip && !grip._dragWired)
+      {
+        let sheet = this.calendarNode;
+        let dragStartY = 0;
+        grip.addEventListener('touchstart', (e) =>
+        {
+          if (e.touches.length !== 1) return;
+          dragStartY = e.touches[0].clientY;
+          sheet.style.setProperty('--sheet-transition', 'none');
+        }, { passive: false });
+
+        grip.addEventListener('touchmove', (e) =>
+        {
+          if (e.touches.length !== 1) return;
+          e.preventDefault();
+          let deltaY = e.touches[0].clientY - dragStartY;
+          if (deltaY < 0) deltaY = 0;
+          sheet.style.setProperty('--sheet-translateY', deltaY + 'px');
+        }, { passive: false });
+
+        grip.addEventListener('touchend', (e) =>
+        {
+          let deltaY = e.changedTouches[0].clientY - dragStartY;
+          sheet.style.setProperty('--sheet-transition', '');
+          if (deltaY > 50)
+          {
+            sheet.style.setProperty('--sheet-translateY', '100vh');
+            setTimeout(() => this.hide(), 200);
+          }
+          else
+          {
+            sheet.style.setProperty('--sheet-translateY', '');
+          }
+        }, { passive: true });
+
+        grip._dragWired = true;
       }
 
       // Keyboard icon — lets user dismiss calendar and type date manually
@@ -52877,6 +52962,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       if (Affinity2018.IsMobile)
       {
         if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+        this.calendarNode.style.setProperty('--sheet-translateY', '100vh');
+        this.calendarNode.style.setProperty('--sheet-transition', '');
         if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
       }
       //if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);

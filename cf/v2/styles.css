@@ -50,27 +50,30 @@
 (11127,167): run-time error CSS1030: Expected identifier, found ','
 (11127,309): run-time error CSS1031: Expected selector, found ')'
 (11127,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11430,108): run-time error CSS1030: Expected identifier, found ','
-(11430,250): run-time error CSS1031: Expected selector, found ')'
-(11430,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(15065,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15066,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(15211,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(15213,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(26137,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26140,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26146,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26149,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(26812,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(26878,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(28574,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28575,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(28576,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(29303,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29306,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30764,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-transition'
-(30765,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-translateY'
-(30954,61): run-time error CSS1062: Expected semicolon or closing curly-brace, found '='
+(11449,108): run-time error CSS1030: Expected identifier, found ','
+(11449,250): run-time error CSS1031: Expected selector, found ')'
+(11449,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(15084,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15085,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(15230,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(15232,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(15249,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-translateY'
+(15250,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-transition'
+(17067,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-translateY'
+(17068,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-transition'
+(26178,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26181,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26187,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26190,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(26853,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(26919,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(28615,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28616,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(28617,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(29344,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29347,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30805,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-transition'
+(30806,30): run-time error CSS1039: Token not allowed after unary operator: '-sheet-translateY'
  */
 /***************************************************************************************************************************************************/
 
@@ -11425,22 +11428,41 @@ body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content di
   position: relative;
   right: unset;
 }
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment {
+  min-height: 70px;
+}
+body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info {
+  padding-right: 100px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .from,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .from {
   width: 100%;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time {
-  position: static;
   display: block;
-  line-height: normal;
-  margin-top: 4px;
+  position: absolute;
+  top: 4px;
+  right: 0;
+  line-height: 20px;
+  margin: 0;
+  text-align: right;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .date,
-body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .date,
+body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .date {
+  display: block;
+}
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .time,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .info .date-time .time {
-  display: block;
+  display: inline-block;
 }
 body.ui2018.uiupdate.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .comment,
 body.ui2018.uiupdate.cform.mobile div.pagewrapper div.pagecontent div.content div.section#buttons .comments .comment-history .comment-history-list .history-comment .comment {
@@ -15288,7 +15310,7 @@ body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
 }
 .ui-autocomplete-mobile-container {
   position: fixed;
-  bottom: calc(0px - 100%);
+  bottom: 0;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -15301,20 +15323,21 @@ body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
   max-height: calc(100dvh - 40px);
   box-sizing: border-box;
   overscroll-behavior: contain;
-  -webkit-transition: bottom 250ms;
-  -moz-transition: bottom 250ms;
-  -o-transition: bottom 250ms;
-  transition: bottom 250ms;
-}
-.ui-autocomplete-mobile-container.show {
-  bottom: 0;
+  transform: translateY(var(--sheet-translateY, 100vh));
+  transition: transform var(--sheet-transition, 0.25s ease-out);
 }
 .ui-autocomplete-mobile-container .ui-ac-grip {
+  margin: 0 auto;
+  padding: 14px 50px;
+  cursor: grab;
+}
+.ui-autocomplete-mobile-container .ui-ac-grip::after {
+  content: '';
+  display: block;
   width: 38px;
   height: 4px;
   border-radius: 3px;
   background: #d7dadd;
-  margin: 12px auto 8px;
 }
 .ui-autocomplete-mobile-container .ui-ac-mobile-search {
   display: flex;
@@ -17098,7 +17121,7 @@ body.ui2018.mobile .form-row.calendar:after {
 }
 body.ui2018.mobile div.ui-calendar-container {
   position: fixed;
-  bottom: calc(0px - 100%);
+  bottom: 0;
   top: unset !important;
   left: 0;
   min-width: 100vw !important;
@@ -17115,16 +17138,16 @@ body.ui2018.mobile div.ui-calendar-container {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
-  -webkit-transform: unset;
-  -ms-transform: unset;
-  transform: unset;
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
-  -webkit-transition: bottom 250ms;
-  -moz-transition: bottom 250ms;
-  -o-transition: bottom 250ms;
-  transition: bottom 250ms;
+  transform: translateY(var(--sheet-translateY, 100vh));
+  transition: transform var(--sheet-transition, 0.25s ease-out);
+}
+body.ui2018.mobile div.ui-calendar-container:hover {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
 body.ui2018.mobile div.ui-calendar-container:hover {
   -webkit-box-shadow: none !important;
@@ -17150,9 +17173,6 @@ body.ui2018.mobile div.ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal
   display: flex;
   align-items: center;
 }
-body.ui2018.mobile div.ui-calendar-container.show {
-  bottom: 0;
-}
 .ui-cal-scrim {
   position: fixed;
   top: 0;
@@ -17164,11 +17184,17 @@ body.ui2018.mobile div.ui-calendar-container.show {
   touch-action: none;
 }
 .ui-cal-grip {
+  margin: 0 auto;
+  padding: 14px 50px;
+  cursor: grab;
+}
+.ui-cal-grip::after {
+  content: '';
+  display: block;
   width: 38px;
   height: 4px;
   border-radius: 3px;
   background: #d7dadd;
-  margin: 0 auto 10px auto;
 }
 .ui-cal-keyboard {
   display: none;
@@ -23466,14 +23492,32 @@ body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .co
   max-width: 100%;
   margin-bottom: 16px;
 }
+body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .comments .comment-history .comment-history-list .history-comment {
+  min-height: 70px;
+}
+body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .comments .comment-history .comment-history-list .history-comment .info {
+  padding-right: 100px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .comments .comment-history .comment-history-list .history-comment .info .from {
   width: 100%;
 }
 body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .comments .comment-history .comment-history-list .history-comment .info .date-time {
-  position: static;
   display: block;
-  line-height: 18px;
-  margin-top: 4px;
+  position: absolute;
+  top: 4px;
+  right: 0;
+  line-height: 20px;
+  margin: 0;
+  text-align: right;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .comments .comment-history .comment-history-list .history-comment .info .date-time .time {
+  display: inline-block;
 }
 body.ui2018.uiupdate.cform.v2.mobile .content .section#buttons .section-body .comments .comment-history .comment-history-list .history-comment .comment {
   margin-bottom: 20px;
@@ -31024,11 +31068,25 @@ body.ui2025.uiupdate.inbox.mobile .m-control.invalid {
   box-shadow: 0 0 0 3px #f8e2e2;
 }
 body.ui2025.uiupdate.inbox.mobile select.m-control {
-  appearance: none;
-  background-image: url(data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%278%27 viewBox=%270 0 12 8%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27%2351596a%27 stroke-width=%271.6%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E);
-  background-repeat: no-repeat;
-  background-position: right 13px center;
-  padding-right: 34px;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  padding-right: 36px;
+}
+body.ui2025.uiupdate.inbox.mobile .m-select-wrap {
+  position: relative;
+  display: block;
+}
+body.ui2025.uiupdate.inbox.mobile .m-select-wrap svg {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6e7a89;
+  pointer-events: none;
 }
 body.ui2025.uiupdate.inbox.mobile textarea.m-control {
   height: auto;
