@@ -28562,6 +28562,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     this.EnableLocalStore = true;
 
+    // Legacy (AffinitySolutions) MVC route prefixes — do NOT use Core (Hub) paths like /CleverForms/Inbox/...
+    // These were accidentally changed to Core paths during the 2026-07-09 bottom-sheet commit and have been
+    // restored to match the desktop inbox.js routes. Legacy uses /InboxV2/, /Instance/, /Admin/, /Lookup/.
+    // [Restored 2026-07-11 — AF-116]
     this.DefaultAPI = '/InboxV2/FetchInbox';
     this.SearchAPI = '/InboxV2/FetchInbox';
     this.EditUrl = '/Instance/Edit/';
@@ -28647,7 +28651,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       '_onSearchInput', '_onSearchClear',
 
       // Sheets
-      '_openSheet', '_closeSheet', '_openDialog', '_closeDialog',
+      '_openSheet', '_animateCloseSheet', '_openDialog', '_closeDialog',
       '_openFilterSheet', '_applyFilters', '_resetFilters',
       '_openSortSheet', '_applySort', '_resetSort',
       '_openColumnsSheet',
@@ -28665,7 +28669,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       '_bulkArchive', '_bulkUnarchive', '_bulkDelete', '_bulkClearSelection',
 
       // Mode switching
-      '_switchMode', '_captureFilterState', '_restoreFilterState',
+      '_applyMode', '_switchMode', '_captureFilterState', '_restoreFilterState',
 
       // localStorage persistence
       '_saveViewMode', '_saveActiveTab', '_saveSortData', '_saveVisibleColumns',
@@ -28742,7 +28746,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     await this._loadStates();
     await this._getPayPoints();
 
-    // Compute Admin baseline date range from pay periods (once, reused across mode switches and resets)
+    // Compute Admin baseline date range from pay periods (once, reused across mode switches)
     this._adminBaselineDates = { from: '', to: '' };
     if (this.PayPoints && this.PayPoints.length > 0)
     {
@@ -28752,13 +28756,22 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       this._adminBaselineDates.to = luxon.DateTime.fromJSDate(new Date(latest)).toFormat('yyyy-MM-dd');
     }
 
+    this.ResultNode = document.querySelector('div.inbox');
+
+    await this._applyMode('_init');
+  }
+
+  // Shared mode application — renders shell, restores state, searches. Called from _init and _switchMode.
+  async _applyMode(from)
+  {
     // Restore saved state from localStorage
     this._loadSavedState();
 
-    // Render mobile shell into div.inbox
-    this.ResultNode = document.querySelector('div.inbox');
-    this._renderShell();
-    this._setupNodes();
+    // Only restore in-memory filter state if it was captured (mode switch), not on first init
+    if (this.FilterState[this.ViewMode])
+    {
+      this._restoreFilterState();
+    }
 
     // Auto-populate Admin date range from pay periods if not already set (matches desktop behaviour)
     if (this.ViewMode === 'Admin' && this._adminBaselineDates.from && !this._filterDraft.dateFrom && !this._filterDraft.dateTo)
@@ -28768,17 +28781,24 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       this._filterDraft.dateTo = this._adminBaselineDates.to;
     }
 
-    // Admin halt if no pay points
-    if (this.ViewMode === 'Admin' && (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug)
+    if (this.ViewMode === 'Admin')
     {
-      this.WasAdminHalted = true;
+      document.body.classList.remove('menu-show-full');
+      this.WasAdminHalted = (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug;
+    }
+    else
+    {
+      this.WasAdminHalted = false;
     }
 
+    this._renderShell();
+    this._setupNodes();
+    this._renderChips();
     this.GotoTab(this.State.ActiveCategory);
 
     this._lastSearchJson = null;
     this._resetPages();
-    await this._attemptSearch('_init');
+    await this._attemptSearch(from);
   }
 
 
@@ -28788,6 +28808,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
   async _loadStates()
   {
+    // Legacy serves statics from /Scripts/V2/ via Affinity2018.Path, NOT /CleverForms/js/ (that's Core/Hub).
+    // [Restored 2026-07-11 — AF-116]
     let response = await fetch(`${Affinity2018.Path}/Scripts/V2/apps/cleverforms/Inbox.json?version=${Affinity2018.Version}`);
 
     if (!response.ok)
@@ -28933,17 +28955,17 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   get _FIELDS()
   {
     return {
-      TemplateDescription:  { label: $a.Lang.ReturnPath('app.cf.inbox.columns.name'),               type: 'string', always: true, sortable: true },
-      RelatesTo:            { label: $a.Lang.ReturnPath('app.cf.inbox.columns.relates_to'),        type: 'string', sortable: true },
-      CurrentState:         { label: $a.Lang.ReturnPath('app.cf.inbox.columns.state'),             type: 'string', sortable: true },
-      PayPoint:             { label: $a.Lang.ReturnPath('app.cf.inbox.columns.paypoint'),          type: 'number', sortable: true },
-      EffectiveDate:        { label: $a.Lang.ReturnPath('app.cf.inbox.columns.effective'),         type: 'date',   sortable: true },
-      StateEnteredAt:       { label: $a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed'), type: 'date',   sortable: true },
-      CurrentAssigneeName:  { label: $a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee'), type: 'string', sortable: true },
-      WorkflowName:         { label: $a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name'),     type: 'string', sortable: true },
-      PreviousAssigneeName: { label: $a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee'), type: 'string', sortable: true },
-      LastActionTaken:      { label: $a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken'), type: 'string', sortable: true },
-      CompletedByName:      { label: $a.Lang.ReturnPath('app.cf.inbox.columns.completed_by'),      type: 'string', sortable: true }
+      TemplateDescription:  { label: $a.Lang.ReturnPath('app.cf.inbox.columns.name'),              type: 'string', always: true, sortable: true },
+      RelatesTo:            { label: $a.Lang.ReturnPath('app.cf.inbox.columns.relates_to'),         type: 'string', sortable: true },
+      CurrentState:         { label: $a.Lang.ReturnPath('app.cf.inbox.columns.state'),              type: 'string', sortable: true },
+      PayPoint:             { label: $a.Lang.ReturnPath('app.cf.inbox.columns.paypoint'),           type: 'number', sortable: true },
+      EffectiveDate:        { label: $a.Lang.ReturnPath('app.cf.inbox.columns.effective'),           type: 'date',   sortable: true },
+      StateEnteredAt:       { label: $a.Lang.ReturnPath('app.cf.inbox.columns.last_updated_completed'), type: 'date', sortable: true },
+      CurrentAssigneeName:  { label: $a.Lang.ReturnPath('app.cf.inbox.columns.current_assignee'),   type: 'string', sortable: true },
+      WorkflowName:         { label: $a.Lang.ReturnPath('app.cf.inbox.columns.workflow_name'),      type: 'string', sortable: true },
+      PreviousAssigneeName: { label: $a.Lang.ReturnPath('app.cf.inbox.columns.previous_assignee'),  type: 'string', sortable: true },
+      LastActionTaken:      { label: $a.Lang.ReturnPath('app.cf.inbox.columns.last_action_taken'),  type: 'string', sortable: true },
+      CompletedByName:      { label: $a.Lang.ReturnPath('app.cf.inbox.columns.completed_by'),       type: 'string', sortable: true }
     };
   }
 
@@ -29136,11 +29158,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   get _ACTION_META()
   {
     return {
-      edit:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip'),        icon: 'edit' },
+      edit:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.edit_tooltip'),     icon: 'edit' },
       view:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.view_readonly_mobile'), icon: 'eye' },
-      info:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.details_mobile'),      icon: 'info' },
-      archive:   { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.archive'),             icon: 'archive' },
-      unarchive: { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.unarchive'),           icon: 'unarchive' },
+      info:      { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.details_mobile'),       icon: 'info' },
+      archive:   { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.archive'),              icon: 'archive' },
+      unarchive: { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.unarchive'),            icon: 'unarchive' },
       delete:    { label: $a.Lang.ReturnPath('app.cf.inbox.buttons.delete'),              icon: 'trash', destructive: true },
     };
   }
@@ -30081,6 +30103,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     this._saveFilterOptions();
     this._renderChips();
+    this._lastSearchJson = null;
     this._resetPages();
     this._attemptSearch('chip-remove');
   }
@@ -30092,6 +30115,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
   _openSheet(html, options = {})
   {
+    // Tear down any existing sheet instance
+    if (this._bottomSheet) this._bottomSheet.destroy();
+
     this._overlayNode.innerHTML = `
       <div class="m-scrim">
         <div class="m-sheet">
@@ -30102,67 +30128,31 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._overlayNode.classList.remove('hidden');
 
     let scrim = this._overlayNode.querySelector('.m-scrim');
-    let sheet = this._overlayNode.querySelector('.m-sheet');
-
-    // Close on scrim tap (not sheet)
-    scrim.addEventListener('click', (e) => { if (e.target === scrim) this._closeSheet(); });
-
-    // Close on Escape
-    this._sheetEscHandler = (e) => { if (e.key === 'Escape') this._closeSheet(); };
-    window.addEventListener('keydown', this._sheetEscHandler);
-
-    // Drag-to-close on grip — touch drag down past threshold dismisses the sheet.
-    // Applied here so all sheets (filter, sort, new form, details, kebab) inherit it.
     let grip = this._overlayNode.querySelector('.m-sheet-grip');
-    if (grip)
+
+    // BottomSheet plugin handles scrim tap, Escape, drag-to-close, and animation
+    this._bottomSheet = new Affinity2018.Classes.Plugins.BottomSheet({ scrim: scrim, sheet: this._overlayNode.querySelector('.m-sheet'), grip: grip });
+
+    // Wrap onClose so we can clean up the overlay + remove body scroll lock
+    let onClose = options.onClose;
+    let shell = this._shell;
+    let overlay = this._overlayNode;
+    this._bottomSheet.open(() =>
     {
-      let dragStartY = 0;
-      grip.addEventListener('touchstart', (e) =>
-      {
-        if (e.touches.length !== 1) return;
-        dragStartY = e.touches[0].clientY;
-        sheet.style.setProperty('--sheet-transition', 'none');
-      }, { passive: false });
-
-      grip.addEventListener('touchmove', (e) =>
-      {
-        if (e.touches.length !== 1) return;
-        e.preventDefault(); // block background scroll
-        let deltaY = e.touches[0].clientY - dragStartY;
-        if (deltaY < 0) deltaY = 0; // only allow dragging down
-        sheet.style.setProperty('--sheet-translateY', deltaY + 'px');
-      }, { passive: false });
-
-      grip.addEventListener('touchend', (e) =>
-      {
-        let deltaY = e.changedTouches[0].clientY - dragStartY;
-        sheet.style.setProperty('--sheet-transition', '');
-        if (deltaY > 50)
-        {
-          // Animate from current position down to off-screen, then close
-          sheet.style.setProperty('--sheet-translateY', '100vh');
-          setTimeout(() => this._closeSheet(), 200);
-        }
-        else
-        {
-          sheet.style.setProperty('--sheet-translateY', '');
-        }
-      }, { passive: true });
-    }
+      overlay.innerHTML = '';
+      overlay.classList.add('hidden');
+      shell.classList.remove('sheet-open');
+      if (onClose) onClose();
+    });
 
     // Prevent body scroll while sheet is open
     this._shell.classList.add('sheet-open');
-
-    if (options.onClose) this._sheetOnClose = options.onClose;
   }
 
-  _closeSheet()
+  // All sheet close paths call this — delegates to the plugin
+  _animateCloseSheet()
   {
-    this._overlayNode.innerHTML = '';
-    this._overlayNode.classList.add('hidden');
-    this._shell.classList.remove('sheet-open');
-    if (this._sheetEscHandler) window.removeEventListener('keydown', this._sheetEscHandler);
-    if (this._sheetOnClose) { this._sheetOnClose(); this._sheetOnClose = null; }
+    if (this._bottomSheet) this._bottomSheet.close();
   }
 
   _openDialog(html)
@@ -30317,8 +30307,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       }
 
       let action = btn.dataset.filterAction;
-      if (action === 'close') this._closeSheet();
-      else if (action === 'reset') { this._resetFilters(); this._closeSheet(); }
+      if (action === 'close') this._animateCloseSheet();
+      else if (action === 'reset') { this._resetFilters(); this._animateCloseSheet(); }
       else if (action === 'current-period') this._setCurrentPayPeriod(sheet);
       else if (action === 'apply') this._applyFiltersFromSheet(sheet);
     });
@@ -30371,7 +30361,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._saveFilterOptions();
     this._renderChips();
     this._resetPages();
-    this._closeSheet();
+    this._animateCloseSheet();
     this._attemptSearch('filter-apply');
   }
 
@@ -30466,8 +30456,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       if (!btn) return;
 
       let sheetAction = btn.dataset.sortSheetAction;
-      if (sheetAction === 'close') { this._closeSheet(); return; }
-      if (sheetAction === 'reset') { this._resetSort(); this._closeSheet(); return; }
+      if (sheetAction === 'close') { this._animateCloseSheet(); return; }
+      if (sheetAction === 'reset') { this._resetSort(); this._animateCloseSheet(); return; }
       if (sheetAction === 'apply')
       {
         if (sortFields.length)
@@ -30480,7 +30470,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           this._resetSort();
           this._showToast($a.Lang.ReturnPath('app.cf.inbox.labels.sort_defaults_restored'));
         }
-        this._closeSheet();
+        this._animateCloseSheet();
         return;
       }
 
@@ -30581,7 +30571,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._overlayNode.querySelector('.m-sheet').addEventListener('click', (e) =>
     {
       let closeBtn = e.target.closest('[data-col-action]');
-      if (closeBtn) { this._closeSheet(); return; }
+      if (closeBtn) { this._animateCloseSheet(); return; }
 
       let row = e.target.closest('.m-opt-row[data-col-key]');
       if (!row) return;
@@ -30673,7 +30663,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       sheet.addEventListener('click', (e) =>
       {
         let closeBtn = e.target.closest('[data-nf-action="close"]');
-        if (closeBtn) { this._closeSheet(); return; }
+        if (closeBtn) { this._animateCloseSheet(); return; }
 
         let actionBtn = e.target.closest('[data-tpl-action]');
         if (!actionBtn) return;
@@ -30683,12 +30673,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
         if (actionBtn.dataset.tplAction === 'start')
         {
-          this._closeSheet();
+          this._animateCloseSheet();
           this._startForm(tplId, wfId);
         }
         else if (actionBtn.dataset.tplAction === 'preview')
         {
-          window.open(`/TemplateV2/Preview/${tplId}?fromstart=true&wfId=${wfId}`, 'preview');
+          // Legacy uses /TemplateV2/Preview/, NOT /CleverForms/Template/Preview/ (that's Core/Hub).
+          // [Restored 2026-07-11 — AF-116]
+          window.open(`/TemplateV2/Preview/${tplId}?fromstart=true&wfId=${wfId}`, '_blank');
         }
       });
     }
@@ -30759,7 +30751,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     }
 
     let overdueHtml = item.IsOverdue ? `<span class="m-flag m-flag-overdue">${this._icon('clock', 13, 2)}Overdue</span>` : '';
-    let archivedHtml = item.IsArchived ? `<span class="m-flag m-flag-archived">${this._icon('archive', 13, 2)}Archived</span>` : '';
     let sharedHtml = item.SharedBy ? `<span class="m-flag m-flag-shared">${this._icon('users', 13, 2)}${item.SharedBy.replace(/\s*\(delegated\)\s*/i, '')}</span>` : '';
 
     let html = `
@@ -30774,7 +30765,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <div class="m-dh-badges">
             <span class="m-lozenge m-tone-${st.tone}">${st.label}</span>
             ${overdueHtml}
-            ${archivedHtml}
             ${sharedHtml}
           </div>
         </div>
@@ -30786,11 +30776,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     this._overlayNode.querySelector('.m-sheet').addEventListener('click', (e) =>
     {
-      if (e.target.closest('[data-detail-close]')) { this._closeSheet(); return; }
+      if (e.target.closest('[data-detail-close]')) { this._animateCloseSheet(); return; }
       let btn = e.target.closest('[data-detail-action]');
       if (btn)
       {
-        this._closeSheet();
+        this._animateCloseSheet();
         this._handleAction(btn.dataset.detailAction, item);
       }
     });
@@ -30831,7 +30821,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       let btn = e.target.closest('[data-row-action]');
       if (btn)
       {
-        this._closeSheet();
+        this._animateCloseSheet();
         this._handleAction(btn.dataset.rowAction, item);
       }
     });
@@ -30955,7 +30945,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
             <label class="m-field-label">Reason</label>
             <textarea class="m-control m-reason-input" placeholder="${isArchive ? $a.Lang.ReturnPath('app.cf.inbox.reason_placeholder_archive_mobile') : $a.Lang.ReturnPath('app.cf.inbox.reason_placeholder_unarchive_mobile')}"></textarea>
           </div>
-          <div class="m-field-err hidden">Please enter a reason to continue.</div>
+          <div class="m-field-err hidden">${$a.Lang.ReturnPath('app.cf.inbox.reason_required_mobile')}</div>
         </div>
         <div class="m-dialog-foot">
           <button class="m-btn m-btn-ghost" data-reason-action="cancel">${$a.Lang.ReturnPath('app.cf.inbox.buttons.cancel')}</button>
@@ -31008,6 +30998,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
         </div>
         <div class="m-dialog-foot">
           <button class="m-btn m-btn-ghost" data-del-action="cancel">${$a.Lang.ReturnPath('app.cf.inbox.buttons.cancel')}</button>
+          <!-- [Restored 2026-07-11 — AF-116] Use lang key, not hardcoded "Delete" — matches desktop inbox.js -->
           <button class="m-btn m-btn-danger" data-del-action="confirm">${this._icon('trash', 17)} ${$a.Lang.ReturnPath('app.cf.inbox.buttons.delete')}</button>
         </div>`;
 
@@ -31252,31 +31243,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
     this._saveViewMode();
 
-    if (mode === 'Admin')
-    {
-      document.body.classList.remove('menu-show-full');
-      this.WasAdminHalted = (!this.PayPoints || this.PayPoints.length === 0) && !this.LocalDebug;
-    }
-    else
-    {
-      this.WasAdminHalted = false;
-    }
-
-    // Re-render the entire shell (mode switch changes available UI)
-    this._renderShell();
-    this._setupNodes();
-
-    // Restore saved state for the new mode
-    this._loadSavedState();
-    this._restoreFilterState();
-    this._renderChips();
-
-    this.GotoTab(this.State.ActiveCategory);
-
-    // Clear dedup cache so search runs fresh
-    this._lastSearchJson = null;
-    this._resetPages();
-    await this._attemptSearch('mode-switch');
+    await this._applyMode('mode-switch');
   }
 
   _captureFilterState()
@@ -47008,6 +46975,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.debug = false;
 
+    // Legacy serves statics via Affinity2018.WebWorkerPath (configured in view), NOT /CleverForms/js/plugins/ (that's Core/Hub).
+    // [Restored 2026-07-11 — AF-116]
     this.webworkerpath = Affinity2018.WebWorkerPath + 'autocomplete.web.worker.js?version=' + Affinity2018.Version;
 
     this.selectmax = 2000;
@@ -47160,10 +47129,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.listNode = this.autocompleteNode.querySelector('ul');
 
     if (Affinity2018.IsMobile)
-    {
-      this._mobileContainer = document.createElement('div');
-      this._mobileContainer.className = 'ui-autocomplete-mobile-container';
-      this._mobileContainer.innerHTML =
+      {
+        // Build mobile bottom sheet container at body level
+        this._mobileContainer = document.createElement('div');
+        this._mobileContainer.className = 'ui-autocomplete-mobile-container';
+        this._mobileContainer.innerHTML =
         '<div class="ui-ac-grip"></div>'
         + '<div class="ui-ac-mobile-search">'
         +   '<span class="ui-ac-mobile-search-icon ui-ac-display-icon icon-search"></span>'
@@ -47171,10 +47141,12 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         + '</div>'
         + '<div class="ui-autocomplete-mobile-list-container"></div>';
 
+      // Move the list into the scroll container
       this._mobileListContainer = this._mobileContainer.querySelector('.ui-autocomplete-mobile-list-container');
       this._mobileListContainer.appendChild(this.listNode);
       this._mobileSearchInput = this._mobileContainer.querySelector('.ui-ac-mobile-search-input');
 
+      // Wire mobile search to drive the same filtering as the row display input
       this._mobileSearchInput.addEventListener('keyup', (ev) =>
       {
         this.displayNode.value = this._mobileSearchInput.value;
@@ -47186,6 +47158,13 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       });
 
       document.body.appendChild(this._mobileContainer);
+
+      // BottomSheet plugin handles animation, drag-to-close, scrim tap, Escape
+      this._mobileSheet = new Affinity2018.Classes.Plugins.BottomSheet({
+        sheet: this._mobileContainer,
+        grip: this._mobileContainer.querySelector('.ui-ac-grip'),
+        scrim: null  // autocomplete manages its own scrim in the open/close callbacks
+      });
     }
 
     if (this.targetNode.parentNode.classList.contains('select')) this.targetNode.parentNode.classList.add('hidden');
@@ -47284,12 +47263,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
     this.displayNode.addEventListener('focus', this._doFocus);
 
-    //document.addEventListener('scroll', this._scrolled, Affinity2018.PassiveEventProp);
-    //window.addEventListener('resize', this._position, Affinity2018.PassiveEventProp);
-
-    //this.autocompleteNode.addEventListener('mouseenter', this._mouseEnter);
-    //this.autocompleteNode.addEventListener('mouseleave', this._mouseLeave);
-
     this.listNode.removeEventListener('mouseenter', this._mouseEnter);
     this.listNode.removeEventListener('mouseleave', this._mouseLeave);
     this.listNode.addEventListener('mouseenter', this._mouseEnter);
@@ -47312,7 +47285,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     if (!this.enabled) return false;
     fireEvents = typeof fireEvents === 'boolean' ? fireEvents : true;
-    value = this._cleaValue(value);
+    value = this._cleanValue(value);
     if (this.listNode && Affinity2018.isDomElement(this.listNode))
     {
       if (this.searchMode) this.searchMode = false; //TODO: Add search mode later
@@ -47426,11 +47399,21 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
   show(calledFrom)
   {
+    if (Affinity2018.IsMobile)
+    {
+      this._showMobile();
+      return;
+    }
     this._show(calledFrom);
   }
 
   hide(calledFrom)
   {
+    if (Affinity2018.IsMobile)
+    {
+      this._hideMobile();
+      return;
+    }
     this._hide(calledFrom);
   }
 
@@ -47488,6 +47471,33 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this._updateOptions();
   }
 
+  // Preferred path: send structured data directly to the web worker
+  // instead of serializing DOM to HTML and regex-parsing it back.
+  // Called by select.lookup.js _processResults when autocomplete already exists.
+  // Params:
+  //   data: array of lookup triples ({Key, Value, DisplayValue, IsHidden}) — may be full WhiteList or a refined subset
+  //   ignoreHiddenState: when true (Show All mode), worker includes items with IsHidden=true
+  //   searchForValue: DisplayValue/Value string for disambiguating duplicate keys (empty = single-key match)
+  // Flow: posts to web worker → worker builds <option> HTML → getOptions handler puts it in <select> → _processOptions rebuilds autocomplete <li> list
+  refreshFromData(data, ignoreHiddenState, searchForValue)
+  {
+    ignoreHiddenState = ignoreHiddenState === true ? true : false;
+    searchForValue = searchForValue || '';
+    this._setDisplayValue('');
+    this._clearList();
+    var defaultValue = this.targetNode.dataset.defaultValue || this.targetNode.value;
+    this.workerComplete = false;
+    this.fuzzyWorker.postMessage({
+      job: 'getOptions',
+      data: data,
+      searchFor: defaultValue || '',
+      searchForValue: searchForValue,
+      ignoreHiddenState: ignoreHiddenState,
+      ismobile: false,
+      filter: this.filter
+    });
+  }
+
   /**/
 
   _fuzzyWorkerComplete(returnedData)
@@ -47505,11 +47515,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     {
 
       case 'getOptions':
-
-        if (this.searchMode)
-        {
-          // TODO: Support search mode
-        }
+        // Worker built <option> HTML from raw data (via refreshFromData).
+        // Replace select innerHTML with worker output, then rebuild autocomplete <li> list.
+        // This triggers the full chain: _processOptions → getList job → _continueProcessOptions → autocompleteReady
+        this.targetNode.innerHTML = workerData.html;
+        this._processOptions();
         this.workerComplete = true;
 
       break;
@@ -47611,7 +47621,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
           }
         }
 
-        this.defaultChangeValue = this.defaultValue.value;
+        this.defaultChangeValue = this.defaultValue ? this.defaultValue.value : '';
 
         this.fuzzySearchItemsTotal = workerData.data.total;
         this.fuzzySearchItems = workerData.data.items;
@@ -48719,7 +48729,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
+
     if (Affinity2018.IsMobile) return;
+
     if (this.forceTop)
     {
       this.listNode.classList.add('above');
@@ -48760,7 +48772,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     return str;
   }
 
-  _cleaValue(str)
+  _cleanValue(str)
   {
     if (typeof str === 'string' && str.trim() !== '')
     {
@@ -48983,60 +48995,22 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       if (Affinity2018.IsMobile)
       {
-        if (!this._mobileScrim)
-        {
-          this._mobileScrim = document.createElement('div');
-          this._mobileScrim.className = 'ui-ac-scrim';
-          this._mobileScrim.addEventListener('click', this.hide);
-        }
-        document.body.appendChild(this._mobileScrim);
-        this._mobileContainer.classList.add('show');
-        this._mobileContainer.style.setProperty('--sheet-translateY', '0px');
-
-        // Drag-to-close on grip — touch drag down past threshold dismisses the sheet.
-        let grip = this._mobileContainer.querySelector('.ui-ac-grip');
-        if (grip && !grip._dragWired)
-        {
-          let sheet = this._mobileContainer;
-          let dragStartY = 0;
-          grip.addEventListener('touchstart', (e) =>
-          {
-            if (e.touches.length !== 1) return;
-            dragStartY = e.touches[0].clientY;
-            sheet.style.setProperty('--sheet-transition', 'none');
-          }, { passive: false });
-
-          grip.addEventListener('touchmove', (e) =>
-          {
-            if (e.touches.length !== 1) return;
-            e.preventDefault();
-            let deltaY = e.touches[0].clientY - dragStartY;
-            if (deltaY < 0) deltaY = 0;
-            sheet.style.setProperty('--sheet-translateY', deltaY + 'px');
-          }, { passive: false });
-
-          grip.addEventListener('touchend', (e) =>
-          {
-            let deltaY = e.changedTouches[0].clientY - dragStartY;
-            sheet.style.setProperty('--sheet-transition', '');
-            if (deltaY > 50)
-            {
-              sheet.style.setProperty('--sheet-translateY', '100vh');
-              setTimeout(() => this.hide(), 200);
-            }
-            else
-            {
-              sheet.style.setProperty('--sheet-translateY', '');
-            }
-          }, { passive: true });
-
-          grip._dragWired = true;
-        }
-        this._mobileSearchInput.value = this.displayNode.value;
-        setTimeout(() => { this._mobileSearchInput.focus(); }, 300);
+        // Mobile show is handled by _showMobile — skip here
+      }
+      else if (this.IsMobile && !Affinity2018.IsMobile)
+      {
+        clearTimeout(this._setListHeightDelay1);
+        clearTimeout(this._setListHeightDelay2);
+        this._setListHeightDelay1 = setTimeout(this._setListHeight, 250);
+        this._setListHeightDelay2 = setTimeout(this._setListHeight, 500);
       }
 
-      if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.listNode);
+      if (Affinity2018.IsMobile)
+      {
+        // Mobile show is handled by _showMobile — skip here
+      }
+
+      if (Affinity2018.hasOwnProperty('ForceSectionTop') && !Affinity2018.IsMobile) Affinity2018.ForceSectionTop(this.listNode);
       Affinity2018.lockBodyScroll();
     }
   }
@@ -49062,14 +49036,71 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       }.bind(this), 250);
       this._clearShowHideEvents();
       if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.listNode);
+
       if (Affinity2018.IsMobile)
       {
-        if (this._mobileContainer) this._mobileContainer.classList.remove('show');
-        if (this._mobileContainer) { this._mobileContainer.style.setProperty('--sheet-translateY', '100vh'); this._mobileContainer.style.setProperty('--sheet-transition', ''); }
-        if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+        // Mobile hide is handled by _hideMobile — skip here
       }
-      Affinity2018.unlockBodyScroll();
+      else
+      {
+        Affinity2018.unlockBodyScroll();
+      }
     }
+  }
+
+  // --- Mobile-specific show/hide — bypass desktop positioning, use BottomSheet plugin ---
+
+  _showMobile()
+  {
+    if (this.status === 'open') return;
+    this.status = 'open';
+    this.listNode.classList.add('show');
+
+    // Show scrim
+    if (!this._mobileScrim)
+    {
+      this._mobileScrim = document.createElement('div');
+      this._mobileScrim.className = 'ui-ac-scrim';
+      this._mobileScrim.addEventListener('click', this.hide);
+    }
+    document.body.appendChild(this._mobileScrim);
+
+    // BottomSheet plugin handles slide-up animation + drag-to-close
+    this._mobileSheet.open(() =>
+    {
+      // onClose — called after close animation completes
+      if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+      Affinity2018.unlockBodyScroll();
+    });
+
+    Affinity2018.lockBodyScroll();
+
+    // Sync current display value to mobile search and focus it
+    this._mobileSearchInput.value = this.displayNode.value;
+    setTimeout(() => { this._mobileSearchInput.focus(); }, 300);
+  }
+
+  _hideMobile()
+  {
+    if (this.status !== 'open') return;
+    this.status = 'closed';
+    this.listNode.classList.remove('show');
+
+    clearTimeout(this._focusDelay);
+    clearTimeout(this._fuzzySearchDelay);
+    clearTimeout(this._hideResetTimer);
+    this._hideResetTimer = setTimeout(function ()
+    {
+      if (Affinity2018.isDomElement(this.listNode) && this.listNode.querySelector('li.visible.selected'))
+      {
+        this.lastSelected = this.listNode.querySelector('li.visible.selected');
+      }
+      this._reset();
+    }.bind(this), 250);
+    this._clearShowHideEvents();
+
+    // BottomSheet plugin handles slide-down animation + onClose callback
+    this._mobileSheet.close();
   }
 
   _reset(fromDestroy)
@@ -49136,6 +49167,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         }.bind(this));
       }
     }
+    Affinity2018.unlockBodyScroll();
   }
 
   _mouseEnter(ev)
@@ -49169,6 +49201,9 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     this._reset(true);
     this._clearShowHideEvents();
+    if (this._mobileSheet) this._mobileSheet.destroy();
+    if (this._mobileContainer && this._mobileContainer.parentNode) this._mobileContainer.parentNode.removeChild(this._mobileContainer);
+    if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
     clearTimeout(this._elementKeyUpTimer);
     clearTimeout(this._fuzzySearchDelay);
     clearTimeout(this._focusDelay);
@@ -49213,7 +49248,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   {
     this.autocompleteTemplate = `
       <div class="ui-ac-display-wrapper">
-        <input class="ui-ac-display" type="text">
+        <input class="ui-ac-display search-field" type="text">
         <div class="ui-ac-display-icon icon-search"></div>
         <div class="ui-ac-display-loader"></div>
       </div>
@@ -52019,6 +52054,229 @@ Affinity2018.Classes.Plugins.BigSearch = class
 
 };
 ;
+/**
+ *
+ * Summary.       Bottom Sheet Plugin — animated open/close with drag-to-dismiss.
+ *
+ * Description.   Generic, reusable bottom sheet controller for mobile UIs.
+ *                Structure-agnostic — takes a sheet element (required), and
+ *                optional scrim + grip elements. Manages all open/close/drag
+ *                animation via CSS classes — no inline styles (CSP-safe), no
+ *                CSS custom properties for the animation itself (only --bs-drag-y
+ *                during the transient drag gesture, cleared on release).
+ *
+ *                CSS classes managed (on scrim if provided, otherwise on sheet):
+ *                  bs-open      — sheet visible, transform: translateY(0%)
+ *                  bs-animating — pointer-events: none (prevents mashing)
+ *                  bs-dragging  — transition: none, sheet follows finger via --bs-drag-y
+ *
+ *                Default state (no class): sheet is translateY(100%) — off-screen.
+ *
+ *                The plugin does NOT nuke DOM or manage display:none — that is the
+ *                consumer's responsibility. The plugin fires onClose after the close
+ *                animation completes; the consumer cleans up in that callback.
+ *
+ *                Usage (with scrim — inbox pattern):
+ *                  new BottomSheet({ scrim: scrimEl, sheet: sheetEl, grip: gripEl })
+ *
+ *                Usage (without scrim — autocomplete/calendar pattern):
+ *                  new BottomSheet({ sheet: sheetEl, grip: gripEl })
+ *
+ *                Usage (sheet only — no scrim, no drag):
+ *                  new BottomSheet({ sheet: sheetEl })
+ *
+ * @author        Ben King, benk at affinityteam.com
+ * @since         09.07.2026
+ * @class         BottomSheet
+ * @namespace     Affinity2018.Classes.Plugins
+ *
+ * @public
+ */
+
+if (!('Affinity2018' in window)) Affinity2018 = {};
+if (!('Classes' in Affinity2018)) Affinity2018.Classes = {};
+if (!('Plugins' in Affinity2018.Classes)) Affinity2018.Classes.Plugins = {};
+
+Affinity2018.Classes.Plugins.BottomSheet = class
+{
+  /**
+   * @param {Object} opts
+   * @param {HTMLElement} opts.sheet   The element that slides up/down (required).
+   * @param {HTMLElement} [opts.scrim] Optional overlay — gets tap-to-close + opacity fade.
+   * @param {HTMLElement} [opts.grip]  Optional drag handle inside the sheet.
+   */
+  constructor({ sheet, scrim, grip })
+  {
+    this._sheet = sheet;
+    this._scrim = scrim || null;
+    this._grip = grip || null;
+    this._closing = false;
+
+    // Tag elements with plugin classes so the plugin CSS can target them
+    this._sheet.classList.add('bs-sheet');
+    if (this._scrim) this._scrim.classList.add('bs-scrim');
+    if (this._grip) this._grip.classList.add('bs-grip');
+    this._timer = null;
+    this._onClose = null;
+    this._onEnd = null;
+
+    // Classes go on the scrim (if provided) for opacity/pointer-events,
+    // AND on the sheet for transform/transition. Both get the same classes.
+    this._classTarget = this._scrim || this._sheet;
+
+    // --- Scrim tap closes (only if scrim provided) ---
+    if (this._scrim)
+    {
+      this._scrimTap = (e) => { if (e.target === this._scrim) this.close(); };
+      this._scrim.addEventListener('click', this._scrimTap);
+    }
+
+    // --- Escape closes ---
+    this._escHandler = (e) => { if (e.key === 'Escape') this.close(); };
+
+    // --- Drag-to-dismiss ---
+    if (this._grip) this._wireDrag();
+  }
+
+  /**
+   * Opens the sheet: adds bs-open + bs-animating, wires Escape.
+   * The consumer must have already made the sheet visible (removed display:none)
+   * BEFORE calling open(), so the browser can render the closed state first.
+   * @param {Function} [onClose]  Callback fired after close animation completes.
+   */
+  open(onClose)
+  {
+    this._onClose = onClose || null;
+    this._closing = false;
+
+    // Force a reflow so the browser renders the closed state (translateY 100%)
+    // before we add bs-open. Without this, the transition doesn't fire.
+    void this._sheet.offsetHeight;
+
+    this._sheet.classList.add('bs-open', 'bs-animating');
+    if (this._scrim) this._scrim.classList.add('bs-open', 'bs-animating');
+    window.addEventListener('keydown', this._escHandler);
+    this._waitForTransition();
+  }
+
+  /**
+   * Closes the sheet: removes bs-open, adds bs-animating.
+   * After the transition completes (or timeout fires), fires onClose.
+   * The consumer is responsible for DOM cleanup in the onClose callback.
+   * Guarded against double-trigger.
+   */
+  close()
+  {
+    if (this._closing) return;
+    this._closing = true;
+    this._sheet.classList.remove('bs-open');
+    this._sheet.classList.add('bs-animating');
+    if (this._scrim) { this._scrim.classList.remove('bs-open'); this._scrim.classList.add('bs-animating'); }
+    this._waitForTransition(() =>
+    {
+      window.removeEventListener('keydown', this._escHandler);
+      this._sheet.classList.remove('bs-animating', 'bs-dragging');
+      if (this._scrim) this._scrim.classList.remove('bs-animating', 'bs-dragging');
+      if (this._onClose) { this._onClose(); this._onClose = null; }
+      this._closing = false;
+    });
+  }
+
+  /**
+   * Tears down all event listeners and clears any pending timer.
+   * Call this when the sheet/scrim is removed from the DOM.
+   */
+  destroy()
+  {
+    clearTimeout(this._timer);
+    if (this._scrim && this._scrimTap) this._scrim.removeEventListener('click', this._scrimTap);
+    window.removeEventListener('keydown', this._escHandler);
+    if (this._sheet && this._onEnd) this._sheet.removeEventListener('transitionend', this._onEnd);
+  }
+
+  // --- Private: wait for CSS transition to complete ---
+  // Uses transitionend (filtered to target + propertyName) with a named
+  // timeout fallback that is cleared on either path.
+  _waitForTransition(callback)
+  {
+    let done = false;
+
+    let finish = () =>
+    {
+      if (done) return;
+      done = true;
+      clearTimeout(this._timer);
+      this._timer = null;
+      if (this._onEnd) this._sheet.removeEventListener('transitionend', this._onEnd);
+      this._sheet.classList.remove('bs-animating');
+      if (this._scrim) this._scrim.classList.remove('bs-animating');
+      if (callback) callback();
+    };
+
+    this._onEnd = (e) =>
+    {
+      if (e.target !== this._sheet || e.propertyName !== 'transform') return;
+      finish();
+    };
+    this._sheet.addEventListener('transitionend', this._onEnd);
+
+    // Named timeout fallback — reads actual CSS duration, adds 50ms margin.
+    // transitionend is not guaranteed (prefers-reduced-motion, interruption, etc.).
+    let duration = parseFloat(getComputedStyle(this._sheet).transitionDuration) * 1000;
+    this._timer = setTimeout(finish, duration + 50);
+  }
+
+  // --- Private: wire touch drag on grip handle ---
+  _wireDrag()
+  {
+    let dragStartY = 0;
+
+    this._grip.addEventListener('touchstart', (e) =>
+    {
+      if (e.touches.length !== 1) return;
+      dragStartY = e.touches[0].clientY;
+      // Switch from open to dragging — CSS disables transition, sheet follows finger
+      this._sheet.classList.remove('bs-open');
+      this._sheet.classList.add('bs-dragging');
+      if (this._scrim) { this._scrim.classList.remove('bs-open'); this._scrim.classList.add('bs-dragging'); }
+    }, { passive: true });
+
+    this._grip.addEventListener('touchmove', (e) =>
+    {
+      if (e.touches.length !== 1) return;
+      e.preventDefault(); // block background scroll
+      let deltaY = e.touches[0].clientY - dragStartY;
+      if (deltaY < 0) deltaY = 0; // only allow dragging down
+      this._sheet.style.setProperty('--bs-drag-y', deltaY + 'px');
+    }, { passive: false });
+
+    this._grip.addEventListener('touchend', (e) =>
+    {
+      let deltaY = e.changedTouches[0].clientY - dragStartY;
+      // Clear the drag custom property — CSS class-based animation takes over
+      this._sheet.style.removeProperty('--bs-drag-y');
+      this._sheet.classList.remove('bs-dragging');
+      if (this._scrim) this._scrim.classList.remove('bs-dragging');
+
+      // Force a reflow so the browser renders the post-drag state (translateY 100vh)
+      // before we add bs-open. Without this, the snap-back transition doesn't fire.
+      void this._sheet.offsetHeight;
+
+      if (deltaY > 50)
+      {
+        // Dragged far enough — close
+        this.close();
+      }
+      else
+      {
+        // Not far enough — snap back to open
+        this._sheet.classList.add('bs-open', 'bs-animating');
+        if (this._scrim) this._scrim.classList.add('bs-open', 'bs-animating');
+        this._waitForTransition();
+      }
+    }, { passive: true });
+  }
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                       *************************************************************************/
@@ -52196,6 +52454,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.row = null;
     this.date = false;
     this.__uiDate = false;
+    this._staged = null;
+    this._originalDate = null;
 
     this.Valid = false;
   }
@@ -52223,10 +52483,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
       '_setDate', '_setTime', '_setDisplay', '_setReturn', '_setDateFromStr',
 
+      '_getNavDate',
       '_monthBackClicked', '_monthForwardClicked',
-      '_monthClicked', '_yearClicked',
-      '_monthsClicked', '_yearsClicked',
+      '_monthClicked', '_monthSelectChanged', '_monthSelectBlur',
+      '_yearClicked', '_yearSelectChanged', '_yearSelectBlur',
       '_timeClicked',
+
+      '_btnApplyClicked', '_btnCancelClicked', '_btnTodayClicked', '_btnClearClicked',
+      '_updateStagedDisplay',
 
       '_clearShowHideEvents', '_setHideShowEvents',
       '_scrolled', '_position', '_setPosition',
@@ -52273,6 +52537,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.displayNode = document.createElement('input');
     this.displayNode.type = 'text';
     this.displayNode.setAttribute('autocomplete', 'one-time-code');
+    this.displayNode.setAttribute('placeholder', 'e.g. today, next friday, christmas');
     this.displayNode.widgets = { DateTime: this };
     this.targetNode.parentNode.insertBefore(this.displayNode, this.targetNode.nextSibling);
 
@@ -52284,6 +52549,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (Affinity2018.IsMobile)
     {
       document.body.appendChild(this.calendarNode);
+
+      // BottomSheet plugin handles animation, drag-to-close, Escape
+      this._mobileSheet = new Affinity2018.Classes.Plugins.BottomSheet({
+        sheet: this.calendarNode,
+        grip: this.calendarNode.querySelector('.ui-cal-grip'),
+        scrim: null  // calendar manages its own scrim
+      });
     }
     else
     {
@@ -52291,8 +52563,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
 
     this.datesNode = this.calendarNode.querySelector('.ui-cal-dates');
-    this.monthNode = this.datesNode.querySelector('.ui-cal-months');
-    this.yearNode = this.datesNode.querySelector('.ui-cal-years');
+    this.monthSpan = this.datesNode.querySelector('.ui-cal-current-month');
+    this.monthWrap = this.datesNode.querySelector('.ui-cal-month-wrap');
+    this.monthSelect = this.datesNode.querySelector('.ui-cal-month-select');
+    this.yearSpan = this.datesNode.querySelector('.ui-cal-current-year');
+    this.yearWrap = this.datesNode.querySelector('.ui-cal-year-wrap');
+    this.yearSelect = this.datesNode.querySelector('.ui-cal-year-select');
     this.timeNode = this.calendarNode.querySelector('.ui-cal-time');
 
     this.dateDisplayNode = this.calendarNode.querySelector('.ui-cal-display-date');
@@ -52336,13 +52612,9 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     //
 
     var rowNode = this.datesNode.querySelector('.ui-cal-cells-row'),
-      monthNode = this.calendarNode.querySelector('.ui-cal-months'),
-      yearNode = this.calendarNode.querySelector('.ui-cal-years'),
       r = 0,
       d = 0,
-      m = 0,
-      y = this.minDate !== false ? this.minDate.getFullYear() : 1900,
-      newRow, newDate, dt, newMonth, newYear;
+      newRow, newDate;
     for (; r < 6; r++)
     {
       newRow = document.createElement('div');
@@ -52362,26 +52634,25 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         }
       }
     }
-    for (; m < 12; m++)
+    // Populate month select (once)
+    for (var m = 0; m < 12; m++)
     {
-      dt = new Date();
-      dt.setMonth(m);
-      newMonth = document.createElement('span');
-      newMonth.setAttribute('tabindex', '-1');
-      newMonth.innerHTML = dt.toString('MMMM');
-      newMonth.dataset.value = m;
-      newMonth.classList.add('m-' + m);
-      monthNode.appendChild(newMonth);
+      var dt = new Date(2000, m, 1);
+      var opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = dt.toString('MMMM');
+      this.monthSelect.appendChild(opt);
     }
-    var yearLoopMax = this.maxDate !== false ? this.maxDate.getFullYear() : new Date().getFullYear() + 51;
-    for (; y < yearLoopMax + 1; y++)
+
+    // Populate year select (once)
+    var yMin = this.minDate !== false ? this.minDate.getFullYear() : 1900;
+    var yMax = this.maxDate !== false ? this.maxDate.getFullYear() : new Date().getFullYear() + 51;
+    for (var y = yMin; y <= yMax; y++)
     {
-      newYear = document.createElement('span');
-      newYear.setAttribute('tabindex', '-1');
-      newYear.innerHTML = y;
-      newYear.dataset.value = y;
-      newYear.classList.add('y-' + y);
-      yearNode.appendChild(newYear);
+      var opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      this.yearSelect.appendChild(opt);
     }
 
     this.calendarNode.querySelector('.ui-cal-cells').dataset.month = '';
@@ -52461,20 +52732,19 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         this.showTime = false;
         this.datesNode.classList.remove('hidden');
         this.dateDisplayNode.classList.remove('hidden');
-        this.enableAutoClose = true;
         break;
+        case 'datetime':
+          this.showCalendar = true;
+          this.showTime = true;
+          this.datesNode.classList.remove('hidden');
+          this.timeNode.classList.remove('hidden');
+          this.dateDisplayNode.classList.remove('hidden');
+          this.timeDisplayNode.classList.remove('hidden');
+          break;
       case 'time':
         this.showCalendar = false;
         this.showTime = true;
         this.timeNode.classList.remove('hidden');
-        this.timeDisplayNode.classList.remove('hidden');
-        break;
-      case 'datetime':
-        this.showCalendar = true;
-        this.showTime = true;
-        this.datesNode.classList.remove('hidden');
-        this.timeNode.classList.remove('hidden');
-        this.dateDisplayNode.classList.remove('hidden');
         this.timeDisplayNode.classList.remove('hidden');
         break;
       case 'hoursmins':
@@ -52620,17 +52890,21 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
     /**/
 
-    this.calendarNode.querySelector('.ui-cal-reset').addEventListener('click', this.setToday);
-    this.calendarNode.querySelector('.ui-cal-clear').addEventListener('click', this.setNone);
+    // Button bar events
+    this.calendarNode.querySelector('.ui-cal-btn-apply').addEventListener('click', this._btnApplyClicked);
+    this.calendarNode.querySelector('.ui-cal-btn-cancel').addEventListener('click', this._btnCancelClicked);
+    this.calendarNode.querySelector('.ui-cal-btn-today').addEventListener('click', this._btnTodayClicked);
+    this.calendarNode.querySelector('.ui-cal-btn-clear').addEventListener('click', this._btnClearClicked);
 
     this.calendarNode.querySelector('.ui-cal-back-month').addEventListener('click', this._monthBackClicked);
     this.calendarNode.querySelector('.ui-cal-forward-month').addEventListener('click', this._monthForwardClicked);
 
-    this.calendarNode.querySelector('.ui-cal-current-month').addEventListener('click', this._monthClicked);
-    this.calendarNode.querySelector('.ui-cal-current-year').addEventListener('click', this._yearClicked);
-
-    this.calendarNode.querySelector('.ui-cal-months').addEventListener('click', this._monthsClicked);
-    this.calendarNode.querySelector('.ui-cal-years').addEventListener('click', this._yearsClicked);
+    this.monthSpan.addEventListener('click', this._monthClicked);
+    this.monthSelect.addEventListener('change', this._monthSelectChanged);
+    this.monthSelect.addEventListener('blur', this._monthSelectBlur);
+    this.yearSpan.addEventListener('click', this._yearClicked);
+    this.yearSelect.addEventListener('change', this._yearSelectChanged);
+    this.yearSelect.addEventListener('blur', this._yearSelectBlur);
 
     if (Affinity2018.IsMobile)
     {
@@ -52641,7 +52915,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.displayNode.addEventListener('focus', this.show);
       this.displayNode.addEventListener('keyup', this._displayKeyUp);
-      this.displayNode.addEventListener('blur', this._displayBlur);
+      this.displayNode.addEventListener('blur', this._displayBlur);      
     }
 
     this.timeDisplayNode.addEventListener('click', this._timeClicked);
@@ -52836,113 +53110,44 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   show()
   {
+    if (Affinity2018.IsMobile)
+    {
+      this._showMobile();
+      return;
+    }
     if (this.status === 'open') return;
     if (this.showInline) return;
     if (!this.showInline && Affinity2018.Calendars) Affinity2018.Calendars.HideAll(this);
     if (!this.showInline && Affinity2018.Autocompletes) Affinity2018.Autocompletes.HideAll();
+
+    // Snapshot current committed date for Cancel, and initialise staged to it
+    this._originalDate = this.date ? this.date.clone() : null;
+    this._staged = this.date ? this.date.clone() : null;
+
     this._setHideShowEvents();
     if (this.showCalendar) this.datesNode.classList.add('show');
-    if (this.showCalendar && this.nullable) this.calendarNode.querySelector('.ui-cal-clear').classList.remove('hidden');
-    if (this.showCalendar && !this.nullable) this.calendarNode.querySelector('.ui-cal-clear').classList.add('hidden');
+    if (this.showCalendar && this.nullable) this.calendarNode.querySelector('.ui-cal-btn-clear').classList.remove('hidden');
+    if (this.showCalendar && !this.nullable) this.calendarNode.querySelector('.ui-cal-btn-clear').classList.add('hidden');
     if (!this.showCalendar && this.showTime) this.timeNode.classList.add('show');
-    if (this.monthNode) this.monthNode.classList.remove('show');
-    if (this.yearNode) this.yearNode.classList.remove('show');
     this.calendarNode.classList.add('show', 'do-not-auto-hide');
-    if (Affinity2018.IsMobile) this.calendarNode.style.setProperty('--sheet-translateY', '0px');
+    if (Affinity2018.IsMobile) { /* mobile animation handled by _showMobile */ }
     this.status = 'open';
+    this._setPosition('show');
+    this._markCalendarDates(this._staged || this.__uiDate);
+    if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
     if (Affinity2018.IsMobile)
     {
-      // Scrim
-      if (!this._mobileScrim)
-      {
-        this._mobileScrim = document.createElement('div');
-        this._mobileScrim.className = 'ui-cal-scrim';
-        this._mobileScrim.addEventListener('click', this.hide);
-      }
-      document.body.appendChild(this._mobileScrim);
-
-      // Grip bar
-      if (!this.calendarNode.querySelector('.ui-cal-grip'))
-      {
-        let grip = document.createElement('div');
-        grip.className = 'ui-cal-grip';
-        this.calendarNode.insertBefore(grip, this.calendarNode.firstChild);
-      }
-
-      // Drag-to-close on grip — touch drag down past threshold dismisses the calendar.
-      let grip = this.calendarNode.querySelector('.ui-cal-grip');
-      if (grip && !grip._dragWired)
-      {
-        let sheet = this.calendarNode;
-        let dragStartY = 0;
-        grip.addEventListener('touchstart', (e) =>
-        {
-          if (e.touches.length !== 1) return;
-          dragStartY = e.touches[0].clientY;
-          sheet.style.setProperty('--sheet-transition', 'none');
-        }, { passive: false });
-
-        grip.addEventListener('touchmove', (e) =>
-        {
-          if (e.touches.length !== 1) return;
-          e.preventDefault();
-          let deltaY = e.touches[0].clientY - dragStartY;
-          if (deltaY < 0) deltaY = 0;
-          sheet.style.setProperty('--sheet-translateY', deltaY + 'px');
-        }, { passive: false });
-
-        grip.addEventListener('touchend', (e) =>
-        {
-          let deltaY = e.changedTouches[0].clientY - dragStartY;
-          sheet.style.setProperty('--sheet-transition', '');
-          if (deltaY > 50)
-          {
-            sheet.style.setProperty('--sheet-translateY', '100vh');
-            setTimeout(() => this.hide(), 200);
-          }
-          else
-          {
-            sheet.style.setProperty('--sheet-translateY', '');
-          }
-        }, { passive: true });
-
-        grip._dragWired = true;
-      }
-
-      // Keyboard icon — lets user dismiss calendar and type date manually
-      if (!this.calendarNode.querySelector('.ui-cal-keyboard'))
-      {
-        let kbBtn = document.createElement('button');
-        kbBtn.className = 'ui-cal-keyboard';
-        kbBtn.type = 'button';
-        kbBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"/></svg>';
-        kbBtn.title = 'Type date manually';
-        kbBtn.addEventListener('click', () => {
-          this.hide();
-          this.displayNode.removeEventListener('keyup', this._displayKeyUp);
-          this.displayNode.removeEventListener('blur', this._displayBlur);
-          this.displayNode.addEventListener('keyup', this._displayKeyUp);
-          this.displayNode.addEventListener('blur', this._displayBlur);
-          this.displayNode.focus();
-        });
-        this.calendarNode.appendChild(kbBtn);
-      }
-
-      if (Affinity2018.hasOwnProperty('lockBodyScroll')) Affinity2018.lockBodyScroll();
-
-      // Dismiss keyboard — calendar is tap-only, no need for keyboard
-      if (document.activeElement === this.displayNode)
-      {
-        this.displayNode.blur();
-      }
+      // Mobile show is handled by _showMobile — skip here
     }
-    this._setPosition('show');
-    this._markCalendarDates(this.date);
-    if (Affinity2018.hasOwnProperty('ForceSectionTop')) Affinity2018.ForceSectionTop(this.calendarNode);
   }
 
   hide(ev)
   {
+    if (Affinity2018.IsMobile)
+    {
+      this._hideMobile();
+      return;
+    }
     if (this.calendarNode.classList.contains('do-not-auto-hide'))
     {
       this.calendarNode.classList.remove('do-not-auto-hide');
@@ -52951,23 +53156,108 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this._clearShowHideEvents();
       if (this.showInline) return;
-      if (this.monthNode) this.monthNode.classList.remove('show');
-      if (this.yearNode) this.yearNode.classList.remove('show');
+      if (this.monthWrap) { this.monthWrap.classList.add('hidden'); this.monthSpan.classList.remove('hidden'); }
+      if (this.yearWrap) { this.yearWrap.classList.add('hidden'); this.yearSpan.classList.remove('hidden'); }
       if (this.datesNode) this.datesNode.classList.remove('show');
       if (this.timeNode) this.timeNode.classList.remove('show');
       if (this.showTime && this.timeWidget) this.timeWidget.showHours();
       this.calendarNode.classList.remove('show');
+      this._staged = null;
+      this._originalDate = null;
       this.status = 'closed';
       this.mouseState = '';
       if (Affinity2018.IsMobile)
       {
-        if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
-        this.calendarNode.style.setProperty('--sheet-translateY', '100vh');
-        this.calendarNode.style.setProperty('--sheet-transition', '');
-        if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
+        // Mobile hide is handled by _hideMobile — skip here
       }
-      //if (Affinity2018.hasOwnProperty('ResetForceSectionTop')) Affinity2018.ResetForceSectionTop(this.calendarNode);
     }
+  }
+
+  // --- Mobile-specific show/hide — bypass desktop positioning, use BottomSheet plugin ---
+
+  _showMobile()
+  {
+    if (this.status === 'open') return;
+    if (Affinity2018.Calendars) Affinity2018.Calendars.HideAll(this);
+    if (Affinity2018.Autocompletes) Affinity2018.Autocompletes.HideAll();
+
+    this._originalDate = this.date ? this.date.clone() : null;
+    this._staged = this.date ? this.date.clone() : null;
+
+    this._setHideShowEvents();
+    if (this.showCalendar) this.datesNode.classList.add('show');
+    if (this.showCalendar && this.nullable) this.calendarNode.querySelector('.ui-cal-btn-clear').classList.remove('hidden');
+    if (this.showCalendar && !this.nullable) this.calendarNode.querySelector('.ui-cal-btn-clear').classList.add('hidden');
+    if (!this.showCalendar && this.showTime) this.timeNode.classList.add('show');
+    this.calendarNode.classList.add('show', 'do-not-auto-hide');
+    this.status = 'open';
+    this._markCalendarDates(this._staged || this.__uiDate);
+
+    // Scrim
+    if (!this._mobileScrim)
+    {
+      this._mobileScrim = document.createElement('div');
+      this._mobileScrim.className = 'ui-cal-scrim';
+      this._mobileScrim.addEventListener('click', this.hide);
+    }
+    document.body.appendChild(this._mobileScrim);
+
+    // Keyboard icon — lets user dismiss calendar and type date manually
+    if (!this.calendarNode.querySelector('.ui-cal-keyboard'))
+    {
+      let kbBtn = document.createElement('button');
+      kbBtn.className = 'ui-cal-keyboard';
+      kbBtn.type = 'button';
+      kbBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="6" y1="9" x2="6.01" y2="9"/><line x1="12" y1="9" x2="12.01" y2="9"/><line x1="18" y1="9" x2="18.01" y2="9"/><line x1="8" y1="15" x2="16" y2="15"/></svg>';
+      kbBtn.title = 'Type date manually';
+      kbBtn.addEventListener('click', () => {
+        this.hide();
+        this.displayNode.removeEventListener('keyup', this._displayKeyUp);
+        this.displayNode.removeEventListener('blur', this._displayBlur);
+        this.displayNode.addEventListener('keyup', this._displayKeyUp);
+        this.displayNode.addEventListener('blur', this._displayBlur);
+        this.displayNode.focus();
+      });
+      var btnBar = this.calendarNode.querySelector('.ui-cal-buttons');
+      if (btnBar) btnBar.appendChild(kbBtn);
+      else this.calendarNode.appendChild(kbBtn);
+    }
+
+    // BottomSheet plugin handles slide-up animation + drag-to-close
+    this._mobileSheet.open(() =>
+    {
+      // onClose — called after close animation completes
+      if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+      if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
+    });
+
+    if (Affinity2018.hasOwnProperty('lockBodyScroll')) Affinity2018.lockBodyScroll();
+
+    // Dismiss keyboard — calendar is tap-only
+    if (document.activeElement === this.displayNode) this.displayNode.blur();
+  }
+
+  _hideMobile()
+  {
+    if (this.calendarNode.classList.contains('do-not-auto-hide'))
+    {
+      this.calendarNode.classList.remove('do-not-auto-hide');
+      return;
+    }
+    this._clearShowHideEvents();
+    if (this.monthWrap) { this.monthWrap.classList.add('hidden'); this.monthSpan.classList.remove('hidden'); }
+    if (this.yearWrap) { this.yearWrap.classList.add('hidden'); this.yearSpan.classList.remove('hidden'); }
+    if (this.datesNode) this.datesNode.classList.remove('show');
+    if (this.timeNode) this.timeNode.classList.remove('show');
+    if (this.showTime && this.timeWidget) this.timeWidget.showHours();
+    this.calendarNode.classList.remove('show');
+    this._staged = null;
+    this._originalDate = null;
+    this.status = 'closed';
+    this.mouseState = '';
+
+    // BottomSheet plugin handles slide-down animation + onClose callback
+    this._mobileSheet.close();
   }
 
   /**/
@@ -52997,9 +53287,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }
     else
     {
-      if (Affinity2018.isDate(this.date))
+      if (Affinity2018.isDate(this._staged))
       {
-        date = this.date; // fallback to set date
+        date = this._staged; // prefer staged date for calendar view
+      }
+      else if (Affinity2018.isDate(this.date))
+      {
+        date = this.date; // fallback to committed date
       }
       else
       {
@@ -53090,25 +53384,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         var found;
 
-        this.datesNode.querySelector('.ui-cal-current-month').innerHTML = passedDate.toString('MMMM');
-        this.datesNode.querySelector('.ui-cal-current-year').innerHTML = passedDate.toString('yyyy');
+        if (this.monthSpan) this.monthSpan.textContent = passedDate.toString('MMMM');
+        if (this.yearSpan) this.yearSpan.textContent = passedDate.toString('yyyy');
 
-        if (this.calendarNode.querySelector('.ui-cal-months span.selected')) this.calendarNode.querySelector('.ui-cal-months span.selected').classList.remove('selected');
-        if (this.calendarNode.querySelector('.ui-cal-years span.selected')) this.calendarNode.querySelector('.ui-cal-years span.selected').classList.remove('selected');
         if (this.calendarNode.querySelector('.ui-date-cell.selected')) this.calendarNode.querySelector('.ui-date-cell.selected').classList.remove('selected');
+        if (this.calendarNode.querySelector('.ui-date-cell.committed')) this.calendarNode.querySelector('.ui-date-cell.committed').classList.remove('committed');
         if (this.calendarNode.querySelector('.ui-date-cell.today')) this.calendarNode.querySelector('.ui-date-cell.today').classList.remove('today');
-
-        found = this.calendarNode.querySelector('.ui-cal-months .m-' + passedDate.getMonth())
-        if (found) 
-        {
-          found.classList.add('selected');
-        }
-
-        found = this.calendarNode.querySelector('.ui-cal-years .y-' + passedDate.getFullYear());
-        if (found) 
-        {
-          found.classList.add('selected');
-        }
 
         var todayDate = Date.today().clearTime();
         var todayString = todayDate.toString("d-MMM-yyyy");
@@ -53117,7 +53398,20 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         {
           found.classList.add('today');
         }
-    
+
+        // Mark the committed date (what was in the form field when we opened)
+        var committedDate = this._originalDate || this.date;
+        if (committedDate && Affinity2018.isDate(committedDate))
+        {
+          var committedString = committedDate.toString("d-MMM-yyyy");
+          found = this.datesNode.querySelector('.date-' + committedString);
+          if (found)
+          {
+            found.classList.add('committed');
+          }
+        }
+
+        // Mark the staged/selected date
         var selectedString = passedDate.toString("d-MMM-yyyy");
         found = this.datesNode.querySelector('.date-' + selectedString);
         if (found) 
@@ -53144,11 +53438,32 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (cellNode)
     {
       cellDate = Date.parse(cellNode.dataset.date);
-      this.setDate(cellDate);
 
-      let prevCheck = `${this.date.getMonth()}-${this.date.getFullYear()}`;
-      let nextCheck = `${cellDate.getMonth()}-${cellDate.getFullYear()}`;
-      if (prevCheck !== nextCheck)
+      // Preserve time from the currently staged/committed date
+      if (this.showTime)
+      {
+        var timeSource = this._staged || this.date || this.__uiDate;
+        if (timeSource && Affinity2018.isDate(timeSource))
+        {
+          cellDate.setHours(timeSource.getHours());
+          cellDate.setMinutes(timeSource.getMinutes());
+          cellDate.setSeconds(0);
+          cellDate.setMilliseconds(0);
+        }
+      }
+
+      // Stage the date — don't commit to this.date yet
+      this._staged = cellDate;
+      this.__uiDate = cellDate.clone();
+
+      // Update display row to show what the user has selected
+      this._updateStagedDisplay();
+
+      let currentMonth = this.calendarNode.querySelector('.ui-cal-cells').dataset.month;
+      let currentYear = this.calendarNode.querySelector('.ui-cal-cells').dataset.year;
+      let newMonth = cellDate.toString('MMM');
+      let newYear = cellDate.toString('yyyy');
+      if (currentMonth + currentYear !== newMonth + newYear)
       {
         this._buildCalendar(cellDate);
       }
@@ -53156,7 +53471,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       {
         this._markCalendarDates(cellDate);
       }
-      if (this.enableAutoClose) this.hide();
     }
   }
 
@@ -53166,48 +53480,47 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       this.humanInteraction = true;
     }
-    if (
-      ev.keyCode === 13 // enter
-      || ev.keyCode === 9 // tab
-      || ev.keyCode === 40 // down
-    )
+    if (ev.keyCode === 13) // enter only — commit via Apply
     {
+      var str = this.displayNode.value.trim();
 
-      if (this.nullable)
+      if (this.nullable && str === '')
       {
-        if (this.displayNode.value.trim() === '')
-        {
-          this.date = null;
-          this._buildCalendar(Date.today());
-        }
-        else
-        {
-          this._setDateFromStr(this.displayNode.value.trim());
-        }
-      }
-      else
-      {
-        this._setDateFromStr(this.displayNode.value.trim());
+        this._staged = null;
+        this._buildCalendar(Date.today());
+        return;
       }
 
-      //if (this.nullable && this.displayNode.value.trim() === '') return;
-      //this._setDateFromStr(this.displayNode.value.trim());
+      // Resolve the typed string to a date
+      var resolved = null;
+      if (Affinity2018.hasOwnProperty('resolveNamedDate'))
+      {
+        resolved = Affinity2018.resolveNamedDate(str);
+      }
+      if (!resolved || !Affinity2018.isDate(resolved))
+      {
+        resolved = $a.stringToDate(str);
+      }
+
+      if (resolved && Affinity2018.isDate(resolved) && resolved.isValid())
+      {
+        // Enter = Apply — commit the typed date and close
+        this._staged = resolved;
+        this._btnApplyClicked();
+      }
     }
   }
 
   _displayBlur(ev)
   {
-    if (this.nullable)
+    // If the calendar is open, don't commit on blur — let Apply handle it
+    if (this.status === 'open') return;
+
+    var str = this.displayNode.value.trim();
+    if (this.nullable && str === '')
     {
-      if (this.displayNode.value.trim() === '')
-      {
-        this.date = null;
-        this._buildCalendar(Date.today());
-      }
-      else
-      {
-        this._setDateFromStr(this.displayNode.value.trim());
-      }
+      this.date = null;
+      this._buildCalendar(Date.today());
     }
     else
     {
@@ -53310,7 +53623,16 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       attemptStr = attemptStr.replace(/\s\s+/g, ' ');
       attemptStr = attemptStr.trim();
 
-      attempt = $a.stringToDate(attemptStr);
+      // Try named date resolver first (christmas, anzac day + 2 weeks, etc)
+      if (Affinity2018.hasOwnProperty('resolveNamedDate'))
+      {
+        attempt = Affinity2018.resolveNamedDate(attemptStr);
+      }
+      // Fall through to standard date parsing if named date didn't match
+      if (!attempt || !Affinity2018.isDate(attempt))
+      {
+        attempt = $a.stringToDate(attemptStr);
+      }
 
       if (returnResult)
       {
@@ -53380,77 +53702,113 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     clearTimeout(this.bgEventListenerDelay);
     this._clearShowHideEvents();
-    if (this.enableAutoClose && !Affinity2018.IsMobile) this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
+    if (!Affinity2018.IsMobile) this.bgEventListenerDelay = setTimeout(function () { window.addEventListener('click', this._windowClicked); }.bind(this), 100);
     this.displayNode.addEventListener('click', this._stopEvents);
     this.calendarNode.addEventListener('click', this._stopEvents);
   }
 
   /**/
 
+  // Navigation helpers — all operate on __uiDate (the "view" date), never touch this.date
+  _getNavDate()
+  {
+    return this.__uiDate || this._staged || new Date();
+  }
+
   _monthBackClicked()
   {
     clearTimeout(this.hideDelay);
-    if (this.date) this.date.add({ months: -1 });
-    else this.__uiDate.add({ months: -1 });
+    this._getNavDate().add({ months: -1 });
     this._buildCalendar();
   }
   _monthForwardClicked()
   {
     clearTimeout(this.hideDelay);
-    if (this.date) this.date.add({ months: 1 });
-    else this.__uiDate.add({ months: 1 });
+    this._getNavDate().add({ months: 1 });
     this._buildCalendar();
   }
 
+  // Month: click span -> show select
   _monthClicked()
   {
     clearTimeout(this.hideDelay);
-    this.yearNode.classList.remove('show');
-    this.monthNode.classList.add('show');
-  }
-  _monthsClicked(ev)
-  {
-    clearTimeout(this.hideDelay);
-    var node = ev.target.tagName.toLowerCase() === 'span' ? ev.target : false;
-    if (node)
-    {
-      if (this.date) this.date.setMonth(node.dataset.value);
-      else this.__uiDate.setMonth(node.dataset.value);
-      this._setAll();
-      this._buildCalendar();
-      this.monthNode.classList.remove('show');
-      this.yearNode.classList.remove('show');
-    }
+    var cellsNode = this.calendarNode.querySelector('.ui-cal-cells');
+    var rendered = new Date(Date.parse('1 ' + cellsNode.dataset.month + ' ' + cellsNode.dataset.year));
+    this.monthSelect.value = rendered.getMonth();
+    this.monthSpan.classList.add('hidden');
+    this.monthWrap.classList.remove('hidden');
+    this.monthSelect.focus();
+    try {
+      this.monthSelect.showPicker();
+    } catch {}
   }
 
+  _monthSelectChanged()
+  {
+    var cellsNode = this.calendarNode.querySelector('.ui-cal-cells');
+    var rendered = new Date(Date.parse('1 ' + cellsNode.dataset.month + ' ' + cellsNode.dataset.year));
+    var selected = this.monthSelect.value.toString().trim();
+    var compare = rendered.getMonth().toString().trim();
+
+    if (selected !== compare)
+    {
+      rendered.setMonth(selected);
+      cellsNode.dataset.month = '';
+      cellsNode.dataset.year = '';
+      this._buildCalendar(rendered);
+    }
+
+    this.monthWrap.classList.add('hidden');
+    this.monthSpan.classList.remove('hidden');
+  }
+
+  _monthSelectBlur()
+  {
+    setTimeout(function() {
+      this.monthWrap.classList.add('hidden');
+      this.monthSpan.classList.remove('hidden');
+    }.bind(this), 150);
+  }
+
+  // Year: click span -> show select
   _yearClicked()
   {
     clearTimeout(this.hideDelay);
-    var y = this.date ? this.date.getFullYear() : new Date().getFullYear(),
-      node = this.calendarNode.querySelector('.ui-cal-years .y-' + y),
-      nodeRect;
-    if (node)
-    {
-      node.parentNode.scrollTo(0, 0);
-      this.monthNode.classList.remove('show');
-      this.yearNode.classList.add('show');
-      nodeRect = Affinity2018.getOffsetRect(node);
-      node.parentNode.scrollTo(0, (nodeRect.y + (nodeRect.height / 2)) - (node.parentNode.offsetHeight / 2));
-    }
+    var cellsNode = this.calendarNode.querySelector('.ui-cal-cells');
+    this.yearSelect.value = cellsNode.dataset.year;
+    this.yearSpan.classList.add('hidden');
+    this.yearWrap.classList.remove('hidden');
+    this.yearSelect.focus();
+    try {
+      this.yearSelect.showPicker();
+    } catch {}
   }
-  _yearsClicked(ev)
+
+  _yearSelectChanged()
   {
-    clearTimeout(this.hideDelay);
-    var node = ev.target.tagName.toLowerCase() === 'span' ? ev.target : false;
-    if (node)
+    var cellsNode = this.calendarNode.querySelector('.ui-cal-cells');
+    var rendered = new Date(Date.parse('1 ' + cellsNode.dataset.month + ' ' + cellsNode.dataset.year));
+    var selected = this.yearSelect.value.toString().trim();
+    var compare = rendered.getFullYear().toString().trim();
+
+    if (selected !== compare)
     {
-      if (this.date) this.date.setYear(node.dataset.value);
-      else this.__uiDate.setYear(node.dataset.value);
-      this._setAll();
-      this._buildCalendar();
-      this.monthNode.classList.remove('show');
-      this.yearNode.classList.remove('show');
+      rendered.setYear(selected);
+      cellsNode.dataset.month = '';
+      cellsNode.dataset.year = '';
+      this._buildCalendar(rendered);
     }
+
+    this.yearWrap.classList.add('hidden');
+    this.yearSpan.classList.remove('hidden');
+  }
+
+  _yearSelectBlur()
+  {
+    setTimeout(function() {
+      this.yearWrap.classList.add('hidden');
+      this.yearSpan.classList.remove('hidden');
+    }.bind(this), 150);
   }
 
   _timeClicked()
@@ -53458,6 +53816,89 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     clearTimeout(this.hideDelay);
     if (!this.showTime) return;
     this.timeNode.classList.add('show');
+  }
+
+  /**/
+
+  _btnApplyClicked()
+  {
+    this.humanInteraction = true;
+
+    // Only parse display input as fallback when no cell was clicked (i.e. _staged is null)
+    if (!this._staged || !Affinity2018.isDate(this._staged))
+    {
+      var displayVal = this.displayNode.value.trim();
+      if (displayVal !== '')
+      {
+        var typed = null;
+        if (Affinity2018.hasOwnProperty('resolveNamedDate'))
+        {
+          typed = Affinity2018.resolveNamedDate(displayVal);
+        }
+        if (!typed || !Affinity2018.isDate(typed))
+        {
+          typed = $a.stringToDate(displayVal);
+        }
+        if (typed && Affinity2018.isDate(typed) && typed.isValid())
+        {
+          this._staged = typed;
+        }
+      }
+    }
+
+    if (this._staged && Affinity2018.isDate(this._staged))
+    {
+      this.setDate(this._staged, true, false);
+    }
+    this._staged = null;
+    this._originalDate = null;
+    this.hide();
+  }
+
+  _btnCancelClicked()
+  {
+    this._staged = null;
+    this._originalDate = null;
+    this.hide();
+  }
+
+  _btnTodayClicked()
+  {
+    var today = new Date();
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    this._staged = today;
+    this.__uiDate = today.clone();
+    this._buildCalendar(today);
+    this._markCalendarDates(today);
+    this._updateStagedDisplay();
+  }
+
+  _btnClearClicked()
+  {
+    this.setNone(true);
+    this._staged = null;
+    this._originalDate = null;
+    this.hide();
+  }
+
+  // Updates the footer display row to show the staged (not yet committed) date
+  _updateStagedDisplay()
+  {
+    if (this._staged && Affinity2018.isDate(this._staged))
+    {
+      var dateStr = '';
+      if (this.showCalendar) dateStr += this._staged.toString(this.dateFormat);
+      this.dateDisplayNode.innerHTML = dateStr;
+      this.dateDisplayNode.classList.remove('hidden');
+
+      if (this.showTime)
+      {
+        var timeStr = this._staged.toString(this.timeFormat);
+        this.timeDisplayNode.innerHTML = timeStr;
+        this.timeDisplayNode.classList.remove('hidden');
+      }
+    }
   }
 
   /**/
@@ -53494,7 +53935,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   _setPosition(calledFrom)
   {
     clearTimeout(this._positionDelay);
-    if (Affinity2018.IsMobile) return;
     if (
       this.calendarNode &&
       this.status === 'open'
@@ -53513,11 +53953,18 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
         scroll = document.body.scrollTop || 0,
         calendarBottom = parseFloat(calendarRect.top) + parseFloat(calendarRect.height) + scroll;
 
-      if (calendarBottom > windwSize.height)
+      if (!Affinity2018.IsMobile && calendarBottom > windwSize.height)
       {
         this.calendarNode.classList.add('above');
       }
-      // REMOVED: if (Affinity2018.mobile || Affinity2018.IsMobile) { scrollIntoView... }
+      /*
+      if (Affinity2018.mobile || Affinity2018.IsMobile)
+      {
+        var offset = document.querySelector('.ss-dashboard-wrap-main-header') ? document.querySelector('.ss-dashboard-wrap-main-header').getBoundingClientRect().height : 0;
+        this.calendarNode.scrollIntoView({ behavior: 'auto', block: 'start' });
+        window.scrollTo(window.scrollX, window.scrollY - offset - 10);
+      }
+      */
     }
   }
 
@@ -53552,6 +53999,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   Destroy()
   {
     this._clearShowHideEvents();
+    if (this._mobileSheet) this._mobileSheet.destroy();
+    if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
     clearTimeout(this.watchTimer);
     clearTimeout(this.bgEventListenerDelay);
     clearTimeout(this._positionDelay);
@@ -53561,10 +54010,16 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     }.bind(this));
     this.calendarNode.querySelector('.ui-cal-back-month').removeEventListener('click', this._monthBackClicked);
     this.calendarNode.querySelector('.ui-cal-forward-month').removeEventListener('click', this._monthForwardClicked);
-    this.calendarNode.querySelector('.ui-cal-current-month').removeEventListener('click', this._monthClicked);
-    this.calendarNode.querySelector('.ui-cal-current-year').removeEventListener('click', this._yearClicked);
-    this.calendarNode.querySelector('.ui-cal-months').removeEventListener('click', this._monthsClicked);
-    this.calendarNode.querySelector('.ui-cal-years').removeEventListener('click', this._yearsClicked);
+    this.monthSpan.removeEventListener('click', this._monthClicked);
+    this.monthSelect.removeEventListener('change', this._monthSelectChanged);
+    this.monthSelect.removeEventListener('blur', this._monthSelectBlur);
+    this.yearSpan.removeEventListener('click', this._yearClicked);
+    this.yearSelect.removeEventListener('change', this._yearSelectChanged);
+    this.yearSelect.removeEventListener('blur', this._yearSelectBlur);
+    this.calendarNode.querySelector('.ui-cal-btn-apply').removeEventListener('click', this._btnApplyClicked);
+    this.calendarNode.querySelector('.ui-cal-btn-cancel').removeEventListener('click', this._btnCancelClicked);
+    this.calendarNode.querySelector('.ui-cal-btn-today').removeEventListener('click', this._btnTodayClicked);
+    this.calendarNode.querySelector('.ui-cal-btn-clear').removeEventListener('click', this._btnClearClicked);
     this.displayNode.removeEventListener('focus', this.show);
     this.displayNode.removeEventListener('click', this.show);
     this.displayNode.removeEventListener('keyup', this._displayKeyUp);
@@ -53606,11 +54061,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     this.calendarTemplate = `
     <div class="ui-cal-inner" tabindex="-1">
+      <div class="ui-cal-grip" tabindex="-1"></div>
       <div class="ui-cal-dates hidden" tabindex="-1">
         <div class="ui-cal-current" tabindex="-1" >
           <span class="ui-cal-back-month icon-arrow-left" tabindex="-1"></span>
           <span class="ui-cal-current-month" tabindex="-1">Jan</span>
+          <div class="select ui-cal-month-wrap hidden" tabindex="-1"><select class="ui-cal-month-select" tabindex="-1"></select></div>
           <span class="ui-cal-current-year" tabindex="-1">2019</span>
+          <div class="select ui-cal-year-wrap hidden" tabindex="-1"><select class="ui-cal-year-select" tabindex="-1"></select></div>
           <span class="ui-cal-forward-month icon-arrow-right" tabindex="-1"></span>
         </div>
         <div class="ui-cal-cells" tabindex="-1">
@@ -53625,10 +54083,17 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           </div>
         </div>
         <div class="ui-cal-display" tabindex="-1">
-          <span class="ui-cal-display-date hidden" tabindex="-1"></span><span class="ui-cal-display-time hidden" tabindex="-1"></span><span class="ui-cal-reset" tabindex="-1">Today</span><span class="ui-cal-clear hidden" tabindex="-1">Clear</span>
+          <div class="ui-cal-display-row" tabindex="-1">
+            <span class="ui-cal-display-date hidden" tabindex="-1"></span>
+            <span class="ui-cal-display-time hidden" tabindex="-1"></span>
+          </div>
+          <div class="ui-cal-buttons" tabindex="-1">
+            <button type="button" class="btn-secondary btn-sm ui-cal-btn-cancel" tabindex="-1">Cancel</button>
+            <button type="button" class="btn-secondary btn-sm ui-cal-btn-clear hidden" tabindex="-1">Clear</button>
+            <button type="button" class="btn-secondary btn-sm ui-cal-btn-today" tabindex="-1">Today</button>
+            <button type="button" class="btn-secondary btn-sm affinity-blue ui-cal-btn-apply" tabindex="-1">Apply</button>
+          </div>
         </div>
-        <div class="ui-cal-months" tabindex="-1"></div>
-        <div class="ui-cal-years" tabindex="-1"></div>
       </div>
       <div class="ui-cal-time hidden" tabindex="-1"></div>
     </div>
@@ -54247,6 +54712,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
 
       '_humanInteraction',
 
+      '_applyMobileScale',
+
       'Destroy',
 
       '_templates'
@@ -54290,17 +54757,11 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     this.FormRowNode = this.InitNode.closest('.form-row') ? this.InitNode.closest('.form-row') : false;
 
     this.CanvasWidth = this.MinWidth;
-    this.CanvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
+    this.CanvasHeight = this.MinHeight;
     if (this.FormRowNode) 
     {
       this.CanvasWidth = this.FormRowNode.getBoundingClientRect().width;
       this.CanvasHeight = Math.floor((9 / 16) * this.CanvasWidth);
-    }
-
-    if (Affinity2018.IsMobile)
-    {
-      this.MaxWidth = this.CanvasWidth;
-      this.MaxHeight = this.CanvasHeight;
     }
 
     /**/
@@ -54376,6 +54837,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     this.CanvasNode.height = this.CanvasHeight;
     this.CanvasNode.style.width = this.CanvasWidth + 'px';
     this.CanvasNode.style.height = this.CanvasHeight + 'px';
+
+    this._applyMobileScale();
 
     this.SelectBoxNode = this.InnerNode.querySelector('.bg-image-select');
     this.SelectNode = this.SelectBoxNode.querySelector('select');
@@ -54489,14 +54952,13 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
       {
         url = this.GetApi + '?id=' + this.CleverForms.GetInstanceGuid() + '&questionName=' + this.FormRowNode.dataset.name;
       }
-      axios({
-        method: 'GET',
-        url: url
-      }).then(this._getFileFromIdOk).catch(this._gotFileFromIdFail);
+      // RequestCache: get saved drawing data, ttl:0 for pass-through (no caching)
+      Affinity2018.RequestCache.Get(url, this._getFileFromIdOk, this._gotFileFromIdFail, { ttl: 0 });
     }
   }
   _getFileFromIdOk(response)
   {
+    // RequestCache passes data directly; defensive unwrap handles both formats
     let error = null;
     let data = response;
     if (response.hasOwnProperty('status') && response.hasOwnProperty('data'))
@@ -54514,10 +54976,6 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
       {
         error = data.ErrorMsg;
       }
-    }
-    if (error === null && response.hasOwnProperty('status') && !response.status.toString().startsWith('20') )
-    {
-      error = 'network error';
     }
     if (error !== null)
     {
@@ -54552,18 +55010,17 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     /**/
 
     if (
-      Affinity2018.isObject(response)
-      && Affinity2018.isPropObject(response, 'data')
-      && Affinity2018.isPropObject(response.data, 'data')
+      Affinity2018.isObject(data)
+      && Affinity2018.isPropObject(data, 'data')
     )
     {
-      this._total = Object.keys(response.data.data).length;
+      this._total = Object.keys(data.data).length;
       this._loaded = 0;
-      for (var id in response.data.data)
+      for (var id in data.data)
       {
-        if (response.data.data.hasOwnProperty(id))
+        if (data.data.hasOwnProperty(id))
         {
-          this._loadImageData(response.data.data[id], id);
+          this._loadImageData(data.data[id], id);
         }
       }
       this._init();
@@ -54573,17 +55030,16 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     /**/
 
     if (
-      Affinity2018.isObject(response)
-      && Affinity2018.isPropObject(response, 'data')
-      && Affinity2018.isPropBool(response.data, 'FileName')
-      && Affinity2018.isPropString(response.data, 'FilePath')
-      && Affinity2018.isPropString(response.data, 'FileId')
+      Affinity2018.isObject(data)
+      && Affinity2018.isPropBool(data, 'FileName')
+      && Affinity2018.isPropString(data, 'FilePath')
+      && Affinity2018.isPropString(data, 'FileId')
     )
     {
       this.BgImageData.push({
-        name: response.data.FileName,
-        path: response.data.FilePath,
-        fileId: response.data.FileId
+        name: data.FileName,
+        path: data.FilePath,
+        fileId: data.FileId
       });
     }
 
@@ -54742,7 +55198,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
   {
     if (!$a.isObject(imageData))
     {
-      var canvasWidth = this.MinWidth, canvasHeight = Affinity2018.IsMobile ? this.MinHeightMobile : this.MinHeight;
+      var canvasWidth = this.MinWidth, canvasHeight = this.MinHeight;
       if (this.FormRowNode && document.body.classList.contains('cform')) canvasWidth = this.FormRowNode.getBoundingClientRect().width;
       imageData = {
         name: '',
@@ -54773,6 +55229,8 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     this.CanvasNode.style.width = w + 'px';
     this.CanvasNode.style.height = h + 'px';
 
+    this._applyMobileScale();
+
     this.DrawPad.Clear();
     this.InitNode.value = '';
 
@@ -54788,6 +55246,27 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
     if (this.Ready) this._humanInteraction();
 
     if (!this.Ready) this.Ready = true;
+  }
+
+  _applyMobileScale ()
+  {
+    if (!Affinity2018.IsMobile || !this.CanvasNode) return;
+    var availableWidth = this.FormRowNode
+      ? this.FormRowNode.getBoundingClientRect().width
+      : (window.innerWidth - 20);
+    var scale = availableWidth / this.CanvasNode.width;
+    if (scale < 1)
+    {
+      this.CanvasNode.style.transformOrigin = 'top left';
+      this.CanvasNode.style.transform = 'scale(' + scale + ')';
+      this.InnerNode.style.height = Math.floor(this.CanvasNode.height * scale) + 'px';
+    }
+    else
+    {
+      this.CanvasNode.style.transform = '';
+      this.CanvasNode.style.transformOrigin = '';
+      this.InnerNode.style.height = '';
+    }
   }
 
   _canvasDown ()
@@ -54854,7 +55333,7 @@ Affinity2018.Classes.Plugins.DrawPanelWidget = class extends Affinity2018.ClassE
         </select>
       </div>
     </div>
-    <button class="orange clear"><icon class="icon-cancel"></icon>Clear</button>
+    <button class="btn-secondary orange clear"><icon class="icon-cancel"></icon>Clear</button>
     `;
   }
 
@@ -55187,7 +55666,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocMouseUp (ev)
   {
-    Affinity2018.unlockBodyScroll();
+    if (this._mouseButtonDown) Affinity2018.unlockBodyScroll();
     if (ev.which === 1 && this._mouseButtonDown)
     {
       this._mouseButtonDown = false;
@@ -55245,6 +55724,7 @@ Affinity2018.Classes.Plugins.DrawPad = class
   _handleTouchStart (ev)
   {
     Affinity2018.lockBodyScroll();
+    this._touchDrawing = true;
     var touch = ev.changedTouches[0];
     this._strokeBegin(touch);
   }
@@ -55257,7 +55737,12 @@ Affinity2018.Classes.Plugins.DrawPad = class
   }
   _handleDocTouchEnd (ev)
   {
-    Affinity2018.unlockBodyScroll();
+    // Only unlock if the draw panel locked it (a touch stroke was in progress)
+    if (this._touchDrawing)
+    {
+      Affinity2018.unlockBodyScroll();
+      this._touchDrawing = false;
+    }
     var wasCanvasTouched = ev.target === this.canvas;
     if (wasCanvasTouched) this._strokeEnd();
   }
