@@ -1,78 +1,80 @@
 /* Minification failed. Returning unminified contents.
-(7027,59): run-time error CSS1030: Expected identifier, found ','
-(7027,81): run-time error CSS1031: Expected selector, found ')'
-(7027,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7035,59): run-time error CSS1030: Expected identifier, found ','
-(7035,81): run-time error CSS1031: Expected selector, found ')'
-(7035,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7067,82): run-time error CSS1030: Expected identifier, found ','
-(7067,153): run-time error CSS1031: Expected selector, found ')'
-(7067,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(7149,64): run-time error CSS1030: Expected identifier, found ','
-(7149,71): run-time error CSS1031: Expected selector, found ')'
-(7149,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(7157,63): run-time error CSS1030: Expected identifier, found ','
-(7157,70): run-time error CSS1031: Expected selector, found ')'
-(7157,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(7165,72): run-time error CSS1030: Expected identifier, found ','
-(7165,79): run-time error CSS1031: Expected selector, found ')'
-(7165,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(7225,74): run-time error CSS1030: Expected identifier, found ','
-(7225,216): run-time error CSS1031: Expected selector, found ')'
-(7225,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(9030,113): run-time error CSS1030: Expected identifier, found ','
-(9030,125): run-time error CSS1031: Expected selector, found ')'
-(9030,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(10110,73): run-time error CSS1030: Expected identifier, found ','
-(10110,95): run-time error CSS1031: Expected selector, found ')'
-(10110,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10118,73): run-time error CSS1030: Expected identifier, found ','
-(10118,95): run-time error CSS1031: Expected selector, found ')'
-(10118,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10140,73): run-time error CSS1030: Expected identifier, found ','
-(10140,95): run-time error CSS1031: Expected selector, found ')'
-(10140,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10149,73): run-time error CSS1030: Expected identifier, found ','
-(10149,95): run-time error CSS1031: Expected selector, found ')'
-(10149,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10157,73): run-time error CSS1030: Expected identifier, found ','
-(10157,95): run-time error CSS1031: Expected selector, found ')'
-(10157,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10165,73): run-time error CSS1030: Expected identifier, found ','
-(10165,95): run-time error CSS1031: Expected selector, found ')'
-(10165,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10173,73): run-time error CSS1030: Expected identifier, found ','
-(10173,95): run-time error CSS1031: Expected selector, found ')'
-(10173,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(10558,133): run-time error CSS1030: Expected identifier, found ','
-(10558,274): run-time error CSS1031: Expected selector, found ')'
-(10558,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(11154,167): run-time error CSS1030: Expected identifier, found ','
-(11154,309): run-time error CSS1031: Expected selector, found ')'
-(11154,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(11489,108): run-time error CSS1030: Expected identifier, found ','
-(11489,250): run-time error CSS1031: Expected selector, found ')'
-(11489,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(17036,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(17037,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(17249,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(17251,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(18287,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
-(18712,113): run-time error CSS1030: Expected identifier, found ':'
-(18712,114): run-time error CSS1030: Expected identifier, found 'not('
-(18712,125): run-time error CSS1031: Expected selector, found ')'
-(18712,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(28475,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28478,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28484,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(28487,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29150,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(29216,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(30912,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(30913,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(30914,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(31641,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(31644,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(7031,59): run-time error CSS1030: Expected identifier, found ','
+(7031,81): run-time error CSS1031: Expected selector, found ')'
+(7031,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7039,59): run-time error CSS1030: Expected identifier, found ','
+(7039,81): run-time error CSS1031: Expected selector, found ')'
+(7039,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7071,82): run-time error CSS1030: Expected identifier, found ','
+(7071,153): run-time error CSS1031: Expected selector, found ')'
+(7071,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(7153,64): run-time error CSS1030: Expected identifier, found ','
+(7153,71): run-time error CSS1031: Expected selector, found ')'
+(7153,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(7161,63): run-time error CSS1030: Expected identifier, found ','
+(7161,70): run-time error CSS1031: Expected selector, found ')'
+(7161,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(7169,72): run-time error CSS1030: Expected identifier, found ','
+(7169,79): run-time error CSS1031: Expected selector, found ')'
+(7169,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(7229,74): run-time error CSS1030: Expected identifier, found ','
+(7229,216): run-time error CSS1031: Expected selector, found ')'
+(7229,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(9034,113): run-time error CSS1030: Expected identifier, found ','
+(9034,125): run-time error CSS1031: Expected selector, found ')'
+(9034,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(11279,73): run-time error CSS1030: Expected identifier, found ','
+(11279,95): run-time error CSS1031: Expected selector, found ')'
+(11279,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11287,73): run-time error CSS1030: Expected identifier, found ','
+(11287,95): run-time error CSS1031: Expected selector, found ')'
+(11287,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11309,73): run-time error CSS1030: Expected identifier, found ','
+(11309,95): run-time error CSS1031: Expected selector, found ')'
+(11309,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11318,73): run-time error CSS1030: Expected identifier, found ','
+(11318,95): run-time error CSS1031: Expected selector, found ')'
+(11318,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11326,73): run-time error CSS1030: Expected identifier, found ','
+(11326,95): run-time error CSS1031: Expected selector, found ')'
+(11326,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11334,73): run-time error CSS1030: Expected identifier, found ','
+(11334,95): run-time error CSS1031: Expected selector, found ')'
+(11334,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11342,73): run-time error CSS1030: Expected identifier, found ','
+(11342,95): run-time error CSS1031: Expected selector, found ')'
+(11342,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11727,133): run-time error CSS1030: Expected identifier, found ','
+(11727,274): run-time error CSS1031: Expected selector, found ')'
+(11727,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(12323,167): run-time error CSS1030: Expected identifier, found ','
+(12323,309): run-time error CSS1031: Expected selector, found ')'
+(12323,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(12658,108): run-time error CSS1030: Expected identifier, found ','
+(12658,250): run-time error CSS1031: Expected selector, found ')'
+(12658,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(18205,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(18206,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(18502,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(18504,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(19530,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
+(19576,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
+(19580,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
+(20008,113): run-time error CSS1030: Expected identifier, found ':'
+(20008,114): run-time error CSS1030: Expected identifier, found 'not('
+(20008,125): run-time error CSS1031: Expected selector, found ')'
+(20008,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(29755,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29758,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29764,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29767,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30430,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(30496,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(32192,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32193,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32194,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32921,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(32924,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -6980,6 +6982,10 @@ body.ui2018.uiupdate.cform .form .form-row,
 body.ui2018.uiupdate .default-form .form-row,
 body.ui2018.uiupdate.cform .default-form .form-row {
   margin: 0 0 20px 0;
+  /* modern overrides */
+
+  /* end modern overrides */
+
 }
 body.ui2018.uiupdate form .form-row:last-child,
 body.ui2018.uiupdate.cform form .form-row:last-child,
@@ -8617,8 +8623,8 @@ body.ui2018.uiupdate .form .form-row.row-drawpanel div.draw-panel-box div.bg-ima
 body.ui2018.uiupdate.cform .form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
 body.ui2018.uiupdate .default-form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
 body.ui2018.uiupdate.cform .default-form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label {
-  height: 35px;
-  line-height: 32px;
+  height: 40px;
+  line-height: 37px;
   margin: 0 20px 0 0;
 }
 body.ui2018.uiupdate form .form-row.row-drawpanel img,
@@ -9404,6 +9410,1171 @@ body.ui2018.uiupdate.cform .default-form .form-row select:-webkit-autofill {
   color: #1a1a1a !important;
   font-family: inherit;
   -webkit-text-fill-color: 0% !important;
+}
+body.ui2018.uiupdate form .form-row input[type="text"],
+body.ui2018.uiupdate.cform form .form-row input[type="text"],
+body.ui2018.uiupdate .form .form-row input[type="text"],
+body.ui2018.uiupdate.cform .form .form-row input[type="text"],
+body.ui2018.uiupdate .default-form .form-row input[type="text"],
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"],
+body.ui2018.uiupdate form .form-row input[type="password"],
+body.ui2018.uiupdate.cform form .form-row input[type="password"],
+body.ui2018.uiupdate .form .form-row input[type="password"],
+body.ui2018.uiupdate.cform .form .form-row input[type="password"],
+body.ui2018.uiupdate .default-form .form-row input[type="password"],
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"],
+body.ui2018.uiupdate form .form-row input[type="email"],
+body.ui2018.uiupdate.cform form .form-row input[type="email"],
+body.ui2018.uiupdate .form .form-row input[type="email"],
+body.ui2018.uiupdate.cform .form .form-row input[type="email"],
+body.ui2018.uiupdate .default-form .form-row input[type="email"],
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"],
+body.ui2018.uiupdate form .form-row input[type="date"],
+body.ui2018.uiupdate.cform form .form-row input[type="date"],
+body.ui2018.uiupdate .form .form-row input[type="date"],
+body.ui2018.uiupdate.cform .form .form-row input[type="date"],
+body.ui2018.uiupdate .default-form .form-row input[type="date"],
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"],
+body.ui2018.uiupdate form .form-row input[type="number"],
+body.ui2018.uiupdate.cform form .form-row input[type="number"],
+body.ui2018.uiupdate .form .form-row input[type="number"],
+body.ui2018.uiupdate.cform .form .form-row input[type="number"],
+body.ui2018.uiupdate .default-form .form-row input[type="number"],
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"] {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 10px;
+  color: black;
+  background: #f7f9fe;
+  border: 1px solid #e3e8ed;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: black !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border-color 200ms ease;
+  -moz-transition: border-color 200ms ease;
+  -o-transition: border-color 200ms ease;
+  transition: border-color 200ms ease;
+}
+body.ui2018.uiupdate form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"]:-webkit-autofill {
+  background-color: #f7f9fe !important;
+  color: #999999 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #f7f9fe inset;
+  -webkit-text-fill-color: black !important;
+}
+body.ui2018.uiupdate form .form-row input[type="text"].search-field,
+body.ui2018.uiupdate.cform form .form-row input[type="text"].search-field,
+body.ui2018.uiupdate .form .form-row input[type="text"].search-field,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"].search-field,
+body.ui2018.uiupdate .default-form .form-row input[type="text"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"].search-field,
+body.ui2018.uiupdate form .form-row input[type="password"].search-field,
+body.ui2018.uiupdate.cform form .form-row input[type="password"].search-field,
+body.ui2018.uiupdate .form .form-row input[type="password"].search-field,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"].search-field,
+body.ui2018.uiupdate .default-form .form-row input[type="password"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"].search-field,
+body.ui2018.uiupdate form .form-row input[type="email"].search-field,
+body.ui2018.uiupdate.cform form .form-row input[type="email"].search-field,
+body.ui2018.uiupdate .form .form-row input[type="email"].search-field,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"].search-field,
+body.ui2018.uiupdate .default-form .form-row input[type="email"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"].search-field,
+body.ui2018.uiupdate form .form-row input[type="date"].search-field,
+body.ui2018.uiupdate.cform form .form-row input[type="date"].search-field,
+body.ui2018.uiupdate .form .form-row input[type="date"].search-field,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"].search-field,
+body.ui2018.uiupdate .default-form .form-row input[type="date"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"].search-field,
+body.ui2018.uiupdate form .form-row input[type="number"].search-field,
+body.ui2018.uiupdate.cform form .form-row input[type="number"].search-field,
+body.ui2018.uiupdate .form .form-row input[type="number"].search-field,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"].search-field,
+body.ui2018.uiupdate .default-form .form-row input[type="number"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"].search-field {
+  padding-right: 30px;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: auto 14px;
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(0,0,0)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(0,0,0)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+}
+body.ui2018.uiupdate form .form-row input[type="text"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="text"].search-field:hover,
+body.ui2018.uiupdate .form .form-row input[type="text"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="text"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"].search-field:hover,
+body.ui2018.uiupdate form .form-row input[type="password"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="password"].search-field:hover,
+body.ui2018.uiupdate .form .form-row input[type="password"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="password"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"].search-field:hover,
+body.ui2018.uiupdate form .form-row input[type="email"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="email"].search-field:hover,
+body.ui2018.uiupdate .form .form-row input[type="email"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="email"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"].search-field:hover,
+body.ui2018.uiupdate form .form-row input[type="date"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="date"].search-field:hover,
+body.ui2018.uiupdate .form .form-row input[type="date"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="date"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"].search-field:hover,
+body.ui2018.uiupdate form .form-row input[type="number"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="number"].search-field:hover,
+body.ui2018.uiupdate .form .form-row input[type="number"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="number"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"].search-field:hover,
+body.ui2018.uiupdate form .form-row input[type="text"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row input[type="text"].search-field:focus,
+body.ui2018.uiupdate .form .form-row input[type="text"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row input[type="text"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"].search-field:focus,
+body.ui2018.uiupdate form .form-row input[type="password"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row input[type="password"].search-field:focus,
+body.ui2018.uiupdate .form .form-row input[type="password"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row input[type="password"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"].search-field:focus,
+body.ui2018.uiupdate form .form-row input[type="email"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row input[type="email"].search-field:focus,
+body.ui2018.uiupdate .form .form-row input[type="email"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row input[type="email"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"].search-field:focus,
+body.ui2018.uiupdate form .form-row input[type="date"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row input[type="date"].search-field:focus,
+body.ui2018.uiupdate .form .form-row input[type="date"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row input[type="date"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"].search-field:focus,
+body.ui2018.uiupdate form .form-row input[type="number"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row input[type="number"].search-field:focus,
+body.ui2018.uiupdate .form .form-row input[type="number"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row input[type="number"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"].search-field:focus {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(22,193,243)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(22,193,243)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+}
+body.ui2018.uiupdate form .form-row input[type="text"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row input[type="text"]::placeholder,
+body.ui2018.uiupdate .form .form-row input[type="text"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row input[type="text"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"]::placeholder,
+body.ui2018.uiupdate form .form-row input[type="password"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row input[type="password"]::placeholder,
+body.ui2018.uiupdate .form .form-row input[type="password"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row input[type="password"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"]::placeholder,
+body.ui2018.uiupdate form .form-row input[type="email"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row input[type="email"]::placeholder,
+body.ui2018.uiupdate .form .form-row input[type="email"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row input[type="email"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"]::placeholder,
+body.ui2018.uiupdate form .form-row input[type="date"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row input[type="date"]::placeholder,
+body.ui2018.uiupdate .form .form-row input[type="date"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row input[type="date"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"]::placeholder,
+body.ui2018.uiupdate form .form-row input[type="number"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row input[type="number"]::placeholder,
+body.ui2018.uiupdate .form .form-row input[type="number"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row input[type="number"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"]::placeholder {
+  font-size: 14px !important;
+}
+body.ui2018.uiupdate form .form-row input[type="text"]:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="text"]:hover,
+body.ui2018.uiupdate .form .form-row input[type="text"]:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"]:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="text"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"]:hover,
+body.ui2018.uiupdate form .form-row input[type="password"]:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="password"]:hover,
+body.ui2018.uiupdate .form .form-row input[type="password"]:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"]:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="password"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"]:hover,
+body.ui2018.uiupdate form .form-row input[type="email"]:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="email"]:hover,
+body.ui2018.uiupdate .form .form-row input[type="email"]:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"]:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="email"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"]:hover,
+body.ui2018.uiupdate form .form-row input[type="date"]:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="date"]:hover,
+body.ui2018.uiupdate .form .form-row input[type="date"]:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"]:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="date"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"]:hover,
+body.ui2018.uiupdate form .form-row input[type="number"]:hover,
+body.ui2018.uiupdate.cform form .form-row input[type="number"]:hover,
+body.ui2018.uiupdate .form .form-row input[type="number"]:hover,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"]:hover,
+body.ui2018.uiupdate .default-form .form-row input[type="number"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"]:hover,
+body.ui2018.uiupdate form .form-row input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row input[type="text"]:focus-within,
+body.ui2018.uiupdate .form .form-row input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row input[type="text"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="text"]:focus-within,
+body.ui2018.uiupdate form .form-row input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row input[type="password"]:focus-within,
+body.ui2018.uiupdate .form .form-row input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row input[type="password"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="password"]:focus-within,
+body.ui2018.uiupdate form .form-row input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row input[type="email"]:focus-within,
+body.ui2018.uiupdate .form .form-row input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row input[type="email"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="email"]:focus-within,
+body.ui2018.uiupdate form .form-row input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row input[type="date"]:focus-within,
+body.ui2018.uiupdate .form .form-row input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row input[type="date"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="date"]:focus-within,
+body.ui2018.uiupdate form .form-row input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row input[type="number"]:focus-within,
+body.ui2018.uiupdate .form .form-row input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row input[type="number"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row input[type="number"]:focus-within {
+  border-color: #16c1f3;
+}
+body.ui2018.uiupdate form .form-row textarea,
+body.ui2018.uiupdate.cform form .form-row textarea,
+body.ui2018.uiupdate .form .form-row textarea,
+body.ui2018.uiupdate.cform .form .form-row textarea,
+body.ui2018.uiupdate .default-form .form-row textarea,
+body.ui2018.uiupdate.cform .default-form .form-row textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  color: black;
+  line-height: 1.4;
+  background: #f7f9fe;
+  border: 1px solid #e3e8ed;
+  resize: vertical;
+  outline: none;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: black !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border-color 200ms ease;
+  -moz-transition: border-color 200ms ease;
+  -o-transition: border-color 200ms ease;
+  transition: border-color 200ms ease;
+}
+body.ui2018.uiupdate form .form-row textarea:hover,
+body.ui2018.uiupdate.cform form .form-row textarea:hover,
+body.ui2018.uiupdate .form .form-row textarea:hover,
+body.ui2018.uiupdate.cform .form .form-row textarea:hover,
+body.ui2018.uiupdate .default-form .form-row textarea:hover,
+body.ui2018.uiupdate.cform .default-form .form-row textarea:hover,
+body.ui2018.uiupdate form .form-row textarea:focus-within,
+body.ui2018.uiupdate.cform form .form-row textarea:focus-within,
+body.ui2018.uiupdate .form .form-row textarea:focus-within,
+body.ui2018.uiupdate.cform .form .form-row textarea:focus-within,
+body.ui2018.uiupdate .default-form .form-row textarea:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row textarea:focus-within {
+  border-color: #16c1f3;
+}
+body.ui2018.uiupdate form .form-row textarea::placeholder,
+body.ui2018.uiupdate.cform form .form-row textarea::placeholder,
+body.ui2018.uiupdate .form .form-row textarea::placeholder,
+body.ui2018.uiupdate.cform .form .form-row textarea::placeholder,
+body.ui2018.uiupdate .default-form .form-row textarea::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row textarea::placeholder {
+  font-size: 14px !important;
+}
+body.ui2018.uiupdate form .form-row div.select,
+body.ui2018.uiupdate.cform form .form-row div.select,
+body.ui2018.uiupdate .form .form-row div.select,
+body.ui2018.uiupdate.cform .form .form-row div.select,
+body.ui2018.uiupdate .default-form .form-row div.select,
+body.ui2018.uiupdate.cform .default-form .form-row div.select {
+  position: relative;
+  display: inline-block;
+  height: 40px;
+  line-height: 37px;
+  min-width: 100px;
+  background: #f7f9fe;
+  border: 1px solid #e3e8ed !important;
+  overflow: hidden;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: black !important;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border-color 200ms ease;
+  -moz-transition: border-color 200ms ease;
+  -o-transition: border-color 200ms ease;
+  transition: border-color 200ms ease;
+}
+body.ui2018.uiupdate form .form-row div.select:hover,
+body.ui2018.uiupdate.cform form .form-row div.select:hover,
+body.ui2018.uiupdate .form .form-row div.select:hover,
+body.ui2018.uiupdate.cform .form .form-row div.select:hover,
+body.ui2018.uiupdate .default-form .form-row div.select:hover,
+body.ui2018.uiupdate.cform .default-form .form-row div.select:hover,
+body.ui2018.uiupdate form .form-row div.select:focus-within,
+body.ui2018.uiupdate.cform form .form-row div.select:focus-within,
+body.ui2018.uiupdate .form .form-row div.select:focus-within,
+body.ui2018.uiupdate.cform .form .form-row div.select:focus-within,
+body.ui2018.uiupdate .default-form .form-row div.select:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row div.select:focus-within {
+  border: 1px solid #16c1f3;
+}
+body.ui2018.uiupdate form .form-row div.select:hover::after,
+body.ui2018.uiupdate.cform form .form-row div.select:hover::after,
+body.ui2018.uiupdate .form .form-row div.select:hover::after,
+body.ui2018.uiupdate.cform .form .form-row div.select:hover::after,
+body.ui2018.uiupdate .default-form .form-row div.select:hover::after,
+body.ui2018.uiupdate.cform .default-form .form-row div.select:hover::after,
+body.ui2018.uiupdate form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate.cform form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate .form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate.cform .form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate .default-form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate.cform .default-form .form-row div.select:focus-within::after {
+  color: #16c1f3;
+}
+body.ui2018.uiupdate form .form-row div.select:focus-within,
+body.ui2018.uiupdate.cform form .form-row div.select:focus-within,
+body.ui2018.uiupdate .form .form-row div.select:focus-within,
+body.ui2018.uiupdate.cform .form .form-row div.select:focus-within,
+body.ui2018.uiupdate .default-form .form-row div.select:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row div.select:focus-within {
+  border: 1px solid #16c1f3 !important;
+}
+body.ui2018.uiupdate form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate.cform form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate .form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate.cform .form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate .default-form .form-row div.select:focus-within::after,
+body.ui2018.uiupdate.cform .default-form .form-row div.select:focus-within::after {
+  -webkit-transform: translateY(-2px) rotate(180deg);
+  -ms-transform: translateY(-2px) rotate(180deg);
+  transform: translateY(-2px) rotate(180deg);
+}
+body.ui2018.uiupdate form .form-row div.select::after,
+body.ui2018.uiupdate.cform form .form-row div.select::after,
+body.ui2018.uiupdate .form .form-row div.select::after,
+body.ui2018.uiupdate.cform .form .form-row div.select::after,
+body.ui2018.uiupdate .default-form .form-row div.select::after,
+body.ui2018.uiupdate.cform .default-form .form-row div.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 8px;
+  height: 40px;
+  width: 20px;
+  line-height: unset;
+  text-align: center;
+  font-size: 10px;
+  color: #999999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  touch-action: none;
+  pointer-events: none;
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  -webkit-transition: color 200ms ease, transform 200ms ease;
+  -moz-transition: color 200ms ease, transform 200ms ease;
+  -o-transition: color 200ms ease, transform 200ms ease;
+  transition: color 200ms ease, transform 200ms ease;
+}
+body.ui2018.uiupdate form .form-row div.select::after *,
+body.ui2018.uiupdate.cform form .form-row div.select::after *,
+body.ui2018.uiupdate .form .form-row div.select::after *,
+body.ui2018.uiupdate.cform .form .form-row div.select::after *,
+body.ui2018.uiupdate .default-form .form-row div.select::after *,
+body.ui2018.uiupdate.cform .default-form .form-row div.select::after * {
+  touch-action: none;
+  pointer-events: none;
+}
+body.ui2018.uiupdate form .form-row div.select.working::after,
+body.ui2018.uiupdate.cform form .form-row div.select.working::after,
+body.ui2018.uiupdate .form .form-row div.select.working::after,
+body.ui2018.uiupdate.cform .form .form-row div.select.working::after,
+body.ui2018.uiupdate .default-form .form-row div.select.working::after,
+body.ui2018.uiupdate.cform .default-form .form-row div.select.working::after {
+  font-size: 0;
+  background-image: url(data:image/gif;base64,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);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+body.ui2018.uiupdate form .form-row div.select select,
+body.ui2018.uiupdate.cform form .form-row div.select select,
+body.ui2018.uiupdate .form .form-row div.select select,
+body.ui2018.uiupdate.cform .form .form-row div.select select,
+body.ui2018.uiupdate .default-form .form-row div.select select,
+body.ui2018.uiupdate.cform .default-form .form-row div.select select {
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  padding: 0 28px 0 8px;
+  color: #344356;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: black !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"],
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"],
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"],
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"],
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"],
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"],
+body.ui2018.uiupdate form .form-row.calendar input[type="password"],
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"],
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"],
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"],
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"],
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"],
+body.ui2018.uiupdate form .form-row.calendar input[type="email"],
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"],
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"],
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"],
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"],
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"],
+body.ui2018.uiupdate form .form-row.calendar input[type="date"],
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"],
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"],
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"],
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"],
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"],
+body.ui2018.uiupdate form .form-row.calendar input[type="number"],
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"],
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"],
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"],
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"],
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"] {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 10px;
+  color: black;
+  background: #f7f9fe;
+  border: 1px solid #e3e8ed;
+  font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, Sans-Serif;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: black !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border-color 200ms ease;
+  -moz-transition: border-color 200ms ease;
+  -o-transition: border-color 200ms ease;
+  transition: border-color 200ms ease;
+  padding-right: 30px;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: auto 14px;
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M7.81204 2.5H16.188C19.3978 2.5 22 5.16116 22 8.44374V9.24063V15.5563C22 18.8388 19.3978 21.5 16.188 21.5H7.81204C4.60219 21.5 2 18.8388 2 15.5563V9.24063V8.44374C2 5.16116 4.60219 2.5 7.81204 2.5ZM3.45358 9.94209V15.5563C3.45358 18.0179 5.40498 20.0135 7.81204 20.0135H16.188C18.595 20.0135 20.5464 18.0179 20.5464 15.5563V9.94209C20.4102 9.95844 20.2678 9.97029 20.1208 9.97711L19.8258 9.98389H4.17424C3.92165 9.98389 3.67911 9.96917 3.45358 9.94209ZM20.5464 8.53918C20.3209 8.5121 20.0784 8.49738 19.8258 8.49738H4.17424L3.87921 8.50416C3.73215 8.51098 3.58976 8.52283 3.45358 8.53918V8.44374C3.45358 5.98214 5.40498 3.98651 7.81204 3.98651H16.188C18.595 3.98651 20.5464 5.98214 20.5464 8.44374V8.53918ZM12.294 14.4402C12.6954 14.4402 13.0208 14.773 13.0208 15.1834C13.0208 15.5597 12.7473 15.8707 12.3926 15.9199L12.294 15.9267H11.9919C11.5905 15.9267 11.2651 15.5939 11.2651 15.1834C11.2651 14.8072 11.5386 14.4962 11.8933 14.447L11.9919 14.4402H12.294ZM15.044 14.4402C15.4454 14.4402 15.7708 14.773 15.7708 15.1834C15.7708 15.5597 15.4973 15.8707 15.1426 15.9199L15.044 15.9267H14.7419C14.3405 15.9267 14.0151 15.5939 14.0151 15.1834C14.0151 14.8072 14.2886 14.4962 14.6433 14.447L14.7419 14.4402H15.044ZM18.6277 15.1834C18.6277 14.773 18.3023 14.4402 17.9009 14.4402H17.5989L17.5002 14.447C17.1455 14.4962 16.8721 14.8072 16.8721 15.1834C16.8721 15.5939 17.1975 15.9267 17.5989 15.9267H17.9009L17.9995 15.9199C18.3543 15.8707 18.6277 15.5597 18.6277 15.1834Z" fill="rgb(0,0,0)"/%3E%3C/svg%3E');
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]:-webkit-autofill,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]:-webkit-autofill {
+  background-color: #f7f9fe !important;
+  color: #999999 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #f7f9fe inset;
+  -webkit-text-fill-color: black !important;
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"].search-field,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"].search-field,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"].search-field,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"].search-field,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"].search-field,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"].search-field,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"].search-field,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"].search-field,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"].search-field,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"].search-field,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"].search-field,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"].search-field,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"].search-field,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"].search-field,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"].search-field,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"].search-field,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"].search-field,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"].search-field,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"].search-field,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"].search-field,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"].search-field,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"].search-field,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"].search-field,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"].search-field,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"].search-field,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"].search-field {
+  padding-right: 30px;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: auto 14px;
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(0,0,0)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(0,0,0)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"].search-field:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"].search-field:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"].search-field:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"].search-field:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"].search-field:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"].search-field:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"].search-field:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"].search-field:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"].search-field:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"].search-field:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"].search-field:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"].search-field:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"].search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"].search-field:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="text"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"].search-field:focus,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"].search-field:focus,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"].search-field:focus,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"].search-field:focus,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"].search-field:focus,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"].search-field:focus,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"].search-field:focus,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"].search-field:focus,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"].search-field:focus,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"].search-field:focus,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"].search-field:focus,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"].search-field:focus,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"].search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"].search-field:focus {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(22,193,243)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(22,193,243)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]::placeholder,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]::placeholder,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]::placeholder,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]::placeholder,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]::placeholder,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]::placeholder,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]::placeholder,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]::placeholder,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]::placeholder,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]::placeholder,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]::placeholder,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]::placeholder,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]::placeholder {
+  font-size: 14px !important;
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]:focus-within {
+  border-color: #16c1f3;
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]:hover,
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]:focus-within,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]:focus-within {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M7.81204 2.5H16.188C19.3978 2.5 22 5.16116 22 8.44374V9.24063V15.5563C22 18.8388 19.3978 21.5 16.188 21.5H7.81204C4.60219 21.5 2 18.8388 2 15.5563V9.24063V8.44374C2 5.16116 4.60219 2.5 7.81204 2.5ZM3.45358 9.94209V15.5563C3.45358 18.0179 5.40498 20.0135 7.81204 20.0135H16.188C18.595 20.0135 20.5464 18.0179 20.5464 15.5563V9.94209C20.4102 9.95844 20.2678 9.97029 20.1208 9.97711L19.8258 9.98389H4.17424C3.92165 9.98389 3.67911 9.96917 3.45358 9.94209ZM20.5464 8.53918C20.3209 8.5121 20.0784 8.49738 19.8258 8.49738H4.17424L3.87921 8.50416C3.73215 8.51098 3.58976 8.52283 3.45358 8.53918V8.44374C3.45358 5.98214 5.40498 3.98651 7.81204 3.98651H16.188C18.595 3.98651 20.5464 5.98214 20.5464 8.44374V8.53918ZM12.294 14.4402C12.6954 14.4402 13.0208 14.773 13.0208 15.1834C13.0208 15.5597 12.7473 15.8707 12.3926 15.9199L12.294 15.9267H11.9919C11.5905 15.9267 11.2651 15.5939 11.2651 15.1834C11.2651 14.8072 11.5386 14.4962 11.8933 14.447L11.9919 14.4402H12.294ZM15.044 14.4402C15.4454 14.4402 15.7708 14.773 15.7708 15.1834C15.7708 15.5597 15.4973 15.8707 15.1426 15.9199L15.044 15.9267H14.7419C14.3405 15.9267 14.0151 15.5939 14.0151 15.1834C14.0151 14.8072 14.2886 14.4962 14.6433 14.447L14.7419 14.4402H15.044ZM18.6277 15.1834C18.6277 14.773 18.3023 14.4402 17.9009 14.4402H17.5989L17.5002 14.447C17.1455 14.4962 16.8721 14.8072 16.8721 15.1834C16.8721 15.5939 17.1975 15.9267 17.5989 15.9267H17.9009L17.9995 15.9199C18.3543 15.8707 18.6277 15.5597 18.6277 15.1834Z" fill="rgb(22,193,243)"/%3E%3C/svg%3E');
+}
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]::after,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]::after,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]::after,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]::after,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]::after,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]::after,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]::after,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]::after,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]::after,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]::after,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]::after,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]::after,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]::after,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]::after,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]::after,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]::after,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]::after,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]::after,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]::after,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]::after,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]::after,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]::after,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]::after,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]::after,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]::after,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]::after,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]::after,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]::after,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]::after,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]::after,
+body.ui2018.uiupdate form .form-row.calendar input[type="text"]::before,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="text"]::before,
+body.ui2018.uiupdate .form .form-row.calendar input[type="text"]::before,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="text"]::before,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="text"]::before,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="text"]::before,
+body.ui2018.uiupdate form .form-row.calendar input[type="password"]::before,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="password"]::before,
+body.ui2018.uiupdate .form .form-row.calendar input[type="password"]::before,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="password"]::before,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="password"]::before,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="password"]::before,
+body.ui2018.uiupdate form .form-row.calendar input[type="email"]::before,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="email"]::before,
+body.ui2018.uiupdate .form .form-row.calendar input[type="email"]::before,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="email"]::before,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="email"]::before,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="email"]::before,
+body.ui2018.uiupdate form .form-row.calendar input[type="date"]::before,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="date"]::before,
+body.ui2018.uiupdate .form .form-row.calendar input[type="date"]::before,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="date"]::before,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="date"]::before,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="date"]::before,
+body.ui2018.uiupdate form .form-row.calendar input[type="number"]::before,
+body.ui2018.uiupdate.cform form .form-row.calendar input[type="number"]::before,
+body.ui2018.uiupdate .form .form-row.calendar input[type="number"]::before,
+body.ui2018.uiupdate.cform .form .form-row.calendar input[type="number"]::before,
+body.ui2018.uiupdate .default-form .form-row.calendar input[type="number"]::before,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar input[type="number"]::before {
+  display: none !important;
+}
+body.ui2018.uiupdate form .form-row.calendar::after,
+body.ui2018.uiupdate.cform form .form-row.calendar::after,
+body.ui2018.uiupdate .form .form-row.calendar::after,
+body.ui2018.uiupdate.cform .form .form-row.calendar::after,
+body.ui2018.uiupdate .default-form .form-row.calendar::after,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar::after,
+body.ui2018.uiupdate form .form-row.calendar::before,
+body.ui2018.uiupdate.cform form .form-row.calendar::before,
+body.ui2018.uiupdate .form .form-row.calendar::before,
+body.ui2018.uiupdate.cform .form .form-row.calendar::before,
+body.ui2018.uiupdate .default-form .form-row.calendar::before,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar::before {
+  display: none !important;
+}
+body.ui2018.uiupdate form .form-row.row-banknumber span.tickcross,
+body.ui2018.uiupdate.cform form .form-row.row-banknumber span.tickcross,
+body.ui2018.uiupdate .form .form-row.row-banknumber span.tickcross,
+body.ui2018.uiupdate.cform .form .form-row.row-banknumber span.tickcross,
+body.ui2018.uiupdate .default-form .form-row.row-banknumber span.tickcross,
+body.ui2018.uiupdate.cform .default-form .form-row.row-banknumber span.tickcross,
+body.ui2018.uiupdate form .form-row.row-taxnumber span.tickcross,
+body.ui2018.uiupdate.cform form .form-row.row-taxnumber span.tickcross,
+body.ui2018.uiupdate .form .form-row.row-taxnumber span.tickcross,
+body.ui2018.uiupdate.cform .form .form-row.row-taxnumber span.tickcross,
+body.ui2018.uiupdate .default-form .form-row.row-taxnumber span.tickcross,
+body.ui2018.uiupdate.cform .default-form .form-row.row-taxnumber span.tickcross {
+  height: 40px;
+  line-height: 40px;
+}
+body.ui2018.uiupdate form .form-row.row-address div.ui-address-fields div.address-indicator,
+body.ui2018.uiupdate.cform form .form-row.row-address div.ui-address-fields div.address-indicator,
+body.ui2018.uiupdate .form .form-row.row-address div.ui-address-fields div.address-indicator,
+body.ui2018.uiupdate.cform .form .form-row.row-address div.ui-address-fields div.address-indicator,
+body.ui2018.uiupdate .default-form .form-row.row-address div.ui-address-fields div.address-indicator,
+body.ui2018.uiupdate.cform .default-form .form-row.row-address div.ui-address-fields div.address-indicator {
+  top: -50px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px !important;
+}
+body.ui2018.uiupdate form .form-row.row-currency div.currencybox div.symbol,
+body.ui2018.uiupdate.cform form .form-row.row-currency div.currencybox div.symbol,
+body.ui2018.uiupdate .form .form-row.row-currency div.currencybox div.symbol,
+body.ui2018.uiupdate.cform .form .form-row.row-currency div.currencybox div.symbol,
+body.ui2018.uiupdate .default-form .form-row.row-currency div.currencybox div.symbol,
+body.ui2018.uiupdate.cform .default-form .form-row.row-currency div.currencybox div.symbol {
+  height: 40px;
+  line-height: 40px;
+}
+body.ui2018.uiupdate form .form-row.row-currency div.currencybox div.symbol strong,
+body.ui2018.uiupdate.cform form .form-row.row-currency div.currencybox div.symbol strong,
+body.ui2018.uiupdate .form .form-row.row-currency div.currencybox div.symbol strong,
+body.ui2018.uiupdate.cform .form .form-row.row-currency div.currencybox div.symbol strong,
+body.ui2018.uiupdate .default-form .form-row.row-currency div.currencybox div.symbol strong,
+body.ui2018.uiupdate.cform .default-form .form-row.row-currency div.currencybox div.symbol strong {
+  font-weight: 400 !important;
+}
+body.ui2018.uiupdate form .form-row.row-singleselectradio label,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio label,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio label,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio label,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio label,
+body.ui2018.uiupdate form .form-row.row-multiselect label,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect label,
+body.ui2018.uiupdate .form .form-row.row-multiselect label,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect label,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect label {
+  display: inline-block;
+  position: relative;
+  width: unset !important;
+  height: unset !important;
+  min-height: 18px !important;
+  line-height: 18px !important;
+  margin: 0 10px 5px 0;
+  vertical-align: top;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.ui2018.uiupdate form .form-row.row-singleselectradio input[type="radio"],
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio input[type="radio"],
+body.ui2018.uiupdate .form .form-row.row-singleselectradio input[type="radio"],
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio input[type="radio"],
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio input[type="radio"],
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio input[type="radio"],
+body.ui2018.uiupdate form .form-row.row-multiselect input[type="radio"],
+body.ui2018.uiupdate.cform form .form-row.row-multiselect input[type="radio"],
+body.ui2018.uiupdate .form .form-row.row-multiselect input[type="radio"],
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect input[type="radio"],
+body.ui2018.uiupdate .default-form .form-row.row-multiselect input[type="radio"],
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect input[type="radio"] {
+  display: inline-block;
+  position: relative;
+  width: 14px !important;
+  height: 14px !important;
+  margin-left: 0;
+  margin-right: 10px;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+  -webkit-appearance: radio;
+  -moz-appearance: radio;
+  -ms-appearance: radio;
+  -o-appearance: radio;
+  appearance: radio;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  vertical-align: top;
+}
+body.ui2018.uiupdate form .form-row.row-singleselectradio input[type="checkbox"],
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio input[type="checkbox"],
+body.ui2018.uiupdate .form .form-row.row-singleselectradio input[type="checkbox"],
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio input[type="checkbox"],
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio input[type="checkbox"],
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio input[type="checkbox"],
+body.ui2018.uiupdate form .form-row.row-multiselect input[type="checkbox"],
+body.ui2018.uiupdate.cform form .form-row.row-multiselect input[type="checkbox"],
+body.ui2018.uiupdate .form .form-row.row-multiselect input[type="checkbox"],
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect input[type="checkbox"],
+body.ui2018.uiupdate .default-form .form-row.row-multiselect input[type="checkbox"],
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect input[type="checkbox"] {
+  display: inline-block;
+  position: relative;
+  width: 14px !important;
+  height: 14px !important;
+  margin-left: 0;
+  margin-right: 10px;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  -ms-appearance: checkbox;
+  -o-appearance: checkbox;
+  appearance: checkbox;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  vertical-align: top;
+}
+body.ui2018.uiupdate form .form-row.row-singleselectradio div.check-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio div.check-label-pair,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio div.check-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio div.check-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio div.check-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio div.check-label-pair,
+body.ui2018.uiupdate form .form-row.row-multiselect div.check-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect div.check-label-pair,
+body.ui2018.uiupdate .form .form-row.row-multiselect div.check-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect div.check-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect div.check-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect div.check-label-pair,
+body.ui2018.uiupdate form .form-row.row-singleselectradio div.radio-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio div.radio-label-pair,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio div.radio-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio div.radio-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio div.radio-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio div.radio-label-pair,
+body.ui2018.uiupdate form .form-row.row-multiselect div.radio-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect div.radio-label-pair,
+body.ui2018.uiupdate .form .form-row.row-multiselect div.radio-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect div.radio-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect div.radio-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect div.radio-label-pair,
+body.ui2018.uiupdate form .form-row.row-singleselectradio.check-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio.check-label-pair,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio.check-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio.check-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio.check-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio.check-label-pair,
+body.ui2018.uiupdate form .form-row.row-multiselect.check-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect.check-label-pair,
+body.ui2018.uiupdate .form .form-row.row-multiselect.check-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect.check-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect.check-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.check-label-pair,
+body.ui2018.uiupdate form .form-row.row-singleselectradio.radio-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio.radio-label-pair,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio.radio-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio.radio-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio.radio-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio.radio-label-pair,
+body.ui2018.uiupdate form .form-row.row-multiselect.radio-label-pair,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect.radio-label-pair,
+body.ui2018.uiupdate .form .form-row.row-multiselect.radio-label-pair,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect.radio-label-pair,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect.radio-label-pair,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.radio-label-pair {
+  line-height: 18px;
+  margin: 5px 0 10px 10px;
+}
+body.ui2018.uiupdate form .form-row.row-singleselectradio div.check-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio div.check-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio div.check-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio div.check-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio div.check-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio div.check-label-pair label,
+body.ui2018.uiupdate form .form-row.row-multiselect div.check-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect div.check-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-multiselect div.check-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect div.check-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect div.check-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect div.check-label-pair label,
+body.ui2018.uiupdate form .form-row.row-singleselectradio div.radio-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio div.radio-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio div.radio-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio div.radio-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio div.radio-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio div.radio-label-pair label,
+body.ui2018.uiupdate form .form-row.row-multiselect div.radio-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect div.radio-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-multiselect div.radio-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect div.radio-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect div.radio-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect div.radio-label-pair label,
+body.ui2018.uiupdate form .form-row.row-singleselectradio.check-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio.check-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio.check-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio.check-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio.check-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio.check-label-pair label,
+body.ui2018.uiupdate form .form-row.row-multiselect.check-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect.check-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-multiselect.check-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect.check-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect.check-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.check-label-pair label,
+body.ui2018.uiupdate form .form-row.row-singleselectradio.radio-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-singleselectradio.radio-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-singleselectradio.radio-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-singleselectradio.radio-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-singleselectradio.radio-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-singleselectradio.radio-label-pair label,
+body.ui2018.uiupdate form .form-row.row-multiselect.radio-label-pair label,
+body.ui2018.uiupdate.cform form .form-row.row-multiselect.radio-label-pair label,
+body.ui2018.uiupdate .form .form-row.row-multiselect.radio-label-pair label,
+body.ui2018.uiupdate.cform .form .form-row.row-multiselect.radio-label-pair label,
+body.ui2018.uiupdate .default-form .form-row.row-multiselect.radio-label-pair label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-multiselect.radio-label-pair label {
+  margin: 0;
+  vertical-align: top;
+}
+body.ui2018.uiupdate form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
+body.ui2018.uiupdate.cform form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
+body.ui2018.uiupdate .form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
+body.ui2018.uiupdate.cform .form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
+body.ui2018.uiupdate .default-form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label,
+body.ui2018.uiupdate.cform .default-form .form-row.row-drawpanel div.draw-panel-box div.bg-image-select label {
+  height: 40px;
+  line-height: 37px;
+  margin: 0 20px 0 0;
 }
 body.ui2018.uiupdate .cf-d2-top .form,
 body.ui2018.uiupdate.cform .cf-d2-top .form {
@@ -17112,18 +18283,27 @@ body.dark .pac-placeholder {
   --mobile-list-width: 450px;
   --mobile-list-height: 200px;
 }
-body.ui2018 .ui-autocomplete-container {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container {
   position: relative;
   display: inline-block;
   vertical-align: top;
   width: 450px;
   font-size: 12px;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper {
   position: relative;
   display: block;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display {
   width: 100%;
   position: relative;
   height: 40px;
@@ -17153,31 +18333,55 @@ body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-displa
   -o-transition: border-color 200ms ease;
   transition: border-color 200ms ease;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display:-webkit-autofill {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:-webkit-autofill,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:-webkit-autofill,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:-webkit-autofill,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:-webkit-autofill {
   background-color: #f7f9fe !important;
   color: #999999 !important;
   -webkit-box-shadow: 0 0 0px 1000px #f7f9fe inset;
   -webkit-text-fill-color: black !important;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display.search-field {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field {
   padding-right: 30px;
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: auto 14px;
   background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(0,0,0)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(0,0,0)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display.search-field:hover,
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display.search-field:focus {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:hover,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:hover,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:hover,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:hover,
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:focus,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:focus,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:focus,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display.search-field:focus {
   background-image: url('data:image/svg+xml;utf8,%3Csvg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http:\/\/www.w3.org/2000/svg"%3E%3Cellipse cx="9.73856" cy="9.99537" rx="8.98856" ry="9.24537" stroke="rgb(22,193,243)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M15.9902 16.9059L19.5143 20.5212" stroke="rgb(22,193,243)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display::placeholder {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display::placeholder,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display::placeholder,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display::placeholder,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display::placeholder {
   font-size: 14px !important;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display:hover,
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper input.ui-ac-display:focus-within {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:hover,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:hover,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:hover,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:hover,
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:focus-within,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:focus-within,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:focus-within,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input[type="text"].ui-ac-display:focus-within {
   border-color: #16c1f3;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon {
   display: none !important;
   position: absolute;
   top: 0;
@@ -17191,17 +18395,26 @@ body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-ico
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon * {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon *,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon *,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon *,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018 .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon.working {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon.working,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon.working,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon.working,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper .ui-ac-display-icon.working {
   font-size: 0;
   background-image: url(data:image/gif;base64,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);
   background-position: center center;
   background-repeat: no-repeat;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list {
   display: block;
   position: absolute;
   top: 32px;
@@ -17232,7 +18445,10 @@ body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list {
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list li {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list li,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list li,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list li,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list li {
   width: 100%;
   height: unset;
   min-height: 30px;
@@ -17253,75 +18469,114 @@ body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list li {
   -o-transition: all 250ms;
   transition: all 250ms;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list li.selected,
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list li:hover {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list li:hover {
   color: white;
   background-color: #5fd4f7;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list.above {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list.above,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list.above,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list.above,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list.above {
   top: auto;
   bottom: 35px;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list:hover {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list:hover,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list:hover,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list:hover,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list:hover {
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list * {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list *,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list *,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list *,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list * {
   touch-action: none;
   pointer-events: none;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list.show {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list.show,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list.show,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list.show,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list.show {
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
   touch-action: manipulation;
   pointer-events: all;
 }
-body.ui2018 .ui-autocomplete-container ul.ui-autocomplete-list.show * {
+body.ui2018 body.ui2018.uiupdate div.ui-autocomplete-container ul.ui-autocomplete-list.show *,
+body.ui2018.uiupdate.cform div.ui-autocomplete-container ul.ui-autocomplete-list.show *,
+body.ui2018.uiupdate .default-form div.ui-autocomplete-container ul.ui-autocomplete-list.show *,
+body.ui2018.uiupdate.cform .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list.show * {
   touch-action: manipulation;
   pointer-events: all;
 }
+body.ui2018.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon,
-body.ui2018.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon {
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon {
   color: #cccccc;
 }
+body.ui2018.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon.working,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon.working,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon.working,
-body.ui2018.dark div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon.working {
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon.working,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper div.ui-ac-display-icon.working {
   background-image: url(data:image/gif;base64,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);
 }
+body.ui2018.dark div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display,
-body.ui2018.dark div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display {
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container div.ui-ac-display-wrapper input.ui-ac-display {
   color: white;
   background: #333333;
   border: 2px solid #444444;
 }
+body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container ul.ui-autocomplete-list,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container ul.ui-autocomplete-list,
-body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list {
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list {
   background-color: #222222;
   -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
   -moz-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.75) !important;
 }
+body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list li,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container ul.ui-autocomplete-list li,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container ul.ui-autocomplete-list li,
-body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list li {
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container ul.ui-autocomplete-list li,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list li {
   background-color: #222222;
 }
+body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
-body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list li.selected,
+body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
 body.ui2018.uiupdate.dark div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
 body.ui2018.uiupdate.cform.dark div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
-body.ui2018.dark div.ui-autocomplete-container ul.ui-autocomplete-list li:hover {
+body.ui2018.uiupdate.dark .default-form div.ui-autocomplete-container ul.ui-autocomplete-list li:hover,
+body.ui2018.uiupdate.cform.dark .default-form .form-row div.ui-autocomplete-container ul.ui-autocomplete-list li:hover {
   color: white;
   background-color: #5fd4f7;
 }
-body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
+body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.mobile .ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.cform.mobile .ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.mobile .default-form .ui-autocomplete-container ul.ui-autocomplete-list,
+body.ui2018.uiupdate.cform.mobile .default-form .form-row .ui-autocomplete-container ul.ui-autocomplete-list {
   width: var(--mobile-list-width);
   max-width: 100%;
   max-height: var(--mobile-list-height);
@@ -17406,16 +18661,6 @@ body.ui2018.mobile .ui-autocomplete-container ul.ui-autocomplete-list {
 }
 .ui-autocomplete-mobile-container .ui-autocomplete-mobile-list-container ul.ui-autocomplete-list li.hidden {
   display: none;
-}
-.ui-ac-scrim {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  touch-action: none;
 }
 
 
@@ -18352,12 +19597,62 @@ body.ui2018.dark .affinity2018.search-form-container .search-results .search-res
 
 
 
+.bs-anim-sheet {
+  transform: translateY(100vh);
+  transition: transform 0.25s ease-out;
+}
+.bs-anim-sheet.bs-open {
+  transform: translateY(0);
+}
+.bs-anim-sheet.bs-anim-dragging {
+  transform: translateY(var(--bs-drag-y, 0px));
+  transition: none;
+}
+.bs-anim-scrim {
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+.bs-anim-scrim.bs-open {
+  opacity: 1;
+}
+.bs-anim-scrim.bs-anim-dragging {
+  opacity: 1;
+}
+.bs-anim-animating {
+  pointer-events: none;
+}
+.bs-ui-scrim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  touch-action: none;
+}
+.bs-ui-grip {
+  margin: 0 auto;
+  padding: 14px 50px;
+  cursor: grab;
+}
+.bs-ui-grip::after {
+  content: '';
+  display: block;
+  width: 38px;
+  height: 4px;
+  border-radius: 3px;
+  background: #d7dadd;
+}
 .bs-sheet {
   transform: translateY(100vh);
   transition: transform 0.25s ease-out;
 }
 .bs-sheet.bs-open {
   transform: translateY(0);
+}
+.bs-sheet.bs-anim-dragging {
+  transform: translateY(var(--bs-drag-y, 0px));
+  transition: none;
 }
 .bs-sheet.bs-dragging {
   transform: translateY(var(--bs-drag-y, 0px));
@@ -18368,6 +19663,9 @@ body.ui2018.dark .affinity2018.search-form-container .search-results .search-res
   transition: opacity 0.25s ease-out;
 }
 .bs-scrim.bs-open {
+  opacity: 1;
+}
+.bs-scrim.bs-anim-dragging {
   opacity: 1;
 }
 .bs-scrim.bs-dragging {
@@ -18802,8 +20100,8 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates div.select.ui-cal
 body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates div.select.ui-cal-year-wrap {
   position: relative;
   display: inline-block;
-  height: 35px;
-  line-height: 32px;
+  height: 40px;
+  line-height: 37px;
   min-width: 100px;
   background: #f7f9fe;
   border: 1px solid #e3e8ed !important;
@@ -18857,7 +20155,7 @@ body.ui2018 .ui-calendar-container .ui-cal-inner .ui-cal-dates div.select.ui-cal
   position: absolute;
   top: 0;
   right: 8px;
-  height: 35px;
+  height: 40px;
   width: 20px;
   line-height: unset;
   text-align: center;
@@ -19463,24 +20761,8 @@ body.ui2018.mobile div.ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal
   display: flex;
   align-items: center;
 }
-.ui-cal-scrim {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  touch-action: none;
-}
-.ui-cal-grip {
-  display: none;
-}
 .ui-cal-keyboard {
   display: none;
-}
-body.ui2018.uiupdate.mobile .ui-cal-grip {
-  display: block;
 }
 body.ui2018.uiupdate.mobile .ui-cal-keyboard {
   display: inline-block;
@@ -33208,9 +34490,6 @@ body.ui2025.uiupdate.inbox.mobile .m-sheet .m-btn-full[data-filter-action] {
 body.ui2025.uiupdate.inbox.mobile .hidden {
   display: none !important;
 }
-body.ui2025.uiupdate.inbox.mobile .m-sheet-grip {
-  flex: 0 0 auto;
-}
 body.ui2025.uiupdate.inbox.mobile .m-sheet-head {
   display: flex;
   align-items: center;
@@ -33450,6 +34729,15 @@ body.ui2025.uiupdate.inbox.mobile .m-date-wrap input[type="date"].m-control {
   -o-appearance: none !important;
   appearance: none !important;
   padding-right: 36px;
+}
+body.ui2025.uiupdate.inbox.mobile .m-date-wrap input[type="date"].m-control::-webkit-calendar-picker-indicator {
+  display: none;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+  appearance: none !important;
 }
 body.ui2025.uiupdate.inbox.mobile .m-toggle-group {
   margin-top: 6px;
