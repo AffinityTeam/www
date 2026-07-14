@@ -30121,33 +30121,29 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     this._overlayNode.innerHTML = `
       <div class="m-scrim">
         <div class="m-sheet">
+          <div class="m-sheet-grip"></div>
           ${html}
         </div>
       </div>`;
     this._overlayNode.classList.remove('hidden');
 
     let scrim = this._overlayNode.querySelector('.m-scrim');
+    let grip = this._overlayNode.querySelector('.m-sheet-grip');
 
-    // Capture onClose from options — passed to BottomSheet constructor
+    // BottomSheet plugin handles scrim tap, Escape, drag-to-close, and animation
+    this._bottomSheet = new Affinity2018.Classes.Plugins.BottomSheet({ scrim: scrim, sheet: this._overlayNode.querySelector('.m-sheet'), grip: grip });
+
+    // Wrap onClose so we can clean up the overlay + remove body scroll lock
     let onClose = options.onClose;
     let shell = this._shell;
     let overlay = this._overlayNode;
-
-    // BottomSheet plugin handles scrim tap, Escape, drag-to-close, and animation
-    this._bottomSheet = new Affinity2018.Classes.Plugins.BottomSheet({
-      scrim: scrim,
-      sheet: this._overlayNode.querySelector('.m-sheet'),
-      grip: null,  // plugin injects and controls the grip
-      onClose: function ()
-      {
-        overlay.innerHTML = '';
-        overlay.classList.add('hidden');
-        shell.classList.remove('sheet-open');
-        if (onClose) onClose();
-      }
+    this._bottomSheet.open(() =>
+    {
+      overlay.innerHTML = '';
+      overlay.classList.add('hidden');
+      shell.classList.remove('sheet-open');
+      if (onClose) onClose();
     });
-
-    this._bottomSheet.open();
 
     // Prevent body scroll while sheet is open
     this._shell.classList.add('sheet-open');
@@ -47049,7 +47045,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
       '_setListHeight',
       '_show', '_hide',
       '_reset',
-      '_onSheetOpen', '_onSheetClose',
 
       'Destroy',
 
@@ -47139,7 +47134,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
         this._mobileContainer = document.createElement('div');
         this._mobileContainer.className = 'ui-autocomplete-mobile-container';
         this._mobileContainer.innerHTML =
-        '<div class="ui-ac-mobile-search">'
+        '<div class="ui-ac-grip"></div>'
+        + '<div class="ui-ac-mobile-search">'
         +   '<span class="ui-ac-mobile-search-icon ui-ac-display-icon icon-search"></span>'
         +   '<input type="text" class="ui-ac-mobile-search-input" placeholder="Search\u2026" autocomplete="one-time-code" />'
         + '</div>'
@@ -47163,14 +47159,11 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
 
       document.body.appendChild(this._mobileContainer);
 
-      // BottomSheet plugin handles animation, drag-to-close, scrim injection, Escape.
-      // Callbacks fire on the plugin's timing — no race conditions, no timers.
+      // BottomSheet plugin handles animation, drag-to-close, scrim tap, Escape
       this._mobileSheet = new Affinity2018.Classes.Plugins.BottomSheet({
         sheet: this._mobileContainer,
-        grip: null,   // plugin injects and controls the grip
-        scrim: null,  // plugin injects and controls the scrim
-        onOpen: this._onSheetOpen,
-        onClose: this._onSheetClose
+        grip: this._mobileContainer.querySelector('.ui-ac-grip'),
+        scrim: null  // autocomplete manages its own scrim in the open/close callbacks
       });
     }
 
@@ -49056,7 +49049,6 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   }
 
   // --- Mobile-specific show/hide — bypass desktop positioning, use BottomSheet plugin ---
-  // All timing controlled by BottomSheet plugin callbacks. No race conditions.
 
   _showMobile()
   {
@@ -49064,39 +49056,35 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this.status = 'open';
     this.listNode.classList.add('show');
 
-    // BottomSheet plugin injects scrim, handles slide-up + drag-to-close
-    this._mobileSheet.open();
+    // Show scrim
+    if (!this._mobileScrim)
+    {
+      this._mobileScrim = document.createElement('div');
+      this._mobileScrim.className = 'ui-ac-scrim';
+      this._mobileScrim.addEventListener('click', this.hide);
+    }
+    document.body.appendChild(this._mobileScrim);
+
+    // BottomSheet plugin handles slide-up animation + drag-to-close
+    this._mobileSheet.open(() =>
+    {
+      // onClose — called after close animation completes
+      if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+      Affinity2018.unlockBodyScroll();
+    });
 
     Affinity2018.lockBodyScroll();
 
-    // Sync current display value to mobile search
+    // Sync current display value to mobile search and focus it
     this._mobileSearchInput.value = this.displayNode.value;
+    setTimeout(() => { this._mobileSearchInput.focus(); }, 300);
   }
 
   _hideMobile()
   {
     if (this.status !== 'open') return;
-    // All cleanup happens in _onSheetClose (fires after close animation)
-    this._mobileSheet.close();
-  }
-
-  // --- BottomSheet callbacks ---
-
-  // Fires after the open animation completes
-  _onSheetOpen()
-  {
-    // Focus mobile search input now that the sheet is visible
-    this._mobileSearchInput.focus();
-  }
-
-  // Fires after the close animation completes — resets widget state
-  _onSheetClose()
-  {
     this.status = 'closed';
     this.listNode.classList.remove('show');
-
-    // Blur the mobile search input so the keyboard closes
-    if (this._mobileSearchInput) this._mobileSearchInput.blur();
 
     clearTimeout(this._focusDelay);
     clearTimeout(this._fuzzySearchDelay);
@@ -49111,7 +49099,8 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     }.bind(this), 250);
     this._clearShowHideEvents();
 
-    Affinity2018.unlockBodyScroll();
+    // BottomSheet plugin handles slide-down animation + onClose callback
+    this._mobileSheet.close();
   }
 
   _reset(fromDestroy)
@@ -49214,6 +49203,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
     this._clearShowHideEvents();
     if (this._mobileSheet) this._mobileSheet.destroy();
     if (this._mobileContainer && this._mobileContainer.parentNode) this._mobileContainer.parentNode.removeChild(this._mobileContainer);
+    if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
     clearTimeout(this._elementKeyUpTimer);
     clearTimeout(this._fuzzySearchDelay);
     clearTimeout(this._focusDelay);
@@ -52075,47 +52065,22 @@ Affinity2018.Classes.Plugins.BigSearch = class
  *                CSS custom properties for the animation itself (only --bs-drag-y
  *                during the transient drag gesture, cleared on release).
  *
- *                If scrim or grip is null, the plugin injects and controls them.
- *                Injected elements get .bs-ui-* classes (visual) and .bs-anim-*
- *                classes (animation). Passed-in elements get .bs-anim-* classes
- *                only — the consumer's own CSS handles their visual styling.
+ *                CSS classes managed (on scrim if provided, otherwise on sheet):
+ *                  bs-open      — sheet visible, transform: translateY(0%)
+ *                  bs-animating — pointer-events: none (prevents mashing)
+ *                  bs-dragging  — transition: none, sheet follows finger via --bs-drag-y
  *
- *                CSS classes managed by this plugin:
+ *                Default state (no class): sheet is translateY(100%) — off-screen.
  *
- *                  .bs-anim-sheet   — tagged on the sheet element (animation)
- *                  .bs-anim-scrim   — tagged on the scrim element (animation)
- *                  .bs-anim-grip    — tagged on the grip element (animation)
- *                  .bs-anim-animating — pointer-events: none (prevents mashing)
- *                  .bs-anim-dragging  — transition: none, sheet follows finger
- *
- *                  .bs-ui-scrim     — visual styling for injected scrim only
- *                  .bs-ui-grip      — visual styling for injected grip only
- *
- *                  .bs-open         — visible state (sheet: translateY 0, scrim: opacity 1)
- *
- *                Default state (no .bs-open): sheet at translateY(100vh), scrim at opacity 0.
- *
- *                The plugin fires onOpen after the open animation completes and
- *                onClose after the close animation completes. A shouldClose
- *                callback may veto a close (return false) — useful for widgets
- *                that need a "first click is ignored" guard.
+ *                The plugin does NOT nuke DOM or manage display:none — that is the
+ *                consumer's responsibility. The plugin fires onClose after the close
+ *                animation completes; the consumer cleans up in that callback.
  *
  *                Usage (with scrim — inbox pattern):
- *                  new BottomSheet({
- *                    sheet: sheetEl,
- *                    scrim: scrimEl,
- *                    grip: gripEl,
- *                    onOpen: () => { ... },
- *                    onClose: () => { ... }
- *                  })
+ *                  new BottomSheet({ scrim: scrimEl, sheet: sheetEl, grip: gripEl })
  *
- *                Usage (scrim/grip injected — autocomplete/calendar pattern):
- *                  new BottomSheet({
- *                    sheet: sheetEl,
- *                    onOpen: () => { ... },
- *                    onClose: () => { ... },
- *                    shouldClose: () => { return true; }
- *                  })
+ *                Usage (without scrim — autocomplete/calendar pattern):
+ *                  new BottomSheet({ sheet: sheetEl, grip: gripEl })
  *
  *                Usage (sheet only — no scrim, no drag):
  *                  new BottomSheet({ sheet: sheetEl })
@@ -52136,37 +52101,30 @@ Affinity2018.Classes.Plugins.BottomSheet = class
 {
   /**
    * @param {Object} opts
-   * @param {HTMLElement} opts.sheet       The element that slides up/down (required).
-   * @param {HTMLElement} [opts.scrim]     Optional overlay — gets tap-to-close + opacity fade.
-   *                                       If null, the plugin injects one into document.body.
-   * @param {HTMLElement} [opts.grip]      Optional drag handle inside the sheet.
-   *                                       If null, the plugin injects one as the sheet's first child.
-   * @param {Function}   [opts.onOpen]     Fired after the open animation completes.
-   * @param {Function}   [opts.onClose]    Fired after the close animation completes.
-   * @param {Function}   [opts.shouldClose] Fired before close starts. Return false to veto.
+   * @param {HTMLElement} opts.sheet   The element that slides up/down (required).
+   * @param {HTMLElement} [opts.scrim] Optional overlay — gets tap-to-close + opacity fade.
+   * @param {HTMLElement} [opts.grip]  Optional drag handle inside the sheet.
    */
-  constructor({ sheet, scrim, grip, onOpen, onClose, shouldClose })
+  constructor({ sheet, scrim, grip })
   {
     this._sheet = sheet;
     this._scrim = scrim || null;
     this._grip = grip || null;
-    this._onOpen = onOpen || null;
-    this._onClose = onClose || null;
-    this._shouldClose = shouldClose || null;
     this._closing = false;
-    this._opening = false;
-    this._injectedScrim = false;
-    this._injectedGrip = false;
+
+    // Tag elements with plugin classes so the plugin CSS can target them
+    this._sheet.classList.add('bs-sheet');
+    if (this._scrim) this._scrim.classList.add('bs-scrim');
+    if (this._grip) this._grip.classList.add('bs-grip');
     this._timer = null;
+    this._onClose = null;
     this._onEnd = null;
 
-    // Tag passed-in elements with animation classes.
-    // Injected elements get both .bs-ui-* (visual) and .bs-anim-* (animation).
-    this._sheet.classList.add('bs-anim-sheet');
-    if (this._scrim) this._scrim.classList.add('bs-anim-scrim');
-    if (this._grip) this._grip.classList.add('bs-anim-grip');
+    // Classes go on the scrim (if provided) for opacity/pointer-events,
+    // AND on the sheet for transform/transition. Both get the same classes.
+    this._classTarget = this._scrim || this._sheet;
 
-    // --- Scrim tap closes ---
+    // --- Scrim tap closes (only if scrim provided) ---
     if (this._scrim)
     {
       this._scrimTap = (e) => { if (e.target === this._scrim) this.close(); };
@@ -52181,112 +52139,52 @@ Affinity2018.Classes.Plugins.BottomSheet = class
   }
 
   /**
-   * Opens the sheet: adds .bs-open + .bs-anim-animating, wires Escape.
-   * Injects scrim/grip if they were null. Fires onOpen after animation.
+   * Opens the sheet: adds bs-open + bs-animating, wires Escape.
    * The consumer must have already made the sheet visible (removed display:none)
    * BEFORE calling open(), so the browser can render the closed state first.
+   * @param {Function} [onClose]  Callback fired after close animation completes.
    */
-  open()
+  open(onClose)
   {
-    // Inject scrim if not provided
-    if (!this._scrim)
-    {
-      this._scrim = document.createElement('div');
-      this._scrim.className = 'bs-ui-scrim bs-anim-scrim';
-      this._scrim.addEventListener('click', (e) => { if (e.target === this._scrim) this.close(); });
-      this._injectedScrim = true;
-    }
-
-    // Inject grip if not provided
-    if (!this._grip)
-    {
-      this._grip = document.createElement('div');
-      this._grip.className = 'bs-ui-grip bs-anim-grip';
-      this._sheet.insertBefore(this._grip, this._sheet.firstChild);
-      this._injectedGrip = true;
-      this._wireDrag();
-    }
-
-    // Set scrim z-index to sheet z-index - 1 (only for injected scrim, only once)
-    if (this._injectedScrim && !this._scrimZSet)
-    {
-      let zi = parseInt(getComputedStyle(this._sheet).zIndex);
-      if (!zi || isNaN(zi)) zi = 1000;
-      this._scrim.style.zIndex = (zi - 1);
-      this._scrimZSet = true;
-    }
-
-    // Append injected scrim to DOM
-    if (this._injectedScrim && !this._scrim.parentNode)
-    {
-      document.body.appendChild(this._scrim);
-    }
-
-    this._opening = true;
+    this._onClose = onClose || null;
     this._closing = false;
 
-    // Force a reflow so the browser renders the closed state (translateY 100vh / opacity 0)
-    // before we add .bs-open. Without this, the transition doesn't fire.
+    // Force a reflow so the browser renders the closed state (translateY 100%)
+    // before we add bs-open. Without this, the transition doesn't fire.
     void this._sheet.offsetHeight;
-    if (this._scrim) void this._scrim.offsetHeight;
 
-    this._sheet.classList.add('bs-open', 'bs-anim-animating');
-    if (this._scrim) this._scrim.classList.add('bs-open', 'bs-anim-animating');
+    this._sheet.classList.add('bs-open', 'bs-animating');
+    if (this._scrim) this._scrim.classList.add('bs-open', 'bs-animating');
     window.addEventListener('keydown', this._escHandler);
-
-    let self = this;
-    this._waitForTransition(function ()
-    {
-      self._opening = false;
-      if (self._onOpen) self._onOpen();
-    });
+    this._waitForTransition();
   }
 
   /**
-   * Closes the sheet: removes .bs-open, adds .bs-anim-animating.
-   * Fires shouldClose first — if it returns false, the close is vetoed.
+   * Closes the sheet: removes bs-open, adds bs-animating.
    * After the transition completes (or timeout fires), fires onClose.
-   * Removes injected scrim/grip from DOM in onClose cleanup.
+   * The consumer is responsible for DOM cleanup in the onClose callback.
    * Guarded against double-trigger.
    */
   close()
   {
     if (this._closing) return;
-    if (this._opening) return;
-
-    // Allow consumer to veto the close
-    if (this._shouldClose)
-    {
-      if (this._shouldClose() === false) return;
-    }
-
     this._closing = true;
     this._sheet.classList.remove('bs-open');
-    this._sheet.classList.add('bs-anim-animating');
-    if (this._scrim) { this._scrim.classList.remove('bs-open'); this._scrim.classList.add('bs-anim-animating'); }
-
-    let self = this;
-    this._waitForTransition(function ()
+    this._sheet.classList.add('bs-animating');
+    if (this._scrim) { this._scrim.classList.remove('bs-open'); this._scrim.classList.add('bs-animating'); }
+    this._waitForTransition(() =>
     {
-      window.removeEventListener('keydown', self._escHandler);
-      self._sheet.classList.remove('bs-anim-animating', 'bs-anim-dragging');
-      if (self._scrim) self._scrim.classList.remove('bs-anim-animating', 'bs-anim-dragging');
-
-      // Remove injected scrim from DOM
-      if (self._injectedScrim && self._scrim && self._scrim.parentNode)
-      {
-        self._scrim.parentNode.removeChild(self._scrim);
-      }
-
-      if (self._onClose) self._onClose();
-      self._closing = false;
+      window.removeEventListener('keydown', this._escHandler);
+      this._sheet.classList.remove('bs-animating', 'bs-dragging');
+      if (this._scrim) this._scrim.classList.remove('bs-animating', 'bs-dragging');
+      if (this._onClose) { this._onClose(); this._onClose = null; }
+      this._closing = false;
     });
   }
 
   /**
    * Tears down all event listeners and clears any pending timer.
-   * Removes injected elements from DOM.
-   * Call this when the sheet is removed from the DOM.
+   * Call this when the sheet/scrim is removed from the DOM.
    */
   destroy()
   {
@@ -52294,16 +52192,6 @@ Affinity2018.Classes.Plugins.BottomSheet = class
     if (this._scrim && this._scrimTap) this._scrim.removeEventListener('click', this._scrimTap);
     window.removeEventListener('keydown', this._escHandler);
     if (this._sheet && this._onEnd) this._sheet.removeEventListener('transitionend', this._onEnd);
-
-    // Remove injected elements from DOM
-    if (this._injectedScrim && this._scrim && this._scrim.parentNode)
-    {
-      this._scrim.parentNode.removeChild(this._scrim);
-    }
-    if (this._injectedGrip && this._grip && this._grip.parentNode)
-    {
-      this._grip.parentNode.removeChild(this._grip);
-    }
   }
 
   // --- Private: wait for CSS transition to complete ---
@@ -52312,23 +52200,22 @@ Affinity2018.Classes.Plugins.BottomSheet = class
   _waitForTransition(callback)
   {
     let done = false;
-    let self = this;
 
-    let finish = function ()
+    let finish = () =>
     {
       if (done) return;
       done = true;
-      clearTimeout(self._timer);
-      self._timer = null;
-      if (self._onEnd) self._sheet.removeEventListener('transitionend', self._onEnd);
-      self._sheet.classList.remove('bs-anim-animating');
-      if (self._scrim) self._scrim.classList.remove('bs-anim-animating');
+      clearTimeout(this._timer);
+      this._timer = null;
+      if (this._onEnd) this._sheet.removeEventListener('transitionend', this._onEnd);
+      this._sheet.classList.remove('bs-animating');
+      if (this._scrim) this._scrim.classList.remove('bs-animating');
       if (callback) callback();
     };
 
-    this._onEnd = function (e)
+    this._onEnd = (e) =>
     {
-      if (e.target !== self._sheet || e.propertyName !== 'transform') return;
+      if (e.target !== this._sheet || e.propertyName !== 'transform') return;
       finish();
     };
     this._sheet.addEventListener('transitionend', this._onEnd);
@@ -52343,55 +52230,53 @@ Affinity2018.Classes.Plugins.BottomSheet = class
   _wireDrag()
   {
     let dragStartY = 0;
-    let self = this;
 
-    this._grip.addEventListener('touchstart', function (e)
+    this._grip.addEventListener('touchstart', (e) =>
     {
       if (e.touches.length !== 1) return;
       dragStartY = e.touches[0].clientY;
       // Switch from open to dragging — CSS disables transition, sheet follows finger
-      self._sheet.classList.remove('bs-open');
-      self._sheet.classList.add('bs-anim-dragging');
-      if (self._scrim) { self._scrim.classList.remove('bs-open'); self._scrim.classList.add('bs-anim-dragging'); }
+      this._sheet.classList.remove('bs-open');
+      this._sheet.classList.add('bs-dragging');
+      if (this._scrim) { this._scrim.classList.remove('bs-open'); this._scrim.classList.add('bs-dragging'); }
     }, { passive: true });
 
-    this._grip.addEventListener('touchmove', function (e)
+    this._grip.addEventListener('touchmove', (e) =>
     {
       if (e.touches.length !== 1) return;
       e.preventDefault(); // block background scroll
       let deltaY = e.touches[0].clientY - dragStartY;
       if (deltaY < 0) deltaY = 0; // only allow dragging down
-      self._sheet.style.setProperty('--bs-drag-y', deltaY + 'px');
+      this._sheet.style.setProperty('--bs-drag-y', deltaY + 'px');
     }, { passive: false });
 
-    this._grip.addEventListener('touchend', function (e)
+    this._grip.addEventListener('touchend', (e) =>
     {
       let deltaY = e.changedTouches[0].clientY - dragStartY;
       // Clear the drag custom property — CSS class-based animation takes over
-      self._sheet.style.removeProperty('--bs-drag-y');
-      self._sheet.classList.remove('bs-anim-dragging');
-      if (self._scrim) self._scrim.classList.remove('bs-anim-dragging');
+      this._sheet.style.removeProperty('--bs-drag-y');
+      this._sheet.classList.remove('bs-dragging');
+      if (this._scrim) this._scrim.classList.remove('bs-dragging');
 
       // Force a reflow so the browser renders the post-drag state (translateY 100vh)
-      // before we add .bs-open. Without this, the snap-back transition doesn't fire.
-      void self._sheet.offsetHeight;
+      // before we add bs-open. Without this, the snap-back transition doesn't fire.
+      void this._sheet.offsetHeight;
 
       if (deltaY > 50)
       {
         // Dragged far enough — close
-        self.close();
+        this.close();
       }
       else
       {
         // Not far enough — snap back to open
-        self._sheet.classList.add('bs-open', 'bs-anim-animating');
-        if (self._scrim) self._scrim.classList.add('bs-open', 'bs-anim-animating');
-        self._waitForTransition(function () {});
+        this._sheet.classList.add('bs-open', 'bs-animating');
+        if (this._scrim) this._scrim.classList.add('bs-open', 'bs-animating');
+        this._waitForTransition();
       }
     }, { passive: true });
   }
 };
-;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                       *************************************************************************/
@@ -52611,7 +52496,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       '_scrolled', '_position', '_setPosition',
       '_stopEvents',
       '_windowClicked',
-      '_onSheetOpen', '_onSheetClose', '_shouldSheetClose',
 
       'Destroy',
 
@@ -52666,16 +52550,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     {
       document.body.appendChild(this.calendarNode);
 
-      // BottomSheet plugin handles animation, drag-to-close, scrim injection, Escape.
-      // shouldClose veto lets us keep the do-not-auto-hide guard.
-      // Callbacks fire on the plugin's timing — no race conditions, no timers.
+      // BottomSheet plugin handles animation, drag-to-close, Escape
       this._mobileSheet = new Affinity2018.Classes.Plugins.BottomSheet({
         sheet: this.calendarNode,
-        grip: null,   // plugin injects and controls the grip
-        scrim: null,  // plugin injects and controls the scrim
-        shouldClose: this._shouldSheetClose,
-        onOpen: this._onSheetOpen,
-        onClose: this._onSheetClose
+        grip: this.calendarNode.querySelector('.ui-cal-grip'),
+        scrim: null  // calendar manages its own scrim
       });
     }
     else
@@ -53295,8 +53174,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   }
 
   // --- Mobile-specific show/hide — bypass desktop positioning, use BottomSheet plugin ---
-  // All timing controlled by BottomSheet plugin callbacks. No race conditions.
-  // The do-not-auto-hide guard is handled via shouldClose veto, not in _hideMobile.
 
   _showMobile()
   {
@@ -53315,6 +53192,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.calendarNode.classList.add('show', 'do-not-auto-hide');
     this.status = 'open';
     this._markCalendarDates(this._staged || this.__uiDate);
+
+    // Scrim
+    if (!this._mobileScrim)
+    {
+      this._mobileScrim = document.createElement('div');
+      this._mobileScrim.className = 'ui-cal-scrim';
+      this._mobileScrim.addEventListener('click', this.hide);
+    }
+    document.body.appendChild(this._mobileScrim);
 
     // Keyboard icon — lets user dismiss calendar and type date manually
     if (!this.calendarNode.querySelector('.ui-cal-keyboard'))
@@ -53337,8 +53223,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       else this.calendarNode.appendChild(kbBtn);
     }
 
-    // BottomSheet plugin injects scrim, handles slide-up + drag-to-close
-    this._mobileSheet.open();
+    // BottomSheet plugin handles slide-up animation + drag-to-close
+    this._mobileSheet.open(() =>
+    {
+      // onClose — called after close animation completes
+      if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
+      if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
+    });
 
     if (Affinity2018.hasOwnProperty('lockBodyScroll')) Affinity2018.lockBodyScroll();
 
@@ -53348,34 +53239,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
 
   _hideMobile()
   {
-    if (this.status !== 'open') return;
-    // All cleanup happens in _onSheetClose (fires after close animation)
-    // do-not-auto-hide is handled by _shouldSheetClose veto
-    this._mobileSheet.close();
-  }
-
-  // --- BottomSheet callbacks ---
-
-  // Veto close if do-not-auto-hide is set (first click after open is ignored)
-  _shouldSheetClose()
-  {
     if (this.calendarNode.classList.contains('do-not-auto-hide'))
     {
       this.calendarNode.classList.remove('do-not-auto-hide');
-      return false;
+      return;
     }
-    return true;
-  }
-
-  // Fires after the open animation completes
-  _onSheetOpen()
-  {
-    // No post-open action needed for calendar
-  }
-
-  // Fires after the close animation completes — resets widget state
-  _onSheetClose()
-  {
     this._clearShowHideEvents();
     if (this.monthWrap) { this.monthWrap.classList.add('hidden'); this.monthSpan.classList.remove('hidden'); }
     if (this.yearWrap) { this.yearWrap.classList.add('hidden'); this.yearSpan.classList.remove('hidden'); }
@@ -53388,10 +53256,8 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'closed';
     this.mouseState = '';
 
-    // Blur the display input so the keyboard closes
-    if (this.displayNode) this.displayNode.blur();
-
-    if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
+    // BottomSheet plugin handles slide-down animation + onClose callback
+    this._mobileSheet.close();
   }
 
   /**/
@@ -54134,6 +54000,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     this._clearShowHideEvents();
     if (this._mobileSheet) this._mobileSheet.destroy();
+    if (this._mobileScrim && this._mobileScrim.parentNode) this._mobileScrim.parentNode.removeChild(this._mobileScrim);
     clearTimeout(this.watchTimer);
     clearTimeout(this.bgEventListenerDelay);
     clearTimeout(this._positionDelay);
@@ -54194,6 +54061,7 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
   {
     this.calendarTemplate = `
     <div class="ui-cal-inner" tabindex="-1">
+      <div class="ui-cal-grip" tabindex="-1"></div>
       <div class="ui-cal-dates hidden" tabindex="-1">
         <div class="ui-cal-current" tabindex="-1" >
           <span class="ui-cal-back-month icon-arrow-left" tabindex="-1"></span>
