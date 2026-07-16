@@ -28686,7 +28686,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       '_saveFilterOptions', '_loadSavedState',
 
       // Toast / utility
-      '_showToast', '_sortArrowIcon',
+      '_showToast', '_sortArrowIcon', '_autoFillPayPointDates',
 
       // Event delegation
       '_onShellClick',
@@ -30054,13 +30054,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     let t = this._filterDraft.toggles || {};
     let defaults = this._getViewDefaults();
 
-    // Only show date chip if column or range differs from view defaults
+    // Show date chip only when the collective date filter differs from defaults.
+    // When shown, always include the column label so it's clear what's being filtered on.
     let dateMatchesDefault = this._filterDraft.dateColumn === defaults.dateColumn
                           && this._filterDraft.dateFrom === defaults.dateFrom
                           && this._filterDraft.dateTo === defaults.dateTo;
     if (!dateMatchesDefault && (this._filterDraft.dateFrom || this._filterDraft.dateTo || this._filterDraft.dateColumn !== defaults.dateColumn))
     {
-      let colLabel = this._filterDraft.dateColumn !== defaults.dateColumn ? `${this._fieldLabel(this._filterDraft.dateColumn, this.State.ActiveCategory)}: ` : '';
+      let colLabel = `${this._fieldLabel(this._filterDraft.dateColumn, this.State.ActiveCategory)}: `;
       let dateLabel = (this._filterDraft.dateFrom || this._filterDraft.dateTo)
         ? `${this._fmtDate(this._filterDraft.dateFrom + 'T00:00:00Z')} \u2013 ${this._fmtDate(this._filterDraft.dateTo + 'T00:00:00Z')}`
         : '';
@@ -30300,7 +30301,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           ${dateWrap(`<input type="date" class="m-control" data-filter="dateTo" value="${d.dateTo}" />`)}
         </div>
       </div>
-      ${isAdmin ? `<button class="btn-secondary m-btn-full" data-filter-action="current-period">${this._icon('calendar', 16)} ${$a.Lang.ReturnPath('app.cf.inbox.labels.current_pay_period')}</button>` : ''}
       ${isAdmin ? `<div class="m-field"><label class="m-field-label">Pay point</label><span class="m-select-wrap">${this._icon('chevronDown', 16)}<select class="m-control" data-filter="payPoint">${ppOptions}</select></span></div>` : ''}
       ${togglesHtml}`;
 
@@ -30337,12 +30337,21 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       let action = btn.dataset.filterAction;
       if (action === 'close') this._animateCloseSheet();
       else if (action === 'reset') { this._resetFilters(); this._animateCloseSheet(); }
-      else if (action === 'current-period') this._setCurrentPayPeriod(sheet);
       else if (action === 'apply') this._applyFiltersFromSheet(sheet);
     });
+
+    // Auto-fill date inputs when PayPoint select changes — matches desktop behaviour
+    // where selecting a PayPoint immediately updates the date fields to that pay point's period.
+    let ppSelect = sheet.querySelector('[data-filter="payPoint"]');
+    if (ppSelect)
+    {
+      ppSelect.addEventListener('change', () => this._autoFillPayPointDates(sheet));
+    }
   }
 
-  _setCurrentPayPeriod(sheet)
+  // Fills the date inputs from the selected PayPoint's current period dates.
+  // Called on PayPoint select change in the filter sheet.
+  _autoFillPayPointDates(sheet)
   {
     let ppSelect = sheet.querySelector('[data-filter="payPoint"]');
     let selectedPP = ppSelect ? ppSelect.value : 'all';
@@ -30360,9 +30369,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       earliest = pp.CurrentPeriodStartDate;
       latest = pp.CurrentPeriodEndDate;
     }
-
-    let dcSelect = sheet.querySelector('[data-filter="dateColumn"]');
-    if (dcSelect) dcSelect.value = 'CurrentPayPeriod';
 
     let fromInput = sheet.querySelector('[data-filter="dateFrom"]');
     let toInput = sheet.querySelector('[data-filter="dateTo"]');
@@ -30436,7 +30442,6 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <span class="m-sort-name">${this._fieldLabel(s.Name, cat)}</span>
           <button class="m-sort-dir" data-sort-action="toggle-dir" data-sort-idx="${i}">
             ${this._icon(this._sortArrowIcon(s), 14, 2.2)}
-            ${s.Ascending ? 'Asc' : 'Desc'}
           </button>
           <span class="m-sort-ord">
             <button data-sort-action="move-up" data-sort-idx="${i}"${i === 0 ? ' disabled' : ''}>${this._icon('chevronUp', 14)}</button>
@@ -53349,12 +53354,15 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       kbBtn.title = 'Type date manually';
       kbBtn.addEventListener('click', () => {
         this._keyboardMode = true;
-        this.hide();
+        // Focus MUST happen synchronously in the click handler for iOS to open the soft keyboard.
+        // iOS only allows .focus() to trigger the keyboard within a user gesture event.
+        // The _keyboardMode flag tells _onSheetClose to skip the blur that would kill it.
         this.displayNode.removeEventListener('keyup', this._displayKeyUp);
         this.displayNode.removeEventListener('blur', this._displayBlur);
         this.displayNode.addEventListener('keyup', this._displayKeyUp);
         this.displayNode.addEventListener('blur', this._displayBlur);
-        // Focus after the sheet close animation completes (_onSheetClose skips blur when _keyboardMode is set)
+        this.displayNode.focus();
+        this.hide();
       });
       var btnBar = this.calendarNode.querySelector('.ui-cal-buttons');
       if (btnBar) btnBar.appendChild(kbBtn);
@@ -53412,12 +53420,12 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'closed';
     this.mouseState = '';
 
-    // When keyboard button was tapped, focus the display input for manual typing
-    // instead of blurring it (which would close the keyboard)
+    // When keyboard button was tapped, the display input was already focused
+    // in the click handler (iOS requires synchronous focus). Skip the blur
+    // here so the keyboard stays open.
     if (this._keyboardMode)
     {
       this._keyboardMode = false;
-      if (this.displayNode) this.displayNode.focus();
     }
     else
     {
