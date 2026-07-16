@@ -53348,12 +53348,13 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
       kbBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="6" y1="9" x2="6.01" y2="9"/><line x1="12" y1="9" x2="12.01" y2="9"/><line x1="18" y1="9" x2="18.01" y2="9"/><line x1="8" y1="15" x2="16" y2="15"/></svg>';
       kbBtn.title = 'Type date manually';
       kbBtn.addEventListener('click', () => {
+        this._keyboardMode = true;
         this.hide();
         this.displayNode.removeEventListener('keyup', this._displayKeyUp);
         this.displayNode.removeEventListener('blur', this._displayBlur);
         this.displayNode.addEventListener('keyup', this._displayKeyUp);
         this.displayNode.addEventListener('blur', this._displayBlur);
-        this.displayNode.focus();
+        // Focus after the sheet close animation completes (_onSheetClose skips blur when _keyboardMode is set)
       });
       var btnBar = this.calendarNode.querySelector('.ui-cal-buttons');
       if (btnBar) btnBar.appendChild(kbBtn);
@@ -53411,8 +53412,18 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.status = 'closed';
     this.mouseState = '';
 
-    // Blur the display input so the keyboard closes
-    if (this.displayNode) this.displayNode.blur();
+    // When keyboard button was tapped, focus the display input for manual typing
+    // instead of blurring it (which would close the keyboard)
+    if (this._keyboardMode)
+    {
+      this._keyboardMode = false;
+      if (this.displayNode) this.displayNode.focus();
+    }
+    else
+    {
+      // Blur the display input so the keyboard closes
+      if (this.displayNode) this.displayNode.blur();
+    }
 
     if (Affinity2018.hasOwnProperty('unlockBodyScroll')) Affinity2018.unlockBodyScroll();
   }
