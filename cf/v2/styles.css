@@ -1,80 +1,80 @@
 /* Minification failed. Returning unminified contents.
-(7035,59): run-time error CSS1030: Expected identifier, found ','
-(7035,81): run-time error CSS1031: Expected selector, found ')'
-(7035,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7043,59): run-time error CSS1030: Expected identifier, found ','
-(7043,81): run-time error CSS1031: Expected selector, found ')'
-(7043,81): run-time error CSS1025: Expected comma or open brace, found ')'
-(7075,82): run-time error CSS1030: Expected identifier, found ','
-(7075,153): run-time error CSS1031: Expected selector, found ')'
-(7075,153): run-time error CSS1025: Expected comma or open brace, found ')'
-(7157,64): run-time error CSS1030: Expected identifier, found ','
-(7157,71): run-time error CSS1031: Expected selector, found ')'
-(7157,71): run-time error CSS1025: Expected comma or open brace, found ')'
-(7165,63): run-time error CSS1030: Expected identifier, found ','
-(7165,70): run-time error CSS1031: Expected selector, found ')'
-(7165,70): run-time error CSS1025: Expected comma or open brace, found ')'
-(7173,72): run-time error CSS1030: Expected identifier, found ','
-(7173,79): run-time error CSS1031: Expected selector, found ')'
-(7173,79): run-time error CSS1025: Expected comma or open brace, found ')'
-(7233,74): run-time error CSS1030: Expected identifier, found ','
-(7233,216): run-time error CSS1031: Expected selector, found ')'
-(7233,216): run-time error CSS1025: Expected comma or open brace, found ')'
-(9038,113): run-time error CSS1030: Expected identifier, found ','
-(9038,125): run-time error CSS1031: Expected selector, found ')'
-(9038,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(11283,73): run-time error CSS1030: Expected identifier, found ','
-(11283,95): run-time error CSS1031: Expected selector, found ')'
-(11283,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11291,73): run-time error CSS1030: Expected identifier, found ','
-(11291,95): run-time error CSS1031: Expected selector, found ')'
-(11291,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11313,73): run-time error CSS1030: Expected identifier, found ','
-(11313,95): run-time error CSS1031: Expected selector, found ')'
-(11313,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11322,73): run-time error CSS1030: Expected identifier, found ','
-(11322,95): run-time error CSS1031: Expected selector, found ')'
-(11322,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11330,73): run-time error CSS1030: Expected identifier, found ','
-(11330,95): run-time error CSS1031: Expected selector, found ')'
-(11330,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11338,73): run-time error CSS1030: Expected identifier, found ','
-(11338,95): run-time error CSS1031: Expected selector, found ')'
-(11338,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11346,73): run-time error CSS1030: Expected identifier, found ','
-(11346,95): run-time error CSS1031: Expected selector, found ')'
-(11346,95): run-time error CSS1025: Expected comma or open brace, found ')'
-(11731,133): run-time error CSS1030: Expected identifier, found ','
-(11731,274): run-time error CSS1031: Expected selector, found ')'
-(11731,274): run-time error CSS1025: Expected comma or open brace, found ')'
-(12327,167): run-time error CSS1030: Expected identifier, found ','
-(12327,309): run-time error CSS1031: Expected selector, found ')'
-(12327,309): run-time error CSS1025: Expected comma or open brace, found ')'
-(12662,108): run-time error CSS1030: Expected identifier, found ','
-(12662,250): run-time error CSS1031: Expected selector, found ')'
-(12662,250): run-time error CSS1025: Expected comma or open brace, found ')'
-(18209,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(18210,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(18422,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
-(18424,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
-(19450,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
-(19496,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
-(19500,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
-(19928,113): run-time error CSS1030: Expected identifier, found ':'
-(19928,114): run-time error CSS1030: Expected identifier, found 'not('
-(19928,125): run-time error CSS1031: Expected selector, found ')'
-(19928,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(29675,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29678,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29684,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29687,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30350,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(30416,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(32112,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32113,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32114,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32841,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(32844,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(6996,59): run-time error CSS1030: Expected identifier, found ','
+(6996,81): run-time error CSS1031: Expected selector, found ')'
+(6996,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7004,59): run-time error CSS1030: Expected identifier, found ','
+(7004,81): run-time error CSS1031: Expected selector, found ')'
+(7004,81): run-time error CSS1025: Expected comma or open brace, found ')'
+(7036,82): run-time error CSS1030: Expected identifier, found ','
+(7036,153): run-time error CSS1031: Expected selector, found ')'
+(7036,153): run-time error CSS1025: Expected comma or open brace, found ')'
+(7118,64): run-time error CSS1030: Expected identifier, found ','
+(7118,71): run-time error CSS1031: Expected selector, found ')'
+(7118,71): run-time error CSS1025: Expected comma or open brace, found ')'
+(7126,63): run-time error CSS1030: Expected identifier, found ','
+(7126,70): run-time error CSS1031: Expected selector, found ')'
+(7126,70): run-time error CSS1025: Expected comma or open brace, found ')'
+(7134,72): run-time error CSS1030: Expected identifier, found ','
+(7134,79): run-time error CSS1031: Expected selector, found ')'
+(7134,79): run-time error CSS1025: Expected comma or open brace, found ')'
+(7194,74): run-time error CSS1030: Expected identifier, found ','
+(7194,216): run-time error CSS1031: Expected selector, found ')'
+(7194,216): run-time error CSS1025: Expected comma or open brace, found ')'
+(8999,113): run-time error CSS1030: Expected identifier, found ','
+(8999,125): run-time error CSS1031: Expected selector, found ')'
+(8999,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(11137,73): run-time error CSS1030: Expected identifier, found ','
+(11137,95): run-time error CSS1031: Expected selector, found ')'
+(11137,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11145,73): run-time error CSS1030: Expected identifier, found ','
+(11145,95): run-time error CSS1031: Expected selector, found ')'
+(11145,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11167,73): run-time error CSS1030: Expected identifier, found ','
+(11167,95): run-time error CSS1031: Expected selector, found ')'
+(11167,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11176,73): run-time error CSS1030: Expected identifier, found ','
+(11176,95): run-time error CSS1031: Expected selector, found ')'
+(11176,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11184,73): run-time error CSS1030: Expected identifier, found ','
+(11184,95): run-time error CSS1031: Expected selector, found ')'
+(11184,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11192,73): run-time error CSS1030: Expected identifier, found ','
+(11192,95): run-time error CSS1031: Expected selector, found ')'
+(11192,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11200,73): run-time error CSS1030: Expected identifier, found ','
+(11200,95): run-time error CSS1031: Expected selector, found ')'
+(11200,95): run-time error CSS1025: Expected comma or open brace, found ')'
+(11585,133): run-time error CSS1030: Expected identifier, found ','
+(11585,274): run-time error CSS1031: Expected selector, found ')'
+(11585,274): run-time error CSS1025: Expected comma or open brace, found ')'
+(12181,167): run-time error CSS1030: Expected identifier, found ','
+(12181,309): run-time error CSS1031: Expected selector, found ')'
+(12181,309): run-time error CSS1025: Expected comma or open brace, found ')'
+(12516,108): run-time error CSS1030: Expected identifier, found ','
+(12516,250): run-time error CSS1031: Expected selector, found ')'
+(12516,250): run-time error CSS1025: Expected comma or open brace, found ')'
+(18063,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(18064,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(18276,15): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-width'
+(18278,20): run-time error CSS1039: Token not allowed after unary operator: '-mobile-list-height'
+(19304,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
+(19350,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
+(19354,30): run-time error CSS1039: Token not allowed after unary operator: '-bs-drag-y'
+(19782,113): run-time error CSS1030: Expected identifier, found ':'
+(19782,114): run-time error CSS1030: Expected identifier, found 'not('
+(19782,125): run-time error CSS1031: Expected selector, found ')'
+(19782,125): run-time error CSS1025: Expected comma or open brace, found ')'
+(29529,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29532,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29538,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29541,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30204,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(30270,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(31966,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(31967,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(31968,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32695,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(32698,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -6916,45 +6916,6 @@ body.ui2018.uiupdate.cform .ui-autocomplete-container {
   display: block;
   width: 680px;
 }
-body.ui2018.uiupdate .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display,
-body.ui2018.uiupdate.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display {
-  height: 44px;
-  padding: 0 39px 0 15px !important;
-  font-size: 16px;
-  color: black;
-  background: #f7f9fe;
-  border: 2px solid #e3e8ed;
-  white-space: nowrap;
-  -ms-text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  -webkit-transition: unset;
-  -moz-transition: unset;
-  -o-transition: unset;
-  transition: unset;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body.ui2018.uiupdate .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display:disabled,
-body.ui2018.uiupdate.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display:disabled {
-  background: #e2e6eb !important;
-  border: 2px solid #c8d1db !important;
-  color: rgba(0, 0, 0, 0.5);
-}
-body.ui2018.uiupdate .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon,
-body.ui2018.uiupdate.cform .ui-autocomplete-container .ui-ac-display-wrapper .ui-ac-display-icon {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  margin: 2px 0 0 -42px;
-  color: black;
-  font-size: 16px;
-}
 body.ui2018.uiupdate .ui-autocomplete-container .ui-autocomplete-list,
 body.ui2018.uiupdate.cform .ui-autocomplete-container .ui-autocomplete-list {
   top: 44px;
@@ -9190,119 +9151,30 @@ body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container,
 body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container,
 body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container {
   top: 65px;
-  left: 320px;
-  width: 360px;
-  min-width: 360px;
-  max-width: 360px;
+  left: 346px;
+  width: 334px;
+  min-width: 334px;
+  max-width: 334px;
   overflow: hidden;
   -webkit-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   -moz-box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
   box-shadow: 0 5px 20px rgba(0, 55, 128, 0.2);
 }
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month {
-  font-size: 16px;
-  color: #666666;
+body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container.above,
+body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container.above,
+body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container.above,
+body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container.above,
+body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container.above,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container.above {
+  bottom: 44px;
 }
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-back-month:hover,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-forward-month:hover {
-  color: white;
-  background: #106eb6;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year {
-  font-size: 16px;
-  color: #666666;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-month:hover,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-current .ui-cal-current-year:hover {
-  color: white;
-  background: #106eb6;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span {
-  font-size: 16px;
-  color: #666666;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span:hover,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span:hover {
-  color: white;
-  background: #106eb6;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-months span.selected,
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-years span.selected {
-  color: white;
-  background: #106eb6;
+body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row,
+body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row,
+body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row,
+body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row,
+body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row {
+  font-size: 0;
 }
 body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell,
 body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell,
@@ -9310,39 +9182,21 @@ body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inn
 body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell,
 body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell,
 body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell {
-  background: white;
-  font-size: 18px;
   width: 40px;
   height: 40px;
-  margin: 0 0 0 10px;
   line-height: 40px;
-  -webkit-border-radius: 40px;
-  -moz-border-radius: 40px;
-  border-radius: 40px;
+  margin: 2px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:last-child,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:last-child,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:last-child,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:last-child,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:last-child,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell:last-child {
-  margin: 0 10px;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.today {
-  background: #148ae5;
-}
-body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
-body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
-body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
-body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
-body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected,
-body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.selected {
-  background: #106eb6;
+body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today,
+body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today,
+body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today,
+body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today,
+body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today,
+body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row .ui-cal-cell.active.today {
+  line-height: 36px;
 }
 body.ui2018.uiupdate form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell,
 body.ui2018.uiupdate.cform form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell,
@@ -9350,8 +9204,8 @@ body.ui2018.uiupdate .form .form-row.calendar .ui-calendar-container .ui-cal-inn
 body.ui2018.uiupdate.cform .form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell,
 body.ui2018.uiupdate .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell,
 body.ui2018.uiupdate.cform .default-form .form-row.calendar .ui-calendar-container .ui-cal-inner .ui-cal-dates .ui-cal-cells .ui-cal-cells-row.date-days .ui-cal-cell {
-  font-size: 16px;
-  background: white;
+  height: 30px;
+  line-height: 30px;
 }
 body.ui2018.uiupdate form .form-row .start-link,
 body.ui2018.uiupdate.cform form .form-row .start-link,
