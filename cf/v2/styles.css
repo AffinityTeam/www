@@ -34115,15 +34115,12 @@ body.ui2025.uiupdate.inbox.mobile .m-sel-acts button {
 }
 body.ui2025.uiupdate.inbox.mobile .m-chips {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   padding: 10px 14px;
   background: white;
   border-bottom: 1px solid #d7dadd;
-  overflow-x: auto;
   flex: 0 0 auto;
-}
-body.ui2025.uiupdate.inbox.mobile .m-chips::-webkit-scrollbar {
-  display: none;
 }
 body.ui2025.uiupdate.inbox.mobile .m-chip {
   flex: 0 0 auto;

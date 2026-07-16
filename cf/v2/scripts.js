@@ -6930,6 +6930,26 @@
         Affinity2018.IsAppleMobile = !Affinity2018.IsAppleMobile && Affinity2018.IsMobile && Affinity2018.Browser.isios;
         Affinity2018.IsAppleMobile = !Affinity2018.IsAppleMobile && Affinity2018.IsMobile && Affinity2018.Browser.ismac;
 
+        // iOS Safari auto-zooms the viewport when an input gains focus, and does NOT zoom back
+        // out on blur — leaving the layout stuck at a zoomed-in state. Apple ignores font-size
+        // thresholds inconsistently, and user-scalable=no is ignored for manual pinch-zoom but
+        // IS still respected for the auto-zoom-on-focus behavior (confirmed by Discourse, Rick
+        // Strahl, and ForumMagnum). So we inject maximum-scale=1 ONLY on iOS — this kills the
+        // auto-zoom while preserving manual pinch-zoom for accessibility. Android is left alone
+        // because it respects maximum-scale=1 properly (would block pinch-zoom).
+        if (Affinity2018.IsAppleMobile)
+        {
+          var viewportMeta = document.querySelector('meta[name="viewport"]');
+          if (viewportMeta)
+          {
+            var content = viewportMeta.getAttribute('content') || '';
+            if (content.indexOf('maximum-scale') === -1)
+            {
+              viewportMeta.setAttribute('content', content + ', maximum-scale=1');
+            }
+          }
+        }
+
         window.dispatchEvent(new Event('MobileChecked'));
         if (Affinity2018.IsMobile && (window.location.host.contains('localhost') || window.location.host.contains('.test')))
         {
@@ -24616,23 +24636,9 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
   _searchPayPointSelectChanged(event)
   {
-    // F6: Only auto-fill dates when "Current Pay Period" is the active date filter
-    let activeDateSelect = this.SearchBox.querySelector(
-      `div.select:not(.hidden) select[name="search-date-select"]`
-    );
-    if (!activeDateSelect || activeDateSelect.value !== 'CurrentPayPeriod')
-    {
-      if (
-        (event && 'isTrusted' in event && event.isTrusted)
-        || (event && 'detail' in event && event.detail.isTrusted)
-      )
-      {
-        this._resetPagesToOne();
-        this._attemptSearchDebounced('_searchPayPointSelectChanged');
-      }
-      return;
-    }
-
+    // Always auto-fill the date widgets from the selected PayPoint's period dates,
+    // regardless of which date column is active. This matches mobile behaviour where
+    // selecting a PayPoint updates the date fields to that pay point's current period.
     let fromDateNode = this.SearchBox.querySelector(`input[name="StartDate"]`);
     let toDateNode = this.SearchBox.querySelector(`input[name="EndDate"]`);
     let selectedValue = event.target.value.toString();
@@ -24668,7 +24674,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       fromDateNode.value = earliest;
       toDateNode.value = latest;
     }
+
+    // QA says this is correct behaviour, including replacing any saved date data.
+    // Testing fails if this does not occur.
     this._saveDateState();
+
     if (
       (event && 'isTrusted' in event && event.isTrusted)
       || (event && 'detail' in event && event.detail.isTrusted)
@@ -28676,7 +28686,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       '_saveFilterOptions', '_loadSavedState',
 
       // Toast / utility
-      '_showToast',
+      '_showToast', '_sortArrowIcon',
 
       // Event delegation
       '_onShellClick',
@@ -29054,6 +29064,20 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
     // Fallback for keys not in the per-category map (e.g. IsArchived)
     let meta = this._FIELDS[key];
     return meta ? meta.label : key;
+  }
+
+  // Returns the arrow icon name for a sort field, matching the desktop date-type-aware swap:
+  //   Non-date ascending  → arrowDown  (A→Z reads top-to-bottom = "down")
+  //   Non-date descending → arrowUp
+  //   Date ascending      → arrowUp    (oldest→newest reads chronologically "up")
+  //   Date descending     → arrowDown
+  // The text label ("Asc"/"Desc") always reflects the raw Ascending boolean and is NOT swapped.
+  _sortArrowIcon(sortItem)
+  {
+    var meta = this._FIELDS[sortItem.Name];
+    var isDate = meta && meta.type === 'date';
+    if (isDate) return sortItem.Ascending ? 'arrowUp' : 'arrowDown';
+    return sortItem.Ascending ? 'arrowDown' : 'arrowUp';
   }
 
   _fmtDate(dateStr)
@@ -30411,7 +30435,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
           <span class="m-sort-idx">${i + 1}</span>
           <span class="m-sort-name">${this._fieldLabel(s.Name, cat)}</span>
           <button class="m-sort-dir" data-sort-action="toggle-dir" data-sort-idx="${i}">
-            ${this._icon(s.Ascending ? 'arrowUp' : 'arrowDown', 14, 2.2)}
+            ${this._icon(this._sortArrowIcon(s), 14, 2.2)}
             ${s.Ascending ? 'Asc' : 'Desc'}
           </button>
           <span class="m-sort-ord">
@@ -52653,7 +52677,6 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     this.displayNode = document.createElement('input');
     this.displayNode.type = 'text';
     this.displayNode.setAttribute('autocomplete', 'one-time-code');
-    this.displayNode.setAttribute('placeholder', 'e.g. today, next friday, christmas');
     this.displayNode.widgets = { DateTime: this };
     this.targetNode.parentNode.insertBefore(this.displayNode, this.targetNode.nextSibling);
 
@@ -53887,6 +53910,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (selected !== compare)
     {
       rendered.setMonth(selected);
+      // Update __uiDate so Apply commits the navigated month, not the original
+      this.__uiDate = rendered.clone();
+      // Stage the navigated date so the display row updates and Apply commits it
+      this._staged = rendered.clone();
+      this._updateStagedDisplay();
       cellsNode.dataset.month = '';
       cellsNode.dataset.year = '';
       this._buildCalendar(rendered);
@@ -53928,6 +53956,11 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
     if (selected !== compare)
     {
       rendered.setYear(selected);
+      // Update __uiDate so Apply commits the navigated year, not the original
+      this.__uiDate = rendered.clone();
+      // Stage the navigated date so the display row updates and Apply commits it
+      this._staged = rendered.clone();
+      this._updateStagedDisplay();
       cellsNode.dataset.month = '';
       cellsNode.dataset.year = '';
       this._buildCalendar(rendered);
@@ -53978,6 +54011,14 @@ Affinity2018.Classes.Plugins.CalendarWidget = class extends Affinity2018.ClassEv
           this._staged = typed;
         }
       }
+    }
+
+    // If still no staged date (no cell clicked, display empty or unparseable),
+    // fall back to __uiDate — this catches month/year navigation via the select
+    // dropdowns where the user changed the view month/year but didn't click a day.
+    if ((!this._staged || !Affinity2018.isDate(this._staged)) && Affinity2018.isDate(this.__uiDate))
+    {
+      this._staged = this.__uiDate.clone();
     }
 
     if (this._staged && Affinity2018.isDate(this._staged))
