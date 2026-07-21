@@ -1,51 +1,3 @@
-/* Minification failed. Returning unminified contents.
-(242,58-59): run-time error JS1100: Expected ',': =
-(2054,45-46): run-time error JS1195: Expected expression: >
-(2056,6-7): run-time error JS1195: Expected expression: ,
-(2061,2-3): run-time error JS1002: Syntax error: }
-(2063,36-37): run-time error JS1004: Expected ';': {
-(2098,3-4): run-time error JS1195: Expected expression: ,
-(2100,24-25): run-time error JS1004: Expected ';': {
-(2107,3-4): run-time error JS1195: Expected expression: ,
-(2109,18-19): run-time error JS1195: Expected expression: )
-(2109,20-21): run-time error JS1004: Expected ';': {
-(2122,3-4): run-time error JS1195: Expected expression: ,
-(2124,20-21): run-time error JS1195: Expected expression: )
-(2124,22-23): run-time error JS1004: Expected ';': {
-(2131,3-4): run-time error JS1195: Expected expression: ,
-(2133,18-19): run-time error JS1195: Expected expression: )
-(2133,20-21): run-time error JS1004: Expected ';': {
-(2141,3-4): run-time error JS1195: Expected expression: ,
-(2143,23-24): run-time error JS1195: Expected expression: )
-(2143,25-26): run-time error JS1004: Expected ';': {
-(2157,3-4): run-time error JS1195: Expected expression: ,
-(2159,25-26): run-time error JS1195: Expected expression: )
-(2159,27-28): run-time error JS1004: Expected ';': {
-(2179,3-4): run-time error JS1195: Expected expression: ,
-(2181,34-35): run-time error JS1004: Expected ';': {
-(2192,3-4): run-time error JS1195: Expected expression: ,
-(2194,32-33): run-time error JS1195: Expected expression: )
-(2194,34-35): run-time error JS1004: Expected ';': {
-(2266,3-4): run-time error JS1195: Expected expression: ,
-(2268,40-41): run-time error JS1004: Expected ';': {
-(2381,3-4): run-time error JS1195: Expected expression: ,
-(2383,34-35): run-time error JS1195: Expected expression: )
-(2383,36-37): run-time error JS1004: Expected ';': {
-(2482,3-4): run-time error JS1195: Expected expression: ,
-(2484,30-31): run-time error JS1195: Expected expression: )
-(2484,32-33): run-time error JS1004: Expected ';': {
-(2490,3-4): run-time error JS1195: Expected expression: ,
-(2492,34-35): run-time error JS1004: Expected ';': {
-(2499,3-4): run-time error JS1195: Expected expression: ,
-(2501,39-40): run-time error JS1195: Expected expression: )
-(2501,41-42): run-time error JS1004: Expected ';': {
-(2508,3-4): run-time error JS1195: Expected expression: ,
-(2510,19-20): run-time error JS1195: Expected expression: )
-(2510,21-22): run-time error JS1004: Expected ';': {
-(2517,3-4): run-time error JS1195: Expected expression: ,
-(2519,9-10): run-time error JS1197: Too many errors. The file might not be a JavaScript file: :
-(2125,30-36): run-time error JS1018: 'return' statement outside of function: return
- */
 var EmployeeLeave = new Class({
 
     Implements: [Options, Events],
@@ -1219,7 +1171,7 @@ var EmployeeLeave = new Class({
     }
 
 });
-;
+
 var UILeaveCalendar = new Class({
 
     Implements: [Options, Events],
@@ -1963,7 +1915,7 @@ var UILeaveCalendar = new Class({
     }
 
 });
-;
+
 var UITeamLeaveCalendar = new Class({
 
 	Implements: [Options, Events],
@@ -2597,4 +2549,4 @@ var UITeamLeaveCalendar = new Class({
 	}
 
 });
-;
+
