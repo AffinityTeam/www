@@ -2750,14 +2750,15 @@ Affinity.PageReady = function () {
 
     // iOS/Apple mobile detection - feature-based for Safari/Chrome/Firefox iOS
     // This catches cases where C# user-agent detection missed (e.g., privacy mode, modified UA)
+    // Uses pointer/hover media features rather than touch APIs - navigator.maxTouchPoints
+    // is no longer a reliable signal since some Safari/trackpad combos report it > 0 on desktop Macs.
     var isAppleVendor = navigator.vendor && navigator.vendor.indexOf('Apple') > -1;
-    var hasTouchEvents = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    var hasWebkitCSS = window.CSS && CSS.supports && CSS.supports('-webkit-touch-callout', 'none');
+    var isCoarsePrimaryPointer = window.matchMedia && window.matchMedia('(pointer: coarse) and (hover: none)').matches;
     var hasStandaloneProperty = 'standalone' in navigator;
     var isIOSUserAgent = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     Affinity.isAppleMobile = (
-        (isAppleVendor && hasTouchEvents && hasWebkitCSS) ||
+        (isAppleVendor && isCoarsePrimaryPointer) ||
         (isAppleVendor && hasStandaloneProperty) ||
         isIOSUserAgent
     );
