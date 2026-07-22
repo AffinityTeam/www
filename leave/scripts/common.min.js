@@ -2754,12 +2754,10 @@ Affinity.PageReady = function () {
     // is no longer a reliable signal since some Safari/trackpad combos report it > 0 on desktop Macs.
     var isAppleVendor = navigator.vendor && navigator.vendor.indexOf('Apple') > -1;
     var isCoarsePrimaryPointer = window.matchMedia && window.matchMedia('(pointer: coarse) and (hover: none)').matches;
-    var hasStandaloneProperty = 'standalone' in navigator;
     var isIOSUserAgent = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     Affinity.isAppleMobile = (
         (isAppleVendor && isCoarsePrimaryPointer) ||
-        (isAppleVendor && hasStandaloneProperty) ||
         isIOSUserAgent
     );
 
