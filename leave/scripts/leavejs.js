@@ -1,3 +1,50 @@
+/* Minification failed. Returning unminified contents.
+(5486,71-72): run-time error JS1195: Expected expression: >
+(5486,98-99): run-time error JS1004: Expected ';': )
+(5488,87-88): run-time error JS1195: Expected expression: >
+(5488,129-130): run-time error JS1004: Expected ';': )
+(5493,25-30): run-time error JS1019: Can't have 'break' outside of loop: break
+(5498,13-14): run-time error JS1002: Syntax error: }
+(5500,34-35): run-time error JS1004: Expected ';': {
+(5504,9-10): run-time error JS1002: Syntax error: }
+(5507,25-26): run-time error JS1004: Expected ';': {
+(5658,5-6): run-time error JS1002: Syntax error: }
+(5659,45-46): run-time error JS1004: Expected ';': {
+(5678,6-7): run-time error JS1195: Expected expression: ,
+(5679,63-64): run-time error JS1004: Expected ';': {
+(5685,6-7): run-time error JS1195: Expected expression: ,
+(5686,26-27): run-time error JS1195: Expected expression: )
+(5686,28-29): run-time error JS1004: Expected ';': {
+(5760,6-7): run-time error JS1195: Expected expression: ,
+(5762,22-23): run-time error JS1195: Expected expression: )
+(5762,24-25): run-time error JS1004: Expected ';': {
+(5785,6-7): run-time error JS1195: Expected expression: ,
+(5787,24-25): run-time error JS1195: Expected expression: )
+(5787,26-27): run-time error JS1004: Expected ';': {
+(5846,6-7): run-time error JS1195: Expected expression: ,
+(10518,52-53): run-time error JS1195: Expected expression: .
+(10530,5-6): run-time error JS1002: Syntax error: }
+(10531,46-47): run-time error JS1004: Expected ';': {
+(10566,6-7): run-time error JS1195: Expected expression: ,
+(10567,42-43): run-time error JS1004: Expected ';': {
+(10590,6-7): run-time error JS1195: Expected expression: ,
+(10591,43-44): run-time error JS1004: Expected ';': {
+(10603,6-7): run-time error JS1195: Expected expression: ,
+(10604,81-82): run-time error JS1004: Expected ';': {
+(10621,6-7): run-time error JS1195: Expected expression: ,
+(10622,54-55): run-time error JS1004: Expected ';': {
+(10649,6-7): run-time error JS1195: Expected expression: ,
+(10650,49-50): run-time error JS1004: Expected ';': {
+(10720,6-7): run-time error JS1195: Expected expression: ,
+(10721,33-41): run-time error JS1197: Too many errors. The file might not be a JavaScript file: function
+(10529,9-21): run-time error JS1018: 'return' statement outside of function: return false
+(10523,21-53): run-time error JS1018: 'return' statement outside of function: return leaveConfig.CanEditByDays
+(5684,9-26): run-time error JS1018: 'return' statement outside of function: return daysResult
+(5574,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5593,17-23): run-time error JS1018: 'return' statement outside of function: return
+(5529,13-19): run-time error JS1018: 'return' statement outside of function: return
+(5502,17-23): run-time error JS1018: 'return' statement outside of function: return
+ */
 var Leave = new Class({
 
     Implements: [Options, Events],
@@ -1092,7 +1139,7 @@ var Leave = new Class({
             noClose: false
         });
     }
-});
+});;
 var UILeaveHistory = new Class({
 
     Implements: [Options, Events],
@@ -2120,7 +2167,7 @@ var UILeaveHistory = new Class({
         }.bind(this));
     }
 });
-
+;
 var UILeaveApply = new Class({
     Implements: [Options, Events],
 
@@ -5845,7 +5892,7 @@ var UILeaveApply = new Class({
         );
     },
 });
-
+;
 var UILeaveApplyV1 = new Class({
     Implements: [Options, Events],
 
@@ -9347,7 +9394,7 @@ var UILeaveApplyV1 = new Class({
         );
     },
 });
-
+;
 var UILeaveDetail = new Class({
 
     Implements: [Options, Events],
@@ -12893,7 +12940,7 @@ console.log('UpdateLeaveV2/')
         Affinity.modal.show();
     },
 });
-
+;
 var UILeaveDetailV1 = new Class({
 
     Implements: [Options, Events],
@@ -16432,7 +16479,7 @@ var UILeaveDetailV1 = new Class({
         }.bind(this));
     }
 });
-
+;
 var UIEmployeeLeaveBalances = new Class({
     Implements: [Options, Events],
     Binds: [
@@ -17311,7 +17358,7 @@ if (!Element.prototype.closest) {
         return null;
     };
 }
-
+;
 var InputEditWidget = new Class({
 
     Implements: [Options, Events],
@@ -17453,7 +17500,7 @@ var InputEditWidget = new Class({
             this.saveInputEdit.addClass('disabled');
         }
     }
-});
+});;
 var InputEditWidgetLeaveDays = new Class({
 
     Implements: [Options, Events],
@@ -17595,4 +17642,4 @@ var InputEditWidgetLeaveDays = new Class({
             this.saveInputEdit.addClass('disabled');
         }
     }
-});
+});;

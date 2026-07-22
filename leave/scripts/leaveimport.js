@@ -1,3 +1,29 @@
+/* Minification failed. Returning unminified contents.
+(3,3-4): run-time error JS1195: Expected expression: )
+(3,6-7): run-time error JS1195: Expected expression: >
+(6,17-18): run-time error JS1195: Expected expression: )
+(6,20-21): run-time error JS1195: Expected expression: >
+(57,5-6): run-time error JS1002: Syntax error: }
+(84,52-53): run-time error JS1014: Invalid character: `
+(84,53-54): run-time error JS1195: Expected expression: .
+(84,105-106): run-time error JS1195: Expected expression: &
+(84,123-124): run-time error JS1195: Expected expression: &
+(84,143-144): run-time error JS1014: Invalid character: `
+(115,5-6): run-time error JS1002: Syntax error: }
+(122,43-44): run-time error JS1014: Invalid character: `
+(122,44-45): run-time error JS1195: Expected expression: .
+(122,78-79): run-time error JS1014: Invalid character: `
+(122,79-80): run-time error JS1004: Expected ';': )
+(125,45-46): run-time error JS1014: Invalid character: `
+(125,66-67): run-time error JS1014: Invalid character: `
+(139,51-52): run-time error JS1195: Expected expression: >
+(145,22-23): run-time error JS1195: Expected expression: )
+(157,37-38): run-time error JS1195: Expected expression: >
+(157,54-55): run-time error JS1004: Expected ';': )
+(159,21-22): run-time error JS1197: Too many errors. The file might not be a JavaScript file: {
+(85,29-35): run-time error JS1018: 'return' statement outside of function: return
+(14,17-23): run-time error JS1018: 'return' statement outside of function: return
+ */
 // TODO: AI - make this a proper class. Keep all funcitonality including events to call "Check", which should eventually call "Init".
 
 (() => {
@@ -347,4 +373,4 @@
     // Wait for the form to be ready
     CheckForForm();
 
-})();
+})();;
