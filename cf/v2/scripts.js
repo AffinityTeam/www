@@ -27993,8 +27993,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <input id="EndDate" name="EndDate" data-type="date" type="input" value="" autocomplete="one-time-code">
           </div>
           <div class="segmented-control date-scope-toggle" role="group" aria-label="${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}">
-            <button type="button" class="segment active" data-datescope="false">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_range')}</button>
-            <button type="button" class="segment" data-datescope="true">${$a.Lang.ReturnPath('app.cf.inbox.labels.all_dates')}</button>
+            <div class="segment active" data-datescope="false">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_range')}</div>
+            <div class="segment" data-datescope="true">${$a.Lang.ReturnPath('app.cf.inbox.labels.all_dates')}</div>
           </div>
         </div>
         <div class="search-row inline filter-menu-row">
@@ -28396,8 +28396,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
             <input id="EndDate" name="EndDate" data-type="date" type="input" value="" autocomplete="one-time-code">
           </div>
           <div class="segmented-control date-scope-toggle" role="group" aria-label="${$a.Lang.ReturnPath('app.cf.inbox.labels.date_filter_select')}">
-            <button type="button" class="segment active" data-datescope="false">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_range')}</button>
-            <button type="button" class="segment" data-datescope="true">${$a.Lang.ReturnPath('app.cf.inbox.labels.all_dates')}</button>
+            <div class="segment active" data-datescope="false">${$a.Lang.ReturnPath('app.cf.inbox.labels.date_range')}</div>
+            <div class="segment" data-datescope="true">${$a.Lang.ReturnPath('app.cf.inbox.labels.all_dates')}</div>
           </div>
         </div>
         <div class="search-row no-label hidden">
