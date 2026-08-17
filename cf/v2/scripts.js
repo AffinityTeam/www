@@ -1,71 +1,3 @@
-/* Minification failed. Returning unminified contents.
-(2761,31-32): run-time error JS1195: Expected expression: >
-(2785,27-28): run-time error JS1195: Expected expression: >
-(2785,44-45): run-time error JS1004: Expected ';': )
-(2786,23-24): run-time error JS1195: Expected expression: >
-(2796,11-12): run-time error JS1002: Syntax error: }
-(2800,11-12): run-time error JS1002: Syntax error: }
-(2805,7-8): run-time error JS1002: Syntax error: }
-(2963,68-69): run-time error JS1195: Expected expression: )
-(2963,71-72): run-time error JS1195: Expected expression: >
-(2967,10-11): run-time error JS1195: Expected expression: ,
-(2970,5-6): run-time error JS1002: Syntax error: }
-(3072,32-37): run-time error JS1195: Expected expression: class
-(3795,32-37): run-time error JS1195: Expected expression: class
-(3887,29-30): run-time error JS1004: Expected ';': {
-(3888,29-30): run-time error JS1004: Expected ';': {
-(3889,29-30): run-time error JS1004: Expected ';': {
-(3890,29-30): run-time error JS1004: Expected ';': {
-(3947,3-4): run-time error JS1002: Syntax error: }
-(3960,37-38): run-time error JS1004: Expected ';': {
-(4537,36-41): run-time error JS1195: Expected expression: class
-(4617,3-4): run-time error JS1002: Syntax error: }
-(4734,3-4): run-time error JS1002: Syntax error: }
-(4750,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
-(4723,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4721,9-20): run-time error JS1018: 'return' statement outside of function: return data
-(4718,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4709,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
-(4695,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4693,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
-(4690,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
-(4686,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
-(4682,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
-(4678,54-66): run-time error JS1018: 'return' statement outside of function: return false
-(4677,53-64): run-time error JS1018: 'return' statement outside of function: return true
-(4668,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
-(4615,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4613,9-20): run-time error JS1018: 'return' statement outside of function: return true
-(4607,7-19): run-time error JS1018: 'return' statement outside of function: return false
-(4603,11-22): run-time error JS1018: 'return' statement outside of function: return true
-(4594,7-18): run-time error JS1018: 'return' statement outside of function: return null
-(4585,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4590,11-22): run-time error JS1018: 'return' statement outside of function: return data
-(4551,9,4561,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
-        {
-          try
-          {
-            return JSON.parse(v);
-          }
-          catch (e)
-          {
-            return v;
-          }
-        })(value)
-(3960,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
-(3945,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
-(3941,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
-(3937,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
-(3931,7-15): run-time error JS1018: 'return' statement outside of function: return s
-(3923,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
-(3911,7-19): run-time error JS1018: 'return' statement outside of function: return state
-(3890,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
-(3889,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
-(3888,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
-(3887,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
-(3885,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
-(2969,7-20): run-time error JS1018: 'return' statement outside of function: return string
- */
 (function ()
 {
   var ieVersion = -1;
@@ -8277,7 +8209,7 @@
   if (document.getElementsByTagName("head")[0] && document.getElementsByTagName("body")[0]) globalinit();
   else document.addEventListener('DOMContentLoaded', globalinit, false);
 
-})();;
+})();
 /**
  *
  * Summary.       CleverForms Admin.
@@ -9725,7 +9657,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   }
 
-};;
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                  **********************************************/
@@ -13168,7 +13100,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   }
 
 }
-;
+
 /***************************************************************************************************************************************************/
 /*********************************************************************************************************************************.*? save******************/
 /***                                                                                                                       *************************/
@@ -14396,7 +14328,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
 
 
 
-};;
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                       *********************************************************/
@@ -19288,7 +19220,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   }
 
 
-};;
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                         *******************************************************************************************************/
@@ -23447,7 +23379,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
 
-};;
+};
 /**
  *
  * Summary.       CleverForms Inbox.
@@ -28918,7 +28850,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       `;
     };
   }
-};;
+};
 /**
  *
  * Summary.       CleverForms Mobile Inbox.
@@ -31814,7 +31746,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   }
 
 };
-;
+
 /**
  *
  * Summary.       Element Base Class.
@@ -33720,7 +33652,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     `;
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Address Class.
@@ -34109,7 +34041,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element AffinityField Class.
@@ -37231,7 +37163,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element AttachInstructions Class.
@@ -37665,7 +37597,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element BankNumber Class.
@@ -37978,7 +37910,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element CheckBox Class.
@@ -38207,7 +38139,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Currency Class.
@@ -38482,7 +38414,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Date Class.
@@ -38875,7 +38807,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element DocumentSigning Class.
@@ -40117,7 +40049,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Drawpanel Class.
@@ -40425,7 +40357,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element EffectiveDate Class.
@@ -40707,7 +40639,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Email Class.
@@ -40882,7 +40814,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Explanation Class.
@@ -41107,7 +41039,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element FileUploadMulti Class.
@@ -41919,7 +41851,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Float Class.
@@ -42164,7 +42096,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Integer Class.
@@ -42352,7 +42284,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Link Class.
@@ -42539,7 +42471,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Memo Class.
@@ -42725,7 +42657,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element MultiSelect Class.
@@ -43076,7 +43008,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Paragraph Class.
@@ -43267,7 +43199,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Section Class.
@@ -43582,7 +43514,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Separator Class.
@@ -43746,7 +43678,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element SingleSelectDropdown Class.
@@ -44681,7 +44613,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element SingleSelectRadio Class.
@@ -45035,7 +44967,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element TaxNumber Class.
@@ -45453,7 +45385,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Text Class.
@@ -45703,7 +45635,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Title Class.
@@ -45891,7 +45823,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   }
 
-};;
+};
 /**
  *
  * Summary.       Element Video Class.
@@ -46231,7 +46163,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
 
   }
 
-};;
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                             ***********************************************************************************/
@@ -47269,7 +47201,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                             ***********************************/
@@ -49689,7 +49621,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   }
 
 };
-;
+
 
 var fuzzyRunning = false;
 
@@ -50675,7 +50607,7 @@ onmessage = function (msgData)
     close();
   }
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                 ***********************************************/
@@ -51746,7 +51678,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                             *******************************************************************/
@@ -52484,7 +52416,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
   }
 
 };
-;
+
 /**
  *
  * Summary.       Bottom Sheet Plugin — animated open/close with drag-to-dismiss.
@@ -52812,7 +52744,7 @@ Affinity2018.Classes.Plugins.BottomSheet = class
     }, { passive: true });
   }
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                       *************************************************************************/
@@ -55229,7 +55161,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                     ***********************************************************/
@@ -56496,7 +56428,7 @@ Affinity2018.Objects.DrawPadBezier = class
       + end * t * t * t;
   }
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                      **********************************************************/
@@ -58067,7 +57999,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                         *******************************************************/
@@ -59107,7 +59039,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                   *****************************************************************************/
@@ -59637,7 +59569,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                               *********************************/
@@ -60151,7 +60083,7 @@ Affinity2018.Classes.Plugins.RequestQueue = class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                             ***********************************/
@@ -61452,7 +61384,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   }
 
 };
-;
+
 
 if(!('Affinity2018' in window)) Affinity2018 = {};
 if(!('Classes' in Affinity2018)) Affinity2018.Classes = {};
@@ -61806,7 +61738,7 @@ Affinity2018.Classes.Plugins.SimpleSelectWidget = class extends Affinity2018.Cla
     return true;
   }
 
-};
+}
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                            ************************************************************************************/
@@ -62267,7 +62199,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
   }
 
 };
-;
+
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                        ********************************************************/
@@ -63226,4 +63158,4 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   }
 
 };
-;
+
