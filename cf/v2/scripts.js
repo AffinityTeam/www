@@ -12295,6 +12295,15 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       var isFormAdmin = false;
       if (response.data.hasOwnProperty('IsFormAdmin')) isFormAdmin = response.data.IsFormAdmin === true;
 
+      // AF-142: Populate LinkedOriginators (all GUIDs the current user owns — primary + linked).
+      // Lowercased so the form.js filter can compare case-insensitively. The primary UserGuid
+      // is always added below to guarantee the filter excludes at least the current user.
+      var linkedOriginators = [];
+      if (response.data.hasOwnProperty('LinkedOriginators') && Array.isArray(response.data.LinkedOriginators))
+      {
+        linkedOriginators = response.data.LinkedOriginators.map(function (g) { return String(g).toLowerCase(); });
+      }
+
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
@@ -12302,9 +12311,14 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         PayPoint: paypoint,
         Country: country,
         MemberType: memberType,
-        IsFormAdmin: isFormAdmin
+        IsFormAdmin: isFormAdmin,
+        LinkedOriginators: linkedOriginators
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
+      // Ensure the primary UserGuid is always present in LinkedOriginators.
+      var userGuidLower = Affinity2018.UserProfile.UserGuid.toLowerCase();
+      if (!linkedOriginators.contains(userGuidLower)) linkedOriginators.push(userGuidLower);
+      Affinity2018.UserProfile.LinkedOriginators = linkedOriginators;
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
       window.dispatchEvent(new Event('GotUserData'));
       window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
@@ -21120,6 +21134,18 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             //buttonNode.classList.add('large');
             if (data.Identities)
             {
+              // AF-142: Filter the current user (and all linked identities) out of the recipient
+              // list so the initiator is not pre-selected as the next assignee. If the current
+              // user owns every identity, restore the original list so the form can still be submitted.
+              var originalIdentities = data.Identities;
+              var excludeGuids = (Affinity2018.UserProfile.LinkedOriginators && Affinity2018.UserProfile.LinkedOriginators.length)
+                ? Affinity2018.UserProfile.LinkedOriginators
+                : [Affinity2018.UserProfile.UserGuid.toLowerCase()];
+              data.Identities = data.Identities.filter(function (i) {
+                return !i.Identifier || !excludeGuids.contains(i.Identifier.toLowerCase());
+              });
+              if (data.Identities.length === 0) data.Identities = originalIdentities;
+
               var listPlaceHolder = document.createElement('div'), optionNode;
               if (data.Identities.length === 1)
               {
@@ -21131,7 +21157,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                 listNode.dataset.refId = id;
                 listNode.value = data.Identities[0].Identifier;
                 target.appendChild(listNode);
-                if (data.Identities[0].Identifier.toLowerCase() === Affinity2018.UserProfile.UserGuid.toLowerCase()) listNode.classList.add('hidden');
+                // Hide the recipient div when the only recipient is the current user (or a linked
+                // identity) — e.g. self-approved forms where the initiator is also the sole approver.
+                // The data-guid is still set so the submit path sends the correct identity.
+                if (excludeGuids.contains(data.Identities[0].Identifier.toLowerCase())) listNode.classList.add('hidden');
               }
               else if (data.Identities.length > 1)
               {
@@ -21149,10 +21178,19 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     optionNode = document.createElement('option');
                     optionNode.innerHTML = listData.Name;
                     optionNode.value = listData.Identifier;
-                    if (listData.Identifier === Affinity2018.UserProfile.UserGuid) optionNode.selected = true;
                     listNode.querySelector('select').appendChild(optionNode);
                   }
                 });
+
+                // AF-142: Inject a non-disabled "Select assignee..." placeholder as the first
+                // option and default selection. NOT disabled because the autocomplete plugin
+                // skips disabled options. Submitting without choosing sends SelectedIdentity=''
+                // (Guid.Empty) which the backend rejects via ValidateIdentitySelection.
+                var placeholderOption = document.createElement('option');
+                placeholderOption.innerHTML = 'Select assignee...';
+                placeholderOption.value = '';
+                listNode.querySelector('select').insertBefore(placeholderOption, listNode.querySelector('select').firstChild);
+                listNode.querySelector('select').selectedIndex = 0;
 
                 // TODO: The event listener below was used to show comments only if forms are assigned so asigner can leave comments for asignee.
                 //        We now want to make this comment box generic for all forms ..
@@ -21160,7 +21198,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
                 listNode.querySelector('select').dataset.refId = id;
                 target.appendChild(listNode);
-                if (data.Identities[0].Identifier.toLowerCase() === Affinity2018.UserProfile.UserGuid.toLowerCase()) listNode.classList.add('hidden');
               }
             }
           }
@@ -22245,6 +22282,24 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var identityNode = document.querySelector('.identity[data-ref-id="' + buttonData.id + '"]');
       if (identityNode.dataset.guid) this.PostableData.SelectedIdentity = identityNode.dataset.guid;
       else this.PostableData.SelectedIdentity = identityNode.value;
+
+      // AF-142: If this button has a recipient dropdown (multi-recipient) and the user
+      // hasn't selected a recipient, show a clear error instead of letting the backend
+      // reject with a generic "form has errors" message.
+      if (!this.PostableData.SelectedIdentity || this.PostableData.SelectedIdentity.trim() === '')
+      {
+        $a.HidePageLoader();
+        this.PostState = 'none';
+        Affinity2018.Dialog.Show({
+          message: $a.Lang.ReturnPath('app.cf.form.select_assignee_required'),
+          showOk: true,
+          showCancel: false,
+          showInput: false,
+          canBackgroundClose: false,
+          textAlign: 'center'
+        });
+        return;
+      }
     }
 
     if (this.ViewType === 'Preview')
