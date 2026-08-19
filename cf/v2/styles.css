@@ -33162,18 +33162,15 @@ body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper table.inbox-grid tbody tr.a
 body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper table.inbox-grid tbody tr.archived-row td text {
   color: #666666 !important;
 }
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle {
-  border-color: #333333 !important;
+body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper .segmented-control.date-scope-toggle {
+  border-color: #333333;
 }
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle .segment {
-  color: #999999 !important;
+body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper .segmented-control.date-scope-toggle .segment {
+  color: #999999;
 }
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle .segment:hover {
-  color: white !important;
-}
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle .segment.active {
-  background: #106eb6 !important;
-  color: white !important;
+body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper .segmented-control.date-scope-toggle .segment.active {
+  background: #106eb6;
+  color: white;
 }
 body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.search-dates.dates-inactive input[name="StartDate"],
 body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.search-dates.dates-inactive input[name="EndDate"],
