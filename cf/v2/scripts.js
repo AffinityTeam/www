@@ -23712,7 +23712,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
 
     /**/
 
-    console.clear();
+    //console.clear();
 
     await this._loadStates();
 
