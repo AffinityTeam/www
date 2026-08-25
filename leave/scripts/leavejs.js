@@ -908,7 +908,7 @@ var Leave = new Class({
             this.deleteAttachmentRequest.cancel();
         }
         this.deleteAttachmentRequest.url = this.deleteAttachmentRequest.options.url = this._api;
-        this.deleteAttachmentRequest.get();
+        this.deleteAttachmentRequest.post();
     },
 
     postAttachements_WTAF: function (empNo, leaveId, responseMethod) {
@@ -16127,7 +16127,7 @@ var UILeaveDetailV1 = new Class({
                     window.fireEvent('DeleteLeaveSuccess');
                 }
             }
-        }).get();
+        }).post();
     },
 
     submitLeave: function (leaveID, newStatus, oldStatus, onResponse) {
@@ -16664,7 +16664,7 @@ var UIEmployeeLeaveBalances = new Class({
                 this.sendFeedbackRequest.cancel();
             }
             sendFeedbackRequest.url = sendFeedbackRequest.options.url = this._api;
-            sendFeedbackRequest.get();
+            sendFeedbackRequest.post();
         }
     },
     processEmployee: function (data) {
