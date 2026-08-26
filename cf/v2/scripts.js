@@ -8072,7 +8072,12 @@
       if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply();
       if (Affinity2018.hasOwnProperty('Calendars')) Affinity2018.Calendars.Apply();
 
-      Affinity2018.HidePageLoader();
+      // NOTE: Do NOT hide the page loader here.
+      // The loader is shown in globalinit and must stay visible until the
+      // landing app (inbox, form, designer, etc.) has finished loading its
+      // data and rendered. Each app is responsible for calling
+      // Affinity2018.HidePageLoader() when it is ready.
+      // bfcache restores are handled by pagehide/pageshow listeners in the apps.
       Affinity2018.UiReady = true;
 
       //console.clear();
@@ -23638,7 +23643,11 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-    this._forceHidePageLoader();
+    // Do NOT hide the page loader here.
+    // The loader is shown in globalinit and must stay visible through
+    // _loadStates, _getPayPoints, and the rest of init until _attemptSearch
+    // completes and calls _hideLoader. Removing this lets the user see the
+    // loader continuously from first paint to inbox render.
     this.MemberType = '';
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
@@ -23685,14 +23694,19 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     // bfcache cleanup: When navigating to another page (e.g., edit/view form),
     // the full page loader may be visible. Browser's bfcache preserves this state
     // in the snapshot. When user clicks back, the loader would remain stuck visible.
-    // These handlers ensure loaders are always hidden on page hide and page restore.
+    // pagehide always hides (leaving the page). pageshow only hides on bfcache
+    // restore (event.persisted) — on first load, persisted is false and the
+    // loader must stay visible through init.
     window.addEventListener('pagehide', (() =>
     {
       this._forceHidePageLoader();
     }).bind(this));
     window.addEventListener('pageshow', ((event) =>
     {
-      // Hide both page loader and inline loader on bfcache restore
+      // Only act on bfcache restore — ignore first load (persisted = false).
+      if (!event.persisted) return;
+
+      // Hide loader and UI overlays from the bfcache snapshot.
       this._forceHidePageLoader();
       if (this.InlineLoaderNode) this.InlineLoaderNode.classList.add('hidden');
       Affinity2018.Calendars.HideAll();
@@ -23701,13 +23715,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       Affinity2018.Dialog.Hide();
       Affinity2018.Tooltips.Hide();
 
-      // If restored from bfcache, re-fetch inbox data so new/changed forms appear.
-      // Without this, auto-saved changes made on the form page won't show until a
+      // Re-fetch inbox data so new/changed forms appear. Without this,
+      // auto-saved changes made on the form page won't show until a
       // manual browser refresh.
-      if (event.persisted)
-      {
-        this._attemptSearch('pageshow-bfcache-restore');
-      }
+      this._attemptSearch('pageshow-bfcache-restore');
     }).bind(this));
 
     /**/
@@ -29092,8 +29103,10 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
   async _init()
   {
-    Affinity2018.HidePageLoader(true);
-
+    // Do NOT hide the page loader here.
+    // The loader is shown in globalinit and must stay visible through init
+    // until _attemptSearch completes and calls _hideLoader. This matches
+    // the desktop inbox.js change — continuous loader from first paint.
     this.MemberType = '';
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
@@ -29124,12 +29137,15 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       document.body.classList.remove('menu-show-full');
     }
 
-    // bfcache handlers — hide loaders on page hide, re-search on restore
+    // bfcache handlers — pagehide always hides (leaving page).
+    // pageshow only acts on bfcache restore (event.persisted) — on first load
+    // the loader must stay visible through init.
     window.addEventListener('pagehide', () => { Affinity2018.HidePageLoader(true); });
     window.addEventListener('pageshow', (event) =>
     {
+      if (!event.persisted) return;
       Affinity2018.HidePageLoader(true);
-      if (event.persisted) this._attemptSearch('pageshow-bfcache-restore');
+      this._attemptSearch('pageshow-bfcache-restore');
     });
 
     await this._loadStates();
