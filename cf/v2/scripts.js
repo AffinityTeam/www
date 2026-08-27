@@ -23,13 +23,15 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = Affinity2018.Version == undefined ? '0.1.0' : Affinity2018.Version; // comming from Web.Config and set in _Layout2.cshtml
+  Affinity2018.Version = Affinity2018.Version == undefined ? '0.0.0' : Affinity2018.Version; // comming from Web.Config and set in _Layout2.cshtml
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = document.location.protocol + '//cdn.source63.com/affinity/beta1/scripts/plugins/';
   if (!Affinity2018.hasOwnProperty('HideAllTemplates')) Affinity2018.HideAllTemplates = false;
   if (!Affinity2018.hasOwnProperty('DisablePlugins')) Affinity2018.DisablePlugins = [];
+
+  console.log('Affinity2018.Version: ', Affinity2018.Version);
 
   /* config */
 
