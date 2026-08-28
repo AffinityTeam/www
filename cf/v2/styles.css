@@ -64,17 +64,17 @@
 (19801,114): run-time error CSS1030: Expected identifier, found 'not('
 (19801,125): run-time error CSS1031: Expected selector, found ')'
 (19801,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(29628,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29631,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29637,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29640,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30369,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(30435,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(32135,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32136,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32137,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32864,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(32867,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29548,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29551,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29557,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29560,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30289,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(30355,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(32055,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32056,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32057,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32784,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(32787,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -27169,86 +27169,6 @@ body.ui2025.dark .cf-archived-banner {
 .cf-designer-element-popup .header .title .cf-archived-banner a {
   display: inline;
 }
-.dbw-placeholder {
-  display: none;
-}
-body.ss-dashboard-wrapper .dbw-placeholder {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
-body.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-left-menu {
-  position: fixed;
-  left: 0;
-  top: 82px;
-  bottom: 0;
-  width: 86px;
-  background: linear-gradient(180deg, #1268b3 30%, #01abec 100%);
-}
-@media screen and (max-width: 1199px) {
-  body.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-left-menu {
-    width: 225px;
-  }
-}
-@media screen and (max-width: 576px) {
-  body.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-left-menu {
-    display: none;
-  }
-}
-body.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 82px;
-  background-color: white;
-  border-bottom: 1px solid #f6f6f6;
-}
-@media screen and (max-width: 576px) {
-  body.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-header {
-    height: 52px;
-    background: linear-gradient(90deg, #1268b3 30%, #01abec 100%);
-  }
-}
-body.ss-dashboard-wrapper .pagewrapper {
-  padding-top: 82px;
-  padding-left: 86px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-@media screen and (min-width: 1201px) {
-  body.ss-dashboard-wrapper .pagewrapper {
-    padding-left: 225px;
-  }
-}
-@media screen and (max-width: 767px) {
-  body.ss-dashboard-wrapper .pagewrapper {
-    padding-left: 0;
-  }
-}
-@media screen and (max-width: 576px) {
-  body.ss-dashboard-wrapper .pagewrapper {
-    padding-top: 52px;
-  }
-}
-@media screen and (max-width: 1199px) {
-  body.ss-dashboard-wrapper.menu-show-full .pagewrapper {
-    padding-left: 225px;
-  }
-}
-body.dark.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-header {
-  background-color: #1a1a1a;
-  border-bottom-color: #333333;
-}
-body.dark.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-left-menu {
-  background: linear-gradient(180deg, #0d3d6e 30%, #017a8f 100%);
-}
 
 
 
@@ -33242,18 +33162,15 @@ body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper table.inbox-grid tbody tr.a
 body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper table.inbox-grid tbody tr.archived-row td text {
   color: #666666 !important;
 }
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle {
-  border-color: #333333 !important;
+body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper .segmented-control.date-scope-toggle {
+  border-color: #333333;
 }
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle .segment {
-  color: #999999 !important;
+body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper .segmented-control.date-scope-toggle .segment {
+  color: #999999;
 }
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle .segment:hover {
-  color: white !important;
-}
-body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.inbox-search-filters .segmented-control.date-scope-toggle .segment.active {
-  background: #106eb6 !important;
-  color: white !important;
+body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper .segmented-control.date-scope-toggle .segment.active {
+  background: #106eb6;
+  color: white;
 }
 body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.search-dates.dates-inactive input[name="StartDate"],
 body.ui2025.uiupdate.inbox.dark div.inbox-v2-wrapper div.search-dates.dates-inactive input[name="EndDate"],
