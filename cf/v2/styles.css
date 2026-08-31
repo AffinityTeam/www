@@ -64,17 +64,17 @@
 (19801,114): run-time error CSS1030: Expected identifier, found 'not('
 (19801,125): run-time error CSS1031: Expected selector, found ')'
 (19801,125): run-time error CSS1025: Expected comma or open brace, found ')'
-(29628,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29631,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29637,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(29640,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(30369,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(30435,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
-(32135,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32136,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32137,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
-(32864,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
-(32867,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29605,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29608,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29614,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(29617,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(30346,27): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(30412,15): run-time error CSS1039: Token not allowed after unary operator: '-search-offset'
+(32112,33): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32113,30): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32114,25): run-time error CSS1062: Expected semicolon or closing curly-brace, found ':'
+(32841,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
+(32844,3): run-time error CSS1062: Expected semicolon or closing curly-brace, found '-'
  */
 /***************************************************************************************************************************************************/
 
@@ -27215,32 +27215,9 @@ body.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-header {
     background: linear-gradient(90deg, #1268b3 30%, #01abec 100%);
   }
 }
-body.ss-dashboard-wrapper .pagewrapper {
+body.ss-dashboard-wrapper .pagecontent {
   padding-top: 82px;
   padding-left: 86px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-@media screen and (min-width: 1201px) {
-  body.ss-dashboard-wrapper .pagewrapper {
-    padding-left: 225px;
-  }
-}
-@media screen and (max-width: 767px) {
-  body.ss-dashboard-wrapper .pagewrapper {
-    padding-left: 0;
-  }
-}
-@media screen and (max-width: 576px) {
-  body.ss-dashboard-wrapper .pagewrapper {
-    padding-top: 52px;
-  }
-}
-@media screen and (max-width: 1199px) {
-  body.ss-dashboard-wrapper.menu-show-full .pagewrapper {
-    padding-left: 225px;
-  }
 }
 body.dark.ss-dashboard-wrapper .dbw-placeholder .dbw-placeholder-header {
   background-color: #1a1a1a;

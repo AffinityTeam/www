@@ -7988,17 +7988,6 @@
 
       if (this.templatesHtml) Affinity2018.Body.insertAdjacentHTML('beforeend', this.templatesHtml);
 
-      Affinity2018.Lang = new Affinity2018.Classes.Lang();
-      if (!Affinity2018.DisablePlugins.contains('Tooltips')) Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
-      if (!Affinity2018.DisablePlugins.contains('Dialog')) Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
-      if (!Affinity2018.DisablePlugins.contains('Pagination')) Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
-      if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
-      if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('Autocompletes')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('SimpleSelects') && !Affinity2018.DisablePlugins.contains('SimpleSelects')) Affinity2018.SimpleSelects = new Affinity2018.Classes.Plugins.SimpleSelects();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('Calendars')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
-
       //moment.changeLocale('nz', function() {
       //  console.log('moment locale changed!');
       //});
@@ -8043,7 +8032,8 @@
       /**/
 
       this.enabled = true;
-
+      
+      Affinity2018.Lang = new Affinity2018.Classes.Lang();
       window.addEventListener('LangComplete', this.completeSetup, false);
       Affinity2018.Lang.Load();
 
@@ -8054,6 +8044,16 @@
     completeSetup()
     {
       window.removeEventListener('LangComplete', this.completeSetup, false);
+
+      if (!Affinity2018.DisablePlugins.contains('Tooltips')) Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
+      if (!Affinity2018.DisablePlugins.contains('Dialog')) Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
+      if (!Affinity2018.DisablePlugins.contains('Pagination')) Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
+      if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
+      if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('Autocompletes')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('SimpleSelects') && !Affinity2018.DisablePlugins.contains('SimpleSelects')) Affinity2018.SimpleSelects = new Affinity2018.Classes.Plugins.SimpleSelects();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('Calendars')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
 
       this.showLogin = function () { };
       this.hideLogin = function () { };
@@ -13356,7 +13356,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       hiddenLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hidden_label'),
       formuserLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.formuser_label'),
       hideLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hide_label'),
-      requiredLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.btons.required_label'),
+      requiredLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.required_label'),
       cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.cancel_label'),
       searchLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.search_label'),
       okLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.ok_label')
@@ -32106,10 +32106,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         whitelistShowFilteredTooltip: $a.Lang.ReturnPath('generic.whitelist.enable-showhide-option-tooltip'),
         whitelistShowNewOptionsLabel: $a.Lang.ReturnPath('generic.whitelist.show-new-options-label'),
         whitelistShowNewOptionsTooltip: $a.Lang.ReturnPath('generic.whitelist.show-new-options-tooltip'),
-        whitelistKeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
-        whitelistKeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
-        whitelistValueHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.value_header'),
-        whitelistValueHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.value_help'),
+        whitelistKeyHeader: $a.Lang.ReturnPath('generic.list_builder.key_header'),
+        whitelistKeyHelp: $a.Lang.ReturnPath('generic.list_builder.key_help'),
+        whitelistValueHeader: $a.Lang.ReturnPath('generic.list_builder.value_header'),
+        whitelistValueHelp: $a.Lang.ReturnPath('generic.list_builder.value_help'),
         listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
         listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
       });
@@ -58103,10 +58103,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     this.IllegalValues = ['none', 'null', 'key', 'value'];
 
     this.ColumnHeaders = {
-      KeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
-      KeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
-      ValueHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.value_header'),
-      ValueHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.value_help')
+      KeyHeader: $a.Lang.ReturnPath('generic.list_builder.key_header'),
+      KeyHelp: $a.Lang.ReturnPath('generic.list_builder.key_help'),
+      ValueHeader: $a.Lang.ReturnPath('generic.list_builder.value_header'),
+      ValueHelp: $a.Lang.ReturnPath('generic.list_builder.value_help')
     };
 
     this.KeyNames = {
