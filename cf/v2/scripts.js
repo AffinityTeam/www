@@ -1,3 +1,71 @@
+/* Minification failed. Returning unminified contents.
+(2761,31-32): run-time error JS1195: Expected expression: >
+(2785,27-28): run-time error JS1195: Expected expression: >
+(2785,44-45): run-time error JS1004: Expected ';': )
+(2786,23-24): run-time error JS1195: Expected expression: >
+(2796,11-12): run-time error JS1002: Syntax error: }
+(2800,11-12): run-time error JS1002: Syntax error: }
+(2805,7-8): run-time error JS1002: Syntax error: }
+(2963,68-69): run-time error JS1195: Expected expression: )
+(2963,71-72): run-time error JS1195: Expected expression: >
+(2967,10-11): run-time error JS1195: Expected expression: ,
+(2970,5-6): run-time error JS1002: Syntax error: }
+(3072,32-37): run-time error JS1195: Expected expression: class
+(3795,32-37): run-time error JS1195: Expected expression: class
+(3887,29-30): run-time error JS1004: Expected ';': {
+(3888,29-30): run-time error JS1004: Expected ';': {
+(3889,29-30): run-time error JS1004: Expected ';': {
+(3890,29-30): run-time error JS1004: Expected ';': {
+(3947,3-4): run-time error JS1002: Syntax error: }
+(3960,37-38): run-time error JS1004: Expected ';': {
+(4537,36-41): run-time error JS1195: Expected expression: class
+(4617,3-4): run-time error JS1002: Syntax error: }
+(4734,3-4): run-time error JS1002: Syntax error: }
+(4750,16-25): run-time error JS1197: Too many errors. The file might not be a JavaScript file: languages
+(4723,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4721,9-20): run-time error JS1018: 'return' statement outside of function: return data
+(4718,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4709,7-56): run-time error JS1018: 'return' statement outside of function: return window.localStorage.getItem(name) !== null
+(4695,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4693,9-30): run-time error JS1018: 'return' statement outside of function: return unescape(data)
+(4690,11-44): run-time error JS1018: 'return' statement outside of function: return JSON.parse(unescape(data))
+(4686,11-32): run-time error JS1018: 'return' statement outside of function: return parseInt(data)
+(4682,11-34): run-time error JS1018: 'return' statement outside of function: return parseFloat(data)
+(4678,54-66): run-time error JS1018: 'return' statement outside of function: return false
+(4677,53-64): run-time error JS1018: 'return' statement outside of function: return true
+(4668,7-58): run-time error JS1018: 'return' statement outside of function: return window.sessionStorage.getItem(name) !== null
+(4615,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4613,9-20): run-time error JS1018: 'return' statement outside of function: return true
+(4607,7-19): run-time error JS1018: 'return' statement outside of function: return false
+(4603,11-22): run-time error JS1018: 'return' statement outside of function: return true
+(4594,7-18): run-time error JS1018: 'return' statement outside of function: return null
+(4585,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4590,11-22): run-time error JS1018: 'return' statement outside of function: return data
+(4551,9,4561,18): run-time error JS1018: 'return' statement outside of function: return (function (v)
+        {
+          try
+          {
+            return JSON.parse(v);
+          }
+          catch (e)
+          {
+            return v;
+          }
+        })(value)
+(3960,39-77): run-time error JS1018: 'return' statement outside of function: return Affinity2018.Md5Object.md5(str)
+(3945,7-34): run-time error JS1018: 'return' statement outside of function: return (a + b) & 0xFFFFFFFF
+(3941,7-36): run-time error JS1018: 'return' statement outside of function: return this.hex(this.md51(s))
+(3937,7-24): run-time error JS1018: 'return' statement outside of function: return x.join('')
+(3931,7-15): run-time error JS1018: 'return' statement outside of function: return s
+(3923,7-21): run-time error JS1018: 'return' statement outside of function: return md5blks
+(3911,7-19): run-time error JS1018: 'return' statement outside of function: return state
+(3890,31-77): run-time error JS1018: 'return' statement outside of function: return this.cmn(c ^ (b | (~d)), a, b, x, s, t)
+(3889,31-72): run-time error JS1018: 'return' statement outside of function: return this.cmn(b ^ c ^ d, a, b, x, s, t)
+(3888,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & d) | (c & (~d)), a, b, x, s, t)
+(3887,31-83): run-time error JS1018: 'return' statement outside of function: return this.cmn((b & c) | ((~b) & d), a, b, x, s, t)
+(3885,7-56): run-time error JS1018: 'return' statement outside of function: return this.add32((a << s) | (a >>> (32 - s)), b)
+(2969,7-20): run-time error JS1018: 'return' statement outside of function: return string
+ */
 (function ()
 {
   var ieVersion = -1;
@@ -23,15 +91,13 @@
   Affinity2018.Domain = 'Affinity';
   Affinity2018.Name = 'UI 2018';
   Affinity2018.Id = 'ui.2018';
-  Affinity2018.Version = Affinity2018.Version == undefined ? '0.0.0' : Affinity2018.Version; // comming from Web.Config and set in _Layout2.cshtml
+  Affinity2018.Version = Affinity2018.Version == undefined ? '0.1.0' : Affinity2018.Version; // comming from Web.Config and set in _Layout2.cshtml
   Affinity2018.Language = 'english';
   if (!Affinity2018.hasOwnProperty('Path')) Affinity2018.Path = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('ContentPath')) Affinity2018.ContentPath = document.location.protocol + '//cdn.source63.com/affinity/beta1';
   if (!Affinity2018.hasOwnProperty('WebWorkerPath')) Affinity2018.WebWorkerPath = document.location.protocol + '//cdn.source63.com/affinity/beta1/scripts/plugins/';
   if (!Affinity2018.hasOwnProperty('HideAllTemplates')) Affinity2018.HideAllTemplates = false;
   if (!Affinity2018.hasOwnProperty('DisablePlugins')) Affinity2018.DisablePlugins = [];
-
-  console.log('Affinity2018.Version: ', Affinity2018.Version);
 
   /* config */
 
@@ -7988,6 +8054,17 @@
 
       if (this.templatesHtml) Affinity2018.Body.insertAdjacentHTML('beforeend', this.templatesHtml);
 
+      Affinity2018.Lang = new Affinity2018.Classes.Lang();
+      if (!Affinity2018.DisablePlugins.contains('Tooltips')) Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
+      if (!Affinity2018.DisablePlugins.contains('Dialog')) Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
+      if (!Affinity2018.DisablePlugins.contains('Pagination')) Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
+      if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
+      if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('Autocompletes')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('SimpleSelects') && !Affinity2018.DisablePlugins.contains('SimpleSelects')) Affinity2018.SimpleSelects = new Affinity2018.Classes.Plugins.SimpleSelects();
+      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('Calendars')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
+
       //moment.changeLocale('nz', function() {
       //  console.log('moment locale changed!');
       //});
@@ -8032,8 +8109,7 @@
       /**/
 
       this.enabled = true;
-      
-      Affinity2018.Lang = new Affinity2018.Classes.Lang();
+
       window.addEventListener('LangComplete', this.completeSetup, false);
       Affinity2018.Lang.Load();
 
@@ -8044,16 +8120,6 @@
     completeSetup()
     {
       window.removeEventListener('LangComplete', this.completeSetup, false);
-
-      if (!Affinity2018.DisablePlugins.contains('Tooltips')) Affinity2018.Tooltips = new Affinity2018.Classes.Tooltips();
-      if (!Affinity2018.DisablePlugins.contains('Dialog')) Affinity2018.Dialog = new Affinity2018.Classes.Dialog();
-      if (!Affinity2018.DisablePlugins.contains('Pagination')) Affinity2018.Pagination = new Affinity2018.Classes.Pagination();
-      if (!Affinity2018.DisablePlugins.contains('UserInfo')) Affinity2018.UserInfo = new Affinity2018.Classes.UserInfo();
-      if (!Affinity2018.DisablePlugins.contains('HelpLinks')) Affinity2018.HelpLinks = new Affinity2018.Classes.HelpLinks();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('SelectLookups') && !Affinity2018.DisablePlugins.contains('SelectLookups')) Affinity2018.SelectLookups = new Affinity2018.Classes.Plugins.SelectLookups();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Autocompletes') && !Affinity2018.DisablePlugins.contains('Autocompletes')) Affinity2018.Autocompletes = new Affinity2018.Classes.Plugins.Autocompletes();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('SimpleSelects') && !Affinity2018.DisablePlugins.contains('SimpleSelects')) Affinity2018.SimpleSelects = new Affinity2018.Classes.Plugins.SimpleSelects();
-      if (Affinity2018.Classes.Plugins.hasOwnProperty('Calendars') && !Affinity2018.DisablePlugins.contains('Calendars')) Affinity2018.Calendars = new Affinity2018.Classes.Plugins.Calendars();
 
       this.showLogin = function () { };
       this.hideLogin = function () { };
@@ -8074,12 +8140,7 @@
       if (Affinity2018.hasOwnProperty('Autocompletes')) Affinity2018.Autocompletes.Apply();
       if (Affinity2018.hasOwnProperty('Calendars')) Affinity2018.Calendars.Apply();
 
-      // NOTE: Do NOT hide the page loader here.
-      // The loader is shown in globalinit and must stay visible until the
-      // landing app (inbox, form, designer, etc.) has finished loading its
-      // data and rendered. Each app is responsible for calling
-      // Affinity2018.HidePageLoader() when it is ready.
-      // bfcache restores are handled by pagehide/pageshow listeners in the apps.
+      Affinity2018.HidePageLoader();
       Affinity2018.UiReady = true;
 
       //console.clear();
@@ -8216,7 +8277,7 @@
   if (document.getElementsByTagName("head")[0] && document.getElementsByTagName("body")[0]) globalinit();
   else document.addEventListener('DOMContentLoaded', globalinit, false);
 
-})();
+})();;
 /**
  *
  * Summary.       CleverForms Admin.
@@ -9664,7 +9725,7 @@ Affinity2018.Classes.Apps.CleverForms.Admin = class
 
   }
 
-};
+};;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                  **********************************************/
@@ -12302,15 +12363,6 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
       var isFormAdmin = false;
       if (response.data.hasOwnProperty('IsFormAdmin')) isFormAdmin = response.data.IsFormAdmin === true;
 
-      // AF-142: Populate LinkedOriginators (all GUIDs the current user owns — primary + linked).
-      // Lowercased so the form.js filter can compare case-insensitively. The primary UserGuid
-      // is always added below to guarantee the filter excludes at least the current user.
-      var linkedOriginators = [];
-      if (response.data.hasOwnProperty('LinkedOriginators') && Array.isArray(response.data.LinkedOriginators))
-      {
-        linkedOriginators = response.data.LinkedOriginators.map(function (g) { return String(g).toLowerCase(); });
-      }
-
       Affinity2018.UserProfile = {
         CompanyNumber: $a.toString(response.data.CompanyNumber),
         EmployeeNumber: $a.toString(response.data.EmployeeNumber),
@@ -12318,14 +12370,9 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
         PayPoint: paypoint,
         Country: country,
         MemberType: memberType,
-        IsFormAdmin: isFormAdmin,
-        LinkedOriginators: linkedOriginators
+        IsFormAdmin: isFormAdmin
       };
       Affinity2018.UserProfile.UserGuid = 'e' + Affinity2018.UserProfile.EmployeeNumber.padLeft('0', 7) + '-' + Affinity2018.UserProfile.CompanyNumber + '-0000-0000-000000000000';
-      // Ensure the primary UserGuid is always present in LinkedOriginators.
-      var userGuidLower = Affinity2018.UserProfile.UserGuid.toLowerCase();
-      if (!linkedOriginators.contains(userGuidLower)) linkedOriginators.push(userGuidLower);
-      Affinity2018.UserProfile.LinkedOriginators = linkedOriginators;
       if ('sessionStorage' in window) sessionStorage.setItem('UserProfile', JSON.stringify(Affinity2018.UserProfile));
       window.dispatchEvent(new Event('GotUserData'));
       window.dispatchEvent(new CustomEvent('GAReady', { bubbles: true, detail: { companyNumber: Affinity2018.UserProfile.CompanyNumber, employeeNumber: Affinity2018.UserProfile.EmployeeNumber } }));
@@ -13121,7 +13168,7 @@ Affinity2018.Classes.Apps.CleverForms.Default = class
   }
 
 }
-
+;
 /***************************************************************************************************************************************************/
 /*********************************************************************************************************************************.*? save******************/
 /***                                                                                                                       *************************/
@@ -13356,7 +13403,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
       hiddenLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hidden_label'),
       formuserLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.formuser_label'),
       hideLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.hide_label'),
-      requiredLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.required_label'),
+      requiredLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.btons.required_label'),
       cancelLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.cancel_label'),
       searchLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.search_label'),
       okLabel: $a.Lang.ReturnPath('app.cf.design_items.edit.ok_label')
@@ -14349,7 +14396,7 @@ Affinity2018.Classes.Apps.CleverForms.DesignerElementEdit = class
 
 
 
-};
+};;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                       *********************************************************/
@@ -19241,7 +19288,7 @@ Affinity2018.Classes.Apps.CleverForms.Designer = class
   }
 
 
-};
+};;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                         *******************************************************************************************************/
@@ -21141,18 +21188,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
             //buttonNode.classList.add('large');
             if (data.Identities)
             {
-              // AF-142: Filter the current user (and all linked identities) out of the recipient
-              // list so the initiator is not pre-selected as the next assignee. If the current
-              // user owns every identity, restore the original list so the form can still be submitted.
-              var originalIdentities = data.Identities;
-              var excludeGuids = (Affinity2018.UserProfile.LinkedOriginators && Affinity2018.UserProfile.LinkedOriginators.length)
-                ? Affinity2018.UserProfile.LinkedOriginators
-                : [Affinity2018.UserProfile.UserGuid.toLowerCase()];
-              data.Identities = data.Identities.filter(function (i) {
-                return !i.Identifier || !excludeGuids.contains(i.Identifier.toLowerCase());
-              });
-              if (data.Identities.length === 0) data.Identities = originalIdentities;
-
               var listPlaceHolder = document.createElement('div'), optionNode;
               if (data.Identities.length === 1)
               {
@@ -21164,10 +21199,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                 listNode.dataset.refId = id;
                 listNode.value = data.Identities[0].Identifier;
                 target.appendChild(listNode);
-                // Hide the recipient div when the only recipient is the current user (or a linked
-                // identity) — e.g. self-approved forms where the initiator is also the sole approver.
-                // The data-guid is still set so the submit path sends the correct identity.
-                if (excludeGuids.contains(data.Identities[0].Identifier.toLowerCase())) listNode.classList.add('hidden');
+                if (data.Identities[0].Identifier.toLowerCase() === Affinity2018.UserProfile.UserGuid.toLowerCase()) listNode.classList.add('hidden');
               }
               else if (data.Identities.length > 1)
               {
@@ -21185,19 +21217,10 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
                     optionNode = document.createElement('option');
                     optionNode.innerHTML = listData.Name;
                     optionNode.value = listData.Identifier;
+                    if (listData.Identifier === Affinity2018.UserProfile.UserGuid) optionNode.selected = true;
                     listNode.querySelector('select').appendChild(optionNode);
                   }
                 });
-
-                // AF-142: Inject a non-disabled "Select assignee..." placeholder as the first
-                // option and default selection. NOT disabled because the autocomplete plugin
-                // skips disabled options. Submitting without choosing sends SelectedIdentity=''
-                // (Guid.Empty) which the backend rejects via ValidateIdentitySelection.
-                var placeholderOption = document.createElement('option');
-                placeholderOption.innerHTML = 'Select assignee...';
-                placeholderOption.value = '';
-                listNode.querySelector('select').insertBefore(placeholderOption, listNode.querySelector('select').firstChild);
-                listNode.querySelector('select').selectedIndex = 0;
 
                 // TODO: The event listener below was used to show comments only if forms are assigned so asigner can leave comments for asignee.
                 //        We now want to make this comment box generic for all forms ..
@@ -21205,6 +21228,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
                 listNode.querySelector('select').dataset.refId = id;
                 target.appendChild(listNode);
+                if (data.Identities[0].Identifier.toLowerCase() === Affinity2018.UserProfile.UserGuid.toLowerCase()) listNode.classList.add('hidden');
               }
             }
           }
@@ -22289,24 +22313,6 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
       var identityNode = document.querySelector('.identity[data-ref-id="' + buttonData.id + '"]');
       if (identityNode.dataset.guid) this.PostableData.SelectedIdentity = identityNode.dataset.guid;
       else this.PostableData.SelectedIdentity = identityNode.value;
-
-      // AF-142: If this button has a recipient dropdown (multi-recipient) and the user
-      // hasn't selected a recipient, show a clear error instead of letting the backend
-      // reject with a generic "form has errors" message.
-      if (!this.PostableData.SelectedIdentity || this.PostableData.SelectedIdentity.trim() === '')
-      {
-        $a.HidePageLoader();
-        this.PostState = 'none';
-        Affinity2018.Dialog.Show({
-          message: $a.Lang.ReturnPath('app.cf.form.select_assignee_required'),
-          showOk: true,
-          showCancel: false,
-          showInput: false,
-          canBackgroundClose: false,
-          textAlign: 'center'
-        });
-        return;
-      }
     }
 
     if (this.ViewType === 'Preview')
@@ -23441,7 +23447,7 @@ Affinity2018.Classes.Apps.CleverForms.Form = class // extends Affinity2018.Class
 
 
 
-};
+};;
 /**
  *
  * Summary.       CleverForms Inbox.
@@ -23645,11 +23651,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
    */
   async _init()
   {
-    // Do NOT hide the page loader here.
-    // The loader is shown in globalinit and must stay visible through
-    // _loadStates, _getPayPoints, and the rest of init until _attemptSearch
-    // completes and calls _hideLoader. Removing this lets the user see the
-    // loader continuously from first paint to inbox render.
+    this._forceHidePageLoader();
     this.MemberType = '';
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
@@ -23696,19 +23698,14 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
     // bfcache cleanup: When navigating to another page (e.g., edit/view form),
     // the full page loader may be visible. Browser's bfcache preserves this state
     // in the snapshot. When user clicks back, the loader would remain stuck visible.
-    // pagehide always hides (leaving the page). pageshow only hides on bfcache
-    // restore (event.persisted) — on first load, persisted is false and the
-    // loader must stay visible through init.
+    // These handlers ensure loaders are always hidden on page hide and page restore.
     window.addEventListener('pagehide', (() =>
     {
       this._forceHidePageLoader();
     }).bind(this));
     window.addEventListener('pageshow', ((event) =>
     {
-      // Only act on bfcache restore — ignore first load (persisted = false).
-      if (!event.persisted) return;
-
-      // Hide loader and UI overlays from the bfcache snapshot.
+      // Hide both page loader and inline loader on bfcache restore
       this._forceHidePageLoader();
       if (this.InlineLoaderNode) this.InlineLoaderNode.classList.add('hidden');
       Affinity2018.Calendars.HideAll();
@@ -23717,15 +23714,18 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       Affinity2018.Dialog.Hide();
       Affinity2018.Tooltips.Hide();
 
-      // Re-fetch inbox data so new/changed forms appear. Without this,
-      // auto-saved changes made on the form page won't show until a
+      // If restored from bfcache, re-fetch inbox data so new/changed forms appear.
+      // Without this, auto-saved changes made on the form page won't show until a
       // manual browser refresh.
-      this._attemptSearch('pageshow-bfcache-restore');
+      if (event.persisted)
+      {
+        this._attemptSearch('pageshow-bfcache-restore');
+      }
     }).bind(this));
 
     /**/
 
-    //console.clear();
+    console.clear();
 
     await this._loadStates();
 
@@ -28918,7 +28918,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInbox = class
       `;
     };
   }
-};
+};;
 /**
  *
  * Summary.       CleverForms Mobile Inbox.
@@ -29105,10 +29105,8 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
 
   async _init()
   {
-    // Do NOT hide the page loader here.
-    // The loader is shown in globalinit and must stay visible through init
-    // until _attemptSearch completes and calls _hideLoader. This matches
-    // the desktop inbox.js change — continuous loader from first paint.
+    Affinity2018.HidePageLoader(true);
+
     this.MemberType = '';
     this.IsPayrollAdmin = false;
     this.ShowModeToggle = false;
@@ -29139,15 +29137,12 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
       document.body.classList.remove('menu-show-full');
     }
 
-    // bfcache handlers — pagehide always hides (leaving page).
-    // pageshow only acts on bfcache restore (event.persisted) — on first load
-    // the loader must stay visible through init.
+    // bfcache handlers — hide loaders on page hide, re-search on restore
     window.addEventListener('pagehide', () => { Affinity2018.HidePageLoader(true); });
     window.addEventListener('pageshow', (event) =>
     {
-      if (!event.persisted) return;
       Affinity2018.HidePageLoader(true);
-      this._attemptSearch('pageshow-bfcache-restore');
+      if (event.persisted) this._attemptSearch('pageshow-bfcache-restore');
     });
 
     await this._loadStates();
@@ -31819,7 +31814,7 @@ Affinity2018.Classes.Apps.CleverForms.FormsInboxMobile = class
   }
 
 };
-
+;
 /**
  *
  * Summary.       Element Base Class.
@@ -32106,10 +32101,10 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
         whitelistShowFilteredTooltip: $a.Lang.ReturnPath('generic.whitelist.enable-showhide-option-tooltip'),
         whitelistShowNewOptionsLabel: $a.Lang.ReturnPath('generic.whitelist.show-new-options-label'),
         whitelistShowNewOptionsTooltip: $a.Lang.ReturnPath('generic.whitelist.show-new-options-tooltip'),
-        whitelistKeyHeader: $a.Lang.ReturnPath('generic.list_builder.key_header'),
-        whitelistKeyHelp: $a.Lang.ReturnPath('generic.list_builder.key_help'),
-        whitelistValueHeader: $a.Lang.ReturnPath('generic.list_builder.value_header'),
-        whitelistValueHelp: $a.Lang.ReturnPath('generic.list_builder.value_help'),
+        whitelistKeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
+        whitelistKeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
+        whitelistValueHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.value_header'),
+        whitelistValueHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.value_help'),
         listLabel: $a.Lang.ReturnPath('generic.list_builder.list_label'),
         listCustom: $a.Lang.ReturnPath('generic.list_builder.custom_label'),
       });
@@ -33725,7 +33720,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.ElementBase = class extends Affin
     `;
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Address Class.
@@ -34114,7 +34109,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Address = class extends Affinity2
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element AffinityField Class.
@@ -37236,7 +37231,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AffinityField = class extends Aff
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element AttachInstructions Class.
@@ -37670,7 +37665,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.AttachInstructions = class extend
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element BankNumber Class.
@@ -37983,7 +37978,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.BankNumber = class extends Affini
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element CheckBox Class.
@@ -38212,7 +38207,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.CheckBox = class extends Affinity
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Currency Class.
@@ -38487,7 +38482,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Currency = class extends Affinity
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Date Class.
@@ -38880,7 +38875,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Date = class extends Affinity2018
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element DocumentSigning Class.
@@ -40122,7 +40117,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.DocumentSigning = class extends A
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Drawpanel Class.
@@ -40430,7 +40425,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Drawpanel = class extends Affinit
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element EffectiveDate Class.
@@ -40712,7 +40707,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.EffectiveDate = class extends Aff
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Email Class.
@@ -40887,7 +40882,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Email = class extends Affinity201
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Explanation Class.
@@ -41112,7 +41107,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Explanation = class extends Affin
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element FileUploadMulti Class.
@@ -41924,7 +41919,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.FileUploadMulti = class extends A
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Float Class.
@@ -42169,7 +42164,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Float = class extends Affinity201
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Integer Class.
@@ -42357,7 +42352,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Integer = class extends Affinity2
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Link Class.
@@ -42544,7 +42539,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Link = class extends Affinity2018
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Memo Class.
@@ -42730,7 +42725,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Memo = class extends Affinity2018
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element MultiSelect Class.
@@ -43081,7 +43076,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.MultiSelect = class extends Affin
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Paragraph Class.
@@ -43272,7 +43267,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Paragraph = class extends Affinit
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Section Class.
@@ -43587,7 +43582,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Section = class extends Affinity2
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Separator Class.
@@ -43751,7 +43746,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Separator = class extends Affinit
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element SingleSelectDropdown Class.
@@ -44686,7 +44681,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectDropdown = class exte
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element SingleSelectRadio Class.
@@ -45040,7 +45035,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.SingleSelectRadio = class extends
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element TaxNumber Class.
@@ -45458,7 +45453,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.TaxNumber = class extends Affinit
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Text Class.
@@ -45708,7 +45703,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Text = class extends Affinity2018
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Title Class.
@@ -45896,7 +45891,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Title = class extends Affinity201
 
   }
 
-};
+};;
 /**
  *
  * Summary.       Element Video Class.
@@ -46236,7 +46231,7 @@ Affinity2018.Classes.Apps.CleverForms.Elements.Video = class extends Affinity201
 
   }
 
-};
+};;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                             ***********************************************************************************/
@@ -47274,7 +47269,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                             ***********************************/
@@ -49694,7 +49689,7 @@ Affinity2018.Classes.Plugins.AutocompleteWidget = class extends Affinity2018.Cla
   }
 
 };
-
+;
 
 var fuzzyRunning = false;
 
@@ -50680,7 +50675,7 @@ onmessage = function (msgData)
     close();
   }
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                 ***********************************************/
@@ -51751,7 +51746,7 @@ Affinity2018.Classes.Plugins.BankNumberWidget = class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                             *******************************************************************/
@@ -52489,7 +52484,7 @@ Affinity2018.Classes.Plugins.BigSearch = class
   }
 
 };
-
+;
 /**
  *
  * Summary.       Bottom Sheet Plugin — animated open/close with drag-to-dismiss.
@@ -52817,7 +52812,7 @@ Affinity2018.Classes.Plugins.BottomSheet = class
     }, { passive: true });
   }
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                       *************************************************************************/
@@ -55234,7 +55229,7 @@ Affinity2018.Classes.Plugins.TimeWidget = class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                     ***********************************************************/
@@ -56501,7 +56496,7 @@ Affinity2018.Objects.DrawPadBezier = class
       + end * t * t * t;
   }
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                      **********************************************************/
@@ -58072,7 +58067,7 @@ Affinity2018.Classes.Plugins.FileUploadWidget = class extends Affinity2018.Class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                         *******************************************************/
@@ -58103,10 +58098,10 @@ Affinity2018.Classes.Plugins.ListBuilder = class
     this.IllegalValues = ['none', 'null', 'key', 'value'];
 
     this.ColumnHeaders = {
-      KeyHeader: $a.Lang.ReturnPath('generic.list_builder.key_header'),
-      KeyHelp: $a.Lang.ReturnPath('generic.list_builder.key_help'),
-      ValueHeader: $a.Lang.ReturnPath('generic.list_builder.value_header'),
-      ValueHelp: $a.Lang.ReturnPath('generic.list_builder.value_help')
+      KeyHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.key_header'),
+      KeyHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.key_help'),
+      ValueHeader: $a.Lang.ReturnPath('generic.list_builder.design_items.value_header'),
+      ValueHelp: $a.Lang.ReturnPath('generic.list_builder.design_items.value_help')
     };
 
     this.KeyNames = {
@@ -59112,7 +59107,7 @@ Affinity2018.Classes.Plugins.ListBuilder = class
 
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                   *****************************************************************************/
@@ -59642,7 +59637,7 @@ Affinity2018.Classes.Plugins.NumberWidget = class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                               *********************************/
@@ -60156,7 +60151,7 @@ Affinity2018.Classes.Plugins.RequestQueue = class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                                             ***********************************/
@@ -61457,7 +61452,7 @@ Affinity2018.Classes.Plugins.SelectLookupWidget = class extends Affinity2018.Cla
   }
 
 };
-
+;
 
 if(!('Affinity2018' in window)) Affinity2018 = {};
 if(!('Classes' in Affinity2018)) Affinity2018.Classes = {};
@@ -61811,7 +61806,7 @@ Affinity2018.Classes.Plugins.SimpleSelectWidget = class extends Affinity2018.Cla
     return true;
   }
 
-}
+};
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                            ************************************************************************************/
@@ -62272,7 +62267,7 @@ Affinity2018.Classes.Plugins.StringWidget = class
   }
 
 };
-
+;
 /***************************************************************************************************************************************************/
 /***************************************************************************************************************************************************/
 /***                                                                                        ********************************************************/
@@ -63231,4 +63226,4 @@ Affinity2018.Classes.Plugins.TaxNumberWidget = class
   }
 
 };
-
+;
