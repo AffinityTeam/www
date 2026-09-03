@@ -298,7 +298,7 @@ var UILeaveConfig = new Class({
             this.deleteConfigRequest.cancel();
         }
         this.deleteConfigRequest.url = this.deleteConfigRequest.options.url = this._api;
-        this.deleteConfigRequest.post();
+        this.deleteConfigRequest.get();
     },
 
     getBoolean: function (value) {

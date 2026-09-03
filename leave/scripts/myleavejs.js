@@ -283,7 +283,7 @@ var EmployeeLeave = new Class({
                     window.fireEvent('DeleteLeaveSuccess');
                 }
             }
-        }).post();
+        }).get();
 
     },
 
