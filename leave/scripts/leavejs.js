@@ -908,7 +908,7 @@ var Leave = new Class({
             this.deleteAttachmentRequest.cancel();
         }
         this.deleteAttachmentRequest.url = this.deleteAttachmentRequest.options.url = this._api;
-        this.deleteAttachmentRequest.post();
+        this.deleteAttachmentRequest.get();
     },
 
     postAttachements_WTAF: function (empNo, leaveId, responseMethod) {
@@ -2852,28 +2852,6 @@ var UILeaveApply = new Class({
             var isLeaveInWeeksConfigured = data.IsLeaveInWeeksConfigured;
             this.isLeaveInWeeksConfiguredValue = new Element('input', { 'id': 'isLeaveInWeeksConfigured-field', 'type': 'hidden', 'value': isLeaveInWeeksConfigured }).inject(this.leavePeriodDaysContainer);
 
-            var isMultiposition = document.getElements('.leave-position-selector').length > 0;
-            var selectedPositionCode = -1;
-            if (isMultiposition) {
-                var positionSelector = document.getElement('.leave-position-selector');
-                selectedPositionCode = positionSelector[positionSelector.selectedIndex].get('id');
-            }
-
-            // Same PositionCode-matching pattern already used by createResponseField() -
-            // falls back to index 0 for single-position employees and while "All" is selected
-            // (selectedPositionCode == -1, since the "All" option's id "-01" loosely equals -1).
-            var getPositionUnitForDay = function (day) {
-                if (isMultiposition && selectedPositionCode != -1) {
-                    var matched = day.PositionUnits.filter(function (positionUnit) {
-                        return positionUnit.PositionCode === selectedPositionCode;
-                    });
-                    if (matched.length > 0) {
-                        return matched[0];
-                    }
-                }
-                return day.PositionUnits[0];
-            };
-
             Array.each(data.Days, function (day, index) {
                 this.leavePeriodDaysBoxValueRow = new Element('div').inject(this.leavePeriodDaysContainer);
                 this.leavePeriodDaysDateColumnBlankContainer = new Element('span', { 'class': 'leave-apply-group-column-blank-header' }).inject(this.leavePeriodDaysBoxValueRow);
@@ -2892,13 +2870,12 @@ var UILeaveApply = new Class({
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
                 var dateStringValue = dateValue.toDate().toLocaleString("en-AU", options);
-                var positionUnit = getPositionUnitForDay(day);
-                var schedulesHours = positionUnit.HoursWorkScheduled === null ? positionUnit.HoursStandard : positionUnit.HoursWorkScheduled;
+                var schedulesHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
                 schedulesHours = this.roundDown(schedulesHours, 2).toFixed(2);
-                var daysAppliedFor = this.roundDown(positionUnit.DaysAppliedFor, 2).toFixed(2);
-                var hoursAppliedFor = this.roundDown(positionUnit.HoursAppliedFor, 2).toFixed(2);
-                var weeksAppliedFor = this.roundDown(positionUnit.WeeksAppliedFor, 2).toFixed(2);
-                var weekDefUnits = this.roundDown(positionUnit.WeekDefUnits, 2).toFixed(2);
+                var daysAppliedFor = this.roundDown(day.PositionUnits[0].DaysAppliedFor, 2).toFixed(2);
+                var hoursAppliedFor = this.roundDown(day.PositionUnits[0].HoursAppliedFor, 2).toFixed(2);
+                var weeksAppliedFor = this.roundDown(day.PositionUnits[0].WeeksAppliedFor, 2).toFixed(2);
+                var weekDefUnits = this.roundDown(day.PositionUnits[0].WeekDefUnits, 2).toFixed(2);
                 
                 var isPublicHoliday = day.IsPublicHoliday;
                 var publicHolidayName = day.PublicHolidayName;
@@ -3070,11 +3047,14 @@ var UILeaveApply = new Class({
             // }
 
         } else {
-            // "Leave in Days" is single-position at a time - no "All" option, employee/manager
-            // always applies against one specific position, defaulting to the first one.
             this.positionSelector = new Element("select", {
                 class: "leave-position-selector",
             }).inject(this.position);
+            new Element("option", {
+                value: "0",
+                html: "All",
+                id: "-01",
+            }).inject(this.positionSelector, "top");
             Array.each(
                 positions,
                 function (position, index) {
@@ -3083,7 +3063,7 @@ var UILeaveApply = new Class({
                         positionTitle += " (expired)";
                     }
                     new Element("option", {
-                        value: index,
+                        value: index + 1,
                         html: positionTitle,
                         id: position.PositionCode,
                     }).inject(this.positionSelector);
@@ -3095,7 +3075,7 @@ var UILeaveApply = new Class({
                 function (e) {
                     this.refreshApprovers(
                         positions,
-                        e.target.selectedIndex
+                        e.target.selectedIndex - 1
                     );
                     this.leaveUnits();
                 }.bind(this)
@@ -5618,13 +5598,16 @@ var UILeaveApply = new Class({
         if (document.getElement(".position")) {
             positionKey = document.getElement(".position").get("id");
         } else if (document.getElement(".leave-position-selector")) {
-            // No "All" option any more - whichever position is selected is always the one applied for.
             var positionIndex = document.getElement(
                 ".leave-position-selector"
             ).selectedIndex;
-            positionKey = document
-                .getElement(".leave-position-selector")
-                [positionIndex].get("id");
+            if (positionIndex === 0) {
+                positionKey = null;
+            } else {
+                positionKey = document
+                    .getElement(".leave-position-selector")
+                    [positionIndex].get("id");
+            }
         }
 
         var obj = new Object();
@@ -9673,16 +9656,9 @@ var UILeaveDetail = new Class({
     },
     createLeaveDetailsStatusArea: function (container) {
 
-        // Rebuilt whenever the position selector changes (see refreshForSelectedPosition) - own
-        // container so the previous position's rendered elements get cleared first.
-        if (this.statusAreaContainer !== undefined) {
-            this.statusAreaContainer.destroy();
-        }
-        this.statusAreaContainer = new Element('div').inject(container);
-
-        var component = this.getSelectedComponent();
-        var submittedTo = component.Authorisation.SubmittedToName;
-        var approvedBy = component.Authorisation.ApprovedByName;
+        //for single position at the moment
+        var submittedTo = this.data.Components[0].Authorisation.SubmittedToName;
+        var approvedBy = this.data.Components[0].Authorisation.ApprovedByName;
 
         var authorizer = submittedTo;
 
@@ -9691,8 +9667,8 @@ var UILeaveDetail = new Class({
             authorizer = approvedBy;
         }
 
-        this.statusAreaRow1 = new Element('div', { 'class': 'form-row' }).inject(this.statusAreaContainer);
-        this.statusAreaRow2 = this.createElementLeaveDetailGroupRow(this.statusAreaContainer);
+        this.statusAreaRow1 = new Element('div', { 'class': 'form-row' }).inject(container);
+        this.statusAreaRow2 = this.createElementLeaveDetailGroupRow(container);
 
         this.statusArea1Row1Column1 = new Element('span').inject(this.statusAreaRow1);
         this.statusArea1Row1Column2 = new Element('span').inject(this.statusAreaRow1);
@@ -9955,7 +9931,10 @@ var UILeaveDetail = new Class({
                 'class': 'leave-detail-group-column-label-value'
             }).inject(this.employeeInputColumn2);
 
-            this.renderPositionField(this.employeeInputColumn3);
+            new Element('div', {
+                'html': leaveHeader.PositionTitle,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn3);
 
         } else {
             this.employeeGroup = new Element('div', { 'class': 'leave-detail-group leave-detail-employee-group' }).inject(form);
@@ -9978,7 +9957,10 @@ var UILeaveDetail = new Class({
             }).inject(this.employeeGroupRow1);
 
 
-            this.renderPositionField(this.employeeInputColumn2);
+            new Element('div', {
+                'html': leaveHeader.PositionTitle,
+                'class': 'leave-detail-group-column-label-value'
+            }).inject(this.employeeInputColumn2);
         }
     },
     createLeaveTypeGroup: function (form) {
@@ -10103,14 +10085,6 @@ var UILeaveDetail = new Class({
         var leaveHeader = this.data.LeaveHeader;
         var components = this.data.Components;
         this.isInEditMode = false;
-
-        // A leave application created before position-at-a-time was enforced on Apply (via the
-        // legacy multi-position UI, or via this screen's own former "All" option) can still have
-        // more than one Component - one per position. Default to the first; a selector lets the
-        // viewer switch between them one at a time (see renderPositionField/refreshForSelectedPosition).
-        this.positions = this.employeeConfig ? this.employeeConfig.Positions : null;
-        this.isMultiPositionLeave = components.length > 1;
-        this.selectedPositionCode = components[0].PositionCode;
 
         Affinity.modal.show();
         Affinity.modal.clear();
@@ -10292,73 +10266,11 @@ var UILeaveDetail = new Class({
             });
         }
     },
-    getPositionTitle: function (positionCode) {
-        var title = positionCode;
-        if (this.positions) {
-            Array.each(this.positions, function (position) {
-                if (position.PositionCode === positionCode) {
-                    title = position.PositionTitle;
-                }
-            });
-        }
-        return title;
-    },
-    getSelectedComponent: function () {
-        var selected = this.data.Components[0];
-        if (this.isMultiPositionLeave) {
-            Array.each(this.data.Components, function (component) {
-                if (component.PositionCode === this.selectedPositionCode) {
-                    selected = component;
-                }
-            }.bind(this));
-        }
-        return selected;
-    },
-    getSelectedPositionUnit: function (day) {
-        if (this.isMultiPositionLeave) {
-            var matched = day.PositionUnits.filter(function (positionUnit) {
-                return positionUnit.PositionCode === this.selectedPositionCode;
-            }.bind(this));
-            if (matched.length > 0) {
-                return matched[0];
-            }
-        }
-        return day.PositionUnits[0];
-    },
-    // Position selector shown on the detail/edit screen when a leave spans more than one
-    // position (see viewDetail's isMultiPositionLeave). One position's figures are shown at a
-    // time, same as Apply - switching the selector re-renders the day table and status area.
-    renderPositionField: function (container) {
-        if (this.isMultiPositionLeave) {
-            this.positionSelector = new Element('select', {
-                'class': 'leave-detail-select leave-detail-position-selector'
-            }).inject(container);
-            Array.each(this.data.Components, function (component, index) {
-                new Element('option', {
-                    'value': index,
-                    'html': this.getPositionTitle(component.PositionCode),
-                    'id': component.PositionCode
-                }).inject(this.positionSelector);
-            }.bind(this));
-            this.positionSelector.addEvent('change', function (e) {
-                this.selectedPositionCode = this.positionSelector[this.positionSelector.selectedIndex].get('id');
-                this.refreshForSelectedPosition();
-            }.bind(this));
-        } else {
-            new Element('div', {
-                'html': this.data.LeaveHeader.PositionTitle,
-                'class': 'leave-detail-group-column-label-value'
-            }).inject(container);
-        }
-    },
-    refreshForSelectedPosition: function () {
-        var leaveModel = this.createLeaveModel(this.data);
-        this.createDaysFields(leaveModel, null);
-        this.createLeaveDetailsStatusArea(this.leaveDetailsGroup);
-    },
     createLeaveModel: function (data) {
         var leave = new Object();
 
+        var leaveComponent = new Object();
+        leaveComponent = data.Components[0];
         leave.TotalDaysAppliedFor = data.LeaveHeader.TotalDays;
         leave.TotalHoursAppliedFor = data.LeaveHeader.TotalHours;
         leave.TotalWeeksAppliedFor = data.LeaveHeader.TotalWeeks;
@@ -10366,38 +10278,23 @@ var UILeaveDetail = new Class({
 
         leave.Days = [];
 
-        var referenceComponent = data.Components[0];
-        for (var i = 0; i < referenceComponent.Units.length; i++) {
+        for (var i = 0; i < leaveComponent.Units.length; i++) {
             var newDay = new Object();
-            newDay.Date = referenceComponent.Units[i].Date;
-            newDay.IsPublicHoliday = referenceComponent.Units[i].IsPublicHoliday;
-            newDay.PublicHolidayName = referenceComponent.Units[i].PublicHolidayName;
+            newDay.Date = leaveComponent.Units[i].Date;
+            newDay.IsPublicHoliday = leaveComponent.Units[i].IsPublicHoliday;
+            newDay.PublicHolidayName = leaveComponent.Units[i].PublicHolidayName;
             newDay.PositionUnits = [];
+            var positionUnit = new Object();
 
-            // Match by date rather than by index - safe even if a future backend change stops
-            // guaranteeing identical Units ordering/length across Components.
-            Array.each(data.Components, function (component) {
-                var matchingUnit = null;
-                Array.each(component.Units, function (unit) {
-                    if (Date.parse(unit.Date).toLocaleString() === Date.parse(newDay.Date).toLocaleString()) {
-                        matchingUnit = unit;
-                    }
-                });
-                if (!matchingUnit) {
-                    return;
-                }
+            positionUnit.WeeksAppliedFor = leaveComponent.Units[i].WeeksAppliedFor;
+            positionUnit.DaysAppliedFor = leaveComponent.Units[i].DaysAppliedFor;
+            positionUnit.HoursAppliedFor = leaveComponent.Units[i].HoursAppliedFor;
+            positionUnit.HoursWorkScheduled = leaveComponent.Units[i].HoursWorkScheduled;
+            positionUnit.HoursAppliedFor = leaveComponent.Units[i].HoursAppliedFor;
+            positionUnit.HoursStandard = leaveComponent.Units[i].HoursStandard;
+            positionUnit.DefaultHoursWorkScheduled = leaveComponent.Units[i].DefaultHoursWorkScheduled;
 
-                var positionUnit = new Object();
-                positionUnit.PositionCode = component.PositionCode;
-                positionUnit.WeeksAppliedFor = matchingUnit.WeeksAppliedFor;
-                positionUnit.DaysAppliedFor = matchingUnit.DaysAppliedFor;
-                positionUnit.HoursAppliedFor = matchingUnit.HoursAppliedFor;
-                positionUnit.HoursWorkScheduled = matchingUnit.HoursWorkScheduled;
-                positionUnit.HoursStandard = matchingUnit.HoursStandard;
-                positionUnit.DefaultHoursWorkScheduled = matchingUnit.DefaultHoursWorkScheduled;
-
-                newDay.PositionUnits.push(positionUnit);
-            });
+            newDay.PositionUnits.push(positionUnit);
 
             leave.Days.push(newDay);
         }
@@ -10493,17 +10390,15 @@ var UILeaveDetail = new Class({
 
             Array.each(leave.Days, function (day, index) {
 
-                var positionUnit = this.getSelectedPositionUnit(day);
-
                 if (currentEditedLeaveInstance !== null) {
                     for (var i = 0; i < currentEditedLeaveInstance.leaveUnits.length; i++) {
                         var currentLeaveUnit = currentEditedLeaveInstance.leaveUnits[i];
                         if (Date.parse(day.Date).toLocaleString() === Date.parse(currentLeaveUnit.leaveDate).toLocaleString()) {
-                            positionUnit.HoursAppliedFor = currentLeaveUnit.hoursAppliedFor;
-                            positionUnit.DaysAppliedFor = currentLeaveUnit.daysAppliedFor;
-                            positionUnit.WeeksAppliedFor = currentLeaveUnit.weeksAppliedFor;
-                            positionUnit.HoursWorkScheduled = currentLeaveUnit.hoursWorkSched;
-                            positionUnit.DefaultHoursWorkScheduled = currentLeaveUnit.defaultHoursWorkScheduled;
+                            day.PositionUnits[0].HoursAppliedFor = currentLeaveUnit.hoursAppliedFor;
+                            day.PositionUnits[0].DaysAppliedFor = currentLeaveUnit.daysAppliedFor;
+                            day.PositionUnits[0].WeeksAppliedFor = currentLeaveUnit.weeksAppliedFor;
+                            day.PositionUnits[0].HoursWorkScheduled = currentLeaveUnit.hoursWorkSched;
+                            day.PositionUnits[0].DefaultHoursWorkScheduled = currentLeaveUnit.defaultHoursWorkScheduled;
                         }
                     }
                 }
@@ -10524,12 +10419,12 @@ var UILeaveDetail = new Class({
                 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 var dateValue = day.Date;
                 var dateStringValue = dateValue.toDate().toLocaleString("en-AU", options);
-                var scheduledHours = positionUnit.HoursWorkScheduled === null ? positionUnit.HoursStandard : positionUnit.HoursWorkScheduled;
+                var scheduledHours = day.PositionUnits[0].HoursWorkScheduled === null ? day.PositionUnits[0].HoursStandard : day.PositionUnits[0].HoursWorkScheduled;
                 scheduledHours = this.roundDown(scheduledHours, 2).toFixed(2);
-                var daysAppliedFor = this.roundDown(positionUnit.DaysAppliedFor, 2).toFixed(2);
-                var weeksAppliedFor = this.roundDown(positionUnit.WeeksAppliedFor, 2).toFixed(2);
-                var hoursAppliedFor = this.roundDown(positionUnit.HoursAppliedFor, 2).toFixed(2);
-                var defaultHoursWorkScheduled = parseFloat(positionUnit.DefaultHoursWorkScheduled);
+                var daysAppliedFor = this.roundDown(day.PositionUnits[0].DaysAppliedFor, 2).toFixed(2);
+                var weeksAppliedFor = this.roundDown(day.PositionUnits[0].WeeksAppliedFor, 2).toFixed(2);
+                var hoursAppliedFor = this.roundDown(day.PositionUnits[0].HoursAppliedFor, 2).toFixed(2);
+                var defaultHoursWorkScheduled = parseFloat(day.PositionUnits[0].DefaultHoursWorkScheduled);
                 var isPublicHoliday = day.IsPublicHoliday;
                 var publicHolidayName = day.PublicHolidayName;
 
@@ -11380,7 +11275,7 @@ var UILeaveDetail = new Class({
                             var id = option.get('id');
                             var value = {
                                 ForwardedTo: id,
-                                AuthorisationId: this.getSelectedComponent().Authorisation.AuthorisationId,
+                                AuthorisationId: this.data.Components[0].Authorisation.AuthorisationId,
                                 Comment: this.forwardReason.get('value')
                             };
 
@@ -11462,15 +11357,11 @@ var UILeaveDetail = new Class({
 
                         if (this.data.LeaveHeader.StatusCode !== 7) {
                             var hourExcessError = false;
-                            // Approving commits the whole leave, not just whichever position is
-                            // currently selected on screen - check every Component's hours, not
-                            // only the first one.
-                            this.data.Components.forEach(function (component) {
-                                component.Units.forEach(function (data, index) {
-                                    if ((data.HoursAppliedFor <= 20) && (data.HoursAppliedFor > data.MaxHours)) {
-                                        hourExcessError = true;
-                                    }
-                                }.bind(this));
+                            this.data.Components[0].Units.forEach(function (data, index) {
+                                if ((data.HoursAppliedFor <= 20) && (data.HoursAppliedFor > data.MaxHours)) {
+                                    hourExcessError = true;
+                                }
+
                             }.bind(this))
 
                             if (hourExcessError) {
@@ -11667,11 +11558,6 @@ var UILeaveDetail = new Class({
     },
 
     displayEditMode: function () {
-        // Which position a day's hours belong to is not changeable while editing.
-        if (this.positionSelector) {
-            this.positionSelector.set('disabled', true);
-        }
-
         this.generateCalendar(Affinity.leave.manager.config, this.data.LeaveHeader.DateFrom, this.data.LeaveHeader.DateTo, true);
 
         var leaveStatusElement = this.statusAreaRow2Column3.getElementById("leaveStatusId");
@@ -12841,10 +12727,7 @@ var UILeaveDetail = new Class({
                 var leaveUnit = new Object();
                 leaveUnit.tsGroupId = currentLeaveObject.TSGroupId;
                 leaveUnit.leaveDate = leaveUnitDate;
-                // currentLeaveObject.PositionCode (the leave header's single position field) is
-                // null/empty for a genuinely multi-position leave - use whichever position is
-                // currently selected instead, so edits save against the right position.
-                leaveUnit.positionCode = this.selectedPositionCode;
+                leaveUnit.positionCode = currentLeaveObject.PositionCode;
                 leaveUnit.hoursAppliedFor = leaveUnitHour;
                 leaveUnit.daysAppliedFor = this.computeDaysEquivalent(leaveUnitHour, leaveUnitScheduledHour);
                 leaveUnit.hoursWorkSched = leaveUnitScheduledHour;
@@ -16127,7 +16010,7 @@ var UILeaveDetailV1 = new Class({
                     window.fireEvent('DeleteLeaveSuccess');
                 }
             }
-        }).post();
+        }).get();
     },
 
     submitLeave: function (leaveID, newStatus, oldStatus, onResponse) {
@@ -16664,7 +16547,7 @@ var UIEmployeeLeaveBalances = new Class({
                 this.sendFeedbackRequest.cancel();
             }
             sendFeedbackRequest.url = sendFeedbackRequest.options.url = this._api;
-            sendFeedbackRequest.post();
+            sendFeedbackRequest.get();
         }
     },
     processEmployee: function (data) {
