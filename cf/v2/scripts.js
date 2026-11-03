@@ -46495,7 +46495,7 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       '_userUpdateAddress',
       '_userUpdateSubAddress',
       '_validateLengths',
-      '_checkAddressSelected', '_checkAddress', '_getCountryFromPlace', '_fillAddress',
+      '_checkAddressSelected', '_checkAddress', '_getCountryFromPlace', '_getCountryFromAddressString', '_isUsablePlace', '_fillAddress',
       '_templates',
 
       '_checkHumanInteraction',
@@ -46934,7 +46934,16 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         return;
       }
 
-      geocoder.geocode({ address: address }, (results, status) => 
+      let request = { address: address };
+      let country = this._getCountryFromAddressString(address)
+        || (Affinity2018.FormCountry === 'N' ? 'NZ' : Affinity2018.FormCountry === 'A' ? 'AU' : null);
+      if (country)
+      {
+        request.region = country;
+        request.componentRestrictions = { country: country };
+      }
+
+      geocoder.geocode(request, (results, status) => 
       {
         try
         {
@@ -46944,6 +46953,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
           }
           if (results && results.length > 0)
           {
+            // A country-restricted request that matches nothing degrades to a country-only
+            // result (route and locality both missing). Accepting that would wipe a valid
+            // address, so leave the existing fields untouched instead.
+            if (!this._isUsablePlace(results[0]))
+            {
+              console.warn('Address geocode returned a country-only result, address left unchanged:', results[0].formatted_address);
+              return;
+            }
             this._fillAddress(results[0]);
           }
           else
@@ -46962,6 +46979,42 @@ Affinity2018.Classes.Plugins.AddressWidget = class
     {
       this._fillAddress();
     }
+  }
+
+  /**
+   * Summary. Derive the country from the address string itself, so a form configured for
+   * one country cannot force a foreign address onto a valid local one.
+   * @this    Class scope
+   * @access  private
+   * @param   {string} address
+   * @returns {string|null} ISO 3166-1 alpha-2 code, or null when the country is not obvious.
+   */
+  _getCountryFromAddressString (address)
+  {
+    if (!Affinity2018.isString(address) || address.trim() === '') return null;
+    var text = address.toLowerCase();
+    if (/(^|[^a-z])(new zealand|aotearoa|nz)([^a-z]|$)/.test(text)) return 'NZ';
+    if (/(^|[^a-z])(australia|au)([^a-z]|$)/.test(text)) return 'AU';
+    return null;
+  }
+
+  /**
+   * Summary. A geocode result is only usable when it identifies a street or a locality.
+   * Country-only results mean the request was over-restricted, not that the address matches.
+   * @this    Class scope
+   * @access  private
+   * @param   {object} place
+   * @returns {boolean}
+   */
+  _isUsablePlace (place)
+  {
+    if (!place || !place.address_components) return false;
+    for (var i = 0; i < place.address_components.length; i++)
+    {
+      var types = place.address_components[i].types;
+      if (types.contains('route') || types.contains('locality') || types.contains('postal_town')) return true;
+    }
+    return false;
   }
 
   _getCountryFromPlace (place)
