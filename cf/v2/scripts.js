@@ -46388,7 +46388,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       -36.847605, 174.7485493,
       (width / 2) * 1000 // radius in meters
     ];
-    this.strictBounds = true;
+    // Bias only — never a hard wall. A form configured for one country must still
+    // allow an address in the other; staff regularly hold a secondary or contact
+    // address across the Tasman.
+    this.strictBounds = false;
+
+    // Country order for autocomplete: form country first, then the other.
+    // Blank/unknown form country defaults to AU first.
+    this.countries = Affinity2018.FormCountry === "N" ? ['NZ', 'AU'] : ['AU', 'NZ'];
 
     if (Affinity2018.FormCountry === "N")
     {
@@ -46397,7 +46404,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         -41.18086141366618, 173.37629603312485,
         (width / 2) * 1000
       ];
-      this.strictBounds = true;
     }
 
     if (Affinity2018.FormCountry === "A")
@@ -46407,7 +46413,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         -24.97353582240706, 134.11947896079258,
         (width / 2) * 1000
       ];
-      this.strictBounds = true;
     }
 
     this.formComponents = {
@@ -46804,8 +46809,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
           types: ['geocode'],
           fields: ['address_components'],
           bounds: circle.getBounds(),
-          //strictBounds: true
-          strictBounds: this.strictBounds
+          strictBounds: this.strictBounds,
+          componentRestrictions: { country: this.countries }
         });
       }
 
@@ -46951,12 +46956,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       }
 
       let request = { address: address };
+      // `region` is a bias only. `componentRestrictions` must NOT be used here: it is a
+      // hard filter that forbids any address outside the named country, which broke
+      // legitimate cross-Tasman addresses (AG-262 follow-up).
       let country = this._getCountryFromAddressString(address)
         || (Affinity2018.FormCountry === 'N' ? 'NZ' : Affinity2018.FormCountry === 'A' ? 'AU' : null);
       if (country)
       {
         request.region = country;
-        request.componentRestrictions = { country: country };
       }
 
       geocoder.geocode(request, (results, status) => 
