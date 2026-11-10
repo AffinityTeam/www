@@ -46934,6 +46934,22 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         return;
       }
 
+      // Check if the address has no real content once separators and null placeholders
+      // are removed (e.g. ', , , , ,' or 'null, null, null, null, null, null').
+      // A country-restricted geocode treats this as a valid query and returns the country,
+      // which previously surfaced as an un-submittable address. Skip the request entirely.
+      let hasContent = address.split(',')
+        .map(function (part) { return part.trim().toLowerCase(); })
+        .filter(function (part) { return part !== '' && part !== 'null' && part !== 'undefined'; })
+        .length > 0;
+
+      if (!hasContent)
+      {
+        console.warn('Address check skipped: no address content');
+        this._fillAddress();
+        return;
+      }
+
       let request = { address: address };
       let country = this._getCountryFromAddressString(address)
         || (Affinity2018.FormCountry === 'N' ? 'NZ' : Affinity2018.FormCountry === 'A' ? 'AU' : null);
@@ -46954,11 +46970,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
           if (results && results.length > 0)
           {
             // A country-restricted request that matches nothing degrades to a country-only
-            // result (route and locality both missing). Accepting that would wipe a valid
-            // address, so leave the existing fields untouched instead.
+            // result (route and locality both missing). Fall through to _fillAddress() so it
+            // can recover the place the user actually selected via Autocomplete.getPlace();
+            // returning here leaves the typed but unresolved text in the field.
             if (!this._isUsablePlace(results[0]))
             {
-              console.warn('Address geocode returned a country-only result, address left unchanged:', results[0].formatted_address);
+              console.warn('Address geocode returned a country-only result, falling back to selected place:', results[0].formatted_address);
+              this._fillAddress();
               return;
             }
             this._fillAddress(results[0]);
