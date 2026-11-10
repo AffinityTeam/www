@@ -46388,7 +46388,14 @@ Affinity2018.Classes.Plugins.AddressWidget = class
       -36.847605, 174.7485493,
       (width / 2) * 1000 // radius in meters
     ];
-    this.strictBounds = true;
+    // Bias only — never a hard wall. A form configured for one country must still
+    // allow an address in the other; staff regularly hold a secondary or contact
+    // address across the Tasman.
+    this.strictBounds = false;
+
+    // Country order for autocomplete: form country first, then the other.
+    // Blank/unknown form country defaults to AU first.
+    this.countries = Affinity2018.FormCountry === "N" ? ['NZ', 'AU'] : ['AU', 'NZ'];
 
     if (Affinity2018.FormCountry === "N")
     {
@@ -46397,7 +46404,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         -41.18086141366618, 173.37629603312485,
         (width / 2) * 1000
       ];
-      this.strictBounds = true;
     }
 
     if (Affinity2018.FormCountry === "A")
@@ -46407,7 +46413,6 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         -24.97353582240706, 134.11947896079258,
         (width / 2) * 1000
       ];
-      this.strictBounds = true;
     }
 
     this.formComponents = {
@@ -46804,8 +46809,8 @@ Affinity2018.Classes.Plugins.AddressWidget = class
           types: ['geocode'],
           fields: ['address_components'],
           bounds: circle.getBounds(),
-          //strictBounds: true
-          strictBounds: this.strictBounds
+          strictBounds: this.strictBounds,
+          componentRestrictions: { country: this.countries }
         });
       }
 
@@ -46934,13 +46939,31 @@ Affinity2018.Classes.Plugins.AddressWidget = class
         return;
       }
 
+      // Check if the address has no real content once separators and null placeholders
+      // are removed (e.g. ', , , , ,' or 'null, null, null, null, null, null').
+      // A country-restricted geocode treats this as a valid query and returns the country,
+      // which previously surfaced as an un-submittable address. Skip the request entirely.
+      let hasContent = address.split(',')
+        .map(function (part) { return part.trim().toLowerCase(); })
+        .filter(function (part) { return part !== '' && part !== 'null' && part !== 'undefined'; })
+        .length > 0;
+
+      if (!hasContent)
+      {
+        console.warn('Address check skipped: no address content');
+        this._fillAddress();
+        return;
+      }
+
       let request = { address: address };
+      // `region` is a bias only. `componentRestrictions` must NOT be used here: it is a
+      // hard filter that forbids any address outside the named country, which broke
+      // legitimate cross-Tasman addresses (AG-262 follow-up).
       let country = this._getCountryFromAddressString(address)
         || (Affinity2018.FormCountry === 'N' ? 'NZ' : Affinity2018.FormCountry === 'A' ? 'AU' : null);
       if (country)
       {
         request.region = country;
-        request.componentRestrictions = { country: country };
       }
 
       geocoder.geocode(request, (results, status) => 
@@ -46954,11 +46977,13 @@ Affinity2018.Classes.Plugins.AddressWidget = class
           if (results && results.length > 0)
           {
             // A country-restricted request that matches nothing degrades to a country-only
-            // result (route and locality both missing). Accepting that would wipe a valid
-            // address, so leave the existing fields untouched instead.
+            // result (route and locality both missing). Fall through to _fillAddress() so it
+            // can recover the place the user actually selected via Autocomplete.getPlace();
+            // returning here leaves the typed but unresolved text in the field.
             if (!this._isUsablePlace(results[0]))
             {
-              console.warn('Address geocode returned a country-only result, address left unchanged:', results[0].formatted_address);
+              console.warn('Address geocode returned a country-only result, falling back to selected place:', results[0].formatted_address);
+              this._fillAddress();
               return;
             }
             this._fillAddress(results[0]);
